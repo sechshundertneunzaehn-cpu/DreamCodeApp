@@ -216,7 +216,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                         </span>
                         {t.title}
                     </h2>
-                    <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors">
+                    <button onClick={onClose} className="w-11 h-11 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors" aria-label="Close">
                         <span className="material-icons text-slate-400">close</span>
                     </button>
                 </div>
@@ -247,17 +247,17 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                     
                     {/* TAB: CALENDAR */}
                     {activeTab === 'calendar' && (
-                        <div className="grid grid-cols-7 gap-2">
+                        <div className="grid grid-cols-7 gap-1.5">
                             {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(day => {
                                 const dayDreams = getDreamsForDay(day);
                                 const hasDreams = dayDreams.length > 0;
                                 return (
-                                    <div 
-                                        key={day} 
+                                    <div
+                                        key={day}
                                         onClick={() => handleDayClick(dayDreams)}
-                                        className={`aspect-square rounded-2xl border p-2 flex flex-col items-between transition-all cursor-pointer ${hasDreams ? 'bg-fuchsia-900/20 border-fuchsia-500/50 hover:bg-fuchsia-900/40 shadow-[0_0_15px_rgba(192,38,211,0.1)]' : 'bg-slate-800/20 border-white/5 text-slate-600 hover:bg-white/5'}`}
+                                        className={`aspect-square min-h-[40px] rounded-xl border p-1.5 flex flex-col transition-all cursor-pointer select-none active:scale-95 ${hasDreams ? 'bg-fuchsia-900/20 border-fuchsia-500/50 hover:bg-fuchsia-900/40 shadow-[0_0_15px_rgba(192,38,211,0.1)]' : 'bg-slate-800/20 border-white/5 text-slate-600 hover:bg-white/5'}`}
                                     >
-                                        <span className={`font-bold text-sm ${hasDreams ? 'text-white' : ''}`}>{day}</span>
+                                        <span className={`font-bold text-xs leading-none ${hasDreams ? 'text-white' : ''}`}>{day}</span>
                                         {hasDreams && (
                                             <div className="mt-auto flex gap-1 flex-wrap">
                                                 {dayDreams.map(d => (
@@ -284,7 +284,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                                     <div className="flex gap-3 flex-wrap">
                                         {stats.sortedTags.length > 0 ? stats.sortedTags.map(([tag, count]) => (
                                             <span key={tag} className="px-4 py-2 bg-indigo-900/40 text-indigo-200 rounded-xl text-sm border border-indigo-500/30 font-bold">
-                                                {tag} <span className="opacity-60 text-xs ml-1">({count})</span>
+                                                {tag} <span className="opacity-60 text-xs ms-1">({count})</span>
                                             </span>
                                         )) : <span className="text-slate-500 text-sm italic">{t.no_data}</span>}
                                     </div>
@@ -329,7 +329,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                      <div className="bg-[#0f0518] border border-white/10 w-full max-w-lg h-[85vh] rounded-3xl overflow-y-auto relative flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
                          <div className="h-64 bg-slate-900 relative shrink-0">
                              {selectedDream.imageUrl ? <img src={selectedDream.imageUrl} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-white/20"><span className="material-icons text-6xl">image</span></div>}
-                             <button onClick={() => setSelectedDream(null)} className="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full text-white flex items-center justify-center"><span className="material-icons">close</span></button>
+                             <button onClick={() => setSelectedDream(null)} className="absolute top-3 end-3 w-11 h-11 bg-black/50 rounded-full text-white flex items-center justify-center hover:bg-black/70 transition-colors" aria-label="Close"><span className="material-icons">close</span></button>
                              <div className="absolute bottom-4 left-4 bg-black/60 px-3 py-1 rounded-lg text-xs font-bold border border-white/10">{selectedDream.date}</div>
                          </div>
                          <div className="p-8">

@@ -124,7 +124,21 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             mic_denied_alert: "Mikrofon-Zugriff verweigert",
             min_dreams_required: "Du benötigst mindestens 7 gedeutete Träume, um die Analysefunktion nutzen zu können.",
             base_version: "Basis Version",
-            until_date: "Bis:"
+            until_date: "Bis:",
+            audio_recorded: "Audio aufgenommen",
+            audio_saved_with_dream: "Wird mit Traum gespeichert",
+            remove: "Entfernen",
+            oracle_voice: "Orakel-Stimme",
+            image_ready: "Bild bereit!",
+            style_desc_cartoon: "Pixar-Stil",
+            style_desc_anime: "Ghibli-Stil",
+            style_desc_real: "Fotorealistisch",
+            style_desc_fantasy: "Magisch",
+            cosmic_dna: "Kosmische DNA",
+            moon_sync: "Mond-Sync",
+            save_btn: "Speichern",
+            age_restricted_cat: "Diese Kategorie ist nur für Personen ab 18 Jahren verfügbar.",
+            ok: "OK"
         },
         processing: {
             title: "Orakel arbeitet...",
@@ -157,7 +171,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_title: "Was ist der Smart Developer Tarif?",
             smart_info_text: "Für Entwickler & Tech-Enthusiasten: Erstelle Accounts bei KI-Providern (z.B. Google AI Studio), generiere dort deine eigenen API Keys und füge sie hier in der App ein. So zahlst du nur die günstigen API-Kosten direkt beim Provider + 3€ für die App-Nutzung. Perfekt für Power-User!",
             upgrade: "Upgrade", current: "Aktuell", unlock: "Freischalten", try_free: "7 TAGE GRATIS TESTEN",
-            ad_loading: "Werbung wird geladen...", ad_reward: "Münzen erhalten!"
+            ad_loading: "Werbung wird geladen...", ad_reward: "Münzen erhalten!",
+            bronze_title: "Bronze (FREE)", bronze_features: ["2 Bilder/Tag", "Werbung", "Community Support"], bronze_price: "0 €",
+            silver2_title: "Silber", silver2_features: ["25 Bilder/Monat", "Keine Werbung", "5% Rabatt", "1x Live-Chat/Woche"], silver2_price_monthly: "4,99 € / Monat", silver2_price_yearly: "54,89 € / Jahr",
+            gold2_title: "Gold", gold2_features: ["Unbegrenzte Bilder", "400 Münzen/Monat", "10% Rabatt", "5 Videos/Monat", "Unbegrenzt Live-Chat"], gold2_price_monthly: "9,99 € / Monat", gold2_price_yearly: "107,89 € / Jahr",
+            deluxe_title: "Deluxe", deluxe_features: ["Alles in Gold", "1.200 Münzen/Monat", "15% Rabatt", "20 Videos/Monat", "Prioritäts-Support"], deluxe_price_monthly: "19,99 € / Monat", deluxe_price_yearly: "215,89 € / Jahr",
+            vip_title: "VIP", vip_features: ["Alles in Deluxe", "5.000 Münzen/Monat", "15% Rabatt", "Unbegrenzte Videos", "Persönlicher Support", "Beta-Zugang"], vip_price_monthly: "49,99 € / Monat", vip_price_yearly: "539,89 € / Jahr"
         },
         earn: {
             title: "Münzen verdienen",
@@ -272,7 +291,21 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             mic_denied_alert: "Microphone access denied",
             min_dreams_required: "You need at least 7 interpreted dreams to use the analysis feature.",
             base_version: "Basic Version",
-            until_date: "Until:"
+            until_date: "Until:",
+            audio_recorded: "Audio recorded",
+            audio_saved_with_dream: "Will be saved with dream",
+            remove: "Remove",
+            oracle_voice: "Oracle Voice",
+            image_ready: "Image Ready!",
+            style_desc_cartoon: "Pixar-Style",
+            style_desc_anime: "Ghibli-Style",
+            style_desc_real: "Photorealistic",
+            style_desc_fantasy: "Magical",
+            cosmic_dna: "Cosmic DNA",
+            moon_sync: "Moon Sync",
+            save_btn: "Save",
+            age_restricted_cat: "This category is only available for persons 18 years and older.",
+            ok: "OK"
         },
         processing: {
             title: "The Oracle works...",
@@ -305,7 +338,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_title: "What is the Smart Developer Tier?",
             smart_info_text: "For developers & tech enthusiasts: Create accounts with AI providers (e.g., Google AI Studio), generate your own API keys there, and add them to the app. This way, you only pay the low API costs directly to the provider + €3 for app usage. Perfect for power users!",
             upgrade: "Upgrade", current: "Current", unlock: "Unlock", try_free: "TRY FREE FOR 7 DAYS",
-            ad_loading: "Loading Ad...", ad_reward: "Coins earned!"
+            ad_loading: "Loading Ad...", ad_reward: "Coins earned!",
+            bronze_title: "Bronze (FREE)", bronze_features: ["2 Images/Day", "Ads", "Community Support"], bronze_price: "0 €",
+            silver2_title: "Silver", silver2_features: ["25 Images/Month", "Ad-Free", "5% Discount", "1x Live Chat/Week"], silver2_price_monthly: "4.99 € / Month", silver2_price_yearly: "54.89 € / Year",
+            gold2_title: "Gold", gold2_features: ["Unlimited Images", "400 Coins/Month", "10% Discount", "5 Videos/Month", "Unlimited Live Chat"], gold2_price_monthly: "9.99 € / Month", gold2_price_yearly: "107.89 € / Year",
+            deluxe_title: "Deluxe", deluxe_features: ["All Gold Features", "1,200 Coins/Month", "15% Discount", "20 Videos/Month", "Priority Support"], deluxe_price_monthly: "19.99 € / Month", deluxe_price_yearly: "215.89 € / Year",
+            vip_title: "VIP", vip_features: ["All Deluxe Features", "5,000 Coins/Month", "15% Discount", "Unlimited Videos", "Personal Support", "Beta Access"], vip_price_monthly: "49.99 € / Month", vip_price_yearly: "539.89 € / Year"
         },
         earn: {
             title: "Earn Coins",
@@ -422,7 +460,21 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             mic_denied_alert: "Mikrofon erişimi reddedildi",
             min_dreams_required: "Analiz özelliğini kullanabilmek için en az 7 yorumlanmış rüyaya ihtiyacınız var.",
             base_version: "Temel Sürüm",
-            until_date: "Bitiş:"
+            until_date: "Bitiş:",
+            audio_recorded: "Ses kaydedildi",
+            audio_saved_with_dream: "Rüya ile kaydedilecek",
+            remove: "Kaldır",
+            oracle_voice: "Kahin Sesi",
+            image_ready: "Resim Hazır!",
+            style_desc_cartoon: "Pixar Tarzı",
+            style_desc_anime: "Ghibli Tarzı",
+            style_desc_real: "Fotogerçekçi",
+            style_desc_fantasy: "Büyülü",
+            cosmic_dna: "Kozmik DNA",
+            moon_sync: "Ay Senkronu",
+            save_btn: "Kaydet",
+            age_restricted_cat: "Bu kategori yalnızca 18 yaş ve üzeri kişiler için mevcuttur.",
+            ok: "Tamam"
         },
         processing: {
             title: "Kahin çalışıyor...",
@@ -455,7 +507,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_title: "Smart Developer Tier Nedir?",
             smart_info_text: "Geliştiriciler ve teknoloji meraklıları için: Yapay zeka sağlayıcılarında hesap oluşturun (ör. Google AI Studio), orada kendi API anahtarlarınızı oluşturun ve buraya ekleyin. Böylece sadece düşük API maliyetlerini doğrudan sağlayıcıya ödeyip + uygulama kullanımı için 3€ ödersiniz. Power kullanıcılar için mükemmel!",
             upgrade: "Yükselt", current: "Mevcut", unlock: "Kilidi Aç", try_free: "7 GÜN ÜCRETSİZ DENE",
-            ad_loading: "Reklam yükleniyor...", ad_reward: "Kredi kazanıldı!"
+            ad_loading: "Reklam yükleniyor...", ad_reward: "Kredi kazanıldı!",
+            bronze_title: "Bronz (ÜCRETSİZ)", bronze_features: ["2 Görsel/Gün", "Reklamlar", "Topluluk Desteği"], bronze_price: "0 €",
+            silver2_title: "Gümüş", silver2_features: ["25 Görsel/Ay", "Reklamsız", "%5 İndirim", "Haftada 1 Canlı Sohbet"], silver2_price_monthly: "4,99 € / Ay", silver2_price_yearly: "54,89 € / Yıl",
+            gold2_title: "Altın", gold2_features: ["Sınırsız Görsel", "400 Jeton/Ay", "%10 İndirim", "5 Video/Ay", "Sınırsız Canlı Sohbet"], gold2_price_monthly: "9,99 € / Ay", gold2_price_yearly: "107,89 € / Yıl",
+            deluxe_title: "Deluxe", deluxe_features: ["Altın Özelliklerin Hepsi", "1.200 Jeton/Ay", "%15 İndirim", "20 Video/Ay", "Öncelikli Destek"], deluxe_price_monthly: "19,99 € / Ay", deluxe_price_yearly: "215,89 € / Yıl",
+            vip_title: "VIP", vip_features: ["Deluxe Özelliklerin Hepsi", "5.000 Jeton/Ay", "%15 İndirim", "Sınırsız Video", "Kişisel Destek", "Beta Erişimi"], vip_price_monthly: "49,99 € / Ay", vip_price_yearly: "539,89 € / Yıl"
         },
         earn: {
             title: "Jeton Kazan",
@@ -570,7 +627,21 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             mic_denied_alert: "Acceso al micrófono denegado",
             min_dreams_required: "Necesitas al menos 7 sueños interpretados para usar la función de análisis.",
             base_version: "Versión Básica",
-            until_date: "Hasta:"
+            until_date: "Hasta:",
+            audio_recorded: "Audio grabado",
+            audio_saved_with_dream: "Se guardará con el sueño",
+            remove: "Eliminar",
+            oracle_voice: "Voz del Oráculo",
+            image_ready: "¡Imagen Lista!",
+            style_desc_cartoon: "Estilo Pixar",
+            style_desc_anime: "Estilo Ghibli",
+            style_desc_real: "Fotorrealista",
+            style_desc_fantasy: "Mágico",
+            cosmic_dna: "ADN Cósmico",
+            moon_sync: "Sincronía Lunar",
+            save_btn: "Guardar",
+            age_restricted_cat: "Esta categoría solo está disponible para personas de 18 años o más.",
+            ok: "Aceptar"
         },
         processing: {
             title: "El Oráculo trabaja...",
@@ -603,7 +674,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_title: "¿Qué es el plan Smart Developer?",
             smart_info_text: "Para desarrolladores y entusiastas de la tecnología: crea cuentas con proveedores de IA (por ejemplo, Google AI Studio), genera tus propias claves API allí y agrégalas a la aplicación. De esta manera, solo pagas los bajos costos de API directamente al proveedor + 3 € por el uso de la aplicación. ¡Perfecto para usuarios avanzados!",
             upgrade: "Mejorar", current: "Actual", unlock: "Desbloquear", try_free: "PRUEBA GRATIS 7 DÍAS",
-            ad_loading: "Cargando anuncio...", ad_reward: "¡Monedas ganadas!"
+            ad_loading: "Cargando anuncio...", ad_reward: "¡Monedas ganadas!",
+            bronze_title: "Bronce (GRATIS)", bronze_features: ["2 Imágenes/Día", "Anuncios", "Soporte Comunidad"], bronze_price: "0 €",
+            silver2_title: "Plata", silver2_features: ["25 Imágenes/Mes", "Sin Anuncios", "5% Descuento", "1x Chat en Vivo/Semana"], silver2_price_monthly: "4,99 € / Mes", silver2_price_yearly: "54,89 € / Año",
+            gold2_title: "Oro", gold2_features: ["Imágenes Ilimitadas", "400 Monedas/Mes", "10% Descuento", "5 Videos/Mes", "Chat en Vivo Ilimitado"], gold2_price_monthly: "9,99 € / Mes", gold2_price_yearly: "107,89 € / Año",
+            deluxe_title: "Deluxe", deluxe_features: ["Todo en Oro", "1.200 Monedas/Mes", "15% Descuento", "20 Videos/Mes", "Soporte Prioritario"], deluxe_price_monthly: "19,99 € / Mes", deluxe_price_yearly: "215,89 € / Año",
+            vip_title: "VIP", vip_features: ["Todo en Deluxe", "5.000 Monedas/Mes", "15% Descuento", "Videos Ilimitados", "Soporte Personal", "Acceso Beta"], vip_price_monthly: "49,99 € / Mes", vip_price_yearly: "539,89 € / Año"
         },
         earn: {
             title: "Ganar Monedas",
@@ -718,7 +794,21 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             mic_denied_alert: "Accès au microphone refusé",
             min_dreams_required: "Vous avez besoin d'au moins 7 rêves interprétés pour utiliser la fonction d'analyse.",
             base_version: "Version de Base",
-            until_date: "Jusqu'au :"
+            until_date: "Jusqu'au :",
+            audio_recorded: "Audio enregistré",
+            audio_saved_with_dream: "Sera sauvegardé avec le rêve",
+            remove: "Supprimer",
+            oracle_voice: "Voix de l'Oracle",
+            image_ready: "Image Prête !",
+            style_desc_cartoon: "Style Pixar",
+            style_desc_anime: "Style Ghibli",
+            style_desc_real: "Photoréaliste",
+            style_desc_fantasy: "Magique",
+            cosmic_dna: "ADN Cosmique",
+            moon_sync: "Synchronisation Lunaire",
+            save_btn: "Sauvegarder",
+            age_restricted_cat: "Cette catégorie n'est disponible que pour les personnes de 18 ans et plus.",
+            ok: "OK"
         },
         processing: {
             title: "L'Oracle travaille...",
@@ -751,7 +841,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_title: "Qu'est-ce que le forfait Smart Developer ?",
             smart_info_text: "Pour les développeurs et passionnés de technologie : créez des comptes auprès de fournisseurs d'IA (par ex. Google AI Studio), générez vos propres clés API là-bas et ajoutez-les à l'application. Ainsi, vous ne payez que les faibles coûts d'API directement au fournisseur + 3 € pour l'utilisation de l'application. Parfait pour les power users !",
             upgrade: "Mettre à niveau", current: "Actuel", unlock: "Débloquer", try_free: "ESSAI GRATUIT 7 JOURS",
-            ad_loading: "Chargement pub...", ad_reward: "Pièces gagnées !"
+            ad_loading: "Chargement pub...", ad_reward: "Pièces gagnées !",
+            bronze_title: "Bronze (GRATUIT)", bronze_features: ["2 Images/Jour", "Publicités", "Support Communauté"], bronze_price: "0 €",
+            silver2_title: "Argent", silver2_features: ["25 Images/Mois", "Sans Pub", "5% Réduction", "1x Chat en Direct/Semaine"], silver2_price_monthly: "4,99 € / Mois", silver2_price_yearly: "54,89 € / An",
+            gold2_title: "Or", gold2_features: ["Images Illimitées", "400 Pièces/Mois", "10% Réduction", "5 Vidéos/Mois", "Chat en Direct Illimité"], gold2_price_monthly: "9,99 € / Mois", gold2_price_yearly: "107,89 € / An",
+            deluxe_title: "Deluxe", deluxe_features: ["Tout en Or", "1 200 Pièces/Mois", "15% Réduction", "20 Vidéos/Mois", "Support Prioritaire"], deluxe_price_monthly: "19,99 € / Mois", deluxe_price_yearly: "215,89 € / An",
+            vip_title: "VIP", vip_features: ["Tout en Deluxe", "5 000 Pièces/Mois", "15% Réduction", "Vidéos Illimitées", "Support Personnel", "Accès Bêta"], vip_price_monthly: "49,99 € / Mois", vip_price_yearly: "539,89 € / An"
         },
         earn: {
             title: "Gagner des Pièces",
@@ -866,7 +961,21 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             mic_denied_alert: "تم رفض الوصول إلى الميكروفون",
             min_dreams_required: "تحتاج إلى 7 أحلام مفسرة على الأقل لاستخدام ميزة التحليل.",
             base_version: "النسخة الأساسية",
-            until_date: "حتى:"
+            until_date: "حتى:",
+            audio_recorded: "تم تسجيل الصوت",
+            audio_saved_with_dream: "سيتم حفظه مع الحلم",
+            remove: "إزالة",
+            oracle_voice: "صوت العراف",
+            image_ready: "الصورة جاهزة!",
+            style_desc_cartoon: "أسلوب بيكسار",
+            style_desc_anime: "أسلوب جيبلي",
+            style_desc_real: "فوتوواقعي",
+            style_desc_fantasy: "سحري",
+            cosmic_dna: "الحمض النووي الكوني",
+            moon_sync: "تزامن القمر",
+            save_btn: "حفظ",
+            age_restricted_cat: "هذه الفئة متاحة فقط للأشخاص الذين تبلغ أعمارهم 18 عامًا فما فوق.",
+            ok: "حسنًا"
         },
         processing: {
             title: "العراف يعمل...",
@@ -899,7 +1008,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_title: "ما هو تعريفة Smart Developer؟",
             smart_info_text: "للمطورين وعشاق التكنولوجيا: أنشئ حسابات مع موفري الذكاء الاصطناعي (مثل Google AI Studio)، وقم بإنشاء مفاتيح API الخاصة بك هناك وأضفها إلى التطبيق. بهذه الطريقة، تدفع فقط تكاليف API المنخفضة مباشرة للمزود + 3 يورو لاستخدام التطبيق. مثالي للمستخدمين المتقدمين!",
             upgrade: "ترقية", current: "حالياً", unlock: "فتح", try_free: "جرب مجانًا لمدة 7 أيام",
-            ad_loading: "جاري تحميل الإعلان...", ad_reward: "تم كسب العملات!"
+            ad_loading: "جاري تحميل الإعلان...", ad_reward: "تم كسب العملات!",
+            bronze_title: "برونز (مجاني)", bronze_features: ["2 صور/يوم", "إعلانات", "دعم المجتمع"], bronze_price: "0 €",
+            silver2_title: "فضي", silver2_features: ["25 صورة/شهر", "بدون إعلانات", "خصم 5%", "محادثة مباشرة 1x/أسبوع"], silver2_price_monthly: "4.99 € / شهر", silver2_price_yearly: "54.89 € / سنة",
+            gold2_title: "ذهبي", gold2_features: ["صور غير محدودة", "400 عملة/شهر", "خصم 10%", "5 فيديو/شهر", "محادثة مباشرة غير محدودة"], gold2_price_monthly: "9.99 € / شهر", gold2_price_yearly: "107.89 € / سنة",
+            deluxe_title: "ديلوكس", deluxe_features: ["كل الميزات الذهبية", "1200 عملة/شهر", "خصم 15%", "20 فيديو/شهر", "دعم أولوية"], deluxe_price_monthly: "19.99 € / شهر", deluxe_price_yearly: "215.89 € / سنة",
+            vip_title: "VIP", vip_features: ["كل ميزات ديلوكس", "5000 عملة/شهر", "خصم 15%", "فيديو غير محدود", "دعم شخصي", "وصول تجريبي"], vip_price_monthly: "49.99 € / شهر", vip_price_yearly: "539.89 € / سنة"
         },
         earn: {
             title: "كسب العملات",
@@ -1014,7 +1128,21 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             mic_denied_alert: "Acesso ao microfone negado",
             min_dreams_required: "Você precisa de pelo menos 7 sonhos interpretados para usar a função de análise.",
             base_version: "Versão Básica",
-            until_date: "Até:"
+            until_date: "Até:",
+            audio_recorded: "Áudio gravado",
+            audio_saved_with_dream: "Será salvo com o sonho",
+            remove: "Remover",
+            oracle_voice: "Voz do Oráculo",
+            image_ready: "Imagem Pronta!",
+            style_desc_cartoon: "Estilo Pixar",
+            style_desc_anime: "Estilo Ghibli",
+            style_desc_real: "Fotorrealista",
+            style_desc_fantasy: "Mágico",
+            cosmic_dna: "DNA Cósmico",
+            moon_sync: "Sincronização Lunar",
+            save_btn: "Salvar",
+            age_restricted_cat: "Esta categoria está disponível apenas para pessoas com 18 anos ou mais.",
+            ok: "OK"
         },
         processing: {
             title: "O Oráculo trabalha...",
@@ -1047,7 +1175,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_title: "O que é o plano Smart Developer?",
             smart_info_text: "Para desenvolvedores e entusiastas de tecnologia: crie contas com provedores de IA (por exemplo, Google AI Studio), gere suas próprias chaves de API lá e adicione-as ao aplicativo. Dessa forma, você paga apenas os baixos custos de API diretamente ao provedor + 3€ pelo uso do aplicativo. Perfeito para power users!",
             upgrade: "Atualizar", current: "Atual", unlock: "Desbloquear", try_free: "TESTE GRÁTIS POR 7 DIAS",
-            ad_loading: "Carregando anúncio...", ad_reward: "Moedas ganhas!"
+            ad_loading: "Carregando anúncio...", ad_reward: "Moedas ganhas!",
+            bronze_title: "Bronze (GRÁTIS)", bronze_features: ["2 Imagens/Dia", "Anúncios", "Suporte Comunidade"], bronze_price: "0 €",
+            silver2_title: "Prata", silver2_features: ["25 Imagens/Mês", "Sem Anúncios", "5% Desconto", "1x Chat ao Vivo/Semana"], silver2_price_monthly: "4,99 € / Mês", silver2_price_yearly: "54,89 € / Ano",
+            gold2_title: "Ouro", gold2_features: ["Imagens Ilimitadas", "400 Moedas/Mês", "10% Desconto", "5 Vídeos/Mês", "Chat ao Vivo Ilimitado"], gold2_price_monthly: "9,99 € / Mês", gold2_price_yearly: "107,89 € / Ano",
+            deluxe_title: "Deluxe", deluxe_features: ["Tudo em Ouro", "1.200 Moedas/Mês", "15% Desconto", "20 Vídeos/Mês", "Suporte Prioritário"], deluxe_price_monthly: "19,99 € / Mês", deluxe_price_yearly: "215,89 € / Ano",
+            vip_title: "VIP", vip_features: ["Tudo em Deluxe", "5.000 Moedas/Mês", "15% Desconto", "Vídeos Ilimitados", "Suporte Pessoal", "Acesso Beta"], vip_price_monthly: "49,99 € / Mês", vip_price_yearly: "539,89 € / Ano"
         },
         earn: {
             title: "Ganhar Moedas",
@@ -1162,7 +1295,21 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             mic_denied_alert: "Доступ к микрофону отклонён",
             min_dreams_required: "Для использования функции анализа необходимо минимум 7 истолкованных снов.",
             base_version: "Базовая версия",
-            until_date: "До:"
+            until_date: "До:",
+            audio_recorded: "Аудио записано",
+            audio_saved_with_dream: "Будет сохранено со сном",
+            remove: "Удалить",
+            oracle_voice: "Голос Оракула",
+            image_ready: "Изображение Готово!",
+            style_desc_cartoon: "Стиль Pixar",
+            style_desc_anime: "Стиль Ghibli",
+            style_desc_real: "Фотореалистичный",
+            style_desc_fantasy: "Волшебный",
+            cosmic_dna: "Космическая ДНК",
+            moon_sync: "Лунная Синхронизация",
+            save_btn: "Сохранить",
+            age_restricted_cat: "Эта категория доступна только для лиц от 18 лет и старше.",
+            ok: "ОК"
         },
         processing: {
             title: "Оракул работает...",
@@ -1195,7 +1342,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_title: "Что такое тариф Smart Developer?",
             smart_info_text: "Для разработчиков и энтузиастов: создайте аккаунты у поставщиков ИИ (например, Google AI Studio), сгенерируйте там свои API-ключи и добавьте их в приложение. Так вы платите только низкую стоимость API напрямую поставщику + 3€ за использование приложения. Идеально для продвинутых пользователей!",
             upgrade: "Обновить", current: "Текущий", unlock: "Разблокировать", try_free: "ПОПРОБОВАТЬ БЕСПЛАТНО 7 ДНЕЙ",
-            ad_loading: "Загрузка рекламы...", ad_reward: "Монеты получены!"
+            ad_loading: "Загрузка рекламы...", ad_reward: "Монеты получены!",
+            bronze_title: "Бронза (БЕСПЛАТНО)", bronze_features: ["2 изображения/день", "Реклама", "Поддержка сообщества"], bronze_price: "0 €",
+            silver2_title: "Серебро", silver2_features: ["25 изображений/месяц", "Без рекламы", "Скидка 5%", "1x Живой чат/неделю"], silver2_price_monthly: "4,99 € / мес", silver2_price_yearly: "54,89 € / год",
+            gold2_title: "Золото", gold2_features: ["Неограниченно изображений", "400 монет/месяц", "Скидка 10%", "5 видео/месяц", "Неограниченный живой чат"], gold2_price_monthly: "9,99 € / мес", gold2_price_yearly: "107,89 € / год",
+            deluxe_title: "Делюкс", deluxe_features: ["Всё из Золота", "1.200 монет/месяц", "Скидка 15%", "20 видео/месяц", "Приоритетная поддержка"], deluxe_price_monthly: "19,99 € / мес", deluxe_price_yearly: "215,89 € / год",
+            vip_title: "VIP", vip_features: ["Всё из Делюкса", "5.000 монет/месяц", "Скидка 15%", "Неограниченно видео", "Личная поддержка", "Бета-доступ"], vip_price_monthly: "49,99 € / мес", vip_price_yearly: "539,89 € / год"
         },
         earn: {
             title: "Заработать монеты",
@@ -1738,7 +1890,7 @@ const App: React.FC = () => {
                 await new Promise(r => setTimeout(r, 600)); // Artificial delay
                 updateStep('customer', 'completed');
             } else {
-                updateStep('customer', 'skipped', t.processing.step_no_customer || "Keine Kundendaten");
+                updateStep('customer', 'skipped', t.processing.step_no_customer);
                 await new Promise(r => setTimeout(r, 500));
             }
 
@@ -2215,33 +2367,34 @@ const App: React.FC = () => {
         const tierInfo = getTierDisplay();
 
         return (
-        <div className="max-w-4xl mx-auto  duration-500 pb-20">
-             <div className="flex items-center justify-between mb-8 gap-4">
-                 <div className="text-left">
-                     <h1 className={`text-5xl font-mystic text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-fuchsia-200 to-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] ${isLight ? 'from-indigo-600 via-fuchsia-600 to-violet-600 drop-shadow-none' : ''}`} style={{ lineHeight: '1.1' }}>
+        <div className="max-w-4xl mx-auto px-4 duration-500 pb-20">
+             {/* HEADER */}
+             <div className="flex items-start justify-between mb-6 gap-3">
+                 <div className="flex-1 min-w-0">
+                     <h1 className={`text-3xl sm:text-4xl font-mystic text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-fuchsia-200 to-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] ${isLight ? 'from-indigo-600 via-fuchsia-600 to-violet-600 drop-shadow-none' : ''}`} style={{ lineHeight: '1.15' }}>
                          {(() => {
                              const parts = t.app_title.split(' | ');
                              if (parts.length === 2) {
                                  return (
                                      <>
                                          <span className="block">{parts[0]}</span>
-                                         <span className={`text-lg font-normal ml-0 mt-1 block ${isLight ? 'text-fuchsia-600' : 'text-fuchsia-300/50'}`}>| {parts[1]}</span>
+                                         <span className={`text-sm font-normal mt-0.5 block ${isLight ? 'text-fuchsia-600' : 'text-fuchsia-300/60'}`}>| {parts[1]}</span>
                                      </>
                                  );
                              }
                              return t.app_title;
                          })()}
                      </h1>
-                     <p className={`text-[10px] tracking-[0.2em] uppercase mt-2 bg-clip-text text-transparent bg-gradient-to-r ${isLight ? 'from-indigo-500 via-fuchsia-500 to-violet-500' : 'from-fuchsia-300 via-violet-300 to-cyan-300'}`} style={{ backgroundSize: '200% auto', animation: 'gradient-shift 4s ease infinite' }}>
+                     <p className={`text-[11px] tracking-[0.15em] uppercase mt-1.5 bg-clip-text text-transparent bg-gradient-to-r leading-relaxed ${isLight ? 'from-indigo-500 via-fuchsia-500 to-violet-500' : 'from-fuchsia-300 via-violet-300 to-cyan-300'}`} style={{ backgroundSize: '200% auto', animation: 'gradient-shift 4s ease infinite' }}>
                          {t.app_subtitle}
                      </p>
                  </div>
-                 
-                 <div className="flex flex-col items-end gap-1">
+
+                 <div className="flex flex-col items-end gap-1.5 shrink-0">
                       <select
                           value={language}
                           onChange={(e) => setLanguage(e.target.value as Language)}
-                          className={`px-2 py-0.5 rounded-md border text-[10px] font-bold transition-all cursor-pointer ${isLight ? 'bg-white/80 border-indigo-200 text-indigo-900' : 'bg-slate-800/80 border-fuchsia-500/30 text-white'}`}
+                          className={`px-2.5 py-1 rounded-lg border text-xs font-bold transition-all cursor-pointer ${isLight ? 'bg-white/80 border-indigo-200 text-indigo-900' : 'bg-slate-800/80 border-fuchsia-500/30 text-white'}`}
                       >
                           <option value={Language.EN}>🇬🇧 EN</option>
                           <option value={Language.DE}>🇩🇪 DE</option>
@@ -2253,30 +2406,27 @@ const App: React.FC = () => {
                           <option value={Language.RU}>🇷🇺 RU</option>
                       </select>
 
-                      {/* COINS & TIER DISPLAY - UPDATED LAYOUT */}
-                      <div className="flex items-center justify-end gap-2 mt-1">
+                      {/* COINS & TIER */}
+                      <div className="flex items-center gap-2">
                            {tier === SubscriptionTier.FREE && (
-                               <div className={`px-2.5 py-1 rounded-lg border flex items-center gap-1.5 shadow-sm ${isLight ? 'bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-300 text-amber-800 shadow-amber-200/50' : 'bg-gradient-to-r from-amber-900/30 to-yellow-900/20 border-amber-500/40 text-amber-400 shadow-amber-500/20'}`}>
-                                    <span className="text-sm" style={{ filter: 'drop-shadow(0 0 3px rgba(245,158,11,0.5))' }}>🪙</span>
-                                    <span className={`text-sm font-extrabold tracking-wide ${isLight ? 'text-amber-700' : 'text-amber-300'}`} style={{ textShadow: isLight ? 'none' : '0 0 8px rgba(245,158,11,0.4)' }}>{credits}</span>
-                                    <button onClick={() => setShowCoinShop(true)} aria-label="Buy coins" className={`ms-1 w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold text-white transition-transform hover:scale-110 ${isLight ? 'bg-gradient-to-br from-amber-400 to-amber-600 shadow-sm shadow-amber-300' : 'bg-gradient-to-br from-amber-500 to-amber-700 shadow-sm shadow-amber-500/50'}`}>+</button>
+                               <div className={`px-2.5 py-1.5 rounded-xl border flex items-center gap-2 ${isLight ? 'bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-300 shadow-sm shadow-amber-200/50' : 'bg-gradient-to-r from-amber-900/30 to-yellow-900/20 border-amber-500/40 shadow-sm shadow-amber-500/20'}`}>
+                                    <span className="text-base" style={{ filter: 'drop-shadow(0 0 3px rgba(245,158,11,0.5))' }}>🪙</span>
+                                    <span className={`text-base font-extrabold tabular-nums ${isLight ? 'text-amber-700' : 'text-amber-300'}`} style={{ textShadow: isLight ? 'none' : '0 0 8px rgba(245,158,11,0.4)' }}>{credits}</span>
+                                    <button onClick={() => setShowCoinShop(true)} aria-label="Buy coins" className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white transition-transform hover:scale-110 ${isLight ? 'bg-gradient-to-br from-amber-400 to-amber-600' : 'bg-gradient-to-br from-amber-500 to-amber-700'}`}>+</button>
                                </div>
                            )}
-                           <div className={`px-1.5 py-0.5 rounded border flex flex-col items-end ${tierInfo.style}`}>
-                               <span className="text-[8px] font-bold uppercase tracking-wider">{tierInfo.label}</span>
-                           </div>
                       </div>
-                      <span className={`text-[9px] mt-0.5 ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
-                          {tierInfo.dateText}
-                      </span>
+                      <div className={`px-2 py-0.5 rounded-md border text-[10px] font-bold uppercase tracking-wider text-center ${tierInfo.style}`}>
+                          {tierInfo.label}
+                      </div>
                  </div>
              </div>
              
-             <h3 className={`text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
-                 <span className={`w-8 h-[1px] ${isLight ? 'bg-indigo-200' : 'bg-slate-600'}`}></span> {t.ui.choose_tradition}
+             <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
+                 <span className={`w-6 h-[1px] ${isLight ? 'bg-indigo-200' : 'bg-slate-700'}`}></span> {t.ui.choose_tradition}
              </h3>
-             
-             <div className="grid grid-cols-3 gap-3 mb-6">
+
+             <div className="grid grid-cols-3 gap-2.5 mb-5">
                  {[
                      ReligiousCategory.ISLAMIC, ReligiousCategory.CHRISTIAN, ReligiousCategory.BUDDHIST,
                      ReligiousCategory.PSYCHOLOGICAL, ReligiousCategory.ASTROLOGY, ReligiousCategory.NUMEROLOGY
@@ -2284,7 +2434,7 @@ const App: React.FC = () => {
                      const isSelected = selectedCategories.includes(cat);
                      const isReligious = [ReligiousCategory.ISLAMIC, ReligiousCategory.CHRISTIAN, ReligiousCategory.BUDDHIST].includes(cat);
                      const isBlue = [ReligiousCategory.PSYCHOLOGICAL, ReligiousCategory.NUMEROLOGY, ReligiousCategory.ASTROLOGY].includes(cat);
-                     let buttonClass = "relative overflow-hidden p-4 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all duration-300 group ";
+                     let buttonClass = "relative overflow-hidden p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all duration-300 group ";
                      if (isReligious) {
                          if (isSelected) { buttonClass += "bg-emerald-900/80 border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-emerald-50 border-emerald-100 hover:bg-emerald-100 hover:border-emerald-200" : "bg-emerald-900/20 border-emerald-500/40 hover:bg-emerald-900/40 hover:border-emerald-400/60"; }
                      } else if (isBlue) {
@@ -2303,34 +2453,26 @@ const App: React.FC = () => {
                              >
                                 {CATEGORY_ICONS[cat]}
                              </span>
-                             <span className={`${cat === ReligiousCategory.PSYCHOLOGICAL ? 'text-[10px]' : 'text-xs'} font-bold uppercase tracking-wider ${textClass}`}>{t.categories[cat]}</span>
+                             <span className={`text-[10px] font-bold uppercase tracking-wider leading-tight text-center ${textClass}`}>{t.categories[cat]}</span>
                          </button>
                      );
                  })}
              </div>
 
-             {/* 3 NEUE BUTTONS - Kosmische DNA, Mond-Sync, Speichern */}
-             <div className="flex justify-center gap-2 mb-6">
-                 <div className="relative group">
-                     <button className={`h-10 px-3 rounded-lg border text-center transition-all flex items-center gap-1.5 ${isLight ? 'bg-indigo-50 border-indigo-200 hover:bg-indigo-100' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}>
-                         <span className="material-icons text-base">fingerprint</span>
-                         <span className={`text-[8px] font-bold uppercase leading-tight ${isLight ? 'text-indigo-700' : 'text-slate-400'}`}>Kosmische<br/>DNA</span>
-                     </button>
-                     <button aria-label="Info" className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-[8px] font-bold ${isLight ? 'bg-indigo-200 text-indigo-700' : 'bg-white/20 text-white'}`}>i</button>
-                 </div>
-                 <div className="relative group">
-                     <button className={`h-10 px-3 rounded-lg border text-center transition-all flex items-center gap-1.5 ${isLight ? 'bg-purple-50 border-purple-200 hover:bg-purple-100' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}>
-                         <span className="material-icons text-base">nightlight</span>
-                         <span className={`text-[8px] font-bold uppercase leading-tight ${isLight ? 'text-purple-700' : 'text-slate-400'}`}>Mond-<br/>Sync</span>
-                     </button>
-                     <button aria-label="Info" className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-[8px] font-bold ${isLight ? 'bg-purple-200 text-purple-700' : 'bg-white/20 text-white'}`}>i</button>
-                 </div>
-                 <div className="relative group">
-                     <button onClick={handleSaveCategories} className={`h-10 px-3 rounded-lg border text-center transition-all flex items-center gap-1.5 ${isLight ? 'bg-pink-50 border-pink-200 hover:bg-pink-100' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}>
-                         <span className="material-icons text-base">bookmark</span>
-                         <span className={`text-[8px] font-bold uppercase leading-tight ${isLight ? 'text-pink-700' : 'text-slate-400'}`}>Speichern</span>
-                     </button>
-                 </div>
+             {/* FEATURE PILLS */}
+             <div className="flex justify-center gap-2 mb-5">
+                 <button className={`flex-1 max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-indigo-50 border-indigo-200 hover:bg-indigo-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
+                     <span className={`material-icons text-lg ${isLight ? 'text-indigo-500' : 'text-indigo-400'}`}>fingerprint</span>
+                     <span className={`text-[10px] font-bold uppercase leading-tight ${isLight ? 'text-indigo-700' : 'text-slate-300'}`}>{t.ui.cosmic_dna}</span>
+                 </button>
+                 <button className={`flex-1 max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-purple-50 border-purple-200 hover:bg-purple-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
+                     <span className={`material-icons text-lg ${isLight ? 'text-purple-500' : 'text-purple-400'}`}>nightlight</span>
+                     <span className={`text-[10px] font-bold uppercase leading-tight ${isLight ? 'text-purple-700' : 'text-slate-300'}`}>{t.ui.moon_sync}</span>
+                 </button>
+                 <button onClick={handleSaveCategories} className={`flex-1 max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-pink-50 border-pink-200 hover:bg-pink-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
+                     <span className={`material-icons text-lg ${isLight ? 'text-pink-500' : 'text-pink-400'}`}>bookmark</span>
+                     <span className={`text-[10px] font-bold uppercase leading-tight ${isLight ? 'text-pink-700' : 'text-slate-300'}`}>{t.ui.save_btn}</span>
+                 </button>
              </div>
 
              {selectedCategories.length > 0 && (
@@ -2357,18 +2499,18 @@ const App: React.FC = () => {
                  </div>
              )}
              
-             <div className={`${appBgInput} rounded-3xl p-1 mb-4 relative group border transition-all`}>
-                  <textarea value={dreamInput} onChange={(e) => setDreamInput(e.target.value)} placeholder={t.ui.placeholder} className={`w-full h-40 bg-transparent p-6 text-lg resize-none outline-none font-serif leading-relaxed ${isLight ? 'text-indigo-950 placeholder-indigo-300' : 'text-white placeholder-slate-600'}`} />
-                  <div className="flex justify-between items-center px-4 pb-4">
-                      <div className="flex gap-2">
-                          <button onClick={isListening ? stopDictation : startDictation} className={`p-3 rounded-full transition-all ${isListening ? 'bg-red-500/20 text-red-400 animate-pulse' : (isLight ? 'bg-indigo-50 text-indigo-400 hover:bg-indigo-100' : 'bg-white/5 text-slate-400 hover:text-white')}`}>
-                              <span className="material-icons">{isListening ? 'stop' : 'mic_none'}</span>
+             <div className={`${appBgInput} rounded-2xl p-1 mb-4 relative group border transition-all`}>
+                  <textarea value={dreamInput} onChange={(e) => setDreamInput(e.target.value)} placeholder={t.ui.placeholder} className={`w-full h-28 bg-transparent p-4 text-base resize-none outline-none font-serif leading-relaxed ${isLight ? 'text-indigo-950 placeholder-indigo-300' : 'text-white placeholder-slate-600'}`} />
+                  <div className="flex justify-between items-center px-3 pb-3">
+                      <div className="flex items-center gap-2">
+                          <button onClick={isListening ? stopDictation : startDictation} className={`p-2.5 rounded-full transition-all ${isListening ? 'bg-red-500/20 text-red-400 animate-pulse' : (isLight ? 'bg-indigo-50 text-indigo-400 hover:bg-indigo-100' : 'bg-white/5 text-slate-400 hover:text-white')}`}>
+                              <span className="material-icons text-xl">{isListening ? 'stop' : 'mic_none'}</span>
                           </button>
                           {!isListening && !currentAudioData && (
-                              <span className={`text-[10px] font-bold ${isLight ? 'text-amber-600' : 'text-amber-400'}`}>+5 {language === 'de' ? 'Münzen' : language === 'tr' ? 'Jeton' : language === 'ar' ? 'عملات' : language === 'es' ? 'Monedas' : language === 'fr' ? 'Pièces' : language === 'pt' ? 'Moedas' : language === 'ru' ? 'Монет' : 'Coins'}</span>
+                              <span className={`text-[10px] font-bold ${isLight ? 'text-amber-600' : 'text-amber-400/70'}`}>+5 {t.shop.coins_label}</span>
                           )}
                       </div>
-                      <div className={`text-xs font-mono ${isLight ? 'text-indigo-300' : 'text-slate-600'}`}>{dreamInput.length} chars {currentAudioData && '🎤'}</div>
+                      <div className={`text-[10px] font-mono ${isLight ? 'text-indigo-300' : 'text-slate-600'}`}>{dreamInput.length} chars {currentAudioData && '🎤'}</div>
                   </div>
              </div>
 
@@ -2379,13 +2521,13 @@ const App: React.FC = () => {
                          <div className="flex items-center gap-2">
                              <span className="text-2xl">🎤</span>
                              <div className="flex-1">
-                                 <div className={`text-sm font-bold ${isLight ? 'text-purple-900' : 'text-purple-300'}`}>Audio aufgenommen</div>
+                                 <div className={`text-sm font-bold ${isLight ? 'text-purple-900' : 'text-purple-300'}`}>{t.ui.audio_recorded}</div>
                                  <div className={`text-xs ${isLight ? 'text-purple-600' : 'text-purple-400'}`}>
-                                     {(currentAudioData.length / 1024).toFixed(1)} KB • Wird mit Traum gespeichert
+                                     {(currentAudioData.length / 1024).toFixed(1)} KB • {t.ui.audio_saved_with_dream}
                                  </div>
                              </div>
                              <button onClick={() => setCurrentAudioData(null)} className={`px-3 py-1 rounded-lg text-xs ${isLight ? 'bg-purple-200 text-purple-900 hover:bg-purple-300' : 'bg-purple-800/50 text-purple-300 hover:bg-purple-800'}`}>
-                                 Entfernen
+                                 {t.ui.remove}
                              </button>
                          </div>
                      </div>
@@ -2405,41 +2547,32 @@ const App: React.FC = () => {
                  </div>
              )}
 
-             <div className="flex flex-col gap-3 mb-6">
-                 <button onClick={() => handleAnalyze()} disabled={loading || !dreamInput} className={`relative w-3/5 mx-auto py-3 rounded-xl font-bold text-sm tracking-widest uppercase transition-all block mb-2 ${loading || !dreamInput ? (isLight ? 'bg-slate-200/60 text-slate-400' : 'bg-slate-800/60 text-slate-600 cursor-not-allowed') : noCredits ? 'bg-slate-800/60 backdrop-blur-md border border-slate-600/40 text-slate-400' : (isLight ? 'bg-gradient-to-r from-indigo-600/90 to-fuchsia-600/90 backdrop-blur-md text-white shadow-lg shadow-indigo-500/50 hover:shadow-xl hover:shadow-fuchsia-500/60 hover:scale-[1.03]' : 'bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 backdrop-blur-md text-white shadow-lg shadow-indigo-500/50 hover:shadow-xl hover:shadow-fuchsia-500/60 hover:scale-[1.03]')}`}>
-                     {loading ? (<span className="flex items-center justify-center gap-3">{t.processing.title}</span>) : noCredits ? (<span className="flex items-center justify-center gap-2"><span className="material-icons">lock</span> {t.ui.interpret} (0 Credits)</span>) : (<span className="flex items-center justify-center gap-2"><span className="material-icons">auto_awesome</span> {t.ui.interpret}</span>)}
-                 </button>
+             {/* PRIMARY CTA */}
+             <button onClick={() => handleAnalyze()} disabled={loading || !dreamInput} className={`relative w-full py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all mb-4 ${loading || !dreamInput ? (isLight ? 'bg-slate-200/60 text-slate-400' : 'bg-slate-800/40 text-slate-600 cursor-not-allowed') : noCredits ? 'bg-slate-800/60 backdrop-blur-md border border-slate-600/40 text-slate-400' : (isLight ? 'bg-gradient-to-r from-indigo-600 to-fuchsia-600 text-white shadow-lg shadow-indigo-500/40 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]' : 'bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 text-white shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]')}`}>
+                 {loading ? (<span className="flex items-center justify-center gap-3">{t.processing.title}</span>) : noCredits ? (<span className="flex items-center justify-center gap-2"><span className="material-icons">lock</span> {t.ui.interpret} (0 Credits)</span>) : (<span className="flex items-center justify-center gap-2"><span className="material-icons">auto_awesome</span> {t.ui.interpret}</span>)}
+             </button>
 
-                 <button 
-                    onClick={() => setView(View.DREAM_MAP)} 
-                    className={`relative w-full py-3 rounded-xl overflow-hidden border shadow-lg group transition-all ${isLight ? 'bg-gradient-to-r from-indigo-50 to-white border-indigo-200 shadow-indigo-100' : 'border-indigo-400/30 shadow-[0_0_20px_rgba(79,70,229,0.3)]'}`}
+             {showSavedMessage && (tier === SubscriptionTier.PRO || tier === SubscriptionTier.SMART) && (
+                  <button onClick={() => handleGenerateVideo(dreamInput)} className="w-full py-3 bg-amber-500/20 hover:bg-amber-500/40 text-amber-300 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border border-amber-500/30 mb-4">
+                     <span className="material-icons">movie_filter</span> {t.ui.generate_video}
+                  </button>
+             )}
+
+             {/* SECONDARY ACTIONS */}
+             <div className="grid grid-cols-2 gap-2.5 mb-4">
+                 <button
+                    onClick={() => setView(View.DREAM_MAP)}
+                    className={`relative py-3 rounded-xl overflow-hidden border group transition-all ${isLight ? 'bg-gradient-to-r from-indigo-50 to-white border-indigo-200' : 'border-indigo-500/20 bg-indigo-950/30 hover:border-indigo-400/40'}`}
                  >
-                     {!isLight && <div className="absolute inset-0 bg-gradient-to-r from-[#0f0c29] via-[#302b63] to-[#24243e]"></div>}
-                     <div className="absolute inset-0 overflow-hidden">
-                         <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-ping opacity-75" style={{ animationDuration: '3s' }}></div>
-                         <div className="absolute top-3/4 left-1/3 w-0.5 h-0.5 bg-white rounded-full animate-pulse"></div>
-                         <div className="absolute top-1/2 left-3/4 w-1 h-1 bg-cyan-300 rounded-full animate-ping" style={{ animationDuration: '2s' }}></div>
-                         <div className="absolute bottom-1/4 right-10 w-1.5 h-1.5 bg-fuchsia-300 rounded-full animate-pulse" style={{ animationDuration: '1.5s' }}></div>
-                         <div className="absolute top-10 right-20 w-0.5 h-0.5 bg-white rounded-full animate-ping" style={{ animationDuration: '4s' }}></div>
-                         <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] ${isLight ? 'opacity-20' : 'opacity-40'} animate-pulse`}></div>
-                     </div>
-                     <span className={`relative z-10 flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase group-hover:text-fuchsia-500 ${isLight ? 'text-indigo-600' : 'text-cyan-200 group-hover:text-white'}`}>
-                         <span className="material-icons text-lg text-yellow-300">public</span> {t.ui.map_btn}
+                     <span className={`relative z-10 flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase ${isLight ? 'text-indigo-600' : 'text-cyan-200'}`}>
+                         <span className="material-icons text-base text-yellow-400">public</span> {t.ui.map_btn}
                      </span>
                  </button>
-                 
-                 <button onClick={() => {
-                    setShowCalendar(true);
-                 }} className={`w-3/5 mx-auto py-3 border rounded-xl transition-all flex items-center justify-center gap-2 group shadow-lg ${isLight ? 'bg-white/70 backdrop-blur-md border-indigo-200/40 hover:border-fuchsia-300/60 shadow-indigo-100/50' : 'bg-white/5 backdrop-blur-md border-white/10 hover:bg-white/10 hover:border-fuchsia-500/30'}`}>
-                     <span className={`material-icons group-hover:scale-110 transition-transform text-2xl ${isLight ? 'text-fuchsia-600' : 'text-fuchsia-400'}`}>calendar_month</span>
-                     <span className={`text-sm font-bold ${isLight ? 'text-indigo-900 group-hover:text-fuchsia-700' : 'text-slate-300 group-hover:text-white'}`}>{t.ui.calendar_btn}</span>
+
+                 <button onClick={() => setShowCalendar(true)} className={`py-3 border rounded-xl transition-all flex items-center justify-center gap-2 group ${isLight ? 'bg-white/70 border-indigo-200/40 hover:border-fuchsia-300/60' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}>
+                     <span className={`material-icons text-base ${isLight ? 'text-fuchsia-600' : 'text-fuchsia-400'}`}>calendar_month</span>
+                     <span className={`text-xs font-bold ${isLight ? 'text-indigo-900' : 'text-slate-300'}`}>{t.ui.calendar_btn}</span>
                  </button>
-                 
-                 {showSavedMessage && (tier === SubscriptionTier.PRO || tier === SubscriptionTier.SMART) && (
-                      <button onClick={() => handleGenerateVideo(dreamInput)} className="w-full py-3 bg-amber-500/20 hover:bg-amber-500/40 text-amber-300 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border border-amber-500/30 ">
-                         <span className="material-icons">movie_filter</span> {t.ui.generate_video}
-                      </button>
-                 )}
              </div>
 
              {showSavedMessage && (
@@ -2449,23 +2582,20 @@ const App: React.FC = () => {
                  </div>
              )}
 
-             <div className="flex gap-3 mb-3 h-16">
-                 <button onClick={() => setShowCoinShop(true)} className={`flex-1 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border transition-all ${isLight ? 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100' : 'bg-amber-900/40 hover:bg-amber-800/60 text-amber-200 border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.1)]'}`}>
-                     <span className="material-icons text-amber-500">storefront</span> {t.shop.title}
+             <div className="grid grid-cols-2 gap-2.5 mb-3">
+                 <button onClick={() => setShowCoinShop(true)} className={`py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 border transition-all ${isLight ? 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100' : 'bg-amber-900/30 hover:bg-amber-800/40 text-amber-200 border-amber-500/20'}`}>
+                     <span className={`material-icons text-base ${isLight ? 'text-amber-500' : 'text-amber-400'}`}>storefront</span> {t.shop.title}
                  </button>
-                 
-                 <button onClick={() => setShowSubModal(true)} className={`flex-1 border rounded-xl transition-all flex items-center justify-center gap-2 group ${isLight ? 'bg-gradient-to-r from-amber-100 to-yellow-50 border-yellow-200 hover:border-yellow-300' : 'bg-gradient-to-r from-amber-900/40 to-yellow-900/40 border-amber-500/20 hover:from-amber-900/60 hover:to-yellow-900/60 hover:border-amber-500/50 shadow-[0_0_15px_rgba(234,179,8,0.1)]'}`}>
-                     <span className={`material-icons group-hover:scale-110 transition-transform text-2xl ${isLight ? 'text-amber-600' : 'text-amber-400'}`}>diamond</span>
-                     <div className="flex flex-col items-start">
-                         <span className={`text-sm font-bold ${isLight ? 'text-amber-800' : 'text-amber-200 group-hover:text-white'}`}>{t.ui.premium_btn}</span>
-                         <span className={`text-sm font-bold uppercase tracking-wide ${isLight ? 'text-amber-600/60' : 'text-amber-400/60'}`}>{t.ui.premium_desc}</span>
-                     </div>
+
+                 <button onClick={() => setShowSubModal(true)} className={`py-3 border rounded-xl transition-all flex items-center justify-center gap-2 group ${isLight ? 'bg-gradient-to-r from-amber-50 to-yellow-50 border-yellow-200 hover:border-yellow-300' : 'bg-gradient-to-r from-amber-900/20 to-yellow-900/20 border-amber-500/20 hover:border-amber-500/40'}`}>
+                     <span className={`material-icons text-base ${isLight ? 'text-amber-600' : 'text-amber-400'}`}>diamond</span>
+                     <span className={`text-xs font-bold ${isLight ? 'text-amber-800' : 'text-amber-200'}`}>{t.ui.premium_btn}</span>
                  </button>
              </div>
-             
-             <button onClick={() => setShowOnboarding(true)} className={`w-full py-3 border rounded-xl flex items-center justify-center gap-2 group transition-all ${isLight ? 'bg-white/70 backdrop-blur-md border-indigo-200/40 hover:border-violet-300/60 hover:shadow-lg hover:shadow-indigo-100/50' : 'bg-white/5 backdrop-blur-md hover:bg-white/10 border-white/10 hover:border-violet-500/30'}`}>
-                 <span className={`material-icons transition-colors ${isLight ? 'text-violet-500' : 'text-violet-400 group-hover:text-violet-300'}`}>assignment_ind</span>
-                 <span className={`text-xs font-bold uppercase tracking-wider ${isLight ? 'text-indigo-900 group-hover:text-violet-700' : 'text-slate-400 group-hover:text-violet-200'}`}>{t.ui.customer_file_btn}</span>
+
+             <button onClick={() => setShowOnboarding(true)} className={`w-full py-2.5 border rounded-xl flex items-center justify-center gap-2 group transition-all ${isLight ? 'bg-white/70 border-indigo-200/40 hover:border-violet-300/60' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-violet-500/30'}`}>
+                 <span className={`material-icons text-base transition-colors ${isLight ? 'text-violet-500' : 'text-violet-400'}`}>assignment_ind</span>
+                 <span className={`text-[10px] font-bold uppercase tracking-wider ${isLight ? 'text-indigo-900' : 'text-slate-400'}`}>{t.ui.customer_file_btn}</span>
              </button>
         </div>
         );
@@ -2572,27 +2702,27 @@ const App: React.FC = () => {
 // --- Extracted Components ---
 
 const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClose: () => void, t: any, isLight: boolean, onPurchase: (amt: number) => void, onEarnFree: () => void }) => (
-    <div className="fixed inset-0 z-[130] bg-black/90 backdrop-blur-lg flex items-center justify-center p-4  zoom-in-95">
-        <div className={`w-full max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-amber-500/40' : 'border-amber-500/30'} rounded-3xl overflow-hidden shadow-2xl flex flex-col relative max-h-[90vh]`}>
-            <button aria-label="Close" onClick={onClose} className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center text-slate-400 hover:text-white">
+    <div className="fixed inset-0 z-[130] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 zoom-in-95">
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-amber-500/40' : 'border-amber-500/30'} rounded-2xl overflow-hidden shadow-2xl flex flex-col relative max-h-[85vh]`}>
+            <button aria-label="Close" onClick={onClose} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center text-white/70 hover:text-white transition-colors">
                 <span className="material-icons text-base">close</span>
             </button>
-            
-            <div className="h-24 bg-gradient-to-r from-amber-600 to-orange-500 flex items-center justify-center shrink-0 relative overflow-hidden">
+
+            <div className="h-20 bg-gradient-to-r from-amber-600 to-orange-500 flex items-center justify-center shrink-0 relative overflow-hidden">
                  <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
                  <div className="text-center relative z-10">
-                     <h2 className="text-2xl font-mystic font-bold text-white shadow-black drop-shadow-md flex items-center justify-center gap-2">
-                        <span className="material-icons">storefront</span> {t.shop.title}
+                     <h2 className="text-xl font-mystic font-bold text-white drop-shadow-md flex items-center justify-center gap-2">
+                        <span className="material-icons text-lg">storefront</span> {t.shop.title}
                      </h2>
                      <p className="text-amber-100 text-xs font-bold uppercase tracking-wider opacity-90">{t.shop.desc}</p>
                  </div>
             </div>
 
-            <div className="p-6 space-y-4 overflow-y-auto custom-scrollbar">
+            <div className="p-5 space-y-3 overflow-y-auto custom-scrollbar">
                 {/* DYNAMISCHE COIN PAKETE */}
                 {Object.values(COIN_PACKAGES).map((pkg, index) => {
-                    const isBestseller = pkg.badge === 'Beliebt';
-                    const isBestValue = pkg.badge === 'Bester Wert';
+                    const isBestseller = pkg.id === 'bestseller_550';
+                    const isBestValue = pkg.id === 'mega_plus_7000';
                     const isMegaPlus = pkg.coins === 7000; // WOW-Effekt für 7000er Paket
                     const pricePerCoin = (pkg.price / pkg.coins).toFixed(4);
                     const emojis = ['🪙', '💰', '💎', '🌟', '⭐', '🏆'];
@@ -2609,39 +2739,39 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
                         <div
                             key={pkg.id}
                             onClick={() => onPurchase(pkg.coins)}
-                            className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02] relative ${
+                            className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] relative ${
                                 isMegaPlus
                                     ? 'border-2 border-pink-500 bg-gradient-to-r from-pink-900/20 to-purple-900/20 shadow-xl shadow-pink-500/20'
                                     : isBestseller
                                         ? 'border-2 border-amber-500 bg-amber-900/10 shadow-lg shadow-amber-500/10'
                                         : isBestValue
                                             ? `${isLight ? 'bg-emerald-50 border-emerald-200' : 'bg-emerald-900/20 border-emerald-500/30'}`
-                                            : `${isLight ? 'bg-white/60 backdrop-blur-md border-slate-200/60 hover:bg-white/80' : 'bg-white/5 backdrop-blur-md border-white/10 hover:bg-white/10'}`
+                                            : `${isLight ? 'bg-white/60 border-slate-200 hover:bg-white/80' : 'bg-white/5 border-white/10 hover:bg-white/10'}`
                             }`}
                         >
                             {isMegaPlus && (
-                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-600 to-purple-600 text-white text-[10px] font-bold uppercase px-4 py-1 rounded-full shadow-lg shadow-pink-500/50 animate-pulse">
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-pink-600 to-purple-600 text-white text-xs font-bold uppercase px-4 py-1 rounded-full shadow-lg shadow-pink-500/50 animate-pulse whitespace-nowrap">
                                     {t.shop.wow_badge}
                                 </div>
                             )}
                             {isBestseller && !isMegaPlus && (
-                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full shadow-md">
-                                    {pkg.badge}
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-500 text-white text-xs font-bold uppercase px-3 py-1 rounded-full shadow-md whitespace-nowrap">
+                                    ⭐ {t.shop.best_badge}
                                 </div>
                             )}
                             {isBestValue && !isMegaPlus && (
-                                <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[9px] font-bold px-2 py-1 rounded-bl-lg">
-                                    {pkg.badge}
+                                <div className="absolute top-0 right-0 bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-bl-xl rounded-tr-xl">
+                                    {t.shop.value_badge}
                                 </div>
                             )}
-                            <div className="flex items-center gap-4">
-                                <div className={`w-12 h-12 rounded-full ${colors[index].bg} flex items-center justify-center text-white shadow-lg ${isBestseller ? 'shadow-amber-500/40' : ''}`}>
-                                    <span className={`${isBestseller ? 'text-2xl' : 'text-lg'}`}>{emojis[index]}</span>
+                            <div className="flex items-center gap-3">
+                                <div className={`w-11 h-11 rounded-full ${colors[index % colors.length].bg} flex items-center justify-center text-white shadow-lg ${isBestseller ? 'shadow-amber-500/40' : ''} shrink-0`}>
+                                    <span className={`${isBestseller ? 'text-xl' : 'text-base'}`}>{emojis[index % emojis.length]}</span>
                                 </div>
                                 <div>
-                                    <h3 className={`font-bold ${isBestseller || isMegaPlus ? 'text-lg' : ''} ${
+                                    <h3 className={`font-bold text-sm ${isBestseller || isMegaPlus ? 'text-base' : ''} ${
                                         isLight
-                                            ? (isMegaPlus ? 'text-pink-900' : isBestseller ? colors[index].text : isBestValue ? 'text-emerald-900' : 'text-slate-800')
+                                            ? (isMegaPlus ? 'text-pink-900' : isBestseller ? colors[index % colors.length].text : isBestValue ? 'text-emerald-900' : 'text-slate-800')
                                             : (isMegaPlus ? 'text-pink-100' : isBestValue ? 'text-emerald-100' : 'text-white')
                                     }`}>
                                         {pkg.coins} {t.shop.coins_label}
@@ -2651,23 +2781,21 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
                                     }`}>
                                         {pkg.id.split('_')[0].charAt(0).toUpperCase() + pkg.id.split('_')[0].slice(1)}
                                     </p>
-                                    {isMegaPlus && (
-                                        <p className="text-[10px] font-bold text-pink-400 mt-1">
-                                            ✨ {pricePerCoin}€ {t.shop.per_coin}
-                                        </p>
-                                    )}
+                                    <p className={`text-xs mt-0.5 ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
+                                        {pricePerCoin}€ {t.shop.per_coin}
+                                    </p>
                                 </div>
                             </div>
-                            <button className={`px-4 py-2 rounded-lg font-bold text-sm shadow-lg ${
+                            <button className={`px-4 py-3 rounded-xl font-bold text-sm shadow-md transition-all shrink-0 ${
                                 isMegaPlus
-                                    ? 'bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white px-5 py-2.5 shadow-pink-500/50'
+                                    ? 'bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white shadow-pink-500/30'
                                     : isBestseller
-                                        ? 'bg-amber-500 hover:bg-amber-400 text-white px-5 py-2.5'
+                                        ? 'bg-amber-500 hover:bg-amber-400 text-white'
                                         : isBestValue
                                             ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
                                             : isLight
-                                                ? 'bg-slate-200 text-slate-700'
-                                                : 'bg-slate-700 text-white'
+                                                ? 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                                : 'bg-white/10 hover:bg-white/20 text-white'
                             }`}>
                                 €{pkg.price.toFixed(2)}
                             </button>
@@ -2676,7 +2804,7 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
                 })}
 
                 <div className="pt-4 mt-2 border-t border-dashed border-white/10 text-center">
-                    <button onClick={onEarnFree} className="text-xs text-slate-400 underline hover:text-white transition-colors">
+                    <button onClick={onEarnFree} className="text-xs text-slate-400 underline hover:text-white transition-colors py-2">
                         {t.shop.free_link}
                     </button>
                 </div>
@@ -2686,28 +2814,27 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
 );
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiKeyInput, setApiKeyInput, handleAddApiKey, handleRemoveApiKey, userProfile, themeMode, handleThemeUpdate, designTheme, handleExport, handleImport, language, onVoiceChange, currentVoiceId }) => (
-    <div className="fixed inset-0 z-[95] bg-black/70 backdrop-blur-md flex items-end md:items-center justify-center p-0 md:p-4">
-            <div className={`w-full md:max-w-lg ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border-t md:border ${isLight ? 'border-slate-200/40' : 'border-white/10'} rounded-t-3xl md:rounded-3xl overflow-hidden flex flex-col shadow-2xl max-h-[85vh]`}>
-            <div className={`p-6 border-b ${isLight ? 'border-slate-100' : 'border-white/10'} flex justify-between items-center shrink-0`}>
-                <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-indigo-950' : 'text-white'}`}>{t.ui.settings}</h2>
-                <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full bg-transparent hover:bg-black/5 flex items-center justify-center">
-                    <span className={`material-icons ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>close</span>
+    <div className="fixed inset-0 z-[95] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-slate-200/60' : 'border-white/10'} rounded-2xl overflow-hidden flex flex-col shadow-2xl max-h-[85vh]`}>
+            <div className={`px-5 py-4 border-b ${isLight ? 'border-slate-100' : 'border-white/10'} flex justify-between items-center shrink-0`}>
+                <h2 className={`text-lg font-mystic font-bold ${isLight ? 'text-indigo-950' : 'text-white'}`}>{t.ui.settings}</h2>
+                <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full hover:bg-black/10 flex items-center justify-center transition-colors">
+                    <span className={`material-icons text-base ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>close</span>
                 </button>
             </div>
-            <div className="p-6 space-y-8 overflow-y-auto custom-scrollbar">
-                
+            <div className="p-5 space-y-5 overflow-y-auto custom-scrollbar">
+
                 {/* BACKUP & DATA VAULT */}
-                <div className={`p-4 rounded-2xl border ${isLight ? 'bg-green-50 border-green-200' : 'bg-green-900/10 border-green-500/30'}`}>
+                <div className={`p-4 rounded-xl border ${isLight ? 'bg-green-50 border-green-200' : 'bg-green-900/10 border-green-500/30'}`}>
                     <h3 className={`text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2 ${isLight ? 'text-green-800' : 'text-green-400'}`}>
                         <span className="material-icons text-sm">cloud_sync</span> {t.ui.backup_title}
                     </h3>
-                    <p className={`text-[10px] mb-4 ${isLight ? 'text-green-700' : 'text-green-200/60'}`}>{t.ui.backup_desc}</p>
-                    
+                    <p className={`text-xs mb-3 leading-relaxed ${isLight ? 'text-green-700' : 'text-green-200/70'}`}>{t.ui.backup_desc}</p>
                     <div className="flex gap-2">
-                        <button onClick={handleExport} className={`flex-1 py-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all ${isLight ? 'bg-white border-green-200 text-green-700 hover:bg-green-50' : 'bg-white/5 border-green-500/30 text-green-300 hover:bg-green-900/20'}`}>
+                        <button onClick={handleExport} className={`flex-1 py-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all ${isLight ? 'bg-white border-green-200 text-green-700 hover:bg-green-50' : 'bg-white/5 border-green-500/30 text-green-300 hover:bg-green-900/20'}`}>
                             <span className="material-icons text-sm">download</span> {t.ui.export_btn}
                         </button>
-                        <label className={`flex-1 py-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${isLight ? 'bg-green-600 border-green-500 text-white hover:bg-green-700' : 'bg-green-600 border-green-500 text-white hover:bg-green-700'}`}>
+                        <label className="flex-1 py-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer bg-green-600 border-green-500 text-white hover:bg-green-700">
                             <span className="material-icons text-sm">upload_file</span> {t.ui.import_btn}
                             <input type="file" accept="application/json" onChange={handleImport} className="hidden" />
                         </label>
@@ -2715,11 +2842,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                 </div>
 
                 {/* API KEY MANAGER FOR SMART TIER */}
-                <div className={`p-4 rounded-2xl border ${isLight ? 'bg-cyan-50 border-cyan-200' : 'bg-cyan-900/10 border-cyan-500/30'}`}>
+                <div className={`p-4 rounded-xl border ${isLight ? 'bg-cyan-50 border-cyan-200' : 'bg-cyan-900/10 border-cyan-500/30'}`}>
                     <h3 className={`text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2 ${isLight ? 'text-cyan-800' : 'text-cyan-400'}`}>
                         <span className="material-icons text-sm">vpn_key</span> {t.ui.api_manager}
                     </h3>
-                    <p className={`text-[10px] mb-4 ${isLight ? 'text-cyan-700' : 'text-cyan-200/60'}`}>{t.ui.api_desc}</p>
+                    <p className={`text-xs mb-3 leading-relaxed ${isLight ? 'text-cyan-700' : 'text-cyan-200/70'}`}>{t.ui.api_desc}</p>
                     
                     <div className="flex gap-2 mb-3">
                         <input 
@@ -2727,11 +2854,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                             value={apiKeyInput}
                             onChange={(e) => setApiKeyInput(e.target.value)}
                             placeholder="sk-..."
-                            className={`flex-1 rounded-lg px-3 py-2 text-xs border outline-none ${isLight ? 'bg-white border-cyan-200 text-slate-800' : 'bg-black/30 border-cyan-500/30 text-white'}`}
+                            className={`flex-1 rounded-xl px-3 py-2.5 text-xs border outline-none ${isLight ? 'bg-white border-cyan-200 text-slate-800' : 'bg-black/30 border-cyan-500/30 text-white'}`}
                         />
                         <button 
                             onClick={handleAddApiKey}
-                            className="px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-lg whitespace-nowrap"
+                            className="px-4 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-xl whitespace-nowrap transition-colors"
                         >
                             {t.ui.add_key}
                         </button>
@@ -2739,12 +2866,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                     
                     <div className="space-y-1 max-h-24 overflow-y-auto custom-scrollbar">
                         {(userProfile?.customApiKeys || []).length === 0 ? (
-                            <p className="text-[10px] text-center italic opacity-50">{t.ui.no_keys}</p>
+                            <p className="text-xs text-center italic opacity-50 py-2">{t.ui.no_keys}</p>
                         ) : (
                             (userProfile?.customApiKeys || []).map((key, i) => (
-                                <div key={i} className={`flex justify-between items-center px-2 py-1.5 rounded ${isLight ? 'bg-white/50' : 'bg-white/5'}`}>
-                                    <span className="text-[10px] font-mono opacity-70">...{key.slice(-5)}</span>
-                                    <button onClick={() => handleRemoveApiKey(key)} className="text-red-400 hover:text-red-300">
+                                <div key={i} className={`flex justify-between items-center px-3 py-2 rounded-lg ${isLight ? 'bg-white/60' : 'bg-white/5'}`}>
+                                    <span className="text-xs font-mono opacity-70">...{key.slice(-5)}</span>
+                                    <button onClick={() => handleRemoveApiKey(key)} className="text-red-400 hover:text-red-300 transition-colors">
                                         <span className="material-icons text-sm">delete</span>
                                     </button>
                                 </div>
@@ -2756,16 +2883,16 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                 {/* Mode Toggle */}
                 <div>
                     <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{t.ui.mode}</h3>
-                    <div className={`flex rounded-xl p-1 border ${isLight ? 'bg-white/60 backdrop-blur-md border-slate-200/60' : 'bg-white/5 backdrop-blur-md border-white/10'}`}>
+                    <div className={`flex rounded-xl p-1 border ${isLight ? 'bg-white/60 border-slate-200' : 'bg-white/5 border-white/10'}`}>
                             <button 
                             onClick={() => handleThemeUpdate(ThemeMode.DARK, null)}
-                            className={`flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${themeMode === ThemeMode.DARK ? 'bg-slate-800 text-white shadow' : (isLight ? 'text-slate-500 hover:text-slate-800' : 'text-slate-400 hover:text-white')}`}
+                            className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${themeMode === ThemeMode.DARK ? 'bg-slate-800 text-white shadow' : (isLight ? 'text-slate-500 hover:text-slate-800' : 'text-slate-400 hover:text-white')}`}
                             >
                                 <span className="material-icons text-sm">dark_mode</span> {t.ui.dark}
                             </button>
                             <button 
                             onClick={() => handleThemeUpdate(ThemeMode.LIGHT, null)}
-                            className={`flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${themeMode === ThemeMode.LIGHT ? 'bg-white text-indigo-900 shadow' : (isLight ? 'text-slate-500 hover:text-slate-800' : 'text-slate-400 hover:text-white')}`}
+                            className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${themeMode === ThemeMode.LIGHT ? 'bg-white text-indigo-900 shadow' : (isLight ? 'text-slate-500 hover:text-slate-800' : 'text-slate-400 hover:text-white')}`}
                             >
                                 <span className="material-icons text-sm">light_mode</span> {t.ui.light}
                             </button>
@@ -2776,7 +2903,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                 <div>
                     <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
                         <span className="material-icons text-sm">record_voice_over</span>
-                        {language === 'de' ? 'Orakel-Stimme' : language === 'tr' ? 'Kahin Sesi' : language === 'ar' ? 'Sawt Al-Kahin' : 'Oracle Voice'}
+                        {t.ui.oracle_voice}
                     </h3>
                     <VoiceSelector
                         mode="settings"
@@ -2803,7 +2930,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                                 : (isLight ? 'bg-slate-50 border-transparent hover:bg-slate-100' : 'bg-white/5 border-transparent text-slate-400');
                             
                             return (
-                                <button key={dt} onClick={() => handleThemeUpdate(null, dt)} className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all ${activeClass}`}>
+                                <button key={dt} onClick={() => handleThemeUpdate(null, dt)} className={`w-full py-3 px-4 rounded-xl border text-sm text-left flex items-center justify-between transition-all ${activeClass}`}>
                                     <span className="flex items-center gap-2"><div className={`w-3 h-3 rounded-full ${colorClass}`}></div> {label}</span>
                                     {isActive && <span className={`material-icons ${isLight ? 'text-indigo-500' : 'text-white'}`}>check_circle</span>}
                                 </button>
@@ -2812,7 +2939,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
     </div>
 );
 
@@ -2821,12 +2948,12 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
     const [showSmartInfo, setShowSmartInfo] = useState(false);
 
     return (
-    <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md flex items-center justify-center p-4  duration-300">
-        <div className={`w-full max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-slate-200/40' : 'border-white/10'} rounded-3xl overflow-hidden shadow-2xl flex flex-col relative max-h-[90vh]`}>
-            <button aria-label="Close" onClick={onClose} className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/20 flex items-center justify-center hover:bg-black/40 text-white">
+    <div className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-slate-200/60' : 'border-white/10'} rounded-2xl overflow-hidden shadow-2xl flex flex-col relative max-h-[85vh]`}>
+            <button aria-label="Close" onClick={onClose} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/20 flex items-center justify-center hover:bg-black/40 text-white transition-colors">
                 <span className="material-icons text-base">close</span>
             </button>
-            <div className="h-24 bg-gradient-to-br from-amber-600 to-yellow-500 relative flex items-center justify-center shrink-0">
+            <div className="h-20 bg-gradient-to-br from-amber-600 to-yellow-500 relative flex items-center justify-center shrink-0">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
                 <h2 className="text-2xl font-mystic font-bold text-white shadow-black drop-shadow-md">{t.sub.title}</h2>
             </div>
@@ -2882,7 +3009,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                                 </div>
                             </div>
 
-                            <button onClick={() => setShowSmartInfo(false)} className="w-full py-3 bg-cyan-600 hover:bg-cyan-500 rounded-xl text-white font-bold text-sm shadow-lg">Ok</button>
+                            <button onClick={() => setShowSmartInfo(false)} className="w-full py-3 bg-cyan-600 hover:bg-cyan-500 rounded-xl text-white font-bold text-sm shadow-lg">{t.ui.ok}</button>
                         </div>
                     </div>
                 )}
@@ -2894,33 +3021,33 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                     let buttonText = isCurrent ? t.sub.current : t.sub.upgrade;
 
                     if (tier === SubscriptionTier.FREE) {
-                        title = "Bronze (FREE)";
-                        features = ["2 Bilder/Tag", "Werbung", "Community Support"];
-                        price = "0 €";
+                        title = t.sub.bronze_title;
+                        features = t.sub.bronze_features;
+                        price = t.sub.bronze_price;
                         borderColor = "border-slate-500/20";
                     }
                     if (tier === SubscriptionTier.PLUS) {
-                        title = "Silber";
-                        features = ["25 Bilder/Monat", "Keine Werbung", "5% Rabatt", "1x Live-Chat/Woche"];
-                        price = billingCycle === 'yearly' ? '54,89 € / Jahr' : '4,99 € / Monat';
+                        title = t.sub.silver2_title;
+                        features = t.sub.silver2_features;
+                        price = billingCycle === 'yearly' ? t.sub.silver2_price_yearly : t.sub.silver2_price_monthly;
                         borderColor = "border-slate-300";
                     }
                     if (tier === SubscriptionTier.PRO) {
-                        title = "Gold";
-                        features = ["Unbegrenzte Bilder", "400 Münzen/Monat", "10% Rabatt", "5 Videos/Monat", "Unbegrenzt Live-Chat"];
-                        price = billingCycle === 'yearly' ? '107,89 € / Jahr' : '9,99 € / Monat';
+                        title = t.sub.gold2_title;
+                        features = t.sub.gold2_features;
+                        price = billingCycle === 'yearly' ? t.sub.gold2_price_yearly : t.sub.gold2_price_monthly;
                         borderColor = "border-amber-400";
                     }
                     if (tier === SubscriptionTier.DELUXE) {
-                        title = "Deluxe";
-                        features = ["Alles in Gold", "1.200 Münzen/Monat", "15% Rabatt", "20 Videos/Monat", "Prioritäts-Support"];
-                        price = billingCycle === 'yearly' ? '215,89 € / Jahr' : '19,99 € / Monat';
+                        title = t.sub.deluxe_title;
+                        features = t.sub.deluxe_features;
+                        price = billingCycle === 'yearly' ? t.sub.deluxe_price_yearly : t.sub.deluxe_price_monthly;
                         borderColor = "border-purple-400";
                     }
                     if (tier === SubscriptionTier.VIP) {
-                        title = "VIP";
-                        features = ["Alles in Deluxe", "5.000 Münzen/Monat", "15% Rabatt", "Unbegrenzte Videos", "Persönlicher Support", "Beta-Zugang"];
-                        price = billingCycle === 'yearly' ? '539,89 € / Jahr' : '49,99 € / Monat';
+                        title = t.sub.vip_title;
+                        features = t.sub.vip_features;
+                        price = billingCycle === 'yearly' ? t.sub.vip_price_yearly : t.sub.vip_price_monthly;
                         borderColor = "border-pink-500";
                     }
 
@@ -2930,12 +3057,12 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                     return (
                         <div key={tier} onClick={() => onUpdateSubscription(tier)} className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col gap-2 relative group ${isCurrent ? 'bg-green-900/20 border-green-500/50' : (isLight ? `bg-white/60 backdrop-blur-md hover:bg-white/80 ${borderColor}` : `bg-white/5 backdrop-blur-md hover:bg-white/10 ${borderColor}`)}`}>
                             {billingCycle === 'yearly' && (tier === SubscriptionTier.PLUS || tier === SubscriptionTier.PRO) && (
-                                <div className="absolute top-0 right-0 bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-bl-lg font-bold shadow-sm">
+                                <div className="absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded-bl-xl rounded-tr-xl font-bold shadow-sm">
                                     {t.sub.yearly_discount}
                                 </div>
                             )}
                             {tier === SubscriptionTier.SMART && (
-                                <div className="absolute top-0 right-0 bg-fuchsia-600 text-white text-[10px] px-2 py-0.5 rounded-bl-lg font-bold shadow-sm animate-pulse z-10">
+                                <div className="absolute top-0 right-0 bg-fuchsia-600 text-white text-xs px-2 py-1 rounded-bl-xl rounded-tr-xl font-bold shadow-sm animate-pulse z-10">
                                     {t.sub.smart_discount}
                                 </div>
                             )}
@@ -2950,7 +3077,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                                 </div>
                                 <div className={`text-right ${hasBadge ? 'mt-6' : ''}`}>
                                     <span className={`block font-bold text-sm ${isLight ? 'text-slate-900' : 'text-white'}`}>{price}</span>
-                                    {!isCurrent && <span className={`text-[10px] uppercase font-bold ${tier === SubscriptionTier.PRO && billingCycle === 'monthly' ? 'text-green-400 animate-pulse' : 'text-amber-500'}`}>{buttonText}</span>}
+                                    {!isCurrent && <span className={`text-xs uppercase font-bold ${tier === SubscriptionTier.PRO && billingCycle === 'monthly' ? 'text-green-400 animate-pulse' : 'text-amber-500'}`}>{buttonText}</span>}
                                 </div>
                             </div>
                             
@@ -2967,7 +3094,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                             <ul className="mt-1 space-y-1.5">
                                 {features.map((feat, i) => (
                                     <li key={i} className={`text-xs flex items-start gap-2 leading-tight ${isLight ? 'text-slate-600' : 'text-slate-400'}`}>
-                                        <span className={`material-icons text-[10px] mt-0.5 ${tier === SubscriptionTier.SMART ? 'text-cyan-400' : (isLight ? 'text-indigo-500' : 'text-fuchsia-400')}`}>check</span>
+                                        <span className={`material-icons text-xs mt-0.5 ${tier === SubscriptionTier.SMART ? 'text-cyan-400' : (isLight ? 'text-indigo-500' : 'text-fuchsia-400')}`}>check</span>
                                         <span>{feat}</span>
                                     </li>
                                 ))}
@@ -2982,17 +3109,17 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
 };
 
 const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void, t: any, isLight: boolean, onWatch: (d: number, r: number) => void }) => (
-    <div className="fixed inset-0 z-[110] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4  zoom-in-95">
-        <div className={`w-full max-w-md ${isLight ? 'bg-white' : 'bg-[#150b25]'} border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col relative`}>
-                <button aria-label="Close" onClick={onClose} className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
+    <div className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white' : 'bg-[#150b25]'} border border-amber-500/30 rounded-2xl overflow-hidden shadow-2xl flex flex-col relative max-h-[85vh]`}>
+                <button aria-label="Close" onClick={onClose} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center transition-colors">
                 <span className="material-icons text-base">close</span>
             </button>
-            <div className="h-24 bg-gradient-to-r from-amber-500 to-orange-600 flex items-center justify-center shrink-0">
+            <div className="h-20 bg-gradient-to-r from-amber-500 to-orange-600 flex items-center justify-center shrink-0">
                 <h2 className="text-2xl font-mystic font-bold text-white shadow-black drop-shadow-md flex items-center gap-2">
                     <span className="material-icons">monetization_on</span> {t.earn.title}
                 </h2>
             </div>
-            <div className="p-6 space-y-4">
+            <div className="p-5 space-y-4 overflow-y-auto custom-scrollbar">
                 <p className={`text-sm text-center mb-2 ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>{t.earn.desc}</p>
                 
                 {/* Short Clip */}
@@ -3001,7 +3128,7 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
                         <h4 className={`font-bold text-sm ${isLight ? 'text-slate-800' : 'text-white'}`}>{t.earn.short_title}</h4>
                         <p className="text-xs text-amber-500">{t.earn.short_desc}</p>
                     </div>
-                    <button onClick={() => onWatch(10000, parseInt(t.earn.short_reward))} className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-bold text-xs shadow-lg">
+                    <button onClick={() => onWatch(10000, parseInt(t.earn.short_reward))} className="px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold text-xs shadow-lg transition-colors">
                         +{t.earn.short_reward} 🪙 {t.earn.watch_btn}
                     </button>
                 </div>
@@ -3012,7 +3139,7 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
                         <h4 className={`font-bold text-sm ${isLight ? 'text-slate-800' : 'text-white'}`}>{t.earn.long_title}</h4>
                         <p className="text-xs text-amber-500">{t.earn.long_desc}</p>
                     </div>
-                    <button onClick={() => onWatch(3000, parseInt(t.earn.long_reward))} className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:to-orange-600 text-white rounded-lg font-bold text-xs shadow-lg">
+                    <button onClick={() => onWatch(3000, parseInt(t.earn.long_reward))} className="px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-lg">
                         +{t.earn.long_reward} 🪙 {t.earn.watch_btn}
                     </button>
                 </div>
@@ -3026,15 +3153,15 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
                         </div>
                             <span className="text-xs font-bold bg-blue-500 text-white px-2 py-0.5 rounded">+{t.earn.offer_reward} 🪙</span>
                     </div>
-                    <p className={`text-[10px] mb-3 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{t.earn.offer_info}</p>
+                    <p className={`text-xs mb-3 leading-relaxed ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{t.earn.offer_info}</p>
                     <div className="space-y-2">
                         <div className={`flex justify-between items-center p-2 rounded border ${isLight ? 'bg-white border-blue-100' : 'bg-black/20 border-white/5'}`}>
                             <span className={`text-xs ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>{t.earn.survey_task}</span>
-                            <button className="text-[10px] font-bold text-blue-400 hover:text-blue-300 uppercase">{t.earn.start_btn}</button>
+                            <button className="text-xs font-bold text-blue-400 hover:text-blue-300 uppercase py-1 px-2">{t.earn.start_btn}</button>
                         </div>
                             <div className={`flex justify-between items-center p-2 rounded border ${isLight ? 'bg-white border-blue-100' : 'bg-black/20 border-white/5'}`}>
                             <span className={`text-xs ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>{t.earn.app_task}</span>
-                            <button className="text-[10px] font-bold text-blue-400 hover:text-blue-300 uppercase">{t.earn.start_btn}</button>
+                            <button className="text-xs font-bold text-blue-400 hover:text-blue-300 uppercase py-1 px-2">{t.earn.start_btn}</button>
                         </div>
                     </div>
                 </div>
@@ -3044,12 +3171,12 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
 );
 
 const ProcessingOverlay = ({ isLight, steps, categories, sources, t }: { isLight: boolean, steps: ProcessingStep[], categories: ReligiousCategory[], sources: ReligiousSource[], t: any }) => (
-    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-lg flex items-center justify-center p-6  duration-500">
-        <div className={`w-full max-w-md ${isLight ? 'bg-white/90 border-indigo-100' : 'bg-[#150b25]/90 border-white/10'} border rounded-3xl p-8 shadow-2xl flex flex-col gap-6 relative overflow-hidden`}>
+    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 duration-500">
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 border-indigo-100' : 'bg-[#150b25]/95 border-white/10'} border rounded-2xl p-6 shadow-2xl flex flex-col gap-5 relative overflow-hidden max-h-[85vh] overflow-y-auto`}>
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 animate-pulse"></div>
             <div className="absolute -top-20 -right-20 w-40 h-40 bg-fuchsia-500/20 rounded-full blur-3xl"></div>
             <div className="text-center mb-2">
-                <h2 className={`text-2xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'} animate-pulse`}>{steps[0]?.label || "Processing..."}</h2>
+                <h2 className={`text-2xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'} animate-pulse`}>{steps[0]?.label || t.processing.title}</h2>
             </div>
 
             <div className="space-y-4">
@@ -3073,12 +3200,12 @@ const ProcessingOverlay = ({ isLight, steps, categories, sources, t }: { isLight
                                 <div className="mt-1  slide-in-from-left-2">
                                     <div className="flex flex-wrap gap-1 mt-1">
                                         {categories.map(c => (
-                                            <span key={c} className={`text-[9px] px-1.5 py-0.5 rounded border ${isLight ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white/5 border-white/10 text-slate-300'}`}>
+                                            <span key={c} className={`text-xs px-2 py-0.5 rounded border ${isLight ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white/5 border-white/10 text-slate-300'}`}>
                                                 {t.categories[c]}
                                             </span>
                                         ))}
                                         {sources.map(s => (
-                                            <span key={s} className={`text-[9px] px-1.5 py-0.5 rounded border ${isLight ? 'bg-fuchsia-50 border-fuchsia-200 text-fuchsia-700' : 'bg-white/5 border-white/10 text-slate-300'}`}>
+                                            <span key={s} className={`text-xs px-2 py-0.5 rounded border ${isLight ? 'bg-fuchsia-50 border-fuchsia-200 text-fuchsia-700' : 'bg-white/5 border-white/10 text-slate-300'}`}>
                                                 {t.sources[s]}
                                             </span>
                                         ))}
@@ -3145,9 +3272,9 @@ const VideoResultModal = ({ onClose, url, t, isLight }: { onClose: () => void, u
     }, [storyData]);
 
     return (
-        <div className="fixed inset-0 z-[120] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 ">
-            <div className={`w-full max-w-3xl ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-3xl overflow-hidden shadow-2xl relative`}>
-                <div className="p-6 border-b border-white/10 flex justify-between items-center">
+        <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className={`w-[95%] max-w-2xl ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-2xl overflow-hidden shadow-2xl relative max-h-[85vh] flex flex-col`}>
+                <div className="px-5 py-4 border-b border-white/10 flex justify-between items-center shrink-0">
                     <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.video_ready}</h2>
                     <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
                         <span className="material-icons">close</span>
@@ -3193,29 +3320,29 @@ const StyleSelectionModal = ({ onSelect, t, isLight }: { onSelect: (quality: 'no
     };
 
     return (
-        <div className="fixed inset-0 z-[120] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 ">
-            <div className={`w-full max-w-2xl ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-3xl overflow-hidden shadow-2xl relative`}>
-                <div className="p-6 border-b border-white/10">
+        <div className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className={`w-[95%] max-w-md ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-2xl overflow-hidden shadow-2xl relative max-h-[85vh] flex flex-col`}>
+                <div className="px-5 py-4 border-b border-white/10 shrink-0">
                     <h2 className={`text-2xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'} text-center`}>
-                        {t.ui.choose_image_style || 'Bildstil wählen'}
+                        {t.ui.choose_image_style}
                     </h2>
                     <p className={`text-sm ${isLight ? 'text-gray-600' : 'text-slate-400'} text-center mt-2`}>
                         {t.ui.choose_style_desc || 'Wähle einen Stil für dein Traumbild'}
                     </p>
                 </div>
 
-                <div className="p-6">
+                <div className="p-5 overflow-y-auto custom-scrollbar flex-1">
                     {/* Style Selection */}
                     <div>
                         <h3 className={`text-sm font-bold uppercase tracking-wider ${isLight ? 'text-gray-700' : 'text-slate-300'} mb-3 text-center`}>
-                            {t.ui.choose_style || 'Stil wählen'}
+                            {t.ui.choose_style}
                         </h3>
                         <div className="grid grid-cols-2 gap-3">
                             {[
-                                { key: 'cartoon', label: t.ui.style_cartoon || 'Cartoon', icon: '🎨', desc: 'Pixar-Style' },
-                                { key: 'anime', label: t.ui.style_anime || 'Anime', icon: '⚡', desc: 'Ghibli-Style' },
-                                { key: 'real', label: t.ui.style_real || 'Real', icon: '📸', desc: 'Fotorealistisch' },
-                                { key: 'fantasy', label: t.ui.style_fantasy || 'Fantasy', icon: '✨', desc: 'Magisch' }
+                                { key: 'cartoon', label: t.ui.style_cartoon || 'Cartoon', icon: '🎨', desc: t.ui.style_desc_cartoon },
+                                { key: 'anime', label: t.ui.style_anime || 'Anime', icon: '⚡', desc: t.ui.style_desc_anime },
+                                { key: 'real', label: t.ui.style_real || 'Real', icon: '📸', desc: t.ui.style_desc_real },
+                                { key: 'fantasy', label: t.ui.style_fantasy || 'Fantasy', icon: '✨', desc: t.ui.style_desc_fantasy }
                             ].map((style) => (
                                 <button
                                     key={style.key}
@@ -3239,7 +3366,7 @@ const StyleSelectionModal = ({ onSelect, t, isLight }: { onSelect: (quality: 'no
                     </div>
                 </div>
 
-                <div className="p-6 border-t border-white/10 flex justify-between items-center gap-3">
+                <div className="px-5 py-4 border-t border-white/10 flex justify-between items-center gap-3 shrink-0">
                     <button
                         onClick={() => onSelect('normal', null)}
                         className={`px-6 py-3 rounded-xl font-medium transition-all ${
@@ -3248,7 +3375,7 @@ const StyleSelectionModal = ({ onSelect, t, isLight }: { onSelect: (quality: 'no
                                 : 'bg-white/10 hover:bg-white/20 text-white'
                         }`}
                     >
-                        {t.ui.continue_without_image || 'Fortsetzen ohne Bildgenerierung'}
+                        {t.ui.continue_without_image}
                     </button>
                     <button
                         onClick={handleConfirm}
@@ -3259,7 +3386,7 @@ const StyleSelectionModal = ({ onSelect, t, isLight }: { onSelect: (quality: 'no
                                 : 'bg-gray-600 text-gray-400 cursor-not-allowed'
                         }`}
                     >
-                        {t.ui.continue || 'Weiter'}
+                        {t.ui.continue}
                     </button>
                 </div>
             </div>
@@ -3268,15 +3395,15 @@ const StyleSelectionModal = ({ onSelect, t, isLight }: { onSelect: (quality: 'no
 };
 
 const ImageResultModal = ({ onClose, url, t, isLight }: { onClose: () => void, url: string | null, t: any, isLight: boolean }) => (
-    <div className="fixed inset-0 z-[120] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 ">
-            <div className={`w-full max-w-3xl ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-3xl overflow-hidden shadow-2xl relative`}>
-                <div className="p-6 border-b border-white/10 flex justify-between items-center">
-                    <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.image_ready || 'Image Ready'}</h2>
+    <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className={`w-[95%] max-w-lg ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-2xl overflow-hidden shadow-2xl relative max-h-[85vh] flex flex-col`}>
+                <div className="px-5 py-4 border-b border-white/10 flex justify-between items-center shrink-0">
+                    <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.image_ready}</h2>
                     <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
                         <span className="material-icons">close</span>
                     </button>
                 </div>
-                <div className="bg-black">
+                <div className="bg-black overflow-y-auto flex-1">
                     {url && (
                         <img src={url} alt="Generated dream" className="w-full h-auto" />
                     )}
@@ -3289,12 +3416,12 @@ const ImageResultModal = ({ onClose, url, t, isLight }: { onClose: () => void, u
 );
 
 const AdOverlay = ({ t, duration }: { t: any, duration: number }) => (
-    <div className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center">
+    <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center">
         <div className="w-full h-full absolute bg-gradient-to-br from-yellow-600 to-orange-600 animate-pulse opacity-20"></div>
         <span className="material-icons text-6xl text-white mb-4 animate-bounce">play_circle_filled</span>
         <h2 className="text-2xl font-bold text-white relative z-10">{t.sub.ad_loading}</h2>
         <div className="w-64 h-2 bg-gray-700 rounded mt-4 overflow-hidden relative z-10">
-            <div className="h-full bg-white" style={{animation: `width ${duration}ms linear forwards`, width: '0%'}}></div>
+            <div className="h-full bg-white rounded-full transition-all" style={{animation: `width ${duration}ms linear forwards`, width: '0%'}}></div>
         </div>
     </div>
 );
@@ -3305,8 +3432,8 @@ const AudioUploadConfirmModal = ({ onClose, t, isLight }: { onClose: () => void,
     };
 
     return (
-        <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4  zoom-in-95">
-            <div className={`w-full max-w-md ${isLight ? 'bg-white' : 'bg-[#1a0b2e]'} border ${isLight ? 'border-purple-200' : 'border-purple-500/30'} rounded-3xl p-8 shadow-2xl`}>
+        <div className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className={`w-[95%] max-w-md ${isLight ? 'bg-white' : 'bg-[#1a0b2e]'} border ${isLight ? 'border-purple-200' : 'border-purple-500/30'} rounded-2xl p-5 shadow-2xl max-h-[85vh] overflow-y-auto`}>
                 <div className="text-center mb-6">
                     <div className="text-6xl mb-4 animate-bounce">🎤✨</div>
                     <h2 className={`text-2xl font-bold mb-3 ${isLight ? 'text-purple-900' : 'text-white'}`}>{t.ui.upload_confirm_title}</h2>
@@ -3343,19 +3470,19 @@ const InfoModal = ({ onClose, data, t, isLight }: { onClose: () => void, data: a
     const accentBorder = isLight ? 'border-indigo-200' : 'border-white/10';
     
     return (
-        <div className="fixed inset-0 z-[110] bg-black/70 backdrop-blur-md flex items-center justify-center p-4  zoom-in-95 duration-300" onClick={onClose}>
-            <div className={`w-full max-w-lg ${modalBg} border rounded-[2rem] p-0 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]`} onClick={e => e.stopPropagation()}>
-                <div className="h-32 bg-gradient-to-r from-indigo-900 via-fuchsia-900 to-purple-900 relative flex items-end p-6">
+        <div className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 duration-300" onClick={onClose}>
+            <div className={`w-[95%] max-w-md ${modalBg} border rounded-2xl p-0 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]`} onClick={e => e.stopPropagation()}>
+                <div className="h-24 bg-gradient-to-r from-indigo-900 via-fuchsia-900 to-purple-900 relative flex items-end p-5 shrink-0">
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
                     <h2 className="text-2xl font-mystic font-bold text-white relative z-10 shadow-black drop-shadow-md">{data.title}</h2>
-                    <button aria-label="Close" onClick={onClose} className="absolute top-6 right-6 w-10 h-10 bg-black/30 rounded-full text-white flex items-center justify-center hover:bg-black/50 transition-colors">
+                    <button aria-label="Close" onClick={onClose} className="absolute top-4 right-4 w-8 h-8 bg-black/30 rounded-full text-white flex items-center justify-center hover:bg-black/50 transition-colors">
                         <span className="material-icons text-base">close</span>
                     </button>
                 </div>
                 <div className="p-6 overflow-y-auto custom-scrollbar space-y-6">
-                    <div><p className={`text-lg font-medium leading-relaxed ${textBody}`}>{data.desc}</p></div>
+                    <div><p className={`text-sm leading-relaxed ${textBody}`}>{data.desc}</p></div>
                     {(data.origin || data.bio) && (
-                            <div className={`p-4 rounded-2xl border ${accentBg} ${accentBorder}`}>
+                            <div className={`p-4 rounded-xl border ${accentBg} ${accentBorder}`}>
                                 {data.origin && (
                                     <div className="mb-3">
                                         <h4 className={`text-xs uppercase font-bold tracking-widest mb-1 opacity-70 ${textHead}`}>{t.ui.info_origin}</h4>
