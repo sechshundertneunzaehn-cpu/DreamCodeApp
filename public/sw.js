@@ -1,6 +1,6 @@
-const CACHE_NAME = 'traumcode-v3';
-const STATIC_CACHE = 'traumcode-static-v3';
-const DYNAMIC_CACHE = 'traumcode-dynamic-v3';
+const CACHE_NAME = 'traumcode-v5';
+const STATIC_CACHE = 'traumcode-static-v5';
+const DYNAMIC_CACHE = 'traumcode-dynamic-v5';
 
 const APP_SHELL = [
   '/',
