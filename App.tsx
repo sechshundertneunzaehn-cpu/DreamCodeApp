@@ -148,12 +148,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             silver_price: "4,99 € / Monat",
             silver_features: ["Komplett Werbefrei", "Unbegrenzte PDF-Konvertierung & Download", "Unbegrenzte Text-Deutungen", "25 HD-Bilder pro Monat", "1x wöchentlich Live-Chat mit KI", "Sprachsteuerung"],
             gold_title: "Gold (VIP)",
-            gold_price: "10,00 € / Monat",
-            gold_trial_text: "7 Tage gratis, dann 10,00 €/Mt",
+            gold_price: "12,99 € / Monat",
+            gold_trial_text: "7 Tage gratis, dann 12,99 €/Mt",
             gold_features: ["Alles aus Silber inklusive", "Unbegrenzter Live-Chat mit dem Orakel", "5 Traum-Videos pro Monat", "Exklusiver Rabatt auf Münzkäufe", "Priority Support"],
             smart_title: "Smart (Entwickler)",
-            smart_price: "3,00 € / Monat",
-            smart_features: ["Bring Your Own Key (BYOK)", "Alle Premium Features freigeschaltet", "Automatische Provider-Rotation", "Günstiger Jahrespreis (Fix 30€)"],
+            smart_price: "29,99 € / Jahr",
+            smart_features: ["Bring Your Own Key (BYOK)", "Alle Premium Features freigeschaltet", "Automatische Provider-Rotation", "Günstiger Jahrespreis (Fix 29,99€)"],
             smart_info_title: "Was ist der Smart Developer Tarif?",
             smart_info_text: "Für Entwickler & Tech-Enthusiasten: Erstelle Accounts bei KI-Providern (z.B. Google AI Studio), generiere dort deine eigenen API Keys und füge sie hier in der App ein. So zahlst du nur die günstigen API-Kosten direkt beim Provider + 3€ für die App-Nutzung. Perfekt für Power-User!",
             upgrade: "Upgrade", current: "Aktuell", unlock: "Freischalten", try_free: "7 TAGE GRATIS TESTEN",
@@ -173,8 +173,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             title: "Münz-Shop",
             desc: "Fülle deinen Vorrat auf.",
             starter_label: "Starter", starter_price: "1,99 €", starter_amount: "100 Münzen",
-            best_label: "Bestseller", best_price: "6,99 €", best_amount: "500 Münzen", best_badge: "Beliebt",
-            value_label: "Vorrat", value_price: "14,99 €", value_amount: "1200 Münzen", value_badge: "Bester Wert",
+            best_label: "Bestseller", best_price: "5,99 €", best_amount: "550 Münzen", best_badge: "Beliebt",
+            value_label: "Vorrat", value_price: "12,99 €", value_amount: "1500 Münzen", value_badge: "Bester Wert",
             free_link: "Möchtest du Münzen gratis verdienen? Hier klicken.",
             buy_btn: "Kaufen",
             wow_badge: "💎 Unter 1 Cent/Münze!",
@@ -296,12 +296,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             silver_price: "4.99 € / month",
             silver_features: ["Ad-Free Experience", "Unlimited PDF Conversion & Download", "Unlimited Interpretations", "25 HD Images/mo", "1x Weekly Live Chat", "Audio I/O"],
             gold_title: "Gold (VIP)", 
-            gold_price: "10.00 € / month",
-            gold_trial_text: "7 days free, then 10.00 €/mo",
+            gold_price: "12.99 € / month",
+            gold_trial_text: "7 days free, then 12.99 €/mo",
             gold_features: ["All Silver Features Included", "Unlimited Live Oracle Chat", "5 Dream Videos/mo", "Exclusive Coin Discount", "Priority Support"],
             smart_title: "Smart (Developer)",
-            smart_price: "3.00 € / month",
-            smart_features: ["Bring Your Own Key (BYOK)", "All Premium Features Unlocked", "Auto-Provider Rotation", "Fixed Annual Price (30€)"],
+            smart_price: "29.99 € / year",
+            smart_features: ["Bring Your Own Key (BYOK)", "All Premium Features Unlocked", "Auto-Provider Rotation", "Fixed Annual Price (29.99€)"],
             smart_info_title: "What is the Smart Developer Tier?",
             smart_info_text: "For developers & tech enthusiasts: Create accounts with AI providers (e.g., Google AI Studio), generate your own API keys there, and add them to the app. This way, you only pay the low API costs directly to the provider + €3 for app usage. Perfect for power users!",
             upgrade: "Upgrade", current: "Current", unlock: "Unlock", try_free: "TRY FREE FOR 7 DAYS",
@@ -321,8 +321,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             title: "Coin Shop",
             desc: "Top up your supply.",
             starter_label: "Starter", starter_price: "1.99 €", starter_amount: "100 Coins",
-            best_label: "Bestseller", best_price: "6.99 €", best_amount: "500 Coins", best_badge: "Popular",
-            value_label: "Best Value", value_price: "14.99 €", value_amount: "1200 Coins", value_badge: "Best Value",
+            best_label: "Bestseller", best_price: "5.99 €", best_amount: "550 Coins", best_badge: "Popular",
+            value_label: "Best Value", value_price: "12.99 €", value_amount: "1500 Coins", value_badge: "Best Value",
             free_link: "Want to earn free coins? Click here.",
             buy_btn: "Buy",
             wow_badge: "💎 Under 1 Cent/Coin!",
@@ -446,12 +446,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             silver_price: "4.99 € / Ay",
             silver_features: ["Tamamen Reklamsız", "Sınırsız PDF Dönüştürme & İndirme", "Sınırsız Yorumlama", "25 HD Resim/Ay", "Haftada 1x Canlı Sohbet", "Sesli Giriş & Çıkış"],
             gold_title: "Altın (VIP)", 
-            gold_price: "10.00 € / Ay",
-            gold_trial_text: "7 gün ücretsiz, sonra 10.00 €/Ay",
+            gold_price: "12.99 € / Ay",
+            gold_trial_text: "7 gün ücretsiz, sonra 12.99 €/Ay",
             gold_features: ["Tüm Gümüş özellikleri dahil", "Sınırsız Canlı Kahin Sohbeti", "5 Rüya Videosu/Ay", "Jeton Alımlarında VIP İndirim", "Öncelikli Destek"],
             smart_title: "Akıllı (Geliştirici)",
-            smart_price: "3.00 € / Ay",
-            smart_features: ["Kendi Anahtarını Getir (BYOK)", "Tüm Premium Özellikler Açık", "Otomatik Sağlayıcı Geçişi", "Sabit Yıllık Ücret (30€)"],
+            smart_price: "29.99 € / Yıl",
+            smart_features: ["Kendi Anahtarını Getir (BYOK)", "Tüm Premium Özellikler Açık", "Otomatik Sağlayıcı Geçişi", "Sabit Yıllık Ücret (29.99€)"],
             smart_info_title: "Smart Developer Tier Nedir?",
             smart_info_text: "Geliştiriciler ve teknoloji meraklıları için: Yapay zeka sağlayıcılarında hesap oluşturun (ör. Google AI Studio), orada kendi API anahtarlarınızı oluşturun ve buraya ekleyin. Böylece sadece düşük API maliyetlerini doğrudan sağlayıcıya ödeyip + uygulama kullanımı için 3€ ödersiniz. Power kullanıcılar için mükemmel!",
             upgrade: "Yükselt", current: "Mevcut", unlock: "Kilidi Aç", try_free: "7 GÜN ÜCRETSİZ DENE",
@@ -471,8 +471,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             title: "Jeton Mağazası",
             desc: "Stokunu yenile.",
             starter_label: "Başlangıç", starter_price: "1,99 €", starter_amount: "100 Jeton",
-            best_label: "Çok Satan", best_price: "6,99 €", best_amount: "500 Jeton", best_badge: "Popüler",
-            value_label: "En İyi Fiyat", value_price: "14,99 €", value_amount: "1200 Jeton", value_badge: "Fırsat",
+            best_label: "Çok Satan", best_price: "5,99 €", best_amount: "550 Jeton", best_badge: "Popüler",
+            value_label: "En İyi Fiyat", value_price: "12,99 €", value_amount: "1500 Jeton", value_badge: "Fırsat",
             free_link: "Ücretsiz jeton kazanmak ister misin? Tıkla.",
             buy_btn: "Satın Al",
             wow_badge: "💎 1 Sent Altında/Jeton!",
@@ -594,12 +594,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             silver_price: "4.99 € / mes",
             silver_features: ["Experiencia sin anuncios", "Conversión y descarga ilimitada de PDF", "Interpretaciones ilimitadas", "25 Imágenes HD/mes", "1x Chat en vivo semanal", "Entrada/Salida de Audio"],
             gold_title: "Oro (VIP)", 
-            gold_price: "10.00 € / mes",
-            gold_trial_text: "7 días gratis, luego 10.00 €/mes",
+            gold_price: "12.99 € / mes",
+            gold_trial_text: "7 días gratis, luego 12.99 €/mes",
             gold_features: ["Todas las características de Plata", "Chat ilimitado con el Oráculo", "5 Videos de Sueños/mes", "Descuento exclusivo en monedas", "Soporte Prioritario"],
             smart_title: "Inteligente (Desarrollador)",
-            smart_price: "3.00 € / mes",
-            smart_features: ["Trae Tu Propia Clave (BYOK)", "Todas las funciones Premium desbloqueadas", "Rotación automática de proveedor", "Precio anual fijo (30€)"],
+            smart_price: "29.99 € / año",
+            smart_features: ["Trae Tu Propia Clave (BYOK)", "Todas las funciones Premium desbloqueadas", "Rotación automática de proveedor", "Precio anual fijo (29.99€)"],
             smart_info_title: "¿Qué es el plan Smart Developer?",
             smart_info_text: "Para desarrolladores y entusiastas de la tecnología: crea cuentas con proveedores de IA (por ejemplo, Google AI Studio), genera tus propias claves API allí y agrégalas a la aplicación. De esta manera, solo pagas los bajos costos de API directamente al proveedor + 3 € por el uso de la aplicación. ¡Perfecto para usuarios avanzados!",
             upgrade: "Mejorar", current: "Actual", unlock: "Desbloquear", try_free: "PRUEBA GRATIS 7 DÍAS",
@@ -619,8 +619,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             title: "Tienda de Monedas",
             desc: "Recarga tu suministro.",
             starter_label: "Inicial", starter_price: "1.99 €", starter_amount: "100 Monedas",
-            best_label: "Más Vendido", best_price: "6.99 €", best_amount: "500 Monedas", best_badge: "Popular",
-            value_label: "Mejor Valor", value_price: "14.99 €", value_amount: "1200 Monedas", value_badge: "Mejor Valor",
+            best_label: "Más Vendido", best_price: "5.99 €", best_amount: "550 Monedas", best_badge: "Popular",
+            value_label: "Mejor Valor", value_price: "12.99 €", value_amount: "1500 Monedas", value_badge: "Mejor Valor",
             free_link: "¿Quieres ganar monedas gratis? Haz clic aquí.",
             buy_btn: "Comprar",
             wow_badge: "💎 ¡Menos de 1 Céntimo/Moneda!",
@@ -742,12 +742,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             silver_price: "4.99 € / mois",
             silver_features: ["Expérience sans publicité", "Conversion et téléchargement PDF illimités", "Interprétations illimitées", "25 Images HD/mois", "1x Chat en direct par semaine", "Entrée/Sortie Audio"],
             gold_title: "Or (VIP)", 
-            gold_price: "10.00 € / mois",
-            gold_trial_text: "7 jours gratuits, puis 10.00 €/mois",
+            gold_price: "12.99 € / mois",
+            gold_trial_text: "7 jours gratuits, puis 12.99 €/mois",
             gold_features: ["Toutes les fonctionnalités Argent", "Chat Oracle illimité", "5 Vidéos de Rêves/mois", "Remise exclusive sur les pièces", "Support Prioritaire"],
             smart_title: "Intelligent (Développeur)",
-            smart_price: "3.00 € / mois",
-            smart_features: ["Apportez votre propre clé (BYOK)", "Toutes les fonctions Premium débloquées", "Rotation automatique du fournisseur", "Prix annuel fixe (30€)"],
+            smart_price: "29.99 € / an",
+            smart_features: ["Apportez votre propre clé (BYOK)", "Toutes les fonctions Premium débloquées", "Rotation automatique du fournisseur", "Prix annuel fixe (29.99€)"],
             smart_info_title: "Qu'est-ce que le forfait Smart Developer ?",
             smart_info_text: "Pour les développeurs et passionnés de technologie : créez des comptes auprès de fournisseurs d'IA (par ex. Google AI Studio), générez vos propres clés API là-bas et ajoutez-les à l'application. Ainsi, vous ne payez que les faibles coûts d'API directement au fournisseur + 3 € pour l'utilisation de l'application. Parfait pour les power users !",
             upgrade: "Mettre à niveau", current: "Actuel", unlock: "Débloquer", try_free: "ESSAI GRATUIT 7 JOURS",
@@ -767,8 +767,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             title: "Boutique de Pièces",
             desc: "Rechargez votre réserve.",
             starter_label: "Débutant", starter_price: "1.99 €", starter_amount: "100 Pièces",
-            best_label: "Meilleure Vente", best_price: "6.99 €", best_amount: "500 Pièces", best_badge: "Populaire",
-            value_label: "Meilleure Valeur", value_price: "14.99 €", value_amount: "1200 Pièces", value_badge: "Meilleure Valeur",
+            best_label: "Meilleure Vente", best_price: "5.99 €", best_amount: "550 Pièces", best_badge: "Populaire",
+            value_label: "Meilleure Valeur", value_price: "12.99 €", value_amount: "1500 Pièces", value_badge: "Meilleure Valeur",
             free_link: "Vous voulez gagner des pièces gratuites ? Cliquez ici.",
             buy_btn: "Acheter",
             wow_badge: "💎 Moins d'1 Centime/Pièce !",
@@ -890,12 +890,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             silver_price: "4.99 € / شهر",
             silver_features: ["تجربة خالية من الإعلانات", "تحويل وتنزيل PDF غير محدود", "تفسيرات غير محدودة", "25 صورة HD/شهر", "دردشة مباشرة أسبوعية", "إدخال/إخراج صوتي"],
             gold_title: "ذهبي (VIP)",
-            gold_price: "14.99 € / شهر",
-            gold_trial_text: "7 أيام مجانًا، ثم 14.99 €/شهر",
+            gold_price: "12.99 € / شهر",
+            gold_trial_text: "7 أيام مجانًا، ثم 12.99 €/شهر",
             gold_features: ["جميع ميزات الفضي", "دردشة غير محدودة مع العراف", "5 فيديوهات أحلام/شهر", "خصم حصري على العملات", "دعم ذو أولوية"],
             smart_title: "ذكي (للمطورين)",
-            smart_price: "3.00 € / شهر",
-            smart_features: ["استخدم مفتاحك الخاص (BYOK)", "فتح جميع ميزات البريميوم", "تدوير تلقائي للمزود", "سعر سنوي ثابت (30€)"],
+            smart_price: "29.99 € / سنة",
+            smart_features: ["استخدم مفتاحك الخاص (BYOK)", "فتح جميع ميزات البريميوم", "تدوير تلقائي للمزود", "سعر سنوي ثابت (29.99€)"],
             smart_info_title: "ما هو تعريفة Smart Developer؟",
             smart_info_text: "للمطورين وعشاق التكنولوجيا: أنشئ حسابات مع موفري الذكاء الاصطناعي (مثل Google AI Studio)، وقم بإنشاء مفاتيح API الخاصة بك هناك وأضفها إلى التطبيق. بهذه الطريقة، تدفع فقط تكاليف API المنخفضة مباشرة للمزود + 3 يورو لاستخدام التطبيق. مثالي للمستخدمين المتقدمين!",
             upgrade: "ترقية", current: "حالياً", unlock: "فتح", try_free: "جرب مجانًا لمدة 7 أيام",
@@ -915,8 +915,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             title: "متجر العملات",
             desc: "جدد مخزونك.",
             starter_label: "مبتدئ", starter_price: "1.99 €", starter_amount: "100 عملة",
-            best_label: "الأكثر مبيعاً", best_price: "6.99 €", best_amount: "500 عملة", best_badge: "شائع",
-            value_label: "أفضل قيمة", value_price: "14.99 €", value_amount: "1200 عملة", value_badge: "أفضل قيمة",
+            best_label: "الأكثر مبيعاً", best_price: "5.99 €", best_amount: "550 عملة", best_badge: "شائع",
+            value_label: "أفضل قيمة", value_price: "12.99 €", value_amount: "1500 عملة", value_badge: "أفضل قيمة",
             free_link: "هل تريد كسب عملات مجانية؟ اضغط هنا.",
             buy_btn: "شراء",
             wow_badge: "💎 أقل من سنت/عملة!",
@@ -1038,12 +1038,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             silver_price: "4.99 € / mês",
             silver_features: ["Experiência sem anúncios", "Conversão e download ilimitado de PDF", "Interpretações ilimitadas", "25 Imagens HD/mês", "1x Chat ao vivo semanal", "Entrada/Saída de Áudio"],
             gold_title: "Ouro (VIP)", 
-            gold_price: "14.99 € / mês",
-            gold_trial_text: "7 dias grátis, depois 14.99 €/mês",
+            gold_price: "12.99 € / mês",
+            gold_trial_text: "7 dias grátis, depois 12.99 €/mês",
             gold_features: ["Todos os recursos Prata", "Chat Ilimitado com o Oráculo", "5 Vídeos de Sonhos/mês", "Desconto exclusivo em moedas", "Suporte Prioritário"],
             smart_title: "Inteligente (Desenvolvedor)",
-            smart_price: "3.00 € / mês",
-            smart_features: ["Traga Sua Própria Chave (BYOK)", "Todos os recursos Premium desbloqueados", "Rotação automática de provedor", "Preço anual fixo (30€)"],
+            smart_price: "29.99 € / ano",
+            smart_features: ["Traga Sua Própria Chave (BYOK)", "Todos os recursos Premium desbloqueados", "Rotação automática de provedor", "Preço anual fixo (29.99€)"],
             smart_info_title: "O que é o plano Smart Developer?",
             smart_info_text: "Para desenvolvedores e entusiastas de tecnologia: crie contas com provedores de IA (por exemplo, Google AI Studio), gere suas próprias chaves de API lá e adicione-as ao aplicativo. Dessa forma, você paga apenas os baixos custos de API diretamente ao provedor + 3€ pelo uso do aplicativo. Perfeito para power users!",
             upgrade: "Atualizar", current: "Atual", unlock: "Desbloquear", try_free: "TESTE GRÁTIS POR 7 DIAS",
@@ -1063,8 +1063,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             title: "Loja de Moedas",
             desc: "Recarregue seu suprimento.",
             starter_label: "Iniciante", starter_price: "1.99 €", starter_amount: "100 Moedas",
-            best_label: "Mais Vendido", best_price: "6.99 €", best_amount: "500 Moedas", best_badge: "Popular",
-            value_label: "Melhor Valor", value_price: "14.99 €", value_amount: "1200 Moedas", value_badge: "Melhor Valor",
+            best_label: "Mais Vendido", best_price: "5.99 €", best_amount: "550 Moedas", best_badge: "Popular",
+            value_label: "Melhor Valor", value_price: "12.99 €", value_amount: "1500 Moedas", value_badge: "Melhor Valor",
             free_link: "Quer ganhar moedas grátis? Clique aqui.",
             buy_btn: "Comprar",
             wow_badge: "💎 Menos de 1 Cêntimo/Moeda!",
@@ -1186,12 +1186,12 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             silver_price: "4.99 € / мес",
             silver_features: ["Без рекламы", "Неограниченная конвертация и загрузка PDF", "Неограниченные толкования", "25 HD изображений/мес", "1x еженедельный живой чат", "Аудио ввод/вывод"],
             gold_title: "Золото (VIP)",
-            gold_price: "14.99 € / мес",
-            gold_trial_text: "7 дней бесплатно, затем 14.99 €/мес",
+            gold_price: "12.99 € / мес",
+            gold_trial_text: "7 дней бесплатно, затем 12.99 €/мес",
             gold_features: ["Все функции Серебра", "Неограниченный чат с Оракулом", "5 видео снов/мес", "Эксклюзивная скидка на монеты", "Приоритетная поддержка"],
             smart_title: "Умный (Разработчик)",
-            smart_price: "3.00 € / мес",
-            smart_features: ["Используйте свой ключ (BYOK)", "Все премиум-функции разблокированы", "Автоматическая ротация провайдера", "Фиксированная годовая цена (30€)"],
+            smart_price: "29.99 € / год",
+            smart_features: ["Используйте свой ключ (BYOK)", "Все премиум-функции разблокированы", "Автоматическая ротация провайдера", "Фиксированная годовая цена (29.99€)"],
             smart_info_title: "Что такое тариф Smart Developer?",
             smart_info_text: "Для разработчиков и энтузиастов: создайте аккаунты у поставщиков ИИ (например, Google AI Studio), сгенерируйте там свои API-ключи и добавьте их в приложение. Так вы платите только низкую стоимость API напрямую поставщику + 3€ за использование приложения. Идеально для продвинутых пользователей!",
             upgrade: "Обновить", current: "Текущий", unlock: "Разблокировать", try_free: "ПОПРОБОВАТЬ БЕСПЛАТНО 7 ДНЕЙ",
@@ -1211,8 +1211,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             title: "Магазин монет",
             desc: "Пополните свой запас.",
             starter_label: "Начальный", starter_price: "1.99 €", starter_amount: "100 монет",
-            best_label: "Самый популярный", best_price: "6.99 €", best_amount: "500 монет", best_badge: "Популярный",
-            value_label: "Лучшее предложение", value_price: "14.99 €", value_amount: "1200 монет", value_badge: "Лучшее предложение",
+            best_label: "Самый популярный", best_price: "5.99 €", best_amount: "550 монет", best_badge: "Популярный",
+            value_label: "Лучшее предложение", value_price: "12.99 €", value_amount: "1500 монет", value_badge: "Лучшее предложение",
             free_link: "Хотите заработать бесплатные монеты? Нажмите здесь.",
             buy_btn: "Купить",
             wow_badge: "💎 Меньше 1 Цента/Монета!",
@@ -1263,7 +1263,6 @@ interface SubscriptionModalProps {
 }
 
 const App: React.FC = () => {
-    console.log('[APP] Component rendering...');
     const [view, setView] = useState<View>(View.HOME);
     const [language, setLanguage] = useState<Language>(Language.DE);
     const [dreamInput, setDreamInput] = useState('');
@@ -1317,11 +1316,27 @@ const App: React.FC = () => {
     const [showCoinShop, setShowCoinShop] = useState(false);
     const [isAdPlaying, setIsAdPlaying] = useState(false);
     const [adDuration, setAdDuration] = useState(0);
+    const adTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     
+    // Cleanup ad timer on unmount
+    useEffect(() => {
+        return () => {
+            if (adTimerRef.current) {
+                clearTimeout(adTimerRef.current);
+            }
+        };
+    }, []);
+
     // Sync body background with theme
     useEffect(() => {
         document.body.style.backgroundColor = themeMode === ThemeMode.LIGHT ? '#ffffff' : '#0f0b1a';
     }, [themeMode]);
+
+    // RTL support
+    useEffect(() => {
+        document.documentElement.dir = language === Language.AR ? 'rtl' : 'ltr';
+        document.documentElement.lang = language;
+    }, [language]);
 
     // --- Persistence Initialization ---
     // !!! CRITICAL FIX: ASYNC LOADING TO PREVENT DATA OVERWRITE !!!
@@ -1396,6 +1411,49 @@ const App: React.FC = () => {
             }
         };
         init();
+    }, []);
+
+    // --- Payment-Success Handler (Stripe Redirect) ---
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get('session_id');
+        if (!sessionId) return;
+
+        fetch('/api/verify-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId }),
+        })
+            .then(res => res.json())
+            .then(async (data) => {
+                if (data.paymentStatus === 'paid') {
+                    if (data.type === 'coins' && data.coins) {
+                        const currentProfile = await loadProfileSecurely();
+                        const base = currentProfile || userProfile;
+                        if (base) {
+                            const newCredits = (base.credits || 0) + data.coins;
+                            const updated = { ...base, credits: newCredits };
+                            setUserProfile(updated);
+                            await saveProfileSecurely(updated);
+                        }
+                    } else if (data.type === 'subscription' && data.tier) {
+                        const tierKey = data.tier.toUpperCase() as keyof typeof SubscriptionTier;
+                        const newTier = SubscriptionTier[tierKey] || SubscriptionTier.FREE;
+                        const currentProfile = await loadProfileSecurely();
+                        const base = currentProfile || userProfile;
+                        if (base) {
+                            const updated = { ...base, subscriptionTier: newTier };
+                            setUserProfile(updated);
+                            await saveProfileSecurely(updated);
+                        }
+                    }
+                }
+                // URL bereinigen
+                window.history.replaceState({}, '', '/');
+            })
+            .catch(console.error);
+    // Einmalig beim Mount ausführen
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSaveProfile = async (profile: UserProfile) => {
@@ -1494,8 +1552,14 @@ const App: React.FC = () => {
         setShowEarnModal(false);
         setIsAdPlaying(true);
         setAdDuration(duration);
-        
-        setTimeout(async () => {
+
+        // Cleanup vorherigen Timer falls noch aktiv
+        if (adTimerRef.current) {
+            clearTimeout(adTimerRef.current);
+        }
+
+        adTimerRef.current = setTimeout(async () => {
+            adTimerRef.current = null;
             setIsAdPlaying(false);
             // Re-load to ensure we have latest before writing
             const currentProfile = await loadProfileSecurely();
@@ -2161,7 +2225,7 @@ const App: React.FC = () => {
                                  return (
                                      <>
                                          <span className="block">{parts[0]}</span>
-                                         <span className={`text-lg font-normal ml-0 mt-1 block ${isLight ? 'text-fuchsia-400' : 'text-fuchsia-300/50'}`}>| {parts[1]}</span>
+                                         <span className={`text-lg font-normal ml-0 mt-1 block ${isLight ? 'text-fuchsia-600' : 'text-fuchsia-300/50'}`}>| {parts[1]}</span>
                                      </>
                                  );
                              }
@@ -2195,7 +2259,7 @@ const App: React.FC = () => {
                                <div className={`px-2.5 py-1 rounded-lg border flex items-center gap-1.5 shadow-sm ${isLight ? 'bg-gradient-to-r from-amber-50 to-yellow-50 border-amber-300 text-amber-800 shadow-amber-200/50' : 'bg-gradient-to-r from-amber-900/30 to-yellow-900/20 border-amber-500/40 text-amber-400 shadow-amber-500/20'}`}>
                                     <span className="text-sm" style={{ filter: 'drop-shadow(0 0 3px rgba(245,158,11,0.5))' }}>🪙</span>
                                     <span className={`text-sm font-extrabold tracking-wide ${isLight ? 'text-amber-700' : 'text-amber-300'}`} style={{ textShadow: isLight ? 'none' : '0 0 8px rgba(245,158,11,0.4)' }}>{credits}</span>
-                                    <button onClick={() => setShowCoinShop(true)} className={`ml-1 w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold text-white transition-transform hover:scale-110 ${isLight ? 'bg-gradient-to-br from-amber-400 to-amber-600 shadow-sm shadow-amber-300' : 'bg-gradient-to-br from-amber-500 to-amber-700 shadow-sm shadow-amber-500/50'}`}>+</button>
+                                    <button onClick={() => setShowCoinShop(true)} aria-label="Buy coins" className={`ms-1 w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold text-white transition-transform hover:scale-110 ${isLight ? 'bg-gradient-to-br from-amber-400 to-amber-600 shadow-sm shadow-amber-300' : 'bg-gradient-to-br from-amber-500 to-amber-700 shadow-sm shadow-amber-500/50'}`}>+</button>
                                </div>
                            )}
                            <div className={`px-1.5 py-0.5 rounded border flex flex-col items-end ${tierInfo.style}`}>
@@ -2252,14 +2316,14 @@ const App: React.FC = () => {
                          <span className="material-icons text-base">fingerprint</span>
                          <span className={`text-[8px] font-bold uppercase leading-tight ${isLight ? 'text-indigo-700' : 'text-slate-400'}`}>Kosmische<br/>DNA</span>
                      </button>
-                     <button className={`absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold ${isLight ? 'bg-indigo-200 text-indigo-700' : 'bg-white/20 text-white'}`}>i</button>
+                     <button aria-label="Info" className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-[8px] font-bold ${isLight ? 'bg-indigo-200 text-indigo-700' : 'bg-white/20 text-white'}`}>i</button>
                  </div>
                  <div className="relative group">
                      <button className={`h-10 px-3 rounded-lg border text-center transition-all flex items-center gap-1.5 ${isLight ? 'bg-purple-50 border-purple-200 hover:bg-purple-100' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}>
                          <span className="material-icons text-base">nightlight</span>
                          <span className={`text-[8px] font-bold uppercase leading-tight ${isLight ? 'text-purple-700' : 'text-slate-400'}`}>Mond-<br/>Sync</span>
                      </button>
-                     <button className={`absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold ${isLight ? 'bg-purple-200 text-purple-700' : 'bg-white/20 text-white'}`}>i</button>
+                     <button aria-label="Info" className={`absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center text-[8px] font-bold ${isLight ? 'bg-purple-200 text-purple-700' : 'bg-white/20 text-white'}`}>i</button>
                  </div>
                  <div className="relative group">
                      <button onClick={handleSaveCategories} className={`h-10 px-3 rounded-lg border text-center transition-all flex items-center gap-1.5 ${isLight ? 'bg-pink-50 border-pink-200 hover:bg-pink-100' : 'bg-white/5 border-white/10 hover:bg-white/10'}`}>
@@ -2283,7 +2347,7 @@ const App: React.FC = () => {
                                          <span className="text-[11px] font-bold leading-tight block truncate">{t.sources[src]}</span>
                                          <span className={`text-[9px] uppercase font-bold tracking-wide block leading-tight mt-0.5 truncate ${active ? 'text-indigo-200' : 'text-slate-500'}`}>{t.source_subtitles[src]}</span>
                                      </div>
-                                     <div onClick={(e) => { e.stopPropagation(); handleInfoClick(src); }} className={`w-6 h-6 shrink-0 rounded-full flex items-center justify-center ml-1 z-20 active:scale-95 transition-all ${active ? 'bg-white/20 hover:bg-white/40 text-white' : 'bg-black/10 hover:bg-black/20 text-slate-400'}`}>
+                                     <div onClick={(e) => { e.stopPropagation(); handleInfoClick(src); }} className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center ms-1 z-20 active:scale-95 transition-all ${active ? 'bg-white/20 hover:bg-white/40 text-white' : 'bg-black/10 hover:bg-black/20 text-slate-400'}`}>
                                          <span className="text-[10px] font-serif italic font-bold">i</span>
                                      </div>
                                  </button>
@@ -2380,7 +2444,7 @@ const App: React.FC = () => {
 
              {showSavedMessage && (
                  <div className="bg-green-900/80 border border-green-500/50 text-green-200 p-4 rounded-xl text-center mb-6  slide-in-from-top-2 shadow-lg">
-                     <span className="material-icons text-xl align-middle mr-2">verified</span>
+                     <span className="material-icons text-xl align-middle me-2">verified</span>
                      <span className="text-lg font-bold font-mystic">{t.ui.saved_msg}</span>
                  </div>
              )}
@@ -2470,7 +2534,7 @@ const App: React.FC = () => {
             <nav className={`fixed bottom-0 left-0 right-0 border-t pb-safe z-40 transition-colors duration-500 ${isLight ? 'bg-white/80 border-white backdrop-blur-xl shadow-[0_-5px_20px_rgba(0,0,0,0.05)]' : 'bg-[#05020a]/80 border-white/10 backdrop-blur-lg'}`}>
                 <div className="flex justify-around items-center p-2">
                     <NavBtn icon="home" label={t.ui.home_label} active={view === View.HOME} onClick={() => setView(View.HOME)} isLight={isLight} />
-                    <button onClick={() => setShowSettings(true)} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${showSettings ? (isLight ? 'text-fuchsia-600' : 'text-fuchsia-500') : (isLight ? 'text-slate-400 hover:text-indigo-900' : 'text-slate-500 hover:text-slate-300')}`}>
+                    <button aria-label="Settings" onClick={() => setShowSettings(true)} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${showSettings ? (isLight ? 'text-fuchsia-600' : 'text-fuchsia-500') : (isLight ? 'text-slate-400 hover:text-indigo-900' : 'text-slate-500 hover:text-slate-300')}`}>
                         <span className={`material-icons text-2xl`}>settings</span>
                         <span className="text-[10px] font-bold uppercase tracking-wide max-w-[60px] truncate text-center">{t.ui.settings}</span>
                     </button>
@@ -2510,7 +2574,7 @@ const App: React.FC = () => {
 const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClose: () => void, t: any, isLight: boolean, onPurchase: (amt: number) => void, onEarnFree: () => void }) => (
     <div className="fixed inset-0 z-[130] bg-black/90 backdrop-blur-lg flex items-center justify-center p-4  zoom-in-95">
         <div className={`w-full max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-amber-500/40' : 'border-amber-500/30'} rounded-3xl overflow-hidden shadow-2xl flex flex-col relative max-h-[90vh]`}>
-            <button onClick={onClose} className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center text-slate-400 hover:text-white">
+            <button aria-label="Close" onClick={onClose} className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center text-slate-400 hover:text-white">
                 <span className="material-icons text-base">close</span>
             </button>
             
@@ -2626,7 +2690,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
             <div className={`w-full md:max-w-lg ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border-t md:border ${isLight ? 'border-slate-200/40' : 'border-white/10'} rounded-t-3xl md:rounded-3xl overflow-hidden flex flex-col shadow-2xl max-h-[85vh]`}>
             <div className={`p-6 border-b ${isLight ? 'border-slate-100' : 'border-white/10'} flex justify-between items-center shrink-0`}>
                 <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-indigo-950' : 'text-white'}`}>{t.ui.settings}</h2>
-                <button onClick={onClose} className="w-8 h-8 rounded-full bg-transparent hover:bg-black/5 flex items-center justify-center">
+                <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full bg-transparent hover:bg-black/5 flex items-center justify-center">
                     <span className={`material-icons ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>close</span>
                 </button>
             </div>
@@ -2759,7 +2823,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
     return (
     <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md flex items-center justify-center p-4  duration-300">
         <div className={`w-full max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-slate-200/40' : 'border-white/10'} rounded-3xl overflow-hidden shadow-2xl flex flex-col relative max-h-[90vh]`}>
-            <button onClick={onClose} className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/20 flex items-center justify-center hover:bg-black/40 text-white">
+            <button aria-label="Close" onClick={onClose} className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/20 flex items-center justify-center hover:bg-black/40 text-white">
                 <span className="material-icons text-base">close</span>
             </button>
             <div className="h-24 bg-gradient-to-br from-amber-600 to-yellow-500 relative flex items-center justify-center shrink-0">
@@ -2891,12 +2955,13 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                             </div>
                             
                             {tier === SubscriptionTier.SMART && (
-                                <div 
+                                <button
+                                    aria-label="Info"
                                     onClick={(e) => { e.stopPropagation(); setShowSmartInfo(true); }}
-                                    className="absolute bottom-4 right-4 w-5 h-5 rounded-full border border-cyan-400 text-cyan-400 flex items-center justify-center hover:bg-cyan-400 hover:text-white transition-colors z-10"
+                                    className="absolute bottom-4 right-4 w-8 h-8 rounded-full border border-cyan-400 text-cyan-400 flex items-center justify-center hover:bg-cyan-400 hover:text-white transition-colors z-10"
                                 >
                                     <span className="text-xs font-serif font-bold italic">i</span>
-                                </div>
+                                </button>
                             )}
 
                             <ul className="mt-1 space-y-1.5">
@@ -2919,7 +2984,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
 const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void, t: any, isLight: boolean, onWatch: (d: number, r: number) => void }) => (
     <div className="fixed inset-0 z-[110] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4  zoom-in-95">
         <div className={`w-full max-w-md ${isLight ? 'bg-white' : 'bg-[#150b25]'} border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col relative`}>
-                <button onClick={onClose} className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
+                <button aria-label="Close" onClick={onClose} className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
                 <span className="material-icons text-base">close</span>
             </button>
             <div className="h-24 bg-gradient-to-r from-amber-500 to-orange-600 flex items-center justify-center shrink-0">
@@ -3084,7 +3149,7 @@ const VideoResultModal = ({ onClose, url, t, isLight }: { onClose: () => void, u
             <div className={`w-full max-w-3xl ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-3xl overflow-hidden shadow-2xl relative`}>
                 <div className="p-6 border-b border-white/10 flex justify-between items-center">
                     <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.video_ready}</h2>
-                    <button onClick={onClose} className="w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
+                    <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
                         <span className="material-icons">close</span>
                     </button>
                 </div>
@@ -3207,7 +3272,7 @@ const ImageResultModal = ({ onClose, url, t, isLight }: { onClose: () => void, u
             <div className={`w-full max-w-3xl ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-3xl overflow-hidden shadow-2xl relative`}>
                 <div className="p-6 border-b border-white/10 flex justify-between items-center">
                     <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.image_ready || 'Image Ready'}</h2>
-                    <button onClick={onClose} className="w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
+                    <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
                         <span className="material-icons">close</span>
                     </button>
                 </div>
@@ -3262,7 +3327,7 @@ const AudioUploadConfirmModal = ({ onClose, t, isLight }: { onClose: () => void,
 };
 
 const NavBtn = ({ icon, label, active, onClick, isLight }: { icon: string, label: string, active: boolean, onClick: () => void, isLight: boolean }) => (
-    <button onClick={onClick} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all relative ${active ? (isLight ? 'text-fuchsia-600' : 'text-white') : (isLight ? 'text-slate-400 hover:text-indigo-900' : 'text-slate-500 hover:text-slate-300')}`}>
+    <button onClick={onClick} aria-current={active ? 'page' : undefined} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all relative ${active ? (isLight ? 'text-fuchsia-600' : 'text-white') : (isLight ? 'text-slate-400 hover:text-indigo-900' : 'text-slate-500 hover:text-slate-300')}`}>
         <span className={`material-icons transition-all duration-300 ${active ? 'text-[28px] text-fuchsia-500 drop-shadow-[0_0_8px_rgba(192,38,211,0.6)]' : 'text-2xl'}`}>{icon}</span>
         <span className="text-[10px] font-bold uppercase tracking-wide max-w-[60px] truncate text-center">{label}</span>
         {active && <span className={`absolute -bottom-1 w-5 h-[3px] rounded-full ${isLight ? 'bg-gradient-to-r from-indigo-500 to-fuchsia-500' : 'bg-gradient-to-r from-fuchsia-500 to-violet-400'}`}></span>}
@@ -3283,7 +3348,7 @@ const InfoModal = ({ onClose, data, t, isLight }: { onClose: () => void, data: a
                 <div className="h-32 bg-gradient-to-r from-indigo-900 via-fuchsia-900 to-purple-900 relative flex items-end p-6">
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
                     <h2 className="text-2xl font-mystic font-bold text-white relative z-10 shadow-black drop-shadow-md">{data.title}</h2>
-                    <button onClick={onClose} className="absolute top-6 right-6 w-10 h-10 bg-black/30 rounded-full text-white flex items-center justify-center hover:bg-black/50 transition-colors">
+                    <button aria-label="Close" onClick={onClose} className="absolute top-6 right-6 w-10 h-10 bg-black/30 rounded-full text-white flex items-center justify-center hover:bg-black/50 transition-colors">
                         <span className="material-icons text-base">close</span>
                     </button>
                 </div>

@@ -19,7 +19,9 @@ export const loadDreamsSecurely = (): Dream[] => {
 };
 
 export const saveDreamsSecurely = (dreams: Dream[]): void => {
-  try { localStorage.setItem(DREAMS_KEY, JSON.stringify(dreams)); } catch {}
+  try { localStorage.setItem(DREAMS_KEY, JSON.stringify(dreams)); } catch (e) {
+    console.error('[STORAGE] Fehler beim Speichern:', e);
+  }
 };
 
 export const loadProfileSecurely = (): UserProfile => {
@@ -30,13 +32,17 @@ export const loadProfileSecurely = (): UserProfile => {
 };
 
 export const saveProfileSecurely = (profile: UserProfile): void => {
-  try { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); } catch {}
+  try { localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); } catch (e) {
+    console.error('[STORAGE] Fehler beim Speichern:', e);
+  }
 };
 
-export const exportDataToFile = (): void => {
+export const exportDataToFile = (profile?: UserProfile, dreams?: Dream[]): void => {
+  const exportProfile = profile || loadProfileSecurely();
+  const exportDreams = dreams || loadDreamsSecurely();
   const data = {
-    dreams: loadDreamsSecurely(),
-    profile: loadProfileSecurely(),
+    dreams: exportDreams,
+    profile: exportProfile,
     exportDate: new Date().toISOString(),
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
