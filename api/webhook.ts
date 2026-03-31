@@ -82,7 +82,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         console.log(
           `[webhook] Subscription cancelled. ID: ${subscription.id}`
         );
-        // Handle downgrade to free tier.
+        // TODO: Implementiere Downgrade-Logic wenn Backend existiert
+        // Aktuell nur client-side localStorage — kein Server-State zum Downgraden
         break;
       }
 

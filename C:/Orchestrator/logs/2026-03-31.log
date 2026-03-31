@@ -1,8 +1,0 @@
-[2026-03-31 14:22:26] [COMPLIANCE] [OK] Bash
-[2026-03-31 14:23:02] [COMPLIANCE] [OK] Bash
-[2026-03-31 14:23:19] [COMPLIANCE] [OK] Bash
-[2026-03-31 14:23:29] [COMPLIANCE] [OK] Bash
-[2026-03-31 14:23:45] [QUALITY-GATE] [CHECK] Session-Ende - Qualitaetspruefung
-[2026-03-31 14:23:45] [QUALITY-GATE] [WARN] Keine Tests in dieser Session erkannt
-[2026-03-31 14:23:45] [QUALITY-GATE] [DONE] Session abgeschlossen
-[2026-03-31 14:25:55] [COMPLIANCE] [OK] Bash
