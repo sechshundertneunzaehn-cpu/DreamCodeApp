@@ -34,12 +34,12 @@ const liveTranslations: Record<Language, {
         thinking: "Das Orakel denkt nach...", speaking: "Das Orakel spricht..."
     },
     [Language.TR]: {
-        ready: "Baglanmaya Hazir", start: "Oturumu Baslat", connecting: "Kahine Baglaniyor...",
-        listening: "Kahin Dinliyor", error: "Baglanti Koptu / Hata",
-        instruction: "Ruyani rahatca anlat. Kahin seni dinleyecek ve sesle yanit verecek.",
+        ready: "Bağlanmaya Hazır", start: "Oturumu Başlat", connecting: "Kahine Bağlanıyor...",
+        listening: "Kahin Dinliyor", error: "Bağlantı Koptu / Hata",
+        instruction: "Rüyanı rahatça anlat. Kahin seni dinleyecek ve sesle yanıt verecek.",
         disconnect: "Oturumu Bitir", session_ended: "Oturum Sona Erdi",
-        save_btn: "Analiz Et ve Kaydet", discard_btn: "Vazgec",
-        thinking: "Kahin duesuenuyor...", speaking: "Kahin konusuyor..."
+        save_btn: "Analiz Et ve Kaydet", discard_btn: "Vazgeç",
+        thinking: "Kahin düşünüyor...", speaking: "Kahin konuşuyor..."
     },
     [Language.ES]: {
         ready: "Listo para Conectar", start: "Iniciar Sesion", connecting: "Conectando al Oraculo...",
@@ -58,12 +58,12 @@ const liveTranslations: Record<Language, {
         thinking: "L'oracle reflechit...", speaking: "L'oracle parle..."
     },
     [Language.AR]: {
-        ready: "Jahiz Lil-Ittisal", start: "Bada' Al-Jalsa", connecting: "Al-Ittisal Bil-Kahin...",
-        listening: "Al-Kahin Yastami'", error: "Inqata' Al-Ittisal / Khata'",
-        instruction: "Tahaddath 'an hulumak bi-hurriyya. Sayastami' al-kahin wa-yastajib bis-sawt.",
-        disconnect: "Inha' Al-Jalsa", session_ended: "Inhat Al-Jalsa",
-        save_btn: "Tahlil wa-Hifz Al-Hulm", discard_btn: "Tajahul",
-        thinking: "Al-kahin yufakkir...", speaking: "Al-kahin yatakallam..."
+        ready: "جاهز للاتصال", start: "بدء الجلسة", connecting: "جارٍ الاتصال بالكاهن...",
+        listening: "الكاهن يستمع", error: "انقطع الاتصال / خطأ",
+        instruction: "تحدث عن حلمك بحرية. سيستمع الكاهن ويجيب بالصوت.",
+        disconnect: "إنهاء الجلسة", session_ended: "انتهت الجلسة",
+        save_btn: "تحليل وحفظ الحلم", discard_btn: "تجاهل",
+        thinking: "الكاهن يفكر...", speaking: "الكاهن يتحدث..."
     },
     [Language.PT]: {
         ready: "Pronto para Conectar", start: "Iniciar Sessao", connecting: "Conectando ao Oraculo...",
