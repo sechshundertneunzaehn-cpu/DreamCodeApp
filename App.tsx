@@ -1428,7 +1428,23 @@ interface SubscriptionModalProps {
 
 const App: React.FC = () => {
     const [view, setView] = useState<View>(View.HOME);
-    const [language, setLanguage] = useState<Language>(Language.DE);
+    const [language, setLanguageState] = useState<Language>(() => {
+        const saved = localStorage.getItem('dreamcode_language');
+        if (saved && Object.values(Language).includes(saved as Language)) return saved as Language;
+        const dl = navigator.language?.toLowerCase() || '';
+        if (dl.startsWith('tr')) return Language.TR;
+        if (dl.startsWith('es')) return Language.ES;
+        if (dl.startsWith('fr')) return Language.FR;
+        if (dl.startsWith('ar')) return Language.AR;
+        if (dl.startsWith('pt')) return Language.PT;
+        if (dl.startsWith('ru')) return Language.RU;
+        if (dl.startsWith('en')) return Language.EN;
+        return Language.DE;
+    });
+    const setLanguage = (lang: Language) => {
+        setLanguageState(lang);
+        localStorage.setItem('dreamcode_language', lang);
+    };
     const [dreamInput, setDreamInput] = useState('');
     const [selectedCategories, setSelectedCategories] = useState<ReligiousCategory[]>([]);
     const [selectedSources, setSelectedSources] = useState<ReligiousSource[]>([]);
@@ -1532,20 +1548,8 @@ const App: React.FC = () => {
                 if (loadedProfile.themeMode) setThemeMode(loadedProfile.themeMode);
                 if (loadedProfile.designTheme) setDesignTheme(loadedProfile.designTheme);
 
-                // Auto-detect device language on first launch
-                try {
-                    const deviceLang = navigator.language.toLowerCase();
-                    if (deviceLang.startsWith('de')) setLanguage(Language.DE);
-                    else if (deviceLang.startsWith('tr')) setLanguage(Language.TR);
-                    else if (deviceLang.startsWith('es')) setLanguage(Language.ES);
-                    else if (deviceLang.startsWith('fr')) setLanguage(Language.FR);
-                    else if (deviceLang.startsWith('ar')) setLanguage(Language.AR);
-                    else if (deviceLang.startsWith('pt')) setLanguage(Language.PT);
-                    else if (deviceLang.startsWith('ru')) setLanguage(Language.RU);
-                    else setLanguage(Language.EN);
-                } catch (e) {
-                    console.log('Could not detect device language', e);
-                }
+                // Language is now persisted in localStorage and auto-detected on first visit
+                // via the useState initializer — no need to override here
 
                 // Ensure Credits for FREE users
                 if ((loadedProfile.credits ?? 0) < 100) {
