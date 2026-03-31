@@ -18,7 +18,7 @@ import VoiceSelector, { VoiceCharacter, VOICE_CHARACTERS } from './components/Vo
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
 import { analyzeDreamText, generateDreamImage, generateImagePrompt, generateSpeechPreview, generateStoryVideo, generateDreamVideo, generateDreamNarrationVideo, generateDreamUserVoiceVideo } from './services/geminiService';
 import StoryVideoPlayer from './components/StoryVideoPlayer';
-import { loadDreamsSecurely, loadProfileSecurely, saveDreamsSecurely, saveProfileSecurely, exportDataToFile, importDataFromFile } from './services/storage';
+import { loadDreamsSecurely, loadProfileSecurely, saveDreamsSecurely, saveProfileSecurely, exportDataToFile, importDataFromFile, syncStorageOnStartup } from './services/storage';
 // Knowledge Base wird direkt importiert (wird für Analyse benötigt)
 import { KNOWLEDGE_BASE } from './data/knowledgeBase';
 import { FEATURE_PRICES, SUBSCRIPTION_TIERS, COIN_PACKAGES, REWARDS, coinToEur } from './config/pricing';
@@ -1524,12 +1524,14 @@ const App: React.FC = () => {
         const init = async () => {
             console.log("Initializing Data Vault...");
             try {
-                const loadedDreams = await loadDreamsSecurely();
+                // Sync-Check: Vergleicht localStorage und IndexedDB — nimmt neueren Stand
+                const { dreams: syncedDreams, profile: syncedProfile } = await syncStorageOnStartup();
+                const loadedDreams = syncedDreams;
                 setDreams(loadedDreams);
-                
-                let loadedProfile = await loadProfileSecurely();
-                
-                if (!loadedProfile) {
+
+                let loadedProfile = syncedProfile;
+
+                if (!loadedProfile || !loadedProfile.name) {
                      console.log("No profile found in vault. Creating fresh default.");
                      loadedProfile = {
                          name: 'Dreamer',
@@ -2327,8 +2329,8 @@ const App: React.FC = () => {
 
     const isLight = themeMode === ThemeMode.LIGHT;
     
-    const appBgInput = isLight 
-        ? 'bg-white/70 backdrop-blur-md border-indigo-100 shadow-xl shadow-indigo-100/50' 
+    const appBgInput = isLight
+        ? 'bg-white/90 backdrop-blur-md border-indigo-300 shadow-md shadow-indigo-100/60'
         : 'bg-[#0f0b1a]/80 border-white/10';
 
     // Render a simple loader if not ready
@@ -2452,11 +2454,11 @@ const App: React.FC = () => {
                      const isBlue = [ReligiousCategory.PSYCHOLOGICAL, ReligiousCategory.NUMEROLOGY, ReligiousCategory.ASTROLOGY].includes(cat);
                      let buttonClass = "relative overflow-hidden p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all duration-300 group ";
                      if (isReligious) {
-                         if (isSelected) { buttonClass += "bg-emerald-900/80 border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-emerald-50 border-emerald-100 hover:bg-emerald-100 hover:border-emerald-200" : "bg-emerald-900/20 border-emerald-500/40 hover:bg-emerald-900/40 hover:border-emerald-400/60"; }
+                         if (isSelected) { buttonClass += "bg-emerald-900/80 border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-emerald-50 border-emerald-200 shadow-sm shadow-emerald-100 hover:bg-emerald-100 hover:border-emerald-300 hover:shadow-md" : "bg-emerald-900/20 border-emerald-500/40 hover:bg-emerald-900/40 hover:border-emerald-400/60"; }
                      } else if (isBlue) {
-                         if (isSelected) { buttonClass += "bg-blue-900/80 border-blue-400 shadow-[0_0_25px_rgba(59,130,246,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-sky-50 border-sky-100 hover:bg-sky-100 hover:border-sky-200" : "bg-blue-900/20 border-blue-500/40 hover:bg-blue-900/40 hover:border-blue-400/60"; }
+                         if (isSelected) { buttonClass += "bg-blue-900/80 border-blue-400 shadow-[0_0_25px_rgba(59,130,246,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-sky-50 border-sky-200 shadow-sm shadow-sky-100 hover:bg-sky-100 hover:border-sky-300 hover:shadow-md" : "bg-blue-900/20 border-blue-500/40 hover:bg-blue-900/40 hover:border-blue-400/60"; }
                      } else {
-                         if (isSelected) { buttonClass += "bg-fuchsia-900/60 border-fuchsia-400 shadow-[0_0_25px_rgba(192,38,211,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-fuchsia-50 border-fuchsia-100 shadow hover:border-fuchsia-200 hover:bg-fuchsia-100" : "bg-slate-800/40 border-white/5 hover:bg-slate-800 hover:border-white/20"; }
+                         if (isSelected) { buttonClass += "bg-fuchsia-900/60 border-fuchsia-400 shadow-[0_0_25px_rgba(192,38,211,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-fuchsia-50 border-fuchsia-200 shadow-sm shadow-fuchsia-100 hover:border-fuchsia-300 hover:bg-fuchsia-100 hover:shadow-md" : "bg-slate-800/40 border-white/5 hover:bg-slate-800 hover:border-white/20"; }
                      }
                      let textClass = "";
                      if (isReligious) { textClass = isSelected ? 'text-emerald-100' : (isLight ? 'text-emerald-700' : 'text-emerald-400'); } else if (isBlue) { textClass = isSelected ? 'text-blue-100' : (isLight ? 'text-sky-700' : 'text-blue-400'); } else { textClass = isSelected ? 'text-white' : (isLight ? 'text-fuchsia-900' : 'text-slate-500'); }
@@ -2619,7 +2621,7 @@ const App: React.FC = () => {
 
     return (
         <ErrorBoundary>
-        <div dir={language === Language.AR ? 'rtl' : 'ltr'} style={{ backgroundColor: isLight ? '#ffffff' : '#0f0b1a' }} className={`min-h-screen font-sans relative overflow-x-hidden transition-colors duration-700 ${isLight ? 'text-slate-800 selection:bg-fuchsia-500/30' : 'text-slate-200 selection:bg-fuchsia-500/30'}`}>
+        <div dir={language === Language.AR ? 'rtl' : 'ltr'} style={{ backgroundColor: isLight ? '#faf8ff' : '#0f0b1a' }} className={`min-h-screen font-sans relative overflow-x-hidden transition-colors duration-700 ${isLight ? 'text-indigo-950 selection:bg-fuchsia-500/30' : 'text-slate-200 selection:bg-fuchsia-500/30'}`}>
             <StarryBackground themeMode={themeMode} designTheme={designTheme} />
             
             {loading && <ProcessingOverlay isLight={isLight} steps={processingSteps} categories={selectedCategories} sources={selectedSources} t={t} />}
@@ -2661,7 +2663,7 @@ const App: React.FC = () => {
 
             <main className="relative z-10 p-4 pt-6 pb-24">
                 {view === View.HOME && renderHome()}
-                    {view === View.DREAM_HUB && <DreamHub dreams={dreams} language={language} themeMode={themeMode} />}
+                    {view === View.DREAM_HUB && <DreamHub dreams={dreams} language={language} themeMode={themeMode} onClose={() => setView(View.HOME)} />}
                     {view === View.PROFILE && <Profile language={language} dreams={dreams} userProfile={userProfile} onUpdateProfile={handleSaveProfile} onUpdateDream={handleUpdateDream} onGenerateVideo={handleGenerateVideo} onGenerateNarrationVideo={handleGenerateNarrationVideo} onGenerateUserVoiceVideo={handleGenerateUserVoiceVideo} onPlayVideo={(url) => { setVideoUrl(url); setShowVideoModal(true); }} fontSize={FontSize.MEDIUM} themeMode={themeMode} />}
             </main>
 
@@ -2755,14 +2757,14 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
                         <div
                             key={pkg.id}
                             onClick={() => onPurchase(pkg.coins)}
-                            className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] relative ${
+                            className={`rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] relative ${
                                 isMegaPlus
-                                    ? 'border-2 border-pink-500 bg-gradient-to-r from-pink-900/20 to-purple-900/20 shadow-xl shadow-pink-500/20'
+                                    ? 'p-5 border-2 border-pink-500 bg-gradient-to-r from-pink-900/20 to-purple-900/20 shadow-xl shadow-pink-500/30'
                                     : isBestseller
-                                        ? 'border-2 border-amber-500 bg-amber-900/10 shadow-lg shadow-amber-500/10'
+                                        ? 'p-5 border-2 border-amber-500 bg-amber-900/10 shadow-xl shadow-amber-500/25'
                                         : isBestValue
-                                            ? `${isLight ? 'bg-emerald-50 border-emerald-200' : 'bg-emerald-900/20 border-emerald-500/30'}`
-                                            : `${isLight ? 'bg-white/60 border-slate-200 hover:bg-white/80' : 'bg-white/5 border-white/10 hover:bg-white/10'}`
+                                            ? `p-4 ${isLight ? 'bg-emerald-50 border-emerald-200' : 'bg-emerald-900/20 border-emerald-500/30'}`
+                                            : `p-4 ${isLight ? 'bg-white/60 border-slate-200 hover:bg-white/80 shadow-sm' : 'bg-white/5 border-white/10 hover:bg-white/10'}`
                             }`}
                         >
                             {isMegaPlus && (
@@ -2819,8 +2821,9 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
                     );
                 })}
 
-                <div className="pt-4 mt-2 border-t border-dashed border-white/10 text-center">
-                    <button onClick={onEarnFree} className="text-xs text-slate-400 underline hover:text-white transition-colors py-2">
+                <div className={`pt-4 mt-2 border-t border-dashed ${isLight ? 'border-indigo-100' : 'border-white/10'} text-center`}>
+                    <button onClick={onEarnFree} className={`flex items-center justify-center gap-2 mx-auto px-5 py-2.5 rounded-full border font-bold text-sm transition-all hover:scale-105 active:scale-95 ${isLight ? 'border-indigo-200 text-indigo-600 bg-indigo-50 hover:bg-indigo-100' : 'border-white/20 text-slate-300 bg-white/5 hover:bg-white/10 hover:text-white'}`}>
+                        <span className="material-icons text-base">card_giftcard</span>
                         {t.shop.free_link}
                     </button>
                 </div>
@@ -2858,6 +2861,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                 </div>
 
                 {/* API KEY MANAGER FOR SMART TIER */}
+                {userProfile?.subscriptionTier === SubscriptionTier.SMART && (
                 <div className={`p-4 rounded-xl border ${isLight ? 'bg-cyan-50 border-cyan-200' : 'bg-cyan-900/10 border-cyan-500/30'}`}>
                     <h3 className={`text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2 ${isLight ? 'text-cyan-800' : 'text-cyan-400'}`}>
                         <span className="material-icons text-sm">vpn_key</span> {t.ui.api_manager}
@@ -2895,28 +2899,32 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                         )}
                     </div>
                 </div>
+                )}
 
                 {/* Mode Toggle */}
-                <div>
-                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{t.ui.mode}</h3>
-                    <div className={`flex rounded-xl p-1 border ${isLight ? 'bg-white/60 border-slate-200' : 'bg-white/5 border-white/10'}`}>
-                            <button 
+                <div className={`pt-5 border-t ${isLight ? 'border-slate-100' : 'border-white/10'}`}>
+                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                        <span className="material-icons text-sm">contrast</span> {t.ui.mode}
+                    </h3>
+                    <div className={`relative flex rounded-full p-1 border ${isLight ? 'bg-slate-100 border-slate-200' : 'bg-white/5 border-white/10'}`}>
+                        <div className={`absolute top-1 h-[calc(100%-8px)] w-[calc(50%-4px)] rounded-full shadow transition-all duration-300 ${themeMode === ThemeMode.DARK ? 'left-1 bg-slate-800' : 'left-[calc(50%+3px)] bg-white'}`}></div>
+                        <button
                             onClick={() => handleThemeUpdate(ThemeMode.DARK, null)}
-                            className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${themeMode === ThemeMode.DARK ? 'bg-slate-800 text-white shadow' : (isLight ? 'text-slate-500 hover:text-slate-800' : 'text-slate-400 hover:text-white')}`}
-                            >
-                                <span className="material-icons text-sm">dark_mode</span> {t.ui.dark}
-                            </button>
-                            <button 
+                            className={`relative z-10 flex-1 py-2.5 rounded-full text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${themeMode === ThemeMode.DARK ? 'text-white' : (isLight ? 'text-slate-400 hover:text-slate-600' : 'text-slate-500 hover:text-slate-300')}`}
+                        >
+                            <span className="material-icons text-sm">dark_mode</span> {t.ui.dark}
+                        </button>
+                        <button
                             onClick={() => handleThemeUpdate(ThemeMode.LIGHT, null)}
-                            className={`flex-1 py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${themeMode === ThemeMode.LIGHT ? 'bg-white text-indigo-900 shadow' : (isLight ? 'text-slate-500 hover:text-slate-800' : 'text-slate-400 hover:text-white')}`}
-                            >
-                                <span className="material-icons text-sm">light_mode</span> {t.ui.light}
-                            </button>
+                            className={`relative z-10 flex-1 py-2.5 rounded-full text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 ${themeMode === ThemeMode.LIGHT ? 'text-indigo-900' : (isLight ? 'text-slate-400 hover:text-slate-600' : 'text-slate-500 hover:text-slate-300')}`}
+                        >
+                            <span className="material-icons text-sm">light_mode</span> {t.ui.light}
+                        </button>
                     </div>
                 </div>
 
                 {/* Oracle Voice */}
-                <div>
+                <div className={`pt-5 border-t ${isLight ? 'border-slate-100' : 'border-white/10'}`}>
                     <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
                         <span className="material-icons text-sm">record_voice_over</span>
                         {t.ui.oracle_voice}
@@ -2930,8 +2938,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                 </div>
 
                 {/* Color Theme */}
-                <div>
-                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{t.ui.style}</h3>
+                <div className={`pt-5 border-t ${isLight ? 'border-slate-100' : 'border-white/10'}`}>
+                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                        <span className="material-icons text-sm">palette</span> {t.ui.style}
+                    </h3>
                     <div className="flex flex-col gap-2">
                         {[DesignTheme.DEFAULT, DesignTheme.FEMININE, DesignTheme.MASCULINE, DesignTheme.NATURE].map(dt => {
                             let label = t.ui.style_def;
@@ -2975,13 +2985,15 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
             </div>
             
             {/* Billing Toggle */}
-            <div className={`flex justify-center p-4 ${isLight ? 'bg-white/40 backdrop-blur-md' : 'bg-white/5 backdrop-blur-md'}`}>
-                <div className={`p-1 rounded-full flex ${isLight ? 'bg-white/70 backdrop-blur-md border border-slate-200/40' : 'bg-black/40 backdrop-blur-md border border-white/10'}`}>
-                    <button onClick={() => setBillingCycle('monthly')} className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${billingCycle === 'monthly' ? (isLight ? 'bg-white text-indigo-900 shadow' : 'bg-slate-700 text-white shadow') : (isLight ? 'text-slate-500' : 'text-slate-400')}`}>
+            <div className={`flex justify-center px-4 py-3 ${isLight ? 'bg-white/60 backdrop-blur-md border-b border-slate-100' : 'bg-white/5 backdrop-blur-md border-b border-white/5'}`}>
+                <div className={`relative flex p-1 rounded-full border ${isLight ? 'bg-slate-100 border-slate-200' : 'bg-black/40 border-white/10'}`}>
+                    <div className={`absolute top-1 h-[calc(100%-8px)] w-[calc(50%-4px)] rounded-full shadow-md transition-all duration-300 ${billingCycle === 'monthly' ? 'left-1' : 'left-[calc(50%+3px)]'} ${isLight ? 'bg-white shadow-indigo-100' : 'bg-slate-700'}`}></div>
+                    <button onClick={() => setBillingCycle('monthly')} className={`relative z-10 px-5 py-1.5 rounded-full text-xs font-bold transition-colors duration-300 ${billingCycle === 'monthly' ? (isLight ? 'text-indigo-900' : 'text-white') : (isLight ? 'text-slate-400' : 'text-slate-400')}`}>
                         {t.sub.billing_monthly}
                     </button>
-                    <button onClick={() => setBillingCycle('yearly')} className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${billingCycle === 'yearly' ? (isLight ? 'bg-white text-indigo-900 shadow' : 'bg-slate-700 text-white shadow') : (isLight ? 'text-slate-500' : 'text-slate-400')}`}>
+                    <button onClick={() => setBillingCycle('yearly')} className={`relative z-10 px-5 py-1.5 rounded-full text-xs font-bold transition-colors duration-300 flex items-center gap-1.5 ${billingCycle === 'yearly' ? (isLight ? 'text-indigo-900' : 'text-white') : (isLight ? 'text-slate-400' : 'text-slate-400')}`}>
                         {t.sub.billing_yearly}
+                        <span className="bg-green-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-extrabold uppercase">-20%</span>
                     </button>
                 </div>
             </div>
@@ -3071,7 +3083,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                     const hasBadge = (billingCycle === 'yearly' && (tier === SubscriptionTier.PLUS || tier === SubscriptionTier.PRO)) || tier === SubscriptionTier.SMART;
 
                     return (
-                        <div key={tier} onClick={() => onUpdateSubscription(tier)} className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col gap-2 relative group ${isCurrent ? 'bg-green-900/20 border-green-500/50' : (isLight ? `bg-white/60 backdrop-blur-md hover:bg-white/80 ${borderColor}` : `bg-white/5 backdrop-blur-md hover:bg-white/10 ${borderColor}`)}`}>
+                        <div key={tier} onClick={() => onUpdateSubscription(tier)} className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col gap-3 relative group ${isCurrent ? (isLight ? 'bg-gradient-to-br from-indigo-50 to-fuchsia-50 border-indigo-400 shadow-md shadow-indigo-100' : 'bg-gradient-to-br from-indigo-900/30 to-fuchsia-900/20 border-indigo-500/60 shadow-lg shadow-indigo-500/10') : (isLight ? `bg-white/80 backdrop-blur-md hover:bg-white shadow-sm hover:shadow-md ${borderColor}` : `bg-white/5 backdrop-blur-md hover:bg-white/10 ${borderColor}`)}`}>
                             {billingCycle === 'yearly' && (tier === SubscriptionTier.PLUS || tier === SubscriptionTier.PRO) && (
                                 <div className="absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded-bl-xl rounded-tr-xl font-bold shadow-sm">
                                     {t.sub.yearly_discount}
@@ -3083,38 +3095,42 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                                 </div>
                             )}
 
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <div className="flex items-center gap-2">
-                                        <h3 className={`font-bold text-sm ${isLight ? 'text-slate-800' : 'text-white'}`}>{title}</h3>
-                                        {isCurrent && <span className="px-2 py-0.5 bg-green-500 text-white text-[9px] font-bold rounded uppercase">{t.sub.current}</span>}
-                                        {tier === SubscriptionTier.SMART && <span className="px-2 py-0.5 bg-cyan-500 text-white text-[9px] font-bold rounded uppercase">BYOK</span>}
-                                    </div>
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-2">
+                                    <h3 className={`font-bold text-base ${isLight ? 'text-indigo-950' : 'text-white'}`}>{title}</h3>
+                                    {isCurrent && <span className="px-2 py-0.5 bg-green-500 text-white text-[9px] font-bold rounded-full uppercase">{t.sub.current}</span>}
+                                    {tier === SubscriptionTier.SMART && <span className="px-2 py-0.5 bg-cyan-500 text-white text-[9px] font-bold rounded-full uppercase">BYOK</span>}
                                 </div>
-                                <div className={`text-right ${hasBadge ? 'mt-6' : ''}`}>
-                                    <span className={`block font-bold text-sm ${isLight ? 'text-slate-900' : 'text-white'}`}>{price}</span>
-                                    {!isCurrent && <span className={`text-xs uppercase font-bold ${tier === SubscriptionTier.PRO && billingCycle === 'monthly' ? 'text-green-400 animate-pulse' : 'text-amber-500'}`}>{buttonText}</span>}
+                                <div className={`text-right ${hasBadge ? 'mt-5' : ''}`}>
+                                    <span className={`block font-extrabold text-xl ${isLight ? 'text-indigo-950' : 'text-white'}`}>{price}</span>
                                 </div>
                             </div>
-                            
-                            {tier === SubscriptionTier.SMART && (
-                                <button
-                                    aria-label="Info"
-                                    onClick={(e) => { e.stopPropagation(); setShowSmartInfo(true); }}
-                                    className="absolute bottom-4 right-4 w-8 h-8 rounded-full border border-cyan-400 text-cyan-400 flex items-center justify-center hover:bg-cyan-400 hover:text-white transition-colors z-10"
-                                >
-                                    <span className="text-xs font-serif font-bold italic">i</span>
-                                </button>
-                            )}
 
-                            <ul className="mt-1 space-y-1.5">
+                            <ul className="space-y-1.5">
                                 {features.map((feat, i) => (
                                     <li key={i} className={`text-xs flex items-start gap-2 leading-tight ${isLight ? 'text-slate-600' : 'text-slate-400'}`}>
-                                        <span className={`material-icons text-xs mt-0.5 ${tier === SubscriptionTier.SMART ? 'text-cyan-400' : (isLight ? 'text-indigo-500' : 'text-fuchsia-400')}`}>check</span>
+                                        <span className={`material-icons text-xs mt-0.5 shrink-0 ${isCurrent ? (isLight ? 'text-indigo-500' : 'text-indigo-400') : tier === SubscriptionTier.SMART ? 'text-cyan-400' : (isLight ? 'text-fuchsia-500' : 'text-fuchsia-400')}`}>check_circle</span>
                                         <span>{feat}</span>
                                     </li>
                                 ))}
                             </ul>
+
+                            <div className="flex items-center justify-between mt-1 gap-2">
+                                {!isCurrent ? (
+                                    <span className={`flex-1 py-2.5 rounded-xl font-bold text-xs text-center transition-all ${tier === SubscriptionTier.PRO ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/30' : tier === SubscriptionTier.VIP || tier === SubscriptionTier.DELUXE ? 'bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white shadow-md shadow-fuchsia-500/30' : tier === SubscriptionTier.SMART ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md shadow-cyan-500/20' : (isLight ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' : 'bg-white/10 text-slate-300')}`}>{buttonText}</span>
+                                ) : (
+                                    <span className={`flex-1 py-2.5 rounded-xl font-bold text-xs text-center ${isLight ? 'bg-green-100 text-green-700' : 'bg-green-900/30 text-green-400'}`}>{t.sub.current}</span>
+                                )}
+                                {tier === SubscriptionTier.SMART && (
+                                    <button
+                                        aria-label="Info"
+                                        onClick={(e) => { e.stopPropagation(); setShowSmartInfo(true); }}
+                                        className="w-9 h-9 shrink-0 rounded-full border border-cyan-400 text-cyan-400 flex items-center justify-center hover:bg-cyan-400 hover:text-white transition-colors"
+                                    >
+                                        <span className="text-xs font-serif font-bold italic">i</span>
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     );
                 })}
@@ -3487,11 +3503,11 @@ const InfoModal = ({ onClose, data, t, isLight }: { onClose: () => void, data: a
     
     return (
         <div className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 duration-300" onClick={onClose}>
-            <div className={`w-[95%] max-w-md ${modalBg} border rounded-2xl p-0 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]`} onClick={e => e.stopPropagation()}>
-                <div className="h-24 bg-gradient-to-r from-indigo-900 via-fuchsia-900 to-purple-900 relative flex items-end p-5 shrink-0">
+            <div className={`w-[95%] max-w-md ${modalBg} border rounded-2xl p-0 shadow-2xl flex flex-col max-h-[85vh]`} onClick={e => e.stopPropagation()}>
+                <div className="min-h-[6rem] bg-gradient-to-r from-indigo-900 via-fuchsia-900 to-purple-900 relative flex items-end p-5 pb-4 shrink-0 rounded-t-2xl overflow-hidden">
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30"></div>
-                    <h2 className="text-2xl font-mystic font-bold text-white relative z-10 shadow-black drop-shadow-md">{data.title}</h2>
-                    <button aria-label="Close" onClick={onClose} className="absolute top-4 right-4 w-8 h-8 bg-black/30 rounded-full text-white flex items-center justify-center hover:bg-black/50 transition-colors">
+                    <h2 className="text-2xl font-mystic font-bold text-white relative z-10 shadow-black drop-shadow-md pr-10 leading-tight">{data.title}</h2>
+                    <button aria-label="Close" onClick={onClose} className="absolute top-4 right-4 w-8 h-8 bg-black/30 rounded-full text-white flex items-center justify-center hover:bg-black/50 transition-colors z-20">
                         <span className="material-icons text-base">close</span>
                     </button>
                 </div>
