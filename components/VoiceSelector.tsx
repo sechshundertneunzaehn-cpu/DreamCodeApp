@@ -187,8 +187,8 @@ const VoiceCard: React.FC<VoiceCardProps> = ({ character, isSelected, language, 
         return (
             <button
                 onClick={onClick}
-                className={`flex-shrink-0 flex flex-col items-center gap-1 px-3 py-2 rounded-xl
-                    bg-white/5 transition-all duration-200 cursor-pointer ${baseRing}`}
+                className={`flex-shrink-0 flex flex-col items-center gap-1 px-3 py-3 rounded-xl min-w-[60px] min-h-[64px]
+                    bg-white/5 transition-all duration-200 cursor-pointer active:scale-95 ${baseRing}`}
             >
                 <span className="material-icons text-2xl text-purple-300">{character.icon}</span>
                 <span className="text-xs font-medium text-white whitespace-nowrap">{character.name}</span>
@@ -303,7 +303,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                 {onClose && (
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 text-white/40 hover:text-white/80 transition-colors"
+                        className="absolute top-3 end-3 w-11 h-11 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center text-white/40 hover:text-white/80 transition-colors"
                         aria-label="Close"
                     >
                         <span className="material-icons">close</span>
@@ -354,7 +354,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                 {/* Confirm button */}
                 <button
                     onClick={handleConfirm}
-                    className="w-full py-3 rounded-2xl font-semibold text-white text-base
+                    className="w-full py-4 rounded-2xl font-semibold text-white text-base min-h-[52px]
                         bg-gradient-to-r from-purple-600 to-fuchsia-600
                         hover:from-purple-500 hover:to-fuchsia-500
                         shadow-[0_0_20px_rgba(168,85,247,0.4)]

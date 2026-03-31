@@ -10,18 +10,18 @@ interface AudioLibraryProps {
 }
 
 const audioTranslations = {
-    en: { title: 'Audio Recordings', no_audio: 'No Audio Yet', no_audio_desc: 'Record a dream to see it here.', play: 'Play', pause: 'Pause', duration: 'Duration', visibility: 'Visibility', private: 'Private', friends: 'Friends Only', public: 'Public', coin_hint: '💰 Earn coins by making audio public!' },
-    de: { title: 'Audio-Aufnahmen', no_audio: 'Kein Audio', no_audio_desc: 'Nimm einen Traum auf.', play: 'Abspielen', pause: 'Pause', duration: 'Dauer', visibility: 'Sichtbarkeit', private: 'Privat', friends: 'Nur Freunde', public: 'Öffentlich', coin_hint: '💰 Verdiene Münzen, indem du Audio öffentlich machst!' },
-    tr: { title: 'Ses Kayıtları', no_audio: 'Ses Yok', no_audio_desc: 'Rüya kaydet.', play: 'Oynat', pause: 'Duraklat', duration: 'Süre', visibility: 'Görünürlük', private: 'Özel', friends: 'Sadece Arkadaşlar', public: 'Herkese Açık', coin_hint: '💰 Sesi herkese açık yaparak jeton kazan!' },
-    es: { title: 'Grabaciones de Audio', no_audio: 'Sin Audio', no_audio_desc: 'Graba un sueño.', play: 'Reproducir', pause: 'Pausa', duration: 'Duración', visibility: 'Visibilidad', private: 'Privado', friends: 'Solo Amigos', public: 'Público', coin_hint: '💰 ¡Gana monedas haciendo el audio público!' },
-    fr: { title: 'Enregistrements Audio', no_audio: 'Pas d\'Audio', no_audio_desc: 'Enregistrez un rêve.', play: 'Lire', pause: 'Pause', duration: 'Durée', visibility: 'Visibilité', private: 'Privé', friends: 'Amis Seulement', public: 'Public', coin_hint: '💰 Gagnez des pièces en rendant l\'audio public !' },
-    ar: { title: 'التسجيلات الصوتية', no_audio: 'لا يوجد صوت', no_audio_desc: 'سجل حلماً.', play: 'تشغيل', pause: 'إيقاف', duration: 'المدة', visibility: 'الظهور', private: 'خاص', friends: 'الأصدقاء فقط', public: 'عام', coin_hint: '💰 احصل على عملات بجعل الصوت عامًا!' },
-    pt: { title: 'Gravações de Áudio', no_audio: 'Sem Áudio', no_audio_desc: 'Grave um sonho.', play: 'Reproduzir', pause: 'Pausar', duration: 'Duração', visibility: 'Visibilidade', private: 'Privado', friends: 'Apenas Amigos', public: 'Público', coin_hint: '💰 Ganhe moedas tornando o áudio público!' },
-    ru: { title: 'Аудиозаписи', no_audio: 'Нет Аудио', no_audio_desc: 'Запишите сон.', play: 'Воспроизвести', pause: 'Пауза', duration: 'Длительность', visibility: 'Видимость', private: 'Приватный', friends: 'Только Друзья', public: 'Публичный', coin_hint: '💰 Зарабатывайте монеты, делая аудио публичным!' }
+    en: { title: 'Audio Recordings', no_audio: 'No Audio Yet', no_audio_desc: 'Record a dream to see it here.', play: 'Play', pause: 'Pause', duration: 'Duration', visibility: 'Visibility', private: 'Private', friends: 'Friends Only', public: 'Public', coin_hint: '💰 Earn coins by making audio public!', transcribed: 'Transcribed', untitled: 'Untitled Dream' },
+    de: { title: 'Audio-Aufnahmen', no_audio: 'Kein Audio', no_audio_desc: 'Nimm einen Traum auf.', play: 'Abspielen', pause: 'Pause', duration: 'Dauer', visibility: 'Sichtbarkeit', private: 'Privat', friends: 'Nur Freunde', public: 'Öffentlich', coin_hint: '💰 Verdiene Münzen, indem du Audio öffentlich machst!', transcribed: 'Transkribiert', untitled: 'Unbenannter Traum' },
+    tr: { title: 'Ses Kayıtları', no_audio: 'Ses Yok', no_audio_desc: 'Rüya kaydet.', play: 'Oynat', pause: 'Duraklat', duration: 'Süre', visibility: 'Görünürlük', private: 'Özel', friends: 'Sadece Arkadaşlar', public: 'Herkese Açık', coin_hint: '💰 Sesi herkese açık yaparak jeton kazan!', transcribed: 'Transkripsyon', untitled: 'İsimsiz Rüya' },
+    es: { title: 'Grabaciones de Audio', no_audio: 'Sin Audio', no_audio_desc: 'Graba un sueño.', play: 'Reproducir', pause: 'Pausa', duration: 'Duración', visibility: 'Visibilidad', private: 'Privado', friends: 'Solo Amigos', public: 'Público', coin_hint: '💰 ¡Gana monedas haciendo el audio público!', transcribed: 'Transcrito', untitled: 'Sueño sin título' },
+    fr: { title: 'Enregistrements Audio', no_audio: 'Pas d\'Audio', no_audio_desc: 'Enregistrez un rêve.', play: 'Lire', pause: 'Pause', duration: 'Durée', visibility: 'Visibilité', private: 'Privé', friends: 'Amis Seulement', public: 'Public', coin_hint: '💰 Gagnez des pièces en rendant l\'audio public !', transcribed: 'Transcrit', untitled: 'Rêve sans titre' },
+    ar: { title: 'التسجيلات الصوتية', no_audio: 'لا يوجد صوت', no_audio_desc: 'سجل حلماً.', play: 'تشغيل', pause: 'إيقاف', duration: 'المدة', visibility: 'الظهور', private: 'خاص', friends: 'الأصدقاء فقط', public: 'عام', coin_hint: '💰 احصل على عملات بجعل الصوت عامًا!', transcribed: 'مُفرَّغ', untitled: 'حلم بلا عنوان' },
+    pt: { title: 'Gravações de Áudio', no_audio: 'Sem Áudio', no_audio_desc: 'Grave um sonho.', play: 'Reproduzir', pause: 'Pausar', duration: 'Duração', visibility: 'Visibilidade', private: 'Privado', friends: 'Apenas Amigos', public: 'Público', coin_hint: '💰 Ganhe moedas tornando o áudio público!', transcribed: 'Transcrito', untitled: 'Sonho sem título' },
+    ru: { title: 'Аудиозаписи', no_audio: 'Нет Аудио', no_audio_desc: 'Запишите сон.', play: 'Воспроизвести', pause: 'Пауза', duration: 'Длительность', visibility: 'Видимость', private: 'Приватный', friends: 'Только Друзья', public: 'Публичный', coin_hint: '💰 Зарабатывайте монеты, делая аудио публичным!', transcribed: 'Транскрибировано', untitled: 'Безымянный сон' }
 };
 
 const AudioLibrary: React.FC<AudioLibraryProps> = ({ dreams, language, themeMode, onUpdateDream }) => {
-    const t = audioTranslations[language];
+    const t = audioTranslations[language] || audioTranslations.en;
     const isLight = themeMode === ThemeMode.LIGHT;
     const [playingId, setPlayingId] = useState<string | null>(null);
     const [audioElements, setAudioElements] = useState<Map<string, HTMLAudioElement>>(new Map());
@@ -134,19 +134,20 @@ const AudioLibrary: React.FC<AudioLibraryProps> = ({ dreams, language, themeMode
                     key={dream.id}
                     className={`rounded-xl border p-4 ${bgCard} transition-all hover:scale-[1.02]`}
                 >
-                    <div className="flex items-start gap-4">
-                        {/* Play Button */}
+                    <div className="flex items-start gap-3">
+                        {/* Play Button — min 44px touch target */}
                         <button
                             onClick={() => togglePlay(dream)}
-                            className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white hover:scale-110 transition-transform"
+                            className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg shadow-purple-500/30"
+                            aria-label={playingId === dream.id ? t.pause : t.play}
                         >
-                            {playingId === dream.id ? '⏸️' : '▶️'}
+                            <span className="material-icons text-2xl">{playingId === dream.id ? 'pause' : 'play_arrow'}</span>
                         </button>
 
                         {/* Dream Info */}
                         <div className="flex-1 min-w-0">
                             <h3 className={`font-semibold mb-1 truncate ${textMain}`}>
-                                {dream.title || 'Untitled Dream'}
+                                {dream.title || t.untitled}
                             </h3>
                             <p className={`text-sm mb-2 line-clamp-2 ${textSub}`}>
                                 {dream.audioTranscript || dream.description.substring(0, 100)}
@@ -154,8 +155,8 @@ const AudioLibrary: React.FC<AudioLibraryProps> = ({ dreams, language, themeMode
                             <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
                                 <span>🗓️ {dream.date}</span>
                                 {dream.audioTranscript && (
-                                    <span className="px-2 py-0.5 bg-purple-500/20 text-purple-600 rounded-full">
-                                        ✨ Transcribed
+                                    <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full text-xs">
+                                        {t.transcribed}
                                     </span>
                                 )}
                             </div>
