@@ -3,6 +3,8 @@ import { Language } from '../types';
 
 interface DreamMapProps {
     language?: Language | string;
+    themeMode?: string;
+    onClose?: () => void;
 }
 
 const mapTranslations: Record<string, { title: string; subtitle: string; coming: string; description: string; features: string[] }> = {
@@ -64,7 +66,7 @@ const mapTranslations: Record<string, { title: string; subtitle: string; coming:
     },
 };
 
-const DreamMap: React.FC<DreamMapProps> = ({ language = 'en' }) => {
+const DreamMap: React.FC<DreamMapProps> = ({ language = 'en', onClose }) => {
     const lang = (typeof language === 'string' ? language : String(language)).toLowerCase();
     const t = mapTranslations[lang] ?? mapTranslations['en'];
 
@@ -81,7 +83,12 @@ const DreamMap: React.FC<DreamMapProps> = ({ language = 'en' }) => {
     ];
 
     return (
-        <div className="flex flex-col items-center justify-start min-h-[60vh] px-4 py-8">
+        <div className="flex flex-col items-center justify-start min-h-[60vh] px-4 py-8 relative">
+            {onClose && (
+                <button onClick={onClose} className="absolute top-4 end-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center z-50 transition-colors" aria-label="Close">
+                    <span className="material-icons text-white">close</span>
+                </button>
+            )}
             {/* Constellation Preview */}
             <div className="w-full max-w-sm h-48 rounded-3xl bg-gradient-to-b from-slate-900 to-[#0a0514] border border-fuchsia-500/20 relative overflow-hidden mb-8 shadow-[0_0_40px_rgba(192,38,211,0.1)]">
                 {/* Star dots */}

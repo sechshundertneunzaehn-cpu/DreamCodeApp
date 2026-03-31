@@ -3,6 +3,9 @@ import { Language } from '../types';
 
 interface DreamHubProps {
     language?: Language | string;
+    themeMode?: string;
+    dreams?: any[];
+    onClose?: () => void;
 }
 
 const hubTranslations: Record<string, { title: string; subtitle: string; coming: string; features: string[] }> = {
@@ -56,12 +59,17 @@ const hubTranslations: Record<string, { title: string; subtitle: string; coming:
     },
 };
 
-const DreamHub: React.FC<DreamHubProps> = ({ language = 'en' }) => {
+const DreamHub: React.FC<DreamHubProps> = ({ language = 'en', onClose }) => {
     const lang = (typeof language === 'string' ? language : String(language)).toLowerCase();
     const t = hubTranslations[lang] ?? hubTranslations['en'];
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 py-12 text-center">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 py-12 text-center relative">
+            {onClose && (
+                <button onClick={onClose} className="absolute top-4 end-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center z-50 transition-colors" aria-label="Close">
+                    <span className="material-icons text-white">close</span>
+                </button>
+            )}
             {/* Icon */}
             <div className="relative mb-8">
                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-fuchsia-600/30 to-indigo-600/30 border border-fuchsia-500/30 flex items-center justify-center shadow-[0_0_60px_rgba(192,38,211,0.2)]">
