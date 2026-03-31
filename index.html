@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="google" content="notranslate" />
+    <meta name="description" content="KI-gestuetzte Traumdeutung mit 20 Traditionen und 8 Sprachen. Entschluessle deine Traeume mit Traumcode." />
+    <title>Traumcode | Dream Code</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#7c3aed" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- Apple Mobile Web App -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Traumcode" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Traumcode | Dream Code" />
+    <meta property="og:description" content="KI-gestuetzte Traumdeutung mit 20 Traditionen und 8 Sprachen. Entschluessle deine Traeume." />
+    <meta property="og:image" content="/icons/icon-512.png" />
+    <meta property="og:site_name" content="Traumcode" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Traumcode | Dream Code" />
+    <meta name="twitter:description" content="KI-gestuetzte Traumdeutung mit 20 Traditionen und 8 Sprachen." />
+    <meta name="twitter:image" content="/icons/icon-512.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" defer></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: 'Lato', system-ui, sans-serif;
+            background-color: #0f0b1a;
+            color: #e2e8f0;
+        }
+        h1, h2, h3, .font-mystic { font-family: 'Cinzel', serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f0b1a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 3px; }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Fix: Browser-Erweiterungen (Google Translate, Grammarly etc.) modifizieren
+      // DOM-Knoten. React erwartet die Original-Struktur und crasht mit removeChild.
+      // Dieser Patch leitet die Operation an den echten Parent weiter.
+      if (typeof Node !== 'undefined') {
+        var _origRemoveChild = Node.prototype.removeChild;
+        Node.prototype.removeChild = function(child) {
+          if (child && child.parentNode !== this) {
+            if (child.parentNode) return child.parentNode.removeChild(child);
+            return child;
+          }
+          return _origRemoveChild.call(this, child);
+        };
+        var _origInsertBefore = Node.prototype.insertBefore;
+        Node.prototype.insertBefore = function(newNode, refNode) {
+          if (refNode && refNode.parentNode !== this) {
+            return this.appendChild(newNode);
+          }
+          return _origInsertBefore.call(this, newNode, refNode);
+        };
+      }
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => {
+              console.log('SW registered:', reg.scope);
+              reg.addEventListener('updatefound', () => {
+                const newWorker = reg.installing;
+                if (newWorker) {
+                  newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
+                      console.log('New SW version available');
+                    }
+                  });
+                }
+              });
+            })
+            .catch((err) => console.warn('SW registration failed:', err));
+        });
+      }
+    </script>
+  </body>
+</html>
