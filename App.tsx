@@ -14,6 +14,8 @@ import Profile from './components/Profile';
 import Onboarding from './components/Onboarding';
 import DreamCalendar from './components/DreamCalendar';
 import DreamMap from './components/DreamMap';
+import VideoStudio from './components/VideoStudio';
+import DreamNetwork from './components/DreamNetwork';
 import VoiceSelector, { VoiceCharacter, VOICE_CHARACTERS } from './components/VoiceSelector';
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
 import { analyzeDreamText, generateDreamImage, generateImagePrompt, generateSpeechPreview, generateStoryVideo, generateDreamVideo, generateDreamNarrationVideo, generateDreamUserVoiceVideo } from './services/geminiService';
@@ -138,7 +140,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             moon_sync: "Mond-Sync",
             save_btn: "Speichern",
             age_restricted_cat: "Diese Kategorie ist nur für Personen ab 18 Jahren verfügbar.",
-            ok: "OK"
+            ok: "OK",
+            video_studio: "Video Studio",
+            dream_network: "Traum-Netzwerk"
         },
         processing: {
             title: "Orakel arbeitet...",
@@ -307,7 +311,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             moon_sync: "Moon Sync",
             save_btn: "Save",
             age_restricted_cat: "This category is only available for persons 18 years and older.",
-            ok: "OK"
+            ok: "OK",
+            video_studio: "Video Studio",
+            dream_network: "Dream Network"
         },
         processing: {
             title: "The Oracle works...",
@@ -476,7 +482,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             moon_sync: "Ay Senkronu",
             save_btn: "Kaydet",
             age_restricted_cat: "Bu kategori yalnızca 18 yaş ve üzeri kişiler için mevcuttur.",
-            ok: "Tamam"
+            ok: "Tamam",
+            video_studio: "Video Stüdyosu",
+            dream_network: "Rüya Ağı"
         },
         processing: {
             title: "Kahin çalışıyor...",
@@ -645,7 +653,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             moon_sync: "Sincronía Lunar",
             save_btn: "Guardar",
             age_restricted_cat: "Esta categoría solo está disponible para personas de 18 años o más.",
-            ok: "Aceptar"
+            ok: "Aceptar",
+            video_studio: "Estudio de Video",
+            dream_network: "Red de Sueños"
         },
         processing: {
             title: "El Oráculo trabaja...",
@@ -814,7 +824,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             moon_sync: "Synchronisation Lunaire",
             save_btn: "Sauvegarder",
             age_restricted_cat: "Cette catégorie n'est disponible que pour les personnes de 18 ans et plus.",
-            ok: "OK"
+            ok: "OK",
+            video_studio: "Studio Vidéo",
+            dream_network: "Réseau de Rêves"
         },
         processing: {
             title: "L'Oracle travaille...",
@@ -983,7 +995,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             moon_sync: "تزامن القمر",
             save_btn: "حفظ",
             age_restricted_cat: "هذه الفئة متاحة فقط للأشخاص الذين تبلغ أعمارهم 18 عامًا فما فوق.",
-            ok: "حسنًا"
+            ok: "حسنًا",
+            video_studio: "استوديو الفيديو",
+            dream_network: "شبكة الأحلام"
         },
         processing: {
             title: "العراف يعمل...",
@@ -1152,7 +1166,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             moon_sync: "Sincronização Lunar",
             save_btn: "Salvar",
             age_restricted_cat: "Esta categoria está disponível apenas para pessoas com 18 anos ou mais.",
-            ok: "OK"
+            ok: "OK",
+            video_studio: "Estúdio de Vídeo",
+            dream_network: "Rede de Sonhos"
         },
         processing: {
             title: "O Oráculo trabalha...",
@@ -1321,7 +1337,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             moon_sync: "Лунная Синхронизация",
             save_btn: "Сохранить",
             age_restricted_cat: "Эта категория доступна только для лиц от 18 лет и старше.",
-            ok: "ОК"
+            ok: "ОК",
+            video_studio: "Видео Студия",
+            dream_network: "Сеть Снов"
         },
         processing: {
             title: "Оракул работает...",
@@ -2576,14 +2594,19 @@ const App: React.FC = () => {
                   </button>
              )}
 
+             <button onClick={() => setView(View.VIDEO_STUDIO)} className={`w-full py-3 rounded-xl border mb-4 flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase transition-all ${isLight ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border-violet-200 text-violet-700 hover:border-violet-300 hover:shadow-md' : 'bg-violet-950/30 border-violet-500/20 text-violet-300 hover:border-violet-400/40 hover:bg-violet-900/40'}`}>
+                 <span className="material-icons text-base">movie_creation</span>
+                 {t.ui.video_studio || 'Video Studio'}
+             </button>
+
              {/* SECONDARY ACTIONS */}
              <div className="grid grid-cols-2 gap-2.5 mb-4">
                  <button
-                    onClick={() => setView(View.DREAM_MAP)}
+                    onClick={() => setView(View.DREAM_NETWORK)}
                     className={`relative py-3 rounded-xl overflow-hidden border group transition-all ${isLight ? 'bg-gradient-to-r from-indigo-50 to-white border-indigo-200' : 'border-indigo-500/20 bg-indigo-950/30 hover:border-indigo-400/40'}`}
                  >
                      <span className={`relative z-10 flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase ${isLight ? 'text-indigo-600' : 'text-cyan-200'}`}>
-                         <span className="material-icons text-base text-yellow-400">public</span> {t.ui.map_btn}
+                         <span className="material-icons text-base text-yellow-400">hub</span> {t.ui.map_btn}
                      </span>
                  </button>
 
@@ -2658,6 +2681,27 @@ const App: React.FC = () => {
             {showStyleSelection && <StyleSelectionModal onSelect={continueWithImageGeneration} t={t} isLight={isLight} />}
 
                 {view === View.DREAM_MAP && <DreamMap language={language} themeMode={themeMode} onClose={() => setView(View.HOME)} />}
+                {view === View.VIDEO_STUDIO && (
+                    <VideoStudio
+                        language={language}
+                        themeMode={themeMode}
+                        dreamText={dreamInput}
+                        onClose={() => setView(View.HOME)}
+                        onSave={(result) => {
+                            // Video-URL speichern
+                            setView(View.HOME);
+                        }}
+                        userCredits={userProfile?.credits || 0}
+                    />
+                )}
+                {view === View.DREAM_NETWORK && (
+                    <DreamNetwork
+                        language={language}
+                        themeMode={themeMode}
+                        dreams={dreams}
+                        onClose={() => setView(View.HOME)}
+                    />
+                )}
                 {showOnboarding && <Onboarding language={language} initialData={userProfile} onComplete={handleSaveProfile} onClose={() => setShowOnboarding(false)} themeMode={themeMode} />}
                 {showCalendar && <DreamCalendar dreams={dreams} language={language} onClose={() => setShowCalendar(false)} onGenerateVideo={handleGenerateVideoWithStyle} onGenerateImage={handleGenerateImageWithStyle} />}
 
@@ -2693,8 +2737,8 @@ const App: React.FC = () => {
             {/* Live Chat icon - kein Lock mehr */}
                         </button>
                     </div>
-                    {/* SWAPPED DREAM HUB WITH DREAM MAP (WHO HAD SAME DREAM) */}
-                    <NavBtn icon="public" label={t.ui.map_label} active={view === View.DREAM_MAP} onClick={() => setView(View.DREAM_MAP)} isLight={isLight} />
+                    {/* DREAM NETWORK */}
+                    <NavBtn icon="hub" label={t.ui.dream_network} active={view === View.DREAM_NETWORK} onClick={() => setView(View.DREAM_NETWORK)} isLight={isLight} />
                     <NavBtn icon="person" label={t.ui.profile_btn} active={view === View.PROFILE} onClick={() => setView(View.PROFILE)} isLight={isLight} />
                 </div>
             </nav>

@@ -6,6 +6,8 @@ export enum View {
     PROFILE = 'PROFILE',
     ONBOARDING = 'ONBOARDING',
     DREAM_MAP = 'DREAM_MAP',
+    VIDEO_STUDIO = 'VIDEO_STUDIO',
+    DREAM_NETWORK = 'DREAM_NETWORK',
 }
 
 export enum Language {
