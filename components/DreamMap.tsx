@@ -415,14 +415,217 @@ function generateUsers(dreams: Dream[]): SimUser[] {
   });
 }
 
-// ─── World Map SVG Paths (simplified continents) ──────────────────────────────
+// ─── World Map SVG Paths (realistic continents, viewBox 0 0 100 80) ───────────
 const CONTINENT_PATHS = {
-  northAmerica: `M 8 18 L 12 14 L 16 13 L 22 13 L 26 16 L 26 22 L 24 28 L 22 35 L 20 42 L 17 44 L 14 42 L 10 38 L 8 32 L 6 25 Z`,
-  southAmerica: `M 22 47 L 26 44 L 32 45 L 34 52 L 33 58 L 31 65 L 28 72 L 24 78 L 20 80 L 18 76 L 19 68 L 20 60 L 21 53 Z`,
-  europe: `M 44 12 L 50 10 L 56 11 L 58 14 L 56 18 L 52 22 L 48 23 L 44 22 L 42 18 Z`,
-  africa: `M 44 30 L 50 27 L 56 28 L 60 33 L 62 40 L 62 48 L 60 56 L 56 62 L 52 66 L 48 64 L 44 58 L 42 50 L 42 42 L 43 35 Z`,
-  asia: `M 56 12 L 68 10 L 80 12 L 88 16 L 90 22 L 88 28 L 82 32 L 76 34 L 70 36 L 64 34 L 58 30 L 56 24 L 56 18 Z`,
-  oceania: `M 80 58 L 88 56 L 92 60 L 92 66 L 88 70 L 82 70 L 78 66 L 78 60 Z`,
+  // North America: Pacific coast curves down SW, Gulf of Mexico indentation, Atlantic coast NE
+  northAmerica: `
+    M 8.5 15.5
+    C 9.5 13.5, 11.5 12.0, 14.0 11.5
+    C 16.5 11.0, 18.5 11.5, 20.5 11.0
+    C 22.0 10.5, 23.5 10.0, 25.5 10.5
+    C 27.0 11.0, 27.5 12.5, 27.0 14.0
+    C 26.5 15.5, 25.5 16.5, 24.5 18.0
+    C 23.5 19.5, 22.5 21.0, 22.0 23.0
+    C 21.5 25.0, 21.5 27.0, 21.0 28.5
+    C 20.5 30.5, 20.0 32.0, 19.5 33.5
+    C 19.0 35.5, 18.0 37.0, 17.5 38.5
+    C 17.0 40.0, 17.5 41.5, 16.5 42.5
+    C 15.5 43.5, 14.0 43.0, 13.0 42.0
+    C 12.0 41.0, 11.5 39.5, 11.0 38.0
+    C 10.5 36.5, 10.0 35.0, 9.5 33.5
+    C 9.0 32.0, 8.5 30.5, 8.0 29.0
+    C 7.5 27.5, 7.5 25.5, 7.5 23.5
+    C 7.5 21.5, 8.0 19.5, 7.5 17.5
+    C 7.0 16.0, 8.0 16.0, 8.5 15.5 Z`,
+
+  // Florida peninsula + Gulf coast
+  floridaMex: `
+    M 19.5 33.5
+    C 20.0 34.5, 20.5 36.0, 20.0 37.5
+    C 19.5 38.5, 18.5 38.0, 18.0 37.0
+    C 17.5 36.0, 17.5 35.0, 17.5 38.5
+    C 17.5 40.5, 16.5 42.5, 15.5 43.0
+    C 14.5 43.5, 13.5 42.5, 13.0 41.0
+    C 12.5 39.5, 12.5 38.0, 13.0 36.5
+    C 14.0 34.0, 15.5 33.0, 16.5 34.5
+    C 17.0 35.0, 17.5 35.5, 18.0 34.5
+    C 18.5 33.5, 19.0 33.0, 19.5 33.5 Z`,
+
+  // South America: Andean west coast, Amazon bulge, Patagonia taper
+  southAmerica: `
+    M 23.5 47.5
+    C 25.0 46.0, 27.0 45.0, 29.0 45.5
+    C 31.0 46.0, 33.0 47.0, 34.5 49.0
+    C 36.0 51.0, 36.5 53.5, 36.0 56.0
+    C 35.5 58.5, 34.5 60.5, 33.5 62.5
+    C 32.5 64.5, 31.5 66.5, 31.0 68.5
+    C 30.5 70.0, 30.0 71.5, 29.0 73.0
+    C 28.0 74.5, 26.5 75.5, 25.5 77.0
+    C 24.5 78.5, 24.0 79.5, 23.0 79.8
+    C 22.0 80.0, 21.5 79.0, 21.5 77.5
+    C 21.5 76.0, 22.0 74.5, 22.0 73.0
+    C 22.0 71.5, 21.5 70.0, 21.5 68.0
+    C 21.5 66.0, 22.0 64.0, 22.0 62.0
+    C 22.0 59.5, 21.5 57.0, 21.5 54.5
+    C 21.5 52.5, 22.0 50.5, 23.5 47.5 Z`,
+
+  // Europe: Iberian peninsula, Bay of Biscay, Scandinavia hint, Mediterranean coast
+  europe: `
+    M 42.0 15.5
+    C 43.0 13.5, 44.5 12.5, 46.5 12.0
+    C 48.5 11.5, 50.5 11.5, 52.0 12.0
+    C 54.0 12.5, 55.5 13.5, 57.0 14.5
+    C 58.5 15.5, 59.0 17.0, 58.5 18.5
+    C 58.0 20.0, 57.0 21.0, 56.0 22.0
+    C 55.0 23.0, 54.0 23.5, 53.0 24.0
+    C 52.0 24.5, 50.5 25.0, 49.0 24.5
+    C 47.5 24.0, 46.0 23.0, 44.5 22.0
+    C 43.0 21.0, 42.0 20.0, 41.5 18.5
+    C 41.0 17.0, 41.5 16.5, 42.0 15.5 Z`,
+
+  // Iberian peninsula bump
+  iberia: `
+    M 43.0 22.5
+    C 43.5 21.5, 44.5 21.0, 45.5 21.5
+    C 46.5 22.0, 46.5 23.5, 45.5 24.5
+    C 44.5 25.5, 43.0 25.0, 42.5 24.0
+    C 42.0 23.0, 42.5 23.0, 43.0 22.5 Z`,
+
+  // Africa: broad N, narrow S taper, horn in E, Gulf of Guinea W
+  africa: `
+    M 43.5 27.5
+    C 45.5 26.5, 48.0 26.0, 50.5 26.5
+    C 53.0 27.0, 55.0 28.0, 57.0 29.5
+    C 59.0 31.0, 60.0 33.0, 61.0 35.5
+    C 62.0 38.0, 62.5 40.5, 62.5 43.0
+    C 62.5 45.5, 62.0 48.0, 61.0 50.5
+    C 60.0 53.0, 58.5 55.0, 57.0 57.0
+    C 55.5 59.0, 53.5 60.5, 51.5 62.0
+    C 49.5 63.5, 47.5 64.5, 46.0 65.0
+    C 44.5 65.5, 43.5 65.0, 43.0 63.5
+    C 42.5 62.0, 43.0 60.0, 43.0 57.5
+    C 43.0 55.0, 42.5 52.5, 42.5 50.0
+    C 42.5 47.5, 42.5 45.0, 42.5 42.5
+    C 42.5 40.0, 43.0 37.5, 43.0 35.0
+    C 43.0 32.5, 42.5 30.0, 43.5 27.5 Z`,
+
+  // Horn of Africa
+  hornAfrica: `
+    M 61.0 38.0
+    C 62.5 37.0, 64.0 36.5, 65.5 37.0
+    C 67.0 37.5, 67.5 39.0, 66.5 40.0
+    C 65.5 41.0, 63.5 41.0, 62.0 40.0
+    C 60.5 39.0, 60.5 38.5, 61.0 38.0 Z`,
+
+  // Asia: Siberia N, Arabian Peninsula SW, Indian subcontinent S, SE Asia SE
+  asia: `
+    M 58.0 11.0
+    C 62.0 9.5, 67.0 9.0, 72.0 9.5
+    C 77.0 10.0, 82.0 11.0, 86.0 12.5
+    C 90.0 14.0, 92.0 16.0, 92.5 18.5
+    C 93.0 21.0, 92.0 23.5, 91.0 25.5
+    C 90.0 27.5, 88.5 29.0, 87.0 30.5
+    C 85.5 32.0, 83.5 33.0, 81.5 33.5
+    C 79.5 34.0, 77.5 34.0, 75.5 34.5
+    C 73.5 35.0, 71.5 35.5, 69.5 36.0
+    C 67.5 36.5, 65.5 36.5, 63.5 36.0
+    C 61.5 35.5, 60.0 34.5, 58.5 33.0
+    C 57.0 31.5, 56.5 29.5, 56.0 27.5
+    C 55.5 25.5, 55.5 23.0, 55.5 20.5
+    C 55.5 18.0, 56.5 15.0, 58.0 11.0 Z`,
+
+  // Arabian Peninsula
+  arabia: `
+    M 59.5 30.5
+    C 60.5 29.5, 62.0 29.0, 63.5 29.5
+    C 65.0 30.0, 65.5 31.5, 65.0 33.0
+    C 64.5 34.5, 63.0 35.5, 61.5 36.0
+    C 60.0 36.5, 58.5 36.0, 58.0 34.5
+    C 57.5 33.0, 58.5 31.5, 59.5 30.5 Z`,
+
+  // Indian subcontinent
+  india: `
+    M 68.0 34.0
+    C 69.5 33.5, 71.0 34.0, 72.0 35.5
+    C 73.0 37.0, 73.0 39.0, 72.5 41.0
+    C 72.0 43.0, 71.0 44.5, 70.0 46.0
+    C 69.0 47.5, 68.0 48.5, 67.0 47.5
+    C 66.0 46.5, 66.0 44.5, 66.5 42.5
+    C 67.0 40.5, 67.5 38.5, 67.5 36.5
+    C 67.5 35.0, 67.5 34.5, 68.0 34.0 Z`,
+
+  // Southeast Asia mainland peninsula (Indochina)
+  indochina: `
+    M 76.0 34.5
+    C 77.5 34.0, 79.0 34.5, 80.0 36.0
+    C 81.0 37.5, 81.0 39.5, 80.5 41.5
+    C 80.0 43.5, 79.0 45.0, 77.5 46.0
+    C 76.0 47.0, 74.5 46.5, 74.0 45.0
+    C 73.5 43.5, 73.5 41.5, 74.0 39.5
+    C 74.5 37.5, 75.5 35.5, 76.0 34.5 Z`,
+
+  // Australia: large irregular mass
+  oceania: `
+    M 79.5 58.5
+    C 81.0 57.0, 83.0 56.0, 85.0 56.0
+    C 87.0 56.0, 89.0 57.0, 90.5 58.5
+    C 92.0 60.0, 92.5 62.0, 92.5 64.5
+    C 92.5 67.0, 92.0 69.5, 91.0 71.5
+    C 90.0 73.5, 88.5 75.0, 86.5 75.5
+    C 84.5 76.0, 82.5 75.5, 81.0 74.0
+    C 79.5 72.5, 78.5 70.5, 78.0 68.0
+    C 77.5 65.5, 78.0 63.0, 78.5 60.5
+    C 78.5 59.5, 79.0 59.0, 79.5 58.5 Z`,
+
+  // Greenland
+  greenland: `
+    M 30.0 2.0
+    C 32.0 1.0, 34.5 1.0, 36.5 2.0
+    C 38.5 3.0, 39.5 5.0, 39.5 7.5
+    C 39.5 10.0, 38.5 12.0, 37.0 13.5
+    C 35.5 15.0, 33.5 15.5, 31.5 14.5
+    C 29.5 13.5, 28.5 11.5, 28.5 9.0
+    C 28.5 6.5, 29.0 3.5, 30.0 2.0 Z`,
+
+  // Great Britain
+  greatBritain: `
+    M 45.5 12.0
+    C 46.0 11.0, 47.0 10.5, 47.5 11.5
+    C 48.0 12.5, 47.5 14.0, 47.0 15.0
+    C 46.5 16.0, 45.5 16.5, 45.0 15.5
+    C 44.5 14.5, 45.0 13.0, 45.5 12.0 Z`,
+
+  // Japan (main islands, roughly)
+  japan: `
+    M 86.5 24.5
+    C 87.5 23.5, 88.5 24.0, 89.0 25.0
+    C 89.5 26.0, 89.0 27.5, 88.0 28.0
+    C 87.0 28.5, 86.0 28.0, 85.5 27.0
+    C 85.0 26.0, 85.5 25.0, 86.5 24.5 Z`,
+
+  // Indonesia (Sumatra + Java silhouette)
+  indonesia: `
+    M 76.0 48.0
+    C 77.5 47.5, 79.5 47.5, 81.0 48.5
+    C 82.5 49.5, 82.5 51.0, 81.5 52.0
+    C 80.5 53.0, 78.5 53.0, 77.0 52.0
+    C 75.5 51.0, 75.0 49.5, 76.0 48.0 Z`,
+
+  // Madagascar
+  madagascar: `
+    M 63.0 52.0
+    C 63.5 51.0, 64.5 51.0, 65.0 52.0
+    C 65.5 53.0, 65.5 55.0, 65.0 56.5
+    C 64.5 58.0, 63.5 58.5, 63.0 57.5
+    C 62.5 56.5, 62.5 54.0, 63.0 52.0 Z`,
+
+  // New Zealand (North + South island combined silhouette)
+  newZealand: `
+    M 91.5 69.0
+    C 92.0 68.0, 93.0 68.0, 93.5 69.0
+    C 94.0 70.0, 93.5 71.5, 93.0 72.5
+    C 92.5 73.5, 91.5 74.0, 91.0 73.0
+    C 90.5 72.0, 91.0 70.0, 91.5 69.0 Z`,
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -718,11 +921,24 @@ const DreamMap: React.FC<DreamMapProps> = ({
 
             {/* Continent shapes */}
             <path d={CONTINENT_PATHS.northAmerica} fill={mapFill} stroke={mapStroke} strokeWidth="0.4" />
+            <path d={CONTINENT_PATHS.floridaMex}   fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
             <path d={CONTINENT_PATHS.southAmerica} fill={mapFill} stroke={mapStroke} strokeWidth="0.4" />
             <path d={CONTINENT_PATHS.europe}       fill={mapFill} stroke={mapStroke} strokeWidth="0.4" />
+            <path d={CONTINENT_PATHS.iberia}       fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
             <path d={CONTINENT_PATHS.africa}       fill={mapFill} stroke={mapStroke} strokeWidth="0.4" />
+            <path d={CONTINENT_PATHS.hornAfrica}   fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
             <path d={CONTINENT_PATHS.asia}         fill={mapFill} stroke={mapStroke} strokeWidth="0.4" />
+            <path d={CONTINENT_PATHS.arabia}       fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
+            <path d={CONTINENT_PATHS.india}        fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
+            <path d={CONTINENT_PATHS.indochina}    fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
             <path d={CONTINENT_PATHS.oceania}      fill={mapFill} stroke={mapStroke} strokeWidth="0.4" />
+            {/* Islands */}
+            <path d={CONTINENT_PATHS.greenland}    fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
+            <path d={CONTINENT_PATHS.greatBritain} fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
+            <path d={CONTINENT_PATHS.japan}        fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
+            <path d={CONTINENT_PATHS.indonesia}    fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
+            <path d={CONTINENT_PATHS.madagascar}   fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
+            <path d={CONTINENT_PATHS.newZealand}   fill={mapFill} stroke={mapStroke} strokeWidth="0.3" />
 
             {/* Connection lines for top matches */}
             {filteredUsers
