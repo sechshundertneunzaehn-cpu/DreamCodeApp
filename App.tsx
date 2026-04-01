@@ -15,6 +15,7 @@ import Onboarding from './components/Onboarding';
 import DreamCalendar from './components/DreamCalendar';
 import DreamMap from './components/DreamMap';
 import VideoStudio from './components/VideoStudio';
+import SpeechToVideoModal from './components/SpeechToVideoModal';
 import DreamNetwork from './components/DreamNetwork';
 import VoiceSelector, { VoiceCharacter, VOICE_CHARACTERS } from './components/VoiceSelector';
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
@@ -1494,6 +1495,9 @@ const App: React.FC = () => {
     // Settings: API Key Input State
     const [apiKeyInput, setApiKeyInput] = useState('');
 
+    // Speech-to-Video Modal
+    const [showSpeechModal, setShowSpeechModal] = useState(false);
+
     // Video State
     const [showVideoModal, setShowVideoModal] = useState(false);
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
@@ -2536,52 +2540,24 @@ const App: React.FC = () => {
              )}
              
              <div className={`${appBgInput} rounded-2xl p-1 mb-4 relative group border transition-all`}>
-                  <textarea value={dreamInput} onChange={(e) => setDreamInput(e.target.value)} placeholder={t.ui.placeholder} className={`w-full h-28 bg-transparent p-4 text-base resize-none outline-none font-serif leading-relaxed ${isLight ? 'text-indigo-950 placeholder-indigo-300' : 'text-white placeholder-slate-600'}`} />
-                  <div className="flex justify-between items-center px-3 pb-3">
-                      <div className="flex items-center gap-2">
-                          <button onClick={isListening ? stopDictation : startDictation} className={`p-2.5 rounded-full transition-all ${isListening ? 'bg-red-500/20 text-red-400 animate-pulse' : (isLight ? 'bg-indigo-50 text-indigo-400 hover:bg-indigo-100' : 'bg-white/5 text-slate-400 hover:text-white')}`}>
-                              <span className="material-icons text-xl">{isListening ? 'stop' : 'mic_none'}</span>
-                          </button>
-                          {!isListening && !currentAudioData && (
-                              <span className={`text-[10px] font-bold ${isLight ? 'text-amber-600' : 'text-amber-400/70'}`}>+5 {t.shop.coins_label}</span>
-                          )}
-                      </div>
-                      <div className={`text-[10px] font-mono ${isLight ? 'text-indigo-300' : 'text-slate-600'}`}>{dreamInput.length} chars {currentAudioData && '🎤'}</div>
+                  <textarea
+                      value={dreamInput}
+                      onChange={(e) => setDreamInput(e.target.value)}
+                      placeholder={t.ui.placeholder}
+                      className={`w-full bg-transparent p-4 text-base resize-none outline-none font-serif leading-relaxed transition-all ${isLight ? 'text-indigo-950 placeholder-indigo-300' : 'text-white placeholder-slate-600'}`}
+                      style={{ minHeight: '112px', maxHeight: '168px', overflowY: dreamInput.length > 200 ? 'auto' : 'hidden' }}
+                      onInput={(e) => {
+                          const el = e.currentTarget;
+                          el.style.height = '112px';
+                          el.style.height = Math.min(el.scrollHeight, 168) + 'px';
+                      }}
+                  />
+                  <div className="flex justify-end items-center px-3 pb-3">
+                      <div className={`text-[10px] font-mono ${isLight ? 'text-indigo-300' : 'text-slate-600'}`}>{dreamInput.length} chars</div>
                   </div>
              </div>
 
-             {currentAudioData && (
-                 <div className={`mb-4 space-y-2`}>
-                     {/* Audio Recorded Indicator */}
-                     <div className={`p-3 rounded-xl border ${isLight ? 'bg-purple-50 border-purple-300' : 'bg-purple-900/20 border-purple-500/30'}`}>
-                         <div className="flex items-center gap-2">
-                             <span className="text-2xl">🎤</span>
-                             <div className="flex-1">
-                                 <div className={`text-sm font-bold ${isLight ? 'text-purple-900' : 'text-purple-300'}`}>{t.ui.audio_recorded}</div>
-                                 <div className={`text-xs ${isLight ? 'text-purple-600' : 'text-purple-400'}`}>
-                                     {(currentAudioData.length / 1024).toFixed(1)} KB • {t.ui.audio_saved_with_dream}
-                                 </div>
-                             </div>
-                             <button onClick={() => setCurrentAudioData(null)} className={`px-3 py-1 rounded-lg text-xs ${isLight ? 'bg-purple-200 text-purple-900 hover:bg-purple-300' : 'bg-purple-800/50 text-purple-300 hover:bg-purple-800'}`}>
-                                 {t.ui.remove}
-                             </button>
-                         </div>
-                     </div>
-
-                     {/* Coin Earning Prompt */}
-                     <div className={`p-4 rounded-xl border bg-gradient-to-r ${isLight ? 'from-amber-50 to-yellow-50 border-amber-300' : 'from-amber-900/20 to-yellow-900/20 border-amber-500/30'}`}>
-                         <div className="flex items-center gap-3">
-                             <span className="text-3xl animate-bounce">💰</span>
-                             <div className="flex-1">
-                                 <div className={`text-sm font-bold ${isLight ? 'text-amber-900' : 'text-amber-300'}`}>{t.ui.audio_coin_prompt}</div>
-                                 <div className={`text-xs ${isLight ? 'text-amber-700' : 'text-amber-400'}`}>
-                                     {t.ui.audio_coin_desc}
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             )}
+             {/* Audio-Aufnahme-Anzeige entfernt — Aufnahme jetzt im SpeechToVideoModal */}
 
              {/* PRIMARY CTA */}
              <button onClick={() => handleAnalyze()} disabled={loading || !dreamInput} className={`relative w-full py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all mb-4 ${loading || !dreamInput ? (isLight ? 'bg-slate-200/60 text-slate-400' : 'bg-slate-800/40 text-slate-600 cursor-not-allowed') : noCredits ? 'bg-slate-800/60 backdrop-blur-md border border-slate-600/40 text-slate-400' : (isLight ? 'bg-gradient-to-r from-indigo-600 to-fuchsia-600 text-white shadow-lg shadow-indigo-500/40 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]' : 'bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 text-white shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]')}`}>
@@ -2594,9 +2570,9 @@ const App: React.FC = () => {
                   </button>
              )}
 
-             <button onClick={() => setView(View.VIDEO_STUDIO)} className={`w-full py-3 rounded-xl border mb-4 flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase transition-all ${isLight ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border-violet-200 text-violet-700 hover:border-violet-300 hover:shadow-md' : 'bg-violet-950/30 border-violet-500/20 text-violet-300 hover:border-violet-400/40 hover:bg-violet-900/40'}`}>
+             <button onClick={() => setShowSpeechModal(true)} className={`w-full py-3 rounded-xl border mb-4 flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase transition-all ${isLight ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border-violet-200 text-violet-700 hover:border-violet-300 hover:shadow-md' : 'bg-violet-950/30 border-violet-500/20 text-violet-300 hover:border-violet-400/40 hover:bg-violet-900/40'}`}>
                  <span className="material-icons text-base">movie_creation</span>
-                 {t.ui.video_studio || 'Video Studio'}
+                 {t.ui.create_dream_video || 'Traumvideo erstellen'}
              </button>
 
              {/* SECONDARY ACTIONS */}
@@ -2676,6 +2652,18 @@ const App: React.FC = () => {
                 />
             )}
             {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} data={infoModalData} t={t} isLight={isLight} />}
+            <SpeechToVideoModal
+                open={showSpeechModal}
+                initialText={dreamInput}
+                language={language}
+                themeMode={themeMode}
+                onClose={() => setShowSpeechModal(false)}
+                onContinue={(finalText) => {
+                    setDreamInput(finalText);
+                    setShowSpeechModal(false);
+                    setView(View.VIDEO_STUDIO);
+                }}
+            />
             {showVideoModal && <VideoResultModal onClose={() => setShowVideoModal(false)} url={videoUrl} t={t} isLight={isLight} />}
             {showImageModal && <ImageResultModal onClose={() => setShowImageModal(false)} url={imageUrl} t={t} isLight={isLight} />}
             {showStyleSelection && <StyleSelectionModal onSelect={continueWithImageGeneration} t={t} isLight={isLight} />}
@@ -2687,8 +2675,51 @@ const App: React.FC = () => {
                         themeMode={themeMode}
                         dreamText={dreamInput}
                         onClose={() => setView(View.HOME)}
+                        onGenerate={async (text, options) => {
+                            try {
+                                let result;
+
+                                if (options.voiceMode === 'user_voice') {
+                                    // ── Eigene Stimme: NUR User-Erzaehlung, KEINE Traumdeutung ──
+                                    if (!options.voiceBlob) {
+                                        console.error('[VideoStudio] Keine Stimmaufnahme vorhanden');
+                                        return null;
+                                    }
+                                    // Blob → Base64
+                                    const audioBase64 = await new Promise<string>((resolve, reject) => {
+                                        const reader = new FileReader();
+                                        reader.onloadend = () => resolve(reader.result as string);
+                                        reader.onerror = reject;
+                                        reader.readAsDataURL(options.voiceBlob!);
+                                    });
+                                    result = await generateDreamUserVoiceVideo(
+                                        text, audioBase64, 'fantasy', language,
+                                        (msg, pct) => console.log(`[VIDEO-STUDIO] ${msg} - ${pct}%`)
+                                    );
+                                } else {
+                                    // ── KI-Stimme: Traumdeutung + KI-Narration ──
+                                    const analysis = await analyzeDreamText(text, language, userProfile);
+                                    if (!analysis?.interpretation) {
+                                        console.error('[VideoStudio] Traumdeutung fehlgeschlagen');
+                                        return null;
+                                    }
+                                    result = await generateStoryVideo(
+                                        text, analysis.interpretation, 'fantasy', language,
+                                        (msg, pct) => console.log(`[VIDEO-STUDIO] ${msg} - ${pct}%`)
+                                    );
+                                }
+
+                                return result?.videoDataUrl || null;
+                            } catch (e) {
+                                console.error('[VideoStudio] Generation error', e);
+                                return null;
+                            }
+                        }}
                         onSave={(result) => {
-                            // Video-URL speichern
+                            if (result.videoUrl) {
+                                setVideoUrl(result.videoUrl);
+                                setShowVideoModal(true);
+                            }
                             setView(View.HOME);
                         }}
                         userCredits={userProfile?.credits || 0}
