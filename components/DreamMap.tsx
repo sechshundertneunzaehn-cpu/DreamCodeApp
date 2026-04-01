@@ -689,8 +689,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
         >
           {/* World map SVG background */}
           <div
-            className="absolute inset-0 bg-[url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg')] bg-contain bg-no-repeat bg-center"
+            className="absolute inset-0 bg-contain bg-no-repeat bg-center"
             style={{
+              backgroundImage: "url('/world-map.svg')",
               filter: isLight
                 ? 'invert(1) opacity(0.4)'
                 : 'invert(0) opacity(0.4) hue-rotate(220deg) brightness(0.7)',
