@@ -2668,7 +2668,6 @@ const App: React.FC = () => {
             {showImageModal && <ImageResultModal onClose={() => setShowImageModal(false)} url={imageUrl} t={t} isLight={isLight} />}
             {showStyleSelection && <StyleSelectionModal onSelect={continueWithImageGeneration} t={t} isLight={isLight} />}
 
-                {view === View.DREAM_MAP && <DreamMap dreams={dreams} language={language} isLight={isLight} onClose={() => setView(View.HOME)} />}
                 {view === View.VIDEO_STUDIO && (
                     <VideoStudio
                         language={language}
@@ -2719,7 +2718,7 @@ const App: React.FC = () => {
                                         audioBase64ForSave = await blobToB64(options.voiceBlob!);
                                         result = await generateDreamUserVoiceVideo(combinedText, audioBase64ForSave, 'fantasy', language, log);
                                     } else {
-                                        result = await generateStoryVideo(combinedText, combinedText, 'fantasy', language, log);
+                                        result = await generateStoryVideo(text, combinedText, 'fantasy', language, log);
                                     }
                                 }
 
@@ -2782,6 +2781,8 @@ const App: React.FC = () => {
                 )}
                 {showOnboarding && <Onboarding language={language} initialData={userProfile} onComplete={handleSaveProfile} onClose={() => setShowOnboarding(false)} themeMode={themeMode} />}
                 {showCalendar && <DreamCalendar dreams={dreams} language={language} onClose={() => setShowCalendar(false)} onGenerateVideo={handleGenerateVideoWithStyle} onGenerateImage={handleGenerateImageWithStyle} />}
+
+            {view === View.DREAM_MAP && <DreamMap dreams={dreams} language={language} isLight={isLight} onClose={() => setView(View.HOME)} />}
 
             <main className="relative z-10 p-4 pt-6 pb-24">
                 {view === View.HOME && renderHome()}
