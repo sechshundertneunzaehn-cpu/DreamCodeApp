@@ -40,6 +40,21 @@ interface Translations {
   matchThreshold: string;
   matchedDreamers: string;
   noDreamsFound: string;
+  // Profile translations
+  profileBack: string;
+  profileReport: string;
+  profileMemberSince: string;
+  profileDreams: string;
+  profileMatches: string;
+  profileFavorite: string;
+  profileLastDream: string;
+  profileConnect: string;
+  profileRequestConnection: string;
+  profilePartialPrivate: string;
+  profilePrivate: string;
+  profileAnonymous: string;
+  profileDreamDetailsUnavailable: string;
+  profileShowProfile: string;
 }
 
 const TRANSLATIONS: Record<string, Translations> = {
@@ -71,6 +86,20 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Match Threshold',
     matchedDreamers: 'Matched Dreamers',
     noDreamsFound: 'No dreams found',
+    profileBack: 'Back',
+    profileReport: 'Report',
+    profileMemberSince: 'Member since',
+    profileDreams: 'Dreams',
+    profileMatches: 'Matches',
+    profileFavorite: 'Favorite',
+    profileLastDream: 'Last Dream',
+    profileConnect: 'Connect',
+    profileRequestConnection: 'Request Connection',
+    profilePartialPrivate: 'This profile is partially private',
+    profilePrivate: 'This profile is private',
+    profileAnonymous: 'Anonymous Dreamer',
+    profileDreamDetailsUnavailable: 'Dream details unavailable',
+    profileShowProfile: 'Show Profile',
   },
   de: {
     title: 'Traumkarte',
@@ -100,6 +129,20 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Match-Schwelle',
     matchedDreamers: 'Gematchte Traeumer',
     noDreamsFound: 'Keine Traeume gefunden',
+    profileBack: 'Zurueck',
+    profileReport: 'Melden',
+    profileMemberSince: 'Mitglied seit',
+    profileDreams: 'Traeume',
+    profileMatches: 'Matches',
+    profileFavorite: 'Liebling',
+    profileLastDream: 'Letzter Traum',
+    profileConnect: 'Verbinden',
+    profileRequestConnection: 'Verbindung anfragen',
+    profilePartialPrivate: 'Dieses Profil ist teilweise privat',
+    profilePrivate: 'Dieses Profil ist privat',
+    profileAnonymous: 'Anonymer Traeumer',
+    profileDreamDetailsUnavailable: 'Traum-Details nicht verfuegbar',
+    profileShowProfile: 'Profil anzeigen',
   },
   tr: {
     title: 'Rüya Haritası',
@@ -129,6 +172,20 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Eşleşme Eşiği',
     matchedDreamers: 'Eşleşen Rüyacılar',
     noDreamsFound: 'Rüya bulunamadı',
+    profileBack: 'Geri',
+    profileReport: 'Bildir',
+    profileMemberSince: 'Uye oldu',
+    profileDreams: 'Ruyalar',
+    profileMatches: 'Eslesme',
+    profileFavorite: 'Favori',
+    profileLastDream: 'Son Ruya',
+    profileConnect: 'Baglan',
+    profileRequestConnection: 'Baglanti Iste',
+    profilePartialPrivate: 'Bu profil kismi olarak gizli',
+    profilePrivate: 'Bu profil gizli',
+    profileAnonymous: 'Anonim Ruyaci',
+    profileDreamDetailsUnavailable: 'Ruya detaylari mevcut degil',
+    profileShowProfile: 'Profili Goster',
   },
   es: {
     title: 'Mapa de Sueños',
@@ -158,6 +215,20 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Umbral de coincidencia',
     matchedDreamers: 'Soñadores coincidentes',
     noDreamsFound: 'No se encontraron sueños',
+    profileBack: 'Volver',
+    profileReport: 'Reportar',
+    profileMemberSince: 'Miembro desde',
+    profileDreams: 'Suenos',
+    profileMatches: 'Coincidencias',
+    profileFavorite: 'Favorito',
+    profileLastDream: 'Ultimo Sueno',
+    profileConnect: 'Conectar',
+    profileRequestConnection: 'Solicitar Conexion',
+    profilePartialPrivate: 'Este perfil es parcialmente privado',
+    profilePrivate: 'Este perfil es privado',
+    profileAnonymous: 'Sonador Anonimo',
+    profileDreamDetailsUnavailable: 'Detalles del sueno no disponibles',
+    profileShowProfile: 'Ver Perfil',
   },
   fr: {
     title: 'Carte des Rêves',
@@ -187,6 +258,20 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Seuil de correspondance',
     matchedDreamers: 'Rêveurs correspondants',
     noDreamsFound: 'Aucun rêve trouvé',
+    profileBack: 'Retour',
+    profileReport: 'Signaler',
+    profileMemberSince: 'Membre depuis',
+    profileDreams: 'Reves',
+    profileMatches: 'Correspondances',
+    profileFavorite: 'Favori',
+    profileLastDream: 'Dernier Reve',
+    profileConnect: 'Connecter',
+    profileRequestConnection: 'Demander Connexion',
+    profilePartialPrivate: 'Ce profil est partiellement prive',
+    profilePrivate: 'Ce profil est prive',
+    profileAnonymous: 'Reveur Anonyme',
+    profileDreamDetailsUnavailable: 'Details du reve non disponibles',
+    profileShowProfile: 'Voir le Profil',
   },
   ar: {
     title: 'خريطة الأحلام',
@@ -216,6 +301,20 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'حد التطابق',
     matchedDreamers: 'الحالمون المتطابقون',
     noDreamsFound: 'لم يتم العثور على أحلام',
+    profileBack: 'رجوع',
+    profileReport: 'إبلاغ',
+    profileMemberSince: 'عضو منذ',
+    profileDreams: 'أحلام',
+    profileMatches: 'تطابقات',
+    profileFavorite: 'المفضل',
+    profileLastDream: 'آخر حلم',
+    profileConnect: 'تواصل',
+    profileRequestConnection: 'طلب اتصال',
+    profilePartialPrivate: 'هذا الملف الشخصي خاص جزئياً',
+    profilePrivate: 'هذا الملف الشخصي خاص',
+    profileAnonymous: 'حالم مجهول',
+    profileDreamDetailsUnavailable: 'تفاصيل الحلم غير متاحة',
+    profileShowProfile: 'عرض الملف الشخصي',
   },
   pt: {
     title: 'Mapa dos Sonhos',
@@ -245,6 +344,20 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Limite de correspondência',
     matchedDreamers: 'Sonhadores correspondentes',
     noDreamsFound: 'Nenhum sonho encontrado',
+    profileBack: 'Voltar',
+    profileReport: 'Denunciar',
+    profileMemberSince: 'Membro desde',
+    profileDreams: 'Sonhos',
+    profileMatches: 'Correspondencias',
+    profileFavorite: 'Favorito',
+    profileLastDream: 'Ultimo Sonho',
+    profileConnect: 'Conectar',
+    profileRequestConnection: 'Solicitar Conexao',
+    profilePartialPrivate: 'Este perfil e parcialmente privado',
+    profilePrivate: 'Este perfil e privado',
+    profileAnonymous: 'Sonhador Anonimo',
+    profileDreamDetailsUnavailable: 'Detalhes do sonho indisponiveis',
+    profileShowProfile: 'Ver Perfil',
   },
   ru: {
     title: 'Карта Снов',
@@ -274,6 +387,20 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Порог совпадения',
     matchedDreamers: 'Совпавшие сновидцы',
     noDreamsFound: 'Сны не найдены',
+    profileBack: 'Назад',
+    profileReport: 'Пожаловаться',
+    profileMemberSince: 'Участник с',
+    profileDreams: 'Снов',
+    profileMatches: 'Совпадений',
+    profileFavorite: 'Любимое',
+    profileLastDream: 'Последний сон',
+    profileConnect: 'Связаться',
+    profileRequestConnection: 'Запросить связь',
+    profilePartialPrivate: 'Этот профиль частично закрыт',
+    profilePrivate: 'Этот профиль закрыт',
+    profileAnonymous: 'Анонимный сновидец',
+    profileDreamDetailsUnavailable: 'Детали сна недоступны',
+    profileShowProfile: 'Показать профиль',
   },
 };
 
@@ -320,6 +447,14 @@ interface SimUser {
   mood: string;
   matchPct: number;
   religCategory?: ReligiousCategory;
+  // Profile fields
+  privacy: 'public' | 'partial' | 'private';
+  age?: number;
+  memberSince: string;
+  bio?: string;
+  dreamCount: number;
+  matchCount: number;
+  favCategory: string;
 }
 
 // Equirectangular projection: lat/lng -> percentage coordinates
@@ -493,6 +628,84 @@ const BASE_USERS: Omit<SimUser, 'matchPct'>[] = [
   { id:'u150',name:'Nuriya Aliyeva',    avatar:'👩🏽', city:'Baku',         country:'AZ', lat:40.41, lng:49.87, category:'spiritual', mood:'transcendent',dreamSummary:'Alov qullelerinin icinden nur yagirdi...' },
 ];
 
+// ─── Profile Data ────────────────────────────────────────────────────────────
+const BIO_POOL: string[] = [
+  'Dream journaling changed my life. Looking for dream buddies!',
+  'Nachteule mit lebhaften Traeumen seit der Kindheit.',
+  'Ruyalarimi cozumlemek benim tutkum.',
+  'Los suenos son el espejo del alma.',
+  'Je note tous mes reves depuis 3 ans.',
+  'I believe dreams connect us across the world.',
+  'Meine Traeume fuehren mich an Orte, die ich nie besucht habe.',
+  'Lucid dreaming practitioner for 5 years.',
+  'Sogni vividi ogni notte, cerco connessioni.',
+  'Exploring the unconscious mind one dream at a time.',
+  'Dreams are messages from the deeper self.',
+  'Hayallerim beni baska dunyalara goturuyor.',
+  'Fascinada por los suenos lucidos y su significado.',
+  'Mes reves sont plus reels que la realite parfois.',
+  'Every night is an adventure in my mind.',
+  'Traeume zeigen uns, wer wir wirklich sind.',
+  'I dream in colors most people have never seen.',
+  'Sonhar e a minha forma de viajar sem sair do lugar.',
+  'Moi sny otkryvayut mne novye miry kazhdyu noch.',
+  'My dreams predicted three events in my life.',
+];
+
+const MONTH_NAMES: Record<string, string[]> = {
+  en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  de: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
+  tr: ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],
+  es: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+  fr: ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'],
+  ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+  pt: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+  ru: ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'],
+};
+
+const CONTINENT_MAP: Record<string, Record<string, string>> = {
+  europe: { en:'Europe', de:'Europa', tr:'Avrupa', es:'Europa', fr:'Europe', ar:'أوروبا', pt:'Europa', ru:'Европа' },
+  middleeast: { en:'Middle East', de:'Naher Osten', tr:'Orta Dogu', es:'Medio Oriente', fr:'Moyen-Orient', ar:'الشرق الأوسط', pt:'Oriente Medio', ru:'Ближний Восток' },
+  africa: { en:'Africa', de:'Afrika', tr:'Afrika', es:'Africa', fr:'Afrique', ar:'أفريقيا', pt:'Africa', ru:'Африка' },
+  southasia: { en:'South Asia', de:'Suedasien', tr:'Guney Asya', es:'Asia del Sur', fr:'Asie du Sud', ar:'جنوب آسيا', pt:'Sul da Asia', ru:'Южная Азия' },
+  eastasia: { en:'East Asia', de:'Ostasien', tr:'Dogu Asya', es:'Asia Oriental', fr:'Asie de l\'Est', ar:'شرق آسيا', pt:'Leste Asiatico', ru:'Восточная Азия' },
+  southeastasia: { en:'Southeast Asia', de:'Suedostasien', tr:'Guneydogu Asya', es:'Sudeste Asiatico', fr:'Asie du Sud-Est', ar:'جنوب شرق آسيا', pt:'Sudeste Asiatico', ru:'Юго-Восточная Азия' },
+  oceania: { en:'Oceania', de:'Ozeanien', tr:'Okyanusya', es:'Oceania', fr:'Oceanie', ar:'أوقيانوسيا', pt:'Oceania', ru:'Океания' },
+  northamerica: { en:'North America', de:'Nordamerika', tr:'Kuzey Amerika', es:'Norteamerica', fr:'Amerique du Nord', ar:'أمريكا الشمالية', pt:'America do Norte', ru:'Северная Америка' },
+  southamerica: { en:'South America', de:'Suedamerika', tr:'Guney Amerika', es:'Sudamerica', fr:'Amerique du Sud', ar:'أمريكا الجنوبية', pt:'America do Sul', ru:'Южная Америка' },
+  centralasia: { en:'Central Asia', de:'Zentralasien', tr:'Orta Asya', es:'Asia Central', fr:'Asie Centrale', ar:'آسيا الوسطى', pt:'Asia Central', ru:'Центральная Азия' },
+};
+
+function getContinentForUser(id: string): string {
+  const num = parseInt(id.replace('u', ''), 10);
+  if (num <= 40) return 'europe';
+  if (num <= 55) return 'middleeast';
+  if (num <= 70) return 'africa';
+  if (num <= 82) return 'southasia';
+  if (num <= 97) return 'eastasia';
+  if (num <= 105) return 'southeastasia';
+  if (num <= 110) return 'oceania';
+  if (num <= 130) return 'northamerica';
+  if (num <= 145) return 'southamerica';
+  return 'centralasia';
+}
+
+// Seeded pseudo-random number generator (stable per user id)
+function seededRandom(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
+function formatMemberSince(dateStr: string, lang: string): string {
+  const [year, month] = dateStr.split('-');
+  const monthIdx = parseInt(month, 10) - 1;
+  const months = MONTH_NAMES[lang] ?? MONTH_NAMES['en'];
+  return `${months[monthIdx]} ${year}`;
+}
+
 function generateUsers(dreams: Dream[]): SimUser[] {
   const userCats = dreams.flatMap(d => d.tags ?? []);
   return BASE_USERS.map((u, i) => {
@@ -504,7 +717,24 @@ function generateUsers(dreams: Dream[]): SimUser[] {
       );
       if (catMatch) matchPct = Math.min(98, matchPct + 12);
     }
-    return { ...u, matchPct };
+
+    // Seeded random for stable profile data
+    const rng = seededRandom(i * 31 + 7);
+    const privacyRoll = rng();
+    const privacy: 'public' | 'partial' | 'private' =
+      privacyRoll < 0.40 ? 'public' : privacyRoll < 0.75 ? 'partial' : 'private';
+
+    const age = privacy === 'public' ? 18 + Math.floor(rng() * 28) : undefined;
+    const memberYear = 2024 + Math.floor(rng() * 3); // 2024-2026
+    const memberMonth = 1 + Math.floor(rng() * 12);  // 1-12
+    const memberSince = `${memberYear}-${String(memberMonth).padStart(2, '0')}`;
+    const bio = privacy === 'public' ? BIO_POOL[Math.floor(rng() * BIO_POOL.length)] : undefined;
+    const dreamCount = 5 + Math.floor(rng() * 85); // 5-89
+    const matchCount = 2 + Math.floor(rng() * 33); // 2-34
+    const favCatIdx = Math.floor(rng() * DREAM_CATEGORIES.length);
+    const favCategory = DREAM_CATEGORIES[favCatIdx].id;
+
+    return { ...u, matchPct, privacy, age, memberSince, bio, dreamCount, matchCount, favCategory };
   });
 }
 
@@ -528,6 +758,21 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const [showTrends, setShowTrends] = useState(false);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const notifTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // ── Profile overlay state ──
+  const [profileUser, setProfileUser] = useState<SimUser | null>(null);
+  const [profileVisible, setProfileVisible] = useState(false);
+
+  const openProfile = useCallback((user: SimUser) => {
+    setProfileUser(user);
+    // Trigger animation after mount
+    requestAnimationFrame(() => setProfileVisible(true));
+  }, []);
+
+  const closeProfile = useCallback(() => {
+    setProfileVisible(false);
+    setTimeout(() => setProfileUser(null), 350);
+  }, []);
 
   // ── New feature state ──
   const [searchQuery, setSearchQuery] = useState('');
@@ -669,10 +914,10 @@ const DreamMap: React.FC<DreamMapProps> = ({
     lastTouchDist.current = null;
   }, []);
 
-  // Select user from result list
+  // Select user from result list → open profile
   const handleResultClick = useCallback((user: SimUser) => {
-    setSelectedUser(prev => prev?.id === user.id ? null : user);
-  }, []);
+    openProfile(user);
+  }, [openProfile]);
 
   // Stats
   const totalActive = users.length + 1847;
@@ -751,6 +996,16 @@ const DreamMap: React.FC<DreamMapProps> = ({
         .dm-slide-up   { animation: dmSlideUp 0.35s ease both; }
         .dm-fade-out   { animation: dmFadeOut 0.4s ease forwards; }
         .dm-chip-scroll::-webkit-scrollbar { display: none; }
+        @keyframes dmProfileSlideUp {
+          from { transform: translateY(100%); }
+          to   { transform: translateY(0); }
+        }
+        @keyframes dmProfileSlideDown {
+          from { transform: translateY(0); }
+          to   { transform: translateY(100%); }
+        }
+        .dm-profile-enter { animation: dmProfileSlideUp 0.35s cubic-bezier(0.32,0.72,0,1) forwards; }
+        .dm-profile-exit  { animation: dmProfileSlideDown 0.35s cubic-bezier(0.32,0.72,0,1) forwards; }
       `}</style>
 
       {/* ── World Map (TOP) with Title Overlay ── */}
@@ -1191,14 +1446,224 @@ const DreamMap: React.FC<DreamMapProps> = ({
               {t.close}
             </button>
             <button
+              onClick={() => { handleClosePanel(); openProfile(selectedUser); }}
               className="flex-1 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
             >
-              <span className="material-icons text-base align-middle mr-1">person_add</span>
-              {t.connect}
+              <span className="material-icons text-base align-middle mr-1">person</span>
+              {t.profileShowProfile}
             </button>
           </div>
         </div>
       )}
+
+      {/* ── Profile Overlay ── */}
+      {profileUser && (() => {
+        const pu = profileUser;
+        const continent = getContinentForUser(pu.id);
+        const continentLabel = CONTINENT_MAP[continent]?.[lang] ?? CONTINENT_MAP[continent]?.['en'] ?? continent;
+        const favCat = DREAM_CATEGORIES.find(c => c.id === pu.favCategory);
+        const favCatLabel = favCat ? (favCat.label[lang] ?? favCat.label['en']) : '';
+        const displayName = pu.privacy === 'private'
+          ? t.profileAnonymous
+          : pu.privacy === 'partial'
+            ? `${pu.name.split(' ')[0]} ${pu.name.split(' ').slice(1).map(n => n[0] + '.').join(' ')}`.trim()
+            : pu.name;
+        const displayAvatar = pu.privacy === 'private' ? '🔮' : pu.avatar;
+        const displayLocation = pu.privacy === 'private'
+          ? continentLabel
+          : pu.privacy === 'partial'
+            ? pu.city
+            : `${pu.city}, ${pu.country}`;
+
+        return (
+          <>
+            {/* Backdrop */}
+            <div
+              className={`fixed inset-0 z-[60] transition-opacity duration-300 ${profileVisible ? 'bg-black/50 backdrop-blur-sm opacity-100' : 'opacity-0'}`}
+              onClick={closeProfile}
+            />
+            {/* Profile Sheet */}
+            <div
+              className={`fixed inset-0 z-[61] flex flex-col ${profileVisible ? 'dm-profile-enter' : 'dm-profile-exit'}`}
+            >
+              <div
+                className={`flex-1 flex flex-col overflow-y-auto ${
+                  isLight
+                    ? 'bg-gradient-to-b from-white/95 via-indigo-50/95 to-purple-50/95 backdrop-blur-2xl'
+                    : 'bg-gradient-to-b from-[#0d0722]/98 via-[#0a0318]/98 to-[#06030f]/98 backdrop-blur-2xl'
+                }`}
+              >
+                {/* Header */}
+                <div className={`flex items-center justify-between px-4 py-3 border-b ${
+                  isLight ? 'border-purple-100/60' : 'border-white/8'
+                }`}>
+                  <button
+                    onClick={closeProfile}
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm font-semibold transition-colors ${
+                      isLight ? 'text-purple-700 hover:bg-purple-50' : 'text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <span className="material-icons text-lg">arrow_back</span>
+                    {t.profileBack}
+                  </button>
+                  <button
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium transition-colors ${
+                      isLight ? 'text-slate-500 hover:bg-slate-100' : 'text-slate-400 hover:bg-white/8'
+                    }`}
+                  >
+                    <span className="material-icons text-sm">flag</span>
+                    {t.profileReport}
+                  </button>
+                </div>
+
+                {/* Avatar + Name */}
+                <div className="flex flex-col items-center pt-8 pb-4 px-4">
+                  <div className="text-6xl leading-none mb-3">{displayAvatar}</div>
+                  <div className={`text-xl font-bold ${textMain}`}>{displayName}</div>
+                  <div className={`text-sm mt-1 ${textSub}`}>{displayLocation}</div>
+                  {pu.privacy === 'public' && (
+                    <div className={`text-xs mt-1 ${textSub}`}>
+                      {t.profileMemberSince} {formatMemberSince(pu.memberSince, lang)}
+                    </div>
+                  )}
+                  {/* Privacy badge */}
+                  {pu.privacy === 'partial' && (
+                    <div className={`mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${
+                      isLight ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-amber-900/20 text-amber-400 border border-amber-500/20'
+                    }`}>
+                      <span className="text-sm">🔒</span>
+                      {t.profilePartialPrivate}
+                    </div>
+                  )}
+                  {pu.privacy === 'private' && (
+                    <div className={`mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${
+                      isLight ? 'bg-slate-100 text-slate-600 border border-slate-200' : 'bg-white/5 text-slate-400 border border-white/10'
+                    }`}>
+                      <span className="text-sm">🔒</span>
+                      {t.profilePrivate}
+                    </div>
+                  )}
+                </div>
+
+                {/* Stats */}
+                <div className={`mx-4 rounded-2xl border p-4 mb-4 ${
+                  isLight ? 'bg-white/60 border-purple-200/60' : 'bg-white/5 border-white/8'
+                }`}>
+                  <div className="flex items-center justify-around">
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center gap-1 mb-0.5">
+                        <span className="text-lg">🌙</span>
+                        <span className={`text-lg font-bold ${textMain}`}>{pu.dreamCount}</span>
+                      </div>
+                      <span className={`text-[10px] ${textSub}`}>{t.profileDreams}</span>
+                    </div>
+                    {pu.privacy === 'public' && (
+                      <>
+                        <div className={`w-px h-8 ${isLight ? 'bg-purple-200' : 'bg-white/10'}`} />
+                        <div className="flex flex-col items-center">
+                          <div className="flex items-center gap-1 mb-0.5">
+                            <span className="text-lg">🤝</span>
+                            <span className={`text-lg font-bold ${textMain}`}>{pu.matchCount}</span>
+                          </div>
+                          <span className={`text-[10px] ${textSub}`}>{t.profileMatches}</span>
+                        </div>
+                        <div className={`w-px h-8 ${isLight ? 'bg-purple-200' : 'bg-white/10'}`} />
+                        <div className="flex flex-col items-center">
+                          <div className="flex items-center gap-1 mb-0.5">
+                            <span className="text-lg">❤️</span>
+                            {favCat && <span className="text-sm">{favCat.icon}</span>}
+                          </div>
+                          <span className={`text-[10px] ${textSub}`}>{t.profileFavorite}: {favCatLabel}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  {pu.privacy === 'public' && pu.age && (
+                    <div className={`mt-3 pt-3 text-center text-xs border-t ${
+                      isLight ? 'border-purple-100 text-slate-500' : 'border-white/5 text-slate-400'
+                    }`}>
+                      {pu.age} years old
+                    </div>
+                  )}
+                </div>
+
+                {/* Bio (public only) */}
+                {pu.privacy === 'public' && pu.bio && (
+                  <div className={`mx-4 rounded-2xl border p-4 mb-4 ${
+                    isLight ? 'bg-white/60 border-purple-200/60' : 'bg-white/5 border-white/8'
+                  }`}>
+                    <p className={`text-sm leading-relaxed italic ${textMain}`}>
+                      &ldquo;{pu.bio}&rdquo;
+                    </p>
+                  </div>
+                )}
+
+                {/* Last Dream (public + partial) */}
+                {pu.privacy !== 'private' ? (
+                  <div className={`mx-4 rounded-2xl border p-4 mb-4 ${
+                    isLight ? 'bg-white/60 border-purple-200/60' : 'bg-white/5 border-white/8'
+                  }`}>
+                    <div className={`text-xs font-semibold mb-2 ${isLight ? 'text-purple-700' : 'text-purple-300'}`}>
+                      {t.profileLastDream}:
+                    </div>
+                    <div className={`rounded-xl p-3 border ${
+                      isLight ? 'bg-purple-50/80 border-purple-100' : 'bg-white/3 border-white/5'
+                    }`}>
+                      <p className={`text-sm leading-relaxed ${textMain}`}>{pu.dreamSummary}</p>
+                      <div className="flex items-center gap-2 mt-2">
+                        {(() => {
+                          const cat = DREAM_CATEGORIES.find(c => c.id === pu.category);
+                          return cat ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold"
+                              style={{ background: cat.color + '22', color: cat.color, border: `1px solid ${cat.color}44` }}>
+                              🏷 {tLang(cat)}
+                            </span>
+                          ) : null;
+                        })()}
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold"
+                          style={{ background: matchColor(pu.matchPct) + '22', color: matchColor(pu.matchPct), border: `1px solid ${matchColor(pu.matchPct)}44` }}>
+                          💜 {pu.matchPct}% Match
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={`mx-4 rounded-2xl border p-4 mb-4 text-center ${
+                    isLight ? 'bg-white/60 border-purple-200/60' : 'bg-white/5 border-white/8'
+                  }`}>
+                    <span className={`text-sm ${textSub}`}>{t.profileDreamDetailsUnavailable}</span>
+                  </div>
+                )}
+
+                {/* Spacer for bottom button */}
+                <div className="flex-1" />
+
+                {/* Action Button */}
+                {pu.privacy !== 'private' && (
+                  <div className="px-4 pb-8 pt-4">
+                    {pu.privacy === 'public' ? (
+                      <button className="w-full py-3.5 rounded-2xl font-semibold text-sm bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/25">
+                        <span className="mr-1.5">💜</span>
+                        {t.profileConnect}
+                      </button>
+                    ) : (
+                      <button className={`w-full py-3.5 rounded-2xl font-semibold text-sm border transition-colors ${
+                        isLight
+                          ? 'bg-white border-purple-200 text-purple-700 hover:bg-purple-50'
+                          : 'bg-white/8 border-white/10 text-white hover:bg-white/15'
+                      }`}>
+                        <span className="mr-1.5">🔗</span>
+                        {t.profileRequestConnection}
+                      </button>
+                    )}
+                  </div>
+                )}
+                {pu.privacy === 'private' && <div className="pb-8" />}
+              </div>
+            </div>
+          </>
+        );
+      })()}
 
       {/* ── Toast Notification ── */}
       {toast && (
