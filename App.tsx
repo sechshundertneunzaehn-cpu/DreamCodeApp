@@ -2668,7 +2668,7 @@ const App: React.FC = () => {
             {showImageModal && <ImageResultModal onClose={() => setShowImageModal(false)} url={imageUrl} t={t} isLight={isLight} />}
             {showStyleSelection && <StyleSelectionModal onSelect={continueWithImageGeneration} t={t} isLight={isLight} />}
 
-                {view === View.DREAM_MAP && <DreamMap language={language} themeMode={themeMode} onClose={() => setView(View.HOME)} />}
+                {view === View.DREAM_MAP && <DreamMap dreams={dreams} language={language} isLight={isLight} onClose={() => setView(View.HOME)} />}
                 {view === View.VIDEO_STUDIO && (
                     <VideoStudio
                         language={language}
@@ -2676,40 +2676,87 @@ const App: React.FC = () => {
                         dreamText={dreamInput}
                         onClose={() => setView(View.HOME)}
                         onGenerate={async (text, options) => {
+                            const log = (msg: string, pct: number) => console.log(`[VIDEO-STUDIO] ${msg} - ${pct}%`);
                             try {
                                 let result;
+                                let audioBase64ForSave: string | undefined;
 
-                                if (options.voiceMode === 'user_voice') {
-                                    // ── Eigene Stimme: NUR User-Erzaehlung, KEINE Traumdeutung ──
-                                    if (!options.voiceBlob) {
-                                        console.error('[VideoStudio] Keine Stimmaufnahme vorhanden');
-                                        return null;
-                                    }
-                                    // Blob → Base64
-                                    const audioBase64 = await new Promise<string>((resolve, reject) => {
-                                        const reader = new FileReader();
-                                        reader.onloadend = () => resolve(reader.result as string);
-                                        reader.onerror = reject;
-                                        reader.readAsDataURL(options.voiceBlob!);
+                                // ── Helper: Blob → Base64 ──
+                                const blobToB64 = (blob: Blob): Promise<string> =>
+                                    new Promise((resolve, reject) => {
+                                        const r = new FileReader();
+                                        r.onloadend = () => resolve(r.result as string);
+                                        r.onerror = reject;
+                                        r.readAsDataURL(blob);
                                     });
-                                    result = await generateDreamUserVoiceVideo(
-                                        text, audioBase64, 'fantasy', language,
-                                        (msg, pct) => console.log(`[VIDEO-STUDIO] ${msg} - ${pct}%`)
-                                    );
-                                } else {
-                                    // ── KI-Stimme: Traumdeutung + KI-Narration ──
+
+                                const cm = options.contentMode;
+                                const isUserVoice = options.voiceMode === 'user_voice' && !!options.voiceBlob;
+
+                                // Analyse einmal ausfuehren und cachen
+                                let interpretationText = '';
+                                if (cm !== 'dream_only') {
                                     const analysis = await analyzeDreamText(text, language, userProfile);
-                                    if (!analysis?.interpretation) {
-                                        console.error('[VideoStudio] Traumdeutung fehlgeschlagen');
-                                        return null;
-                                    }
-                                    result = await generateStoryVideo(
-                                        text, analysis.interpretation, 'fantasy', language,
-                                        (msg, pct) => console.log(`[VIDEO-STUDIO] ${msg} - ${pct}%`)
-                                    );
+                                    if (!analysis?.interpretation) { console.error('[VideoStudio] Analyse fehlgeschlagen'); return null; }
+                                    interpretationText = analysis.interpretation;
                                 }
 
-                                return result?.videoDataUrl || null;
+                                if (cm === 'dream_only') {
+                                    // ── Nur Erzaehlung (kein Deuten) ──
+                                    if (isUserVoice) {
+                                        audioBase64ForSave = await blobToB64(options.voiceBlob!);
+                                        result = await generateDreamUserVoiceVideo(text, audioBase64ForSave, 'fantasy', language, log);
+                                    } else {
+                                        result = await generateDreamNarrationVideo(text, 'fantasy', language, log);
+                                    }
+                                } else if (cm === 'interpretation') {
+                                    // ── Nur Deutung (KI-Stimme) ──
+                                    result = await generateStoryVideo(text, interpretationText, 'fantasy', language, log);
+                                } else {
+                                    // ── Beides: Erzaehlung + Deutung ──
+                                    const combinedText = `${text}\n\n---\n\n${interpretationText}`;
+                                    if (isUserVoice) {
+                                        audioBase64ForSave = await blobToB64(options.voiceBlob!);
+                                        result = await generateDreamUserVoiceVideo(combinedText, audioBase64ForSave, 'fantasy', language, log);
+                                    } else {
+                                        result = await generateStoryVideo(combinedText, combinedText, 'fantasy', language, log);
+                                    }
+                                }
+
+                                const videoUrl = result?.videoDataUrl || null;
+
+                                // ── Persist: Video + Audio im Dream-Objekt speichern ──
+                                if (videoUrl) {
+                                    const dreamId = `dream-${Date.now()}`;
+                                    const newDream: Dream = {
+                                        id: dreamId,
+                                        title: text.slice(0, 60).trim() + (text.length > 60 ? '...' : ''),
+                                        description: text,
+                                        interpretation: interpretationText,
+                                        date: new Date().toISOString().split('T')[0],
+                                        userAvatar: '',
+                                        videoUrl,
+                                        audioUrl: audioBase64ForSave || result?.audioBase64 || undefined,
+                                        audioSource: isUserVoice ? 'dictation' as const : undefined,
+                                        tags: [],
+                                        likes: 0,
+                                        comments: 0,
+                                        matchPercentage: 0,
+                                    };
+                                    // Check if dream with this text already exists
+                                    const existing = dreams.find(d => d.description === text);
+                                    if (existing) {
+                                        await handleUpdateDream({
+                                            ...existing,
+                                            videoUrl,
+                                            audioUrl: audioBase64ForSave || existing.audioUrl,
+                                        });
+                                    } else {
+                                        await handleSaveDream(newDream);
+                                    }
+                                }
+
+                                return videoUrl;
                             } catch (e) {
                                 console.error('[VideoStudio] Generation error', e);
                                 return null;
@@ -2768,8 +2815,8 @@ const App: React.FC = () => {
             {/* Live Chat icon - kein Lock mehr */}
                         </button>
                     </div>
-                    {/* DREAM NETWORK */}
-                    <NavBtn icon="hub" label={t.ui.dream_network} active={view === View.DREAM_NETWORK} onClick={() => setView(View.DREAM_NETWORK)} isLight={isLight} />
+                    {/* DREAM MAP */}
+                    <NavBtn icon="public" label={t.ui.dream_network} active={view === View.DREAM_MAP} onClick={() => setView(View.DREAM_MAP)} isLight={isLight} />
                     <NavBtn icon="person" label={t.ui.profile_btn} active={view === View.PROFILE} onClick={() => setView(View.PROFILE)} isLight={isLight} />
                 </div>
             </nav>
