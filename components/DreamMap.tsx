@@ -532,7 +532,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const youCoords = getCoordinates(50, 10);
 
   return (
-    <div className={`relative flex flex-col min-h-screen w-full ${bg} overflow-hidden`}>
+    <div className={`fixed inset-0 flex flex-col w-full ${bg} overflow-hidden`} style={{ zIndex: 55 }}>
 
       {/* ── Keyframe Styles ── */}
       <style>{`
@@ -683,9 +683,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
       </div>
 
       {/* ── World Map with Background Image ── */}
-      <div className="relative z-10 flex-1 min-h-0 overflow-hidden px-2 pb-2">
+      <div className="relative z-10 flex-1 overflow-hidden px-2 pb-2" style={{ minHeight: 0 }}>
         <div className={`relative w-full h-full rounded-2xl overflow-hidden border shadow-xl ${isLight ? 'border-purple-200/60 shadow-purple-200/20' : 'border-white/5 shadow-black/40'}`}
-          style={{ background: isLight ? '#e8e0f0' : '#0a0318' }}
+          style={{ background: isLight ? '#e8e0f0' : '#0a0318', height: '100%' }}
         >
           {/* World map SVG background */}
           <div
