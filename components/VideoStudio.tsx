@@ -1,9 +1,20 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Language, ThemeMode } from '../types';
+import { VOICE_CHARACTERS, VoiceCharacter } from './VoiceSelector';
+
+type VoiceMode = 'user_voice' | 'ai_voice';
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
+
+export interface VideoGenerateOptions {
+    tab: Tab;
+    quality: Quality;
+    voiceMode: VoiceMode;
+    voiceId: string;
+    voiceBlob: Blob | null;
+}
 
 export interface VideoStudioProps {
     language: Language;
@@ -11,6 +22,7 @@ export interface VideoStudioProps {
     dreamText: string;
     onClose: () => void;
     onSave: (result: { videoUrl: string; type: 'ai' | 'slideshow' }) => void;
+    onGenerate?: (dreamText: string, options: VideoGenerateOptions) => Promise<string | null>;
     userCredits: number;
 }
 
@@ -47,6 +59,9 @@ interface Translations {
     upload_mp3: string;
     voice_volume: string;
     music_volume: string;
+    voice_mode_own: string;
+    voice_mode_ai: string;
+    voice_select_label: string;
     fade_option: string;
     loop_option: string;
     price_label: string;
@@ -80,6 +95,9 @@ const T: Record<Language, Translations> = {
         upload_mp3: 'MP3 hochladen',
         voice_volume: 'Stimme',
         music_volume: 'Musik',
+        voice_mode_own: 'Eigene Stimme',
+        voice_mode_ai: 'KI-Stimme',
+        voice_select_label: 'Stimme waehlen',
         fade_option: 'Fade-In / Fade-Out',
         loop_option: 'Musik loopen',
         price_label: 'Preis',
@@ -111,6 +129,9 @@ const T: Record<Language, Translations> = {
         upload_mp3: 'Upload MP3',
         voice_volume: 'Voice',
         music_volume: 'Music',
+        voice_mode_own: 'Own voice',
+        voice_mode_ai: 'AI voice',
+        voice_select_label: 'Select voice',
         fade_option: 'Fade-In / Fade-Out',
         loop_option: 'Loop music',
         price_label: 'Price',
@@ -142,6 +163,9 @@ const T: Record<Language, Translations> = {
         upload_mp3: 'MP3 yukle',
         voice_volume: 'Ses',
         music_volume: 'Muzik',
+        voice_mode_own: 'Kendi sesin',
+        voice_mode_ai: 'Yapay zeka sesi',
+        voice_select_label: 'Ses sec',
         fade_option: 'Gecis efekti',
         loop_option: 'Muzigi dongule',
         price_label: 'Fiyat',
@@ -173,6 +197,9 @@ const T: Record<Language, Translations> = {
         upload_mp3: 'Subir MP3',
         voice_volume: 'Voz',
         music_volume: 'Musica',
+        voice_mode_own: 'Tu voz',
+        voice_mode_ai: 'Voz IA',
+        voice_select_label: 'Elegir voz',
         fade_option: 'Fade-In / Fade-Out',
         loop_option: 'Repetir musica',
         price_label: 'Precio',
@@ -204,6 +231,9 @@ const T: Record<Language, Translations> = {
         upload_mp3: 'Importer MP3',
         voice_volume: 'Voix',
         music_volume: 'Musique',
+        voice_mode_own: 'Votre voix',
+        voice_mode_ai: 'Voix IA',
+        voice_select_label: 'Choisir une voix',
         fade_option: 'Fondu entrant/sortant',
         loop_option: 'Boucler la musique',
         price_label: 'Prix',
@@ -235,6 +265,9 @@ const T: Record<Language, Translations> = {
         upload_mp3: 'رفع MP3',
         voice_volume: 'الصوت',
         music_volume: 'الموسيقى',
+        voice_mode_own: 'صوتك',
+        voice_mode_ai: 'صوت ذكاء اصطناعي',
+        voice_select_label: 'اختر صوت',
         fade_option: 'تلاشي الدخول / الخروج',
         loop_option: 'تكرار الموسيقى',
         price_label: 'السعر',
@@ -266,6 +299,9 @@ const T: Record<Language, Translations> = {
         upload_mp3: 'Enviar MP3',
         voice_volume: 'Voz',
         music_volume: 'Música',
+        voice_mode_own: 'Sua voz',
+        voice_mode_ai: 'Voz IA',
+        voice_select_label: 'Escolher voz',
         fade_option: 'Fade-In / Fade-Out',
         loop_option: 'Loop de música',
         price_label: 'Preço',
@@ -294,6 +330,9 @@ const T: Record<Language, Translations> = {
         estimated_cost: 'Примерная стоимость',
         audio_title: 'Аудио',
         record_voice: 'Записать голос',
+        voice_mode_own: 'Свой голос',
+        voice_mode_ai: 'ИИ-голос',
+        voice_select_label: 'Выбрать голос',
         upload_mp3: 'Загрузить MP3',
         voice_volume: 'Голос',
         music_volume: 'Музыка',
@@ -420,6 +459,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
     dreamText,
     onClose,
     onSave,
+    onGenerate,
     userCredits,
 }) => {
     const t = getT(language);
@@ -432,6 +472,10 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
 
     // --- Slideshow settings ---
     const [imageInterval, setImageInterval] = useState<number>(3);
+
+    // --- Voice mode ---
+    const [voiceMode, setVoiceMode] = useState<VoiceMode>('user_voice');
+    const [selectedAiVoice, setSelectedAiVoice] = useState<string>('luna');
 
     // --- Audio ---
     const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
@@ -521,14 +565,29 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
         if (!canAfford || isGenerating) return;
         setIsGenerating(true);
 
-        // Simulate async work (real API integration happens in parent/service)
-        await new Promise<void>((resolve) => setTimeout(resolve, 800));
-
-        // Return a placeholder URL — real URL comes from the service layer
-        const placeholderUrl = `dream-${activeTab}-${quality}-${Date.now()}.mp4`;
-        onSave({ videoUrl: placeholderUrl, type: activeTab === 'ai' ? 'ai' : 'slideshow' });
-        setIsGenerating(false);
-    }, [canAfford, isGenerating, activeTab, quality, onSave]);
+        try {
+            if (onGenerate) {
+                const videoUrl = await onGenerate(dreamText, {
+                    tab: activeTab,
+                    quality,
+                    voiceMode,
+                    voiceId: selectedAiVoice,
+                    voiceBlob,
+                });
+                if (videoUrl) {
+                    onSave({ videoUrl, type: activeTab === 'ai' ? 'ai' : 'slideshow' });
+                }
+            } else {
+                // Fallback placeholder
+                const placeholderUrl = `dream-${activeTab}-${quality}-${Date.now()}.mp4`;
+                onSave({ videoUrl: placeholderUrl, type: activeTab === 'ai' ? 'ai' : 'slideshow' });
+            }
+        } catch (e) {
+            console.error('[VideoStudio] Generation failed', e);
+        } finally {
+            setIsGenerating(false);
+        }
+    }, [canAfford, isGenerating, activeTab, quality, voiceMode, selectedAiVoice, voiceBlob, dreamText, onSave, onGenerate]);
 
     // ---------------------------------------------------------------------------
     // Style helpers
@@ -674,7 +733,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                                     <RangeSlider
                                         value={imageInterval}
                                         min={1}
-                                        max={10}
+                                        max={30}
                                         step={1}
                                         onChange={setImageInterval}
                                         label={t.interval_label}
@@ -701,22 +760,43 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                         )}
                     </div>
 
-                    {/* ── Audio ── */}
+                    {/* ── Stimme ── */}
                     <div className={`rounded-2xl p-4 space-y-4 ${cardBg}`}>
                         <div className="flex items-center gap-2">
-                            <span className={`material-icons text-base ${sectionLabel}`}>headphones</span>
+                            <span className={`material-icons text-base ${sectionLabel}`}>record_voice_over</span>
                             <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>
-                                {t.audio_title}
+                                {t.voice_select_label}
                             </span>
                         </div>
 
-                        {/* Record / Upload row */}
+                        {/* Voice mode toggle */}
                         <div className="flex gap-2">
-                            {/* Record voice button */}
+                            <button
+                                onClick={() => setVoiceMode('user_voice')}
+                                className={`
+                                    flex-1 py-3 rounded-xl text-sm font-semibold min-h-[44px] transition-all duration-150
+                                    ${voiceMode === 'user_voice' ? qualityActive : qualityInactive}
+                                `}
+                            >
+                                {t.voice_mode_own}
+                            </button>
+                            <button
+                                onClick={() => setVoiceMode('ai_voice')}
+                                className={`
+                                    flex-1 py-3 rounded-xl text-sm font-semibold min-h-[44px] transition-all duration-150
+                                    ${voiceMode === 'ai_voice' ? qualityActive : qualityInactive}
+                                `}
+                            >
+                                {t.voice_mode_ai}
+                            </button>
+                        </div>
+
+                        {/* Own voice: record button */}
+                        {voiceMode === 'user_voice' && (
                             <button
                                 onClick={isRecording ? stopRecording : startRecording}
                                 className={`
-                                    flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium
+                                    w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium
                                     min-h-[44px] transition-all duration-150 border
                                     ${isRecording
                                         ? (isLight
@@ -739,39 +819,87 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                                             : t.record_voice}
                                 </span>
                             </button>
+                        )}
 
-                            {/* Upload MP3 button */}
-                            <button
-                                onClick={() => fileInputRef.current?.click()}
-                                className={`
-                                    flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium
-                                    min-h-[44px] transition-all duration-150 border
-                                    ${musicFile
-                                        ? (isLight
-                                            ? 'bg-green-50 border-green-300 text-green-700'
-                                            : 'bg-green-900/30 border-green-500/50 text-green-400')
-                                        : (isLight
-                                            ? 'bg-indigo-50 border-indigo-200 text-indigo-600 hover:bg-indigo-100'
-                                            : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10')
-                                    }
-                                `}
-                            >
-                                <span className="material-icons text-base">
-                                    {musicFile ? 'audio_file' : 'upload'}
-                                </span>
-                                <span className="truncate">
-                                    {musicFile ? t.mp3_loaded : t.upload_mp3}
-                                </span>
-                            </button>
+                        {/* AI voice: character grid */}
+                        {voiceMode === 'ai_voice' && (
+                            <div className="grid grid-cols-2 gap-2">
+                                {VOICE_CHARACTERS.map((vc) => (
+                                    <button
+                                        key={vc.id}
+                                        onClick={() => setSelectedAiVoice(vc.id)}
+                                        className={`
+                                            p-3 rounded-xl text-left transition-all duration-150 border min-h-[44px]
+                                            ${selectedAiVoice === vc.id
+                                                ? (isLight
+                                                    ? 'bg-indigo-50 border-indigo-400 shadow-sm'
+                                                    : 'bg-fuchsia-900/30 border-fuchsia-500/60 shadow-[0_0_12px_rgba(217,70,239,0.2)]')
+                                                : (isLight
+                                                    ? 'bg-white border-gray-200 hover:border-indigo-200'
+                                                    : 'bg-white/5 border-white/10 hover:border-white/20')
+                                            }
+                                        `}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <span className={`material-icons text-base ${
+                                                selectedAiVoice === vc.id ? sectionLabel : textSecondary
+                                            }`}>{vc.icon}</span>
+                                            <span className={`text-sm font-semibold ${textPrimary}`}>{vc.name}</span>
+                                        </div>
+                                        <div className={`text-[11px] mt-1 leading-snug ${textSecondary}`}>
+                                            {vc.descriptions[language] || vc.descriptions['en']}
+                                        </div>
+                                        <div className={`text-[10px] mt-0.5 uppercase tracking-wide font-semibold ${
+                                            isLight ? 'text-gray-400' : 'text-white/30'
+                                        }`}>
+                                            {vc.gender === 'female' ? '♀' : '♂'}
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
 
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                accept="audio/mpeg,audio/mp3,.mp3"
-                                onChange={handleMp3Upload}
-                                className="hidden"
-                            />
+                    {/* ── Audio / Musik ── */}
+                    <div className={`rounded-2xl p-4 space-y-4 ${cardBg}`}>
+                        <div className="flex items-center gap-2">
+                            <span className={`material-icons text-base ${sectionLabel}`}>headphones</span>
+                            <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>
+                                {t.audio_title}
+                            </span>
                         </div>
+
+                        {/* Upload MP3 button */}
+                        <button
+                            onClick={() => fileInputRef.current?.click()}
+                            className={`
+                                w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium
+                                min-h-[44px] transition-all duration-150 border
+                                ${musicFile
+                                    ? (isLight
+                                        ? 'bg-green-50 border-green-300 text-green-700'
+                                        : 'bg-green-900/30 border-green-500/50 text-green-400')
+                                    : (isLight
+                                        ? 'bg-indigo-50 border-indigo-200 text-indigo-600 hover:bg-indigo-100'
+                                        : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10')
+                                }
+                            `}
+                        >
+                            <span className="material-icons text-base">
+                                {musicFile ? 'audio_file' : 'upload'}
+                            </span>
+                            <span className="truncate">
+                                {musicFile ? t.mp3_loaded : t.upload_mp3}
+                            </span>
+                        </button>
+
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="audio/mpeg,audio/mp3,.mp3"
+                            onChange={handleMp3Upload}
+                            className="hidden"
+                        />
 
                         {/* Volume sliders */}
                         <div className="space-y-4">

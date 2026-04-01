@@ -1,5 +1,9 @@
-node_modules/\ndist/\n.env.local\n.vercel/.env.*\n.vercel/output/\n*.log
-dist
-C:
 node_modules/
+dist/
+.env.local
+.env*.local
+.vercel/.env.*
+.vercel/output/
+*.log
+C:
 playwright*
