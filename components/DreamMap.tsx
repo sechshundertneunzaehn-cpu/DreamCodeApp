@@ -665,8 +665,11 @@ const DreamMap: React.FC<DreamMapProps> = ({
   // "You" marker position (center of map, roughly Berlin area)
   const youCoords = getCoordinates(50, 10);
 
+  // Search active = collapse map
+  const isSearchActive = searchQuery.trim().length > 0;
+
   return (
-    <div className={`fixed inset-0 flex flex-col w-full ${bg} overflow-hidden`} style={{ zIndex: 55 }}>
+    <div className={`fixed inset-0 w-full ${bg} overflow-y-auto`} style={{ zIndex: 55 }}>
 
       {/* ── Keyframe Styles ── */}
       <style>{`
@@ -698,25 +701,159 @@ const DreamMap: React.FC<DreamMapProps> = ({
         .dm-chip-scroll::-webkit-scrollbar { display: none; }
       `}</style>
 
-      {/* ── Header ── */}
-      <div className={`relative z-20 flex items-center justify-between px-4 pt-safe pt-4 pb-2 backdrop-blur-sm border-b ${isLight ? 'border-purple-100/60' : 'border-white/5'}`}>
-        <div>
-          <h1 className={`text-lg font-bold leading-tight ${textMain}`}>{t.title}</h1>
-          <p className={`text-xs ${textSub}`}>{t.subtitle}</p>
+      {/* ── World Map (TOP) with Title Overlay ── */}
+      <div
+        ref={mapContainerRef}
+        className={`relative z-10 overflow-hidden transition-all duration-500 ${
+          isSearchActive ? 'h-0 opacity-0 overflow-hidden' : 'h-[30vh]'
+        }`}
+        onWheel={handleWheel}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div
+          className="relative w-full h-full overflow-hidden"
+          style={{
+            background: isLight ? '#e8e0f0' : '#0a0318',
+            transform: `scale(${mapScale}) translate(${mapOffset.x / mapScale}px, ${mapOffset.y / mapScale}px)`,
+            transformOrigin: 'center center',
+            transition: isDragging ? 'none' : 'transform 0.2s ease',
+            cursor: mapScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
+            touchAction: 'none',
+          }}
+        >
+          {/* World map SVG background */}
+          <div
+            className="absolute inset-0 bg-contain bg-no-repeat bg-center"
+            style={{
+              backgroundImage: "url('/world-map.svg')",
+              filter: isLight
+                ? 'invert(0) brightness(0.9) opacity(0.6)'
+                : 'invert(1) hue-rotate(180deg) saturate(0.3) brightness(0.5) opacity(0.7)',
+            }}
+          />
+
+          {/* Marker layer */}
+          <div className="absolute inset-0">
+            {/* "You" center marker */}
+            <div
+              className="absolute z-20"
+              style={{
+                left: `${youCoords.x}%`,
+                top: `${youCoords.y}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              <div className="w-4 h-4 rounded-full bg-purple-500 border-2 border-white shadow-lg shadow-purple-500/50" />
+              <div
+                className="dm-pulse-ring w-8 h-8 border-2 border-purple-400"
+                style={{ left: '50%', top: '50%' }}
+              />
+            </div>
+
+            {/* User markers */}
+            {filteredUsers.map(u => {
+              const coords = getCoordinates(u.lat, u.lng);
+              const isPulsing = pulsingIds.includes(u.id);
+              const isSelected = selectedUser?.id === u.id;
+              const color = matchColor(u.matchPct);
+              return (
+                <div key={u.id} className="absolute" style={{ left: `${coords.x}%`, top: `${coords.y}%`, zIndex: isSelected ? 50 : isPulsing ? 20 : 10 }}>
+                  {isPulsing && (
+                    <div
+                      className="dm-pulse-ring w-6 h-6"
+                      style={{
+                        left: '50%',
+                        top: '50%',
+                        border: `2px solid ${color}`,
+                      }}
+                    />
+                  )}
+                  <div
+                    className="w-2.5 h-2.5 rounded-full border border-white/40 cursor-pointer transition-transform hover:scale-150 hover:z-50"
+                    style={{
+                      backgroundColor: color,
+                      boxShadow: `0 0 6px ${color}80`,
+                      transform: `translate(-50%, -50%)${isSelected ? ' scale(1.8)' : ''}`,
+                      borderColor: isSelected ? 'white' : 'rgba(255,255,255,0.4)',
+                      borderWidth: isSelected ? '2px' : '1px',
+                    }}
+                    onClick={() => handleMarkerClick(u)}
+                  />
+                  {isSelected && (
+                    <div
+                      className="absolute text-lg pointer-events-none select-none"
+                      style={{
+                        left: '50%',
+                        top: '-20px',
+                        transform: 'translate(-50%, -50%)',
+                      }}
+                    >
+                      {u.avatar}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
-        {onClose && (
+
+        {/* Title + Close as Overlay on the map */}
+        <div className="absolute inset-x-0 top-0 z-20 pt-safe pt-4 px-4 pb-6 bg-gradient-to-b from-black/70 to-transparent">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-lg font-bold leading-tight text-white">{t.title}</h1>
+              <p className="text-xs text-white/70">{t.subtitle}</p>
+            </div>
+            {onClose && (
+              <button
+                onClick={onClose}
+                className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-white/15 hover:bg-white/25 text-white backdrop-blur-sm"
+                aria-label="Close"
+              >
+                <span className="material-icons text-xl">close</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Zoom Buttons bottom-right in map */}
+        <div className="absolute bottom-3 right-3 z-30 flex flex-col gap-1.5">
           <button
-            onClick={onClose}
-            className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isLight ? 'bg-purple-100 hover:bg-purple-200 text-purple-700' : 'bg-white/10 hover:bg-white/20 text-white'}`}
-            aria-label="Close"
+            onClick={handleZoomIn}
+            className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
+              isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
+            }`}
           >
-            <span className="material-icons text-xl">close</span>
+            <span className="material-icons text-lg">add</span>
           </button>
-        )}
+          <button
+            onClick={handleZoomOut}
+            className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
+              isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
+            }`}
+          >
+            <span className="material-icons text-lg">remove</span>
+          </button>
+          {mapScale > 1 && (
+            <button
+              onClick={() => { setMapScale(1); setMapOffset({ x: 0, y: 0 }); }}
+              className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
+                isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <span className="material-icons text-sm">fit_screen</span>
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* ── Search Field ── */}
-      <div className="z-20 px-3 pt-2">
+      {/* ── Search Field (sticky under map) ── */}
+      <div className={`sticky top-0 z-30 px-3 py-2 backdrop-blur-xl ${isLight ? 'bg-indigo-50/90' : 'bg-[#06030f]/90'}`}>
         <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border backdrop-blur-sm ${isLight ? 'bg-white/70 border-purple-200/60' : 'bg-white/5 border-white/10'}`}>
           <span className={`material-icons text-lg ${isLight ? 'text-purple-400' : 'text-slate-400'}`}>search</span>
           <input
@@ -735,16 +872,56 @@ const DreamMap: React.FC<DreamMapProps> = ({
       </div>
 
       {/* ── Stats Bar ── */}
-      <div className={`z-20 flex items-center justify-around px-3 py-2 border-b backdrop-blur-sm ${isLight ? 'border-purple-100/60 bg-white/40' : 'border-white/5 bg-black/20'}`}>
+      <div className={`flex items-center justify-around px-3 py-2 border-b backdrop-blur-sm ${isLight ? 'border-purple-100/60 bg-white/40' : 'border-white/5 bg-black/20'}`}>
         <StatPill icon="public"       value={totalActive.toLocaleString()} label={t.worldwide}    isLight={isLight} color="#a855f7" />
         <StatPill icon="favorite"     value={`${avgMatch}%`}               label={t.dreamersSimilar.replace('%','')} isLight={isLight} color="#ec4899" />
         <StatPill icon="bolt"         value={matchesToday.toString()}       label={t.matchestoday} isLight={isLight} color="#f59e0b" />
       </div>
 
+      {/* ── Category Chips ── */}
+      <div className="flex gap-2 px-3 py-2.5 overflow-x-auto dm-chip-scroll">
+        <button
+          onClick={() => setActiveCategory('all')}
+          className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${activeCategory === 'all' ? chipActive : `${chipBg} ${textSub}`}`}
+        >
+          <span className="material-icons text-sm">apps</span>
+          {t.filterAll}
+        </button>
+        {DREAM_CATEGORIES.map(cat => (
+          <button
+            key={cat.id}
+            onClick={() => setActiveCategory(activeCategory === cat.id ? 'all' : cat.id)}
+            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${activeCategory === cat.id ? chipActive : `${chipBg} ${textSub}`}`}
+          >
+            <span className="text-sm leading-none">{cat.icon}</span>
+            {tLang(cat)}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Match Threshold Slider ── */}
+      <div className="px-4 pb-2">
+        <div className="flex items-center justify-between mb-1">
+          <span className={`text-xs font-semibold ${textSub}`}>{t.matchThreshold}</span>
+          <span className={`text-xs font-bold tabular-nums ${isLight ? 'text-purple-600' : 'text-purple-300'}`}>{effectiveThreshold}%</span>
+        </div>
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={matchThreshold}
+          onChange={e => setMatchThreshold(Number(e.target.value))}
+          className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+          style={{
+            background: `linear-gradient(to right, #a855f7 ${matchThreshold}%, ${isLight ? '#e2e0e7' : '#1e1b2e'} ${matchThreshold}%)`,
+          }}
+        />
+      </div>
+
       {/* ── Trend Rankings Toggle ── */}
       <button
         onClick={() => setShowTrends(prev => !prev)}
-        className={`z-20 mx-3 mt-2 flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border transition-all ${
+        className={`mx-3 mb-2 flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border transition-all ${
           showTrends
             ? 'bg-purple-600 border-purple-500 text-white'
             : `${cardBg} ${textSub} backdrop-blur-sm`
@@ -757,9 +934,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
 
       {/* ── Trend Rankings List ── */}
       {showTrends && (
-        <div className={`z-20 mx-3 mt-2 rounded-2xl border backdrop-blur-xl overflow-hidden dm-slide-up ${
+        <div className={`mx-3 mb-2 rounded-2xl border backdrop-blur-xl overflow-hidden dm-slide-up ${
           isLight ? 'bg-white/80 border-purple-200/60' : 'bg-white/5 border-white/10'
-        }`} style={{ maxHeight: '40vh', overflowY: 'auto' }}>
+        }`}>
           <div className={`sticky top-0 px-4 py-2.5 border-b backdrop-blur-xl ${
             isLight ? 'bg-white/90 border-purple-100' : 'bg-[#0d0722]/90 border-white/5'
           }`}>
@@ -814,183 +991,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
         </div>
       )}
 
-      {/* ── Category Chips ── */}
-      <div className="z-20 flex gap-2 px-3 py-2.5 overflow-x-auto dm-chip-scroll shrink-0">
-        <button
-          onClick={() => setActiveCategory('all')}
-          className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${activeCategory === 'all' ? chipActive : `${chipBg} ${textSub}`}`}
-        >
-          <span className="material-icons text-sm">apps</span>
-          {t.filterAll}
-        </button>
-        {DREAM_CATEGORIES.map(cat => (
-          <button
-            key={cat.id}
-            onClick={() => setActiveCategory(activeCategory === cat.id ? 'all' : cat.id)}
-            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${activeCategory === cat.id ? chipActive : `${chipBg} ${textSub}`}`}
-          >
-            <span className="text-sm leading-none">{cat.icon}</span>
-            {tLang(cat)}
-          </button>
-        ))}
-      </div>
-
-      {/* ── Match Threshold Slider ── */}
-      <div className="z-20 px-4 pb-2 shrink-0">
-        <div className="flex items-center justify-between mb-1">
-          <span className={`text-xs font-semibold ${textSub}`}>{t.matchThreshold}</span>
-          <span className={`text-xs font-bold tabular-nums ${isLight ? 'text-purple-600' : 'text-purple-300'}`}>{effectiveThreshold}%</span>
-        </div>
-        <input
-          type="range"
-          min={0}
-          max={100}
-          value={matchThreshold}
-          onChange={e => setMatchThreshold(Number(e.target.value))}
-          className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-          style={{
-            background: `linear-gradient(to right, #a855f7 ${matchThreshold}%, ${isLight ? '#e2e0e7' : '#1e1b2e'} ${matchThreshold}%)`,
-          }}
-        />
-      </div>
-
-      {/* ── World Map with Background Image ── */}
-      <div
-        ref={mapContainerRef}
-        className="relative z-10 shrink-0 overflow-hidden px-2"
-        style={{ height: '40%', minHeight: 180 }}
-        onWheel={handleWheel}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div
-          className={`relative w-full h-full rounded-2xl overflow-hidden border shadow-xl ${isLight ? 'border-purple-200/60 shadow-purple-200/20' : 'border-white/5 shadow-black/40'}`}
-          style={{
-            background: isLight ? '#e8e0f0' : '#0a0318',
-            transform: `scale(${mapScale}) translate(${mapOffset.x / mapScale}px, ${mapOffset.y / mapScale}px)`,
-            transformOrigin: 'center center',
-            transition: isDragging ? 'none' : 'transform 0.2s ease',
-            cursor: mapScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
-            touchAction: 'none',
-          }}
-        >
-          {/* World map SVG background */}
-          <div
-            className="absolute inset-0 bg-contain bg-no-repeat bg-center"
-            style={{
-              backgroundImage: "url('/world-map.svg')",
-              filter: isLight
-                ? 'invert(0) brightness(0.9) opacity(0.6)'
-                : 'invert(1) hue-rotate(180deg) saturate(0.3) brightness(0.5) opacity(0.7)',
-            }}
-          />
-
-          {/* Marker layer */}
-          <div className="absolute inset-0">
-            {/* "You" center marker */}
-            <div
-              className="absolute z-20"
-              style={{
-                left: `${youCoords.x}%`,
-                top: `${youCoords.y}%`,
-                transform: 'translate(-50%, -50%)',
-              }}
-            >
-              <div className="w-4 h-4 rounded-full bg-purple-500 border-2 border-white shadow-lg shadow-purple-500/50" />
-              <div
-                className="dm-pulse-ring w-8 h-8 border-2 border-purple-400"
-                style={{ left: '50%', top: '50%' }}
-              />
-            </div>
-
-            {/* User markers */}
-            {filteredUsers.map(u => {
-              const coords = getCoordinates(u.lat, u.lng);
-              const isPulsing = pulsingIds.includes(u.id);
-              const isSelected = selectedUser?.id === u.id;
-              const color = matchColor(u.matchPct);
-              return (
-                <div key={u.id} className="absolute" style={{ left: `${coords.x}%`, top: `${coords.y}%`, zIndex: isSelected ? 50 : isPulsing ? 20 : 10 }}>
-                  {/* Pulse ring for active matches */}
-                  {isPulsing && (
-                    <div
-                      className="dm-pulse-ring w-6 h-6"
-                      style={{
-                        left: '50%',
-                        top: '50%',
-                        border: `2px solid ${color}`,
-                      }}
-                    />
-                  )}
-                  {/* Marker dot */}
-                  <div
-                    className="w-2.5 h-2.5 rounded-full border border-white/40 cursor-pointer transition-transform hover:scale-150 hover:z-50"
-                    style={{
-                      backgroundColor: color,
-                      boxShadow: `0 0 6px ${color}80`,
-                      transform: `translate(-50%, -50%)${isSelected ? ' scale(1.8)' : ''}`,
-                      borderColor: isSelected ? 'white' : 'rgba(255,255,255,0.4)',
-                      borderWidth: isSelected ? '2px' : '1px',
-                    }}
-                    onClick={() => handleMarkerClick(u)}
-                  />
-                  {/* Selected avatar bubble */}
-                  {isSelected && (
-                    <div
-                      className="absolute text-lg pointer-events-none select-none"
-                      style={{
-                        left: '50%',
-                        top: '-20px',
-                        transform: 'translate(-50%, -50%)',
-                      }}
-                    >
-                      {u.avatar}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Zoom Buttons */}
-        <div className="absolute bottom-3 right-3 z-30 flex flex-col gap-1.5">
-          <button
-            onClick={handleZoomIn}
-            className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
-              isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
-            }`}
-          >
-            <span className="material-icons text-lg">add</span>
-          </button>
-          <button
-            onClick={handleZoomOut}
-            className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
-              isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
-            }`}
-          >
-            <span className="material-icons text-lg">remove</span>
-          </button>
-          {mapScale > 1 && (
-            <button
-              onClick={() => { setMapScale(1); setMapOffset({ x: 0, y: 0 }); }}
-              className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
-                isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
-              }`}
-            >
-              <span className="material-icons text-sm">fit_screen</span>
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* ── Result List ── */}
-      <div className="z-20 flex-1 overflow-hidden flex flex-col min-h-0 px-2 pb-2 pt-1">
-        <div className={`flex items-center justify-between px-3 py-2 shrink-0`}>
+      {/* ── Result List (NO own scroll container) ── */}
+      <div className="px-2 pt-1" style={{ paddingBottom: '80px' }}>
+        <div className="flex items-center justify-between px-3 py-2">
           <span className={`text-sm font-bold ${textMain}`}>
             {t.matchedDreamers} ({sortedFilteredUsers.length})
           </span>
@@ -999,13 +1002,12 @@ const DreamMap: React.FC<DreamMapProps> = ({
           )}
         </div>
         <div
-          className={`flex-1 overflow-y-auto rounded-2xl border backdrop-blur-sm ${
+          className={`rounded-2xl border backdrop-blur-sm ${
             isLight ? 'bg-white/60 border-purple-200/60' : 'bg-white/3 border-white/5'
           }`}
-          style={{ minHeight: 0 }}
         >
           {sortedFilteredUsers.length === 0 ? (
-            <div className={`flex items-center justify-center h-full ${textSub}`}>
+            <div className={`flex items-center justify-center ${textSub}`}>
               <div className="text-center py-8">
                 <span className="material-icons text-3xl mb-2 block opacity-40">search_off</span>
                 <span className="text-sm">{t.noDreamsFound}</span>
@@ -1053,9 +1055,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
         </div>
       </div>
 
-      {/* ── Match Detail Panel ── */}
+      {/* ── Match Detail Panel (Slide-Up) ── */}
       {selectedUser && (
-        <div className={`z-30 absolute bottom-0 inset-x-0 rounded-t-3xl border-t backdrop-blur-xl p-5 dm-slide-up ${isLight ? 'bg-white/85 border-purple-200/60' : 'bg-[#0d0722]/90 border-white/10'}`}
+        <div className={`fixed bottom-0 inset-x-0 z-50 rounded-t-3xl border-t backdrop-blur-xl p-5 dm-slide-up ${isLight ? 'bg-white/85 border-purple-200/60' : 'bg-[#0d0722]/90 border-white/10'}`}
           style={{ maxHeight: '55vh', overflowY: 'auto' }}>
 
           {/* Drag handle */}
@@ -1120,7 +1122,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
       {/* ── Toast Notification ── */}
       {toast && (
         <div
-          className={`absolute top-24 inset-x-4 z-50 rounded-2xl border backdrop-blur-xl px-4 py-3 flex items-center gap-3 shadow-2xl ${toastVisible ? 'dm-slide-down' : 'dm-fade-out'} ${isLight ? 'bg-white/90 border-purple-200/60' : 'bg-[#1a0a3a]/90 border-white/15'}`}
+          className={`fixed top-4 inset-x-4 z-50 rounded-2xl border backdrop-blur-xl px-4 py-3 flex items-center gap-3 shadow-2xl ${toastVisible ? 'dm-slide-down' : 'dm-fade-out'} ${isLight ? 'bg-white/90 border-purple-200/60' : 'bg-[#1a0a3a]/90 border-white/15'}`}
         >
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shrink-0">
             <span className="material-icons text-white text-lg">favorite</span>
@@ -1140,9 +1142,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
       {/* ── Backdrop dim when panel open ── */}
       {selectedUser && (
         <div
-          className="absolute inset-0 z-20 bg-black/30 backdrop-blur-[1px]"
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[1px]"
           onClick={handleClosePanel}
-          style={{ bottom: '55vh' }}
         />
       )}
     </div>
