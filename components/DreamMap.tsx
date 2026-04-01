@@ -693,8 +693,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
             style={{
               backgroundImage: "url('/world-map.svg')",
               filter: isLight
-                ? 'invert(1) opacity(0.4)'
-                : 'invert(0) opacity(0.4) hue-rotate(220deg) brightness(0.7)',
+                ? 'invert(0) brightness(0.9) opacity(0.6)'
+                : 'invert(1) hue-rotate(180deg) saturate(0.3) brightness(0.5) opacity(0.7)',
             }}
           />
 
