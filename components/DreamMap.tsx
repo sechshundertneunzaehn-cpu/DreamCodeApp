@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { Dream, Language, ReligiousCategory } from '../types';
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -36,6 +36,10 @@ interface Translations {
   trendDreamers: string;
   showTrends: string;
   hideTrends: string;
+  searchPlaceholder: string;
+  matchThreshold: string;
+  matchedDreamers: string;
+  noDreamsFound: string;
 }
 
 const TRANSLATIONS: Record<string, Translations> = {
@@ -63,6 +67,10 @@ const TRANSLATIONS: Record<string, Translations> = {
     trendDreamers: 'dreamers',
     showTrends: 'Show Trends',
     hideTrends: 'Hide Trends',
+    searchPlaceholder: 'Search dreams, keywords, cities...',
+    matchThreshold: 'Match Threshold',
+    matchedDreamers: 'Matched Dreamers',
+    noDreamsFound: 'No dreams found',
   },
   de: {
     title: 'Traumkarte',
@@ -88,6 +96,10 @@ const TRANSLATIONS: Record<string, Translations> = {
     trendDreamers: 'Träumer',
     showTrends: 'Trends zeigen',
     hideTrends: 'Trends ausblenden',
+    searchPlaceholder: 'Durchsuche Traeume, Stichworte, Staedte...',
+    matchThreshold: 'Match-Schwelle',
+    matchedDreamers: 'Gematchte Traeumer',
+    noDreamsFound: 'Keine Traeume gefunden',
   },
   tr: {
     title: 'Rüya Haritası',
@@ -113,6 +125,10 @@ const TRANSLATIONS: Record<string, Translations> = {
     trendDreamers: 'rüyacı',
     showTrends: 'Trendleri Göster',
     hideTrends: 'Trendleri Gizle',
+    searchPlaceholder: 'Rüyaları, anahtar kelimeleri, şehirleri ara...',
+    matchThreshold: 'Eşleşme Eşiği',
+    matchedDreamers: 'Eşleşen Rüyacılar',
+    noDreamsFound: 'Rüya bulunamadı',
   },
   es: {
     title: 'Mapa de Sueños',
@@ -138,6 +154,10 @@ const TRANSLATIONS: Record<string, Translations> = {
     trendDreamers: 'soñadores',
     showTrends: 'Mostrar tendencias',
     hideTrends: 'Ocultar tendencias',
+    searchPlaceholder: 'Buscar sueños, palabras clave, ciudades...',
+    matchThreshold: 'Umbral de coincidencia',
+    matchedDreamers: 'Soñadores coincidentes',
+    noDreamsFound: 'No se encontraron sueños',
   },
   fr: {
     title: 'Carte des Rêves',
@@ -163,6 +183,10 @@ const TRANSLATIONS: Record<string, Translations> = {
     trendDreamers: 'rêveurs',
     showTrends: 'Afficher tendances',
     hideTrends: 'Masquer tendances',
+    searchPlaceholder: 'Rechercher rêves, mots-clés, villes...',
+    matchThreshold: 'Seuil de correspondance',
+    matchedDreamers: 'Rêveurs correspondants',
+    noDreamsFound: 'Aucun rêve trouvé',
   },
   ar: {
     title: 'خريطة الأحلام',
@@ -188,6 +212,10 @@ const TRANSLATIONS: Record<string, Translations> = {
     trendDreamers: 'حالم',
     showTrends: 'عرض الاتجاهات',
     hideTrends: 'إخفاء الاتجاهات',
+    searchPlaceholder: 'ابحث عن أحلام، كلمات، مدن...',
+    matchThreshold: 'حد التطابق',
+    matchedDreamers: 'الحالمون المتطابقون',
+    noDreamsFound: 'لم يتم العثور على أحلام',
   },
   pt: {
     title: 'Mapa dos Sonhos',
@@ -213,6 +241,10 @@ const TRANSLATIONS: Record<string, Translations> = {
     trendDreamers: 'sonhadores',
     showTrends: 'Mostrar tendências',
     hideTrends: 'Ocultar tendências',
+    searchPlaceholder: 'Pesquisar sonhos, palavras-chave, cidades...',
+    matchThreshold: 'Limite de correspondência',
+    matchedDreamers: 'Sonhadores correspondentes',
+    noDreamsFound: 'Nenhum sonho encontrado',
   },
   ru: {
     title: 'Карта Снов',
@@ -238,6 +270,10 @@ const TRANSLATIONS: Record<string, Translations> = {
     trendDreamers: 'сновидцев',
     showTrends: 'Показать тренды',
     hideTrends: 'Скрыть тренды',
+    searchPlaceholder: 'Поиск снов, ключевых слов, городов...',
+    matchThreshold: 'Порог совпадения',
+    matchedDreamers: 'Совпавшие сновидцы',
+    noDreamsFound: 'Сны не найдены',
   },
 };
 
@@ -441,6 +477,17 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const notifTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // ── New feature state ──
+  const [searchQuery, setSearchQuery] = useState('');
+  const [matchThreshold, setMatchThreshold] = useState(50);
+  // Zoom & Pan
+  const [mapScale, setMapScale] = useState(1);
+  const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef({ x: 0, y: 0, ox: 0, oy: 0 });
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const lastTouchDist = useRef<number | null>(null);
+
   // Init users
   useEffect(() => {
     const generated = generateUsers(dreams);
@@ -475,9 +522,35 @@ const DreamMap: React.FC<DreamMapProps> = ({
     };
   }, [users]);
 
-  const filteredUsers = activeCategory === 'all'
-    ? users
-    : users.filter(u => u.category === activeCategory);
+  // Effective threshold: when searching, drop to 0 so all results show
+  const effectiveThreshold = searchQuery.trim().length > 0 ? 0 : matchThreshold;
+
+  const filteredUsers = useMemo(() => {
+    let list = users;
+    // Category filter
+    if (activeCategory !== 'all') {
+      list = list.filter(u => u.category === activeCategory);
+    }
+    // Match threshold filter
+    list = list.filter(u => u.matchPct >= effectiveThreshold);
+    // Search filter
+    if (searchQuery.trim().length > 0) {
+      const q = searchQuery.trim().toLowerCase();
+      list = list.filter(u =>
+        u.name.toLowerCase().includes(q) ||
+        u.city.toLowerCase().includes(q) ||
+        u.country.toLowerCase().includes(q) ||
+        u.dreamSummary.toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }, [users, activeCategory, effectiveThreshold, searchQuery]);
+
+  // Sorted for result list (descending by match%)
+  const sortedFilteredUsers = useMemo(
+    () => [...filteredUsers].sort((a, b) => b.matchPct - a.matchPct),
+    [filteredUsers]
+  );
 
   const matchColor = (pct: number) =>
     pct >= 80 ? '#22c55e' : pct >= 60 ? '#eab308' : '#f97316';
@@ -487,6 +560,67 @@ const DreamMap: React.FC<DreamMapProps> = ({
   }, []);
 
   const handleClosePanel = () => setSelectedUser(null);
+
+  // ── Zoom / Pan handlers ──
+  const handleZoomIn = useCallback(() => {
+    setMapScale(s => Math.min(s + 0.5, 5));
+  }, []);
+  const handleZoomOut = useCallback(() => {
+    setMapScale(s => {
+      const next = Math.max(s - 0.5, 1);
+      if (next === 1) setMapOffset({ x: 0, y: 0 });
+      return next;
+    });
+  }, []);
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    e.preventDefault();
+    setMapScale(s => {
+      const next = e.deltaY < 0 ? Math.min(s + 0.3, 5) : Math.max(s - 0.3, 1);
+      if (next === 1) setMapOffset({ x: 0, y: 0 });
+      return next;
+    });
+  }, []);
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    if (mapScale <= 1) return;
+    setIsDragging(true);
+    dragStart.current = { x: e.clientX, y: e.clientY, ox: mapOffset.x, oy: mapOffset.y };
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }, [mapScale, mapOffset]);
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (!isDragging) return;
+    const dx = e.clientX - dragStart.current.x;
+    const dy = e.clientY - dragStart.current.y;
+    setMapOffset({ x: dragStart.current.ox + dx, y: dragStart.current.oy + dy });
+  }, [isDragging]);
+  const handlePointerUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // Pinch-to-zoom for touch
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (lastTouchDist.current !== null) {
+        const delta = dist - lastTouchDist.current;
+        setMapScale(s => {
+          const next = Math.max(1, Math.min(5, s + delta * 0.01));
+          if (next === 1) setMapOffset({ x: 0, y: 0 });
+          return next;
+        });
+      }
+      lastTouchDist.current = dist;
+    }
+  }, []);
+  const handleTouchEnd = useCallback(() => {
+    lastTouchDist.current = null;
+  }, []);
+
+  // Select user from result list
+  const handleResultClick = useCallback((user: SimUser) => {
+    setSelectedUser(prev => prev?.id === user.id ? null : user);
+  }, []);
 
   // Stats
   const totalActive = users.length + 1847;
@@ -579,6 +713,25 @@ const DreamMap: React.FC<DreamMapProps> = ({
             <span className="material-icons text-xl">close</span>
           </button>
         )}
+      </div>
+
+      {/* ── Search Field ── */}
+      <div className="z-20 px-3 pt-2">
+        <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border backdrop-blur-sm ${isLight ? 'bg-white/70 border-purple-200/60' : 'bg-white/5 border-white/10'}`}>
+          <span className={`material-icons text-lg ${isLight ? 'text-purple-400' : 'text-slate-400'}`}>search</span>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder={t.searchPlaceholder}
+            className={`flex-1 bg-transparent outline-none text-sm ${textMain} placeholder:${textSub}`}
+          />
+          {searchQuery.length > 0 && (
+            <button onClick={() => setSearchQuery('')} className={`${textSub} hover:${textMain}`}>
+              <span className="material-icons text-lg">close</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* ── Stats Bar ── */}
@@ -682,10 +835,48 @@ const DreamMap: React.FC<DreamMapProps> = ({
         ))}
       </div>
 
+      {/* ── Match Threshold Slider ── */}
+      <div className="z-20 px-4 pb-2 shrink-0">
+        <div className="flex items-center justify-between mb-1">
+          <span className={`text-xs font-semibold ${textSub}`}>{t.matchThreshold}</span>
+          <span className={`text-xs font-bold tabular-nums ${isLight ? 'text-purple-600' : 'text-purple-300'}`}>{effectiveThreshold}%</span>
+        </div>
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={matchThreshold}
+          onChange={e => setMatchThreshold(Number(e.target.value))}
+          className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+          style={{
+            background: `linear-gradient(to right, #a855f7 ${matchThreshold}%, ${isLight ? '#e2e0e7' : '#1e1b2e'} ${matchThreshold}%)`,
+          }}
+        />
+      </div>
+
       {/* ── World Map with Background Image ── */}
-      <div className="relative z-10 flex-1 overflow-hidden px-2 pb-2" style={{ minHeight: 0 }}>
-        <div className={`relative w-full h-full rounded-2xl overflow-hidden border shadow-xl ${isLight ? 'border-purple-200/60 shadow-purple-200/20' : 'border-white/5 shadow-black/40'}`}
-          style={{ background: isLight ? '#e8e0f0' : '#0a0318', height: '100%' }}
+      <div
+        ref={mapContainerRef}
+        className="relative z-10 shrink-0 overflow-hidden px-2"
+        style={{ height: '40%', minHeight: 180 }}
+        onWheel={handleWheel}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div
+          className={`relative w-full h-full rounded-2xl overflow-hidden border shadow-xl ${isLight ? 'border-purple-200/60 shadow-purple-200/20' : 'border-white/5 shadow-black/40'}`}
+          style={{
+            background: isLight ? '#e8e0f0' : '#0a0318',
+            transform: `scale(${mapScale}) translate(${mapOffset.x / mapScale}px, ${mapOffset.y / mapScale}px)`,
+            transformOrigin: 'center center',
+            transition: isDragging ? 'none' : 'transform 0.2s ease',
+            cursor: mapScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
+            touchAction: 'none',
+          }}
         >
           {/* World map SVG background */}
           <div
@@ -765,12 +956,102 @@ const DreamMap: React.FC<DreamMapProps> = ({
             })}
           </div>
         </div>
+
+        {/* Zoom Buttons */}
+        <div className="absolute bottom-3 right-3 z-30 flex flex-col gap-1.5">
+          <button
+            onClick={handleZoomIn}
+            className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
+              isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
+            }`}
+          >
+            <span className="material-icons text-lg">add</span>
+          </button>
+          <button
+            onClick={handleZoomOut}
+            className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
+              isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
+            }`}
+          >
+            <span className="material-icons text-lg">remove</span>
+          </button>
+          {mapScale > 1 && (
+            <button
+              onClick={() => { setMapScale(1); setMapOffset({ x: 0, y: 0 }); }}
+              className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
+                isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <span className="material-icons text-sm">fit_screen</span>
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* ── Tap hint ── */}
-      {!selectedUser && (
-        <p className={`text-center text-xs pb-2 ${textSub}`}>{t.tapMarker}</p>
-      )}
+      {/* ── Result List ── */}
+      <div className="z-20 flex-1 overflow-hidden flex flex-col min-h-0 px-2 pb-2 pt-1">
+        <div className={`flex items-center justify-between px-3 py-2 shrink-0`}>
+          <span className={`text-sm font-bold ${textMain}`}>
+            {t.matchedDreamers} ({sortedFilteredUsers.length})
+          </span>
+          {!selectedUser && (
+            <span className={`text-[10px] ${textSub}`}>{t.tapMarker}</span>
+          )}
+        </div>
+        <div
+          className={`flex-1 overflow-y-auto rounded-2xl border backdrop-blur-sm ${
+            isLight ? 'bg-white/60 border-purple-200/60' : 'bg-white/3 border-white/5'
+          }`}
+          style={{ minHeight: 0 }}
+        >
+          {sortedFilteredUsers.length === 0 ? (
+            <div className={`flex items-center justify-center h-full ${textSub}`}>
+              <div className="text-center py-8">
+                <span className="material-icons text-3xl mb-2 block opacity-40">search_off</span>
+                <span className="text-sm">{t.noDreamsFound}</span>
+              </div>
+            </div>
+          ) : (
+            sortedFilteredUsers.map(u => {
+              const isActive = selectedUser?.id === u.id;
+              const cat = DREAM_CATEGORIES.find(c => c.id === u.category);
+              return (
+                <div
+                  key={u.id}
+                  onClick={() => handleResultClick(u)}
+                  className={`flex items-center gap-3 px-3 py-2.5 border-b cursor-pointer transition-colors ${
+                    isActive
+                      ? (isLight ? 'bg-purple-100/80 border-purple-200' : 'bg-purple-900/30 border-purple-500/20')
+                      : (isLight ? 'border-purple-50 hover:bg-purple-50/60' : 'border-white/3 hover:bg-white/5')
+                  }`}
+                >
+                  <span className="text-2xl leading-none shrink-0">{u.avatar}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className={`text-sm font-semibold truncate ${textMain}`}>{u.name}</span>
+                      {cat && <span className="text-xs leading-none">{cat.icon}</span>}
+                    </div>
+                    <div className={`text-[11px] ${textSub}`}>{u.city}, {u.country}</div>
+                    <p className={`text-xs italic truncate mt-0.5 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                      {u.dreamSummary}
+                    </p>
+                  </div>
+                  <div
+                    className="shrink-0 px-2 py-1 rounded-lg text-xs font-extrabold tabular-nums"
+                    style={{
+                      background: matchColor(u.matchPct) + '22',
+                      color: matchColor(u.matchPct),
+                      border: `1px solid ${matchColor(u.matchPct)}44`,
+                    }}
+                  >
+                    {u.matchPct}%
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
 
       {/* ── Match Detail Panel ── */}
       {selectedUser && (
