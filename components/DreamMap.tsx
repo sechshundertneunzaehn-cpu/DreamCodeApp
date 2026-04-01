@@ -329,128 +329,180 @@ const getCoordinates = (lat: number, lng: number) => {
   return { x, y };
 };
 
-// 100 bot users with real lat/lng coordinates
+// 150 bot users with real lat/lng coordinates — 90% female
 const BASE_USERS: Omit<SimUser, 'matchPct'>[] = [
-  // ── EUROPE (25) ──
-  { id:'u1',  name:'Lena K.',     avatar:'👩‍🦰', city:'Berlin',       country:'DE', lat:52.52,  lng:13.40,  dreamSummary:'Flying over mountains in bright sunlight',           category:'flying',    mood:'excited'   },
-  { id:'u2',  name:'Felix G.',    avatar:'🧑‍🦲', city:'Paris',        country:'FR', lat:48.85,  lng:2.35,   dreamSummary:'Fell from Eiffel Tower, woke before landing',       category:'falling',   mood:'scared'    },
-  { id:'u3',  name:'Emma W.',     avatar:'👱‍♀️', city:'London',       country:'GB', lat:51.50,  lng:-0.12,  dreamSummary:'Tea party with talking animals in wonderland',       category:'animals',   mood:'playful'   },
-  { id:'u4',  name:'Marco R.',    avatar:'🧑‍🦱', city:'Rome',         country:'IT', lat:41.90,  lng:12.50,  dreamSummary:'Lost in colosseum that never ends',                  category:'chase',     mood:'confused'  },
-  { id:'u5',  name:'Rosa M.',     avatar:'👩🏽',  city:'Madrid',       country:'ES', lat:40.41,  lng:-3.70,  dreamSummary:'Running from bull through city streets',             category:'chase',     mood:'terrified' },
-  { id:'u6',  name:'Nina F.',     avatar:'👩‍🦰', city:'Amsterdam',    country:'NL', lat:52.37,  lng:4.90,   dreamSummary:'Cycling canals that turned into rivers',             category:'water',     mood:'serene'    },
-  { id:'u7',  name:'Sara J.',     avatar:'👩‍🦳', city:'Stockholm',    country:'SE', lat:59.33,  lng:18.07,  dreamSummary:'Northern lights spelling out a message',             category:'nature',    mood:'mystified' },
-  { id:'u8',  name:'Erik H.',     avatar:'🧔',   city:'Oslo',         country:'NO', lat:59.91,  lng:10.75,  dreamSummary:'Viking longship voyage to edge of the world',        category:'nature',    mood:'adventurous'},
-  { id:'u9',  name:'Greta L.',    avatar:'👩‍🦳', city:'Vienna',       country:'AT', lat:48.21,  lng:16.37,  dreamSummary:'Waltz with a skeleton at empty palace ball',         category:'death',     mood:'eerie'     },
-  { id:'u10', name:'Leo B.',      avatar:'🧑‍🦱', city:'Munich',       country:'DE', lat:48.14,  lng:11.58,  dreamSummary:'UFO abduction with friendly aliens showing future',  category:'ufo',       mood:'amazed'    },
-  { id:'u11', name:'Luisa F.',    avatar:'👩',   city:'Lisbon',       country:'PT', lat:38.72,  lng:-9.14,  dreamSummary:'Ocean swallowing the city, calm escape by boat',     category:'water',     mood:'melancholic'},
-  { id:'u12', name:'Boris K.',    avatar:'👨',   city:'Kyiv',         country:'UA', lat:50.45,  lng:30.52,  dreamSummary:'Endless forest where sun never rises',               category:'nature',    mood:'melancholic'},
-  { id:'u13', name:'Marta P.',    avatar:'👩🏻',  city:'Warsaw',       country:'PL', lat:52.23,  lng:21.01,  dreamSummary:'Piano playing itself in empty concert hall',         category:'spiritual', mood:'haunted'   },
-  { id:'u14', name:'Nikos D.',    avatar:'🧔🏽',  city:'Athens',       country:'GR', lat:37.98,  lng:23.73,  dreamSummary:'Swimming in crystal sea with ancient statues',       category:'water',     mood:'peaceful'  },
-  { id:'u15', name:'Elsa B.',     avatar:'👩‍🦱', city:'Helsinki',     country:'FI', lat:60.17,  lng:24.94,  dreamSummary:'Sauna melting into northern aurora',                 category:'nature',    mood:'bliss'     },
-  { id:'u16', name:'Jan V.',      avatar:'🧑',   city:'Prague',       country:'CZ', lat:50.08,  lng:14.44,  dreamSummary:'Clock tower coming alive at midnight',               category:'timetravel',mood:'wonder'    },
-  { id:'u17', name:'Katya S.',    avatar:'👩‍🦰', city:'Zurich',       country:'CH', lat:47.38,  lng:8.54,   dreamSummary:'Mountain splitting open revealing gold',             category:'money',     mood:'greedy'    },
-  { id:'u18', name:'Liam O.',     avatar:'🧑‍🦱', city:'Dublin',       country:'IE', lat:53.35,  lng:-6.26,  dreamSummary:'Leprechaun leading to rainbow treasure',             category:'funny',     mood:'amused'    },
-  { id:'u19', name:'Astrid N.',   avatar:'👩',   city:'Copenhagen',   country:'DK', lat:55.68,  lng:12.57,  dreamSummary:'Mermaid singing beneath frozen harbor',              category:'love',      mood:'longing'   },
-  { id:'u20', name:'Dmitri V.',   avatar:'👨',   city:'St Petersburg',country:'RU', lat:59.93,  lng:30.32,  dreamSummary:'Walking through Winter Palace that never ends',      category:'timetravel',mood:'lost'      },
-  { id:'u21', name:'Elena R.',    avatar:'👩🏻',  city:'Bucharest',    country:'RO', lat:44.43,  lng:26.10,  dreamSummary:'Vampire turning into a kind old man',                category:'horror',    mood:'surprised' },
-  { id:'u22', name:'Ivan P.',     avatar:'👨',   city:'Moscow',       country:'RU', lat:55.75,  lng:37.62,  dreamSummary:'Frozen city, alone in snowstorm',                    category:'nature',    mood:'lonely'    },
-  { id:'u23', name:'Giulia T.',   avatar:'👩🏽',  city:'Milan',        country:'IT', lat:45.46,  lng:9.19,   dreamSummary:'Fashion show where clothes fly away',                category:'funny',     mood:'embarrassed'},
-  { id:'u24', name:'Henrik L.',   avatar:'🧔',   city:'Gothenburg',   country:'SE', lat:57.71,  lng:11.97,  dreamSummary:'Sailing through sky on viking ship',                 category:'flying',    mood:'free'      },
-  { id:'u25', name:'Sofia K.',    avatar:'👩‍🦱', city:'Barcelona',    country:'ES', lat:41.39,  lng:2.17,   dreamSummary:'Gaudi buildings melting in surreal heat',             category:'horror',    mood:'disoriented'},
-  // ── MIDDLE EAST & NORTH AFRICA (12) ──
-  { id:'u26', name:'Omar K.',     avatar:'🧔🏽',  city:'Istanbul',     country:'TR', lat:41.01,  lng:28.98,  dreamSummary:'Flying over the Bosphorus at midnight',              category:'flying',    mood:'free'      },
-  { id:'u27', name:'Ahmed S.',    avatar:'🧔',   city:'Cairo',        country:'EG', lat:30.04,  lng:31.24,  dreamSummary:'Lost in an ancient desert temple',                   category:'spiritual', mood:'anxious'   },
-  { id:'u28', name:'Fatima Z.',   avatar:'👩🏽‍🦱',city:'Casablanca',  country:'MA', lat:33.59,  lng:-7.62,  dreamSummary:'Flying carpet ride over desert at sunset',           category:'flying',    mood:'magical'   },
-  { id:'u29', name:'Tariq A.',    avatar:'🧔🏿',  city:'Riyadh',       country:'SA', lat:24.71,  lng:46.67,  dreamSummary:'Walking on water during prayer',                    category:'spiritual', mood:'blessed'   },
-  { id:'u30', name:'Layla R.',    avatar:'👩🏻‍🦳',city:'Dubai',       country:'AE', lat:25.20,  lng:55.27,  dreamSummary:'Golden city rising from the sand',                   category:'money',     mood:'awed'      },
-  { id:'u31', name:'Yasmin H.',   avatar:'👩🏽',  city:'Tehran',       country:'IR', lat:35.69,  lng:51.39,  dreamSummary:'Garden of paradise with talking flowers',            category:'spiritual', mood:'peaceful'  },
-  { id:'u32', name:'Karim M.',    avatar:'🧑🏽',  city:'Amman',        country:'JO', lat:31.95,  lng:35.93,  dreamSummary:'Dead Sea turning into liquid gold',                  category:'money',     mood:'amazed'    },
-  { id:'u33', name:'Nour E.',     avatar:'👩🏽',  city:'Beirut',       country:'LB', lat:33.89,  lng:35.50,  dreamSummary:'City rebuilding itself from ruins overnight',        category:'timetravel',mood:'hopeful'   },
-  { id:'u34', name:'Ali F.',      avatar:'🧔🏽',  city:'Baghdad',      country:'IQ', lat:33.31,  lng:44.37,  dreamSummary:'Ancient library with books that speak',              category:'spiritual', mood:'wise'      },
-  { id:'u35', name:'Dina S.',     avatar:'👩🏽',  city:'Tunis',        country:'TN', lat:36.81,  lng:10.18,  dreamSummary:'Medina maze where walls shift like sand',            category:'chase',     mood:'confused'  },
-  { id:'u36', name:'Emre Y.',     avatar:'🧑',   city:'Ankara',       country:'TR', lat:39.93,  lng:32.85,  dreamSummary:'Hot air balloon revealing ancient ruins',            category:'nature',    mood:'awed'      },
-  { id:'u37', name:'Samira K.',   avatar:'👩🏿',  city:'Algiers',      country:'DZ', lat:36.75,  lng:3.06,   dreamSummary:'Desert storm revealing hidden oasis city',           category:'nature',    mood:'amazed'    },
-  // ── SUB-SAHARAN AFRICA (10) ──
-  { id:'u38', name:'Amina B.',    avatar:'👩🏿',  city:'Lagos',        country:'NG', lat:6.52,   lng:3.38,   dreamSummary:'Meeting ancestors in ancestral village',             category:'spiritual', mood:'peaceful'  },
-  { id:'u39', name:'Kofi A.',     avatar:'👨🏿',  city:'Accra',        country:'GH', lat:5.56,   lng:-0.19,  dreamSummary:'Lion chasing through savannah at dusk',              category:'animals',   mood:'fearful'   },
-  { id:'u40', name:'Aisha T.',    avatar:'👩🏿',  city:'Nairobi',      country:'KE', lat:-1.29,  lng:36.82,  dreamSummary:'Climbing Kilimanjaro while fire rains',              category:'nature',    mood:'determined'},
-  { id:'u41', name:'Moussa D.',   avatar:'👨🏿',  city:'Dakar',        country:'SN', lat:14.72,  lng:-17.47, dreamSummary:'Ancestral spirits guiding through desert',           category:'spiritual', mood:'guided'    },
-  { id:'u42', name:'Zara A.',     avatar:'👩🏽‍🦲',city:'Johannesburg',country:'ZA', lat:-26.20, lng:28.04,  dreamSummary:'Becoming a bird and crossing oceans',                category:'flying',    mood:'free'      },
-  { id:'u43', name:'Kwame O.',    avatar:'🧑🏿',  city:'Kampala',      country:'UG', lat:0.35,   lng:32.58,  dreamSummary:'Gorillas teaching sign language in forest',          category:'animals',   mood:'wonder'    },
-  { id:'u44', name:'Blessing N.', avatar:'👩🏿',  city:'Abuja',        country:'NG', lat:9.06,   lng:7.49,   dreamSummary:'Market where everything is made of light',           category:'spiritual', mood:'luminous'  },
-  { id:'u45', name:'Thabo M.',    avatar:'🧑🏿',  city:'Cape Town',    country:'ZA', lat:-33.93, lng:18.42,  dreamSummary:'Table Mountain floating into space',                 category:'ufo',       mood:'shocked'   },
-  { id:'u46', name:'Aya L.',      avatar:'👩🏿',  city:'Addis Ababa',  country:'ET', lat:9.02,   lng:38.75,  dreamSummary:'Coffee ceremony with angels as guests',              category:'spiritual', mood:'serene'    },
-  { id:'u47', name:'Jean-Pierre.',avatar:'🧑🏿',  city:'Kinshasa',     country:'CD', lat:-4.44,  lng:15.27,  dreamSummary:'River Congo flowing backwards revealing treasures',  category:'money',     mood:'excited'   },
-  // ── SOUTH ASIA (8) ──
-  { id:'u48', name:'Priya R.',    avatar:'👩🏽',  city:'Mumbai',       country:'IN', lat:19.08,  lng:72.88,  dreamSummary:'Sitting exam without preparation',                   category:'school',    mood:'stressed'  },
-  { id:'u49', name:'Ravi S.',     avatar:'🧑🏽',  city:'Delhi',        country:'IN', lat:28.61,  lng:77.21,  dreamSummary:'Meeting a celebrity on a film set',                  category:'celebrity', mood:'star-struck'},
-  { id:'u50', name:'Raj P.',      avatar:'🧑🏽‍🦱',city:'Bangalore',  country:'IN', lat:12.97,  lng:77.59,  dreamSummary:'Coding a program that solves world hunger',           category:'funny',     mood:'inspired'  },
-  { id:'u51', name:'Ananya G.',   avatar:'👩🏽',  city:'Kolkata',      country:'IN', lat:22.57,  lng:88.36,  dreamSummary:'Durga goddess visiting during storm',                category:'spiritual', mood:'blessed'   },
-  { id:'u52', name:'Sanjay M.',   avatar:'🧔🏽',  city:'Chennai',      country:'IN', lat:13.08,  lng:80.27,  dreamSummary:'Ocean temple rising from the waves',                 category:'water',     mood:'mystified' },
-  { id:'u53', name:'Nisha T.',    avatar:'👩🏽',  city:'Kathmandu',    country:'NP', lat:27.72,  lng:85.32,  dreamSummary:'Flying over Himalayas touching clouds',              category:'flying',    mood:'euphoric'  },
-  { id:'u54', name:'Arjun K.',    avatar:'🧑🏽',  city:'Colombo',      country:'LK', lat:6.93,   lng:79.85,  dreamSummary:'Elephant parade through golden streets',             category:'animals',   mood:'joyful'    },
-  { id:'u55', name:'Fatima P.',   avatar:'👩🏽',  city:'Karachi',      country:'PK', lat:24.86,  lng:67.01,  dreamSummary:'Bazaar where memories are sold as gems',             category:'timetravel',mood:'nostalgic' },
-  // ── EAST ASIA (12) ──
-  { id:'u56', name:'Yuki H.',     avatar:'👩‍🦱', city:'Tokyo',        country:'JP', lat:35.68,  lng:139.69, dreamSummary:'Riding a giant koi fish across the ocean',           category:'water',     mood:'calm'      },
-  { id:'u57', name:'Mei L.',      avatar:'👩🏻',  city:'Shanghai',     country:'CN', lat:31.23,  lng:121.47, dreamSummary:'Time traveling to ancient China dynasty',            category:'timetravel',mood:'amazed'    },
-  { id:'u58', name:'Hana M.',     avatar:'👩🏻‍🦱', city:'Seoul',      country:'KR', lat:37.57,  lng:126.98, dreamSummary:'Surfing a tsunami wave towards safety',              category:'water',     mood:'brave'     },
-  { id:'u59', name:'Chen W.',     avatar:'👨🏻',  city:'Beijing',      country:'CN', lat:39.90,  lng:116.40, dreamSummary:'Attending school exam in wrong century',             category:'school',    mood:'anxious'   },
-  { id:'u60', name:'Yuna K.',     avatar:'👩🏻',  city:'Osaka',        country:'JP', lat:34.69,  lng:135.50, dreamSummary:'Robot parade led by dancing toaster',                category:'funny',     mood:'delighted' },
-  { id:'u61', name:'Ji-woo P.',   avatar:'🧑🏻',  city:'Busan',        country:'KR', lat:35.18,  lng:129.08, dreamSummary:'Surfing through neon city on a cloud',               category:'flying',    mood:'euphoric'  },
-  { id:'u62', name:'Lin Y.',      avatar:'👩🏻',  city:'Taipei',       country:'TW', lat:25.03,  lng:121.57, dreamSummary:'Night market food coming alive and dancing',         category:'funny',     mood:'amused'    },
-  { id:'u63', name:'Tuan N.',     avatar:'🧑🏻',  city:'Hanoi',        country:'VN', lat:21.03,  lng:105.85, dreamSummary:'Dragons emerging from Ha Long Bay mist',             category:'animals',   mood:'awed'      },
-  { id:'u64', name:'Sakura T.',   avatar:'👩🏻',  city:'Kyoto',        country:'JP', lat:35.01,  lng:135.77, dreamSummary:'Cherry blossoms turning into butterflies',           category:'nature',    mood:'peaceful'  },
-  { id:'u65', name:'Wei Z.',      avatar:'🧑🏻',  city:'Chengdu',      country:'CN', lat:30.57,  lng:104.07, dreamSummary:'Panda army marching through bamboo forest',          category:'animals',   mood:'hilarious' },
-  { id:'u66', name:'Min-ji L.',   avatar:'👩🏻',  city:'Incheon',      country:'KR', lat:37.46,  lng:126.70, dreamSummary:'K-pop concert where audience floats',               category:'celebrity', mood:'euphoric'  },
-  { id:'u67', name:'Hiroshi K.',  avatar:'🧔🏻',  city:'Nagoya',       country:'JP', lat:35.18,  lng:136.91, dreamSummary:'Samurai duel on top of Mount Fuji',                  category:'chase',     mood:'intense'   },
-  // ── SOUTHEAST ASIA (5) ──
-  { id:'u68', name:'Rina S.',     avatar:'👩🏽',  city:'Jakarta',      country:'ID', lat:-6.21,  lng:106.85, dreamSummary:'Volcano erupting flowers instead of lava',           category:'nature',    mood:'wonder'    },
-  { id:'u69', name:'Arun P.',     avatar:'🧑🏽',  city:'Bangkok',      country:'TH', lat:13.76,  lng:100.50, dreamSummary:'Golden temple floating above the clouds',            category:'spiritual', mood:'serene'    },
-  { id:'u70', name:'Maria C.',    avatar:'👩🏽',  city:'Manila',       country:'PH', lat:14.60,  lng:120.98, dreamSummary:'Typhoon turning into a giant water dragon',          category:'water',     mood:'terrified' },
-  { id:'u71', name:'Linh T.',     avatar:'👩🏻',  city:'Ho Chi Minh',  country:'VN', lat:10.82,  lng:106.63, dreamSummary:'Motorbike flying through time portals',              category:'timetravel',mood:'thrilled'  },
-  { id:'u72', name:'Budi W.',     avatar:'🧑🏽',  city:'Bali',         country:'ID', lat:-8.41,  lng:115.19, dreamSummary:'Temple ceremony where everyone levitates',           category:'spiritual', mood:'transcendent'},
+  // ── EUROPE (40) ──
+  { id:'u1',  name:'Elif Yilmaz',       avatar:'👩🏽', city:'Istanbul',     country:'TR', lat:41.01, lng:28.98, category:'flying',    mood:'free',       dreamSummary:'Bogazin uzerinde ruzgarda suzuluyordum...' },
+  { id:'u2',  name:'Marie Dupont',      avatar:'👩‍🦰', city:'Lyon',        country:'FR', lat:45.76, lng:4.84,  category:'love',      mood:'yearning',   dreamSummary:'Il me tenait la main sur un pont de lumiere...' },
+  { id:'u3',  name:'Lena Hoffmann',     avatar:'👱‍♀️', city:'Berlin',      country:'DE', lat:52.52, lng:13.40, category:'falling',   mood:'scared',     dreamSummary:'Ich fiel durch Wolken und konnte nicht schreien...' },
+  { id:'u4',  name:'Sofia Rossi',       avatar:'👩🏻', city:'Rome',         country:'IT', lat:41.90, lng:12.50, category:'chase',     mood:'terrified',  dreamSummary:'Correvo nel Colosseo e le mura si chiudevano...' },
+  { id:'u5',  name:'Emma Lindqvist',    avatar:'👩‍🦳', city:'Stockholm',   country:'SE', lat:59.33, lng:18.07, category:'nature',    mood:'serene',     dreamSummary:'Norrsken som formade mitt namn pa himlen...' },
+  { id:'u6',  name:'Clara Fernandez',   avatar:'👩🏽', city:'Madrid',       country:'ES', lat:40.42, lng:-3.70, category:'erotic',    mood:'passionate', dreamSummary:'Sus manos eran fuego y yo era agua...' },
+  { id:'u7',  name:'Ingrid Bakken',     avatar:'👩‍🦰', city:'Oslo',        country:'NO', lat:59.91, lng:10.75, category:'water',     mood:'calm',       dreamSummary:'Fjorden ble til glass og jeg gikk over...' },
+  { id:'u8',  name:'Anna Kowalska',     avatar:'👩🏻', city:'Warsaw',       country:'PL', lat:52.23, lng:21.01, category:'horror',    mood:'terrified',  dreamSummary:'Lustro w ktorym stala ktos inny niz ja...' },
+  { id:'u9',  name:'Thomas Mueller',    avatar:'🧔',  city:'Munich',       country:'DE', lat:48.14, lng:11.58, category:'ufo',       mood:'amazed',     dreamSummary:'Das Licht kam naeher und ich hoerte Musik...' },
+  { id:'u10', name:'Giulia Bianchi',    avatar:'👩‍🦱', city:'Milan',       country:'IT', lat:45.46, lng:9.19,  category:'celebrity', mood:'star-struck', dreamSummary:'Camminavo sul red carpet con le ali...' },
+  { id:'u11', name:'Margot Lefevre',    avatar:'👩',  city:'Paris',        country:'FR', lat:48.86, lng:2.35,  category:'flying',    mood:'euphoric',   dreamSummary:'Je volais au-dessus de la Seine a minuit...' },
+  { id:'u12', name:'Katarina Novak',    avatar:'👩🏻', city:'Prague',       country:'CZ', lat:50.08, lng:14.44, category:'timetravel',mood:'wonder',     dreamSummary:'Hodiny na Staromestskem namesti se tocily pozpatku...' },
+  { id:'u13', name:'Isabel Mendes',     avatar:'👩🏽', city:'Lisbon',       country:'PT', lat:38.72, lng:-9.14, category:'water',     mood:'melancholic', dreamSummary:'O oceano engoliu a cidade e eu flutuava em paz...' },
+  { id:'u14', name:'Freya Andersen',    avatar:'👱‍♀️', city:'Copenhagen',  country:'DK', lat:55.68, lng:12.57, category:'love',      mood:'longing',    dreamSummary:'Han holdt min hand under nordlyset...' },
+  { id:'u15', name:'Nina Petrova',      avatar:'👩‍🦰', city:'Moscow',      country:'RU', lat:55.76, lng:37.62, category:'death',     mood:'eerie',      dreamSummary:'Babushka sidela v pustom dome i ulybalasc...' },
+  { id:'u16', name:'Eva Szabo',         avatar:'👩🏻', city:'Budapest',     country:'HU', lat:47.50, lng:19.04, category:'funny',     mood:'amused',     dreamSummary:'A Parlament felszallt mint egy leggomb...' },
+  { id:'u17', name:'Aleksandra Jovic',  avatar:'👩‍🦱', city:'Belgrade',    country:'RS', lat:44.79, lng:20.47, category:'school',    mood:'stressed',   dreamSummary:'Ispit je bio na jeziku koji ne poznajem...' },
+  { id:'u18', name:'Fiona O\'Brien',    avatar:'👩‍🦰', city:'Dublin',      country:'IE', lat:53.35, lng:-6.26, category:'animals',   mood:'playful',    dreamSummary:'The sheep were flying over the cliffs singing...' },
+  { id:'u19', name:'Greta Zimmer',      avatar:'👩‍🦳', city:'Vienna',      country:'AT', lat:48.21, lng:16.37, category:'spiritual', mood:'peaceful',   dreamSummary:'Ein Engel spielte Walzer im leeren Schloss...' },
+  { id:'u20', name:'Eleni Papadaki',    avatar:'👩🏽', city:'Athens',       country:'GR', lat:37.98, lng:23.73, category:'water',     mood:'mystified',  dreamSummary:'Kolymboysa me archaia agalmata ston vytho...' },
+  { id:'u21', name:'Chloe Martin',      avatar:'👩‍🦱', city:'Brussels',    country:'BE', lat:50.85, lng:4.35,  category:'chase',     mood:'breathless', dreamSummary:'Quelqu\'un me poursuivait dans un labyrinthe de chocolat...' },
+  { id:'u22', name:'Astrid Holm',       avatar:'👱‍♀️', city:'Gothenburg',  country:'SE', lat:57.71, lng:11.97, category:'family',    mood:'nostalgic',  dreamSummary:'Mormor lagade mat i ett hus som inte finns langre...' },
+  { id:'u23', name:'Maja Eriksen',      avatar:'👩',  city:'Helsinki',     country:'FI', lat:60.17, lng:24.94, category:'nature',    mood:'bliss',      dreamSummary:'Revontulet sulivat ja minusta tuli valo...' },
+  { id:'u24', name:'Stefan Horvat',     avatar:'🧔',  city:'Zagreb',       country:'HR', lat:45.81, lng:15.98, category:'falling',   mood:'dizzy',      dreamSummary:'Padao sam kroz oblake iznad Jadrana...' },
+  { id:'u25', name:'Carmen Ruiz',       avatar:'👩🏽', city:'Barcelona',    country:'ES', lat:41.39, lng:2.17,  category:'horror',    mood:'frightened', dreamSummary:'La Sagrada Familia se derretia como cera...' },
+  { id:'u26', name:'Daria Volkov',      avatar:'👩‍🦰', city:'St Petersburg',country:'RU', lat:59.93, lng:30.32, category:'timetravel',mood:'lost',      dreamSummary:'Ya gulyala po Zimniemu dvortsu v drugom veke...' },
+  { id:'u27', name:'Laura Visser',      avatar:'👩‍🦱', city:'Amsterdam',   country:'NL', lat:52.37, lng:4.90,  category:'money',     mood:'greedy',     dreamSummary:'De grachten waren van goud en ik zwom erin...' },
+  { id:'u28', name:'Tatiana Ionescu',   avatar:'👩🏻', city:'Bucharest',    country:'RO', lat:44.43, lng:26.10, category:'horror',    mood:'chilled',    dreamSummary:'Castelul s-a trezit la viata si m-a chemat...' },
+  { id:'u29', name:'Heidi Brunner',     avatar:'👱‍♀️', city:'Zurich',      country:'CH', lat:47.38, lng:8.54,  category:'flying',    mood:'free',       dreamSummary:'Ich flog ueber die Alpen wie ein Adler...' },
+  { id:'u30', name:'Oksana Melnyk',     avatar:'👩🏻', city:'Kyiv',         country:'UA', lat:50.45, lng:30.52, category:'family',    mood:'tearful',    dreamSummary:'Babusya spivala pisniu yaku ya vzhe zabula...' },
+  { id:'u31', name:'Agnieszka Wozniak', avatar:'👩‍🦰', city:'Krakow',     country:'PL', lat:50.06, lng:19.94, category:'spiritual', mood:'guided',     dreamSummary:'Kosciol unosil sie w powietrze i slyszalam chory...' },
+  { id:'u32', name:'Sophie Bernard',    avatar:'👩',  city:'Marseille',    country:'FR', lat:43.30, lng:5.37,  category:'erotic',    mood:'intense',    dreamSummary:'La mer etait chaude comme sa peau...' },
+  { id:'u33', name:'Valentina Costa',   avatar:'👩🏽', city:'Naples',       country:'IT', lat:40.85, lng:14.27, category:'death',     mood:'serene',     dreamSummary:'Il Vesuvio parlava e io capivo ogni parola...' },
+  { id:'u34', name:'Emilia Fischer',    avatar:'👩‍🦳', city:'Hamburg',     country:'DE', lat:53.55, lng:9.99,  category:'animals',   mood:'wonder',     dreamSummary:'Ein Wal schwamm durch die Elbe und sang...' },
+  { id:'u35', name:'Klara Johansson',   avatar:'👩🏻', city:'Malmoe',       country:'SE', lat:55.60, lng:13.00, category:'school',    mood:'anxious',    dreamSummary:'Provet var pa ett sprak som inte finns...' },
+  { id:'u36', name:'Diana Almeida',     avatar:'👩🏽', city:'Porto',        country:'PT', lat:41.15, lng:-8.61, category:'love',      mood:'warm',       dreamSummary:'Dancavamos sobre o Douro enquanto chovia estrelas...' },
+  { id:'u37', name:'Nadia Christensen', avatar:'👩‍🦱', city:'Aarhus',     country:'DK', lat:56.15, lng:10.21, category:'funny',     mood:'delighted',  dreamSummary:'Min kat talte og fortalte vittigheder...' },
+  { id:'u38', name:'Sienna Clarke',     avatar:'👱‍♀️', city:'Edinburgh',   country:'GB', lat:55.95, lng:-3.19, category:'nature',    mood:'mystified',  dreamSummary:'The highlands whispered my name in Gaelic...' },
+  { id:'u39', name:'Olivia Bennett',    avatar:'👩‍🦰', city:'London',      country:'GB', lat:51.51, lng:-0.13, category:'celebrity', mood:'embarrassed', dreamSummary:'I met the Queen but I was in my pyjamas...' },
+  { id:'u40', name:'Livia Keller',      avatar:'👩🏻', city:'Bern',         country:'CH', lat:46.95, lng:7.45,  category:'money',     mood:'amazed',     dreamSummary:'Goldmuenzen fielen wie Schnee vom Himmel...' },
+  // ── MIDDLE EAST (15) ──
+  { id:'u41', name:'Zeynep Demir',      avatar:'👩🏽', city:'Ankara',       country:'TR', lat:39.93, lng:32.86, category:'spiritual', mood:'peaceful',   dreamSummary:'Cami kubbesinden isigin icine yukseldim...' },
+  { id:'u42', name:'Layla Hassan',      avatar:'👩🏽', city:'Cairo',        country:'EG', lat:30.04, lng:31.24, category:'timetravel',mood:'awed',       dreamSummary:'Mashaytu bayn al-ahramat wa hiya jadida...' },
+  { id:'u43', name:'Fatima Benali',     avatar:'👩🏽‍🦱', city:'Casablanca', country:'MA', lat:33.59, lng:-7.62, category:'flying',    mood:'magical',    dreamSummary:'Je volais sur un tapis au-dessus du desert...' },
+  { id:'u44', name:'Nour Al-Ahmad',     avatar:'👩🏽', city:'Dubai',        country:'AE', lat:25.20, lng:55.27, category:'money',     mood:'dazzled',    dreamSummary:'Al-madina al-dhahabiya tash\'a min al-rimal...' },
+  { id:'u45', name:'Yasmin Rahimi',     avatar:'👩🏽', city:'Tehran',       country:'IR', lat:35.69, lng:51.39, category:'nature',    mood:'enchanted',  dreamSummary:'Bagh-e behesht ba golhaye sokhangu...' },
+  { id:'u46', name:'Sara Mansour',      avatar:'👩🏽', city:'Beirut',       country:'LB', lat:33.89, lng:35.50, category:'family',    mood:'hopeful',    dreamSummary:'Al-madina tu\'id bina\'a nafsaha min jadid...' },
+  { id:'u47', name:'Omar Al-Farsi',     avatar:'🧔🏽', city:'Riyadh',      country:'SA', lat:24.71, lng:46.67, category:'spiritual', mood:'blessed',    dreamSummary:'Mashaytu ala al-ma\'a fi al-sahra\'...' },
+  { id:'u48', name:'Mariam Khoury',     avatar:'👩🏽', city:'Amman',        country:'JO', lat:31.95, lng:35.93, category:'water',     mood:'peaceful',   dreamSummary:'Al-bahr al-mayyit tahawwal ila dhahab sa\'il...' },
+  { id:'u49', name:'Rania Haddad',      avatar:'👩🏽', city:'Baghdad',      country:'IQ', lat:33.31, lng:44.37, category:'school',    mood:'anxious',    dreamSummary:'Al-maktaba al-qadima wa kutub tatakallam...' },
+  { id:'u50', name:'Dina Trabelsi',     avatar:'👩🏽', city:'Tunis',        country:'TN', lat:36.81, lng:10.18, category:'chase',     mood:'breathless', dreamSummary:'Les murs de la medina changeaient de place...' },
+  { id:'u51', name:'Hiba Oueslati',     avatar:'👩🏿', city:'Algiers',      country:'DZ', lat:36.75, lng:3.06,  category:'nature',    mood:'amazed',     dreamSummary:'La tempete de sable revelait une oasis cachee...' },
+  { id:'u52', name:'Leila Sharif',      avatar:'👩🏽', city:'Muscat',       country:'OM', lat:23.59, lng:58.38, category:'love',      mood:'yearning',   dreamSummary:'Kana yamsik yadi taht nujum al-sahra\'...' },
+  { id:'u53', name:'Amira El-Sayed',    avatar:'👩🏽', city:'Alexandria',   country:'EG', lat:31.20, lng:29.92, category:'horror',    mood:'frightened', dreamSummary:'Al-bahr ibtala\'a al-manarah wa ana wahdi...' },
+  { id:'u54', name:'Nur Celik',         avatar:'👩🏽', city:'Izmir',        country:'TR', lat:38.42, lng:27.14, category:'erotic',    mood:'passionate', dreamSummary:'Deniz kenarinda ates gibi bir dans...' },
+  { id:'u55', name:'Khalid Nasser',     avatar:'🧔🏽', city:'Kuwait City', country:'KW', lat:29.38, lng:47.99, category:'ufo',       mood:'shocked',    dreamSummary:'Markaba fada\'iya hawmat fawqa al-khalij...' },
+  // ── AFRICA (15) ──
+  { id:'u56', name:'Amina Okafor',      avatar:'👩🏿', city:'Lagos',        country:'NG', lat:6.52,  lng:3.38,  category:'spiritual', mood:'guided',     dreamSummary:'My ancestors spoke through the baobab tree...' },
+  { id:'u57', name:'Aisha Wanjiku',     avatar:'👩🏿', city:'Nairobi',      country:'KE', lat:-1.29, lng:36.82, category:'animals',   mood:'brave',      dreamSummary:'I ran with lions across the golden savannah...' },
+  { id:'u58', name:'Fatou Diallo',      avatar:'👩🏿', city:'Dakar',        country:'SN', lat:14.72, lng:-17.47,category:'flying',    mood:'free',       dreamSummary:'Je volais au-dessus de l\'ocean comme un oiseau...' },
+  { id:'u59', name:'Zara Ndlovu',       avatar:'👩🏿', city:'Johannesburg', country:'ZA', lat:-26.20,lng:28.04, category:'money',     mood:'excited',    dreamSummary:'Gold was raining from the sky over Joburg...' },
+  { id:'u60', name:'Blessing Adekunle', avatar:'👩🏿', city:'Abuja',        country:'NG', lat:9.06,  lng:7.49,  category:'love',      mood:'warm',       dreamSummary:'He held me under a sky full of fireflies...' },
+  { id:'u61', name:'Kofi Mensah',       avatar:'👨🏿', city:'Accra',        country:'GH', lat:5.56,  lng:-0.19, category:'chase',     mood:'fearful',    dreamSummary:'Something chased me through the night market...' },
+  { id:'u62', name:'Naledi Mokoena',    avatar:'👩🏿', city:'Cape Town',    country:'ZA', lat:-33.93,lng:18.42, category:'water',     mood:'calm',       dreamSummary:'Table Mountain melted into the ocean like butter...' },
+  { id:'u63', name:'Aya Tesfaye',       avatar:'👩🏿', city:'Addis Ababa',  country:'ET', lat:9.02,  lng:38.75, category:'family',    mood:'nostalgic',  dreamSummary:'Grandmother served coffee to angels at dawn...' },
+  { id:'u64', name:'Chioma Eze',        avatar:'👩🏿', city:'Enugu',        country:'NG', lat:6.44,  lng:7.50,  category:'school',    mood:'stressed',   dreamSummary:'The exam paper was written in a language of light...' },
+  { id:'u65', name:'Grace Muthoni',     avatar:'👩🏿', city:'Kampala',      country:'UG', lat:0.35,  lng:32.58, category:'nature',    mood:'wonder',     dreamSummary:'The forest sang and every tree had a face...' },
+  { id:'u66', name:'Mariame Toure',     avatar:'👩🏿', city:'Bamako',       country:'ML', lat:12.64, lng:-8.00, category:'death',     mood:'serene',     dreamSummary:'Les ancetres dansaient dans la lumiere doree...' },
+  { id:'u67', name:'Fatoumata Camara',  avatar:'👩🏿', city:'Conakry',      country:'GN', lat:9.64,  lng:-13.58,category:'celebrity', mood:'star-struck', dreamSummary:'Je chantais sur scene devant des milliers...' },
+  { id:'u68', name:'Thandiwe Phiri',    avatar:'👩🏿', city:'Lusaka',       country:'ZM', lat:-15.39,lng:28.32, category:'funny',     mood:'amused',     dreamSummary:'The elephants were doing a conga line at my wedding...' },
+  { id:'u69', name:'Adama Traore',      avatar:'👩🏿', city:'Abidjan',      country:'CI', lat:5.36,  lng:-4.01, category:'falling',   mood:'dizzy',      dreamSummary:'Je tombais a travers les nuages de chocolat...' },
+  { id:'u70', name:'Ruth Haile',        avatar:'👩🏿', city:'Dar es Salaam',country:'TZ', lat:-6.79, lng:39.28, category:'ufo',       mood:'shocked',    dreamSummary:'A bright light hovered over the Indian Ocean...' },
+  // ── SOUTH ASIA (12) ──
+  { id:'u71', name:'Priya Sharma',      avatar:'👩🏽', city:'Mumbai',       country:'IN', lat:19.08, lng:72.88, category:'school',    mood:'stressed',   dreamSummary:'Exam mein sawal hindi mein the lekin jawaab english mein...' },
+  { id:'u72', name:'Ananya Gupta',      avatar:'👩🏽', city:'Delhi',        country:'IN', lat:28.61, lng:77.21, category:'spiritual', mood:'blessed',    dreamSummary:'Ganga ka paani sone ka ho gaya tha...' },
+  { id:'u73', name:'Nisha Rajapaksa',   avatar:'👩🏽', city:'Colombo',      country:'LK', lat:6.93,  lng:79.85, category:'water',     mood:'calm',       dreamSummary:'The ocean turned to glass and I walked across...' },
+  { id:'u74', name:'Kavya Reddy',       avatar:'👩🏽', city:'Bangalore',    country:'IN', lat:12.97, lng:77.59, category:'flying',    mood:'euphoric',   dreamSummary:'I flew over the Western Ghats touching the clouds...' },
+  { id:'u75', name:'Deepika Iyer',      avatar:'👩🏽', city:'Chennai',      country:'IN', lat:13.08, lng:80.27, category:'celebrity', mood:'star-struck', dreamSummary:'Shah Rukh Khan was my neighbour and we had chai...' },
+  { id:'u76', name:'Meera Joshi',       avatar:'👩🏽', city:'Kolkata',      country:'IN', lat:22.57, lng:88.36, category:'animals',   mood:'joyful',     dreamSummary:'Durga Puja mein sher mere saath naach raha tha...' },
+  { id:'u77', name:'Sita Thapa',        avatar:'👩🏽', city:'Kathmandu',    country:'NP', lat:27.72, lng:85.32, category:'nature',    mood:'bliss',      dreamSummary:'Himalaya le malai aakash sammama puryayo...' },
+  { id:'u78', name:'Fatima Bibi',       avatar:'👩🏽', city:'Karachi',      country:'PK', lat:24.86, lng:67.01, category:'timetravel',mood:'nostalgic',  dreamSummary:'Bazaar mein yaadein heeron ki tarah bik rahi thi...' },
+  { id:'u79', name:'Rashmi Nair',       avatar:'👩🏽', city:'Kochi',        country:'IN', lat:9.93,  lng:76.26, category:'love',      mood:'yearning',   dreamSummary:'He whispered my name and the backwaters glowed...' },
+  { id:'u80', name:'Ayesha Khan',       avatar:'👩🏽', city:'Lahore',       country:'PK', lat:31.55, lng:74.35, category:'family',    mood:'warm',       dreamSummary:'Ammi ki khushboo puri haveli mein pheli thi...' },
+  { id:'u81', name:'Ravi Patel',        avatar:'🧑🏽', city:'Ahmedabad',    country:'IN', lat:23.02, lng:72.57, category:'money',     mood:'greedy',     dreamSummary:'Gold coins rained on the old city streets...' },
+  { id:'u82', name:'Sunita Tamang',     avatar:'👩🏽', city:'Pokhara',      country:'NP', lat:28.21, lng:83.99, category:'horror',    mood:'terrified',  dreamSummary:'The mountain opened its eyes and looked at me...' },
+  // ── EAST ASIA (15) ──
+  { id:'u83', name:'Yuki Tanaka',       avatar:'👩🏻', city:'Osaka',        country:'JP', lat:34.69, lng:135.50,category:'water',     mood:'serene',     dreamSummary:'Crystal lake reflecting a thousand moons...' },
+  { id:'u84', name:'Sakura Yamamoto',   avatar:'👩🏻', city:'Kyoto',        country:'JP', lat:35.01, lng:135.77,category:'nature',    mood:'peaceful',   dreamSummary:'Sakura no hana ga chou ni natta...' },
+  { id:'u85', name:'Mei Lin Chen',      avatar:'👩🏻', city:'Shanghai',     country:'CN', lat:31.23, lng:121.47,category:'timetravel',mood:'amazed',     dreamSummary:'Wo chuan yue dao Tang chao de Chang\'an...' },
+  { id:'u86', name:'Hana Kim',          avatar:'👩🏻', city:'Seoul',        country:'KR', lat:37.57, lng:126.98,category:'love',      mood:'yearning',   dreamSummary:'Geuneun bitmul soge nae ireumeul bulleosseo...' },
+  { id:'u87', name:'Jia Wei',           avatar:'👩🏻', city:'Beijing',      country:'CN', lat:39.90, lng:116.40,category:'flying',    mood:'euphoric',   dreamSummary:'Wo fei guo Changcheng kan dao le yongheng...' },
+  { id:'u88', name:'Yuna Park',         avatar:'👩🏻', city:'Busan',        country:'KR', lat:35.18, lng:129.08,category:'celebrity', mood:'thrilled',   dreamSummary:'K-pop mudae wieseo gaegeuri wa hamkke chuneul chwosseo...' },
+  { id:'u89', name:'Rin Nakamura',      avatar:'👩🏻', city:'Tokyo',        country:'JP', lat:35.68, lng:139.69,category:'chase',     mood:'breathless', dreamSummary:'Shibuya no kosaten de kage ni oikaketeta...' },
+  { id:'u90', name:'Xiao Yue',          avatar:'👩🏻', city:'Chengdu',      country:'CN', lat:30.57, lng:104.07,category:'animals',   mood:'delighted',  dreamSummary:'Xiongmao dailingzhe wo chuanguo zhulinjian...' },
+  { id:'u91', name:'Soo-jin Lee',       avatar:'👩🏻', city:'Incheon',      country:'KR', lat:37.46, lng:126.70,category:'school',    mood:'panicked',   dreamSummary:'Siheom munje ga haengseong eoneoro doeeosseo...' },
+  { id:'u92', name:'Lin Hsiao-Ting',    avatar:'👩🏻', city:'Taipei',       country:'TW', lat:25.03, lng:121.57,category:'funny',     mood:'amused',     dreamSummary:'Yeshi de shiw dou huo le guolai tiaow...' },
+  { id:'u93', name:'Aoi Suzuki',        avatar:'👩🏻', city:'Nagoya',       country:'JP', lat:35.18, lng:136.91,category:'death',     mood:'eerie',      dreamSummary:'Obaachan ga mado kara hohoende miteita...' },
+  { id:'u94', name:'Haruto Sato',       avatar:'🧑🏻', city:'Sapporo',     country:'JP', lat:43.06, lng:141.35,category:'horror',    mood:'chilled',    dreamSummary:'Yuki no naka de dareka ga watashi wo yonda...' },
+  { id:'u95', name:'Minji Choi',        avatar:'👩🏻', city:'Daegu',        country:'KR', lat:35.87, lng:128.60,category:'erotic',    mood:'intense',    dreamSummary:'Geuui sonkili naui pireul bul buthyeosseo...' },
+  { id:'u96', name:'Fang Zhi',          avatar:'👩🏻', city:'Hangzhou',     country:'CN', lat:30.27, lng:120.15,category:'spiritual', mood:'transcendent',dreamSummary:'Xihu de shui bian cheng le guang...' },
+  { id:'u97', name:'Natsuki Ito',       avatar:'👩🏻', city:'Fukuoka',      country:'JP', lat:33.59, lng:130.40,category:'falling',   mood:'scared',     dreamSummary:'Ochiru toki ni tsubasa ga haeta...' },
+  // ── SOUTHEAST ASIA (8) ──
+  { id:'u98', name:'Rina Sari',         avatar:'👩🏽', city:'Jakarta',      country:'ID', lat:-6.21, lng:106.85,category:'nature',    mood:'wonder',     dreamSummary:'Gunung meletus bunga bukan lava...' },
+  { id:'u99', name:'Ploy Suthamma',     avatar:'👩🏽', city:'Bangkok',      country:'TH', lat:13.76, lng:100.50,category:'spiritual', mood:'serene',     dreamSummary:'Wat thawng lawy yuu nuea mek...' },
+  { id:'u100',name:'Maria Santos',      avatar:'👩🏽', city:'Manila',       country:'PH', lat:14.60, lng:120.98,category:'water',     mood:'terrified',  dreamSummary:'Bagyong naging isang dragon sa dagat...' },
+  { id:'u101',name:'Linh Nguyen',       avatar:'👩🏻', city:'Ho Chi Minh',  country:'VN', lat:10.82, lng:106.63,category:'timetravel',mood:'thrilled',   dreamSummary:'Xe may bay qua cong thoi gian...' },
+  { id:'u102',name:'Putri Wulandari',   avatar:'👩🏽', city:'Bali',         country:'ID', lat:-8.41, lng:115.19,category:'love',      mood:'enchanted',  dreamSummary:'Upacara di pura dimana semua melayang...' },
+  { id:'u103',name:'Thanh Pham',        avatar:'👩🏻', city:'Hanoi',        country:'VN', lat:21.03, lng:105.85,category:'animals',   mood:'awed',       dreamSummary:'Rong bay len tu suong mu Vinh Ha Long...' },
+  { id:'u104',name:'Aisyah Rahman',     avatar:'👩🏽', city:'Kuala Lumpur', country:'MY', lat:3.14,  lng:101.69,category:'celebrity', mood:'star-struck', dreamSummary:'Saya menyanyi di pentas bersama bintang K-pop...' },
+  { id:'u105',name:'Nang Kham',         avatar:'👩🏽', city:'Yangon',       country:'MM', lat:16.87, lng:96.20, category:'flying',    mood:'free',       dreamSummary:'Shwedagon hpaya apaw ko pwyan pyee...' },
   // ── OCEANIA (5) ──
-  { id:'u73', name:'Alex B.',     avatar:'🧑‍🦱', city:'Sydney',       country:'AU', lat:-33.87, lng:151.21, dreamSummary:'Alien spacecraft hovering over Opera House',         category:'ufo',       mood:'shocked'   },
-  { id:'u74', name:'Jade M.',     avatar:'👩',   city:'Melbourne',    country:'AU', lat:-37.81, lng:144.96, dreamSummary:'Great Barrier Reef talking in whale song',            category:'animals',   mood:'amazed'    },
-  { id:'u75', name:'Aroha T.',    avatar:'👩🏽',  city:'Auckland',     country:'NZ', lat:-36.85, lng:174.76, dreamSummary:'Maori ancestors performing haka in the sky',          category:'family',    mood:'powerful'   },
-  { id:'u76', name:'Oliver H.',   avatar:'🧑',   city:'Perth',        country:'AU', lat:-31.95, lng:115.86, dreamSummary:'Outback turning into endless ocean',                 category:'water',     mood:'disoriented'},
-  { id:'u77', name:'Tane R.',     avatar:'🧑🏽',  city:'Wellington',   country:'NZ', lat:-41.29, lng:174.78, dreamSummary:'Hobbit holes appearing in neighborhood',             category:'funny',     mood:'delighted' },
-  // ── NORTH AMERICA (13) ──
-  { id:'u78', name:'James T.',    avatar:'🧑',   city:'New York',     country:'US', lat:40.71,  lng:-74.01, dreamSummary:'Chased through a dark subway tunnel',                category:'chase',     mood:'fearful'   },
-  { id:'u79', name:'Mia S.',      avatar:'👩‍🦰', city:'Toronto',      country:'CA', lat:43.65,  lng:-79.38, dreamSummary:'Reunion with passed grandmother in garden',          category:'family',    mood:'tearful'   },
-  { id:'u80', name:'Diego L.',    avatar:'🧑🏽',  city:'Mexico City',  country:'MX', lat:19.43,  lng:-99.13, dreamSummary:'Day of the Dead festival with real spirits',        category:'death',     mood:'calm'      },
-  { id:'u81', name:'Ashley R.',   avatar:'👩‍🦱', city:'Los Angeles',  country:'US', lat:34.05,  lng:-118.24,dreamSummary:'Walking red carpet but wearing pajamas',             category:'celebrity', mood:'embarrassed'},
-  { id:'u82', name:'Brandon K.',  avatar:'🧑🏿',  city:'Chicago',      country:'US', lat:41.88,  lng:-87.63, dreamSummary:'Skyscrapers growing like trees in fast forward',     category:'timetravel',mood:'dizzy'     },
-  { id:'u83', name:'Maria G.',    avatar:'👩🏽',  city:'Miami',        country:'US', lat:25.76,  lng:-80.19, dreamSummary:'Beach party where ocean dances to music',            category:'love',      mood:'ecstatic'  },
-  { id:'u84', name:'Tyler W.',    avatar:'🧑',   city:'Seattle',      country:'US', lat:47.61,  lng:-122.33,dreamSummary:'Coffee shop floating in the clouds',                 category:'flying',    mood:'relaxed'   },
-  { id:'u85', name:'Sarah L.',    avatar:'👩‍🦰', city:'Vancouver',    country:'CA', lat:49.28,  lng:-123.12,dreamSummary:'Forest trees whispering future events',              category:'nature',    mood:'mystified' },
-  { id:'u86', name:'Kevin P.',    avatar:'🧑🏿',  city:'Atlanta',      country:'US', lat:33.75,  lng:-84.39, dreamSummary:'Playing basketball on the moon',                     category:'funny',     mood:'thrilled'  },
-  { id:'u87', name:'Emily C.',    avatar:'👩',   city:'Boston',       country:'US', lat:42.36,  lng:-71.06, dreamSummary:'University exam where questions are in alien language',category:'school',    mood:'panicked'  },
-  { id:'u88', name:'Carlos R.',   avatar:'🧑🏽',  city:'Houston',      country:'US', lat:29.76,  lng:-95.37, dreamSummary:'NASA rocket taking off from backyard',               category:'ufo',       mood:'excited'   },
-  { id:'u89', name:'Chloe D.',    avatar:'👩‍🦱', city:'Montreal',     country:'CA', lat:45.50,  lng:-73.57, dreamSummary:'Ice castle that sings lullabies',                    category:'love',      mood:'enchanted' },
-  { id:'u90', name:'Jake M.',     avatar:'🧑',   city:'Denver',       country:'US', lat:39.74,  lng:-104.99,dreamSummary:'Mountains opening like doors to another world',       category:'nature',    mood:'adventurous'},
-  // ── SOUTH AMERICA (10) ──
-  { id:'u91', name:'Sofia M.',    avatar:'👩',   city:'Buenos Aires', country:'AR', lat:-34.60, lng:-58.38, dreamSummary:'Dancing with strangers at moonlit party',             category:'love',      mood:'happy'     },
-  { id:'u92', name:'Carlos V.',   avatar:'🧑🏽',  city:'São Paulo',    country:'BR', lat:-23.55, lng:-46.63, dreamSummary:'Finding treasure under ocean floor',                category:'money',     mood:'joyful'    },
-  { id:'u93', name:'Natalia V.',  avatar:'👩‍🦱', city:'Montevideo',   country:'UY', lat:-34.88, lng:-56.16, dreamSummary:'Dancing tango with a ghost',                         category:'horror',    mood:'thrilled'  },
-  { id:'u94', name:'Ana C.',      avatar:'👩🏽',  city:'Bogotá',       country:'CO', lat:4.71,   lng:-74.07, dreamSummary:'Jungle hike turning into fairy tale landscape',      category:'nature',    mood:'wonder'    },
-  { id:'u95', name:'Pedro A.',    avatar:'🧑🏽',  city:'Lima',         country:'PE', lat:-12.05, lng:-77.04, dreamSummary:'Machu Picchu rebuilding itself in real-time',        category:'timetravel',mood:'awed'      },
-  { id:'u96', name:'Valentina R.',avatar:'👩🏽',  city:'Santiago',     country:'CL', lat:-33.45, lng:-70.67, dreamSummary:'Andes mountains singing in deep voices',             category:'nature',    mood:'humbled'   },
-  { id:'u97', name:'Lucas F.',    avatar:'🧑🏽',  city:'Rio de Janeiro',country:'BR',lat:-22.91, lng:-43.17, dreamSummary:'Christ statue coming to life and hugging everyone',  category:'spiritual', mood:'tearful'   },
-  { id:'u98', name:'Isabella M.', avatar:'👩🏽',  city:'Quito',        country:'EC', lat:-0.18,  lng:-78.47, dreamSummary:'Volcano erupting with butterflies and light',        category:'nature',    mood:'magical'   },
-  { id:'u99', name:'Miguel T.',   avatar:'🧑🏽',  city:'Caracas',      country:'VE', lat:10.49,  lng:-66.88, dreamSummary:'Family dinner table floating over city',             category:'family',    mood:'nostalgic' },
-  { id:'u100',name:'Camila S.',   avatar:'👩🏽',  city:'Medellín',     country:'CO', lat:6.25,   lng:-75.56, dreamSummary:'Flowers growing from footsteps in the street',       category:'love',      mood:'enchanted' },
+  { id:'u106',name:'Jade Mitchell',     avatar:'👩',  city:'Sydney',       country:'AU', lat:-33.87,lng:151.21,category:'ufo',       mood:'shocked',    dreamSummary:'A spacecraft hovered over the Opera House at dawn...' },
+  { id:'u107',name:'Aroha Tane',        avatar:'👩🏽', city:'Auckland',     country:'NZ', lat:-36.85,lng:174.76,category:'family',    mood:'powerful',   dreamSummary:'Tipuna performed the haka across the sky...' },
+  { id:'u108',name:'Sophie Harris',     avatar:'👱‍♀️', city:'Melbourne',   country:'AU', lat:-37.81,lng:144.96,category:'animals',   mood:'amazed',     dreamSummary:'The reef started singing in whale song...' },
+  { id:'u109',name:'Emma Thompson',     avatar:'👩‍🦰', city:'Perth',       country:'AU', lat:-31.95,lng:115.86,category:'water',     mood:'disoriented',dreamSummary:'The outback turned into an endless ocean overnight...' },
+  { id:'u110',name:'Mia Rawiri',        avatar:'👩🏽', city:'Wellington',   country:'NZ', lat:-41.29,lng:174.78,category:'funny',     mood:'delighted',  dreamSummary:'Hobbit holes appeared in my neighbourhood for real...' },
+  // ── NORTH AMERICA (20) ──
+  { id:'u111',name:'Jessica Rivera',    avatar:'👩🏽', city:'New York',     country:'US', lat:40.71, lng:-74.01,category:'chase',     mood:'fearful',    dreamSummary:'Something chased me through a dark subway tunnel...' },
+  { id:'u112',name:'Mia Chen',          avatar:'👩🏻', city:'San Francisco',country:'US', lat:37.77, lng:-122.42,category:'flying',   mood:'euphoric',   dreamSummary:'I flew over the Golden Gate into another dimension...' },
+  { id:'u113',name:'Chloe Tremblay',    avatar:'👩‍🦰', city:'Montreal',    country:'CA', lat:45.50, lng:-73.57,category:'love',      mood:'enchanted',  dreamSummary:'Le chateau de glace chantait des berceuses...' },
+  { id:'u114',name:'Ashley Williams',   avatar:'👩‍🦱', city:'Los Angeles', country:'US', lat:34.05, lng:-118.24,category:'celebrity', mood:'embarrassed',dreamSummary:'I was on the red carpet in my pyjamas...' },
+  { id:'u115',name:'Valentina Morales', avatar:'👩🏽', city:'Mexico City',  country:'MX', lat:19.43, lng:-99.13,category:'death',     mood:'calm',       dreamSummary:'Los muertos bailaban y yo me uni a la fiesta...' },
+  { id:'u116',name:'Taylor Brooks',     avatar:'👩',  city:'Chicago',      country:'US', lat:41.88, lng:-87.63,category:'timetravel',mood:'dizzy',      dreamSummary:'The skyscrapers grew like trees in fast forward...' },
+  { id:'u117',name:'Sophia Garcia',     avatar:'👩🏽', city:'Miami',        country:'US', lat:25.76, lng:-80.19,category:'erotic',    mood:'passionate', dreamSummary:'The ocean danced to the rhythm of our heartbeat...' },
+  { id:'u118',name:'Emma Nguyen',       avatar:'👩🏻', city:'Toronto',      country:'CA', lat:43.65, lng:-79.38,category:'family',    mood:'tearful',    dreamSummary:'Grandma was waiting in a garden of light...' },
+  { id:'u119',name:'Madison Cooper',    avatar:'👱‍♀️', city:'Seattle',     country:'US', lat:47.61, lng:-122.33,category:'nature',   mood:'mystified',  dreamSummary:'The coffee shop was floating in the clouds...' },
+  { id:'u120',name:'Isabella Flores',   avatar:'👩🏽', city:'Houston',      country:'US', lat:29.76, lng:-95.37,category:'ufo',       mood:'excited',    dreamSummary:'Un cohete despego de mi jardin y yo iba dentro...' },
+  { id:'u121',name:'Ava Campbell',      avatar:'👩‍🦰', city:'Vancouver',   country:'CA', lat:49.28, lng:-123.12,category:'animals',  mood:'playful',    dreamSummary:'Forest wolves invited me to their moonlit dance...' },
+  { id:'u122',name:'Destiny Jackson',   avatar:'👩🏿', city:'Atlanta',      country:'US', lat:33.75, lng:-84.39,category:'money',     mood:'thrilled',   dreamSummary:'Money trees grew in my backyard overnight...' },
+  { id:'u123',name:'Olivia Patel',      avatar:'👩🏽', city:'Denver',       country:'US', lat:39.74, lng:-104.99,category:'spiritual', mood:'transcendent',dreamSummary:'The mountains opened like doors to heaven...' },
+  { id:'u124',name:'James Wilson',      avatar:'🧑',  city:'Boston',       country:'US', lat:42.36, lng:-71.06,category:'school',    mood:'panicked',   dreamSummary:'The exam was in an alien language I almost knew...' },
+  { id:'u125',name:'Gabrielle Dube',    avatar:'👩‍🦱', city:'Quebec City', country:'CA', lat:46.81, lng:-71.21,category:'horror',    mood:'chilled',    dreamSummary:'Le Chateau Frontenac etait hante par ma voix...' },
+  { id:'u126',name:'Aaliyah Brown',     avatar:'👩🏿', city:'Detroit',      country:'US', lat:42.33, lng:-83.05,category:'funny',     mood:'amused',     dreamSummary:'My car turned into a giant roller skate downtown...' },
+  { id:'u127',name:'Sofia Hernandez',   avatar:'👩🏽', city:'Phoenix',      country:'US', lat:33.45, lng:-112.07,category:'falling',  mood:'scared',     dreamSummary:'Cai del cielo pero el desierto me atrapo suave...' },
+  { id:'u128',name:'Naomi Williams',    avatar:'👩🏿', city:'Washington DC',country:'US', lat:38.91, lng:-77.04,category:'water',     mood:'calm',       dreamSummary:'The Potomac turned to crystal and I could see forever...' },
+  { id:'u129',name:'Camila Rodriguez',  avatar:'👩🏽', city:'San Antonio',  country:'US', lat:29.42, lng:-98.49,category:'love',      mood:'warm',       dreamSummary:'El Alamo se lleno de luces y el me beso alli...' },
+  { id:'u130',name:'Maya Thompson',     avatar:'👩',  city:'Portland',     country:'US', lat:45.52, lng:-122.68,category:'nature',   mood:'serene',     dreamSummary:'The trees whispered secrets about tomorrow...' },
+  // ── SOUTH AMERICA (15) ──
+  { id:'u131',name:'Valentina Rojas',   avatar:'👩🏽', city:'Buenos Aires', country:'AR', lat:-34.60,lng:-58.38,category:'love',      mood:'passionate', dreamSummary:'Bailabamos tango bajo una luna gigante...' },
+  { id:'u132',name:'Beatriz Silva',     avatar:'👩🏽', city:'Sao Paulo',    country:'BR', lat:-23.55,lng:-46.63,category:'money',     mood:'excited',    dreamSummary:'Ouro chovia sobre a Paulista e eu dancava...' },
+  { id:'u133',name:'Camila Vargas',     avatar:'👩🏽', city:'Bogota',       country:'CO', lat:4.71,  lng:-74.07,category:'nature',    mood:'wonder',     dreamSummary:'La selva se convirtio en un cuento de hadas...' },
+  { id:'u134',name:'Ana Lucia Perez',   avatar:'👩🏽', city:'Lima',         country:'PE', lat:-12.05,lng:-77.04,category:'timetravel',mood:'awed',       dreamSummary:'Machu Picchu se reconstruia ante mis ojos...' },
+  { id:'u135',name:'Isadora Mendes',    avatar:'👩🏽', city:'Rio de Janeiro',country:'BR', lat:-22.91,lng:-43.17,category:'spiritual', mood:'tearful',   dreamSummary:'O Cristo desceu e abracou cada pessoa...' },
+  { id:'u136',name:'Francisca Munoz',   avatar:'👩🏽', city:'Santiago',     country:'CL', lat:-33.45,lng:-70.67,category:'falling',   mood:'dizzy',      dreamSummary:'Cai de los Andes pero flores me sostuvieron...' },
+  { id:'u137',name:'Lucia Fernandez',   avatar:'👩🏽', city:'Montevideo',   country:'UY', lat:-34.88,lng:-56.16,category:'horror',    mood:'thrilled',   dreamSummary:'Bailaba tango con un fantasma en el puerto...' },
+  { id:'u138',name:'Carolina Suarez',   avatar:'👩🏽', city:'Quito',        country:'EC', lat:-0.18, lng:-78.47,category:'animals',   mood:'enchanted',  dreamSummary:'Mariposas de luz brotaban del volcan...' },
+  { id:'u139',name:'Gabriela Torres',   avatar:'👩🏽', city:'Medellin',     country:'CO', lat:6.25,  lng:-75.56,category:'flying',    mood:'free',       dreamSummary:'Volaba sobre las montanas con alas de flores...' },
+  { id:'u140',name:'Diego Ramirez',     avatar:'🧑🏽', city:'Caracas',     country:'VE', lat:10.49, lng:-66.88,category:'family',    mood:'nostalgic',  dreamSummary:'La mesa familiar flotaba sobre la ciudad de noche...' },
+  { id:'u141',name:'Juliana Costa',     avatar:'👩🏽', city:'Brasilia',     country:'BR', lat:-15.79,lng:-47.88,category:'ufo',       mood:'amazed',     dreamSummary:'Uma nave pousou na Esplanada dos Ministerios...' },
+  { id:'u142',name:'Maria Jose Vidal',  avatar:'👩🏽', city:'Asuncion',     country:'PY', lat:-25.26,lng:-57.58,category:'erotic',    mood:'intense',    dreamSummary:'El rio Paraguay ardia y nosotros tambien...' },
+  { id:'u143',name:'Alejandra Gomez',   avatar:'👩🏽', city:'Cali',         country:'CO', lat:3.45,  lng:-76.53,category:'celebrity', mood:'star-struck', dreamSummary:'Shakira me enseno a bailar en la Plaza de Caicedo...' },
+  { id:'u144',name:'Renata Oliveira',   avatar:'👩🏽', city:'Salvador',     country:'BR', lat:-12.97,lng:-38.51,category:'death',     mood:'serene',     dreamSummary:'Os orixas danc\u0327avam e eu virei luz...' },
+  { id:'u145',name:'Micaela Diaz',      avatar:'👩🏽', city:'Cordoba',      country:'AR', lat:-31.42,lng:-64.18,category:'school',    mood:'anxious',    dreamSummary:'El examen era en un idioma que inventaba mientras leia...' },
+  // ── CENTRAL ASIA (5) ──
+  { id:'u146',name:'Aizhan Bekova',     avatar:'👩🏽', city:'Almaty',       country:'KZ', lat:43.24, lng:76.95, category:'nature',    mood:'bliss',      dreamSummary:'Tauler altyn zharyqqa toldy, men ushtyp kettim...' },
+  { id:'u147',name:'Gulnara Sadikova',  avatar:'👩🏽', city:'Tashkent',     country:'UZ', lat:41.30, lng:69.28, category:'chase',     mood:'breathless', dreamSummary:'Eski shahar devorlar ortida quvib yurdim...' },
+  { id:'u148',name:'Madina Akhmetova',  avatar:'👩🏽', city:'Astana',       country:'KZ', lat:51.17, lng:71.43, category:'funny',     mood:'delighted',  dreamSummary:'At meni dalaga alip uchty, men kuldim...' },
+  { id:'u149',name:'Farida Umarova',    avatar:'👩🏽', city:'Dushanbe',     country:'TJ', lat:38.54, lng:68.77, category:'water',     mood:'mystified',  dreamSummary:'Daryo oqib oqib, osmonga chiqib ketdi...' },
+  { id:'u150',name:'Nuriya Aliyeva',    avatar:'👩🏽', city:'Baku',         country:'AZ', lat:40.41, lng:49.87, category:'spiritual', mood:'transcendent',dreamSummary:'Alov qullelerinin icinden nur yagirdi...' },
 ];
 
 function generateUsers(dreams: Dream[]): SimUser[] {
   const userCats = dreams.flatMap(d => d.tags ?? []);
-  return BASE_USERS.map(u => {
-    let matchPct = Math.floor(Math.random() * 40) + 45; // 45-84 base
+  return BASE_USERS.map((u, i) => {
+    // Seeded pseudo-random based on index for stable distribution 35-98
+    let matchPct = 35 + ((i * 7 + 13) % 64); // 35-98 range, well distributed
     if (userCats.length > 0) {
       const catMatch = userCats.some(c =>
         c.toLowerCase().includes(u.category.slice(0, 4))
       );
-      if (catMatch) matchPct = Math.min(98, matchPct + 15);
+      if (catMatch) matchPct = Math.min(98, matchPct + 12);
     }
     return { ...u, matchPct };
   });
@@ -756,34 +808,63 @@ const DreamMap: React.FC<DreamMapProps> = ({
             </div>
 
             {/* User markers */}
-            {filteredUsers.map(u => {
+            {filteredUsers.map((u, idx) => {
               const coords = getCoordinates(u.lat, u.lng);
               const isPulsing = pulsingIds.includes(u.id);
               const isSelected = selectedUser?.id === u.id;
               const color = matchColor(u.matchPct);
+              const cat = DREAM_CATEGORIES.find(c => c.id === u.category);
+              const catColor = cat?.color ?? color;
+              // Every 5th marker gets subtle ping animation
+              const hasSubtlePing = idx % 5 === 0 && !isSelected;
+              const firstName = u.name.split(' ')[0];
               return (
                 <div key={u.id} className="absolute" style={{ left: `${coords.x}%`, top: `${coords.y}%`, zIndex: isSelected ? 50 : isPulsing ? 20 : 10 }}>
                   {isPulsing && (
                     <div
-                      className="dm-pulse-ring w-6 h-6"
+                      className="dm-pulse-ring w-5 h-5"
                       style={{
                         left: '50%',
                         top: '50%',
-                        border: `2px solid ${color}`,
+                        border: `1.5px solid ${catColor}`,
                       }}
                     />
                   )}
+                  {/* Marker dot */}
                   <div
-                    className="w-2.5 h-2.5 rounded-full border border-white/40 cursor-pointer transition-transform hover:scale-150 hover:z-50"
+                    className={`rounded-full cursor-pointer transition-transform hover:scale-[2] hover:z-50 ${hasSubtlePing ? 'animate-ping' : ''}`}
                     style={{
-                      backgroundColor: color,
-                      boxShadow: `0 0 6px ${color}80`,
-                      transform: `translate(-50%, -50%)${isSelected ? ' scale(1.8)' : ''}`,
-                      borderColor: isSelected ? 'white' : 'rgba(255,255,255,0.4)',
-                      borderWidth: isSelected ? '2px' : '1px',
+                      width: isSelected ? '12px' : '6px',
+                      height: isSelected ? '12px' : '6px',
+                      backgroundColor: catColor,
+                      boxShadow: `0 0 ${isSelected ? '10px' : '4px'} ${catColor}80`,
+                      transform: 'translate(-50%, -50%)',
+                      borderColor: isSelected ? 'white' : 'rgba(255,255,255,0.3)',
+                      borderWidth: isSelected ? '2px' : '0.5px',
+                      borderStyle: 'solid',
+                      borderRadius: '9999px',
+                      // Slow down ping for subtle effect
+                      ...(hasSubtlePing ? { animationDuration: '3s', opacity: 0.8 } : {}),
                     }}
                     onClick={() => handleMarkerClick(u)}
                   />
+                  {/* Labels: show name at scale > 1.5, name + city at scale > 2.5 */}
+                  {mapScale > 1.5 && (
+                    <div
+                      className="absolute pointer-events-none select-none whitespace-nowrap"
+                      style={{
+                        left: '8px',
+                        top: '-3px',
+                        transform: 'translate(0, -50%)',
+                        fontSize: '8px',
+                        lineHeight: '10px',
+                        color: 'rgba(255,255,255,0.85)',
+                        textShadow: '0 0 3px rgba(0,0,0,0.9), 0 1px 2px rgba(0,0,0,0.7)',
+                      }}
+                    >
+                      {mapScale > 2.5 ? `${firstName}, ${u.city}` : firstName}
+                    </div>
+                  )}
                   {isSelected && (
                     <div
                       className="absolute text-lg pointer-events-none select-none"
