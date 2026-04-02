@@ -2411,7 +2411,7 @@ const App: React.FC = () => {
              {/* HEADER */}
              <div className="flex items-start justify-between mb-6 gap-3">
                  <div className="flex-1 min-w-0">
-                     <h1 className={`text-3xl sm:text-4xl font-heading font-bold text-transparent bg-clip-text bg-gradient-to-r ${isLight ? 'from-[#2a1a3a] via-[#6d28d9] to-[#a855f7]' : 'from-violet-200 via-fuchsia-200 to-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]'}`} style={{ lineHeight: '1.15' }}>
+                     <h1 className={`text-3xl sm:text-4xl font-heading font-bold text-transparent bg-clip-text bg-gradient-to-r ${isLight ? 'from-[#1e1035] via-[#4c1d95] to-[#7c3aed]' : 'from-violet-200 via-fuchsia-200 to-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]'}`} style={{ lineHeight: '1.15' }}>
                          {(() => {
                              const parts = t.app_title.split(' | ');
                              if (parts.length === 2) {
@@ -2425,7 +2425,7 @@ const App: React.FC = () => {
                              return t.app_title;
                          })()}
                      </h1>
-                     <p className={`text-[11px] tracking-[0.15em] uppercase mt-1.5 bg-clip-text text-transparent bg-gradient-to-r leading-relaxed ${isLight ? 'from-indigo-500 via-fuchsia-500 to-violet-500' : 'from-fuchsia-300 via-violet-300 to-cyan-300'}`} style={{ backgroundSize: '200% auto', animation: 'gradient-shift 4s ease infinite' }}>
+                     <p className={`text-[11px] tracking-[0.15em] uppercase mt-1.5 leading-relaxed ${isLight ? 'text-[#4c1d95]' : 'bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-300 via-violet-300 to-cyan-300'}`} style={isLight ? {} : { backgroundSize: '200% auto', animation: 'gradient-shift 4s ease infinite' }}>
                          {t.app_subtitle}
                      </p>
                  </div>
@@ -2462,8 +2462,8 @@ const App: React.FC = () => {
                  </div>
              </div>
              
-             <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-500'}`}>
-                 <span className={`w-6 h-[1px] ${isLight ? 'bg-indigo-200' : 'bg-slate-700'}`}></span> {t.ui.choose_tradition}
+             <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-[#4c1d95]' : 'text-slate-500'}`}>
+                 <span className={`w-6 h-[1px] ${isLight ? 'bg-[#7c3aed]' : 'bg-slate-700'}`}></span> {t.ui.choose_tradition}
              </h3>
 
              <div className="grid grid-cols-3 gap-2.5 mb-5">
@@ -2517,8 +2517,8 @@ const App: React.FC = () => {
 
              {selectedCategories.length > 0 && (
                  <div className="mb-8">
-                     <h3 className={`text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
-                        <span className={`w-8 h-[1px] ${isLight ? 'bg-indigo-200' : 'bg-slate-600'}`}></span> {t.ui.refine_sources}
+                     <h3 className={`text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2 ${isLight ? 'text-[#4c1d95]' : 'text-slate-400'}`}>
+                        <span className={`w-8 h-[1px] ${isLight ? 'bg-[#7c3aed]' : 'bg-slate-600'}`}></span> {t.ui.refine_sources}
                      </h3>
                      <div className="grid grid-cols-2 gap-2">
                          {getAvailableSources().map(src => {
@@ -2544,7 +2544,7 @@ const App: React.FC = () => {
                       value={dreamInput}
                       onChange={(e) => setDreamInput(e.target.value)}
                       placeholder={t.ui.placeholder}
-                      className={`w-full bg-transparent p-4 text-base resize-none outline-none font-serif leading-relaxed transition-all ${isLight ? 'text-indigo-950 placeholder-indigo-300' : 'text-white placeholder-slate-600'}`}
+                      className={`w-full bg-transparent p-4 text-base resize-none outline-none font-serif leading-relaxed transition-all ${isLight ? 'text-[#2a1a3a] placeholder-[#8b7aa0]' : 'text-white placeholder-slate-600'}`}
                       style={{ minHeight: '112px', maxHeight: '168px', overflowY: dreamInput.length > 200 ? 'auto' : 'hidden' }}
                       onInput={(e) => {
                           const el = e.currentTarget;
@@ -2553,14 +2553,14 @@ const App: React.FC = () => {
                       }}
                   />
                   <div className="flex justify-end items-center px-3 pb-3">
-                      <div className={`text-[10px] font-mono ${isLight ? 'text-indigo-300' : 'text-slate-600'}`}>{dreamInput.length} chars</div>
+                      <div className={`text-[10px] font-mono ${isLight ? 'text-[#6b5a80]' : 'text-slate-600'}`}>{dreamInput.length} chars</div>
                   </div>
              </div>
 
              {/* Audio-Aufnahme-Anzeige entfernt — Aufnahme jetzt im SpeechToVideoModal */}
 
              {/* PRIMARY CTA */}
-             <button onClick={() => handleAnalyze()} disabled={loading || !dreamInput} className={`relative w-full py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all mb-4 ${loading || !dreamInput ? (isLight ? 'bg-slate-200/60 text-slate-400' : 'bg-slate-800/40 text-slate-600 cursor-not-allowed') : noCredits ? 'bg-slate-800/60 backdrop-blur-md border border-slate-600/40 text-slate-400' : (isLight ? 'bg-gradient-to-r from-indigo-600 to-fuchsia-600 text-white shadow-lg shadow-indigo-500/40 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]' : 'bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 text-white shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]')}`}>
+             <button onClick={() => handleAnalyze()} disabled={loading || !dreamInput} className={`relative w-full py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all mb-4 ${loading || !dreamInput ? (isLight ? 'bg-[#c4bce6]/50 text-[#6b5a80] cursor-not-allowed' : 'bg-slate-800/40 text-slate-600 cursor-not-allowed') : noCredits ? 'bg-slate-800/60 backdrop-blur-md border border-slate-600/40 text-slate-400' : (isLight ? 'bg-gradient-to-r from-[#4c1d95] to-[#7c3aed] text-white shadow-lg shadow-violet-500/40 hover:shadow-xl hover:shadow-violet-500/50 hover:scale-[1.02] active:scale-[0.98]' : 'bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 text-white shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]')}`}>
                  {loading ? (<span className="flex items-center justify-center gap-3">{t.processing.title}</span>) : noCredits ? (<span className="flex items-center justify-center gap-2"><span className="material-icons">lock</span> {t.ui.interpret} (0 Credits)</span>) : (<span className="flex items-center justify-center gap-2"><span className="material-icons">auto_awesome</span> {t.ui.interpret}</span>)}
              </button>
 
