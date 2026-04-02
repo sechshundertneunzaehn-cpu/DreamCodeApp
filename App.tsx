@@ -22,6 +22,7 @@ import AGBPage from './components/AGBPage';
 import DatenschutzPage from './components/DatenschutzPage';
 import ImpressumPage from './components/ImpressumPage';
 import ForschungPage from './components/ForschungPage';
+import CensusPage from './components/CensusPage';
 import TrustBanner from './components/TrustBanner';
 import VoiceSelector, { VoiceCharacter, VOICE_CHARACTERS } from './components/VoiceSelector';
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
@@ -2813,6 +2814,7 @@ const App: React.FC = () => {
             {view === View.DATENSCHUTZ && <DatenschutzPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
             {view === View.IMPRESSUM && <ImpressumPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
             {view === View.FORSCHUNG && <ForschungPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
+            {view === View.CENSUS && <CensusPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
 
             <main className="relative z-10 p-4 pt-6 pb-24">
                 {view === View.HOME && renderHome()}
@@ -2846,6 +2848,9 @@ const App: React.FC = () => {
                   </button>
                   <button onClick={() => setView(View.FORSCHUNG)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
                     {language === 'de' ? 'Forschung' : 'Research'}
+                  </button>
+                  <button onClick={() => setView(View.CENSUS)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
+                    Census
                   </button>
                 </div>
                 <p className={`mt-2 ${isLight ? 'text-slate-300' : 'text-slate-600'}`}>
