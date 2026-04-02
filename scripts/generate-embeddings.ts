@@ -131,10 +131,17 @@ async function embed(keys: Keys, text: string, keysUsed = 0): Promise<number[]> 
 async function main() {
   await loadEnv();
 
+  // Priority: GEMINI_EMBEDDING_KEY (dedicated) > GEMINI_API_KEY_1-4 (fallback)
   const keyList: string[] = [];
-  for (let i = 1; i <= 4; i++) { const k = Deno.env.get(`GEMINI_API_KEY_${i}`); if (k) keyList.push(k); }
-  if (!keyList.length) { const k = Deno.env.get("GEMINI_API_KEY"); if (k) keyList.push(k); }
-  if (!keyList.length) throw new Error("No keys");
+  const dedicatedKey = Deno.env.get("GEMINI_EMBEDDING_KEY");
+  if (dedicatedKey) {
+    keyList.push(dedicatedKey);
+    log("Using dedicated GEMINI_EMBEDDING_KEY");
+  } else {
+    for (let i = 1; i <= 4; i++) { const k = Deno.env.get(`GEMINI_API_KEY_${i}`); if (k) keyList.push(k); }
+    if (!keyList.length) { const k = Deno.env.get("GEMINI_API_KEY"); if (k) keyList.push(k); }
+  }
+  if (!keyList.length) throw new Error("No keys — set GEMINI_EMBEDDING_KEY or GEMINI_API_KEY_1-4");
 
   const keys = new Keys(keyList);
   const SB = Deno.env.get("SUPABASE_URL")!;
