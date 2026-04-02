@@ -17,6 +17,8 @@ import DreamMap from './components/DreamMap';
 import VideoStudio from './components/VideoStudio';
 import SpeechToVideoModal from './components/SpeechToVideoModal';
 import DreamNetwork from './components/DreamNetwork';
+import SciencePage from './components/SciencePage';
+import TrustBanner from './components/TrustBanner';
 import VoiceSelector, { VoiceCharacter, VOICE_CHARACTERS } from './components/VoiceSelector';
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
 import { analyzeDreamText, generateDreamImage, generateImagePrompt, generateSpeechPreview, generateStoryVideo, generateDreamVideo, generateDreamNarrationVideo, generateDreamUserVoiceVideo } from './services/geminiService';
@@ -2461,7 +2463,9 @@ const App: React.FC = () => {
                       </div>
                  </div>
              </div>
-             
+
+             <TrustBanner language={language} onNavigateToScience={() => setView(View.SCIENCE)} />
+
              <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-[#4c1d95]' : 'text-slate-500'}`}>
                  <span className={`w-6 h-[1px] ${isLight ? 'bg-[#7c3aed]' : 'bg-slate-700'}`}></span> {t.ui.choose_tradition}
              </h3>
@@ -2784,6 +2788,15 @@ const App: React.FC = () => {
 
             {view === View.DREAM_MAP && <DreamMap dreams={dreams} language={language} isLight={isLight} onClose={() => setView(View.HOME)} />}
 
+            {view === View.SCIENCE && (
+                <SciencePage
+                    language={language}
+                    onClose={() => setView(View.HOME)}
+                    onNavigateHome={() => setView(View.HOME)}
+                    themeMode={themeMode}
+                />
+            )}
+
             <main className="relative z-10 p-4 pt-6 pb-24">
                 {view === View.HOME && renderHome()}
                     {view === View.DREAM_HUB && <DreamHub dreams={dreams} language={language} themeMode={themeMode} onClose={() => setView(View.HOME)} />}
@@ -2816,6 +2829,8 @@ const App: React.FC = () => {
             {/* Live Chat icon - kein Lock mehr */}
                         </button>
                     </div>
+                    {/* WISSENSCHAFT */}
+                    <NavBtn icon="biotech" label="Wissenschaft" active={view === View.SCIENCE} onClick={() => setView(View.SCIENCE)} isLight={isLight} />
                     {/* DREAM MAP */}
                     <NavBtn icon="public" label={t.ui.dream_network} active={view === View.DREAM_MAP} onClick={() => setView(View.DREAM_MAP)} isLight={isLight} />
                     <NavBtn icon="person" label={t.ui.profile_btn} active={view === View.PROFILE} onClick={() => setView(View.PROFILE)} isLight={isLight} />

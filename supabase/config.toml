@@ -1,0 +1,82 @@
+# =============================================================
+# Supabase Lokale Entwicklungskonfiguration
+# Doku: https://supabase.com/docs/guides/cli/config
+# =============================================================
+
+[api]
+# Port fuer die lokale Supabase API
+port = 54321
+# Schemas, die ueber die REST API exponiert werden
+schemas = ["public", "graphql_public"]
+# Zusaetzliche Schemas mit Admin-Zugriff
+extra_search_path = ["public", "extensions"]
+# Max. Anzahl gleichzeitiger Verbindungen
+max_rows = 1000
+
+[db]
+# Port fuer direkten PostgreSQL-Zugriff (lokal)
+port = 54322
+# PostgreSQL Major Version
+major_version = 15
+
+[db.pooler]
+# PgBouncer-Konfiguration fuer Connection Pooling
+enabled = false
+port = 54329
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+[realtime]
+# Realtime-Service fuer Live-Updates (z.B. neue oeffentliche Traeume)
+enabled = true
+
+[studio]
+# Supabase Studio (lokales Dashboard)
+enabled = true
+port = 54323
+
+[inbucket]
+# Lokaler E-Mail-Server fuer Auth-Tests
+port = 54324
+smtp_port = 54325
+pop3_port = 54326
+
+[storage]
+# Datei-Storage (fuer zukuenftige Features wie Audio-Traeume)
+enabled = true
+file_size_limit = "50MiB"
+
+[auth]
+# Auth-Service-Konfiguration
+site_url = "http://localhost:3000"
+# Erlaubte Redirect-URLs nach OAuth
+additional_redirect_urls = ["https://localhost:3000"]
+# JWT-Ablaufzeit in Sekunden (1 Stunde)
+jwt_expiry = 3600
+# Refresh Token Rotation aktivieren
+enable_refresh_token_rotation = true
+# Refresh Token Ablauf in Sekunden (30 Tage)
+refresh_token_reuse_interval = 10
+
+[auth.email]
+# E-Mail-Authentifizierung
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = false  # In lokaler Umgebung deaktiviert
+
+[auth.sms]
+# SMS-Auth deaktiviert (wird nicht benoetigt)
+enable_signup = false
+
+[analytics]
+# Supabase Analytics deaktiviert (Datenschutz)
+enabled = false
+
+# =============================================================
+# Produktions-Hinweise:
+# - JWT_SECRET in .env setzen (nie in config.toml)
+# - ANON_KEY und SERVICE_ROLE_KEY aus dem Supabase Dashboard
+# - pgvector muss in Produktion unter Settings > Extensions aktiviert sein
+# - HNSW-Indexes werden automatisch via Migration erstellt
+# =============================================================
