@@ -13,7 +13,7 @@ interface SpeechToVideoModalProps {
     language: Language;
     themeMode: ThemeMode;
     onClose: () => void;
-    onContinue: (finalText: string) => void;
+    onContinue: (finalText: string, audioBlob?: Blob | null) => void;
 }
 
 // ---------------------------------------------------------------------------
@@ -208,10 +208,17 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
     const [interimText, setInterimText] = useState('');
     const [status, setStatus] = useState<SpeechStatus>('idle');
     const [supported, setSupported] = useState(true);
+    const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+    const [audioUrl, setAudioUrl] = useState<string | null>(null);
+    const [isPlayingPreview, setIsPlayingPreview] = useState(false);
 
     const recognitionRef = useRef<any>(null);
     const statusRef = useRef<SpeechStatus>('idle');
     const textRef = useRef('');
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+    const audioChunksRef = useRef<Blob[]>([]);
+    const mediaStreamRef = useRef<MediaStream | null>(null);
+    const previewAudioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => { statusRef.current = status; }, [status]);
 
@@ -302,27 +309,62 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
         return rec;
     }, [language]);
 
-    const startRecording = useCallback(() => {
+    // Start MediaRecorder for audio capture
+    const startMediaRecorder = useCallback(async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaStreamRef.current = stream;
+            audioChunksRef.current = [];
+            const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+            recorder.ondataavailable = (e) => {
+                if (e.data.size > 0) audioChunksRef.current.push(e.data);
+            };
+            recorder.onstop = () => {
+                const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                setAudioBlob(blob);
+                const url = URL.createObjectURL(blob);
+                setAudioUrl(url);
+                stream.getTracks().forEach(t => t.stop());
+            };
+            mediaRecorderRef.current = recorder;
+            recorder.start(250); // collect chunks every 250ms
+        } catch (e) {
+            console.warn('[AUDIO] MediaRecorder not available:', e);
+        }
+    }, []);
+
+    const stopMediaRecorder = useCallback(() => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+            mediaRecorderRef.current.stop();
+        }
+        mediaRecorderRef.current = null;
+    }, []);
+
+    const startRecording = useCallback(async () => {
         stopRecognition();
+        setAudioBlob(null);
+        setAudioUrl(null);
         const rec = buildRecognition();
         if (!rec) return;
         recognitionRef.current = rec;
         try {
             rec.start();
+            await startMediaRecorder();
             setStatus('recording');
             statusRef.current = 'recording';
         } catch {
             setStatus('idle');
             statusRef.current = 'idle';
         }
-    }, [buildRecognition, stopRecognition]);
+    }, [buildRecognition, stopRecognition, startMediaRecorder]);
 
     const pauseRecording = useCallback(() => {
         setStatus('paused');
         statusRef.current = 'paused';
         setInterimText('');
         stopRecognition();
-    }, [stopRecognition]);
+        stopMediaRecorder();
+    }, [stopRecognition, stopMediaRecorder]);
 
     const resumeRecording = useCallback(() => {
         stopRecognition();
@@ -344,16 +386,37 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
         statusRef.current = 'idle';
         setInterimText('');
         stopRecognition();
-        onContinue(text.trim());
-    }, [onContinue, stopRecognition, text]);
+        stopMediaRecorder();
+        // Wait briefly for mediarecorder to finalize blob
+        setTimeout(() => {
+            onContinue(text.trim(), audioBlob);
+        }, 300);
+    }, [onContinue, stopRecognition, stopMediaRecorder, text, audioBlob]);
 
     const handleClose = useCallback(() => {
         setStatus('idle');
         statusRef.current = 'idle';
         setInterimText('');
         stopRecognition();
+        stopMediaRecorder();
+        if (audioUrl) URL.revokeObjectURL(audioUrl);
         onClose();
-    }, [onClose, stopRecognition]);
+    }, [onClose, stopRecognition, stopMediaRecorder, audioUrl]);
+
+    // Audio preview playback
+    const togglePreview = useCallback(() => {
+        if (!audioUrl) return;
+        if (isPlayingPreview && previewAudioRef.current) {
+            previewAudioRef.current.pause();
+            setIsPlayingPreview(false);
+        } else {
+            const audio = new Audio(audioUrl);
+            previewAudioRef.current = audio;
+            audio.onended = () => setIsPlayingPreview(false);
+            audio.play().catch(() => {});
+            setIsPlayingPreview(true);
+        }
+    }, [audioUrl, isPlayingPreview]);
 
     if (!open) return null;
 
@@ -439,6 +502,40 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
                         </span>
                     )}
                 </div>
+
+                {/* Audio Preview (after recording) */}
+                {audioUrl && status !== 'recording' && (
+                    <div className={`rounded-2xl border p-3 flex items-center gap-3 ${
+                        isLight ? 'bg-violet-50 border-violet-200' : 'bg-violet-900/20 border-violet-500/30'
+                    }`}>
+                        <button
+                            onClick={togglePreview}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                                isLight
+                                    ? 'bg-violet-600 text-white hover:bg-violet-700'
+                                    : 'bg-violet-600 text-white hover:bg-violet-500'
+                            }`}
+                        >
+                            <span className="material-icons text-lg">{isPlayingPreview ? 'pause' : 'play_arrow'}</span>
+                        </button>
+                        <div className="flex-1">
+                            <p className={`text-xs font-bold ${isLight ? 'text-violet-700' : 'text-violet-300'}`}>
+                                {isPlayingPreview ? '▶ Wiedergabe...' : '🎤 Aufnahme gespeichert'}
+                            </p>
+                            <p className={`text-[10px] ${isLight ? 'text-violet-500' : 'text-violet-400/60'}`}>
+                                Eigene Stimme wird mit Video verwendet
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => { setAudioBlob(null); setAudioUrl(null); }}
+                            className={`text-xs px-2 py-1 rounded-lg ${
+                                isLight ? 'text-red-600 hover:bg-red-50' : 'text-red-400 hover:bg-red-900/20'
+                            }`}
+                        >
+                            Neu aufnehmen
+                        </button>
+                    </div>
+                )}
 
                 {/* Action buttons */}
                 <div className="flex flex-wrap gap-2 pt-1">
