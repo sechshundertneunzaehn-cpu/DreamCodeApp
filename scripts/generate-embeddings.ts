@@ -147,6 +147,7 @@ async function generateEmbedding(
       content: {
         parts: [{ text: truncated }],
       },
+      outputDimensionality: EMBEDDING_DIMENSIONS,
     }),
   });
 

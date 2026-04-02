@@ -18,6 +18,10 @@ import VideoStudio from './components/VideoStudio';
 import SpeechToVideoModal from './components/SpeechToVideoModal';
 import DreamNetwork from './components/DreamNetwork';
 import SciencePage from './components/SciencePage';
+import AGBPage from './components/AGBPage';
+import DatenschutzPage from './components/DatenschutzPage';
+import ImpressumPage from './components/ImpressumPage';
+import ForschungPage from './components/ForschungPage';
 import TrustBanner from './components/TrustBanner';
 import VoiceSelector, { VoiceCharacter, VOICE_CHARACTERS } from './components/VoiceSelector';
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
@@ -1531,9 +1535,17 @@ const App: React.FC = () => {
         };
     }, []);
 
-    // Sync body background with theme
+    // Sync body background + dark class with theme
     useEffect(() => {
         document.body.style.backgroundColor = themeMode === ThemeMode.LIGHT ? '#f0eefc' : '#0f0b1a';
+        // Toggle .dark/.light on <html> for CSS variables + Tailwind dark: prefix
+        if (themeMode === ThemeMode.LIGHT) {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.remove('light');
+            document.documentElement.classList.add('dark');
+        }
     }, [themeMode]);
 
     // RTL support
@@ -2797,6 +2809,11 @@ const App: React.FC = () => {
                 />
             )}
 
+            {view === View.AGB && <AGBPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
+            {view === View.DATENSCHUTZ && <DatenschutzPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
+            {view === View.IMPRESSUM && <ImpressumPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
+            {view === View.FORSCHUNG && <ForschungPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
+
             <main className="relative z-10 p-4 pt-6 pb-24">
                 {view === View.HOME && renderHome()}
                     {view === View.DREAM_HUB && <DreamHub dreams={dreams} language={language} themeMode={themeMode} onClose={() => setView(View.HOME)} />}
@@ -2814,6 +2831,28 @@ const App: React.FC = () => {
                         selectedSources={selectedSources}
                     />
             ) : null}
+
+            {view === View.HOME && (
+              <footer className={`relative z-10 px-4 pb-28 pt-4 text-center text-xs ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
+                <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+                  <button onClick={() => setView(View.DATENSCHUTZ)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
+                    {language === 'de' ? 'Datenschutz' : 'Privacy'}
+                  </button>
+                  <button onClick={() => setView(View.AGB)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
+                    {language === 'de' ? 'AGB' : 'Terms'}
+                  </button>
+                  <button onClick={() => setView(View.IMPRESSUM)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
+                    {language === 'de' ? 'Impressum' : 'Imprint'}
+                  </button>
+                  <button onClick={() => setView(View.FORSCHUNG)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
+                    {language === 'de' ? 'Forschung' : 'Research'}
+                  </button>
+                </div>
+                <p className={`mt-2 ${isLight ? 'text-slate-300' : 'text-slate-600'}`}>
+                  Thalamus Innovation Technology
+                </p>
+              </footer>
+            )}
 
             <nav className={`fixed bottom-0 left-0 right-0 border-t pb-safe z-40 transition-colors duration-500 ${isLight ? 'bg-white/80 backdrop-blur-xl border-mystic-border shadow-glass' : 'bg-dream-bg/80 backdrop-blur-lg border-white/10'}`}>
                 <div className="flex justify-around items-center p-2">

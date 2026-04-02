@@ -4,14 +4,101 @@
 @tailwind components;
 @tailwind utilities;
 
+/* === THEME CSS VARIABLES === */
+:root {
+  color-scheme: light dark;
+  --text-primary: #1a1530;
+  --text-secondary: #4a4260;
+  --text-muted: #6b5a80;
+  --bg-primary: #ffffff;
+  --bg-surface: #f0eefc;
+  --border-color: #c4bce6;
+}
+
+.dark {
+  --text-primary: #f0eeff;
+  --text-secondary: #a89fc8;
+  --text-muted: #7a6f96;
+  --bg-primary: #0a0612;
+  --bg-surface: #0f0b1a;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
 @layer base {
   body {
     font-family: 'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color: var(--text-primary);
+    background-color: var(--bg-surface);
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
+  }
+
+  /* === LIGHT-MODE TEXT OVERRIDE ===
+     Aggressiver Fix: ALLE Elemente im Light Mode bekommen dunklen Text.
+     Whitelist darunter stellt Ausnahmen wieder her. */
+
+  .light * {
+    color: #1a1530 !important;
+  }
+
+  /* Preserve transparent text (gradient clips) */
+  .light .text-transparent,
+  .light [class*="bg-clip-text"] {
+    color: transparent !important;
+  }
+
+  /* Preserve white text on colored/gradient backgrounds */
+  .light [class*="bg-gradient"] .text-white,
+  .light [class*="bg-gradient"] > *,
+  .light [class*="bg-gradient"][class*="text-white"],
+  .light [class*="bg-violet-"] *,
+  .light [class*="bg-fuchsia-"] *,
+  .light [class*="bg-indigo-"] *,
+  .light [class*="bg-purple-"] *,
+  .light [class*="bg-emerald-"] *,
+  .light [class*="bg-red-"] *,
+  .light [class*="bg-amber-"] *,
+  .light [class*="bg-blue-"] *,
+  .light [class*="bg-pink-"] *,
+  .light [class*="bg-orange-"] *,
+  .light [class*="bg-black"] *,
+  .light .btn-mystic,
+  .light .btn-mystic * {
+    color: #ffffff !important;
+  }
+
+  /* Preserve accent/brand colors */
+  .light .text-fuchsia-500,
+  .light .text-fuchsia-600,
+  .light .text-violet-500,
+  .light .text-violet-600,
+  .light .text-indigo-500,
+  .light .text-indigo-600,
+  .light .text-purple-500,
+  .light .text-purple-600 {
+    color: inherit !important;
+  }
+
+  /* Preserve muted text hierarchy */
+  .light .text-slate-400,
+  .light .text-slate-500,
+  .light .text-gray-400,
+  .light .text-gray-500 {
+    color: #6b5a80 !important;
+  }
+
+  /* Placeholders sichtbar */
+  .light input::placeholder,
+  .light textarea::placeholder {
+    color: #6b5a80 !important;
+  }
+
+  /* Material icons inherit parent color */
+  .light .material-icons {
+    color: inherit !important;
   }
 }
 

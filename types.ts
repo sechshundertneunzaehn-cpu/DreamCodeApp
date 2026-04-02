@@ -9,6 +9,10 @@ export enum View {
     VIDEO_STUDIO = 'VIDEO_STUDIO',
     DREAM_NETWORK = 'DREAM_NETWORK',
     SCIENCE = 'SCIENCE',
+    AGB = 'AGB',
+    DATENSCHUTZ = 'DATENSCHUTZ',
+    IMPRESSUM = 'IMPRESSUM',
+    FORSCHUNG = 'FORSCHUNG',
 }
 
 export enum Language {
