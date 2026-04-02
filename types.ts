@@ -8,6 +8,7 @@ export enum View {
     DREAM_MAP = 'DREAM_MAP',
     VIDEO_STUDIO = 'VIDEO_STUDIO',
     DREAM_NETWORK = 'DREAM_NETWORK',
+    SCIENCE = 'SCIENCE',
 }
 
 export enum Language {

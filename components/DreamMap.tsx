@@ -4,6 +4,7 @@ import { BOT_USERS } from '../data/botProfiles';
 import { FEATURE_FLAGS } from '../config/featureFlags';
 import BotProfileModal from './BotProfileModal';
 import { useBotFriends } from '../hooks/useBotFriends';
+import { fetchMapDreams, type MapDreamUser } from '../services/dreamMapService';
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 interface DreamMapProps {
@@ -953,6 +954,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const tLang = (cat: DreamCategory) => cat.label[lang] ?? cat.label['en'];
 
   const [users, setUsers] = useState<SimUser[]>([]);
+  const [isLiveData, setIsLiveData] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<SimUser | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [toast, setToast] = useState<{ name: string; city: string; pct: number } | null>(null);
@@ -1000,12 +1002,50 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const lastTouchDist = useRef<number | null>(null);
 
-  // Init users
+  // Init users: versuche echte Daten, Fallback auf BASE_USERS
   useEffect(() => {
-    const generated = generateUsers(dreams);
-    setUsers(generated);
-    const top5 = [...generated].sort((a, b) => b.matchPct - a.matchPct).slice(0, 5);
-    setPulsingIds(top5.slice(0, 3).map(u => u.id));
+    let cancelled = false;
+
+    fetchMapDreams().then(liveUsers => {
+      if (cancelled) return;
+
+      let finalUsers: SimUser[];
+
+      if (liveUsers && liveUsers.length > 0) {
+        // Konvertiere MapDreamUser → SimUser (kompatibles Superset)
+        const mapped: SimUser[] = liveUsers.map((u: MapDreamUser) => ({
+          id: u.id,
+          name: u.name,
+          avatar: u.avatar,
+          city: u.city,
+          country: u.country,
+          lat: u.lat,
+          lng: u.lng,
+          dreamSummary: u.dreamSummary,
+          category: u.category,
+          mood: u.mood,
+          matchPct: u.matchPct,
+          privacy: u.privacy,
+          memberSince: u.memberSince,
+          bio: u.bio,
+          dreamCount: u.dreamCount,
+          matchCount: u.matchCount,
+          favCategory: u.favCategory,
+        }));
+        finalUsers = mapped;
+        setIsLiveData(true);
+      } else {
+        // Fallback: simulierte Bot-User
+        finalUsers = generateUsers(dreams);
+        setIsLiveData(false);
+      }
+
+      setUsers(finalUsers);
+      const top5 = [...finalUsers].sort((a, b) => b.matchPct - a.matchPct).slice(0, 5);
+      setPulsingIds(top5.slice(0, 3).map(u => u.id));
+    });
+
+    return () => { cancelled = true; };
   }, []);
 
   // Toast notifications every 12-18 seconds
@@ -1427,6 +1467,16 @@ const DreamMap: React.FC<DreamMapProps> = ({
         <StatPill icon="public"       value={totalActive.toLocaleString()} label={t.worldwide}    isLight={isLight} color="#a855f7" />
         <StatPill icon="favorite"     value={`${avgMatch}%`}               label={t.dreamersSimilar.replace('%','')} isLight={isLight} color="#ec4899" />
         <StatPill icon="bolt"         value={matchesToday.toString()}       label={t.matchestoday} isLight={isLight} color="#f59e0b" />
+        {/* Live/Demo-Badge */}
+        <span
+          className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
+            isLiveData
+              ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
+              : 'bg-slate-500/20 border-slate-500/30 text-slate-400'
+          }`}
+        >
+          {isLiveData ? '● Live' : '○ Demo'}
+        </span>
       </div>
 
       {/* ── Category Chips ── */}
