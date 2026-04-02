@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Language, UserProfile, SubscriptionTier, ThemeMode } from '../types';
+import { getTheme } from '../theme';
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
@@ -255,6 +256,7 @@ function SingleChoiceCard({
 // ─── Main component ───────────────────────────────────────────────────────────
 
 const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComplete, onClose, themeMode }) => {
+    const th = getTheme(themeMode || ThemeMode.DARK);
     const lang = language ?? Language.EN;
     const rtl = isRtl(lang);
     const dir = rtl ? 'rtl' : 'ltr';
@@ -357,7 +359,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
         switch (step) {
             case 0: return (
                 <div>
-                    <p className="text-white/60 text-sm mb-4">{t('select_hint', lang)}</p>
+                    <p className={`${th.isLight ? "text-[#4a3a5d]" : "text-white/60"} text-sm mb-4`}>{t('select_hint', lang)}</p>
                     <div className="flex flex-wrap gap-2">
                         {LIFE_CONTEXT_KEYS.map(({ key, id, emoji }) => (
                             <ChoiceChip
@@ -388,7 +390,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
 
             case 2: return (
                 <div>
-                    <p className="text-white/60 text-sm mb-4">{t('select_hint', lang)}</p>
+                    <p className={`${th.isLight ? "text-[#4a3a5d]" : "text-white/60"} text-sm mb-4`}>{t('select_hint', lang)}</p>
                     <div className="flex flex-col gap-3">
                         {MOTIVATION_OPTIONS.map(({ key, id, emoji }) => (
                             <ChoiceChip
@@ -405,7 +407,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
 
             case 3: return (
                 <div>
-                    <p className="text-white/60 text-sm mb-3">
+                    <p className={`${th.isLight ? "text-[#4a3a5d]" : "text-white/60"} text-sm mb-3`}>
                         {t('s4_hint', lang, { n: data.dreamSymbols.length })}
                     </p>
                     <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto pr-1
@@ -429,7 +431,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
             case 4: return (
                 <div>
                     <div className="mb-6 p-4 rounded-xl border border-fuchsia-500/30 bg-fuchsia-950/30">
-                        <p className="text-white/90 text-base font-medium leading-relaxed text-center">
+                        <p className={`${th.textPrimary} text-base font-medium leading-relaxed text-center`}>
                             "{t('s5_statement', lang)}"
                         </p>
                     </div>
@@ -473,7 +475,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
         <div
             dir={dir}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            style={{ background: 'rgba(10,8,26,0.92)', backdropFilter: 'blur(12px)' }}
+            style={{ background: th.isLight ? 'rgba(240,238,252,0.95)' : 'rgba(10,8,26,0.92)', backdropFilter: 'blur(12px)' }}
         >
             {/* Stars decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
@@ -494,18 +496,18 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
 
             {/* Modal card */}
             <div
-                className="relative w-full max-w-md rounded-2xl border border-white/10 shadow-2xl flex flex-col"
+                className={`relative w-full max-w-md rounded-2xl border ${th.isLight ? 'border-[#c4bce6]' : 'border-white/10'} shadow-2xl flex flex-col`}
                 style={{
-                    background: 'linear-gradient(160deg, #130b2b 0%, #0f0b1a 60%, #1a0a2e 100%)',
+                    background: th.isLight ? 'linear-gradient(160deg, #fdfbff 0%, #f0eefc 60%, #e8e4f8 100%)' : 'linear-gradient(160deg, #130b2b 0%, #0f0b1a 60%, #1a0a2e 100%)',
                     maxHeight: 'min(90dvh, 700px)',
                 }}
             >
                 {/* Header */}
-                <div className="px-5 pt-5 pb-3 border-b border-white/10 flex-shrink-0">
+                <div className={`px-5 pt-5 pb-3 border-b ${th.border} flex-shrink-0`}>
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                             <span className="text-2xl">🌙</span>
-                            <span className="text-white font-bold tracking-wide text-base">
+                            <span className={`${th.textPrimary} font-bold tracking-wide text-base`}>
                                 {t('title', lang)}
                             </span>
                         </div>
@@ -513,7 +515,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                             type="button"
                             onClick={onClose}
                             aria-label={t('close', lang)}
-                            className="text-white/40 hover:text-white/80 transition-colors p-1 rounded-lg hover:bg-white/10"
+                            className={`${th.isLight ? "text-[#4a3a5d] hover:text-[#2a1a3a] hover:bg-[#e0dcf5]" : "text-white/40 hover:text-white/80 hover:bg-white/10"} transition-colors p-1 rounded-lg`}
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -521,7 +523,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                         </button>
                     </div>
                     <ProgressDots step={step} total={TOTAL_STEPS} />
-                    <p className="text-white/40 text-xs text-center mt-1">
+                    <p className={`${th.isLight ? "text-[#6b5a80]" : "text-white/40"} text-xs text-center mt-1`}>
                         {t('step_of', lang, { n: step + 1 })}
                     </p>
                 </div>
@@ -531,10 +533,10 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                     <div
                         className={`transition-all duration-200 ease-out ${slideClass}`}
                     >
-                        <h2 className="text-white text-lg font-bold mb-1">
+                        <h2 className={`${th.textPrimary} text-lg font-bold mb-1`}>
                             {t(stepTitles[step], lang)}
                         </h2>
-                        <p className="text-white/55 text-sm mb-4 leading-relaxed">
+                        <p className={`${th.isLight ? "text-[#4a3a5d]" : "text-white/55"} text-sm mb-4 leading-relaxed`}>
                             {step < 4 ? t(stepDescs[step], lang) : ''}
                         </p>
                         {renderStep()}
@@ -542,13 +544,13 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                 </div>
 
                 {/* Footer navigation */}
-                <div className="px-5 pb-5 pt-3 border-t border-white/10 flex-shrink-0">
+                <div className={`px-5 pb-5 pt-3 border-t ${th.border} flex-shrink-0`}>
                     <div className="flex gap-3">
                         {step > 0 ? (
                             <button
                                 type="button"
                                 onClick={goBack}
-                                className="flex-1 py-3 rounded-xl border border-white/20 text-white/70 text-sm font-semibold hover:bg-white/10 transition-all active:scale-[0.98]"
+                                className={`flex-1 py-3 rounded-xl border ${th.isLight ? "border-[#c4bce6] text-[#4a3a5d] hover:bg-[#e0dcf5]" : "border-white/20 text-white/70 hover:bg-white/10"} text-sm font-semibold transition-all active:scale-[0.98]`}
                             >
                                 {t('btn_back', lang)}
                             </button>
