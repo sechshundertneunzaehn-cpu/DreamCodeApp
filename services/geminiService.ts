@@ -609,15 +609,41 @@ export const generateStoryVideo = async (
   onProgress?.(vt.preparing, 5);
 
   const cleanText = dreamInterpretation.replace(/[#*_`]/g, '').trim();
-  const words = cleanText.split(/\s+/).filter(Boolean);
-  const targetSegments = Math.min(8, Math.max(4, Math.ceil(words.length / 18)));
-  const wordsPerSegment = Math.max(8, Math.ceil(words.length / targetSegments));
-  const segmentsText: string[] = [];
 
-  for (let i = 0; i < words.length; i += wordsPerSegment) {
-    const chunk = words.slice(i, i + wordsPerSegment).join(' ').trim();
-    if (chunk) {
-      segmentsText.push(chunk);
+  // KI-basierte Szenen-Analyse: Text in visuelle Szenen aufteilen
+  let segmentsText: string[] = [];
+  try {
+    const scenePrompt = `Analyze this dream text and split it into 4-8 visual scenes. Each scene should represent a distinct visual moment that can be illustrated as a single image.
+
+Dream: "${dreamDescription}"
+Text: "${cleanText.slice(0, 2000)}"
+
+Return ONLY a JSON array of scene descriptions (no markdown, no explanation). Each element should be a short sentence describing the visual scene.
+Example: ["A person standing in front of an old house at night","Walking through a dark garage","Driving a car on an empty highway"]`;
+
+    const sceneResult = await callGeminiText('gemini-2.0-flash', scenePrompt, { temperature: 0.5, maxOutputTokens: 1000 });
+    if (sceneResult) {
+      const jsonMatch = sceneResult.match(/\[[\s\S]*?\]/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        if (Array.isArray(parsed) && parsed.length >= 2) {
+          segmentsText = parsed.map((s: any) => String(s).trim()).filter((s: string) => s.length > 3);
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('[VIDEO] KI-Szenen-Analyse fehlgeschlagen, verwende Fallback:', e);
+  }
+
+  // Fallback: einfache Wort-basierte Aufteilung
+  if (segmentsText.length < 2) {
+    const words = cleanText.split(/\s+/).filter(Boolean);
+    const targetSegments = Math.min(8, Math.max(4, Math.ceil(words.length / 18)));
+    const wordsPerSegment = Math.max(8, Math.ceil(words.length / targetSegments));
+    segmentsText = [];
+    for (let i = 0; i < words.length; i += wordsPerSegment) {
+      const chunk = words.slice(i, i + wordsPerSegment).join(' ').trim();
+      if (chunk) segmentsText.push(chunk);
     }
   }
 
@@ -645,7 +671,7 @@ export const generateStoryVideo = async (
     const ttsRes = await fetch('/api/tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: cleanText.slice(0, 1900), language }),
+      body: JSON.stringify({ text: cleanText.slice(0, 4500), language }),
     });
     if (ttsRes.ok) {
       const blob = await ttsRes.blob();
@@ -658,7 +684,7 @@ export const generateStoryVideo = async (
   // Fallback: Deepgram Aura
   if (!speech) {
     const voice = getDeepgramVoice(language);
-    speech = await generateSpeechPreview(cleanText.slice(0, 1900), voice, null);
+    speech = await generateSpeechPreview(cleanText.slice(0, 4500), voice, null);
   }
 
   if (!speech) {
@@ -753,7 +779,7 @@ export const generateDreamNarrationVideo = async (
     const ttsRes = await fetch('/api/tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: cleanText.slice(0, 1900), language }),
+      body: JSON.stringify({ text: cleanText.slice(0, 4500), language }),
     });
     if (ttsRes.ok) {
       const blob = await ttsRes.blob();
@@ -765,7 +791,7 @@ export const generateDreamNarrationVideo = async (
 
   if (!speech) {
     const voice = getDeepgramVoice(language);
-    speech = await generateSpeechPreview(cleanText.slice(0, 1900), voice, null);
+    speech = await generateSpeechPreview(cleanText.slice(0, 4500), voice, null);
   }
 
   if (!speech) {
