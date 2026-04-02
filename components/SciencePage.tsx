@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Language } from '../types';
+import { Language, ThemeMode } from '../types';
+import { getTheme } from '../theme';
 
 interface SciencePageProps {
   language: Language;
@@ -415,7 +416,9 @@ const FadeSection: React.FC<{ children: React.ReactNode; className?: string }> =
   );
 };
 
-const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigateHome }) => {
+const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigateHome, themeMode }) => {
+  const th = getTheme((themeMode as ThemeMode) || ThemeMode.DARK);
+  const isLight = th.isLight;
   const t = SCIENCE_TRANSLATIONS[language] || SCIENCE_TRANSLATIONS[Language.DE];
   const [counterStarted, setCounterStarted] = useState(false);
   const counterRef = useRef<HTMLDivElement>(null);
@@ -431,17 +434,17 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black overflow-y-auto">
+    <div className={`fixed inset-0 z-50 overflow-y-auto ${isLight ? 'bg-[#f0eefc]' : 'bg-black'}`}>
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-black/80 backdrop-blur-xl border-b border-white/10 px-4 py-3 flex items-center gap-3">
+      <div className={`sticky top-0 z-10 backdrop-blur-xl border-b px-4 py-3 flex items-center gap-3 ${isLight ? 'bg-white/80 border-[#c4bce6]/40' : 'bg-black/80 border-white/10'}`}>
         <button
           onClick={onClose}
-          className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-white/10"
+          className={`flex items-center gap-1.5 transition-colors p-1.5 rounded-lg ${isLight ? 'text-[#4a3a5d] hover:text-[#2a1a3a] hover:bg-[#e0dcf5]' : 'text-slate-400 hover:text-white hover:bg-white/10'}`}
         >
           <span className="material-icons text-xl">arrow_back</span>
           <span className="text-sm font-medium">{t.back}</span>
         </button>
-        <h2 className="flex-1 text-center text-white font-bold text-lg tracking-wide pr-16">{t.title}</h2>
+        <h2 className={`flex-1 text-center font-bold text-lg tracking-wide pr-16 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{t.title}</h2>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 pb-24">
@@ -450,10 +453,10 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
         <FadeSection className="mt-8 mb-10 text-center">
           <div className="relative rounded-2xl overflow-hidden p-8 bg-gradient-to-b from-purple-900/40 via-purple-950/20 to-transparent border border-purple-500/20">
             <div className="absolute inset-0 bg-gradient-to-tr from-fuchsia-900/10 to-violet-900/10 pointer-events-none" />
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3 leading-tight">
+            <h1 className={`text-2xl sm:text-3xl font-bold mb-3 leading-tight ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>
               {t.hero_title}
             </h1>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
+            <p className={`text-sm sm:text-base leading-relaxed max-w-xl mx-auto ${isLight ? 'text-[#4a3a5d]' : 'text-slate-300'}`}>
               {t.hero_subtitle}
             </p>
           </div>
@@ -463,31 +466,31 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
         <FadeSection className="mb-10">
           <div
             ref={counterRef}
-            className="rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 text-center shadow-[0_0_40px_rgba(139,92,246,0.15)]"
+            className={`rounded-2xl backdrop-blur-xl border p-8 text-center ${isLight ? 'bg-white/70 border-[#c4bce6] shadow-lg' : 'bg-white/5 border-white/10 shadow-[0_0_40px_rgba(139,92,246,0.15)]'}`}
           >
             <div className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-fuchsia-300 to-purple-200 mb-2 tabular-nums">
               {count.toLocaleString()}+
             </div>
-            <p className="text-slate-400 text-sm uppercase tracking-widest font-medium">{t.counter_label}</p>
+            <p className={`text-sm uppercase tracking-widest font-medium ${isLight ? 'text-[#6b5a80]' : 'text-slate-400'}`}>{t.counter_label}</p>
           </div>
         </FadeSection>
 
         {/* Sources */}
         <FadeSection className="mb-10">
-          <h2 className="text-white font-bold text-xl mb-5 flex items-center gap-2">
+          <h2 className={`font-bold text-xl mb-5 flex items-center gap-2 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>
             <span className="material-icons text-purple-400 text-xl">storage</span>
             {t.sources_title}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {/* SDDb */}
-            <div className="rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-5 flex flex-col gap-3 hover:border-purple-500/40 transition-colors">
+            <div className={`rounded-xl backdrop-blur-xl border p-5 flex flex-col gap-3 transition-colors ${isLight ? 'bg-white/70 border-[#c4bce6] hover:border-violet-400' : 'bg-white/5 border-white/10 hover:border-purple-500/40'}`}>
               <div className="w-10 h-10 rounded-lg bg-purple-900/50 border border-purple-500/30 flex items-center justify-center">
                 <span className="material-icons text-purple-300 text-xl">database</span>
               </div>
               <div>
-                <p className="text-white font-semibold text-sm leading-snug mb-1">{t.sddb_name}</p>
+                <p className={`font-semibold text-sm leading-snug mb-1 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{t.sddb_name}</p>
                 <p className="text-fuchsia-300 text-xs font-bold mb-1">{t.sddb_count}</p>
-                <p className="text-slate-400 text-xs leading-relaxed">{t.sddb_desc}</p>
+                <p className={`text-xs leading-relaxed ${isLight ? 'text-[#6b5a80]' : 'text-slate-400'}`}>{t.sddb_desc}</p>
               </div>
               <div className="flex items-center justify-between mt-auto">
                 <span className="text-purple-400 text-[10px]">{t.sddb_link}</span>
@@ -495,14 +498,14 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
               </div>
             </div>
             {/* DreamBank */}
-            <div className="rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-5 flex flex-col gap-3 hover:border-purple-500/40 transition-colors">
+            <div className={`rounded-xl backdrop-blur-xl border p-5 flex flex-col gap-3 transition-colors ${isLight ? 'bg-white/70 border-[#c4bce6] hover:border-violet-400' : 'bg-white/5 border-white/10 hover:border-purple-500/40'}`}>
               <div className="w-10 h-10 rounded-lg bg-violet-900/50 border border-violet-500/30 flex items-center justify-center">
                 <span className="material-icons text-violet-300 text-xl">science</span>
               </div>
               <div>
-                <p className="text-white font-semibold text-sm leading-snug mb-1">{t.dreambank_name}</p>
+                <p className={`font-semibold text-sm leading-snug mb-1 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{t.dreambank_name}</p>
                 <p className="text-fuchsia-300 text-xs font-bold mb-1">{t.dreambank_count}</p>
-                <p className="text-slate-400 text-xs leading-relaxed">{t.dreambank_desc}</p>
+                <p className={`text-xs leading-relaxed ${isLight ? 'text-[#6b5a80]' : 'text-slate-400'}`}>{t.dreambank_desc}</p>
               </div>
               <div className="flex items-center justify-between mt-auto">
                 <span className="text-purple-400 text-[10px]">{t.dreambank_link}</span>
@@ -510,14 +513,14 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
               </div>
             </div>
             {/* DREAM / Monash */}
-            <div className="rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-5 flex flex-col gap-3 hover:border-purple-500/40 transition-colors">
+            <div className={`rounded-xl backdrop-blur-xl border p-5 flex flex-col gap-3 transition-colors ${isLight ? 'bg-white/70 border-[#c4bce6] hover:border-violet-400' : 'bg-white/5 border-white/10 hover:border-purple-500/40'}`}>
               <div className="w-10 h-10 rounded-lg bg-indigo-900/50 border border-indigo-500/30 flex items-center justify-center">
                 <span className="material-icons text-indigo-300 text-xl">school</span>
               </div>
               <div>
-                <p className="text-white font-semibold text-sm leading-snug mb-1">{t.dream_db_name}</p>
+                <p className={`font-semibold text-sm leading-snug mb-1 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{t.dream_db_name}</p>
                 <p className="text-fuchsia-300 text-xs font-bold mb-1">{t.dream_db_count}</p>
-                <p className="text-slate-400 text-xs leading-relaxed">{t.dream_db_desc}</p>
+                <p className={`text-xs leading-relaxed ${isLight ? 'text-[#6b5a80]' : 'text-slate-400'}`}>{t.dream_db_desc}</p>
               </div>
               <div className="flex items-center justify-between mt-auto">
                 <span className="text-purple-400 text-[10px]">monash.edu</span>
@@ -529,13 +532,13 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
 
         {/* Methodik */}
         <FadeSection className="mb-10">
-          <h2 className="text-white font-bold text-xl mb-5 flex items-center gap-2">
+          <h2 className={`font-bold text-xl mb-5 flex items-center gap-2 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>
             <span className="material-icons text-purple-400 text-xl">psychology</span>
             {t.method_title}
           </h2>
 
           {/* RAG Steps */}
-          <div className="rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 mb-5">
+          <div className={`rounded-xl backdrop-blur-xl border p-6 mb-5 ${isLight ? 'bg-white/70 border-[#c4bce6]' : 'bg-white/5 border-white/10'}`}>
             <div className="flex flex-col sm:flex-row gap-4">
               {[
                 { num: '1', title: t.step1_title, desc: t.step1_desc, icon: 'auto_fix_high' },
@@ -547,8 +550,8 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.4)]">
                       <span className="material-icons text-white text-xl">{step.icon}</span>
                     </div>
-                    <p className="text-white font-semibold text-sm">{step.title}</p>
-                    <p className="text-slate-400 text-xs leading-relaxed">{step.desc}</p>
+                    <p className={`font-semibold text-sm ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{step.title}</p>
+                    <p className={`text-xs leading-relaxed ${isLight ? 'text-[#6b5a80]' : 'text-slate-400'}`}>{step.desc}</p>
                   </div>
                   {i < 2 && (
                     <div className="hidden sm:flex items-center text-purple-500/50">
@@ -561,14 +564,14 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
           </div>
 
           {/* HVCS */}
-          <div className="rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-6">
+          <div className={`rounded-xl backdrop-blur-xl border p-6 ${isLight ? 'bg-white/70 border-[#c4bce6]' : 'bg-white/5 border-white/10'}`}>
             <div className="flex items-start gap-3 mb-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-900/40 border border-amber-500/30 flex items-center justify-center shrink-0">
-                <span className="material-icons text-amber-300 text-base">menu_book</span>
+              <div className={`w-9 h-9 rounded-lg border flex items-center justify-center shrink-0 ${isLight ? 'bg-amber-100 border-amber-300' : 'bg-amber-900/40 border-amber-500/30'}`}>
+                <span className={`material-icons text-base ${isLight ? 'text-amber-600' : 'text-amber-300'}`}>menu_book</span>
               </div>
               <div>
-                <p className="text-white font-bold text-sm">{t.hvcs_title}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{t.hvcs_desc}</p>
+                <p className={`font-bold text-sm ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{t.hvcs_title}</p>
+                <p className={`text-xs mt-0.5 ${isLight ? 'text-[#6b5a80]' : 'text-slate-400'}`}>{t.hvcs_desc}</p>
               </div>
             </div>
             <div className="flex flex-wrap gap-2 mb-3">
@@ -585,14 +588,14 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
 
         {/* Forscher */}
         <FadeSection className="mb-10">
-          <h2 className="text-white font-bold text-xl mb-5 flex items-center gap-2">
+          <h2 className={`font-bold text-xl mb-5 flex items-center gap-2 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>
             <span className="material-icons text-purple-400 text-xl">biotech</span>
             {t.researcher_title}
           </h2>
-          <div className="rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className={`rounded-xl backdrop-blur-xl border p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${isLight ? 'bg-white/70 border-[#c4bce6]' : 'bg-white/5 border-white/10'}`}>
             <div>
-              <p className="text-white font-bold text-base mb-1">{t.api_title}</p>
-              <p className="text-slate-400 text-sm leading-relaxed max-w-md">{t.api_desc}</p>
+              <p className={`font-bold text-base mb-1 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{t.api_title}</p>
+              <p className={`text-sm leading-relaxed max-w-md ${isLight ? 'text-[#6b5a80]' : 'text-slate-400'}`}>{t.api_desc}</p>
               <p className="text-purple-400 text-xs mt-2">research@dreamcodeapp.com</p>
             </div>
             <span className="px-3 py-1.5 rounded-full bg-cyan-900/40 border border-cyan-500/30 text-cyan-300 text-xs font-bold whitespace-nowrap shrink-0">
@@ -603,7 +606,7 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
 
         {/* Referenzen */}
         <FadeSection className="mb-10">
-          <h2 className="text-white font-bold text-xl mb-5 flex items-center gap-2">
+          <h2 className={`font-bold text-xl mb-5 flex items-center gap-2 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>
             <span className="material-icons text-purple-400 text-xl">article</span>
             {t.refs_title}
           </h2>
@@ -614,14 +617,14 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
                 href={pub.doi}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 p-4 flex items-start gap-3 hover:border-purple-500/40 transition-colors group"
+                className={`rounded-xl backdrop-blur-xl border p-4 flex items-start gap-3 transition-colors group ${isLight ? 'bg-white/70 border-[#c4bce6] hover:border-violet-400' : 'bg-white/5 border-white/10 hover:border-purple-500/40'}`}
               >
                 <div className="w-8 h-8 rounded-lg bg-slate-800 border border-white/10 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="material-icons text-slate-400 text-base group-hover:text-purple-300 transition-colors">description</span>
                 </div>
                 <div className="min-w-0">
-                  <p className="text-slate-300 text-[11px] font-bold uppercase tracking-wide mb-0.5">{pub.authors}</p>
-                  <p className="text-white text-sm font-medium leading-snug mb-1">{pub.title}</p>
+                  <p className={`text-[11px] font-bold uppercase tracking-wide mb-0.5 ${isLight ? 'text-[#6b5a80]' : 'text-slate-300'}`}>{pub.authors}</p>
+                  <p className={`text-sm font-medium leading-snug mb-1 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{pub.title}</p>
                   <p className="text-purple-400 text-xs">{pub.journal}</p>
                 </div>
                 <span className="material-icons text-slate-600 group-hover:text-purple-400 transition-colors text-base shrink-0 mt-0.5">open_in_new</span>
@@ -633,7 +636,7 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
         {/* CTA */}
         <FadeSection className="mb-6">
           <div className="rounded-2xl bg-gradient-to-br from-violet-900/40 to-fuchsia-900/30 border border-purple-500/30 p-8 text-center">
-            <p className="text-white font-bold text-xl mb-5">{t.cta_title}</p>
+            <p className={`font-bold text-xl mb-5 ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{t.cta_title}</p>
             <button
               onClick={onNavigateHome}
               className="px-8 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold text-sm shadow-[0_0_30px_rgba(139,92,246,0.4)] hover:shadow-[0_0_40px_rgba(139,92,246,0.6)] transition-all hover:scale-105 active:scale-95"

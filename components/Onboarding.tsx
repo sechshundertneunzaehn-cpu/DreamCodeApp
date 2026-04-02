@@ -196,12 +196,14 @@ function ChoiceChip({
     selected,
     onClick,
     disabled,
+    isLight,
 }: {
     label: string;
     emoji?: string;
     selected: boolean;
     onClick: () => void;
     disabled?: boolean;
+    isLight?: boolean;
 }) {
     return (
         <button
@@ -212,8 +214,8 @@ function ChoiceChip({
                 ${selected
                     ? 'bg-fuchsia-600/80 border-fuchsia-400 text-white shadow-[0_0_10px_2px_rgba(217,70,239,0.35)]'
                     : disabled
-                    ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed'
-                    : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10 hover:border-fuchsia-500/40 active:scale-95'
+                    ? (isLight ? 'bg-[#e0dcf5] border-[#c4bce6] text-[#6b5a80]/40 cursor-not-allowed' : 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed')
+                    : (isLight ? 'bg-white/70 border-[#c4bce6] text-[#4a3a5d] hover:bg-white/90 hover:border-violet-400 active:scale-95' : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10 hover:border-fuchsia-500/40 active:scale-95')
                 }`}
         >
             {emoji && <span>{emoji}</span>}
@@ -230,11 +232,13 @@ function SingleChoiceCard({
     icon,
     selected,
     onClick,
+    isLight,
 }: {
     label: string;
     icon: string;
     selected: boolean;
     onClick: () => void;
+    isLight?: boolean;
 }) {
     return (
         <button
@@ -243,7 +247,7 @@ function SingleChoiceCard({
             className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 active:scale-[0.98]
                 ${selected
                     ? 'bg-fuchsia-600/70 border-fuchsia-400 text-white shadow-[0_0_12px_2px_rgba(217,70,239,0.3)]'
-                    : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10 hover:border-fuchsia-500/40'
+                    : (isLight ? 'bg-white/70 border-[#c4bce6] text-[#4a3a5d] hover:bg-white/90 hover:border-violet-400' : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10 hover:border-fuchsia-500/40')
                 }`}
         >
             <span className="text-xl w-7 flex-shrink-0 text-center">{icon}</span>
@@ -368,6 +372,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                                 emoji={emoji}
                                 selected={data.lifeStressors.includes(id)}
                                 onClick={() => toggleStressor(id)}
+                                isLight={th.isLight}
                             />
                         ))}
                     </div>
@@ -383,6 +388,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                             icon={icon}
                             selected={data.negativeFeelingFreq === id}
                             onClick={() => setData(prev => ({ ...prev, negativeFeelingFreq: id }))}
+                            isLight={th.isLight}
                         />
                     ))}
                 </div>
@@ -399,6 +405,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                                 emoji={emoji}
                                 selected={data.motivations.includes(id)}
                                 onClick={() => toggleMotivation(id)}
+                                isLight={th.isLight}
                             />
                         ))}
                     </div>
@@ -422,6 +429,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                                 selected={data.dreamSymbols.includes(key)}
                                 disabled={data.dreamSymbols.length >= 5}
                                 onClick={() => toggleSymbol(key)}
+                                isLight={th.isLight}
                             />
                         ))}
                     </div>
@@ -442,7 +450,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                             className={`w-full py-4 rounded-xl border text-sm font-semibold transition-all duration-200 active:scale-[0.98]
                                 ${data.interpretationHelp === true
                                     ? 'bg-fuchsia-600/70 border-fuchsia-400 text-white shadow-[0_0_12px_2px_rgba(217,70,239,0.3)]'
-                                    : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10 hover:border-fuchsia-500/40'
+                                    : (th.isLight ? 'bg-white/70 border-[#c4bce6] text-[#4a3a5d] hover:bg-white/90 hover:border-fuchsia-400' : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10 hover:border-fuchsia-500/40')
                                 }`}
                         >
                             {t('s5_yes', lang)}
@@ -453,7 +461,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                             className={`w-full py-4 rounded-xl border text-sm font-semibold transition-all duration-200 active:scale-[0.98]
                                 ${data.interpretationHelp === false
                                     ? 'bg-violet-600/70 border-violet-400 text-white shadow-[0_0_12px_2px_rgba(139,92,246,0.3)]'
-                                    : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10 hover:border-violet-500/40'
+                                    : (th.isLight ? 'bg-white/70 border-[#c4bce6] text-[#4a3a5d] hover:bg-white/90 hover:border-violet-400' : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10 hover:border-violet-500/40')
                                 }`}
                         >
                             {t('s5_no', lang)}
@@ -558,7 +566,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ language, initialData, onComple
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="flex-1 py-3 rounded-xl border border-white/20 text-white/40 text-sm font-semibold hover:bg-white/5 transition-all active:scale-[0.98]"
+                                className={`flex-1 py-3 rounded-xl border text-sm font-semibold transition-all active:scale-[0.98] ${th.isLight ? 'border-[#c4bce6] text-[#6b5a80] hover:bg-[#e0dcf5]' : 'border-white/20 text-white/40 hover:bg-white/5'}`}
                             >
                                 {t('btn_skip', lang)}
                             </button>
