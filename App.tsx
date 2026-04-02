@@ -3057,6 +3057,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                         language={language}
                         currentVoiceId={currentVoiceId}
                         onSelect={onVoiceChange}
+                        isLight={isLight}
                     />
                 </div>
 
