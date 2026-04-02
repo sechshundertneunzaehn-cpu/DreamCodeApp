@@ -1,85 +1,44 @@
-// videoGenerationService.ts - AI Video-Generierung fuer Premium-User
-// Unterstuetzt: Runway Gen-3, Pika Labs, Kling AI
+// videoGenerationService.ts - AI Video-Generierung
+// Provider: Replicate (WAN 2.2 + Luma Ray) + Slideshow-Fallback
 
 import { Language, SubscriptionTier } from '../types';
 
 // ============================================
-// API KEY MANAGEMENT
+// API KEY
 // ============================================
-const getRunwayKey = () => {
-    const envKey = import.meta.env.VITE_RUNWAY_API_KEY;
-    return (envKey && envKey.length > 5) ? envKey : 'RUNWAY_API_KEY_HIER_EINFUEGEN';
-};
-
-const getPikaKey = () => {
-    const envKey = import.meta.env.VITE_PIKA_API_KEY;
-    return (envKey && envKey.length > 5) ? envKey : 'PIKA_API_KEY_HIER_EINFUEGEN';
-};
-
-const getKlingKey = () => {
-    const envKey = import.meta.env.VITE_KLING_API_KEY;
-    return (envKey && envKey.length > 5) ? envKey : 'KLING_API_KEY_HIER_EINFUEGEN';
+const getReplicateKey = (): string => {
+    const envKey = (import.meta as any).env?.VITE_REPLICATE_API_KEY
+        || (import.meta as any).env?.REPLICATE_API_KEY
+        || (typeof process !== 'undefined' && process.env?.REPLICATE_API_KEY)
+        || '';
+    return envKey;
 };
 
 // ============================================
-// VIDEO PROVIDER TYPEN
+// TYPES
 // ============================================
-export type VideoProvider = 'runway' | 'pika' | 'kling' | 'slideshow';
+export type VideoProvider = 'replicate_wan' | 'replicate_luma' | 'slideshow';
 
 export interface VideoGenerationResult {
     videoUrl: string;
     provider: VideoProvider;
-    duration: number;       // in Sekunden
+    duration: number;
     thumbnailUrl?: string;
-    generationTime?: number; // in Millisekunden
-    cost?: number;          // geschaetzte Kosten in EUR
+    generationTime?: number;
+    cost?: number;
 }
 
 export interface VideoGenerationOptions {
     prompt: string;
-    duration?: number;      // gewuenschte Dauer in Sekunden
+    duration?: number;
     aspectRatio?: '16:9' | '9:16' | '1:1';
-    style?: 'cinematic' | 'dreamlike' | 'surreal' | 'fantasy';
-    imageUrl?: string;      // Optional: Startbild
+    style?: 'cinematic' | 'dreamlike' | 'surreal' | 'fantasy' | 'cartoon' | 'anime' | 'real';
+    imageUrl?: string;
     language?: Language;
 }
 
 // ============================================
-// PROVIDER-KONFIGURATION
-// ============================================
-const PROVIDER_CONFIG = {
-    runway: {
-        name: 'Runway Gen-3 Alpha',
-        quality: 'Exzellent',
-        maxDuration: 10,
-        costPerVideo: 0.75,   // EUR (geschaetzt)
-        requiredTier: SubscriptionTier.VIP
-    },
-    pika: {
-        name: 'Pika Labs',
-        quality: 'Sehr gut',
-        maxDuration: 4,
-        costPerVideo: 0.20,
-        requiredTier: SubscriptionTier.PRO
-    },
-    kling: {
-        name: 'Kling AI',
-        quality: 'Sehr gut',
-        maxDuration: 5,
-        costPerVideo: 0.25,
-        requiredTier: SubscriptionTier.PRO
-    },
-    slideshow: {
-        name: 'Slideshow (Bilder + TTS)',
-        quality: 'Gut',
-        maxDuration: 30,
-        costPerVideo: 0.10,
-        requiredTier: SubscriptionTier.FREE
-    }
-};
-
-// ============================================
-// TRAUM-PROMPT OPTIMIERUNG
+// PROMPT OPTIMIERUNG
 // ============================================
 const optimizePromptForVideo = (
     dreamDescription: string,
@@ -89,320 +48,296 @@ const optimizePromptForVideo = (
         cinematic: 'Cinematic film quality, dramatic lighting, slow motion, movie-like atmosphere,',
         dreamlike: 'Dreamlike ethereal atmosphere, soft glow, floating particles, mystical fog, otherworldly,',
         surreal: 'Surrealist art style, impossible geometry, melting objects, Salvador Dali inspired,',
-        fantasy: 'Epic fantasy, magical particles, enchanted forest, glowing elements, mystical creatures,'
+        fantasy: 'Epic fantasy, magical particles, enchanted forest, glowing elements, mystical creatures,',
+        cartoon: 'Vibrant cartoon style, colorful, animated look, playful,',
+        anime: 'Japanese anime style, cinematic, detailed, Studio Ghibli inspired,',
+        real: 'Photorealistic, cinematic 4K, natural lighting, ultra detailed,'
     };
-
     const prefix = stylePrefix[style] || stylePrefix.dreamlike;
-
-    return `${prefix} ${dreamDescription}. Smooth camera movement, ambient lighting, atmospheric. High quality, 4K resolution.`;
+    return `${prefix} ${dreamDescription}. Smooth camera movement, ambient lighting, atmospheric. High quality.`;
 };
 
 // ============================================
-// RUNWAY GEN-3 ALPHA
+// REPLICATE - WAN 2.2 (guenstig, ~$0.09/5s)
 // ============================================
-const generateVideoRunway = async (
+const generateVideoWAN = async (
     options: VideoGenerationOptions
 ): Promise<VideoGenerationResult> => {
-    const apiKey = getRunwayKey();
-
-    if (apiKey === 'RUNWAY_API_KEY_HIER_EINFUEGEN') {
-        throw new Error('Runway API-Key nicht konfiguriert. Bitte in .env.local eintragen: VITE_RUNWAY_API_KEY=...');
+    const apiKey = getReplicateKey();
+    if (!apiKey || apiKey.length < 5) {
+        throw new Error('Replicate API-Key fehlt');
     }
 
     const prompt = optimizePromptForVideo(options.prompt, options.style);
-    const duration = Math.min(options.duration || 5, 10);
-
-    console.log(`[RUNWAY] Generiere Video: ${duration}s`);
-    console.log(`[RUNWAY] Prompt: ${prompt.substring(0, 100)}...`);
-
+    console.log('[WAN] Starte Video-Generierung...');
     const startTime = Date.now();
 
     try {
-        // Schritt 1: Video-Generierung starten
-        const createResponse = await fetch('https://api.runwayml.com/v1/text_to_video', {
+        // Schritt 1: Prediction starten
+        const createRes = await fetch('/api/replicate/v1/predictions', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'gen-3-alpha',
-                prompt: prompt,
-                duration: duration,
-                aspect_ratio: options.aspectRatio || '16:9',
-                ...(options.imageUrl && { image_url: options.imageUrl })
+                model: 'wan-video/wan-2.2-t2v-480p',
+                input: {
+                    prompt: prompt,
+                    negative_prompt: 'blurry, low quality, distorted, ugly, text, watermark',
+                    num_frames: 81,
+                    fps: 16,
+                    guidance_scale: 5.0,
+                    num_inference_steps: 30
+                }
             })
         });
 
-        if (!createResponse.ok) {
-            const error = await createResponse.json().catch(() => ({}));
-            throw new Error(`Runway API-Fehler: ${createResponse.status} - ${error.message || 'Unbekannt'}`);
+        if (!createRes.ok) {
+            // Fallback: try older API format
+            const createRes2 = await fetch('/api/replicate/v1/predictions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${apiKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    version: 'wan-video/wan-2.2-t2v-480p',
+                    input: {
+                        prompt: prompt,
+                        negative_prompt: 'blurry, low quality, distorted',
+                        num_frames: 81,
+                        fps: 16
+                    }
+                })
+            });
+            if (!createRes2.ok) {
+                const err = await createRes2.text();
+                throw new Error(`Replicate API-Fehler: ${createRes2.status} - ${err}`);
+            }
+            const data2 = await createRes2.json();
+            return await pollReplicateResult(data2, apiKey, startTime, 'replicate_wan');
         }
 
-        const createData = await createResponse.json();
-        const taskId = createData.id;
+        const createData = await createRes.json();
+        return await pollReplicateResult(createData, apiKey, startTime, 'replicate_wan');
 
-        // Schritt 2: Auf Fertigstellung warten (Polling)
-        let videoUrl = '';
-        let attempts = 0;
-        const maxAttempts = 60; // 5 Minuten max
+    } catch (error) {
+        console.error('[WAN] Fehler:', error);
+        throw error;
+    }
+};
 
-        while (attempts < maxAttempts) {
-            await new Promise(resolve => setTimeout(resolve, 5000)); // 5 Sekunden warten
+// ============================================
+// REPLICATE - Luma Ray Flash 2 (Premium, ~$0.24/5s)
+// ============================================
+const generateVideoLuma = async (
+    options: VideoGenerationOptions
+): Promise<VideoGenerationResult> => {
+    const apiKey = getReplicateKey();
+    if (!apiKey || apiKey.length < 5) {
+        throw new Error('Replicate API-Key fehlt');
+    }
 
-            const statusResponse = await fetch(`https://api.runwayml.com/v1/tasks/${taskId}`, {
-                headers: { 'Authorization': `Bearer ${apiKey}` }
-            });
+    const prompt = optimizePromptForVideo(options.prompt, options.style);
+    console.log('[LUMA] Starte Premium Video-Generierung...');
+    const startTime = Date.now();
 
-            const statusData = await statusResponse.json();
+    try {
+        const createRes = await fetch('/api/replicate/v1/predictions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${apiKey}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                version: 'luma/ray',
+                input: {
+                    prompt: prompt,
+                    aspect_ratio: options.aspectRatio || '16:9',
+                    loop: false
+                }
+            })
+        });
 
-            if (statusData.status === 'completed') {
-                videoUrl = statusData.output_url;
-                break;
-            } else if (statusData.status === 'failed') {
-                throw new Error(`Runway Generierung fehlgeschlagen: ${statusData.error}`);
+        if (!createRes.ok) {
+            const err = await createRes.text();
+            throw new Error(`Luma API-Fehler: ${createRes.status} - ${err}`);
+        }
+
+        const createData = await createRes.json();
+        return await pollReplicateResult(createData, apiKey, startTime, 'replicate_luma');
+
+    } catch (error) {
+        console.error('[LUMA] Fehler:', error);
+        throw error;
+    }
+};
+
+// ============================================
+// REPLICATE POLLING
+// ============================================
+const pollReplicateResult = async (
+    prediction: any,
+    apiKey: string,
+    startTime: number,
+    provider: VideoProvider
+): Promise<VideoGenerationResult> => {
+    const predictionId = prediction.id;
+    const getUrl = prediction.urls?.get || `https://api.replicate.com/v1/predictions/${predictionId}`;
+
+    let attempts = 0;
+    const maxAttempts = 120; // 10 Minuten max (5s * 120)
+
+    while (attempts < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        const statusRes = await fetch(getUrl.replace('https://api.replicate.com', '/api/replicate'), {
+            headers: { 'Authorization': `Token ${apiKey}` }
+        });
+
+        if (!statusRes.ok) {
+            attempts++;
+            continue;
+        }
+
+        const statusData = await statusRes.json();
+        console.log(`[${provider}] Status: ${statusData.status}, Versuch ${attempts + 1}/${maxAttempts}`);
+
+        if (statusData.status === 'succeeded') {
+            const output = statusData.output;
+            const videoUrl = typeof output === 'string' ? output : (Array.isArray(output) ? output[0] : output?.url || output?.video);
+
+            if (!videoUrl) {
+                throw new Error('Kein Video-URL in der Antwort');
             }
 
-            attempts++;
-            console.log(`[RUNWAY] Status: ${statusData.status}, Versuch ${attempts}/${maxAttempts}`);
-        }
-
-        if (!videoUrl) {
-            throw new Error('Runway Timeout: Video-Generierung hat zu lange gedauert');
-        }
-
-        const generationTime = Date.now() - startTime;
-
-        return {
-            videoUrl,
-            provider: 'runway',
-            duration,
-            generationTime,
-            cost: PROVIDER_CONFIG.runway.costPerVideo
-        };
-
-    } catch (error) {
-        console.error('[RUNWAY] Fehler:', error);
-        throw error;
-    }
-};
-
-// ============================================
-// PIKA LABS
-// ============================================
-const generateVideoPika = async (
-    options: VideoGenerationOptions
-): Promise<VideoGenerationResult> => {
-    const apiKey = getPikaKey();
-
-    if (apiKey === 'PIKA_API_KEY_HIER_EINFUEGEN') {
-        throw new Error('Pika Labs API-Key nicht konfiguriert. Bitte in .env.local eintragen: VITE_PIKA_API_KEY=...');
-    }
-
-    const prompt = optimizePromptForVideo(options.prompt, options.style);
-
-    console.log(`[PIKA] Generiere Video...`);
-
-    const startTime = Date.now();
-
-    try {
-        const response = await fetch('https://api.pika.art/v1/generate', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${apiKey}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                prompt: prompt,
-                style: 'cinematic',
-                duration: 4,
-                aspect_ratio: options.aspectRatio || '16:9',
-                ...(options.imageUrl && { image: options.imageUrl })
-            })
-        });
-
-        if (!response.ok) {
-            const error = await response.json().catch(() => ({}));
-            throw new Error(`Pika API-Fehler: ${response.status} - ${error.message || 'Unbekannt'}`);
-        }
-
-        const data = await response.json();
-
-        return {
-            videoUrl: data.video_url || data.url,
-            provider: 'pika',
-            duration: 4,
-            thumbnailUrl: data.thumbnail_url,
-            generationTime: Date.now() - startTime,
-            cost: PROVIDER_CONFIG.pika.costPerVideo
-        };
-
-    } catch (error) {
-        console.error('[PIKA] Fehler:', error);
-        throw error;
-    }
-};
-
-// ============================================
-// KLING AI
-// ============================================
-const generateVideoKling = async (
-    options: VideoGenerationOptions
-): Promise<VideoGenerationResult> => {
-    const apiKey = getKlingKey();
-
-    if (apiKey === 'KLING_API_KEY_HIER_EINFUEGEN') {
-        throw new Error('Kling AI API-Key nicht konfiguriert. Bitte in .env.local eintragen: VITE_KLING_API_KEY=...');
-    }
-
-    const prompt = optimizePromptForVideo(options.prompt, options.style);
-
-    console.log(`[KLING] Generiere Video...`);
-
-    const startTime = Date.now();
-
-    try {
-        const response = await fetch('https://api.klingai.com/v1/generate', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${apiKey}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                prompt: prompt,
+            return {
+                videoUrl,
+                provider,
                 duration: 5,
-                aspect_ratio: options.aspectRatio || '16:9',
-                quality: 'high'
-            })
-        });
-
-        if (!response.ok) {
-            const error = await response.json().catch(() => ({}));
-            throw new Error(`Kling API-Fehler: ${response.status} - ${error.message || 'Unbekannt'}`);
+                generationTime: Date.now() - startTime,
+                cost: provider === 'replicate_luma' ? 0.24 : 0.09
+            };
         }
 
-        const data = await response.json();
+        if (statusData.status === 'failed' || statusData.status === 'canceled') {
+            throw new Error(`Video-Generierung fehlgeschlagen: ${statusData.error || 'Unbekannter Fehler'}`);
+        }
 
-        return {
-            videoUrl: data.video_url,
-            provider: 'kling',
-            duration: 5,
-            generationTime: Date.now() - startTime,
-            cost: PROVIDER_CONFIG.kling.costPerVideo
-        };
-
-    } catch (error) {
-        console.error('[KLING] Fehler:', error);
-        throw error;
+        attempts++;
     }
+
+    throw new Error('Video-Generierung Timeout (10 Minuten ueberschritten)');
 };
 
 // ============================================
-// HAUPTFUNKTION: Tier-basierte Video-Generierung
+// SZENEN-ANALYSE (fuer kontext-basierte Timeline)
+// ============================================
+export interface VideoScene {
+    text: string;
+    keywords: string[];
+    startTime: number;  // in Sekunden
+    endTime: number;
+    imagePrompt: string;
+    imageUrl?: string;
+}
+
+export const analyzeTextForScenes = (text: string, totalDuration: number = 30): VideoScene[] => {
+    // Teile den Text in Saetze
+    const sentences = text.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 3);
+    if (sentences.length === 0) return [];
+
+    const sceneDuration = totalDuration / sentences.length;
+
+    return sentences.map((sentence, i) => {
+        // Extrahiere Schluesselwoerter fuer Bildgenerierung
+        const keywords = extractKeywords(sentence);
+        const imagePrompt = `${sentence}. Dreamlike, mystical atmosphere, high quality illustration.`;
+
+        return {
+            text: sentence,
+            keywords,
+            startTime: i * sceneDuration,
+            endTime: (i + 1) * sceneDuration,
+            imagePrompt
+        };
+    });
+};
+
+const extractKeywords = (text: string): string[] => {
+    // Einfache Keyword-Extraktion -- entferne Stoppwoerter
+    const stopwords = ['ich', 'bin', 'war', 'und', 'der', 'die', 'das', 'ein', 'eine', 'in', 'auf', 'an', 'am', 'zu', 'mit', 'von', 'aus', 'nach', 'bei', 'the', 'a', 'an', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'from', 'i', 'was', 'were', 'is', 'are', 'and', 'but', 'or'];
+    return text.toLowerCase()
+        .split(/\s+/)
+        .filter(w => w.length > 2 && !stopwords.includes(w))
+        .slice(0, 5);
+};
+
+// ============================================
+// HAUPTFUNKTION
 // ============================================
 export const generateDreamVideo = async (
     options: VideoGenerationOptions,
     subscriptionTier: SubscriptionTier,
     slideshowFallback?: () => Promise<VideoGenerationResult>
 ): Promise<VideoGenerationResult> => {
+    const apiKey = getReplicateKey();
+    const hasKey = apiKey && apiKey.length > 5;
 
-    console.log(`[VIDEO] Starte Generierung fuer Tier: ${subscriptionTier}`);
+    console.log(`[VIDEO] Starte Generierung fuer Tier: ${subscriptionTier}, Key vorhanden: ${hasKey}`);
 
-    // VIP: Runway Gen-3 (beste Qualitaet)
-    if (subscriptionTier === SubscriptionTier.VIP) {
-        if (isRunwayConfigured()) {
-            try {
-                return await generateVideoRunway(options);
-            } catch (error) {
-                console.warn('[VIDEO] Runway fehlgeschlagen, versuche Pika...', error);
-            }
+    // Premium: Luma Ray (beste Qualitaet)
+    if (hasKey && (subscriptionTier === SubscriptionTier.PRO || subscriptionTier === SubscriptionTier.SMART)) {
+        try {
+            return await generateVideoLuma(options);
+        } catch (error) {
+            console.warn('[VIDEO] Luma fehlgeschlagen, versuche WAN...', error);
         }
     }
 
-    // GOLD/VIP: Pika Labs oder Kling
-    if (subscriptionTier === SubscriptionTier.PRO || subscriptionTier === SubscriptionTier.VIP) {
-        if (isPikaConfigured()) {
-            try {
-                return await generateVideoPika(options);
-            } catch (error) {
-                console.warn('[VIDEO] Pika fehlgeschlagen, versuche Kling...', error);
-            }
-        }
-
-        if (isKlingConfigured()) {
-            try {
-                return await generateVideoKling(options);
-            } catch (error) {
-                console.warn('[VIDEO] Kling fehlgeschlagen, Fallback auf Slideshow...', error);
-            }
+    // Standard: WAN 2.2 (guenstig)
+    if (hasKey) {
+        try {
+            return await generateVideoWAN(options);
+        } catch (error) {
+            console.warn('[VIDEO] WAN fehlgeschlagen, Fallback auf Slideshow...', error);
         }
     }
 
-    // Fallback: Slideshow (alle Tiers)
+    // Fallback: Slideshow
     if (slideshowFallback) {
         console.log('[VIDEO] Verwende Slideshow-Fallback');
         return await slideshowFallback();
     }
 
-    throw new Error('Keine Video-Generierung verfuegbar. Bitte API-Keys konfigurieren oder Abo upgraden.');
+    throw new Error('Video-Generierung nicht verfuegbar. Replicate API-Key fehlt.');
 };
 
 // ============================================
 // HILFSFUNKTIONEN
 // ============================================
-
-export const isRunwayConfigured = (): boolean => {
-    const key = getRunwayKey();
-    return key !== 'RUNWAY_API_KEY_HIER_EINFUEGEN' && key.length > 10;
-};
-
-export const isPikaConfigured = (): boolean => {
-    const key = getPikaKey();
-    return key !== 'PIKA_API_KEY_HIER_EINFUEGEN' && key.length > 10;
-};
-
-export const isKlingConfigured = (): boolean => {
-    const key = getKlingKey();
-    return key !== 'KLING_API_KEY_HIER_EINFUEGEN' && key.length > 10;
+export const isReplicateConfigured = (): boolean => {
+    const key = getReplicateKey();
+    return key.length > 5;
 };
 
 export const getAvailableProviders = (tier: SubscriptionTier): VideoProvider[] => {
     const providers: VideoProvider[] = ['slideshow'];
-
-    if (tier === SubscriptionTier.PRO || tier === SubscriptionTier.VIP || tier === SubscriptionTier.DELUXE) {
-        if (isPikaConfigured()) providers.push('pika');
-        if (isKlingConfigured()) providers.push('kling');
+    if (isReplicateConfigured()) {
+        providers.push('replicate_wan');
+        if (tier === SubscriptionTier.PRO || tier === SubscriptionTier.SMART) {
+            providers.push('replicate_luma');
+        }
     }
-
-    if (tier === SubscriptionTier.VIP) {
-        if (isRunwayConfigured()) providers.push('runway');
-    }
-
     return providers;
 };
 
 export const getProviderInfo = (provider: VideoProvider) => {
-    return PROVIDER_CONFIG[provider];
-};
-
-// Schaetzt Gesamtkosten fuer Video-Feature
-export const estimateVideoCosts = (
-    videosPerMonth: number,
-    tier: SubscriptionTier
-): { provider: VideoProvider; totalCost: number } => {
-    let provider: VideoProvider = 'slideshow';
-    let costPerVideo = 0.10;
-
-    if (tier === SubscriptionTier.VIP && isRunwayConfigured()) {
-        provider = 'runway';
-        costPerVideo = 0.75;
-    } else if ((tier === SubscriptionTier.PRO || tier === SubscriptionTier.VIP) && isPikaConfigured()) {
-        provider = 'pika';
-        costPerVideo = 0.20;
-    }
-
-    return {
-        provider,
-        totalCost: videosPerMonth * costPerVideo
+    const config: Record<VideoProvider, { name: string; quality: string; maxDuration: number; costPerVideo: number }> = {
+        replicate_wan: { name: 'WAN 2.2 (480p)', quality: 'Gut', maxDuration: 5, costPerVideo: 0.09 },
+        replicate_luma: { name: 'Luma Ray Flash', quality: 'Exzellent', maxDuration: 5, costPerVideo: 0.24 },
+        slideshow: { name: 'Slideshow (Bilder + Audio)', quality: 'Gut', maxDuration: 60, costPerVideo: 0.05 }
     };
+    return config[provider];
 };
