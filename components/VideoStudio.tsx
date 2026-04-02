@@ -551,6 +551,10 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
     const [fadeEnabled, setFadeEnabled] = useState<boolean>(false);
     const [loopEnabled, setLoopEnabled] = useState<boolean>(false);
     const [isRecording, setIsRecording] = useState<boolean>(false);
+    const [isPreviewingVoice, setIsPreviewingVoice] = useState(false);
+    const [isPreviewingMusic, setIsPreviewingMusic] = useState(false);
+    const previewVoiceRef = useRef<HTMLAudioElement | null>(null);
+    const previewMusicRef = useRef<HTMLAudioElement | null>(null);
 
     // --- Generation state ---
     const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -560,6 +564,47 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
     const recordedChunksRef = useRef<Blob[]>([]);
     const streamRef = useRef<MediaStream | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    // --- Preview Functions ---
+    const toggleVoicePreview = useCallback(() => {
+        if (!voiceBlob) return;
+        if (isPreviewingVoice && previewVoiceRef.current) {
+            previewVoiceRef.current.pause();
+            setIsPreviewingVoice(false);
+        } else {
+            const url = URL.createObjectURL(voiceBlob);
+            const audio = new Audio(url);
+            audio.volume = voiceVolume / 100;
+            previewVoiceRef.current = audio;
+            audio.onended = () => { setIsPreviewingVoice(false); URL.revokeObjectURL(url); };
+            audio.play().catch(() => {});
+            setIsPreviewingVoice(true);
+        }
+    }, [voiceBlob, voiceVolume, isPreviewingVoice]);
+
+    const toggleMusicPreview = useCallback(() => {
+        if (!musicFile) return;
+        if (isPreviewingMusic && previewMusicRef.current) {
+            previewMusicRef.current.pause();
+            setIsPreviewingMusic(false);
+        } else {
+            const url = URL.createObjectURL(musicFile);
+            const audio = new Audio(url);
+            audio.volume = musicVolume / 100;
+            previewMusicRef.current = audio;
+            audio.onended = () => { setIsPreviewingMusic(false); URL.revokeObjectURL(url); };
+            audio.play().catch(() => {});
+            setIsPreviewingMusic(true);
+        }
+    }, [musicFile, musicVolume, isPreviewingMusic]);
+
+    // Update preview volume in real-time
+    useEffect(() => {
+        if (previewVoiceRef.current) previewVoiceRef.current.volume = voiceVolume / 100;
+    }, [voiceVolume]);
+    useEffect(() => {
+        if (previewMusicRef.current) previewMusicRef.current.volume = musicVolume / 100;
+    }, [musicVolume]);
 
     // --- Derived values ---
     const imageCount = Math.ceil(SLIDESHOW_DURATION_SECONDS / imageInterval);
@@ -1031,28 +1076,62 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                             className="hidden"
                         />
 
-                        {/* Volume sliders */}
+                        {/* Volume sliders with preview buttons */}
                         <div className="space-y-4">
-                            <RangeSlider
-                                value={voiceVolume}
-                                min={0}
-                                max={100}
-                                onChange={setVoiceVolume}
-                                label={t.voice_volume}
-                                icon="volume_up"
-                                isLight={isLight}
-                                accentClass={isLight ? 'accent-indigo-500' : 'accent-fuchsia-500'}
-                            />
-                            <RangeSlider
-                                value={musicVolume}
-                                min={0}
-                                max={100}
-                                onChange={setMusicVolume}
-                                label={t.music_volume}
-                                icon="music_note"
-                                isLight={isLight}
-                                accentClass={isLight ? 'accent-violet-500' : 'accent-violet-500'}
-                            />
+                            <div className="flex items-end gap-2">
+                                <div className="flex-1">
+                                    <RangeSlider
+                                        value={voiceVolume}
+                                        min={0}
+                                        max={100}
+                                        onChange={setVoiceVolume}
+                                        label={t.voice_volume}
+                                        icon="volume_up"
+                                        isLight={isLight}
+                                        accentClass={isLight ? 'accent-indigo-500' : 'accent-fuchsia-500'}
+                                    />
+                                </div>
+                                {voiceBlob && (
+                                    <button
+                                        onClick={toggleVoicePreview}
+                                        className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                                            isPreviewingVoice
+                                                ? 'bg-fuchsia-600 text-white'
+                                                : isLight ? 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200' : 'bg-white/10 text-white/60 hover:bg-white/20'
+                                        }`}
+                                        title="Stimme voranhoeren"
+                                    >
+                                        <span className="material-icons text-sm">{isPreviewingVoice ? 'pause' : 'play_arrow'}</span>
+                                    </button>
+                                )}
+                            </div>
+                            <div className="flex items-end gap-2">
+                                <div className="flex-1">
+                                    <RangeSlider
+                                        value={musicVolume}
+                                        min={0}
+                                        max={100}
+                                        onChange={setMusicVolume}
+                                        label={t.music_volume}
+                                        icon="music_note"
+                                        isLight={isLight}
+                                        accentClass={isLight ? 'accent-violet-500' : 'accent-violet-500'}
+                                    />
+                                </div>
+                                {musicFile && (
+                                    <button
+                                        onClick={toggleMusicPreview}
+                                        className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                                            isPreviewingMusic
+                                                ? 'bg-violet-600 text-white'
+                                                : isLight ? 'bg-violet-100 text-violet-600 hover:bg-violet-200' : 'bg-white/10 text-white/60 hover:bg-white/20'
+                                        }`}
+                                        title="Musik voranhoeren"
+                                    >
+                                        <span className="material-icons text-sm">{isPreviewingMusic ? 'pause' : 'play_arrow'}</span>
+                                    </button>
+                                )}
+                            </div>
                         </div>
 
                         {/* Checkboxes */}
