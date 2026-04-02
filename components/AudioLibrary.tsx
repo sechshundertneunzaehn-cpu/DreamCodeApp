@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dream, Language, ThemeMode, AudioVisibility } from '../types';
 import { base64ToAudioBlob, createAudioURL } from '../services/audioService';
+import { getTheme } from '../theme';
 
 interface AudioLibraryProps {
     dreams: Dream[];
@@ -32,9 +33,10 @@ const AudioLibrary: React.FC<AudioLibraryProps> = ({ dreams, language, themeMode
         (dream as any).audioUrl || dream.audioUrl
     );
 
-    const textMain = isLight ? 'text-slate-900' : 'text-white';
-    const textSub = isLight ? 'text-slate-600' : 'text-slate-400';
-    const bgCard = isLight ? 'bg-white border-slate-200' : 'bg-slate-800/50 border-white/10';
+    const th = getTheme(themeMode || ThemeMode.DARK);
+    const textMain = th.textPrimary;
+    const textSub = th.textSecondary;
+    const bgCard = isLight ? 'bg-white/80 border-[#c4bce6]' : 'bg-slate-800/50 border-white/10';
 
     const handleVisibilityChange = (dream: Dream, newVisibility: AudioVisibility) => {
         if (onUpdateDream) {
