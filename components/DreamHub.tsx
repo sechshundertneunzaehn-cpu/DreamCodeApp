@@ -1,5 +1,6 @@
 import React from 'react';
-import { Language } from '../types';
+import { Language, ThemeMode } from '../types';
+import { getTheme } from '../theme';
 
 interface DreamHubProps {
     language?: Language | string;
@@ -59,15 +60,17 @@ const hubTranslations: Record<string, { title: string; subtitle: string; coming:
     },
 };
 
-const DreamHub: React.FC<DreamHubProps> = ({ language = 'en', onClose }) => {
+const DreamHub: React.FC<DreamHubProps> = ({ language = 'en', onClose, themeMode }) => {
+    const th = getTheme((themeMode as ThemeMode) || ThemeMode.DARK);
+    const isLight = th.isLight;
     const lang = (typeof language === 'string' ? language : String(language)).toLowerCase();
     const t = hubTranslations[lang] ?? hubTranslations['en'];
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 py-12 text-center relative">
             {onClose && (
-                <button onClick={onClose} className="absolute top-4 end-4 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center z-50 transition-colors" aria-label="Close">
-                    <span className="material-icons text-white">close</span>
+                <button onClick={onClose} className={`absolute top-4 end-4 w-11 h-11 rounded-full flex items-center justify-center z-50 transition-colors ${isLight ? 'bg-[#e0dcf5] hover:bg-[#c4bce6] text-[#4a3a5d]' : 'bg-white/10 hover:bg-white/20 text-white'}`} aria-label="Close">
+                    <span className="material-icons">close</span>
                 </button>
             )}
             {/* Icon */}
@@ -81,8 +84,8 @@ const DreamHub: React.FC<DreamHubProps> = ({ language = 'en', onClose }) => {
             </div>
 
             {/* Title */}
-            <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">{t.title}</h2>
-            <p className="text-slate-400 text-sm mb-6">{t.subtitle}</p>
+            <h2 className={`text-3xl font-bold mb-2 tracking-tight ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>{t.title}</h2>
+            <p className={`text-sm mb-6 ${isLight ? 'text-[#6b5a80]' : 'text-slate-400'}`}>{t.subtitle}</p>
 
             {/* Coming Soon Badge */}
             <span className="px-4 py-1.5 rounded-full bg-fuchsia-600/20 border border-fuchsia-500/30 text-fuchsia-300 text-xs font-bold uppercase tracking-widest mb-10">
@@ -94,12 +97,12 @@ const DreamHub: React.FC<DreamHubProps> = ({ language = 'en', onClose }) => {
                 {t.features.map((feature, i) => (
                     <div
                         key={i}
-                        className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/5 border border-white/8 text-start"
+                        className={`flex items-center gap-3 px-4 py-3 rounded-2xl border text-start ${isLight ? 'bg-white/70 border-[#c4bce6]' : 'bg-white/5 border-white/8'}`}
                     >
                         <span className="material-icons text-fuchsia-400 text-base flex-shrink-0">
                             {['groups', 'explore', 'workspaces', 'psychology'][i] || 'star'}
                         </span>
-                        <span className="text-slate-300 text-sm leading-snug">{feature}</span>
+                        <span className={`text-sm leading-snug ${isLight ? 'text-[#4a3a5d]' : 'text-slate-300'}`}>{feature}</span>
                     </div>
                 ))}
             </div>
