@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Dream, Language, UserProfile, SubscriptionTier } from '../types';
+import { Dream, Language, UserProfile, SubscriptionTier, ThemeMode } from '../types';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import { getTheme } from '../theme';
 
 interface DreamShareProps {
     dream: Dream;
@@ -10,6 +11,7 @@ interface DreamShareProps {
     onGenerateImage?: (quality: 'normal' | 'high', style: 'cartoon' | 'anime' | 'real' | 'fantasy') => void;
     onGenerateStoryVideo?: (style: 'cartoon' | 'anime' | 'real' | 'fantasy' | 'surreal' | 'watercolor') => void;
     tier?: SubscriptionTier;
+    themeMode?: ThemeMode;
 }
 
 const translations = {
@@ -376,8 +378,10 @@ const DreamShare: React.FC<DreamShareProps> = ({
     userProfile,
     onGenerateImage,
     onGenerateStoryVideo,
-    tier: tierProp
+    tier: tierProp,
+    themeMode
 }) => {
+    const th = getTheme(themeMode || ThemeMode.DARK);
     const t = translations[language] || translations[Language.EN];
 
     const [mediaType, setMediaType] = useState<MediaType>(null);
