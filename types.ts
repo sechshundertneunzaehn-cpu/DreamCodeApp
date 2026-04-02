@@ -13,6 +13,7 @@ export enum View {
     DATENSCHUTZ = 'DATENSCHUTZ',
     IMPRESSUM = 'IMPRESSUM',
     FORSCHUNG = 'FORSCHUNG',
+    CENSUS = 'CENSUS',
 }
 
 export enum Language {
