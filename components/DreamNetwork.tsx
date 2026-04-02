@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Language, ThemeMode, Dream } from '../types';
+import { getTheme } from '../theme';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -332,6 +333,7 @@ function runSimulation(
 
 const DreamNetwork: React.FC<DreamNetworkProps> = ({ language, themeMode, dreams, onClose }) => {
     const isDark = themeMode === ThemeMode.DARK;
+    const th = getTheme(themeMode || ThemeMode.DARK);
     const lang = (typeof language === 'string' ? language : String(language)).toLowerCase();
     const t = TRANSLATIONS[lang] ?? TRANSLATIONS['en'];
 

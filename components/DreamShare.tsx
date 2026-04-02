@@ -648,7 +648,7 @@ const DreamShare: React.FC<DreamShareProps> = ({
                         {onGenerateImage && (
                             <button
                                 onClick={() => handleMediaSelect('image')}
-                                className="py-4 px-2 bg-gradient-to-br from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white rounded-xl font-bold text-xs transition-all shadow-lg flex flex-col items-center gap-1"
+                                className={`py-4 px-2 bg-gradient-to-br from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white rounded-xl font-bold text-xs transition-all shadow-lg flex flex-col items-center gap-1 ${th.isLight ? 'shadow-purple-500/20' : ''}`}
                             >
                                 <span className="text-2xl">🖼️</span>
                                 <span>{t.generate_image}</span>
@@ -672,7 +672,7 @@ const DreamShare: React.FC<DreamShareProps> = ({
                     <div className="grid grid-cols-3 gap-3">
                         <button
                             onClick={handleNativeShare}
-                            className="flex flex-col items-center justify-center p-3 rounded-xl border bg-slate-800/50 border-white/10 text-slate-300 hover:bg-slate-700 hover:text-white transition-all group"
+                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all group ${th.isLight ? 'bg-white/70 border-[#c4bce6] text-[#4a3a5d] hover:bg-white/90 hover:text-[#2a1a3a]' : 'bg-slate-800/50 border-white/10 text-slate-300 hover:bg-slate-700 hover:text-white'}`}
                         >
                             <span className="material-icons text-xl mb-1 group-hover:scale-110 transition-transform">share</span>
                             <span className="text-[10px] font-bold uppercase tracking-wide text-center leading-tight">{t.share_btn}</span>
@@ -680,7 +680,7 @@ const DreamShare: React.FC<DreamShareProps> = ({
 
                         <button
                             onClick={() => openPdfModal('share')}
-                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all group relative ${isLocked ? 'bg-slate-900 border-slate-700 text-slate-500 opacity-60' : 'bg-fuchsia-900/30 border-fuchsia-500/30 text-fuchsia-200 hover:bg-fuchsia-900/50 hover:text-white'}`}
+                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all group relative ${isLocked ? 'bg-slate-900 border-slate-700 text-slate-500 opacity-60' : (th.isLight ? 'bg-fuchsia-50 border-fuchsia-200 text-fuchsia-700 hover:bg-fuchsia-100 hover:text-fuchsia-800' : 'bg-fuchsia-900/30 border-fuchsia-500/30 text-fuchsia-200 hover:bg-fuchsia-900/50 hover:text-white')}`}
                         >
                             {isLocked && <div className="absolute top-1 right-1"><span className="material-icons text-xs text-slate-400">lock</span></div>}
                             <span className="material-icons text-xl mb-1 group-hover:scale-110 transition-transform">send_to_mobile</span>
@@ -689,7 +689,7 @@ const DreamShare: React.FC<DreamShareProps> = ({
 
                         <button
                             onClick={() => openPdfModal('download')}
-                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all group relative ${isLocked ? 'bg-slate-900 border-slate-700 text-slate-500 opacity-60' : 'bg-indigo-900/30 border-indigo-500/30 text-indigo-200 hover:bg-indigo-900/50 hover:text-white'}`}
+                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all group relative ${isLocked ? 'bg-slate-900 border-slate-700 text-slate-500 opacity-60' : (th.isLight ? 'bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800' : 'bg-indigo-900/30 border-indigo-500/30 text-indigo-200 hover:bg-indigo-900/50 hover:text-white')}`}
                         >
                             {isLocked && <div className="absolute top-1 right-1"><span className="material-icons text-xs text-slate-400">lock</span></div>}
                             <span className="material-icons text-xl mb-1 group-hover:scale-110 transition-transform">download</span>
@@ -703,8 +703,8 @@ const DreamShare: React.FC<DreamShareProps> = ({
             {selectionStep === 'style' && (
                 <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-bold text-white/80">{t.select_style}</h4>
-                        <button onClick={handleBack} className="text-xs text-white/50 hover:text-white flex items-center gap-1">
+                        <h4 className={`text-sm font-bold ${th.isLight ? 'text-[#2a1a3a]' : 'text-white/80'}`}>{t.select_style}</h4>
+                        <button onClick={handleBack} className={`text-xs ${th.isLight ? 'text-[#4a3a5d] hover:text-[#2a1a3a]' : 'text-white/50 hover:text-white'} flex items-center gap-1`}>
                             <span className="material-icons text-sm">arrow_back</span>
                             {t.back}
                         </button>
@@ -729,8 +729,8 @@ const DreamShare: React.FC<DreamShareProps> = ({
             {selectionStep === 'quality' && (
                 <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-bold text-white/80">{t.select_quality}</h4>
-                        <button onClick={handleBack} className="text-xs text-white/50 hover:text-white flex items-center gap-1">
+                        <h4 className={`text-sm font-bold ${th.isLight ? 'text-[#2a1a3a]' : 'text-white/80'}`}>{t.select_quality}</h4>
+                        <button onClick={handleBack} className={`text-xs ${th.isLight ? 'text-[#4a3a5d] hover:text-[#2a1a3a]' : 'text-white/50 hover:text-white'} flex items-center gap-1`}>
                             <span className="material-icons text-sm">arrow_back</span>
                             {t.back}
                         </button>
@@ -758,18 +758,18 @@ const DreamShare: React.FC<DreamShareProps> = ({
 
             {/* PDF Modal */}
             {showPdfModal && (
-                <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-                    <div className="bg-dream-deep border border-white/10 w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
-                        <button onClick={() => setShowPdfModal(false)} className="absolute top-3 end-3 w-11 h-11 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+                <div className={`fixed inset-0 z-[100] ${th.modalOverlay} flex items-center justify-center p-4 animate-in fade-in`}>
+                    <div className={`${th.modalBg} border ${th.border} w-full max-w-md rounded-2xl p-6 shadow-2xl relative`}>
+                        <button onClick={() => setShowPdfModal(false)} className={`absolute top-3 end-3 w-11 h-11 rounded-full ${th.closeBtn} flex items-center justify-center transition-colors`}>
                             <span className="material-icons">close</span>
                         </button>
 
-                        <h3 className="text-xl font-mystic text-white mb-6 text-center">{t.pdf_title}</h3>
+                        <h3 className={`text-xl font-heading ${th.textPrimary} mb-6 text-center`}>{t.pdf_title}</h3>
 
                         <div className="grid grid-cols-3 gap-3 mb-8">
                             <button
                                 onClick={() => setPdfMode('mystic')}
-                                className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-all ${pdfMode === 'mystic' ? 'bg-fuchsia-900/40 border-fuchsia-500 text-white' : 'bg-black/40 border-white/10 text-slate-400'}`}
+                                className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-all ${pdfMode === 'mystic' ? (th.isLight ? 'bg-fuchsia-100 border-fuchsia-400 text-fuchsia-700' : 'bg-fuchsia-900/40 border-fuchsia-500 text-white') : (th.isLight ? 'bg-white/60 border-[#c4bce6] text-[#4a3a5d]' : 'bg-black/40 border-white/10 text-slate-400')}`}
                             >
                                 <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-900 to-black border border-white/20"></div>
                                 <span className="text-[10px] font-bold">{t.style_mystic}</span>
