@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Language, ReligiousCategory, ReligiousSource } from '../types';
+import { Language, ReligiousCategory, ReligiousSource, ThemeMode } from '../types';
 import VoiceSelector, { VoiceCharacter, VOICE_CHARACTERS } from './VoiceSelector';
+import { getTheme } from '../theme';
 
 interface LiveSessionProps {
     onClose: () => void;
@@ -9,6 +10,7 @@ interface LiveSessionProps {
     voiceName: string;
     selectedCategories: ReligiousCategory[];
     selectedSources: ReligiousSource[];
+    themeMode?: ThemeMode;
 }
 
 const liveTranslations: Record<Language, {
@@ -112,8 +114,9 @@ const saveVoice = (character: VoiceCharacter) => {
 const SILENCE_FALLBACK_MS = 2000;
 
 const LiveSession: React.FC<LiveSessionProps> = ({
-    onClose, onSaveSession, language, voiceName, selectedCategories, selectedSources
+    onClose, onSaveSession, language, voiceName, selectedCategories, selectedSources, themeMode
 }) => {
+    const th = getTheme(themeMode || ThemeMode.DARK);
     const [status, setStatus] = useState<'idle' | 'voiceSelect' | 'connecting' | 'connected' | 'thinking' | 'speaking' | 'ended' | 'error'>('idle');
     const [sessionTranscript, setSessionTranscript] = useState('');
     const [currentUserText, setCurrentUserText] = useState('');

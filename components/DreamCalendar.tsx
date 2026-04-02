@@ -1,13 +1,15 @@
 
 import React, { useState, useMemo } from 'react';
-import { Dream, Language, ReligiousCategory } from '../types';
+import { Dream, Language, ReligiousCategory, ThemeMode } from '../types';
 import DreamShare from './DreamShare';
+import { getTheme } from '../theme';
 
 interface DreamCalendarProps {
     dreams: Dream[];
     language: Language;
     onClose: () => void;
     onGenerateVideo: (quality: 'normal' | 'high', style: 'cartoon' | 'anime' | 'real' | 'fantasy', prompt: string) => void;
+    themeMode?: ThemeMode;
 }
 
 const calendarTranslations = {
@@ -157,7 +159,8 @@ const calendarTranslations = {
     }
 };
 
-const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose, onGenerateVideo }) => {
+const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose, onGenerateVideo, themeMode }) => {
+    const th = getTheme(themeMode || ThemeMode.DARK);
     const t = calendarTranslations[language];
     const [activeTab, setActiveTab] = useState<'calendar' | 'weekly' | 'monthly' | 'algo'>('calendar');
     const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
@@ -205,25 +208,25 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
     }, [dreams]);
 
     return (
-        <div className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl flex flex-col items-center justify-center p-4 animate-in zoom-in-95 duration-300">
-            <div className="w-full max-w-4xl bg-dream-surface/80 border border-fuchsia-500/30 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.8)] flex flex-col h-[85vh]">
-                
+        <div className={`fixed inset-0 z-[60] ${th.modalOverlay} flex flex-col items-center justify-center p-4 animate-in zoom-in-95 duration-300`}>
+            <div className={`w-full max-w-4xl ${th.modalBg} border ${th.borderAccent} rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[85vh]`}>
+
                 {/* Header */}
-                <div className="p-6 border-b border-white/10 flex justify-between items-center bg-slate-900/60">
-                    <h2 className="text-2xl font-mystic text-white flex items-center gap-3">
-                        <span className="w-10 h-10 rounded-full bg-fuchsia-900/30 flex items-center justify-center border border-fuchsia-500/30">
-                            <span className="material-icons text-fuchsia-400">calendar_month</span>
+                <div className={`p-6 border-b ${th.border} flex justify-between items-center ${th.sectionHeaderBg}`}>
+                    <h2 className={`text-2xl font-heading ${th.textPrimary} flex items-center gap-3`}>
+                        <span className={`w-10 h-10 rounded-full flex items-center justify-center border ${th.isLight ? 'bg-violet-100 border-violet-300' : 'bg-fuchsia-900/30 border-fuchsia-500/30'}`}>
+                            <span className={`material-icons ${th.isLight ? 'text-violet-600' : 'text-fuchsia-400'}`}>calendar_month</span>
                         </span>
                         {t.title}
                     </h2>
-                    <button onClick={onClose} className="w-11 h-11 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors" aria-label="Close">
-                        <span className="material-icons text-slate-400">close</span>
+                    <button onClick={onClose} className={`w-11 h-11 rounded-full ${th.closeBtn} flex items-center justify-center transition-colors`} aria-label="Close">
+                        <span className="material-icons">close</span>
                     </button>
                 </div>
 
-                {/* Tabs - CHANGED TO GRID FOR BETTER VISIBILITY */}
-                <div className="px-6 pt-4 pb-2 bg-slate-900/30">
-                    <div className="grid grid-cols-2 gap-2 bg-slate-800/50 rounded-xl p-2">
+                {/* Tabs */}
+                <div className={`px-6 pt-4 pb-2 ${th.sectionHeaderBg}`}>
+                    <div className={`grid grid-cols-2 gap-2 ${th.tabBg} rounded-xl p-2`}>
                         {[
                             { id: 'calendar', label: t.tab_calendar, icon: 'event' },
                             { id: 'weekly', label: t.tab_weekly, icon: 'view_week' },
@@ -233,7 +236,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id as any)}
-                                className={`flex items-center justify-center gap-2 px-3 py-3 rounded-lg font-bold text-xs transition-all whitespace-nowrap ${activeTab === tab.id ? 'bg-fuchsia-600 text-white shadow-lg' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                                className={`flex items-center justify-center gap-2 px-3 py-3 rounded-lg font-bold text-xs transition-all whitespace-nowrap ${activeTab === tab.id ? th.tabActive : th.tabInactive}`}
                             >
                                 <span className="material-icons text-lg">{tab.icon}</span>
                                 {tab.label}
@@ -255,9 +258,9 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                                     <div
                                         key={day}
                                         onClick={() => handleDayClick(dayDreams)}
-                                        className={`aspect-square min-h-[40px] rounded-xl border p-1.5 flex flex-col transition-all cursor-pointer select-none active:scale-95 ${hasDreams ? 'bg-fuchsia-900/20 border-fuchsia-500/50 hover:bg-fuchsia-900/40 shadow-[0_0_15px_rgba(192,38,211,0.1)]' : 'bg-slate-800/20 border-white/5 text-slate-600 hover:bg-white/5'}`}
+                                        className={`aspect-square min-h-[40px] rounded-xl border p-1.5 flex flex-col transition-all cursor-pointer select-none active:scale-95 ${hasDreams ? (th.isLight ? 'bg-violet-100 border-violet-400/50 hover:bg-violet-200 shadow-sm' : 'bg-fuchsia-900/20 border-fuchsia-500/50 hover:bg-fuchsia-900/40 shadow-[0_0_15px_rgba(192,38,211,0.1)]') : (th.isLight ? 'bg-white/50 border-[#e0dcf5] hover:bg-white/80' : 'bg-slate-800/20 border-white/5 text-slate-600 hover:bg-white/5')}`}
                                     >
-                                        <span className={`font-bold text-xs leading-none ${hasDreams ? 'text-white' : ''}`}>{day}</span>
+                                        <span className={`font-bold text-xs leading-none ${hasDreams ? th.textPrimary : th.textMuted}`}>{day}</span>
                                         {hasDreams && (
                                             <div className="mt-auto flex gap-1 flex-wrap">
                                                 {dayDreams.map(d => (
@@ -275,25 +278,25 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                     {(activeTab === 'weekly' || activeTab === 'monthly') && (
                         <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div className="bg-slate-900/50 p-6 rounded-3xl border border-white/10 flex flex-col justify-center">
-                                    <h4 className="text-slate-400 text-xs uppercase font-bold mb-2 tracking-wider">{t.total_dreams}</h4>
-                                    <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">{stats.total}</span>
+                                <div className={`${th.statsBg} p-6 rounded-3xl border ${th.border} flex flex-col justify-center`}>
+                                    <h4 className={`${th.textSecondary} text-xs uppercase font-bold mb-2 tracking-wider`}>{t.total_dreams}</h4>
+                                    <span className={`text-4xl font-bold ${th.statsGradient}`}>{stats.total}</span>
                                 </div>
-                                <div className="bg-slate-900/50 p-6 rounded-3xl border border-white/10 col-span-2">
-                                    <h4 className="text-slate-400 text-xs uppercase font-bold mb-4 tracking-wider">{t.top_symbols}</h4>
+                                <div className={`${th.statsBg} p-6 rounded-3xl border ${th.border} col-span-2`}>
+                                    <h4 className={`${th.textSecondary} text-xs uppercase font-bold mb-4 tracking-wider`}>{t.top_symbols}</h4>
                                     <div className="flex gap-3 flex-wrap">
                                         {stats.sortedTags.length > 0 ? stats.sortedTags.map(([tag, count]) => (
-                                            <span key={tag} className="px-4 py-2 bg-indigo-900/40 text-indigo-200 rounded-xl text-sm border border-indigo-500/30 font-bold">
+                                            <span key={tag} className={`px-4 py-2 ${th.tagBg} rounded-xl text-sm border font-bold`}>
                                                 {tag} <span className="opacity-60 text-xs ms-1">({count})</span>
                                             </span>
-                                        )) : <span className="text-slate-500 text-sm italic">{t.no_data}</span>}
+                                        )) : <span className={`${th.textMuted} text-sm italic`}>{t.no_data}</span>}
                                     </div>
                                 </div>
                             </div>
-                            <div className="h-64 bg-gradient-to-b from-slate-900/40 to-slate-900/10 rounded-3xl border border-white/5 flex items-center justify-center">
+                            <div className={`h-64 ${th.isLight ? 'bg-gradient-to-b from-violet-50 to-white' : 'bg-gradient-to-b from-slate-900/40 to-slate-900/10'} rounded-3xl border ${th.borderLight} flex items-center justify-center`}>
                                 <div className="text-center z-10">
-                                    <span className="material-icons text-7xl text-slate-700 mb-4 opacity-50">ssid_chart</span>
-                                    <p className="text-slate-400 font-bold">{t.mood_trend}</p>
+                                    <span className={`material-icons text-7xl mb-4 opacity-50 ${th.isLight ? 'text-violet-300' : 'text-slate-700'}`}>ssid_chart</span>
+                                    <p className={`${th.textSecondary} font-bold`}>{t.mood_trend}</p>
                                 </div>
                             </div>
                         </div>
@@ -304,15 +307,15 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                         <div className="flex flex-col items-center justify-center h-full text-center space-y-8">
                             <div className={`w-40 h-40 rounded-full flex items-center justify-center border-8 transition-all duration-1000 relative ${stats.isAnomaly ? 'border-red-500/50 shadow-[0_0_80px_rgba(239,68,68,0.4)]' : 'border-green-500/50 shadow-[0_0_80px_rgba(34,197,94,0.2)]'}`}>
                                 <div className={`absolute inset-0 rounded-full opacity-20 animate-pulse ${stats.isAnomaly ? 'bg-red-500' : 'bg-green-500'}`}></div>
-                                <span className="material-icons text-7xl text-white relative z-10">
+                                <span className={`material-icons text-7xl ${th.textPrimary} relative z-10`}>
                                     {stats.isAnomaly ? 'priority_high' : 'fingerprint'}
                                 </span>
                             </div>
                             <div>
-                                <h3 className="text-3xl font-mystic text-white mb-3 tracking-wide">
+                                <h3 className={`text-3xl font-heading ${th.textPrimary} mb-3 tracking-wide`}>
                                     {stats.isAnomaly ? t.anomaly : t.algo_normal}
                                 </h3>
-                                <p className="text-slate-400 max-w-md mx-auto leading-relaxed">
+                                <p className={`${th.textSecondary} max-w-md mx-auto leading-relaxed`}>
                                     {t.algo_desc}
                                     <br/>
                                     {stats.isAnomaly && <span className="text-red-400 font-bold mt-3 block bg-red-900/20 py-2 rounded-lg border border-red-500/30">{t.algo_alert}</span>}
@@ -325,26 +328,26 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
 
             {/* Modal for Selected Dream - UPDATED with Video & Share Buttons */}
             {selectedDream && (
-                <div className="absolute inset-0 z-[70] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4" onClick={() => setSelectedDream(null)}>
-                     <div className="bg-dream-card border border-white/10 w-full max-w-lg h-[85vh] rounded-3xl overflow-y-auto relative flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
-                         <div className="h-64 bg-slate-900 relative shrink-0">
-                             {selectedDream.imageUrl ? <img src={selectedDream.imageUrl} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-white/20"><span className="material-icons text-6xl">image</span></div>}
+                <div className={`absolute inset-0 z-[70] ${th.modalOverlay} flex items-center justify-center p-4`} onClick={() => setSelectedDream(null)}>
+                     <div className={`${th.modalBg} border ${th.border} w-full max-w-lg h-[85vh] rounded-3xl overflow-y-auto relative flex flex-col shadow-2xl`} onClick={e => e.stopPropagation()}>
+                         <div className={`h-64 ${th.isLight ? 'bg-violet-100' : 'bg-slate-900'} relative shrink-0`}>
+                             {selectedDream.imageUrl ? <img src={selectedDream.imageUrl} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${th.textMuted}`}><span className="material-icons text-6xl">image</span></div>}
                              <button onClick={() => setSelectedDream(null)} className="absolute top-3 end-3 w-11 h-11 bg-black/50 rounded-full text-white flex items-center justify-center hover:bg-black/70 transition-colors" aria-label="Close"><span className="material-icons">close</span></button>
-                             <div className="absolute bottom-4 left-4 bg-black/60 px-3 py-1 rounded-lg text-xs font-bold border border-white/10">{selectedDream.date}</div>
+                             <div className={`absolute bottom-4 left-4 px-3 py-1 rounded-lg text-xs font-bold border ${th.isLight ? 'bg-white/80 border-violet-200 text-violet-700' : 'bg-black/60 border-white/10 text-white'}`}>{selectedDream.date}</div>
                          </div>
                          <div className="p-8">
-                             <div className="mb-6 p-4 rounded-xl bg-white/5 border border-white/5">
-                                 <h4 className="text-xs uppercase font-bold text-slate-500 mb-2">{t.your_dream}</h4>
-                                 <p className="text-slate-300 text-sm italic leading-relaxed">"{selectedDream.description}"</p>
+                             <div className={`mb-6 p-4 rounded-xl ${th.surfaceBg} border ${th.borderLight}`}>
+                                 <h4 className={`text-xs uppercase font-bold ${th.textMuted} mb-2`}>{t.your_dream}</h4>
+                                 <p className={`${th.textSecondary} text-sm italic leading-relaxed`}>"{selectedDream.description}"</p>
                              </div>
-                             
-                             <h2 className="text-2xl font-mystic text-white mb-4">{selectedDream.title}</h2>
-                             <div className="prose prose-invert prose-sm max-w-none mb-6">
-                                <p className="text-slate-300 leading-relaxed whitespace-pre-line">{selectedDream.interpretation}</p>
+
+                             <h2 className={`text-2xl font-heading ${th.textPrimary} mb-4`}>{selectedDream.title}</h2>
+                             <div className="prose prose-sm max-w-none mb-6">
+                                <p className={`${th.textSecondary} leading-relaxed whitespace-pre-line`}>{selectedDream.interpretation}</p>
                              </div>
                              <div className="mb-6 flex gap-2 flex-wrap">
                                 {selectedDream.tags.map(tag => (
-                                    <span key={tag} className="px-2 py-1 bg-white/5 rounded text-[10px] uppercase tracking-wider text-slate-400 border border-white/5">{tag}</span>
+                                    <span key={tag} className={`px-2 py-1 ${th.surfaceBg} rounded text-[10px] uppercase tracking-wider ${th.textMuted} border ${th.borderLight}`}>{tag}</span>
                                 ))}
                              </div>
 
