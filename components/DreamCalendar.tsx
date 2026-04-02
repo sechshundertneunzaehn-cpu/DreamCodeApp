@@ -206,7 +206,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
 
     return (
         <div className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl flex flex-col items-center justify-center p-4 animate-in zoom-in-95 duration-300">
-            <div className="w-full max-w-4xl bg-[#0f0b1a]/80 border border-fuchsia-500/30 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.8)] flex flex-col h-[85vh]">
+            <div className="w-full max-w-4xl bg-dream-surface/80 border border-fuchsia-500/30 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.8)] flex flex-col h-[85vh]">
                 
                 {/* Header */}
                 <div className="p-6 border-b border-white/10 flex justify-between items-center bg-slate-900/60">
@@ -326,7 +326,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
             {/* Modal for Selected Dream - UPDATED with Video & Share Buttons */}
             {selectedDream && (
                 <div className="absolute inset-0 z-[70] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4" onClick={() => setSelectedDream(null)}>
-                     <div className="bg-[#0f0518] border border-white/10 w-full max-w-lg h-[85vh] rounded-3xl overflow-y-auto relative flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
+                     <div className="bg-dream-card border border-white/10 w-full max-w-lg h-[85vh] rounded-3xl overflow-y-auto relative flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
                          <div className="h-64 bg-slate-900 relative shrink-0">
                              {selectedDream.imageUrl ? <img src={selectedDream.imageUrl} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-white/20"><span className="material-icons text-6xl">image</span></div>}
                              <button onClick={() => setSelectedDream(null)} className="absolute top-3 end-3 w-11 h-11 bg-black/50 rounded-full text-white flex items-center justify-center hover:bg-black/70 transition-colors" aria-label="Close"><span className="material-icons">close</span></button>

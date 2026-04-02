@@ -1115,8 +1115,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const cardBg = isLight
     ? 'bg-white/70 border-purple-200/60'
     : 'bg-white/5 border-white/10';
-  const textMain = isLight ? 'text-slate-800' : 'text-white';
-  const textSub = isLight ? 'text-slate-500' : 'text-slate-400';
+  const textMain = isLight ? 'text-mystic-text' : 'text-white';
+  const textSub = isLight ? 'text-mystic-text-secondary' : 'text-slate-400';
   const chipBg = isLight ? 'bg-white/80 border-purple-200' : 'bg-white/8 border-white/10';
   const chipActive = 'bg-purple-600 border-purple-500 text-white';
 
@@ -1350,7 +1350,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
       </div>
 
       {/* ── Search Field (sticky under map) ── */}
-      <div className={`sticky top-0 z-30 px-3 py-2 backdrop-blur-xl ${isLight ? 'bg-indigo-50/90' : 'bg-[#06030f]/90'}`}>
+      <div className={`sticky top-0 z-30 px-3 py-2 backdrop-blur-xl ${isLight ? 'bg-indigo-50/90' : 'bg-dream-bg/90'}`}>
         <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border backdrop-blur-sm ${isLight ? 'bg-white/70 border-purple-200/60' : 'bg-white/5 border-white/10'}`}>
           <span className={`material-icons text-lg ${isLight ? 'text-purple-400' : 'text-slate-400'}`}>search</span>
           <input
@@ -1435,7 +1435,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
           isLight ? 'bg-white/80 border-purple-200/60' : 'bg-white/5 border-white/10'
         }`}>
           <div className={`sticky top-0 px-4 py-2.5 border-b backdrop-blur-xl ${
-            isLight ? 'bg-white/90 border-purple-100' : 'bg-[#0d0722]/90 border-white/5'
+            isLight ? 'bg-white/90 border-purple-100' : 'bg-dream-surface/90 border-white/5'
           }`}>
             <div className="flex items-center gap-2">
               <span className="material-icons text-purple-400 text-base">trending_up</span>
@@ -1531,7 +1531,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
                       {cat && <span className="text-xs leading-none">{cat.icon}</span>}
                     </div>
                     <div className={`text-[11px] ${textSub}`}>{u.city}, {u.country}</div>
-                    <p className={`text-xs italic truncate mt-0.5 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                    <p className={`text-xs italic truncate mt-0.5 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                       {u.dreamSummary}
                     </p>
                   </div>
@@ -1554,7 +1554,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
 
       {/* ── Match Detail Panel (Slide-Up) ── */}
       {selectedUser && (
-        <div className={`fixed bottom-0 inset-x-0 z-50 rounded-t-3xl border-t backdrop-blur-xl p-5 dm-slide-up ${isLight ? 'bg-white/85 border-purple-200/60' : 'bg-[#0d0722]/90 border-white/10'}`}
+        <div className={`fixed bottom-0 inset-x-0 z-50 rounded-t-3xl border-t backdrop-blur-xl p-5 dm-slide-up ${isLight ? 'bg-white/85 border-purple-200/60' : 'bg-dream-surface/90 border-white/10'}`}
           style={{ maxHeight: '55vh', overflowY: 'auto' }}>
 
           {/* Drag handle */}
@@ -1829,7 +1829,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
       {/* ── Toast Notification ── */}
       {toast && (
         <div
-          className={`fixed top-4 inset-x-4 z-50 rounded-2xl border backdrop-blur-xl px-4 py-3 flex items-center gap-3 shadow-2xl ${toastVisible ? 'dm-slide-down' : 'dm-fade-out'} ${isLight ? 'bg-white/90 border-purple-200/60' : 'bg-[#1a0a3a]/90 border-white/15'}`}
+          className={`fixed top-4 inset-x-4 z-50 rounded-2xl border backdrop-blur-xl px-4 py-3 flex items-center gap-3 shadow-2xl ${toastVisible ? 'dm-slide-down' : 'dm-fade-out'} ${isLight ? 'bg-white/90 border-purple-200/60' : 'bg-dream-deep/90 border-white/15'}`}
         >
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shrink-0">
             <span className="material-icons text-white text-lg">favorite</span>
@@ -1870,7 +1870,7 @@ const StatPill: React.FC<StatPillProps> = ({ icon, value, label, isLight, color 
   <div className="flex flex-col items-center gap-0.5 min-w-0">
     <div className="flex items-center gap-1">
       <span className="material-icons text-sm" style={{ color }}>{icon}</span>
-      <span className={`text-sm font-bold ${isLight ? 'text-slate-800' : 'text-white'}`}>{value}</span>
+      <span className={`text-sm font-bold ${isLight ? 'text-mystic-text' : 'text-white'}`}>{value}</span>
     </div>
     <span className={`text-[10px] ${isLight ? 'text-slate-500' : 'text-slate-500'} text-center leading-tight`}>{label}</span>
   </div>

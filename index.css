@@ -1,6 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  /* === GLASS MORPHISM === */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(196, 188, 230, 0.6);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  }
+  .glass-card-dark {
+    background: rgba(15, 11, 26, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(196, 188, 230, 0.4);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+  }
+  .glass-nav-dark {
+    background: rgba(5, 2, 10, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  /* === MYSTIC BUTTON === */
+  .btn-mystic {
+    @apply bg-gradient-to-r from-accent-primary to-accent-tertiary text-white font-semibold rounded-xl px-6 py-3 shadow-mystic hover:shadow-mystic-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200;
+  }
+  .btn-mystic-outline {
+    @apply border-2 border-accent-primary text-accent-primary rounded-xl px-6 py-3 hover:bg-accent-primary/10 active:scale-[0.98] transition-all duration-200;
+  }
+  /* === CARD STYLES === */
+  .card-light {
+    @apply bg-mystic-card border border-mystic-border rounded-2xl p-4 shadow-glass hover:shadow-glass-lg hover:border-mystic-border transition-all duration-200;
+  }
+  .card-dark {
+    @apply bg-dream-card border border-white/10 rounded-2xl p-4 hover:border-accent-primary/30 transition-all duration-200;
+  }
+}
 
 /* Animation delays for blobs */
 .animation-delay-2000 {

@@ -3,6 +3,7 @@ import { Language, ThemeMode } from '../types';
 import { VOICE_CHARACTERS, VoiceCharacter } from './VoiceSelector';
 
 type VoiceMode = 'user_voice' | 'ai_voice';
+export type ContentMode = 'dream_only' | 'interpretation' | 'both';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -12,6 +13,7 @@ export interface VideoGenerateOptions {
     tab: Tab;
     quality: Quality;
     voiceMode: VoiceMode;
+    contentMode: ContentMode;
     voiceId: string;
     voiceBlob: Blob | null;
 }
@@ -77,6 +79,13 @@ interface Translations {
     slideshow_only: string;
     generating: string;
     seconds_unit: string;
+    content_label: string;
+    content_dream: string;
+    content_interp: string;
+    content_both: string;
+    est_duration: string;
+    need_recording: string;
+    minutes_unit: string;
 }
 
 const T: Record<Language, Translations> = {
@@ -113,6 +122,13 @@ const T: Record<Language, Translations> = {
         slideshow_only: 'Nur bei Slideshow',
         generating: 'Wird generiert…',
         seconds_unit: 's',
+        content_label: 'Inhalt',
+        content_dream: 'Nur Erzaehlung',
+        content_interp: 'Nur Deutung',
+        content_both: 'Beides',
+        est_duration: 'Geschaetzte Dauer',
+        need_recording: 'Bitte zuerst aufnehmen',
+        minutes_unit: 'Min.',
     },
     [Language.EN]: {
         title: 'VIDEO STUDIO',
@@ -147,6 +163,13 @@ const T: Record<Language, Translations> = {
         slideshow_only: 'Slideshow only',
         generating: 'Generating…',
         seconds_unit: 's',
+        content_label: 'Content',
+        content_dream: 'Narration only',
+        content_interp: 'Interpretation only',
+        content_both: 'Both',
+        est_duration: 'Estimated duration',
+        need_recording: 'Please record first',
+        minutes_unit: 'min',
     },
     [Language.TR]: {
         title: 'VIDEO STUDYO',
@@ -181,6 +204,13 @@ const T: Record<Language, Translations> = {
         slideshow_only: 'Sadece slayt gosterisi',
         generating: 'Olusturuluyor…',
         seconds_unit: 's',
+        content_label: 'Icerik',
+        content_dream: 'Sadece anlatim',
+        content_interp: 'Sadece yorum',
+        content_both: 'Ikisi de',
+        est_duration: 'Tahmini sure',
+        need_recording: 'Lutfen once kayit yapin',
+        minutes_unit: 'dk',
     },
     [Language.ES]: {
         title: 'ESTUDIO VIDEO',
@@ -215,6 +245,13 @@ const T: Record<Language, Translations> = {
         slideshow_only: 'Solo diapositivas',
         generating: 'Generando…',
         seconds_unit: 's',
+        content_label: 'Contenido',
+        content_dream: 'Solo narracion',
+        content_interp: 'Solo interpretacion',
+        content_both: 'Ambos',
+        est_duration: 'Duracion estimada',
+        need_recording: 'Primero graba tu voz',
+        minutes_unit: 'min',
     },
     [Language.FR]: {
         title: 'STUDIO VIDEO',
@@ -249,6 +286,13 @@ const T: Record<Language, Translations> = {
         slideshow_only: 'Diaporama uniquement',
         generating: 'Génération…',
         seconds_unit: 's',
+        content_label: 'Contenu',
+        content_dream: 'Narration seule',
+        content_interp: 'Interpretation seule',
+        content_both: 'Les deux',
+        est_duration: 'Duree estimee',
+        need_recording: 'Veuillez enregistrer d\'abord',
+        minutes_unit: 'min',
     },
     [Language.AR]: {
         title: 'استوديو الفيديو',
@@ -283,6 +327,13 @@ const T: Record<Language, Translations> = {
         slideshow_only: 'عرض الشرائح فقط',
         generating: 'جاري الإنشاء…',
         seconds_unit: 'ث',
+        content_label: 'المحتوى',
+        content_dream: 'السرد فقط',
+        content_interp: 'التفسير فقط',
+        content_both: 'كلاهما',
+        est_duration: 'المدة المقدرة',
+        need_recording: 'يرجى التسجيل أولاً',
+        minutes_unit: 'د',
     },
     [Language.PT]: {
         title: 'ESTÚDIO DE VÍDEO',
@@ -317,6 +368,13 @@ const T: Record<Language, Translations> = {
         slideshow_only: 'Apenas apresentação',
         generating: 'Gerando…',
         seconds_unit: 's',
+        content_label: 'Conteudo',
+        content_dream: 'Apenas narracao',
+        content_interp: 'Apenas interpretacao',
+        content_both: 'Ambos',
+        est_duration: 'Duracao estimada',
+        need_recording: 'Grave primeiro',
+        minutes_unit: 'min',
     },
     [Language.RU]: {
         title: 'ВИДЕО СТУДИЯ',
@@ -351,6 +409,13 @@ const T: Record<Language, Translations> = {
         slideshow_only: 'Только слайдшоу',
         generating: 'Создание…',
         seconds_unit: 'с',
+        content_label: 'Содержание',
+        content_dream: 'Только рассказ',
+        content_interp: 'Только толкование',
+        content_both: 'Оба',
+        est_duration: 'Примерная длительность',
+        need_recording: 'Сначала запишите голос',
+        minutes_unit: 'мин',
     },
 };
 
@@ -473,7 +538,8 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
     // --- Slideshow settings ---
     const [imageInterval, setImageInterval] = useState<number>(3);
 
-    // --- Voice mode ---
+    // --- Content & Voice mode ---
+    const [contentMode, setContentMode] = useState<ContentMode>('dream_only');
     const [voiceMode, setVoiceMode] = useState<VoiceMode>('user_voice');
     const [selectedAiVoice, setSelectedAiVoice] = useState<string>('luna');
 
@@ -502,6 +568,22 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
     const aiPrice = PRICE.ai[quality];
     const totalPrice = activeTab === 'ai' ? aiPrice : slideshowPrice;
     const canAfford = userCredits >= totalPrice;
+
+    // Voice mode forced to AI for interpretation-only or both
+    const effectiveVoiceMode: VoiceMode = contentMode === 'dream_only' ? voiceMode : 'ai_voice';
+    // User voice requires recording
+    const needsRecording = effectiveVoiceMode === 'user_voice' && !voiceBlob;
+
+    // Duration estimation (words / 2.5 = seconds)
+    const dreamWords = dreamText.trim().split(/\s+/).filter(Boolean).length;
+    const estimatedSeconds = (() => {
+        const dreamDur = dreamWords / 2.5;
+        const interpDur = dreamWords * 1.5 / 2.5; // interpretation is ~1.5x longer
+        if (contentMode === 'dream_only') return dreamDur;
+        if (contentMode === 'interpretation') return interpDur;
+        return dreamDur + interpDur; // both
+    })();
+    const estimatedMinutes = Math.max(0.5, Math.round(estimatedSeconds / 30) / 2); // round to 0.5
 
     // Cleanup stream on unmount
     useEffect(() => {
@@ -562,7 +644,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
 
     // --- Generate ---
     const handleGenerate = useCallback(async () => {
-        if (!canAfford || isGenerating) return;
+        if (!canAfford || isGenerating || needsRecording) return;
         setIsGenerating(true);
 
         try {
@@ -570,7 +652,8 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                 const videoUrl = await onGenerate(dreamText, {
                     tab: activeTab,
                     quality,
-                    voiceMode,
+                    voiceMode: effectiveVoiceMode,
+                    contentMode,
                     voiceId: selectedAiVoice,
                     voiceBlob,
                 });
@@ -578,7 +661,6 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                     onSave({ videoUrl, type: activeTab === 'ai' ? 'ai' : 'slideshow' });
                 }
             } else {
-                // Fallback placeholder
                 const placeholderUrl = `dream-${activeTab}-${quality}-${Date.now()}.mp4`;
                 onSave({ videoUrl: placeholderUrl, type: activeTab === 'ai' ? 'ai' : 'slideshow' });
             }
@@ -587,14 +669,14 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
         } finally {
             setIsGenerating(false);
         }
-    }, [canAfford, isGenerating, activeTab, quality, voiceMode, selectedAiVoice, voiceBlob, dreamText, onSave, onGenerate]);
+    }, [canAfford, isGenerating, needsRecording, activeTab, quality, effectiveVoiceMode, contentMode, selectedAiVoice, voiceBlob, dreamText, onSave, onGenerate]);
 
     // ---------------------------------------------------------------------------
     // Style helpers
     // ---------------------------------------------------------------------------
 
-    const bg = isLight ? 'bg-[#faf8ff]' : 'bg-[#0f0b1a]';
-    const headerBg = isLight ? 'bg-[#faf8ff]/95 border-b border-indigo-100' : 'bg-[#0f0b1a]/95 border-b border-white/10';
+    const bg = isLight ? 'bg-mystic-bg' : 'bg-dream-surface';
+    const headerBg = isLight ? 'bg-mystic-bg/95 border-b border-indigo-100' : 'bg-dream-surface/95 border-b border-white/10';
     const cardBg = isLight ? 'bg-white border border-indigo-100/80 shadow-sm' : 'bg-white/5 border border-white/10';
     const textPrimary = isLight ? 'text-gray-900' : 'text-white';
     const textSecondary = isLight ? 'text-gray-500' : 'text-white/50';
@@ -625,7 +707,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
         ? 'bg-gray-50 border border-gray-200 text-gray-900'
         : 'bg-white/5 border border-white/10 text-white';
 
-    const generateDisabled = !canAfford || isGenerating;
+    const generateDisabled = !canAfford || isGenerating || needsRecording;
 
     const generateBtn = generateDisabled
         ? (isLight ? 'bg-gray-300 text-gray-400 cursor-not-allowed' : 'bg-white/10 text-white/30 cursor-not-allowed')
@@ -692,6 +774,46 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                         <p className={`text-sm leading-relaxed line-clamp-4 ${textSecondary}`}>
                             {dreamText || '—'}
                         </p>
+                    </div>
+
+                    {/* ── Content Mode ── */}
+                    <div className={`rounded-2xl p-4 space-y-3 ${cardBg}`}>
+                        <div className="flex items-center gap-2">
+                            <span className={`material-icons text-base ${sectionLabel}`}>auto_stories</span>
+                            <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>
+                                {t.content_label}
+                            </span>
+                        </div>
+                        <div className="flex gap-1.5">
+                            {([
+                                { key: 'dream_only' as ContentMode, label: t.content_dream },
+                                { key: 'interpretation' as ContentMode, label: t.content_interp },
+                                { key: 'both' as ContentMode, label: t.content_both },
+                            ]).map(({ key, label }) => (
+                                <button
+                                    key={key}
+                                    onClick={() => setContentMode(key)}
+                                    className={`
+                                        flex-1 py-2.5 rounded-xl text-xs font-semibold min-h-[44px] transition-all duration-150
+                                        ${contentMode === key ? tabActive : tabInactive}
+                                    `}
+                                >
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+                        {/* Duration estimate */}
+                        <div className={`flex items-center justify-between rounded-xl px-4 py-2.5 ${
+                            isLight ? 'bg-indigo-50' : 'bg-white/5'
+                        }`}>
+                            <div className="flex items-center gap-2">
+                                <span className={`material-icons text-base ${sectionLabel}`}>schedule</span>
+                                <span className={`text-sm ${textSecondary}`}>{t.est_duration}</span>
+                            </div>
+                            <span className={`text-sm font-bold tabular-nums ${isLight ? 'text-indigo-600' : 'text-fuchsia-300'}`}>
+                                ~{estimatedMinutes} {t.minutes_unit}
+                            </span>
+                        </div>
                     </div>
 
                     {/* ── Settings ── */}
@@ -769,7 +891,8 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                             </span>
                         </div>
 
-                        {/* Voice mode toggle */}
+                        {/* Voice mode toggle — only for dream_only */}
+                        {contentMode === 'dream_only' ? (
                         <div className="flex gap-2">
                             <button
                                 onClick={() => setVoiceMode('user_voice')}
@@ -791,8 +914,15 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                             </button>
                         </div>
 
-                        {/* Own voice: record button */}
-                        {voiceMode === 'user_voice' && (
+                        ) : (
+                            <div className={`text-sm ${textSecondary}`}>
+                                <span className="material-icons text-base align-middle mr-1">smart_toy</span>
+                                {t.voice_mode_ai}
+                            </div>
+                        )}
+
+                        {/* Own voice: record button (only dream_only + user_voice) */}
+                        {effectiveVoiceMode === 'user_voice' && (
                             <button
                                 onClick={isRecording ? stopRecording : startRecording}
                                 className={`
@@ -822,7 +952,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                         )}
 
                         {/* AI voice: character grid */}
-                        {voiceMode === 'ai_voice' && (
+                        {effectiveVoiceMode === 'ai_voice' && (
                             <div className="grid grid-cols-2 gap-2">
                                 {VOICE_CHARACTERS.map((vc) => (
                                     <button
@@ -963,7 +1093,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                             </span>
                         </div>
 
-                        {/* Insufficient funds hint */}
+                        {/* Hints */}
                         {!canAfford && (
                             <div className={`
                                 flex items-center gap-2 rounded-xl px-3 py-2.5
@@ -971,6 +1101,15 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                             `}>
                                 <span className="material-icons text-base">warning</span>
                                 <span className="text-sm font-medium">{t.insufficient_funds}</span>
+                            </div>
+                        )}
+                        {needsRecording && canAfford && (
+                            <div className={`
+                                flex items-center gap-2 rounded-xl px-3 py-2.5
+                                ${isLight ? 'bg-amber-50 text-amber-700' : 'bg-amber-900/20 text-amber-400'}
+                            `}>
+                                <span className="material-icons text-base">mic_off</span>
+                                <span className="text-sm font-medium">{t.need_recording}</span>
                             </div>
                         )}
 
