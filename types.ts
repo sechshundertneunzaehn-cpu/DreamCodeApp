@@ -144,6 +144,8 @@ export interface UserProfile {
     medication?: string;
     substances?: string;
     isComplete?: boolean;
+    profileVisibility?: ProfileVisibility;
+    communicationPreference?: CommunicationPreference;
 }
 
 export enum WorkType {
@@ -166,6 +168,19 @@ export enum Frequency {
     NEVER = 'Never'
 }
 
+
+export enum ProfileVisibility {
+    PUBLIC = 'PUBLIC',
+    FRIENDS = 'FRIENDS',
+    MINIMAL = 'MINIMAL',
+    ANONYMOUS = 'ANONYMOUS'
+}
+
+export enum CommunicationPreference {
+    OPEN = 'OPEN',
+    SELECTIVE = 'SELECTIVE',
+    CLOSED = 'CLOSED'
+}
 
 export enum AudioVisibility {
     PRIVATE = 'PRIVATE',
@@ -191,4 +206,39 @@ export interface Dream {
     likes: number;
     comments: number;
     matchPercentage: number;
+}
+
+export interface BotContribution {
+    id: string;
+    type: 'dream' | 'interpretation' | 'audio';
+    title: string;
+    date: string;
+}
+
+export interface BotSimUser {
+    id: string;
+    name: string;
+    avatar: string;
+    bio: string;
+    city: string;
+    country: string;
+    lat: number;
+    lng: number;
+    category: string;
+    mood: string;
+    dreamSummary: string;
+    matchPct: number;
+    zodiacSign: string;
+    gender: string;
+    age: number;
+    joinedDate: string;
+    isBot: true;
+    privacyLevel: ProfileVisibility | `${ProfileVisibility}`;
+    communicationPreference: CommunicationPreference | `${CommunicationPreference}`;
+    isAnonymous: boolean;
+    canMessage: false;
+    contributionsCount: number;
+    contributions?: BotContribution[];
+    dreamStyle?: string;
+    languages?: string[];
 }
