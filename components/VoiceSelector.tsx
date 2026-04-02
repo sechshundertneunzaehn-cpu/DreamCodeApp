@@ -175,23 +175,33 @@ interface VoiceCardProps {
     isSelected: boolean;
     language: string;
     compact?: boolean;
+    isLight?: boolean;
     onClick: () => void;
 }
 
-const VoiceCard: React.FC<VoiceCardProps> = ({ character, isSelected, language, compact, onClick }) => {
+const VoiceCard: React.FC<VoiceCardProps> = ({ character, isSelected, language, compact, isLight, onClick }) => {
     const baseRing = isSelected
-        ? 'ring-2 ring-purple-500 shadow-[0_0_18px_rgba(168,85,247,0.55)]'
-        : 'ring-1 ring-white/10 hover:ring-purple-400/50';
+        ? isLight
+            ? 'ring-2 ring-accent-primary shadow-mystic'
+            : 'ring-2 ring-purple-500 shadow-[0_0_18px_rgba(168,85,247,0.55)]'
+        : isLight
+            ? 'ring-1 ring-mystic-border hover:ring-accent-primary/50'
+            : 'ring-1 ring-white/10 hover:ring-purple-400/50';
+
+    const cardBg = isLight ? 'bg-white/70 hover:bg-white/90' : 'bg-white/5';
+    const iconColor = isLight ? 'text-accent-primary' : 'text-purple-300';
+    const nameColor = isLight ? 'text-mystic-text' : 'text-white';
+    const descColor = isLight ? 'text-mystic-text-secondary' : 'text-white/60';
 
     if (compact) {
         return (
             <button
                 onClick={onClick}
                 className={`flex-shrink-0 flex flex-col items-center gap-1 px-3 py-3 rounded-xl min-w-[60px] min-h-[64px]
-                    bg-white/5 transition-all duration-200 cursor-pointer active:scale-95 ${baseRing}`}
+                    ${cardBg} transition-all duration-200 cursor-pointer active:scale-95 ${baseRing}`}
             >
-                <span className="material-icons text-2xl text-purple-300">{character.icon}</span>
-                <span className="text-xs font-medium text-white whitespace-nowrap">{character.name}</span>
+                <span className={`material-icons text-2xl ${iconColor}`}>{character.icon}</span>
+                <span className={`text-xs font-medium ${nameColor} whitespace-nowrap`}>{character.name}</span>
             </button>
         );
     }
@@ -200,11 +210,11 @@ const VoiceCard: React.FC<VoiceCardProps> = ({ character, isSelected, language, 
         <button
             onClick={onClick}
             className={`flex flex-col items-center gap-2 p-4 rounded-2xl w-full text-center
-                bg-white/5 transition-all duration-200 cursor-pointer ${baseRing}`}
+                ${cardBg} transition-all duration-200 cursor-pointer ${baseRing}`}
         >
-            <span className="material-icons text-4xl text-purple-300">{character.icon}</span>
-            <span className="text-base font-semibold text-white">{character.name}</span>
-            <span className="text-xs text-white/60 leading-snug line-clamp-2">
+            <span className={`material-icons text-4xl ${iconColor}`}>{character.icon}</span>
+            <span className={`text-base font-semibold ${nameColor}`}>{character.name}</span>
+            <span className={`text-xs ${descColor} leading-snug line-clamp-2`}>
                 {getDesc(character, language)}
             </span>
         </button>
@@ -247,7 +257,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
         return (
             <div className="space-y-3">
                 <div>
-                    <span className="text-[10px] uppercase tracking-widest text-fuchsia-400 font-medium mb-1.5 block">
+                    <span className={`text-[10px] uppercase tracking-widest font-medium mb-1.5 block ${isLight ? 'text-fuchsia-600' : 'text-fuchsia-400'}`}>
                         {ui.female}
                     </span>
                     <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
@@ -257,6 +267,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                                 character={character}
                                 isSelected={selected === character.id}
                                 language={language}
+                                isLight={isLight}
                                 compact
                                 onClick={() => {
                                     setSelected(character.id);
@@ -267,7 +278,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                     </div>
                 </div>
                 <div>
-                    <span className="text-[10px] uppercase tracking-widest text-blue-400 font-medium mb-1.5 block">
+                    <span className={`text-[10px] uppercase tracking-widest font-medium mb-1.5 block ${isLight ? 'text-blue-600' : 'text-blue-400'}`}>
                         {ui.male}
                     </span>
                     <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
@@ -277,6 +288,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                                 character={character}
                                 isSelected={selected === character.id}
                                 language={language}
+                                isLight={isLight}
                                 compact
                                 onClick={() => {
                                     setSelected(character.id);
@@ -294,16 +306,15 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
     // FIRST TIME mode – full-screen modal
     // -----------------------------------------------------------------------
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm px-4">
+        <div className={`fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm px-4 ${isLight ? 'bg-black/40' : 'bg-black/90'}`}>
             {/* Modal container */}
-            <div className="relative w-full max-w-lg rounded-3xl border border-white/10 bg-black/80
-                shadow-[0_0_60px_rgba(168,85,247,0.25)] p-6 flex flex-col gap-6">
+            <div className={`relative w-full max-w-lg rounded-3xl border p-6 flex flex-col gap-6 ${isLight ? 'bg-mystic-card border-mystic-border shadow-mystic-lg' : 'border-white/10 bg-black/80 shadow-[0_0_60px_rgba(168,85,247,0.25)]'}`}>
 
                 {/* Close button */}
                 {onClose && (
                     <button
                         onClick={onClose}
-                        className="absolute top-3 end-3 w-11 h-11 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center text-white/40 hover:text-white/80 transition-colors"
+                        className={`absolute top-3 end-3 w-11 h-11 rounded-full flex items-center justify-center transition-colors ${isLight ? 'bg-mystic-border/40 hover:bg-mystic-border/70 text-mystic-text-secondary hover:text-mystic-text' : 'bg-white/5 hover:bg-white/15 text-white/40 hover:text-white/80'}`}
                         aria-label="Close"
                     >
                         <span className="material-icons">close</span>
@@ -312,15 +323,15 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
 
                 {/* Title */}
                 <div className="text-center">
-                    <span className="material-icons text-4xl text-purple-400 mb-2 block">record_voice_over</span>
-                    <h2 className="text-lg font-semibold text-white leading-snug">{ui.title}</h2>
+                    <span className={`material-icons text-4xl mb-2 block ${isLight ? 'text-accent-primary' : 'text-purple-400'}`}>record_voice_over</span>
+                    <h2 className={`text-lg font-semibold leading-snug ${isLight ? 'text-mystic-text' : 'text-white'}`}>{ui.title}</h2>
                 </div>
 
                 {/* Two-column grid: Female | Male */}
                 <div className="grid grid-cols-2 gap-4">
                     {/* Female column */}
                     <div className="flex flex-col gap-2">
-                        <span className="text-xs uppercase tracking-widest text-fuchsia-400 font-medium text-center mb-1">
+                        <span className={`text-xs uppercase tracking-widest font-medium text-center mb-1 ${isLight ? 'text-fuchsia-600' : 'text-fuchsia-400'}`}>
                             {ui.female}
                         </span>
                         {females.map(character => (
@@ -329,6 +340,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                                 character={character}
                                 isSelected={selected === character.id}
                                 language={language}
+                                isLight={isLight}
                                 onClick={() => setSelected(character.id)}
                             />
                         ))}
@@ -336,7 +348,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
 
                     {/* Male column */}
                     <div className="flex flex-col gap-2">
-                        <span className="text-xs uppercase tracking-widest text-blue-400 font-medium text-center mb-1">
+                        <span className={`text-xs uppercase tracking-widest font-medium text-center mb-1 ${isLight ? 'text-blue-600' : 'text-blue-400'}`}>
                             {ui.male}
                         </span>
                         {males.map(character => (
@@ -345,6 +357,7 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                                 character={character}
                                 isSelected={selected === character.id}
                                 language={language}
+                                isLight={isLight}
                                 onClick={() => setSelected(character.id)}
                             />
                         ))}

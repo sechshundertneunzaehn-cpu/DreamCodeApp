@@ -755,7 +755,7 @@ const DreamShare: React.FC<DreamShareProps> = ({
             {/* PDF Modal */}
             {showPdfModal && (
                 <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-                    <div className="bg-[#1a0b2e] border border-white/10 w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
+                    <div className="bg-dream-deep border border-white/10 w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
                         <button onClick={() => setShowPdfModal(false)} className="absolute top-3 end-3 w-11 h-11 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
                             <span className="material-icons">close</span>
                         </button>

@@ -361,7 +361,7 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
     const overlayBg = 'bg-black/50 backdrop-blur-sm';
     const modalBg = isLight
         ? 'bg-white/95 backdrop-blur-md border border-indigo-200/60'
-        : 'bg-[#0f0b1a]/95 backdrop-blur-md border border-white/10';
+        : 'bg-dream-surface/95 backdrop-blur-md border border-white/10';
     const textPrimary = isLight ? 'text-gray-900' : 'text-white';
     const textSecondary = isLight ? 'text-gray-500' : 'text-white/50';
     const sectionLabel = isLight ? 'text-indigo-600' : 'text-fuchsia-400';

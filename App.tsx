@@ -1531,7 +1531,7 @@ const App: React.FC = () => {
 
     // Sync body background with theme
     useEffect(() => {
-        document.body.style.backgroundColor = themeMode === ThemeMode.LIGHT ? '#ffffff' : '#0f0b1a';
+        document.body.style.backgroundColor = themeMode === ThemeMode.LIGHT ? '#f0eefc' : '#0f0b1a';
     }, [themeMode]);
 
     // RTL support
@@ -2352,8 +2352,8 @@ const App: React.FC = () => {
     const isLight = themeMode === ThemeMode.LIGHT;
     
     const appBgInput = isLight
-        ? 'bg-white/90 backdrop-blur-md border-indigo-300 shadow-md shadow-indigo-100/60'
-        : 'bg-[#0f0b1a]/80 border-white/10';
+        ? 'bg-white/80 backdrop-blur-md border-mystic-border shadow-md shadow-accent-primary/10 focus-within:border-accent-primary/50 focus-within:shadow-mystic'
+        : 'bg-dream-surface/80 border-white/10 focus-within:border-accent-primary/40';
 
     // Render a simple loader if not ready
     if (!isStorageReady) {
@@ -2411,14 +2411,14 @@ const App: React.FC = () => {
              {/* HEADER */}
              <div className="flex items-start justify-between mb-6 gap-3">
                  <div className="flex-1 min-w-0">
-                     <h1 className={`text-3xl sm:text-4xl font-mystic text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-fuchsia-200 to-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] ${isLight ? 'from-indigo-600 via-fuchsia-600 to-violet-600 drop-shadow-none' : ''}`} style={{ lineHeight: '1.15' }}>
+                     <h1 className={`text-3xl sm:text-4xl font-heading font-bold text-transparent bg-clip-text bg-gradient-to-r ${isLight ? 'from-[#2a1a3a] via-[#6d28d9] to-[#a855f7]' : 'from-violet-200 via-fuchsia-200 to-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]'}`} style={{ lineHeight: '1.15' }}>
                          {(() => {
                              const parts = t.app_title.split(' | ');
                              if (parts.length === 2) {
                                  return (
                                      <>
                                          <span className="block">{parts[0]}</span>
-                                         <span className={`text-sm font-normal mt-0.5 block ${isLight ? 'text-fuchsia-600' : 'text-fuchsia-300/60'}`}>| {parts[1]}</span>
+                                         <span className={`text-sm font-body font-normal mt-0.5 block ${isLight ? 'text-accent-primary' : 'text-fuchsia-300/60'}`}>| {parts[1]}</span>
                                      </>
                                  );
                              }
@@ -2462,7 +2462,7 @@ const App: React.FC = () => {
                  </div>
              </div>
              
-             <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
+             <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-500'}`}>
                  <span className={`w-6 h-[1px] ${isLight ? 'bg-indigo-200' : 'bg-slate-700'}`}></span> {t.ui.choose_tradition}
              </h3>
 
@@ -2517,7 +2517,7 @@ const App: React.FC = () => {
 
              {selectedCategories.length > 0 && (
                  <div className="mb-8">
-                     <h3 className={`text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                     <h3 className={`text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                         <span className={`w-8 h-[1px] ${isLight ? 'bg-indigo-200' : 'bg-slate-600'}`}></span> {t.ui.refine_sources}
                      </h3>
                      <div className="grid grid-cols-2 gap-2">
@@ -2620,7 +2620,7 @@ const App: React.FC = () => {
 
     return (
         <ErrorBoundary>
-        <div dir={language === Language.AR ? 'rtl' : 'ltr'} style={{ backgroundColor: isLight ? '#faf8ff' : '#0f0b1a' }} className={`min-h-screen font-sans relative overflow-x-hidden transition-colors duration-700 ${isLight ? 'text-indigo-950 selection:bg-fuchsia-500/30' : 'text-slate-200 selection:bg-fuchsia-500/30'}`}>
+        <div dir={language === Language.AR ? 'rtl' : 'ltr'} style={{ backgroundColor: isLight ? '#f0eefc' : '#0f0b1a' }} className={`min-h-screen font-sans relative overflow-x-hidden transition-colors duration-700 ${isLight ? 'text-mystic-text selection:bg-accent-primary/30' : 'text-slate-200 selection:bg-accent-primary/30'}`}>
             <StarryBackground themeMode={themeMode} designTheme={designTheme} />
             
             {loading && <ProcessingOverlay isLight={isLight} steps={processingSteps} categories={selectedCategories} sources={selectedSources} t={t} />}
@@ -2802,7 +2802,7 @@ const App: React.FC = () => {
                     />
             ) : null}
 
-            <nav className={`fixed bottom-0 left-0 right-0 border-t pb-safe z-40 transition-colors duration-500 ${isLight ? 'bg-white/80 border-white backdrop-blur-xl shadow-[0_-5px_20px_rgba(0,0,0,0.05)]' : 'bg-[#05020a]/80 border-white/10 backdrop-blur-lg'}`}>
+            <nav className={`fixed bottom-0 left-0 right-0 border-t pb-safe z-40 transition-colors duration-500 ${isLight ? 'bg-white/80 backdrop-blur-xl border-mystic-border shadow-glass' : 'bg-dream-bg/80 backdrop-blur-lg border-white/10'}`}>
                 <div className="flex justify-around items-center p-2">
                     <NavBtn icon="home" label={t.ui.home_label} active={view === View.HOME} onClick={() => setView(View.HOME)} isLight={isLight} />
                     <button aria-label="Settings" onClick={() => setShowSettings(true)} className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${showSettings ? (isLight ? 'text-fuchsia-600' : 'text-fuchsia-500') : (isLight ? 'text-slate-400 hover:text-indigo-900' : 'text-slate-500 hover:text-slate-300')}`}>
@@ -2844,7 +2844,7 @@ const App: React.FC = () => {
 
 const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClose: () => void, t: any, isLight: boolean, onPurchase: (amt: number) => void, onEarnFree: () => void }) => (
     <div className="fixed inset-0 z-[130] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 zoom-in-95">
-        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-amber-500/40' : 'border-amber-500/30'} rounded-2xl overflow-hidden shadow-2xl flex flex-col relative max-h-[85vh]`}>
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-mystic-card/95 backdrop-blur-md' : 'bg-dream-surface/95 backdrop-blur-md'} border ${isLight ? 'border-amber-500/40' : 'border-amber-500/30'} rounded-2xl overflow-hidden shadow-2xl flex flex-col relative max-h-[85vh]`}>
             <button aria-label="Close" onClick={onClose} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center text-white/70 hover:text-white transition-colors">
                 <span className="material-icons text-base">close</span>
             </button>
@@ -2922,7 +2922,7 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
                                     }`}>
                                         {pkg.id.split('_')[0].charAt(0).toUpperCase() + pkg.id.split('_')[0].slice(1)}
                                     </p>
-                                    <p className={`text-xs mt-0.5 ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
+                                    <p className={`text-xs mt-0.5 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-500'}`}>
                                         {pricePerCoin}€ {t.shop.per_coin}
                                     </p>
                                 </div>
@@ -2944,7 +2944,7 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
                     );
                 })}
 
-                <div className={`pt-4 mt-2 border-t border-dashed ${isLight ? 'border-indigo-100' : 'border-white/10'} text-center`}>
+                <div className={`pt-4 mt-2 border-t border-dashed ${isLight ? 'border-mystic-border' : 'border-white/10'} text-center`}>
                     <button onClick={onEarnFree} className={`flex items-center justify-center gap-2 mx-auto px-5 py-2.5 rounded-full border font-bold text-sm transition-all hover:scale-105 active:scale-95 ${isLight ? 'border-indigo-200 text-indigo-600 bg-indigo-50 hover:bg-indigo-100' : 'border-white/20 text-slate-300 bg-white/5 hover:bg-white/10 hover:text-white'}`}>
                         <span className="material-icons text-base">card_giftcard</span>
                         {t.shop.free_link}
@@ -2957,11 +2957,11 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiKeyInput, setApiKeyInput, handleAddApiKey, handleRemoveApiKey, userProfile, themeMode, handleThemeUpdate, designTheme, handleExport, handleImport, language, onVoiceChange, currentVoiceId }) => (
     <div className="fixed inset-0 z-[95] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-slate-200/60' : 'border-white/10'} rounded-2xl overflow-hidden flex flex-col shadow-2xl max-h-[85vh]`}>
-            <div className={`px-5 py-4 border-b ${isLight ? 'border-slate-100' : 'border-white/10'} flex justify-between items-center shrink-0`}>
-                <h2 className={`text-lg font-mystic font-bold ${isLight ? 'text-indigo-950' : 'text-white'}`}>{t.ui.settings}</h2>
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-mystic-card/95 backdrop-blur-md' : 'bg-dream-surface/95 backdrop-blur-md'} border ${isLight ? 'border-mystic-border' : 'border-white/10'} rounded-2xl overflow-hidden flex flex-col shadow-2xl max-h-[85vh]`}>
+            <div className={`px-5 py-4 border-b ${isLight ? 'border-mystic-border' : 'border-white/10'} flex justify-between items-center shrink-0`}>
+                <h2 className={`text-lg font-mystic font-bold ${isLight ? 'text-mystic-text' : 'text-white'}`}>{t.ui.settings}</h2>
                 <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full hover:bg-black/10 flex items-center justify-center transition-colors">
-                    <span className={`material-icons text-base ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>close</span>
+                    <span className={`material-icons text-base ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>close</span>
                 </button>
             </div>
             <div className="p-5 space-y-5 overflow-y-auto custom-scrollbar">
@@ -3025,8 +3025,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                 )}
 
                 {/* Mode Toggle */}
-                <div className={`pt-5 border-t ${isLight ? 'border-slate-100' : 'border-white/10'}`}>
-                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                <div className={`pt-5 border-t ${isLight ? 'border-mystic-border' : 'border-white/10'}`}>
+                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                         <span className="material-icons text-sm">contrast</span> {t.ui.mode}
                     </h3>
                     <div className={`relative flex rounded-full p-1 border ${isLight ? 'bg-slate-100 border-slate-200' : 'bg-white/5 border-white/10'}`}>
@@ -3047,8 +3047,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                 </div>
 
                 {/* Oracle Voice */}
-                <div className={`pt-5 border-t ${isLight ? 'border-slate-100' : 'border-white/10'}`}>
-                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                <div className={`pt-5 border-t ${isLight ? 'border-mystic-border' : 'border-white/10'}`}>
+                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                         <span className="material-icons text-sm">record_voice_over</span>
                         {t.ui.oracle_voice}
                     </h3>
@@ -3061,8 +3061,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                 </div>
 
                 {/* Color Theme */}
-                <div className={`pt-5 border-t ${isLight ? 'border-slate-100' : 'border-white/10'}`}>
-                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                <div className={`pt-5 border-t ${isLight ? 'border-mystic-border' : 'border-white/10'}`}>
+                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                         <span className="material-icons text-sm">palette</span> {t.ui.style}
                     </h3>
                     <div className="flex flex-col gap-2">
@@ -3098,7 +3098,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
 
     return (
     <div className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 backdrop-blur-md' : 'bg-[#0f0b1a]/95 backdrop-blur-md'} border ${isLight ? 'border-slate-200/60' : 'border-white/10'} rounded-2xl overflow-hidden shadow-2xl flex flex-col relative max-h-[85vh]`}>
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-mystic-card/95 backdrop-blur-md' : 'bg-dream-surface/95 backdrop-blur-md'} border ${isLight ? 'border-mystic-border' : 'border-white/10'} rounded-2xl overflow-hidden shadow-2xl flex flex-col relative max-h-[85vh]`}>
             <button aria-label="Close" onClick={onClose} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/20 flex items-center justify-center hover:bg-black/40 text-white transition-colors">
                 <span className="material-icons text-base">close</span>
             </button>
@@ -3111,10 +3111,10 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
             <div className={`flex justify-center px-4 py-3 ${isLight ? 'bg-white/60 backdrop-blur-md border-b border-slate-100' : 'bg-white/5 backdrop-blur-md border-b border-white/5'}`}>
                 <div className={`relative flex p-1 rounded-full border ${isLight ? 'bg-slate-100 border-slate-200' : 'bg-black/40 border-white/10'}`}>
                     <div className={`absolute top-1 h-[calc(100%-8px)] w-[calc(50%-4px)] rounded-full shadow-md transition-all duration-300 ${billingCycle === 'monthly' ? 'left-1' : 'left-[calc(50%+3px)]'} ${isLight ? 'bg-white shadow-indigo-100' : 'bg-slate-700'}`}></div>
-                    <button onClick={() => setBillingCycle('monthly')} className={`relative z-10 px-5 py-1.5 rounded-full text-xs font-bold transition-colors duration-300 ${billingCycle === 'monthly' ? (isLight ? 'text-indigo-900' : 'text-white') : (isLight ? 'text-slate-400' : 'text-slate-400')}`}>
+                    <button onClick={() => setBillingCycle('monthly')} className={`relative z-10 px-5 py-1.5 rounded-full text-xs font-bold transition-colors duration-300 ${billingCycle === 'monthly' ? (isLight ? 'text-mystic-text' : 'text-white') : (isLight ? 'text-slate-400' : 'text-slate-400')}`}>
                         {t.sub.billing_monthly}
                     </button>
-                    <button onClick={() => setBillingCycle('yearly')} className={`relative z-10 px-5 py-1.5 rounded-full text-xs font-bold transition-colors duration-300 flex items-center gap-1.5 ${billingCycle === 'yearly' ? (isLight ? 'text-indigo-900' : 'text-white') : (isLight ? 'text-slate-400' : 'text-slate-400')}`}>
+                    <button onClick={() => setBillingCycle('yearly')} className={`relative z-10 px-5 py-1.5 rounded-full text-xs font-bold transition-colors duration-300 flex items-center gap-1.5 ${billingCycle === 'yearly' ? (isLight ? 'text-mystic-text' : 'text-white') : (isLight ? 'text-slate-400' : 'text-slate-400')}`}>
                         {t.sub.billing_yearly}
                         <span className="bg-green-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-extrabold uppercase">-20%</span>
                     </button>
@@ -3220,18 +3220,18 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
 
                             <div className="flex justify-between items-center">
                                 <div className="flex items-center gap-2">
-                                    <h3 className={`font-bold text-base ${isLight ? 'text-indigo-950' : 'text-white'}`}>{title}</h3>
+                                    <h3 className={`font-bold text-base ${isLight ? 'text-mystic-text' : 'text-white'}`}>{title}</h3>
                                     {isCurrent && <span className="px-2 py-0.5 bg-green-500 text-white text-[9px] font-bold rounded-full uppercase">{t.sub.current}</span>}
                                     {tier === SubscriptionTier.SMART && <span className="px-2 py-0.5 bg-cyan-500 text-white text-[9px] font-bold rounded-full uppercase">BYOK</span>}
                                 </div>
                                 <div className={`text-right ${hasBadge ? 'mt-5' : ''}`}>
-                                    <span className={`block font-extrabold text-xl ${isLight ? 'text-indigo-950' : 'text-white'}`}>{price}</span>
+                                    <span className={`block font-extrabold text-xl ${isLight ? 'text-mystic-text' : 'text-white'}`}>{price}</span>
                                 </div>
                             </div>
 
                             <ul className="space-y-1.5">
                                 {features.map((feat, i) => (
-                                    <li key={i} className={`text-xs flex items-start gap-2 leading-tight ${isLight ? 'text-slate-600' : 'text-slate-400'}`}>
+                                    <li key={i} className={`text-xs flex items-start gap-2 leading-tight ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                                         <span className={`material-icons text-xs mt-0.5 shrink-0 ${isCurrent ? (isLight ? 'text-indigo-500' : 'text-indigo-400') : tier === SubscriptionTier.SMART ? 'text-cyan-400' : (isLight ? 'text-fuchsia-500' : 'text-fuchsia-400')}`}>check_circle</span>
                                         <span>{feat}</span>
                                     </li>
@@ -3265,7 +3265,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
 
 const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void, t: any, isLight: boolean, onWatch: (d: number, r: number) => void }) => (
     <div className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white' : 'bg-[#150b25]'} border border-amber-500/30 rounded-2xl overflow-hidden shadow-2xl flex flex-col relative max-h-[85vh]`}>
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-mystic-card' : 'bg-dream-elevated'} border border-amber-500/30 rounded-2xl overflow-hidden shadow-2xl flex flex-col relative max-h-[85vh]`}>
                 <button aria-label="Close" onClick={onClose} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center transition-colors">
                 <span className="material-icons text-base">close</span>
             </button>
@@ -3275,12 +3275,12 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
                 </h2>
             </div>
             <div className="p-5 space-y-4 overflow-y-auto custom-scrollbar">
-                <p className={`text-sm text-center mb-2 ${isLight ? 'text-slate-600' : 'text-slate-300'}`}>{t.earn.desc}</p>
+                <p className={`text-sm text-center mb-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-300'}`}>{t.earn.desc}</p>
                 
                 {/* Short Clip */}
                 <div className={`p-4 rounded-xl border flex items-center justify-between ${isLight ? 'bg-amber-50 border-amber-100' : 'bg-amber-900/10 border-amber-500/20'}`}>
                     <div>
-                        <h4 className={`font-bold text-sm ${isLight ? 'text-slate-800' : 'text-white'}`}>{t.earn.short_title}</h4>
+                        <h4 className={`font-bold text-sm ${isLight ? 'text-mystic-text' : 'text-white'}`}>{t.earn.short_title}</h4>
                         <p className="text-xs text-amber-500">{t.earn.short_desc}</p>
                     </div>
                     <button onClick={() => onWatch(10000, parseInt(t.earn.short_reward))} className="px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold text-xs shadow-lg transition-colors">
@@ -3291,7 +3291,7 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
                 {/* Long Clip */}
                 <div className={`p-4 rounded-xl border flex items-center justify-between ${isLight ? 'bg-amber-50 border-amber-100' : 'bg-amber-900/10 border-amber-500/20'}`}>
                     <div>
-                        <h4 className={`font-bold text-sm ${isLight ? 'text-slate-800' : 'text-white'}`}>{t.earn.long_title}</h4>
+                        <h4 className={`font-bold text-sm ${isLight ? 'text-mystic-text' : 'text-white'}`}>{t.earn.long_title}</h4>
                         <p className="text-xs text-amber-500">{t.earn.long_desc}</p>
                     </div>
                     <button onClick={() => onWatch(3000, parseInt(t.earn.long_reward))} className="px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-lg">
@@ -3303,19 +3303,19 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
                 <div className={`p-4 rounded-xl border ${isLight ? 'bg-blue-50 border-blue-100' : 'bg-blue-900/10 border-blue-500/20'}`}>
                     <div className="flex items-center justify-between mb-2">
                         <div>
-                            <h4 className={`font-bold text-sm ${isLight ? 'text-slate-800' : 'text-white'}`}>{t.earn.offer_title}</h4>
+                            <h4 className={`font-bold text-sm ${isLight ? 'text-mystic-text' : 'text-white'}`}>{t.earn.offer_title}</h4>
                             <p className="text-xs text-blue-400">{t.earn.offer_desc}</p>
                         </div>
                             <span className="text-xs font-bold bg-blue-500 text-white px-2 py-0.5 rounded">+{t.earn.offer_reward} 🪙</span>
                     </div>
-                    <p className={`text-xs mb-3 leading-relaxed ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{t.earn.offer_info}</p>
+                    <p className={`text-xs mb-3 leading-relaxed ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>{t.earn.offer_info}</p>
                     <div className="space-y-2">
                         <div className={`flex justify-between items-center p-2 rounded border ${isLight ? 'bg-white border-blue-100' : 'bg-black/20 border-white/5'}`}>
-                            <span className={`text-xs ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>{t.earn.survey_task}</span>
+                            <span className={`text-xs ${isLight ? 'text-mystic-text' : 'text-slate-300'}`}>{t.earn.survey_task}</span>
                             <button className="text-xs font-bold text-blue-400 hover:text-blue-300 uppercase py-1 px-2">{t.earn.start_btn}</button>
                         </div>
                             <div className={`flex justify-between items-center p-2 rounded border ${isLight ? 'bg-white border-blue-100' : 'bg-black/20 border-white/5'}`}>
-                            <span className={`text-xs ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>{t.earn.app_task}</span>
+                            <span className={`text-xs ${isLight ? 'text-mystic-text' : 'text-slate-300'}`}>{t.earn.app_task}</span>
                             <button className="text-xs font-bold text-blue-400 hover:text-blue-300 uppercase py-1 px-2">{t.earn.start_btn}</button>
                         </div>
                     </div>
@@ -3327,11 +3327,11 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
 
 const ProcessingOverlay = ({ isLight, steps, categories, sources, t }: { isLight: boolean, steps: ProcessingStep[], categories: ReligiousCategory[], sources: ReligiousSource[], t: any }) => (
     <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 duration-500">
-        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 border-indigo-100' : 'bg-[#150b25]/95 border-white/10'} border rounded-2xl p-6 shadow-2xl flex flex-col gap-5 relative overflow-hidden max-h-[85vh] overflow-y-auto`}>
+        <div className={`w-[95%] max-w-md ${isLight ? 'bg-mystic-card/95 backdrop-blur-md border-mystic-border' : 'bg-dream-surface/95 backdrop-blur-md border-white/10'} border rounded-2xl p-6 shadow-2xl flex flex-col gap-5 relative overflow-hidden max-h-[85vh] overflow-y-auto`}>
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 animate-pulse"></div>
             <div className="absolute -top-20 -right-20 w-40 h-40 bg-fuchsia-500/20 rounded-full blur-3xl"></div>
             <div className="text-center mb-2">
-                <h2 className={`text-2xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'} animate-pulse`}>{steps[0]?.label || t.processing.title}</h2>
+                <h2 className={`text-2xl font-mystic font-bold ${isLight ? 'text-mystic-text' : 'text-white'} animate-pulse`}>{steps[0]?.label || t.processing.title}</h2>
             </div>
 
             <div className="space-y-4">
@@ -3346,7 +3346,7 @@ const ProcessingOverlay = ({ isLight, steps, categories, sources, t }: { isLight
                             {step.status === 'pending' && <div className="w-2 h-2 rounded-full bg-current"></div>}
                         </div>
                         <div className="flex-1">
-                            <p className={`text-sm font-bold ${step.status === 'active' ? (isLight ? 'text-indigo-600' : 'text-white') : step.status === 'skipped' ? 'text-slate-500' : (isLight ? 'text-slate-700' : 'text-slate-300')}`}>
+                            <p className={`text-sm font-bold ${step.status === 'active' ? (isLight ? 'text-indigo-600' : 'text-white') : step.status === 'skipped' ? 'text-slate-500' : (isLight ? 'text-mystic-text' : 'text-slate-300')}`}>
                                 {step.label}
                             </p>
                             
@@ -3428,9 +3428,9 @@ const VideoResultModal = ({ onClose, url, t, isLight }: { onClose: () => void, u
 
     return (
         <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className={`w-[95%] max-w-2xl ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-2xl overflow-hidden shadow-2xl relative max-h-[85vh] flex flex-col`}>
+            <div className={`w-[95%] max-w-2xl ${isLight ? 'bg-mystic-card' : 'bg-dream-card'} border border-fuchsia-500/30 rounded-2xl overflow-hidden shadow-2xl relative max-h-[85vh] flex flex-col`}>
                 <div className="px-5 py-4 border-b border-white/10 flex justify-between items-center shrink-0">
-                    <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.video_ready}</h2>
+                    <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-mystic-text' : 'text-white'}`}>{t.ui.video_ready}</h2>
                     <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
                         <span className="material-icons">close</span>
                     </button>
@@ -3476,12 +3476,12 @@ const StyleSelectionModal = ({ onSelect, t, isLight }: { onSelect: (quality: 'no
 
     return (
         <div className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className={`w-[95%] max-w-md ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-2xl overflow-hidden shadow-2xl relative max-h-[85vh] flex flex-col`}>
+            <div className={`w-[95%] max-w-md ${isLight ? 'bg-mystic-card' : 'bg-dream-card'} border border-fuchsia-500/30 rounded-2xl overflow-hidden shadow-2xl relative max-h-[85vh] flex flex-col`}>
                 <div className="px-5 py-4 border-b border-white/10 shrink-0">
-                    <h2 className={`text-2xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'} text-center`}>
+                    <h2 className={`text-2xl font-mystic font-bold ${isLight ? 'text-mystic-text' : 'text-white'} text-center`}>
                         {t.ui.choose_image_style}
                     </h2>
-                    <p className={`text-sm ${isLight ? 'text-gray-600' : 'text-slate-400'} text-center mt-2`}>
+                    <p className={`text-sm ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'} text-center mt-2`}>
                         {t.ui.choose_style_desc || 'Wähle einen Stil für dein Traumbild'}
                     </p>
                 </div>
@@ -3512,7 +3512,7 @@ const StyleSelectionModal = ({ onSelect, t, isLight }: { onSelect: (quality: 'no
                                     <div className={`text-lg font-bold ${isLight ? 'text-gray-900' : 'text-white'}`}>
                                         {style.label}
                                     </div>
-                                    <div className={`text-xs ${isLight ? 'text-gray-600' : 'text-slate-400'} mt-1`}>
+                                    <div className={`text-xs ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'} mt-1`}>
                                         {style.desc}
                                     </div>
                                 </button>
@@ -3551,9 +3551,9 @@ const StyleSelectionModal = ({ onSelect, t, isLight }: { onSelect: (quality: 'no
 
 const ImageResultModal = ({ onClose, url, t, isLight }: { onClose: () => void, url: string | null, t: any, isLight: boolean }) => (
     <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className={`w-[95%] max-w-lg ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-fuchsia-500/30 rounded-2xl overflow-hidden shadow-2xl relative max-h-[85vh] flex flex-col`}>
+            <div className={`w-[95%] max-w-lg ${isLight ? 'bg-mystic-card' : 'bg-dream-card'} border border-fuchsia-500/30 rounded-2xl overflow-hidden shadow-2xl relative max-h-[85vh] flex flex-col`}>
                 <div className="px-5 py-4 border-b border-white/10 flex justify-between items-center shrink-0">
-                    <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.image_ready}</h2>
+                    <h2 className={`text-xl font-mystic font-bold ${isLight ? 'text-mystic-text' : 'text-white'}`}>{t.ui.image_ready}</h2>
                     <button aria-label="Close" onClick={onClose} className="w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center">
                         <span className="material-icons">close</span>
                     </button>
@@ -3588,7 +3588,7 @@ const AudioUploadConfirmModal = ({ onClose, t, isLight }: { onClose: () => void,
 
     return (
         <div className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className={`w-[95%] max-w-md ${isLight ? 'bg-white' : 'bg-[#1a0b2e]'} border ${isLight ? 'border-purple-200' : 'border-purple-500/30'} rounded-2xl p-5 shadow-2xl max-h-[85vh] overflow-y-auto`}>
+            <div className={`w-[95%] max-w-md ${isLight ? 'bg-mystic-card' : 'bg-dream-deep'} border ${isLight ? 'border-purple-200' : 'border-purple-500/30'} rounded-2xl p-5 shadow-2xl max-h-[85vh] overflow-y-auto`}>
                 <div className="text-center mb-6">
                     <div className="text-6xl mb-4 animate-bounce">🎤✨</div>
                     <h2 className={`text-2xl font-bold mb-3 ${isLight ? 'text-purple-900' : 'text-white'}`}>{t.ui.upload_confirm_title}</h2>
@@ -3618,9 +3618,9 @@ const NavBtn = ({ icon, label, active, onClick, isLight }: { icon: string, label
 
 const InfoModal = ({ onClose, data, t, isLight }: { onClose: () => void, data: any, t: any, isLight: boolean }) => {
     if (!data) return null;
-    const modalBg = isLight ? 'bg-white/95 backdrop-blur-md border-indigo-100/60' : 'bg-[#0f0b1a]/95 backdrop-blur-md border-fuchsia-500/20';
-    const textHead = isLight ? 'text-indigo-900' : 'text-white';
-    const textBody = isLight ? 'text-slate-700' : 'text-slate-300';
+    const modalBg = isLight ? 'bg-white/95 backdrop-blur-md border-indigo-100/60' : 'bg-dream-surface/95 backdrop-blur-md border-fuchsia-500/20';
+    const textHead = isLight ? 'text-mystic-text' : 'text-white';
+    const textBody = isLight ? 'text-mystic-text' : 'text-slate-300';
     const accentBg = isLight ? 'bg-indigo-50' : 'bg-white/5';
     const accentBorder = isLight ? 'border-indigo-200' : 'border-white/10';
     

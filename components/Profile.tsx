@@ -91,7 +91,7 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
     // Styles
     const textMain = isLight ? 'text-slate-900' : 'text-white';
     const textSub = isLight ? 'text-slate-600' : 'text-slate-400';
-    const bgCard = isLight ? 'bg-white border-slate-200 shadow-lg' : 'bg-[#0f0518]/80 border-white/10 shadow-2xl';
+    const bgCard = isLight ? 'bg-white border-slate-200 shadow-lg' : 'bg-dream-card/80 border-white/10 shadow-2xl';
     const bgElement = isLight ? 'bg-slate-100 border-slate-200' : 'bg-white/5 border-white/10';
 
     // Default structure to prevent crashes
@@ -261,7 +261,7 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
                     
                     <div className="flex justify-between items-end mb-4">
                         <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
-                            <div className={`w-24 h-24 rounded-full p-1 ${isLight ? 'bg-white' : 'bg-[#0f0518]'} border border-white/20 shadow-xl`}>
+                            <div className={`w-24 h-24 rounded-full p-1 ${isLight ? 'bg-mystic-card' : 'bg-dream-card'} border border-white/20 shadow-xl`}>
                                 <div className="w-full h-full rounded-full bg-slate-900 overflow-hidden flex items-center justify-center relative">
                                      {displayProfile.avatarUrl ? <img src={displayProfile.avatarUrl} alt="Profile" className="w-full h-full object-cover" /> : <span className="text-4xl">🧙‍♂️</span>}
                                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><span className="material-icons text-white">edit</span></div>
@@ -461,7 +461,7 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
             {/* Category Modal */}
             {showCategoryModal && (
                 <div className="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300" onClick={() => setShowCategoryModal(false)}>
-                     <div className={`w-full max-w-sm ${isLight ? 'bg-white' : 'bg-[#1a0b2e]'} border border-fuchsia-500/30 rounded-3xl p-6 shadow-2xl`} onClick={e => e.stopPropagation()}>
+                     <div className={`w-full max-w-sm ${isLight ? 'bg-white' : 'bg-dream-deep'} border border-fuchsia-500/30 rounded-3xl p-6 shadow-2xl`} onClick={e => e.stopPropagation()}>
                          <div className="flex justify-between items-center mb-4">
                              <h3 className={`text-lg font-bold font-mystic ${textMain}`}>{t.new_story}</h3>
                              <button onClick={() => setShowCategoryModal(false)} className="w-11 h-11 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-colors" aria-label="Close"><span className="material-icons text-sm">close</span></button>
@@ -491,7 +491,7 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
             {/* Selected Dream Modal - UPDATED with Video Button & Share Buttons */}
             {selectedDream && (
                 <div className="fixed inset-0 z-[70] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 animate-in zoom-in-95 duration-300" onClick={() => setSelectedDream(null)}>
-                     <div className="bg-[#0f0518] border border-white/10 w-full max-w-lg h-[85vh] rounded-3xl overflow-y-auto relative flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
+                     <div className="bg-dream-card border border-white/10 w-full max-w-lg h-[85vh] rounded-3xl overflow-y-auto relative flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
                          <div className="h-64 bg-slate-900 relative shrink-0">
                              {selectedDream.imageUrl ? <img src={selectedDream.imageUrl} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-white/20"><span className="material-icons text-6xl">image</span></div>}
                              <button onClick={() => setSelectedDream(null)} className="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full text-white flex items-center justify-center hover:bg-black/70"><span className="material-icons">close</span></button>
