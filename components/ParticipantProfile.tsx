@@ -259,6 +259,22 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
 
         {!loading && participant && (
           <>
+            {/* Read-Only Research Banner */}
+            <div className={`rounded-xl border p-4 mb-4 flex items-center gap-3 ${isLight ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-amber-900/20 border-amber-700/30 text-amber-200'}`}>
+              <span className="text-xl">🔬</span>
+              <div>
+                <div className="font-semibold text-sm">
+                  {language === 'de' ? 'Wissenschaftliches Forschungsprofil — Nur Lesen' : 'Scientific Research Profile — Read Only'}
+                </div>
+                <div className="text-xs opacity-70">
+                  {language === 'de' ? 'Keine Interaktion moeglich. Originaldaten aus der Studie.' : 'No interaction possible. Original data from the study.'}
+                </div>
+              </div>
+              <span className={`ml-auto px-2 py-0.5 rounded text-xs font-mono ${isLight ? 'bg-gray-200 text-gray-600' : 'bg-gray-700 text-gray-300'}`}>
+                READ ONLY
+              </span>
+            </div>
+
             {/* Participant Info Card */}
             <div className={`rounded-xl border p-6 mb-6 ${cardBg}`}>
               <div className="flex items-start justify-between flex-wrap gap-4">
@@ -373,17 +389,19 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                   >
                     {/* Dream Header */}
                     <div className="flex flex-wrap gap-3 items-center mb-3 text-sm">
-                      <span className="font-bold">
-                        {t.dreamId}: {dream.dream_id}
+                      <span className={`font-bold px-2 py-0.5 rounded ${isLight ? 'bg-indigo-100 text-indigo-800' : 'bg-indigo-900/40 text-indigo-300'}`}>
+                        {dream.dream_night
+                          ? `${language === 'de' ? 'Nacht' : 'Night'} ${dream.dream_night}`
+                          : dream.dream_id}
                       </span>
                       {dream.dream_date && (
                         <span className="opacity-60">
-                          {t.date}: {dream.dream_date}
+                          {dream.dream_date}
                         </span>
                       )}
-                      {dream.dream_night && (
-                        <span className="opacity-60">
-                          {t.night}: {dream.dream_night}
+                      {!dream.dream_date && dream.dream_night && (
+                        <span className="opacity-40 text-xs">
+                          {language === 'de' ? `Nacht ${dream.dream_night} der Studie` : `Night ${dream.dream_night} of the study`}
                         </span>
                       )}
                     </div>
@@ -438,6 +456,13 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                         </div>
                       </div>
                     )}
+
+                    {/* No interpretation notice */}
+                    <div className="mt-2 text-xs opacity-40 italic">
+                      {language === 'de'
+                        ? 'Keine Deutung in der Originalstudie vorhanden'
+                        : 'No interpretation available in the original study'}
+                    </div>
                   </div>
                 ))}
               </div>
