@@ -750,7 +750,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
   // Select user from result list → open ParticipantProfile
   const handleResultClick = useCallback((user: SimUser) => {
     if (onSelectParticipant) {
-      onSelectParticipant(user.id);
+      onSelectParticipant(user.name);
     } else {
       openProfile(user);
     }
@@ -1293,7 +1293,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
               {t.close}
             </button>
             <button
-              onClick={() => { handleClosePanel(); if (onSelectParticipant && selectedUser) { onSelectParticipant(selectedUser.id); } else if (selectedUser) { openProfile(selectedUser); } }}
+              onClick={() => { handleClosePanel(); if (onSelectParticipant && selectedUser) { onSelectParticipant(selectedUser.name); } else if (selectedUser) { openProfile(selectedUser); } }}
               className="flex-1 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
             >
               <span className="material-icons text-base align-middle mr-1">person</span>
