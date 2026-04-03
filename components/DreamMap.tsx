@@ -6,6 +6,7 @@ import { FEATURE_FLAGS } from '../config/featureFlags';
 // import BotProfileModal from './BotProfileModal';
 // import { useBotFriends } from '../hooks/useBotFriends';
 import { fetchMapDreams, type MapDreamUser } from '../services/dreamMapService';
+import { supabase } from '../services/supabaseClient';
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 interface DreamMapProps {
@@ -962,40 +963,91 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const lastTouchDist = useRef<number | null>(null);
 
-  // Init users: versuche echte Daten, Fallback auf BASE_USERS
+  // Init users: lade echte Forschungsdaten aus Supabase
   useEffect(() => {
     let cancelled = false;
 
-    fetchMapDreams().then(liveUsers => {
+    async function loadResearchData(): Promise<SimUser[]> {
+      try {
+        const { data: markers } = await supabase
+          .from('study_map_markers')
+          .select('study_code, lat, lng, city, country, dream_count, map_color')
+          .limit(500);
+
+        const { data: studies } = await supabase
+          .from('research_studies')
+          .select('study_code, study_name, principal_investigator, total_dreams')
+          .limit(200);
+
+        const studyMap = new Map((studies || []).map((s: any) => [s.study_code, s]));
+
+        if (markers && markers.length > 0) {
+          return markers.map((m: any, i: number) => {
+            const study = studyMap.get(m.study_code) as any;
+            return {
+              id: `research-${m.study_code}-${i}`,
+              name: study?.study_name?.substring(0, 30) || m.study_code,
+              avatar: '🔬',
+              city: m.city || '',
+              country: m.country || '',
+              lat: m.lat,
+              lng: m.lng,
+              dreamSummary: `${m.dream_count || 0} Traumberichte — ${study?.principal_investigator || 'SDDb'}`,
+              category: 'spiritual',
+              mood: 'peaceful',
+              matchPct: Math.min(98, 40 + (m.dream_count || 0) / 100),
+              privacy: 'public' as const,
+              memberSince: '',
+              bio: study?.study_name || '',
+              dreamCount: m.dream_count || 0,
+              matchCount: 0,
+              favCategory: 'spiritual',
+            };
+          });
+        }
+      } catch (e) {
+        console.warn('DreamMap: Supabase nicht erreichbar', e);
+      }
+      return [];
+    }
+
+    Promise.all([fetchMapDreams(), loadResearchData()]).then(([liveUsers, researchUsers]) => {
       if (cancelled) return;
 
       let finalUsers: SimUser[];
 
+      // Kombiniere: erst echte Supabase-Daten, dann dreamMapService Daten
+      const allLive = [...researchUsers];
       if (liveUsers && liveUsers.length > 0) {
-        // Konvertiere MapDreamUser → SimUser (kompatibles Superset)
-        const mapped: SimUser[] = liveUsers.map((u: MapDreamUser) => ({
-          id: u.id,
-          name: u.name,
-          avatar: u.avatar,
-          city: u.city,
-          country: u.country,
-          lat: u.lat,
-          lng: u.lng,
-          dreamSummary: u.dreamSummary,
-          category: u.category,
-          mood: u.mood,
-          matchPct: u.matchPct,
-          privacy: u.privacy,
-          memberSince: u.memberSince,
-          bio: u.bio,
-          dreamCount: u.dreamCount,
-          matchCount: u.matchCount,
-          favCategory: u.favCategory,
-        }));
-        finalUsers = mapped;
+        const mapped: SimUser[] = liveUsers
+          .filter((u: MapDreamUser) => !u.id.startsWith('research-')) // Keine Duplikate
+          .map((u: MapDreamUser) => ({
+            id: u.id,
+            name: u.name,
+            avatar: u.avatar,
+            city: u.city,
+            country: u.country,
+            lat: u.lat,
+            lng: u.lng,
+            dreamSummary: u.dreamSummary,
+            category: u.category,
+            mood: u.mood,
+            matchPct: u.matchPct,
+            privacy: u.privacy,
+            memberSince: u.memberSince,
+            bio: u.bio,
+            dreamCount: u.dreamCount,
+            matchCount: u.matchCount,
+            favCategory: u.favCategory,
+          }));
+        allLive.push(...mapped);
+      }
+
+      if (allLive.length > 0) {
+        finalUsers = allLive;
         setIsLiveData(true);
       } else {
-        // Fallback: simulierte Bot-User
+        // Letzter Fallback: BASE_USERS (nur wenn gar nichts von Supabase kommt)
         finalUsers = generateUsers(dreams);
         setIsLiveData(false);
       }
