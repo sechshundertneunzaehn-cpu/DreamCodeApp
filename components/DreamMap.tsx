@@ -574,7 +574,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
     const loadRealUsers = async () => {
       const { data } = await supabase
         .from('research_participants')
-        .select('id, participant_id, country, lat, lng, dream_count, created_at')
+        .select('id, participant_id, country, lat, lng, dream_count')
         .not('lat', 'is', null)
         .not('lng', 'is', null)
         .limit(500);
@@ -610,7 +610,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
           mood: 'calm',
           matchPct: Math.floor(Math.random() * 30) + 70,
           privacy: 'public' as const,
-          memberSince: new Date(p.created_at || '2024').getFullYear().toString(),
+          memberSince: '2024-01',
           dreamCount: p.dream_count || 0,
           matchCount: 0,
           favCategory: 'nature'
