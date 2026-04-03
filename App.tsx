@@ -2822,6 +2822,21 @@ const App: React.FC = () => {
                     {view === View.PROFILE && <Profile language={language} dreams={dreams} userProfile={userProfile} onUpdateProfile={handleSaveProfile} onUpdateDream={handleUpdateDream} onGenerateVideo={handleGenerateVideo} onGenerateNarrationVideo={handleGenerateNarrationVideo} onGenerateUserVoiceVideo={handleGenerateUserVoiceVideo} onPlayVideo={(url) => { setVideoUrl(url); setShowVideoModal(true); }} fontSize={FontSize.MEDIUM} themeMode={themeMode} />}
             </main>
 
+            {/* Legal Footer Links */}
+            {view === View.HOME && (
+              <div className="text-center py-4 pb-20 text-xs opacity-50 relative z-10">
+                <a href="/impressum" className="hover:underline">Impressum</a>
+                {' · '}
+                <a href="/datenschutz" className="hover:underline">Datenschutz</a>
+                {' · '}
+                <a href="/agb" className="hover:underline">AGB</a>
+                {' · '}
+                <a href="/samedream" className="hover:underline">SameDream</a>
+                {' · '}
+                <a href="/dreamatlas" className="hover:underline">DreamAtlas</a>
+              </div>
+            )}
+
             {view === View.LIVE_SESSION ? (
                     <LiveSession
                         key="live-session"

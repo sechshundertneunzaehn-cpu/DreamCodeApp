@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenschutz & Privatsphäre — Traumcode</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0a0612;--ink2:#110e20;
+  --gold:#d4af37;--violet:#7c3aed;--violet-pale:#a855f7;
+  --paper:#f0eeff;--text2:#a89fc8;--text3:#6b5f8a;
+  --green:#22a878;--border:rgba(124,58,237,0.15);
+}
+body{background:var(--ink);color:var(--paper);font-family:'Outfit',sans-serif;font-weight:300;line-height:1.8;}
+header{padding:32px 40px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:20px;letter-spacing:3px;}
+.logo em{color:var(--gold);font-style:normal;}
+.back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);text-decoration:none;}
+.back:hover{color:var(--gold);}
+main{max-width:720px;margin:0 auto;padding:60px 40px 100px;}
+.hero-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+h1{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;margin-bottom:8px;line-height:1.2;}
+.updated{font-size:11px;color:var(--text3);letter-spacing:1px;margin-bottom:48px;}
+.toc{background:rgba(124,58,237,0.06);border:1px solid var(--border);border-radius:12px;padding:24px 28px;margin-bottom:48px;}
+.toc-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.toc a{display:block;font-size:12px;color:var(--text2);text-decoration:none;padding:4px 0;border-bottom:1px solid rgba(124,58,237,0.08);transition:color 0.2s;}
+.toc a:last-child{border-bottom:none;}
+.toc a:hover{color:var(--gold);}
+.section{margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid var(--border);}
+.section:last-child{border-bottom:none;}
+.section-num{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+h2{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:16px;color:var(--paper);}
+p{font-size:13px;color:var(--text2);margin-bottom:14px;}
+.highlight-box{background:rgba(34,168,120,0.08);border:1px solid rgba(34,168,120,0.2);border-radius:10px;padding:18px 22px;margin:20px 0;}
+.highlight-box p{color:rgba(245,240,235,0.7);margin:0;font-size:12px;}
+.highlight-box strong{color:var(--green);}
+ul{list-style:none;margin:12px 0 16px;}
+ul li{font-size:13px;color:var(--text2);padding:6px 0;border-bottom:1px solid rgba(124,58,237,0.06);display:flex;gap:10px;align-items:flex-start;}
+ul li::before{content:'→';color:var(--violet-pale);flex-shrink:0;font-size:11px;margin-top:2px;}
+.contact-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:24px;margin-top:20px;}
+.contact-card p{margin:4px 0;font-size:12px;color:var(--text2);}
+.contact-card strong{color:var(--paper);}
+@media(max-width:600px){main{padding:40px 24px 80px;}header{padding:20px 24px;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Traum<em>code</em></div>
+  <a href="/" class="back">← Zurück zur App</a>
+</header>
+<main>
+  <div class="hero-tag">Rechtliches</div>
+  <h1>Datenschutz &amp;<br>Privatsphäre</h1>
+  <div class="updated">Zuletzt aktualisiert: April 2025 · DSGVO-konform</div>
+
+  <div class="highlight-box">
+    <p><strong>Kurzversion:</strong> Deine Träume gehören dir. Wir verkaufen keine persönlichen Daten. Du kannst alle deine Daten jederzeit exportieren oder löschen. Ende-zu-Ende verschlüsselt.</p>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Inhalt</div>
+    <a href="#daten">1. Welche Daten wir sammeln</a>
+    <a href="#nutzung">2. Wie wir Daten nutzen</a>
+    <a href="#traumdaten">3. Deine Traumdaten — besonderer Schutz</a>
+    <a href="#ki">4. KI &amp; wissenschaftliche Datenbanken</a>
+    <a href="#rechte">5. Deine Rechte (DSGVO)</a>
+    <a href="#cookies">6. Cookies &amp; Tracking</a>
+    <a href="#kinder">7. Kinder &amp; Jugendschutz</a>
+    <a href="#kontakt">8. Kontakt &amp; Datenschutzbeauftragter</a>
+  </div>
+
+  <div class="section" id="daten">
+    <div class="section-num">01</div>
+    <h2>Welche Daten wir sammeln</h2>
+    <p>Traumcode sammelt nur Daten die für den Betrieb der App unbedingt notwendig sind:</p>
+    <ul>
+      <li>E-Mail-Adresse und Passwort (für dein Konto)</li>
+      <li>Traumberichte die du aktiv eingibst oder aufnimmst</li>
+      <li>Spracheinstellungen und gewählte Traditionen</li>
+      <li>Anonymisierte Nutzungsstatistiken (Anzahl Deutungen, App-Version)</li>
+      <li>Geräteinformationen für technischen Support (Betriebssystem, Browser-Version)</li>
+    </ul>
+    <p>Wir sammeln <strong style="color:var(--paper)">keine</strong> Standortdaten, keine Kontakte, keinen Zugriff auf Kamera oder Mikrofon ohne explizite Erlaubnis.</p>
+  </div>
+
+  <div class="section" id="nutzung">
+    <div class="section-num">02</div>
+    <h2>Wie wir Daten nutzen</h2>
+    <ul>
+      <li>Bereitstellung der Traumdeutungs-KI und aller App-Funktionen</li>
+      <li>Matching mit ähnlichen anonymisierten Träumen auf der Traumkarte</li>
+      <li>Verbesserung der KI-Deutungsqualität durch aggregierte Muster</li>
+      <li>Technischer Support und Fehlerbehebung</li>
+      <li>Sicherheit: Erkennung von Missbrauch und unautorisierten Zugriffen</li>
+    </ul>
+    <div class="highlight-box">
+      <p><strong>Wir verkaufen niemals</strong> deine persönlichen Daten an Dritte. Wir zeigen keine personalisierte Werbung. Traumcode ist werbefrei.</p>
+    </div>
+  </div>
+
+  <div class="section" id="traumdaten">
+    <div class="section-num">03</div>
+    <h2>Deine Traumdaten — besonderer Schutz</h2>
+    <p>Traumberichte sind hochsensible persönliche Daten. Wir behandeln sie mit dem höchsten Schutzniveau:</p>
+    <ul>
+      <li>Alle Traumdaten werden verschlüsselt gespeichert (AES-256)</li>
+      <li>Kein Traumcode-Mitarbeiter liest deine privaten Träume</li>
+      <li>Für die Traumkarte werden nur explizit freigegebene Träume angezeigt — anonym</li>
+      <li>Du kannst jeden Traum jederzeit löschen — sofortige, unwiderrufliche Löschung</li>
+      <li>Export aller deiner Traumdaten als CSV jederzeit kostenlos möglich</li>
+    </ul>
+    <p>Wenn du Träume für die Traumkarte (kollektives Matching) freigibst, werden sie vollständig anonymisiert — kein Name, kein Profilbild, kein Standort wird verknüpft.</p>
+  </div>
+
+  <div class="section" id="ki">
+    <div class="section-num">04</div>
+    <h2>KI &amp; wissenschaftliche Datenbanken</h2>
+    <p>Traumcode nutzt Google Gemini API für KI-Deutungen. Deine Traumtexte werden zur Verarbeitung an Google Gemini übertragen — unter den Datenschutzbedingungen der Google Cloud. Wir nutzen ausschließlich die Business-API mit deaktivierten Trainingsfunktionen: deine Träume werden nicht zum Training von Google-Modellen verwendet.</p>
+    <p>Die wissenschaftlichen Vergleichsdaten (Sleep &amp; Dream Database, Dryad-Datensatz) sind vollständig anonymisierte Forschungsdaten aus lizenzierten Quellen — kein Bezug zu Traumcode-Nutzern.</p>
+    <div class="highlight-box">
+      <p><strong>Transparenz-Prinzip:</strong> Bei jeder KI-Deutung siehst du welche wissenschaftlichen Quellen genutzt wurden — mit Link zur Originalpublikation. Keine Black-Box.</p>
+    </div>
+  </div>
+
+  <div class="section" id="rechte">
+    <div class="section-num">05</div>
+    <h2>Deine Rechte (DSGVO)</h2>
+    <p>Als Nutzer in der EU und weltweit hast du folgende Rechte:</p>
+    <ul>
+      <li><strong style="color:var(--paper)">Auskunft:</strong> Welche Daten wir über dich speichern — Antwort innerhalb 30 Tagen</li>
+      <li><strong style="color:var(--paper)">Berichtigung:</strong> Korrektur unrichtiger Daten jederzeit in den Einstellungen</li>
+      <li><strong style="color:var(--paper)">Löschung:</strong> Vollständige Löschung deines Kontos und aller Daten — innerhalb 72 Stunden</li>
+      <li><strong style="color:var(--paper)">Export:</strong> Alle deine Traumdaten als CSV — kostenlos, jederzeit, in den Einstellungen</li>
+      <li><strong style="color:var(--paper)">Widerspruch:</strong> Gegen jede Verarbeitung, die über den Betrieb der App hinausgeht</li>
+      <li><strong style="color:var(--paper)">Beschwerde:</strong> Bei der zuständigen Datenschutzbehörde (in Deutschland: BfDI)</li>
+    </ul>
+  </div>
+
+  <div class="section" id="cookies">
+    <div class="section-num">06</div>
+    <h2>Cookies &amp; Tracking</h2>
+    <p>Traumcode verwendet ausschließlich technisch notwendige Cookies:</p>
+    <ul>
+      <li>Session-Cookie für dein Login (läuft nach 30 Tagen ab)</li>
+      <li>Spracheinstellung (localStorage, kein Server)</li>
+      <li>Supabase Auth-Token (verschlüsselt, httpOnly)</li>
+    </ul>
+    <p>Wir verwenden <strong style="color:var(--paper)">kein</strong> Google Analytics, Facebook Pixel, oder andere Drittanbieter-Tracking-Tools. Keine Remarketing. Keine Verhaltensprofile.</p>
+  </div>
+
+  <div class="section" id="kinder">
+    <div class="section-num">07</div>
+    <h2>Kinder &amp; Jugendschutz</h2>
+    <p>Traumcode richtet sich an Nutzer ab 16 Jahren. Wir sammeln wissentlich keine Daten von Kindern unter 16 Jahren. Falls du Kenntnis hast dass ein Kind unter 16 ein Konto erstellt hat, kontaktiere uns umgehend — wir löschen das Konto sofort.</p>
+  </div>
+
+  <div class="section" id="kontakt">
+    <div class="section-num">08</div>
+    <h2>Kontakt &amp; Datenschutzbeauftragter</h2>
+    <p>Für alle Datenschutzfragen, Auskunftsersuchen und Löschanträge:</p>
+    <div class="contact-card">
+      <p><strong>Traumcode | Dream Code</strong></p>
+      <p>E-Mail: <strong>privacy@dreamcodeapp.com</strong></p>
+      <p>Antwortzeit: innerhalb von 5 Werktagen</p>
+      <p style="margin-top:12px;color:var(--text3);font-size:11px;">Bei Anfragen zur DSGVO: Bitte "DSGVO-Anfrage" im Betreff angeben. Wir antworten innerhalb der gesetzlichen Fristen (max. 30 Tage).</p>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
