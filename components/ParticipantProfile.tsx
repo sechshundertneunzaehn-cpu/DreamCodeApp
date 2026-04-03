@@ -290,7 +290,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
               <div className="flex items-start justify-between flex-wrap gap-4">
                 <div className="space-y-2 flex-1">
                   <h2 className="text-xl font-bold">
-                    {participant.participant_id}
+                    {participant.participant_id || `P-${participant.id?.slice(0,8)}`}
                   </h2>
 
                   {study && (
