@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import 'mapbox-gl/dist/mapbox-gl.css';
 
 @tailwind base;
 @tailwind components;
@@ -50,24 +51,41 @@
     color: transparent !important;
   }
 
-  /* Preserve white text on colored/gradient backgrounds */
-  .light [class*="bg-gradient"] .text-white,
-  .light [class*="bg-gradient"] > *,
+  /* === WHITE TEXT: Nur auf Gradient-Buttons mit explizitem text-white === */
   .light [class*="bg-gradient"][class*="text-white"],
-  .light [class*="bg-violet-"] *,
-  .light [class*="bg-fuchsia-"] *,
-  .light [class*="bg-indigo-"] *,
-  .light [class*="bg-purple-"] *,
-  .light [class*="bg-emerald-"] *,
-  .light [class*="bg-red-"] *,
-  .light [class*="bg-amber-"] *,
-  .light [class*="bg-blue-"] *,
-  .light [class*="bg-pink-"] *,
-  .light [class*="bg-orange-"] *,
-  .light [class*="bg-black"] *,
   .light .btn-mystic,
   .light .btn-mystic * {
     color: #ffffff !important;
+  }
+
+  /* === WHITE TEXT: Nur dunkle Shades (500-900) === */
+  .light [class*="bg-violet-500"] *, .light [class*="bg-violet-600"] *, .light [class*="bg-violet-700"] *, .light [class*="bg-violet-800"] *, .light [class*="bg-violet-900"] *,
+  .light [class*="bg-fuchsia-500"] *, .light [class*="bg-fuchsia-600"] *, .light [class*="bg-fuchsia-700"] *, .light [class*="bg-fuchsia-800"] *, .light [class*="bg-fuchsia-900"] *,
+  .light [class*="bg-indigo-500"] *, .light [class*="bg-indigo-600"] *, .light [class*="bg-indigo-700"] *, .light [class*="bg-indigo-800"] *, .light [class*="bg-indigo-900"] *,
+  .light [class*="bg-purple-500"] *, .light [class*="bg-purple-600"] *, .light [class*="bg-purple-700"] *, .light [class*="bg-purple-800"] *, .light [class*="bg-purple-900"] *,
+  .light [class*="bg-emerald-500"] *, .light [class*="bg-emerald-600"] *, .light [class*="bg-emerald-700"] *, .light [class*="bg-emerald-800"] *, .light [class*="bg-emerald-900"] *,
+  .light [class*="bg-red-500"] *, .light [class*="bg-red-600"] *, .light [class*="bg-red-700"] *, .light [class*="bg-red-800"] *, .light [class*="bg-red-900"] *,
+  .light [class*="bg-amber-500"] *, .light [class*="bg-amber-600"] *, .light [class*="bg-amber-700"] *, .light [class*="bg-amber-800"] *, .light [class*="bg-amber-900"] *,
+  .light [class*="bg-blue-500"] *, .light [class*="bg-blue-600"] *, .light [class*="bg-blue-700"] *, .light [class*="bg-blue-800"] *, .light [class*="bg-blue-900"] *,
+  .light [class*="bg-pink-500"] *, .light [class*="bg-pink-600"] *, .light [class*="bg-pink-700"] *, .light [class*="bg-pink-800"] *, .light [class*="bg-pink-900"] *,
+  .light [class*="bg-orange-500"] *, .light [class*="bg-orange-600"] *, .light [class*="bg-orange-700"] *, .light [class*="bg-orange-800"] *, .light [class*="bg-orange-900"] *,
+  .light [class*="bg-gray-500"] *, .light [class*="bg-gray-600"] *, .light [class*="bg-gray-700"] *, .light [class*="bg-gray-800"] *, .light [class*="bg-gray-900"] *,
+  .light [class*="bg-slate-500"] *, .light [class*="bg-slate-600"] *, .light [class*="bg-slate-700"] *, .light [class*="bg-slate-800"] *, .light [class*="bg-slate-900"] * {
+    color: #ffffff !important;
+  }
+
+  /* Reset dark text inside light containers (modals in dark backdrops) */
+  .light [class*="bg-mystic-"] *,
+  .light [class*="bg-white"] *,
+  .light [class*="bg-gray-50"] *,
+  .light [class*="bg-gray-100"] *,
+  .light [class*="bg-gray-200"] * {
+    color: #1a1530 !important;
+  }
+
+  /* Disabled buttons: sichtbarer Kontrast */
+  .light [class*="bg-gray-600"] .text-gray-400 {
+    color: #9ca3af !important;
   }
 
   /* Preserve accent/brand colors */
@@ -78,7 +96,11 @@
   .light .text-indigo-500,
   .light .text-indigo-600,
   .light .text-purple-500,
-  .light .text-purple-600 {
+  .light .text-purple-600,
+  .light .text-emerald-600,
+  .light .text-emerald-700,
+  .light .text-amber-600,
+  .light .text-amber-700 {
     color: inherit !important;
   }
 

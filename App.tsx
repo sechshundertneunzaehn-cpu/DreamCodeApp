@@ -23,6 +23,9 @@ import DatenschutzPage from './components/DatenschutzPage';
 import ImpressumPage from './components/ImpressumPage';
 import ForschungPage from './components/ForschungPage';
 import CensusPage from './components/CensusPage';
+import ScientificDreamMap from './components/ScientificDreamMap';
+import ResearchStudies from './components/ResearchStudies';
+import ParticipantProfile from './components/ParticipantProfile';
 import TrustBanner from './components/TrustBanner';
 import VoiceSelector, { VoiceCharacter, VOICE_CHARACTERS } from './components/VoiceSelector';
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
@@ -1454,6 +1457,8 @@ interface SubscriptionModalProps {
 
 const App: React.FC = () => {
     const [view, setView] = useState<View>(View.HOME);
+    const [selectedParticipantId, setSelectedParticipantId] = useState<string>('');
+    const [selectedStudyCode, setSelectedStudyCode] = useState<string>('');
     const [language, setLanguageState] = useState<Language>(() => {
         const saved = localStorage.getItem('dreamcode_language');
         if (saved && Object.values(Language).includes(saved as Language)) return saved as Language;
@@ -2569,12 +2574,14 @@ const App: React.FC = () => {
                           el.style.height = Math.min(el.scrollHeight, 168) + 'px';
                       }}
                   />
-                  <div className="flex justify-end items-center px-3 pb-3">
+                  <div className="flex justify-between items-center px-3 pb-3">
+                      <button onClick={() => setShowSpeechModal(true)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all ${isLight ? 'text-violet-600 hover:bg-violet-100 border border-violet-200' : 'text-violet-400 hover:bg-violet-900/30 border border-violet-500/20'}`}>
+                          <span className="material-icons text-sm">movie_creation</span>
+                          {t.ui.create_dream_video || 'Traumvideo'}
+                      </button>
                       <div className={`text-[10px] font-mono ${isLight ? 'text-[#6b5a80]' : 'text-slate-600'}`}>{dreamInput.length} chars</div>
                   </div>
              </div>
-
-             {/* Audio-Aufnahme-Anzeige entfernt — Aufnahme jetzt im SpeechToVideoModal */}
 
              {/* PRIMARY CTA */}
              <button onClick={() => handleAnalyze()} disabled={loading || !dreamInput} className={`relative w-full py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all mb-4 ${loading || !dreamInput ? (isLight ? 'bg-[#c4bce6]/50 text-[#6b5a80] cursor-not-allowed' : 'bg-slate-800/40 text-slate-600 cursor-not-allowed') : noCredits ? 'bg-slate-800/60 backdrop-blur-md border border-slate-600/40 text-slate-400' : (isLight ? 'bg-gradient-to-r from-[#4c1d95] to-[#7c3aed] text-white shadow-lg shadow-violet-500/40 hover:shadow-xl hover:shadow-violet-500/50 hover:scale-[1.02] active:scale-[0.98]' : 'bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 text-white shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]')}`}>
@@ -2587,15 +2594,10 @@ const App: React.FC = () => {
                   </button>
              )}
 
-             <button onClick={() => setShowSpeechModal(true)} className={`w-full py-3 rounded-xl border mb-4 flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase transition-all ${isLight ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border-violet-200 text-violet-700 hover:border-violet-300 hover:shadow-md' : 'bg-violet-950/30 border-violet-500/20 text-violet-300 hover:border-violet-400/40 hover:bg-violet-900/40'}`}>
-                 <span className="material-icons text-base">movie_creation</span>
-                 {t.ui.create_dream_video || 'Traumvideo erstellen'}
-             </button>
-
              {/* SECONDARY ACTIONS */}
              <div className="grid grid-cols-2 gap-2.5 mb-4">
                  <button
-                    onClick={() => setView(View.DREAM_NETWORK)}
+                    onClick={() => setView(View.DREAM_MAP)}
                     className={`relative py-3 rounded-xl overflow-hidden border group transition-all ${isLight ? 'bg-gradient-to-r from-indigo-50 to-white border-indigo-200' : 'border-indigo-500/20 bg-indigo-950/30 hover:border-indigo-400/40'}`}
                  >
                      <span className={`relative z-10 flex items-center justify-center gap-2 font-bold text-xs tracking-wider uppercase ${isLight ? 'text-indigo-600' : 'text-cyan-200'}`}>
@@ -2816,6 +2818,37 @@ const App: React.FC = () => {
             {view === View.FORSCHUNG && <ForschungPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
             {view === View.CENSUS && <CensusPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
 
+            {view === View.RESEARCH_MAP && (
+                <ScientificDreamMap
+                    language={language}
+                    isLight={isLight}
+                    onClose={() => setView(View.HOME)}
+                    onSelectParticipant={(id) => { setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }}
+                    onSelectStudy={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_STUDIES); }}
+                />
+            )}
+
+            {view === View.RESEARCH_STUDIES && (
+                <ResearchStudies
+                    language={language}
+                    isLight={isLight}
+                    onClose={() => setView(View.HOME)}
+                    onSelectStudy={(code) => setSelectedStudyCode(code)}
+                    onShowOnMap={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_MAP); }}
+                    onSelectParticipant={(id) => { setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }}
+                />
+            )}
+
+            {view === View.RESEARCH_PARTICIPANT && selectedParticipantId && (
+                <ParticipantProfile
+                    participantId={selectedParticipantId}
+                    language={language}
+                    isLight={isLight}
+                    onClose={() => setView(View.RESEARCH_STUDIES)}
+                    onShowOnMap={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_MAP); }}
+                />
+            )}
+
             <main className="relative z-10 p-4 pt-6 pb-24">
                 {view === View.HOME && renderHome()}
                     {view === View.DREAM_HUB && <DreamHub dreams={dreams} language={language} themeMode={themeMode} onClose={() => setView(View.HOME)} />}
@@ -2846,6 +2879,7 @@ const App: React.FC = () => {
                         voiceName={userProfile?.preferredVoice || 'Puck'}
                         selectedCategories={selectedCategories}
                         selectedSources={selectedSources}
+                        themeMode={themeMode}
                     />
             ) : null}
 
@@ -2866,6 +2900,12 @@ const App: React.FC = () => {
                   </button>
                   <button onClick={() => setView(View.CENSUS)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
                     Census
+                  </button>
+                  <button onClick={() => setView(View.RESEARCH_STUDIES)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
+                    {language === 'de' ? 'Studien' : 'Studies'}
+                  </button>
+                  <button onClick={() => setView(View.RESEARCH_MAP)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
+                    {language === 'de' ? 'Weltkarte' : 'World Map'}
                   </button>
                 </div>
                 <p className={`mt-2 ${isLight ? 'text-slate-300' : 'text-slate-600'}`}>
