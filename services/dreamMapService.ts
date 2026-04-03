@@ -265,7 +265,8 @@ export async function fetchMapDreams(): Promise<MapDreamUser[] | null> {
   }
 
   try {
-    const [userDreams, dreamReports] = await Promise.all([
+    // Lade wissenschaftliche Teilnehmer + echte dream_reports
+    const [userDreams, dreamReports, researchParticipants] = await Promise.all([
       fetchFromSupabase<RawUserDream>(
         'user_dreams',
         new URLSearchParams({
@@ -283,10 +284,38 @@ export async function fetchMapDreams(): Promise<MapDreamUser[] | null> {
           limit: '200',
         }),
       ),
+      fetchFromSupabase<{participant_id:string,study_code:string,country:string,dream_count:number}>(
+        'study_map_markers',
+        new URLSearchParams({
+          select: 'study_code,lat,lng,city,country,dream_count,map_color',
+          limit: '500',
+        }),
+      ).catch(() => [] as any[]),
     ])
 
+    // Wissenschaftliche Marker als MapDreamUser
+    const researchUsers: MapDreamUser[] = (researchParticipants || []).map((rp: any, i: number) => ({
+      id: `research-${rp.study_code}-${i}`,
+      name: `🔬 ${rp.study_code}`,
+      avatar: '🔬',
+      city: rp.city || '',
+      country: rp.country || '',
+      lat: rp.lat || 0,
+      lng: rp.lng || 0,
+      category: 'spiritual',
+      mood: 'peaceful',
+      dreamSummary: `${rp.dream_count || 0} wissenschaftliche Traumberichte`,
+      matchPct: 0,
+      privacy: 'partial' as const,
+      memberSince: '',
+      bio: `Forschungsdaten aus Studie ${rp.study_code}`,
+      dreamCount: rp.dream_count || 0,
+      matchCount: 0,
+      favCategory: 'spiritual',
+    }))
+
     // Mindestens ein Datensatz vorhanden?
-    if (userDreams.length === 0 && dreamReports.length === 0) {
+    if (userDreams.length === 0 && dreamReports.length === 0 && researchUsers.length === 0) {
       return null
     }
 
@@ -296,6 +325,7 @@ export async function fetchMapDreams(): Promise<MapDreamUser[] | null> {
       .slice(0, 150)
 
     const result: MapDreamUser[] = [
+      ...researchUsers,
       ...userDreams.map(userDreamToMap),
       ...shuffledReports.map(dreamReportToMap),
     ]
