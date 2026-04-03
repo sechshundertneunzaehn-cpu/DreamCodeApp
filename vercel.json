@@ -1,18 +1,21 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
-  "installCommand": "npm install --legacy-peer-deps",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/samedream",   "destination": "/samedream.html" },
+    { "source": "/dreamatlas",  "destination": "/dreamatlas.html" },
+    { "source": "/impressum",   "destination": "/impressum.html" },
+    { "source": "/datenschutz", "destination": "/datenschutz.html" },
+    { "source": "/agb",         "destination": "/agb.html" },
+    { "source": "/(.*)",        "destination": "/index.html" }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        { "key": "X-Frame-Options",        "value": "DENY" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy",        "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy",     "value": "camera=(), microphone=(), geolocation=()" },
+        { "key": "Cache-Control",          "value": "public, max-age=31536000, immutable" }
       ]
     }
   ]
