@@ -13,6 +13,7 @@ interface DreamMapProps {
   language?: Language | string;
   onClose?: () => void;
   isLight?: boolean;
+  onSelectParticipant?: (id: string) => void;
   // Legacy compat
   themeMode?: string;
 }
@@ -524,6 +525,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
   language = 'en',
   onClose,
   isLight = false,
+  onSelectParticipant,
 }) => {
   const lang = (typeof language === 'string' ? language : String(language)).toLowerCase();
   const t: Translations = TRANSLATIONS[lang] ?? TRANSLATIONS['en'];
@@ -745,10 +747,14 @@ const DreamMap: React.FC<DreamMapProps> = ({
     lastTouchDist.current = null;
   }, []);
 
-  // Select user from result list → open profile
+  // Select user from result list → open ParticipantProfile
   const handleResultClick = useCallback((user: SimUser) => {
-    openProfile(user);
-  }, [openProfile]);
+    if (onSelectParticipant) {
+      onSelectParticipant(user.id);
+    } else {
+      openProfile(user);
+    }
+  }, [onSelectParticipant, openProfile]);
 
   // Stats
   const totalActive = users.length + 1847;
@@ -1287,7 +1293,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
               {t.close}
             </button>
             <button
-              onClick={() => { handleClosePanel(); openProfile(selectedUser); }}
+              onClick={() => { handleClosePanel(); if (onSelectParticipant && selectedUser) { onSelectParticipant(selectedUser.id); } else if (selectedUser) { openProfile(selectedUser); } }}
               className="flex-1 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
             >
               <span className="material-icons text-base align-middle mr-1">person</span>
