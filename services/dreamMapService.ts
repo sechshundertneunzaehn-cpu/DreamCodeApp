@@ -110,15 +110,15 @@ function coordsForSurvey(surveyName: string | null): [number, number] {
   ]
 }
 
-function anonName(countryCode: string | null, city: string | null): string {
-  const code = (countryCode ?? 'DEFAULT').toUpperCase()
-  const names = ANON_FIRST_NAMES[code] ?? ANON_FIRST_NAMES['DEFAULT']
-  const first = pickRandom(names)
-  const initial = String.fromCharCode(65 + Math.floor(Math.random() * 26))
-  if (city && Math.random() > 0.4) {
-    return `${first} ${initial}. (${city})`
+function anonName(countryCode: string | null, city: string | null, surveyName?: string | null): string {
+  // Zeige Survey/Studie als Identifier statt Fake-Namen
+  if (surveyName) {
+    const short = surveyName.length > 25 ? surveyName.substring(0, 25) + '...' : surveyName
+    return `🔬 ${short}`
   }
-  return `${first} ${initial}.`
+  // Fallback: Anonymer Teilnehmer mit Land
+  const code = (countryCode ?? '??').toUpperCase()
+  return `Teilnehmer (${code})`
 }
 
 function normalizeCategory(raw: string | null): string {
@@ -234,8 +234,8 @@ function dreamReportToMap(r: RawDreamReport): MapDreamUser {
   const category = normalizeCategory((r.tags ?? [])[0] ?? null)
   return {
     id: `dr_${r.id}`,
-    name: anonName(null, null),
-    avatar: pickRandom(AVATAR_POOL),
+    name: anonName(null, null, r.survey_name),
+    avatar: '🔬',
     city: '?',
     country: (r.language ?? 'en').toUpperCase().slice(0, 2),
     lat,
