@@ -338,11 +338,11 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           ],
           'circle-radius': [
             'step', ['get', 'point_count'],
-            18, 10, 24, 50, 32,
+            22, 10, 30, 50, 40,
           ],
-          'circle-opacity': 0.85,
-          'circle-stroke-width': 2,
-          'circle-stroke-color': 'rgba(255,255,255,0.3)',
+          'circle-opacity': 0.95,
+          'circle-stroke-width': 3,
+          'circle-stroke-color': 'rgba(255,255,255,0.5)',
         },
       });
 
@@ -370,11 +370,11 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           'circle-color': ['get', 'map_color'],
           'circle-radius': [
             'interpolate', ['linear'], ['get', 'marker_size'],
-            4, 5, 8, 8, 16, 14, 24, 18,
+            4, 8, 8, 12, 16, 18, 24, 24,
           ],
-          'circle-opacity': 0.9,
-          'circle-stroke-width': 2,
-          'circle-stroke-color': 'rgba(255,255,255,0.4)',
+          'circle-opacity': 0.95,
+          'circle-stroke-width': 3,
+          'circle-stroke-color': 'rgba(255,255,255,0.5)',
         },
       });
 
@@ -460,6 +460,12 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
       map.on('mouseleave', 'clusters', setCursor(''));
       map.on('mouseenter', 'unclustered-point', setCursor('pointer'));
       map.on('mouseleave', 'unclustered-point', setCursor(''));
+
+      // Race-condition fix: refresh data after map is loaded in case data arrived first
+      setTimeout(() => {
+        const src = map.getSource('dream-markers') as mapboxgl.GeoJSONSource | undefined;
+        if (src) src.setData(buildGeoJSON(filteredMarkers, studyLookup));
+      }, 500);
     });
 
     return () => {

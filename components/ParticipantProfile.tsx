@@ -47,6 +47,14 @@ interface DreamRow {
   emotions: string[] | null;
 }
 
+interface InterpretationRow {
+  id: string;
+  dream_id: string;
+  content: string;
+  tradition: string;
+  created_at: string;
+}
+
 // ---------------------------------------------------------------------------
 // Translations
 // ---------------------------------------------------------------------------
@@ -169,6 +177,8 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
   const [participant, setParticipant] = useState<ParticipantRow | null>(null);
   const [study, setStudy] = useState<StudyRow | null>(null);
   const [dreams, setDreams] = useState<DreamRow[]>([]);
+  const [interpMap, setInterpMap] = useState<Map<string, InterpretationRow>>(new Map());
+  const [expandedDreams, setExpandedDreams] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -218,6 +228,17 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
         .order('dream_id', { ascending: true });
       if (dErr) console.error('Error fetching dreams:', dErr);
       else setDreams((dData as DreamRow[]) || []);
+
+      // 4. Interpretations
+      const { data: iData } = await supabase
+        .from('research_interpretations')
+        .select('id, dream_id, content, tradition, created_at')
+        .eq('participant_id', participantId);
+      if (iData && iData.length > 0) {
+        const m = new Map<string, InterpretationRow>();
+        (iData as InterpretationRow[]).forEach(i => m.set(i.dream_id, i));
+        setInterpMap(m);
+      }
 
       setLoading(false);
     };
@@ -383,6 +404,12 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
               </div>
             </div>
 
+            {/* Stats Bar */}
+            <div className={`flex gap-6 mb-6 p-3 rounded-xl border ${cardBg} text-sm`}>
+              <span>🌙 {dreams.length} {language === 'de' ? 'Träume' : 'Dreams'}</span>
+              <span>💡 {interpMap.size} {language === 'de' ? 'Deutungen' : 'Interpretations'}</span>
+            </div>
+
             {/* Dreams List */}
             <h2 className="text-xl font-bold mb-4">
               {t.dreams} ({dreams.length})
@@ -467,12 +494,50 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                       </div>
                     )}
 
-                    {/* No interpretation notice */}
-                    <div className="mt-2 text-xs opacity-40 italic">
-                      {language === 'de'
-                        ? 'Keine Deutung in der Originalstudie vorhanden'
-                        : 'No interpretation available in the original study'}
+                    {/* Word count + Interpretation */}
+                    <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+                      <span className="opacity-50">
+                        {dream.dream_text.split(/\s+/).filter(Boolean).length} {language === 'de' ? 'Wörter' : 'words'}
+                      </span>
+                      {interpMap.has(dream.id) ? (
+                        <button
+                          onClick={() => setExpandedDreams(prev => {
+                            const next = new Set(prev);
+                            next.has(dream.id) ? next.delete(dream.id) : next.add(dream.id);
+                            return next;
+                          })}
+                          className={`px-2 py-0.5 rounded-full border cursor-pointer transition-colors ${
+                            isLight
+                              ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
+                              : 'bg-green-900/30 border-green-700/40 text-green-400 hover:bg-green-900/50'
+                          }`}
+                        >
+                          💡 {language === 'de' ? 'Deutung' : 'Interpretation'} {expandedDreams.has(dream.id) ? '▲' : '▼'}
+                        </button>
+                      ) : (
+                        <span className="opacity-40 italic">
+                          ⏳ {language === 'de' ? 'Keine Deutung vorhanden' : 'No interpretation available'}
+                        </span>
+                      )}
                     </div>
+                    {expandedDreams.has(dream.id) && interpMap.has(dream.id) && (() => {
+                      const interp = interpMap.get(dream.id)!;
+                      return (
+                        <div className={`mt-2 p-3 rounded-lg border text-sm leading-relaxed ${
+                          isLight
+                            ? 'bg-green-50/50 border-green-200 text-green-900'
+                            : 'bg-green-900/20 border-green-800/30 text-green-200'
+                        }`}>
+                          <p>{interp.content}</p>
+                          <div className="mt-2 flex gap-2 text-xs opacity-60">
+                            <span className={`px-1.5 py-0.5 rounded ${isLight ? 'bg-green-100' : 'bg-green-900/40'}`}>
+                              {interp.tradition}
+                            </span>
+                            <span>{new Date(interp.created_at).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                      );
+                    })()}
                   </div>
                 ))}
               </div>
