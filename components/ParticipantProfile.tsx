@@ -189,15 +189,22 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
       const p = pData as ParticipantRow;
       setParticipant(p);
 
-      // 2. Study
+      // 2. Study — erst via study_id (UUID), Fallback auf study_code (String)
       if (p?.study_id) {
         const { data: sData, error: sErr } = await supabase
           .from('research_studies')
           .select('*')
           .eq('id', p.study_id)
           .single();
-        if (sErr) console.error('Error fetching study:', sErr);
-        else setStudy(sData as StudyRow);
+        if (!sErr && sData) setStudy(sData as StudyRow);
+      }
+      if (!study && p?.study_code) {
+        const { data: sData } = await supabase
+          .from('research_studies')
+          .select('*')
+          .eq('study_code', p.study_code)
+          .single();
+        if (sData) setStudy(sData as StudyRow);
       }
 
       // 3. Dreams
