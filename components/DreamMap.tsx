@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { Dream, Language, ReligiousCategory, BotSimUser } from '../types';
-import { BOT_USERS } from '../data/botProfiles';
+import { Dream, Language, ReligiousCategory } from '../types';
+// Bot-Profile entfernt — nur echte wissenschaftliche Daten
+// import { BOT_USERS } from '../data/botProfiles';
 import { FEATURE_FLAGS } from '../config/featureFlags';
-import BotProfileModal from './BotProfileModal';
-import { useBotFriends } from '../hooks/useBotFriends';
+// import BotProfileModal from './BotProfileModal';
+// import { useBotFriends } from '../hooks/useBotFriends';
 import { fetchMapDreams, type MapDreamUser } from '../services/dreamMapService';
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -906,40 +907,8 @@ function generateUsers(dreams: Dream[]): SimUser[] {
     return { ...u, matchPct, privacy, age, memberSince, bio, dreamCount, matchCount, favCategory };
   });
 
-  // Merge bot users when feature flag is enabled
-  if (!FEATURE_FLAGS.SHOW_BOT_USERS) return baseUsers;
-
-  const botUsers: SimUser[] = BOT_USERS.map((bot, i) => {
-    let matchPct = bot.matchPct;
-    if (userCats.length > 0) {
-      const catMatch = userCats.some(c =>
-        c.toLowerCase().includes(bot.category.slice(0, 4))
-      );
-      if (catMatch) matchPct = Math.min(98, matchPct + 10);
-    }
-    return {
-      id: bot.id,
-      name: bot.isAnonymous ? 'Anonymous Dreamer' : bot.name,
-      avatar: bot.isAnonymous ? '🔮' : bot.avatar,
-      city: bot.city,
-      country: bot.country,
-      lat: bot.lat,
-      lng: bot.lng,
-      dreamSummary: bot.dreamSummary,
-      category: bot.category,
-      mood: bot.mood,
-      matchPct,
-      privacy: 'partial' as const,
-      age: bot.age,
-      memberSince: bot.joinedDate.slice(0, 7),
-      bio: bot.bio,
-      dreamCount: bot.contributionsCount,
-      matchCount: Math.floor(bot.contributionsCount * 0.6),
-      favCategory: bot.category,
-    };
-  });
-
-  return [...baseUsers, ...botUsers];
+  // Bot-Profile entfernt — nur echte Daten
+  return baseUsers;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -968,19 +937,10 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const [profileUser, setProfileUser] = useState<SimUser | null>(null);
   const [profileVisible, setProfileVisible] = useState(false);
 
-  // ── Bot profile state ──
-  const [botProfileUser, setBotProfileUser] = useState<BotSimUser | null>(null);
-  const { isFriend, toggleFriend } = useBotFriends();
+  // Bot-Profile entfernt
 
   const openProfile = useCallback((user: SimUser) => {
-    // Check if this is a bot user — show BotProfileModal instead
-    if (user.id.startsWith('bot')) {
-      const bot = BOT_USERS.find(b => b.id === user.id);
-      if (bot) {
-        setBotProfileUser(bot);
-        return;
-      }
-    }
+    // Bot-Check entfernt — nur echte Profile
     setProfileUser(user);
     // Trigger animation after mount
     requestAnimationFrame(() => setProfileVisible(true));
@@ -1930,15 +1890,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
         );
       })()}
 
-      {/* ── Bot Profile Modal ── */}
-      <BotProfileModal
-        bot={botProfileUser}
-        isOpen={!!botProfileUser}
-        onClose={() => setBotProfileUser(null)}
-        isDark={!isLight}
-        isFriend={botProfileUser ? isFriend(botProfileUser.id) : false}
-        onToggleFriend={toggleFriend}
-      />
+      {/* Bot Profile Modal entfernt */}
 
       {/* ── Toast Notification ── */}
       {toast && (
