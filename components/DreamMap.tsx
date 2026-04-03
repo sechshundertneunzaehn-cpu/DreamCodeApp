@@ -574,12 +574,29 @@ const DreamMap: React.FC<DreamMapProps> = ({
     const loadRealUsers = async () => {
       const { data } = await supabase
         .from('research_participants')
-        .select('id, participant_id, country, lat, lng, dream_count')
+        .select('id, participant_id, country, lat, lng, dream_count, created_at')
         .not('lat', 'is', null)
         .not('lng', 'is', null)
         .limit(500);
 
       if (data && data.length > 0) {
+        // Lade je einen Traum pro Teilnehmer (Batch)
+        const pids = data.map((p: any) => p.participant_id);
+        const { data: dreams } = await supabase
+          .from('research_dreams')
+          .select('participant_id, dream_text')
+          .in('participant_id', pids)
+          .limit(500);
+
+        const dreamMap = new Map<string, string>();
+        if (dreams) {
+          for (const d of dreams as any[]) {
+            if (!dreamMap.has(d.participant_id)) {
+              dreamMap.set(d.participant_id, (d.dream_text || '').slice(0, 100));
+            }
+          }
+        }
+
         const mapped: SimUser[] = data.map((p: any) => ({
           id: p.id,
           name: p.participant_id,
@@ -588,12 +605,12 @@ const DreamMap: React.FC<DreamMapProps> = ({
           country: p.country || '',
           lat: p.lat,
           lng: p.lng,
-          dreamSummary: '',
+          dreamSummary: dreamMap.get(p.participant_id) || '',
           category: 'nature',
           mood: 'calm',
           matchPct: Math.floor(Math.random() * 30) + 70,
           privacy: 'public' as const,
-          memberSince: '2024',
+          memberSince: new Date(p.created_at || '2024').getFullYear().toString(),
           dreamCount: p.dream_count || 0,
           matchCount: 0,
           favCategory: 'nature'
