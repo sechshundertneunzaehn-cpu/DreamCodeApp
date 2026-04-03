@@ -533,7 +533,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const [isLiveData, setIsLiveData] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<SimUser | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [toast, setToast] = useState<{ name: string; city: string; pct: number } | null>(null);
+  const [toast, setToast] = useState<{ name: string; country: string; pct: number } | null>(null);
   const [toastVisible, setToastVisible] = useState(false);
   const [pulsingIds, setPulsingIds] = useState<string[]>([]);
   const [showTrends, setShowTrends] = useState(false);
@@ -615,7 +615,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
         const pool = users.filter(u => u.matchPct >= 70);
         if (pool.length === 0) return scheduleNext();
         const pick = pool[Math.floor(Math.random() * pool.length)];
-        setToast({ name: pick.name, city: pick.city, pct: pick.matchPct });
+        setToast({ name: pick.name, country: pick.country, pct: pick.matchPct });
         setToastVisible(true);
         setPulsingIds(prev => [...new Set([...prev, pick.id])]);
         if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
@@ -649,7 +649,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
       const q = searchQuery.trim().toLowerCase();
       list = list.filter(u =>
         u.name.toLowerCase().includes(q) ||
-        u.city.toLowerCase().includes(q) ||
+        u.country.toLowerCase().includes(q) ||
         u.country.toLowerCase().includes(q) ||
         u.dreamSummary.toLowerCase().includes(q)
       );
@@ -931,7 +931,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
                         textShadow: '0 0 3px rgba(0,0,0,0.9), 0 1px 2px rgba(0,0,0,0.7)',
                       }}
                     >
-                      {mapScale > 2.5 ? `${firstName}, ${u.city}` : firstName}
+                      {mapScale > 2.5 ? `${firstName} · ${u.country}` : firstName}
                     </div>
                   )}
                   {isSelected && (
@@ -1193,7 +1193,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
                       <span className={`text-sm font-semibold truncate ${textMain}`}>{u.name}</span>
                       {cat && <span className="text-xs leading-none">{cat.icon}</span>}
                     </div>
-                    <div className={`text-[11px] ${textSub}`}>{u.city}, {u.country}</div>
+                    <div className={`text-[11px] ${textSub}`}>{u.name} · {u.country}</div>
                     <p className={`text-xs italic truncate mt-0.5 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                       {u.dreamSummary}
                     </p>
@@ -1227,7 +1227,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
             <div className="text-4xl leading-none">{selectedUser.avatar}</div>
             <div className="flex-1 min-w-0">
               <div className={`font-bold text-base truncate ${textMain}`}>{selectedUser.name}</div>
-              <div className={`text-xs ${textSub}`}>{t.from} {selectedUser.city}, {selectedUser.country}</div>
+              <div className={`text-xs ${textSub}`}>{t.from} {selectedUser.country}</div>
               <div className="mt-1 flex items-center gap-1.5">
                 {(() => {
                   const cat = DREAM_CATEGORIES.find(c => c.id === selectedUser.category);
@@ -1295,9 +1295,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
         const displayAvatar = pu.privacy === 'private' ? '🔮' : pu.avatar;
         const displayLocation = pu.privacy === 'private'
           ? continentLabel
-          : pu.privacy === 'partial'
-            ? pu.city
-            : `${pu.city}, ${pu.country}`;
+          : pu.country;
 
         return (
           <>
@@ -1502,7 +1500,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
           <div className="flex-1 min-w-0">
             <div className={`font-bold text-sm ${textMain}`}>{t.newmatch}</div>
             <div className={`text-xs truncate ${textSub}`}>
-              {toast.name} {t.from} {toast.city} {t.similarDream} ({toast.pct}%)
+              {toast.name} {t.from} {toast.country} {t.similarDream} ({toast.pct}%)
             </div>
           </div>
           <div className="shrink-0 font-extrabold text-sm" style={{ color: matchColor(toast.pct) }}>
