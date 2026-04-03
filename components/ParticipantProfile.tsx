@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../services/supabaseClient';
+import TranslatedText from './TranslatedText';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -414,7 +415,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                           : 'bg-gray-900/80 border-white/5 text-gray-200'
                       }`}
                     >
-                      {dream.dream_text}
+                      <TranslatedText text={dream.dream_text} sourceId={dream.id} table="research_dreams" field="dream_text" showOriginalToggle />
                     </div>
 
                     {/* HVdC Codes */}
