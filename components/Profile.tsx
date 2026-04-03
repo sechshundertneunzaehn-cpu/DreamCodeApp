@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { UserProfile, Dream, Language, FontSize, SubscriptionTier, ThemeMode } from '../types';
 import DreamShare from './DreamShare';
+import TranslatedText from './TranslatedText';
 import AudioLibrary from './AudioLibrary';
 
 interface ProfileProps {
@@ -501,14 +502,14 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
                              {/* User Description Block */}
                              <div className="mb-6 p-4 rounded-xl bg-white/5 border border-white/5">
                                  <h4 className="text-xs uppercase font-bold text-slate-500 mb-2">{t.your_dream}</h4>
-                                 <p className="text-slate-300 text-sm italic leading-relaxed">"{selectedDream.description}"</p>
+                                 <TranslatedText text={selectedDream.description} sourceId={selectedDream.id} table="user_dreams" field="text" className="text-slate-300 text-sm italic leading-relaxed" as="p" showOriginalToggle />
                              </div>
 
                              <h2 className="text-2xl font-mystic text-white mb-4">{selectedDream.title}</h2>
-                             
+
                              {/* Interpretation with proper whitespace formatting */}
                              <div className="prose prose-invert prose-sm max-w-none mb-6">
-                                <p className="text-slate-300 leading-relaxed whitespace-pre-line">{selectedDream.interpretation}</p>
+                                <TranslatedText text={selectedDream.interpretation} sourceId={selectedDream.id} table="user_dreams" field="interpretation" className="text-slate-300 leading-relaxed whitespace-pre-line" as="p" showOriginalToggle />
                              </div>
                              
                              <div className="mb-6 flex gap-2 flex-wrap">

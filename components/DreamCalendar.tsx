@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { Dream, Language, ReligiousCategory, ThemeMode } from '../types';
 import DreamShare from './DreamShare';
+import TranslatedText from './TranslatedText';
 import { getTheme } from '../theme';
 
 interface DreamCalendarProps {
@@ -338,12 +339,12 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                          <div className="p-8">
                              <div className={`mb-6 p-4 rounded-xl ${th.surfaceBg} border ${th.borderLight}`}>
                                  <h4 className={`text-xs uppercase font-bold ${th.textMuted} mb-2`}>{t.your_dream}</h4>
-                                 <p className={`${th.textSecondary} text-sm italic leading-relaxed`}>"{selectedDream.description}"</p>
+                                 <TranslatedText text={selectedDream.description} sourceId={selectedDream.id} table="user_dreams" field="text" className={`${th.textSecondary} text-sm italic leading-relaxed`} as="p" showOriginalToggle />
                              </div>
 
                              <h2 className={`text-2xl font-heading ${th.textPrimary} mb-4`}>{selectedDream.title}</h2>
                              <div className="prose prose-sm max-w-none mb-6">
-                                <p className={`${th.textSecondary} leading-relaxed whitespace-pre-line`}>{selectedDream.interpretation}</p>
+                                <TranslatedText text={selectedDream.interpretation} sourceId={selectedDream.id} table="user_dreams" field="interpretation" className={`${th.textSecondary} leading-relaxed whitespace-pre-line`} as="p" showOriginalToggle />
                              </div>
                              <div className="mb-6 flex gap-2 flex-wrap">
                                 {selectedDream.tags.map(tag => (
