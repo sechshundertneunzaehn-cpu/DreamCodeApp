@@ -224,6 +224,8 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const popupRef = useRef<mapboxgl.Popup | null>(null);
   const sourceReady = useRef(false);
+  const latestMarkersRef = useRef<StudyMapMarker[]>([]);
+  const latestStudyLookupRef = useRef<Map<string, ResearchStudy>>(new Map());
 
   // Data state
   const [studies, setStudies] = useState<ResearchStudy[]>([]);
@@ -286,6 +288,10 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
       return true;
     });
   }, [markers, selectedStudies, selectedCountry]);
+
+  // Keep refs in sync for use inside map.on('load') closure
+  latestMarkersRef.current = filteredMarkers;
+  latestStudyLookupRef.current = studyLookup;
 
   const totalDreamsCount = useMemo(
     () => filteredMarkers.reduce((sum, m) => sum + (m.dream_count || 0), 0),
@@ -461,11 +467,15 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
       map.on('mouseenter', 'unclustered-point', setCursor('pointer'));
       map.on('mouseleave', 'unclustered-point', setCursor(''));
 
-      // Race-condition fix: refresh data after map is loaded in case data arrived first
+      // Race-condition fix: refresh data after map is loaded using refs (not stale closure)
       setTimeout(() => {
         const src = map.getSource('dream-markers') as mapboxgl.GeoJSONSource | undefined;
-        if (src) src.setData(buildGeoJSON(filteredMarkers, studyLookup));
+        if (src) src.setData(buildGeoJSON(latestMarkersRef.current, latestStudyLookupRef.current));
       }, 500);
+      setTimeout(() => {
+        const src = map.getSource('dream-markers') as mapboxgl.GeoJSONSource | undefined;
+        if (src) src.setData(buildGeoJSON(latestMarkersRef.current, latestStudyLookupRef.current));
+      }, 2000);
     });
 
     return () => {
