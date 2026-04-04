@@ -465,6 +465,7 @@ interface SimUser extends BaseSimUser {
   dreamCount: number;
   matchCount: number;
   favCategory: string;
+  interpretation?: string;
 }
 
 // Equirectangular projection: lat/lng -> percentage coordinates
@@ -582,19 +583,35 @@ const DreamMap: React.FC<DreamMapProps> = ({
         .limit(500);
 
       if (data && data.length > 0) {
-        // Lade je einen Traum pro Teilnehmer (Batch)
+        // Lade Traeume + Deutungen pro Teilnehmer (Batch)
         const pids = data.map((p: any) => p.participant_id);
-        const { data: dreams } = await supabase
-          .from('research_dreams')
-          .select('participant_id, dream_text')
-          .in('participant_id', pids)
-          .limit(500);
+        const [dreamsRes, interpRes] = await Promise.all([
+          supabase
+            .from('research_dreams')
+            .select('participant_id, dream_text')
+            .in('participant_id', pids)
+            .limit(500),
+          supabase
+            .from('research_interpretations')
+            .select('participant_id, content')
+            .in('participant_id', pids)
+            .limit(500),
+        ]);
 
         const dreamMap = new Map<string, string>();
-        if (dreams) {
-          for (const d of dreams as any[]) {
+        if (dreamsRes.data) {
+          for (const d of dreamsRes.data as any[]) {
             if (!dreamMap.has(d.participant_id)) {
-              dreamMap.set(d.participant_id, (d.dream_text || '').slice(0, 100));
+              dreamMap.set(d.participant_id, d.dream_text || '');
+            }
+          }
+        }
+
+        const interpMap = new Map<string, string>();
+        if (interpRes.data) {
+          for (const i of interpRes.data as any[]) {
+            if (!interpMap.has(i.participant_id)) {
+              interpMap.set(i.participant_id, i.content || '');
             }
           }
         }
@@ -608,6 +625,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
           lat: p.lat,
           lng: p.lng,
           dreamSummary: dreamMap.get(p.participant_id) || '',
+          interpretation: interpMap.get(p.participant_id) || '',
           category: 'nature',
           mood: 'calm',
           matchPct: Math.floor(Math.random() * 30) + 70,
@@ -1217,7 +1235,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
                       {cat && <span className="text-xs leading-none">{cat.icon}</span>}
                     </div>
                     <div className={`text-[11px] ${textSub}`}>{u.name} · {u.country}</div>
-                    <p className={`text-xs italic truncate mt-0.5 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
+                    <p className={`text-xs italic mt-0.5 line-clamp-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                       {u.dreamSummary}
                     </p>
                   </div>
@@ -1280,10 +1298,31 @@ const DreamMap: React.FC<DreamMapProps> = ({
             </div>
           </div>
 
-          <div className={`rounded-xl p-3 mb-4 border ${isLight ? 'bg-purple-50/80 border-purple-100' : 'bg-white/5 border-white/8'}`}>
-            <div className={`text-xs font-semibold mb-1 ${isLight ? 'text-purple-700' : 'text-purple-300'}`}>{t.dreamSummary}</div>
-            <p className={`text-sm leading-relaxed ${textMain}`}>{selectedUser.dreamSummary}</p>
+          <div className={`rounded-2xl p-4 mb-4 border ${isLight ? 'bg-purple-50/80 border-purple-100' : 'bg-white/5 border-white/8'}`}>
+            <div className={`text-xs font-semibold mb-2 flex items-center gap-1.5 ${isLight ? 'text-purple-700' : 'text-purple-300'}`}>
+              <span className="material-icons text-sm">auto_stories</span>
+              {t.dreamSummary}
+            </div>
+            <div className={`text-[13px] leading-[1.75] whitespace-pre-wrap ${textMain}`}>
+              {selectedUser.dreamSummary.split(/\.\s+/).map((sentence, i, arr) => (
+                <span key={i}>{sentence}{i < arr.length - 1 ? '. ' : ''}{i > 0 && i % 3 === 0 && i < arr.length - 1 ? '\n\n' : ''}</span>
+              ))}
+            </div>
           </div>
+
+          {selectedUser.interpretation && (
+            <div className={`rounded-2xl p-4 mb-4 border ${isLight ? 'bg-amber-50/80 border-amber-200' : 'bg-amber-500/5 border-amber-500/15'}`}>
+              <div className={`text-xs font-semibold mb-2 flex items-center gap-1.5 ${isLight ? 'text-amber-700' : 'text-amber-300'}`}>
+                <span className="material-icons text-sm">psychology</span>
+                Deutung
+              </div>
+              <div className={`text-[13px] leading-[1.75] whitespace-pre-wrap ${textMain}`}>
+                {selectedUser.interpretation.split(/\.\s+/).map((sentence, i, arr) => (
+                  <span key={i}>{sentence}{i < arr.length - 1 ? '. ' : ''}{i > 0 && i % 2 === 0 && i < arr.length - 1 ? '\n\n' : ''}</span>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="flex gap-3">
             <button
@@ -1451,11 +1490,15 @@ const DreamMap: React.FC<DreamMapProps> = ({
                     <div className={`text-xs font-semibold mb-2 ${isLight ? 'text-purple-700' : 'text-purple-300'}`}>
                       {t.profileLastDream}:
                     </div>
-                    <div className={`rounded-xl p-3 border ${
+                    <div className={`rounded-xl p-3.5 border ${
                       isLight ? 'bg-purple-50/80 border-purple-100' : 'bg-white/3 border-white/5'
                     }`}>
-                      <p className={`text-sm leading-relaxed ${textMain}`}>{pu.dreamSummary}</p>
-                      <div className="flex items-center gap-2 mt-2">
+                      <div className={`text-[13px] leading-[1.75] whitespace-pre-wrap ${textMain}`}>
+                        {pu.dreamSummary.split(/\.\s+/).map((sentence: string, i: number, arr: string[]) => (
+                          <span key={i}>{sentence}{i < arr.length - 1 ? '. ' : ''}{i > 0 && i % 3 === 0 && i < arr.length - 1 ? '\n\n' : ''}</span>
+                        ))}
+                      </div>
+                      <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/5">
                         {(() => {
                           const cat = DREAM_CATEGORIES.find(c => c.id === pu.category);
                           return cat ? (
@@ -1471,6 +1514,21 @@ const DreamMap: React.FC<DreamMapProps> = ({
                         </span>
                       </div>
                     </div>
+                    {pu.interpretation && (
+                      <div className={`rounded-xl p-3.5 mt-3 border ${
+                        isLight ? 'bg-amber-50/80 border-amber-200' : 'bg-amber-500/5 border-amber-500/15'
+                      }`}>
+                        <div className={`text-xs font-semibold mb-2 flex items-center gap-1.5 ${isLight ? 'text-amber-700' : 'text-amber-300'}`}>
+                          <span className="material-icons text-sm">psychology</span>
+                          Deutung
+                        </div>
+                        <div className={`text-[13px] leading-[1.75] whitespace-pre-wrap ${textMain}`}>
+                          {pu.interpretation.split(/\.\s+/).map((sentence: string, i: number, arr: string[]) => (
+                            <span key={i}>{sentence}{i < arr.length - 1 ? '. ' : ''}{i > 0 && i % 2 === 0 && i < arr.length - 1 ? '\n\n' : ''}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className={`mx-4 rounded-2xl border p-4 mb-4 text-center ${
