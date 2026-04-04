@@ -22,6 +22,14 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('[ErrorBoundary]', error, errorInfo);
+    // ChunkLoadError nach Deploy: Seite einmal neu laden
+    if (error.name === 'ChunkLoadError' || error.message?.includes('Failed to fetch dynamically imported module')) {
+      const key = 'chunk_reload';
+      if (!sessionStorage.getItem(key)) {
+        sessionStorage.setItem(key, '1');
+        window.location.reload();
+      }
+    }
   }
 
   render() {

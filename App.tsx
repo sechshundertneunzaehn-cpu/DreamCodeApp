@@ -7,27 +7,29 @@ import React, { useState, useEffect, useRef } from 'react';
 import StarryBackground from './components/StarryBackground';
 import ErrorBoundary from './components/ErrorBoundary';
 
-// Direkt-Import statt lazy: verhindert Chunk-Fehler nach Deploys
-import LiveSession from './components/LiveSession';
-import DreamHub from './components/DreamHub';
-import Profile from './components/Profile';
-import Onboarding from './components/Onboarding';
-import DreamCalendar from './components/DreamCalendar';
-import DreamMap from './components/DreamMap';
-import VideoStudio from './components/VideoStudio';
-import SpeechToVideoModal from './components/SpeechToVideoModal';
-import DreamNetwork from './components/DreamNetwork';
-import SciencePage from './components/SciencePage';
-import AGBPage from './components/AGBPage';
-import DatenschutzPage from './components/DatenschutzPage';
-import ImpressumPage from './components/ImpressumPage';
-import ForschungPage from './components/ForschungPage';
-import CensusPage from './components/CensusPage';
-import ScientificDreamMap from './components/ScientificDreamMap';
-import ResearchStudies from './components/ResearchStudies';
-import ParticipantProfile from './components/ParticipantProfile';
+// Lazy Loading: schwere Komponenten werden erst bei Bedarf geladen.
+// ChunkLoadError nach Deploys wird durch den LazyFallback abgefangen (auto-reload).
 import TrustBanner from './components/TrustBanner';
 import VoiceSelector, { VoiceCharacter, VOICE_CHARACTERS } from './components/VoiceSelector';
+
+const LiveSession = React.lazy(() => import('./components/LiveSession'));
+const DreamHub = React.lazy(() => import('./components/DreamHub'));
+const Profile = React.lazy(() => import('./components/Profile'));
+const Onboarding = React.lazy(() => import('./components/Onboarding'));
+const DreamCalendar = React.lazy(() => import('./components/DreamCalendar'));
+const DreamMap = React.lazy(() => import('./components/DreamMap'));
+const VideoStudio = React.lazy(() => import('./components/VideoStudio'));
+const SpeechToVideoModal = React.lazy(() => import('./components/SpeechToVideoModal'));
+const DreamNetwork = React.lazy(() => import('./components/DreamNetwork'));
+const SciencePage = React.lazy(() => import('./components/SciencePage'));
+const AGBPage = React.lazy(() => import('./components/AGBPage'));
+const DatenschutzPage = React.lazy(() => import('./components/DatenschutzPage'));
+const ImpressumPage = React.lazy(() => import('./components/ImpressumPage'));
+const ForschungPage = React.lazy(() => import('./components/ForschungPage'));
+const CensusPage = React.lazy(() => import('./components/CensusPage'));
+const ScientificDreamMap = React.lazy(() => import('./components/ScientificDreamMap'));
+const ResearchStudies = React.lazy(() => import('./components/ResearchStudies'));
+const ParticipantProfile = React.lazy(() => import('./components/ParticipantProfile'));
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
 import { analyzeDreamText, generateDreamImage, generateImagePrompt, generateSpeechPreview, generateStoryVideo, generateDreamVideo, generateDreamNarrationVideo, generateDreamUserVoiceVideo } from './services/geminiService';
 import StoryVideoPlayer from './components/StoryVideoPlayer';
@@ -2639,6 +2641,7 @@ const App: React.FC = () => {
 
     return (
         <ErrorBoundary>
+        <React.Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#0f0b1a', color: '#7c3aed', fontFamily: 'Cinzel, serif', fontSize: '1.2rem' }}>Traumcode...</div>}>
         <div dir={language === Language.AR ? 'rtl' : 'ltr'} style={{ backgroundColor: isLight ? '#f0eefc' : '#0f0b1a' }} className={`min-h-screen font-sans relative overflow-x-hidden transition-colors duration-700 ${isLight ? 'text-mystic-text selection:bg-accent-primary/30' : 'text-slate-200 selection:bg-accent-primary/30'}`}>
             <StarryBackground themeMode={themeMode} designTheme={designTheme} />
             
@@ -2950,6 +2953,7 @@ const App: React.FC = () => {
                 />
             )}
         </div>
+        </React.Suspense>
         </ErrorBoundary>
     );
 };

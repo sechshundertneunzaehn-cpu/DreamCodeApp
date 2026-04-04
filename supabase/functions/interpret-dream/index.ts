@@ -5,7 +5,7 @@ import { getSupabaseClient } from '../_shared/supabase-client.ts'
 // CORS
 // ---------------------------------------------------------------------------
 const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': 'https://dreamcodeapp.vercel.app',
+  'Access-Control-Allow-Origin': 'https://dream-code.app',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 }

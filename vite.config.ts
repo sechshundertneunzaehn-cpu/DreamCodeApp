@@ -77,7 +77,9 @@ export default defineConfig(({ mode }) => {
             manualChunks: {
               'vendor-react': ['react', 'react-dom'],
               'vendor-pdf': ['html2canvas', 'jspdf'],
+              'vendor-mapbox': ['mapbox-gl'],
               'knowledge': ['./data/knowledgeBase'],
+              'bot-profiles': ['./data/botProfiles'],
               'services': [
                 './services/geminiService',
                 './services/videoGenerationService',
