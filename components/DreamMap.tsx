@@ -897,7 +897,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
         onTouchEnd={handleTouchEnd}
       >
         <div
-          className="relative w-full h-full overflow-hidden"
+          className="relative overflow-hidden"
           style={{
             background: isLight ? '#e8e0f0' : '#0a0318',
             transform: `scale(${mapScale}) translate(${mapOffset.x / mapScale}px, ${mapOffset.y / mapScale}px)`,
@@ -905,6 +905,13 @@ const DreamMap: React.FC<DreamMapProps> = ({
             transition: isDragging ? 'none' : 'transform 0.2s ease',
             cursor: mapScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
             touchAction: 'none',
+            borderRadius: '50%',
+            width: 'min(90vw, 400px)',
+            height: 'min(90vw, 400px)',
+            margin: '0 auto',
+            boxShadow: isLight
+              ? '0 0 40px rgba(139,92,246,0.2), inset 0 0 30px rgba(139,92,246,0.05)'
+              : '0 0 40px rgba(139,92,246,0.3), inset 0 0 30px rgba(139,92,246,0.1)',
           }}
         >
           {/* World map SVG background */}
@@ -917,6 +924,12 @@ const DreamMap: React.FC<DreamMapProps> = ({
                 : 'invert(1) hue-rotate(180deg) saturate(0.3) brightness(0.5) opacity(0.7)',
             }}
           />
+          {/* Globe 3D depth overlay */}
+          <div className="absolute inset-0 pointer-events-none" style={{
+            borderRadius: '50%',
+            background: 'radial-gradient(circle at 35% 35%, transparent 40%, rgba(0,0,0,0.3) 100%)',
+            zIndex: 5,
+          }} />
 
           {/* Marker layer */}
           <div className="absolute inset-0">
@@ -1111,7 +1124,12 @@ const DreamMap: React.FC<DreamMapProps> = ({
 
       {/* ── Global Stats ── */}
       {globalStats && (
-        <div className={`flex items-center justify-center gap-4 px-3 py-1.5 border-b text-[10px] ${isLight ? 'border-purple-100/40 text-slate-500' : 'border-white/5 text-slate-500'}`}>
+        <div className="flex items-center justify-center gap-5 px-4 py-2 mx-4 my-1 rounded-lg" style={{
+          background: 'rgba(139,92,246,0.1)',
+          fontSize: 13,
+          fontWeight: 500,
+          color: isLight ? '#7c3aed' : '#c4b5fd',
+        }}>
           <span>🌙 {globalStats.dreams.toLocaleString()} {lang === 'de' ? 'Träume gesamt' : 'dreams total'}</span>
           <span>📝 {globalStats.words} {lang === 'de' ? 'Wörter' : 'words'}</span>
         </div>
