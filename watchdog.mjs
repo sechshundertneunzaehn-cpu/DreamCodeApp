@@ -35,13 +35,13 @@ for (const c of checks) {
 
 const { data: sample } = await s
   .from('research_participants')
-  .select('participant_id, country, dream_count, study:research_studies(title, researcher_name)')
+  .select('participant_id, country, dream_count, study:research_studies(study_name, principal_investigator)')
   .limit(5);
 
 console.log('\n📋 Stichprobe Teilnehmer:');
 for (const p of sample || []) {
-  const ok = p.participant_id && p.study?.title;
-  console.log(`  ${ok?'✅':'❌'} ${p.participant_id} | ${p.study?.title?.slice(0,30)} | ${p.dream_count} Träume`);
+  const ok = p.participant_id && p.study?.study_name;
+  console.log(`  ${ok?'✅':'❌'} ${p.participant_id} | ${p.study?.study_name?.slice(0,30)} | ${p.dream_count} Träume`);
 }
 
 const { data: dreamSample } = await s
@@ -69,6 +69,80 @@ try {
   }
 } catch(e) {
   console.log('  ⚠️ DreamMap nicht prüfbar');
+}
+
+// --- Deutungs-Stichprobe: UUID vs String-ID Check ---
+console.log('\n💡 Deutungs-Stichprobe (Key-Mismatch-Diagnose):');
+const { data: interpSample } = await s
+  .from('research_interpretations')
+  .select('id, dream_id, participant_id, content')
+  .limit(3);
+
+for (const i of interpSample || []) {
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-/.test(i.dream_id || '');
+  const isStringId = /^SDDB-/.test(i.dream_id || '');
+  console.log(`  dream_id: ${i.dream_id?.slice(0,40)} | UUID: ${isUuid} | String-ID: ${isStringId} | content: ${i.content?.slice(0,40)}...`);
+}
+
+// --- Verknuepfungs-Check: Deutungen <-> Traeume Konsistenz ---
+console.log('\n🔗 Verknuepfungs-Check (Deutungen <-> Traeume):');
+const { data: interpSampleForCheck } = await s
+  .from('research_interpretations')
+  .select('dream_id')
+  .limit(10);
+
+if (interpSampleForCheck && interpSampleForCheck.length > 0) {
+  const checkIds = interpSampleForCheck.map(i => i.dream_id);
+  const { data: matchingDreams } = await s
+    .from('research_dreams')
+    .select('id')
+    .in('id', checkIds);
+
+  const matched = matchingDreams?.length || 0;
+  console.log(`  ${matched}/${checkIds.length} Deutungen haben gueltige dream_id (UUID-Match)`);
+  if (matched === checkIds.length) {
+    console.log('  ✅ Alle Deutungen verweisen auf existierende Traeume');
+  } else {
+    console.log('  ⚠️ Einige Deutungen verweisen auf nicht-existierende Traeume');
+  }
+}
+
+// --- Profil-Query Test ---
+console.log('\n👤 Profil-Query Test (SDDB-069-P0001):');
+const { data: testP, error: testPErr } = await s
+  .from('research_participants')
+  .select('id, participant_id, country, age, gender, dream_count, study:research_studies(study_name, principal_investigator)')
+  .eq('participant_id', 'SDDB-069-P0001')
+  .single();
+
+if (testPErr) {
+  console.log(`  ❌ Fehler: ${testPErr.message}`);
+  allOk = false;
+} else {
+  console.log(`  ✅ ${testP.participant_id} | Studie: ${testP.study?.study_name?.slice(0,40)} | ${testP.dream_count} Traeume`);
+}
+
+// Traeume + Deutungen dieses Teilnehmers
+const { data: testDreams } = await s
+  .from('research_dreams')
+  .select('id, dream_id, dream_text')
+  .eq('participant_id', 'SDDB-069-P0001')
+  .order('dream_date', { ascending: true })
+  .limit(5);
+
+const { data: testInterps } = await s
+  .from('research_interpretations')
+  .select('id, dream_id, content, tradition')
+  .eq('participant_id', 'SDDB-069-P0001');
+
+console.log(`  Traeume: ${testDreams?.length || 0} | Deutungen: ${testInterps?.length || 0}`);
+if (testDreams && testInterps) {
+  const interpDreamIds = new Set((testInterps).map(i => i.dream_id));
+  for (const d of testDreams) {
+    const matchUuid = interpDreamIds.has(d.id);
+    const matchString = interpDreamIds.has(d.dream_id);
+    console.log(`    ${d.dream_id?.slice(0,25)} | UUID-Match: ${matchUuid} | String-Match: ${matchString}`);
+  }
 }
 
 console.log('\n' + '═'.repeat(50));

@@ -114,20 +114,29 @@ export const saveDreamsSecurely = async (dreams: Dream[]): Promise<void> => {
 
 // ─── Profile ──────────────────────────────────────────────────────────────────
 
+// Migration: alte Tier-Namen auf neue Struktur mappen
+const migrateTier = (profile: UserProfile): UserProfile => {
+  const tier = profile.subscriptionTier as string;
+  if (tier === 'PLUS') profile.subscriptionTier = SubscriptionTier.PRO;
+  if (tier === 'DELUXE') profile.subscriptionTier = SubscriptionTier.PREMIUM;
+  return profile;
+};
+
 export const loadProfileSecurely = async (): Promise<UserProfile> => {
   // 1. localStorage
   let fromLS: UserProfile | null = null;
   try {
     const raw = localStorage.getItem(PROFILE_KEY);
-    if (raw) fromLS = { ...DEFAULT_PROFILE, ...JSON.parse(raw) };
+    if (raw) fromLS = migrateTier({ ...DEFAULT_PROFILE, ...JSON.parse(raw) });
   } catch { /* corrupt */ }
 
   // 2. IndexedDB als Fallback
   const fromIDB = await idbGet<UserProfile>(PROFILE_STORE, PROFILE_KEY);
+  const migratedIDB = fromIDB ? migrateTier({ ...DEFAULT_PROFILE, ...fromIDB }) : null;
 
-  if (!fromLS && !fromIDB) return DEFAULT_PROFILE;
-  if (!fromLS) return { ...DEFAULT_PROFILE, ...fromIDB! };
-  if (!fromIDB) return fromLS;
+  if (!fromLS && !migratedIDB) return DEFAULT_PROFILE;
+  if (!fromLS) return migratedIDB!;
+  if (!migratedIDB) return fromLS;
 
   // Beide vorhanden → localStorage bevorzugen (ist schneller aktuell)
   return fromLS;

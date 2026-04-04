@@ -37,16 +37,7 @@ import { loadDreamsSecurely, loadProfileSecurely, saveDreamsSecurely, saveProfil
 // Knowledge Base wird direkt importiert (wird für Analyse benötigt)
 import { KNOWLEDGE_BASE } from './data/knowledgeBase';
 import { FEATURE_PRICES, SUBSCRIPTION_TIERS, COIN_PACKAGES, REWARDS, coinToEur } from './config/pricing';
-
-// --- Icons ---
-const CATEGORY_ICONS: Record<ReligiousCategory, string> = {
-  [ReligiousCategory.ISLAMIC]: '☪️',
-  [ReligiousCategory.CHRISTIAN]: '✝️',
-  [ReligiousCategory.BUDDHIST]: '☸️',
-  [ReligiousCategory.PSYCHOLOGICAL]: '🧠',
-  [ReligiousCategory.ASTROLOGY]: '🪐',
-  [ReligiousCategory.NUMEROLOGY]: '🔢',
-};
+import { CATEGORY_ICONS, CATEGORY_ORDER, CATEGORY_SOURCE_MAP, CATEGORY_COLOR_SCHEME, CATEGORY_TIER_REQUIREMENT, getSourcesForCategories } from './config/traditions';
 
 // --- SUBTITLES FOR SOURCES (Origins) - NOW MOVED TO TRANSLATIONS ---
 
@@ -75,13 +66,30 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             [ReligiousSource.PYTHAGOREAN]: "Antikes Griechenland",
             [ReligiousSource.CHALDEAN]: "Babylon (Mesopotamien)",
             [ReligiousSource.KABBALAH_NUMEROLOGY]: "Jüdische Mystik (Spanien)",
-            [ReligiousSource.VEDIC_NUMEROLOGY]: "Indien (Veden)"
+            [ReligiousSource.VEDIC_NUMEROLOGY]: "Indien (Veden)",
+            [ReligiousSource.IMAM_SADIQ]: "Schiitische Tradition, Persien",
+            [ReligiousSource.ISLAMSKI_SONNIK]: "Russisch-Islamisch",
+            [ReligiousSource.ZHOU_GONG]: "China, Traumdeutung",
+            [ReligiousSource.HATSUYUME]: "Japan, Neujahrs-Traum",
+            [ReligiousSource.SWAPNA_SHASTRA]: "Indien, Vedisch/Hindu",
+            [ReligiousSource.EDGAR_CAYCE]: "USA, Schlafprophet",
+            [ReligiousSource.RUDOLF_STEINER]: "Anthroposophie, Österreich",
+            [ReligiousSource.TALMUD_BERAKHOT]: "Babylonien, 55a-57b",
+            [ReligiousSource.ZOHAR]: "Kabbalistisch, 13. Jh.",
+            [ReligiousSource.VANGA]: "Bulgarien, 20. Jh.",
+            [ReligiousSource.MILLER_RU]: "Russische Traumdeutung",
+            [ReligiousSource.FREUD_RU]: "Russische Freud-Adaption",
+            [ReligiousSource.LOFF]: "Russischer Sonnik",
+            [ReligiousSource.NOSTRADAMUS_RU]: "Russische Adaption",
+            [ReligiousSource.ARTEMIDOROS]: "Griechenland, 2. Jh. n.Chr.",
+            [ReligiousSource.EGYPTIAN_PAPYRUS]: "Ägypten, ca. 1275 v.Chr.",
+            [ReligiousSource.SOMNIALE_DANIELIS]: "Byzantinisch-mittelalterlich"
         },
         categories: {
-            [ReligiousCategory.ISLAMIC]: 'Islamisch', [ReligiousCategory.CHRISTIAN]: 'Christlich', [ReligiousCategory.BUDDHIST]: 'Buddhistisch', [ReligiousCategory.PSYCHOLOGICAL]: 'Psychologisch', [ReligiousCategory.ASTROLOGY]: 'Astrologie', [ReligiousCategory.NUMEROLOGY]: 'Numerologie',
+            [ReligiousCategory.ISLAMIC]: 'Islamisch', [ReligiousCategory.CHRISTIAN]: 'Christlich', [ReligiousCategory.BUDDHIST]: 'Buddhistisch', [ReligiousCategory.PSYCHOLOGICAL]: 'Psychologisch', [ReligiousCategory.ASTROLOGY]: 'Astrologie', [ReligiousCategory.NUMEROLOGY]: 'Numerologie', [ReligiousCategory.JEWISH]: 'Jüdisch', [ReligiousCategory.SONNIKS]: 'Sonniks', [ReligiousCategory.ANCIENT]: 'Antik',
         },
         sources: {
-             [ReligiousSource.TIBETAN]: 'Tibetisch', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Mittelalterlich', [ReligiousSource.MODERN_THEOLOGY]: 'Moderne Theologie', [ReligiousSource.CHURCH_FATHERS]: 'Kirchenväter', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'C.G. Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Westlicher Zodiak', [ReligiousSource.VEDIC_ASTROLOGY]: 'Vedisch', [ReligiousSource.CHINESE_ZODIAC]: 'Chinesisch', [ReligiousSource.PYTHAGOREAN]: 'Pythagoras', [ReligiousSource.CHALDEAN]: 'Chaldäisch', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Kabbalah', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Ebced', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Vedische Zahlen'
+             [ReligiousSource.TIBETAN]: 'Tibetisch', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Mittelalterlich', [ReligiousSource.MODERN_THEOLOGY]: 'Moderne Theologie', [ReligiousSource.CHURCH_FATHERS]: 'Kirchenväter', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'C.G. Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Westlicher Zodiak', [ReligiousSource.VEDIC_ASTROLOGY]: 'Vedisch', [ReligiousSource.CHINESE_ZODIAC]: 'Chinesisch', [ReligiousSource.PYTHAGOREAN]: 'Pythagoras', [ReligiousSource.CHALDEAN]: 'Chaldäisch', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Kabbalah', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Ebced', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Vedische Zahlen', [ReligiousSource.IMAM_SADIQ]: 'Imam Sadiq', [ReligiousSource.ISLAMSKI_SONNIK]: 'Islamski Sonnik', [ReligiousSource.ZHOU_GONG]: 'Zhou Gong', [ReligiousSource.HATSUYUME]: 'Hatsuyume', [ReligiousSource.SWAPNA_SHASTRA]: 'Swapna Shastra', [ReligiousSource.EDGAR_CAYCE]: 'Edgar Cayce', [ReligiousSource.RUDOLF_STEINER]: 'Rudolf Steiner', [ReligiousSource.TALMUD_BERAKHOT]: 'Talmud Berakhot', [ReligiousSource.ZOHAR]: 'Zohar', [ReligiousSource.VANGA]: 'Vanga', [ReligiousSource.MILLER_RU]: 'Miller', [ReligiousSource.FREUD_RU]: 'Freud (RU)', [ReligiousSource.LOFF]: 'Loff', [ReligiousSource.NOSTRADAMUS_RU]: 'Nostradamus', [ReligiousSource.ARTEMIDOROS]: 'Artemidoros', [ReligiousSource.EGYPTIAN_PAPYRUS]: 'Ägypt. Papyrus', [ReligiousSource.SOMNIALE_DANIELIS]: 'Somniale Danielis'
         },
         ui: {
             placeholder: "Beschreibe deinen Traum...", interpret: "Traum Deuten", choose_tradition: "Tradition Wählen", refine_sources: "Quellen verfeinern", oracle_speaks: "Das Orakel spricht", close: "Schließen", listening: "Höre zu...", voices: "Stimme",
@@ -189,11 +197,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_text: "Für Entwickler & Tech-Enthusiasten: Erstelle Accounts bei KI-Providern (z.B. Google AI Studio), generiere dort deine eigenen API Keys und füge sie hier in der App ein. So zahlst du nur die günstigen API-Kosten direkt beim Provider + 3€ für die App-Nutzung. Perfekt für Power-User!",
             upgrade: "Upgrade", current: "Aktuell", unlock: "Freischalten", try_free: "7 TAGE GRATIS TESTEN",
             ad_loading: "Werbung wird geladen...", ad_reward: "Münzen erhalten!",
-            bronze_title: "Bronze (FREE)", bronze_features: ["2 Bilder/Tag", "Werbung", "Community Support"], bronze_price: "0 €",
-            silver2_title: "Silber", silver2_features: ["25 Bilder/Monat", "Keine Werbung", "5% Rabatt", "1x Live-Chat/Woche"], silver2_price_monthly: "4,99 € / Monat", silver2_price_yearly: "54,89 € / Jahr",
-            gold2_title: "Gold", gold2_features: ["Unbegrenzte Bilder", "400 Münzen/Monat", "10% Rabatt", "5 Videos/Monat", "Unbegrenzt Live-Chat"], gold2_price_monthly: "9,99 € / Monat", gold2_price_yearly: "107,89 € / Jahr",
-            deluxe_title: "Deluxe", deluxe_features: ["Alles in Gold", "1.200 Münzen/Monat", "15% Rabatt", "20 Videos/Monat", "Prioritäts-Support"], deluxe_price_monthly: "19,99 € / Monat", deluxe_price_yearly: "215,89 € / Jahr",
-            vip_title: "VIP", vip_features: ["Alles in Deluxe", "5.000 Münzen/Monat", "15% Rabatt", "Unbegrenzte Videos", "Persönlicher Support", "Beta-Zugang"], vip_price_monthly: "49,99 € / Monat", vip_price_yearly: "539,89 € / Jahr"
+            bronze_title: "Free", bronze_features: ["3 Deutungen/Tag", "Groq-KI", "6 Traditionen", "Werbung"], bronze_price: "0 €",
+            silver2_title: "Pro", silver2_features: ["Unbegrenzte Deutungen", "Gemini-KI", "Alle 9 Traditionen", "Keine Werbung", "100 Coins/Monat", "10% Coin-Rabatt"], silver2_price_monthly: "4,99 € / Monat", silver2_price_yearly: "49,99 € / Jahr",
+            gold2_title: "Premium", gold2_features: ["Claude 6-Perspektiven", "500 Coins/Monat", "20% Coin-Rabatt", "HD-Bilder", "5 Videos/Monat", "Live Voice", "KI-Chat Premium"], gold2_price_monthly: "14,99 € / Monat", gold2_price_yearly: "149,99 € / Jahr",
+            vip_title: "VIP", vip_features: ["2.000 Coins/Monat", "30% Coin-Rabatt", "20 Videos/Monat", "Traumtagebuch", "Exklusive Quellen", "WhatsApp-Support"], vip_price_monthly: "199,99 SAR / Monat", vip_price_yearly: "1.999,99 SAR / Jahr"
         },
         earn: {
             title: "Münzen verdienen",
@@ -246,13 +253,30 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             [ReligiousSource.PYTHAGOREAN]: "Ancient Greece",
             [ReligiousSource.CHALDEAN]: "Babylon (Mesopotamia)",
             [ReligiousSource.KABBALAH_NUMEROLOGY]: "Jewish Mysticism (Spain)",
-            [ReligiousSource.VEDIC_NUMEROLOGY]: "India (Vedas)"
+            [ReligiousSource.VEDIC_NUMEROLOGY]: "India (Vedas)",
+            [ReligiousSource.IMAM_SADIQ]: "Shia Tradition, Persia",
+            [ReligiousSource.ISLAMSKI_SONNIK]: "Russian-Islamic",
+            [ReligiousSource.ZHOU_GONG]: "China, Dream Interpretation",
+            [ReligiousSource.HATSUYUME]: "Japan, New Year Dream",
+            [ReligiousSource.SWAPNA_SHASTRA]: "India, Vedic/Hindu",
+            [ReligiousSource.EDGAR_CAYCE]: "USA, Sleeping Prophet",
+            [ReligiousSource.RUDOLF_STEINER]: "Anthroposophy, Austria",
+            [ReligiousSource.TALMUD_BERAKHOT]: "Babylonia, 55a-57b",
+            [ReligiousSource.ZOHAR]: "Kabbalistic, 13th C.",
+            [ReligiousSource.VANGA]: "Bulgaria, 20th C.",
+            [ReligiousSource.MILLER_RU]: "Russian Dream Interpretation",
+            [ReligiousSource.FREUD_RU]: "Russian Freud Adaptation",
+            [ReligiousSource.LOFF]: "Russian Dream Book",
+            [ReligiousSource.NOSTRADAMUS_RU]: "Russian Adaptation",
+            [ReligiousSource.ARTEMIDOROS]: "Greece, 2nd C. AD",
+            [ReligiousSource.EGYPTIAN_PAPYRUS]: "Egypt, ca. 1275 BC",
+            [ReligiousSource.SOMNIALE_DANIELIS]: "Byzantine-Medieval"
         },
         categories: {
-            [ReligiousCategory.ISLAMIC]: 'Islamic', [ReligiousCategory.CHRISTIAN]: 'Christian', [ReligiousCategory.BUDDHIST]: 'Buddhist', [ReligiousCategory.PSYCHOLOGICAL]: 'Psychological', [ReligiousCategory.ASTROLOGY]: 'Astrology', [ReligiousCategory.NUMEROLOGY]: 'Numerology',
+            [ReligiousCategory.ISLAMIC]: 'Islamic', [ReligiousCategory.CHRISTIAN]: 'Christian', [ReligiousCategory.BUDDHIST]: 'Buddhist', [ReligiousCategory.PSYCHOLOGICAL]: 'Psychological', [ReligiousCategory.ASTROLOGY]: 'Astrology', [ReligiousCategory.NUMEROLOGY]: 'Numerology', [ReligiousCategory.JEWISH]: 'Jewish', [ReligiousCategory.SONNIKS]: 'Dream Books', [ReligiousCategory.ANCIENT]: 'Ancient',
         },
         sources: {
-            [ReligiousSource.TIBETAN]: 'Tibetan', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Medieval', [ReligiousSource.MODERN_THEOLOGY]: 'Modern Theology', [ReligiousSource.CHURCH_FATHERS]: 'Church Fathers', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jungian', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Western Zodiac', [ReligiousSource.VEDIC_ASTROLOGY]: 'Vedic', [ReligiousSource.CHINESE_ZODIAC]: 'Chinese Zodiac', [ReligiousSource.PYTHAGOREAN]: 'Pythagorean', [ReligiousSource.CHALDEAN]: 'Chaldean', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Kabbalah', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Abjad', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Vedic Numbers'
+            [ReligiousSource.TIBETAN]: 'Tibetan', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Medieval', [ReligiousSource.MODERN_THEOLOGY]: 'Modern Theology', [ReligiousSource.CHURCH_FATHERS]: 'Church Fathers', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jungian', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Western Zodiac', [ReligiousSource.VEDIC_ASTROLOGY]: 'Vedic', [ReligiousSource.CHINESE_ZODIAC]: 'Chinese Zodiac', [ReligiousSource.PYTHAGOREAN]: 'Pythagorean', [ReligiousSource.CHALDEAN]: 'Chaldean', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Kabbalah', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Abjad', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Vedic Numbers', [ReligiousSource.IMAM_SADIQ]: 'Imam Sadiq', [ReligiousSource.ISLAMSKI_SONNIK]: 'Islamic Sonnik', [ReligiousSource.ZHOU_GONG]: 'Zhou Gong', [ReligiousSource.HATSUYUME]: 'Hatsuyume', [ReligiousSource.SWAPNA_SHASTRA]: 'Swapna Shastra', [ReligiousSource.EDGAR_CAYCE]: 'Edgar Cayce', [ReligiousSource.RUDOLF_STEINER]: 'Rudolf Steiner', [ReligiousSource.TALMUD_BERAKHOT]: 'Talmud Berakhot', [ReligiousSource.ZOHAR]: 'Zohar', [ReligiousSource.VANGA]: 'Vanga', [ReligiousSource.MILLER_RU]: 'Miller', [ReligiousSource.FREUD_RU]: 'Freud (RU)', [ReligiousSource.LOFF]: 'Loff', [ReligiousSource.NOSTRADAMUS_RU]: 'Nostradamus', [ReligiousSource.ARTEMIDOROS]: 'Artemidorus', [ReligiousSource.EGYPTIAN_PAPYRUS]: 'Egyptian Papyrus', [ReligiousSource.SOMNIALE_DANIELIS]: 'Somniale Danielis'
         },
         ui: {
             placeholder: "Describe your dream...", interpret: "Interpret Dream", choose_tradition: "Choose Tradition", refine_sources: "Refine Sources", oracle_speaks: "The Oracle Speaks", close: "Close", listening: "Listening...", voices: "Voice",
@@ -360,11 +384,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_text: "For developers & tech enthusiasts: Create accounts with AI providers (e.g., Google AI Studio), generate your own API keys there, and add them to the app. This way, you only pay the low API costs directly to the provider + €3 for app usage. Perfect for power users!",
             upgrade: "Upgrade", current: "Current", unlock: "Unlock", try_free: "TRY FREE FOR 7 DAYS",
             ad_loading: "Loading Ad...", ad_reward: "Coins earned!",
-            bronze_title: "Bronze (FREE)", bronze_features: ["2 Images/Day", "Ads", "Community Support"], bronze_price: "0 €",
-            silver2_title: "Silver", silver2_features: ["25 Images/Month", "Ad-Free", "5% Discount", "1x Live Chat/Week"], silver2_price_monthly: "4.99 € / Month", silver2_price_yearly: "54.89 € / Year",
-            gold2_title: "Gold", gold2_features: ["Unlimited Images", "400 Coins/Month", "10% Discount", "5 Videos/Month", "Unlimited Live Chat"], gold2_price_monthly: "9.99 € / Month", gold2_price_yearly: "107.89 € / Year",
-            deluxe_title: "Deluxe", deluxe_features: ["All Gold Features", "1,200 Coins/Month", "15% Discount", "20 Videos/Month", "Priority Support"], deluxe_price_monthly: "19.99 € / Month", deluxe_price_yearly: "215.89 € / Year",
-            vip_title: "VIP", vip_features: ["All Deluxe Features", "5,000 Coins/Month", "15% Discount", "Unlimited Videos", "Personal Support", "Beta Access"], vip_price_monthly: "49.99 € / Month", vip_price_yearly: "539.89 € / Year"
+            bronze_title: "Free", bronze_features: ["3 Interpretations/Day", "Groq AI", "6 Traditions", "Ads"], bronze_price: "€0",
+            silver2_title: "Pro", silver2_features: ["Unlimited Interpretations", "Gemini AI", "All 9 Traditions", "Ad-Free", "100 Coins/Month", "10% Coin Discount"], silver2_price_monthly: "€4.99 / Month", silver2_price_yearly: "€49.99 / Year",
+            gold2_title: "Premium", gold2_features: ["Claude 6-Perspectives", "500 Coins/Month", "20% Coin Discount", "HD Images", "5 Videos/Month", "Live Voice", "Premium AI Chat"], gold2_price_monthly: "€14.99 / Month", gold2_price_yearly: "€149.99 / Year",
+            vip_title: "VIP", vip_features: ["2,000 Coins/Month", "30% Coin Discount", "20 Videos/Month", "Dream Journal", "Exclusive Sources", "WhatsApp Support"], vip_price_monthly: "199.99 SAR / Month", vip_price_yearly: "1,999.99 SAR / Year"
         },
         earn: {
             title: "Earn Coins",
@@ -417,13 +440,30 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             [ReligiousSource.PYTHAGOREAN]: "Antik Yunan",
             [ReligiousSource.CHALDEAN]: "Babil (Mezopotamya)",
             [ReligiousSource.KABBALAH_NUMEROLOGY]: "Yahudi Mistisizmi (İspanya)",
-            [ReligiousSource.VEDIC_NUMEROLOGY]: "Hindistan (Vedalar)"
+            [ReligiousSource.VEDIC_NUMEROLOGY]: "Hindistan (Vedalar)",
+            [ReligiousSource.IMAM_SADIQ]: "Şii Geleneği, İran",
+            [ReligiousSource.ISLAMSKI_SONNIK]: "Rus-İslam",
+            [ReligiousSource.ZHOU_GONG]: "Çin, Rüya Yorumu",
+            [ReligiousSource.HATSUYUME]: "Japonya, Yılbaşı Rüyası",
+            [ReligiousSource.SWAPNA_SHASTRA]: "Hindistan, Vedik/Hindu",
+            [ReligiousSource.EDGAR_CAYCE]: "ABD, Uyuyan Peygamber",
+            [ReligiousSource.RUDOLF_STEINER]: "Antropozofi, Avusturya",
+            [ReligiousSource.TALMUD_BERAKHOT]: "Babil, 55a-57b",
+            [ReligiousSource.ZOHAR]: "Kabalist, 13. Yy.",
+            [ReligiousSource.VANGA]: "Bulgaristan, 20. Yy.",
+            [ReligiousSource.MILLER_RU]: "Rus Rüya Yorumu",
+            [ReligiousSource.FREUD_RU]: "Rus Freud Uyarlaması",
+            [ReligiousSource.LOFF]: "Rus Rüya Kitabı",
+            [ReligiousSource.NOSTRADAMUS_RU]: "Rus Uyarlaması",
+            [ReligiousSource.ARTEMIDOROS]: "Yunanistan, M.S. 2. Yy.",
+            [ReligiousSource.EGYPTIAN_PAPYRUS]: "Mısır, MÖ yaklaşık 1275",
+            [ReligiousSource.SOMNIALE_DANIELIS]: "Bizans-Ortaçağ"
         },
         categories: {
-            [ReligiousCategory.ISLAMIC]: 'İslami', [ReligiousCategory.CHRISTIAN]: 'Hristiyan', [ReligiousCategory.BUDDHIST]: 'Budist', [ReligiousCategory.PSYCHOLOGICAL]: 'Psikoloji', [ReligiousCategory.ASTROLOGY]: 'Astroloji', [ReligiousCategory.NUMEROLOGY]: 'Nümeroloji',
+            [ReligiousCategory.ISLAMIC]: 'İslami', [ReligiousCategory.CHRISTIAN]: 'Hristiyan', [ReligiousCategory.BUDDHIST]: 'Budist', [ReligiousCategory.PSYCHOLOGICAL]: 'Psikoloji', [ReligiousCategory.ASTROLOGY]: 'Astroloji', [ReligiousCategory.NUMEROLOGY]: 'Nümeroloji', [ReligiousCategory.JEWISH]: 'Yahudi', [ReligiousCategory.SONNIKS]: 'Rüya Kitapları', [ReligiousCategory.ANCIENT]: 'Antik',
         },
         sources: {
-            [ReligiousSource.TIBETAN]: 'Tibet', [ReligiousSource.IBN_SIRIN]: 'İbn-i Sirin', [ReligiousSource.NABULSI]: 'Nablusi', [ReligiousSource.AL_ISKHAFI]: 'El-İskafi', [ReligiousSource.MEDIEVAL]: 'Ortaçağ', [ReligiousSource.MODERN_THEOLOGY]: 'Modern Teoloji', [ReligiousSource.CHURCH_FATHERS]: 'Kilise Babaları', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Batı Burçları', [ReligiousSource.VEDIC_ASTROLOGY]: 'Vedik', [ReligiousSource.CHINESE_ZODIAC]: 'Çin Burçları', [ReligiousSource.PYTHAGOREAN]: 'Pisagor', [ReligiousSource.CHALDEAN]: 'Keldani', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Kabala', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Ebced', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Vedik Sayılar'
+            [ReligiousSource.TIBETAN]: 'Tibet', [ReligiousSource.IBN_SIRIN]: 'İbn-i Sirin', [ReligiousSource.NABULSI]: 'Nablusi', [ReligiousSource.AL_ISKHAFI]: 'El-İskafi', [ReligiousSource.MEDIEVAL]: 'Ortaçağ', [ReligiousSource.MODERN_THEOLOGY]: 'Modern Teoloji', [ReligiousSource.CHURCH_FATHERS]: 'Kilise Babaları', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Batı Burçları', [ReligiousSource.VEDIC_ASTROLOGY]: 'Vedik', [ReligiousSource.CHINESE_ZODIAC]: 'Çin Burçları', [ReligiousSource.PYTHAGOREAN]: 'Pisagor', [ReligiousSource.CHALDEAN]: 'Keldani', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Kabala', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Ebced', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Vedik Sayılar', [ReligiousSource.IMAM_SADIQ]: 'İmam Sadık', [ReligiousSource.ISLAMSKI_SONNIK]: 'İslami Rüya', [ReligiousSource.ZHOU_GONG]: 'Zhou Gong', [ReligiousSource.HATSUYUME]: 'Hatsuyume', [ReligiousSource.SWAPNA_SHASTRA]: 'Swapna Shastra', [ReligiousSource.EDGAR_CAYCE]: 'Edgar Cayce', [ReligiousSource.RUDOLF_STEINER]: 'Rudolf Steiner', [ReligiousSource.TALMUD_BERAKHOT]: 'Talmud Berahot', [ReligiousSource.ZOHAR]: 'Zohar', [ReligiousSource.VANGA]: 'Vanga', [ReligiousSource.MILLER_RU]: 'Miller', [ReligiousSource.FREUD_RU]: 'Freud (RU)', [ReligiousSource.LOFF]: 'Loff', [ReligiousSource.NOSTRADAMUS_RU]: 'Nostradamus', [ReligiousSource.ARTEMIDOROS]: 'Artemidoros', [ReligiousSource.EGYPTIAN_PAPYRUS]: 'Mısır Papirüsü', [ReligiousSource.SOMNIALE_DANIELIS]: 'Somniale Danielis'
         },
         ui: {
             placeholder: "Rüyanı anlat...", interpret: "Rüyayı Yorumla", choose_tradition: "Gelenek Seç", refine_sources: "Kaynakları Seç", oracle_speaks: "Kahin Konuşuyor", close: "Kapat", listening: "Dinleniyor...", voices: "Ses",
@@ -531,11 +571,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_text: "Geliştiriciler ve teknoloji meraklıları için: Yapay zeka sağlayıcılarında hesap oluşturun (ör. Google AI Studio), orada kendi API anahtarlarınızı oluşturun ve buraya ekleyin. Böylece sadece düşük API maliyetlerini doğrudan sağlayıcıya ödeyip + uygulama kullanımı için 3€ ödersiniz. Power kullanıcılar için mükemmel!",
             upgrade: "Yükselt", current: "Mevcut", unlock: "Kilidi Aç", try_free: "7 GÜN ÜCRETSİZ DENE",
             ad_loading: "Reklam yükleniyor...", ad_reward: "Kredi kazanıldı!",
-            bronze_title: "Bronz (ÜCRETSİZ)", bronze_features: ["2 Görsel/Gün", "Reklamlar", "Topluluk Desteği"], bronze_price: "0 €",
-            silver2_title: "Gümüş", silver2_features: ["25 Görsel/Ay", "Reklamsız", "%5 İndirim", "Haftada 1 Canlı Sohbet"], silver2_price_monthly: "4,99 € / Ay", silver2_price_yearly: "54,89 € / Yıl",
-            gold2_title: "Altın", gold2_features: ["Sınırsız Görsel", "400 Jeton/Ay", "%10 İndirim", "5 Video/Ay", "Sınırsız Canlı Sohbet"], gold2_price_monthly: "9,99 € / Ay", gold2_price_yearly: "107,89 € / Yıl",
-            deluxe_title: "Deluxe", deluxe_features: ["Altın Özelliklerin Hepsi", "1.200 Jeton/Ay", "%15 İndirim", "20 Video/Ay", "Öncelikli Destek"], deluxe_price_monthly: "19,99 € / Ay", deluxe_price_yearly: "215,89 € / Yıl",
-            vip_title: "VIP", vip_features: ["Deluxe Özelliklerin Hepsi", "5.000 Jeton/Ay", "%15 İndirim", "Sınırsız Video", "Kişisel Destek", "Beta Erişimi"], vip_price_monthly: "49,99 € / Ay", vip_price_yearly: "539,89 € / Yıl"
+            bronze_title: "Free", bronze_features: ["3 Yorum/Gün", "Groq YZ", "6 Gelenek", "Reklamlar"], bronze_price: "0 ₺",
+            silver2_title: "Pro", silver2_features: ["Sınırsız Yorum", "Gemini YZ", "Tüm 9 Gelenek", "Reklamsız", "100 Jeton/Ay", "%10 Jeton İndirimi"], silver2_price_monthly: "79,99 ₺ / Ay", silver2_price_yearly: "799 ₺ / Yıl",
+            gold2_title: "Premium", gold2_features: ["Claude 6 Perspektif", "500 Jeton/Ay", "%20 Jeton İndirimi", "HD Görseller", "5 Video/Ay", "Canlı Ses", "Premium YZ Sohbet"], gold2_price_monthly: "249,99 ₺ / Ay", gold2_price_yearly: "2.499 ₺ / Yıl",
+            vip_title: "VIP", vip_features: ["2.000 Jeton/Ay", "%30 Jeton İndirimi", "20 Video/Ay", "Rüya Günlüğü", "Özel Kaynaklar", "WhatsApp Destek"], vip_price_monthly: "199,99 SAR / Ay", vip_price_yearly: "1.999,99 SAR / Yıl"
         },
         earn: {
             title: "Jeton Kazan",
@@ -588,13 +627,14 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             [ReligiousSource.PYTHAGOREAN]: "Antigua Grecia",
             [ReligiousSource.CHALDEAN]: "Babilonia (Mesopotamia)",
             [ReligiousSource.KABBALAH_NUMEROLOGY]: "Misticismo Judío (España)",
-            [ReligiousSource.VEDIC_NUMEROLOGY]: "India (Vedas)"
+            [ReligiousSource.VEDIC_NUMEROLOGY]: "India (Vedas)",
+            [ReligiousSource.IMAM_SADIQ]: "Tradición Chií, Persia", [ReligiousSource.ISLAMSKI_SONNIK]: "Ruso-Islámico", [ReligiousSource.ZHOU_GONG]: "China, Interpretación de Sueños", [ReligiousSource.HATSUYUME]: "Japón, Sueño de Año Nuevo", [ReligiousSource.SWAPNA_SHASTRA]: "India, Védico/Hindú", [ReligiousSource.EDGAR_CAYCE]: "EE.UU., Profeta Durmiente", [ReligiousSource.RUDOLF_STEINER]: "Antroposofía, Austria", [ReligiousSource.TALMUD_BERAKHOT]: "Babilonia, 55a-57b", [ReligiousSource.ZOHAR]: "Cabalístico, S. XIII", [ReligiousSource.VANGA]: "Bulgaria, S. XX", [ReligiousSource.MILLER_RU]: "Interpretación Rusa", [ReligiousSource.FREUD_RU]: "Adaptación Rusa de Freud", [ReligiousSource.LOFF]: "Libro de Sueños Ruso", [ReligiousSource.NOSTRADAMUS_RU]: "Adaptación Rusa", [ReligiousSource.ARTEMIDOROS]: "Grecia, S. II d.C.", [ReligiousSource.EGYPTIAN_PAPYRUS]: "Egipto, ca. 1275 a.C.", [ReligiousSource.SOMNIALE_DANIELIS]: "Bizantino-Medieval"
         },
         categories: {
-            [ReligiousCategory.ISLAMIC]: 'Islámica', [ReligiousCategory.CHRISTIAN]: 'Cristiana', [ReligiousCategory.BUDDHIST]: 'Budista', [ReligiousCategory.PSYCHOLOGICAL]: 'Psicológica', [ReligiousCategory.ASTROLOGY]: 'Astrología', [ReligiousCategory.NUMEROLOGY]: 'Numerología',
+            [ReligiousCategory.ISLAMIC]: 'Islámica', [ReligiousCategory.CHRISTIAN]: 'Cristiana', [ReligiousCategory.BUDDHIST]: 'Budista', [ReligiousCategory.PSYCHOLOGICAL]: 'Psicológica', [ReligiousCategory.ASTROLOGY]: 'Astrología', [ReligiousCategory.NUMEROLOGY]: 'Numerología', [ReligiousCategory.JEWISH]: 'Judío', [ReligiousCategory.SONNIKS]: 'Libros de Sueños', [ReligiousCategory.ANCIENT]: 'Antiguo',
         },
         sources: {
-            [ReligiousSource.TIBETAN]: 'Tibetano', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Medieval', [ReligiousSource.MODERN_THEOLOGY]: 'Teología Moderna', [ReligiousSource.CHURCH_FATHERS]: 'Padres de la Iglesia', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Zodíaco Occidental', [ReligiousSource.VEDIC_ASTROLOGY]: 'Védica', [ReligiousSource.CHINESE_ZODIAC]: 'Zodíaco Chino', [ReligiousSource.PYTHAGOREAN]: 'Pitagórico', [ReligiousSource.CHALDEAN]: 'Caldeo', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Cábala', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Abjad', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Números Védicos'
+            [ReligiousSource.TIBETAN]: 'Tibetano', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Medieval', [ReligiousSource.MODERN_THEOLOGY]: 'Teología Moderna', [ReligiousSource.CHURCH_FATHERS]: 'Padres de la Iglesia', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Zodíaco Occidental', [ReligiousSource.VEDIC_ASTROLOGY]: 'Védica', [ReligiousSource.CHINESE_ZODIAC]: 'Zodíaco Chino', [ReligiousSource.PYTHAGOREAN]: 'Pitagórico', [ReligiousSource.CHALDEAN]: 'Caldeo', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Cábala', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Abjad', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Números Védicos', [ReligiousSource.IMAM_SADIQ]: 'Imam Sadiq', [ReligiousSource.ISLAMSKI_SONNIK]: 'Sonnik Islámico', [ReligiousSource.ZHOU_GONG]: 'Zhou Gong', [ReligiousSource.HATSUYUME]: 'Hatsuyume', [ReligiousSource.SWAPNA_SHASTRA]: 'Swapna Shastra', [ReligiousSource.EDGAR_CAYCE]: 'Edgar Cayce', [ReligiousSource.RUDOLF_STEINER]: 'Rudolf Steiner', [ReligiousSource.TALMUD_BERAKHOT]: 'Talmud Berajot', [ReligiousSource.ZOHAR]: 'Zohar', [ReligiousSource.VANGA]: 'Vanga', [ReligiousSource.MILLER_RU]: 'Miller', [ReligiousSource.FREUD_RU]: 'Freud (RU)', [ReligiousSource.LOFF]: 'Loff', [ReligiousSource.NOSTRADAMUS_RU]: 'Nostradamus', [ReligiousSource.ARTEMIDOROS]: 'Artemidoro', [ReligiousSource.EGYPTIAN_PAPYRUS]: 'Papiro Egipcio', [ReligiousSource.SOMNIALE_DANIELIS]: 'Somniale Danielis'
         },
         ui: {
             placeholder: "Describe tu sueño...", interpret: "Interpretar Sueño", choose_tradition: "Elegir Tradición", refine_sources: "Refinar Fuentes", oracle_speaks: "El Oráculo Habla", close: "Cerrar", listening: "Escuchando...", voices: "Voz",
@@ -702,11 +742,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_text: "Para desarrolladores y entusiastas de la tecnología: crea cuentas con proveedores de IA (por ejemplo, Google AI Studio), genera tus propias claves API allí y agrégalas a la aplicación. De esta manera, solo pagas los bajos costos de API directamente al proveedor + 3 € por el uso de la aplicación. ¡Perfecto para usuarios avanzados!",
             upgrade: "Mejorar", current: "Actual", unlock: "Desbloquear", try_free: "PRUEBA GRATIS 7 DÍAS",
             ad_loading: "Cargando anuncio...", ad_reward: "¡Monedas ganadas!",
-            bronze_title: "Bronce (GRATIS)", bronze_features: ["2 Imágenes/Día", "Anuncios", "Soporte Comunidad"], bronze_price: "0 €",
-            silver2_title: "Plata", silver2_features: ["25 Imágenes/Mes", "Sin Anuncios", "5% Descuento", "1x Chat en Vivo/Semana"], silver2_price_monthly: "4,99 € / Mes", silver2_price_yearly: "54,89 € / Año",
-            gold2_title: "Oro", gold2_features: ["Imágenes Ilimitadas", "400 Monedas/Mes", "10% Descuento", "5 Videos/Mes", "Chat en Vivo Ilimitado"], gold2_price_monthly: "9,99 € / Mes", gold2_price_yearly: "107,89 € / Año",
-            deluxe_title: "Deluxe", deluxe_features: ["Todo en Oro", "1.200 Monedas/Mes", "15% Descuento", "20 Videos/Mes", "Soporte Prioritario"], deluxe_price_monthly: "19,99 € / Mes", deluxe_price_yearly: "215,89 € / Año",
-            vip_title: "VIP", vip_features: ["Todo en Deluxe", "5.000 Monedas/Mes", "15% Descuento", "Videos Ilimitados", "Soporte Personal", "Acceso Beta"], vip_price_monthly: "49,99 € / Mes", vip_price_yearly: "539,89 € / Año"
+            bronze_title: "Free", bronze_features: ["3 Interpretaciones/Día", "Groq IA", "6 Tradiciones", "Anuncios"], bronze_price: "0 €",
+            silver2_title: "Pro", silver2_features: ["Interpretaciones Ilimitadas", "Gemini IA", "Las 9 Tradiciones", "Sin Anuncios", "100 Monedas/Mes", "10% Descuento"], silver2_price_monthly: "4,99 € / Mes", silver2_price_yearly: "49,99 € / Año",
+            gold2_title: "Premium", gold2_features: ["Claude 6 Perspectivas", "500 Monedas/Mes", "20% Descuento", "Imágenes HD", "5 Videos/Mes", "Voz en Vivo", "Chat IA Premium"], gold2_price_monthly: "14,99 € / Mes", gold2_price_yearly: "149,99 € / Año",
+            vip_title: "VIP", vip_features: ["2.000 Monedas/Mes", "30% Descuento", "20 Videos/Mes", "Diario de Sueños", "Fuentes Exclusivas", "Soporte WhatsApp"], vip_price_monthly: "199,99 SAR / Mes", vip_price_yearly: "1.999,99 SAR / Año"
         },
         earn: {
             title: "Ganar Monedas",
@@ -759,13 +798,14 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             [ReligiousSource.PYTHAGOREAN]: "Grèce Antique",
             [ReligiousSource.CHALDEAN]: "Babylone (Mésopotamie)",
             [ReligiousSource.KABBALAH_NUMEROLOGY]: "Mysticisme Juif (Espagne)",
-            [ReligiousSource.VEDIC_NUMEROLOGY]: "Inde (Védas)"
+            [ReligiousSource.VEDIC_NUMEROLOGY]: "Inde (Védas)",
+            [ReligiousSource.IMAM_SADIQ]: "Tradition Chiite, Perse", [ReligiousSource.ISLAMSKI_SONNIK]: "Russo-Islamique", [ReligiousSource.ZHOU_GONG]: "Chine, Interprétation des Rêves", [ReligiousSource.HATSUYUME]: "Japon, Rêve du Nouvel An", [ReligiousSource.SWAPNA_SHASTRA]: "Inde, Védique/Hindou", [ReligiousSource.EDGAR_CAYCE]: "USA, Prophète Endormi", [ReligiousSource.RUDOLF_STEINER]: "Anthroposophie, Autriche", [ReligiousSource.TALMUD_BERAKHOT]: "Babylonie, 55a-57b", [ReligiousSource.ZOHAR]: "Kabbaliste, XIIIe s.", [ReligiousSource.VANGA]: "Bulgarie, XXe s.", [ReligiousSource.MILLER_RU]: "Interprétation Russe", [ReligiousSource.FREUD_RU]: "Adaptation Russe de Freud", [ReligiousSource.LOFF]: "Livre de Rêves Russe", [ReligiousSource.NOSTRADAMUS_RU]: "Adaptation Russe", [ReligiousSource.ARTEMIDOROS]: "Grèce, IIe s. apr. J.-C.", [ReligiousSource.EGYPTIAN_PAPYRUS]: "Égypte, env. 1275 av. J.-C.", [ReligiousSource.SOMNIALE_DANIELIS]: "Byzantin-Médiéval"
         },
         categories: {
-            [ReligiousCategory.ISLAMIC]: 'Islamique', [ReligiousCategory.CHRISTIAN]: 'Chrétien', [ReligiousCategory.BUDDHIST]: 'Bouddhiste', [ReligiousCategory.PSYCHOLOGICAL]: 'Psychologique', [ReligiousCategory.ASTROLOGY]: 'Astrologie', [ReligiousCategory.NUMEROLOGY]: 'Numérologie',
+            [ReligiousCategory.ISLAMIC]: 'Islamique', [ReligiousCategory.CHRISTIAN]: 'Chrétien', [ReligiousCategory.BUDDHIST]: 'Bouddhiste', [ReligiousCategory.PSYCHOLOGICAL]: 'Psychologique', [ReligiousCategory.ASTROLOGY]: 'Astrologie', [ReligiousCategory.NUMEROLOGY]: 'Numérologie', [ReligiousCategory.JEWISH]: 'Juif', [ReligiousCategory.SONNIKS]: 'Livres de Rêves', [ReligiousCategory.ANCIENT]: 'Antique',
         },
         sources: {
-            [ReligiousSource.TIBETAN]: 'Tibétain', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Médiéval', [ReligiousSource.MODERN_THEOLOGY]: 'Théologie Moderne', [ReligiousSource.CHURCH_FATHERS]: 'Pères de l\'Église', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Zodiaque Occidental', [ReligiousSource.VEDIC_ASTROLOGY]: 'Védique', [ReligiousSource.CHINESE_ZODIAC]: 'Zodiaque Chinois', [ReligiousSource.PYTHAGOREAN]: 'Pythagoricien', [ReligiousSource.CHALDEAN]: 'Chaldéen', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Kabbale', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Abjad', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Nombres Védiques'
+            [ReligiousSource.TIBETAN]: 'Tibétain', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Médiéval', [ReligiousSource.MODERN_THEOLOGY]: 'Théologie Moderne', [ReligiousSource.CHURCH_FATHERS]: 'Pères de l\'Église', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Zodiaque Occidental', [ReligiousSource.VEDIC_ASTROLOGY]: 'Védique', [ReligiousSource.CHINESE_ZODIAC]: 'Zodiaque Chinois', [ReligiousSource.PYTHAGOREAN]: 'Pythagoricien', [ReligiousSource.CHALDEAN]: 'Chaldéen', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Kabbale', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Abjad', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Nombres Védiques', [ReligiousSource.IMAM_SADIQ]: 'Imam Sadiq', [ReligiousSource.ISLAMSKI_SONNIK]: 'Sonnik Islamique', [ReligiousSource.ZHOU_GONG]: 'Zhou Gong', [ReligiousSource.HATSUYUME]: 'Hatsuyume', [ReligiousSource.SWAPNA_SHASTRA]: 'Swapna Shastra', [ReligiousSource.EDGAR_CAYCE]: 'Edgar Cayce', [ReligiousSource.RUDOLF_STEINER]: 'Rudolf Steiner', [ReligiousSource.TALMUD_BERAKHOT]: 'Talmud Berakhot', [ReligiousSource.ZOHAR]: 'Zohar', [ReligiousSource.VANGA]: 'Vanga', [ReligiousSource.MILLER_RU]: 'Miller', [ReligiousSource.FREUD_RU]: 'Freud (RU)', [ReligiousSource.LOFF]: 'Loff', [ReligiousSource.NOSTRADAMUS_RU]: 'Nostradamus', [ReligiousSource.ARTEMIDOROS]: 'Artémidore', [ReligiousSource.EGYPTIAN_PAPYRUS]: 'Papyrus Égyptien', [ReligiousSource.SOMNIALE_DANIELIS]: 'Somniale Danielis'
         },
         ui: {
             placeholder: "Décrivez votre rêve...", interpret: "Interpréter le Rêve", choose_tradition: "Choisir la Tradition", refine_sources: "Affiner les Sources", oracle_speaks: "L'Oracle Parle", close: "Fermer", listening: "Écoute...", voices: "Voix",
@@ -873,11 +913,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_text: "Pour les développeurs et passionnés de technologie : créez des comptes auprès de fournisseurs d'IA (par ex. Google AI Studio), générez vos propres clés API là-bas et ajoutez-les à l'application. Ainsi, vous ne payez que les faibles coûts d'API directement au fournisseur + 3 € pour l'utilisation de l'application. Parfait pour les power users !",
             upgrade: "Mettre à niveau", current: "Actuel", unlock: "Débloquer", try_free: "ESSAI GRATUIT 7 JOURS",
             ad_loading: "Chargement pub...", ad_reward: "Pièces gagnées !",
-            bronze_title: "Bronze (GRATUIT)", bronze_features: ["2 Images/Jour", "Publicités", "Support Communauté"], bronze_price: "0 €",
-            silver2_title: "Argent", silver2_features: ["25 Images/Mois", "Sans Pub", "5% Réduction", "1x Chat en Direct/Semaine"], silver2_price_monthly: "4,99 € / Mois", silver2_price_yearly: "54,89 € / An",
-            gold2_title: "Or", gold2_features: ["Images Illimitées", "400 Pièces/Mois", "10% Réduction", "5 Vidéos/Mois", "Chat en Direct Illimité"], gold2_price_monthly: "9,99 € / Mois", gold2_price_yearly: "107,89 € / An",
-            deluxe_title: "Deluxe", deluxe_features: ["Tout en Or", "1 200 Pièces/Mois", "15% Réduction", "20 Vidéos/Mois", "Support Prioritaire"], deluxe_price_monthly: "19,99 € / Mois", deluxe_price_yearly: "215,89 € / An",
-            vip_title: "VIP", vip_features: ["Tout en Deluxe", "5 000 Pièces/Mois", "15% Réduction", "Vidéos Illimitées", "Support Personnel", "Accès Bêta"], vip_price_monthly: "49,99 € / Mois", vip_price_yearly: "539,89 € / An"
+            bronze_title: "Free", bronze_features: ["3 Interprétations/Jour", "Groq IA", "6 Traditions", "Publicités"], bronze_price: "0 €",
+            silver2_title: "Pro", silver2_features: ["Interprétations Illimitées", "Gemini IA", "Les 9 Traditions", "Sans Pub", "100 Pièces/Mois", "10% Réduction"], silver2_price_monthly: "4,99 € / Mois", silver2_price_yearly: "49,99 € / An",
+            gold2_title: "Premium", gold2_features: ["Claude 6 Perspectives", "500 Pièces/Mois", "20% Réduction", "Images HD", "5 Vidéos/Mois", "Voix en Direct", "Chat IA Premium"], gold2_price_monthly: "14,99 € / Mois", gold2_price_yearly: "149,99 € / An",
+            vip_title: "VIP", vip_features: ["2 000 Pièces/Mois", "30% Réduction", "20 Vidéos/Mois", "Journal de Rêves", "Sources Exclusives", "Support WhatsApp"], vip_price_monthly: "199,99 SAR / Mois", vip_price_yearly: "1 999,99 SAR / An"
         },
         earn: {
             title: "Gagner des Pièces",
@@ -930,13 +969,30 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             [ReligiousSource.PYTHAGOREAN]: "اليونان القديمة",
             [ReligiousSource.CHALDEAN]: "بابل (بلاد ما بين النهرين)",
             [ReligiousSource.KABBALAH_NUMEROLOGY]: "الصوفية اليهودية (إسبانيا)",
-            [ReligiousSource.VEDIC_NUMEROLOGY]: "الهند (الفيدا)"
+            [ReligiousSource.VEDIC_NUMEROLOGY]: "الهند (الفيدا)",
+            [ReligiousSource.IMAM_SADIQ]: "التقليد الشيعي، فارس",
+            [ReligiousSource.ISLAMSKI_SONNIK]: "روسي-إسلامي",
+            [ReligiousSource.ZHOU_GONG]: "الصين، تفسير الأحلام",
+            [ReligiousSource.HATSUYUME]: "اليابان، حلم السنة الجديدة",
+            [ReligiousSource.SWAPNA_SHASTRA]: "الهند، فيدي/هندوسي",
+            [ReligiousSource.EDGAR_CAYCE]: "أمريكا، نبي النوم",
+            [ReligiousSource.RUDOLF_STEINER]: "أنثروبوصوفيا، النمسا",
+            [ReligiousSource.TALMUD_BERAKHOT]: "بابل، 55أ-57ب",
+            [ReligiousSource.ZOHAR]: "قبّالي، القرن 13",
+            [ReligiousSource.VANGA]: "بلغاريا، القرن 20",
+            [ReligiousSource.MILLER_RU]: "تفسير الأحلام الروسي",
+            [ReligiousSource.FREUD_RU]: "تكييف فرويد الروسي",
+            [ReligiousSource.LOFF]: "كتاب أحلام روسي",
+            [ReligiousSource.NOSTRADAMUS_RU]: "التكييف الروسي",
+            [ReligiousSource.ARTEMIDOROS]: "اليونان، القرن الثاني",
+            [ReligiousSource.EGYPTIAN_PAPYRUS]: "مصر، حوالي 1275 ق.م",
+            [ReligiousSource.SOMNIALE_DANIELIS]: "بيزنطي-قروسطي"
         },
         categories: {
-            [ReligiousCategory.ISLAMIC]: 'إسلامي', [ReligiousCategory.CHRISTIAN]: 'مسيحي', [ReligiousCategory.BUDDHIST]: 'بوذي', [ReligiousCategory.PSYCHOLOGICAL]: 'نفسي', [ReligiousCategory.ASTROLOGY]: 'تنجيم', [ReligiousCategory.NUMEROLOGY]: 'علم الأرقام',
+            [ReligiousCategory.ISLAMIC]: 'إسلامي', [ReligiousCategory.CHRISTIAN]: 'مسيحي', [ReligiousCategory.BUDDHIST]: 'بوذي', [ReligiousCategory.PSYCHOLOGICAL]: 'نفسي', [ReligiousCategory.ASTROLOGY]: 'تنجيم', [ReligiousCategory.NUMEROLOGY]: 'علم الأرقام', [ReligiousCategory.JEWISH]: 'يهودي', [ReligiousCategory.SONNIKS]: 'كتب الأحلام', [ReligiousCategory.ANCIENT]: 'قديم',
         },
         sources: {
-            [ReligiousSource.TIBETAN]: 'تبتي', [ReligiousSource.IBN_SIRIN]: 'ابن سيرين', [ReligiousSource.NABULSI]: 'النابلسي', [ReligiousSource.AL_ISKHAFI]: 'الإسخافي', [ReligiousSource.MEDIEVAL]: 'قروسطي', [ReligiousSource.MODERN_THEOLOGY]: 'لاهوت حديث', [ReligiousSource.CHURCH_FATHERS]: 'آباء الكنيسة', [ReligiousSource.ZEN]: 'زن', [ReligiousSource.THERAVADA]: 'ثيرافادا', [ReligiousSource.FREUDIAN]: 'فرويد', [ReligiousSource.JUNGIAN]: 'يونغ', [ReligiousSource.GESTALT]: 'جشطالت', [ReligiousSource.WESTERN_ZODIAC]: 'أبراج غربية', [ReligiousSource.VEDIC_ASTROLOGY]: 'فيدي', [ReligiousSource.CHINESE_ZODIAC]: 'أبراج صينية', [ReligiousSource.PYTHAGOREAN]: 'فيثاغوري', [ReligiousSource.CHALDEAN]: 'كلداني', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'كابالا', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'حساب الجمل', [ReligiousSource.VEDIC_NUMEROLOGY]: 'أرقام فيدي'
+            [ReligiousSource.TIBETAN]: 'تبتي', [ReligiousSource.IBN_SIRIN]: 'ابن سيرين', [ReligiousSource.NABULSI]: 'النابلسي', [ReligiousSource.AL_ISKHAFI]: 'الإسخافي', [ReligiousSource.MEDIEVAL]: 'قروسطي', [ReligiousSource.MODERN_THEOLOGY]: 'لاهوت حديث', [ReligiousSource.CHURCH_FATHERS]: 'آباء الكنيسة', [ReligiousSource.ZEN]: 'زن', [ReligiousSource.THERAVADA]: 'ثيرافادا', [ReligiousSource.FREUDIAN]: 'فرويد', [ReligiousSource.JUNGIAN]: 'يونغ', [ReligiousSource.GESTALT]: 'جشطالت', [ReligiousSource.WESTERN_ZODIAC]: 'أبراج غربية', [ReligiousSource.VEDIC_ASTROLOGY]: 'فيدي', [ReligiousSource.CHINESE_ZODIAC]: 'أبراج صينية', [ReligiousSource.PYTHAGOREAN]: 'فيثاغوري', [ReligiousSource.CHALDEAN]: 'كلداني', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'كابالا', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'حساب الجمل', [ReligiousSource.VEDIC_NUMEROLOGY]: 'أرقام فيدي', [ReligiousSource.IMAM_SADIQ]: 'الإمام الصادق', [ReligiousSource.ISLAMSKI_SONNIK]: 'سونيك إسلامي', [ReligiousSource.ZHOU_GONG]: 'تشو قونغ', [ReligiousSource.HATSUYUME]: 'هاتسويومي', [ReligiousSource.SWAPNA_SHASTRA]: 'سوابنا شاسترا', [ReligiousSource.EDGAR_CAYCE]: 'إدغار كايس', [ReligiousSource.RUDOLF_STEINER]: 'رودولف شتاينر', [ReligiousSource.TALMUD_BERAKHOT]: 'تلمود بركات', [ReligiousSource.ZOHAR]: 'الزوهار', [ReligiousSource.VANGA]: 'فانغا', [ReligiousSource.MILLER_RU]: 'ميلر', [ReligiousSource.FREUD_RU]: 'فرويد (روسي)', [ReligiousSource.LOFF]: 'لوف', [ReligiousSource.NOSTRADAMUS_RU]: 'نوستراداموس', [ReligiousSource.ARTEMIDOROS]: 'أرتيميدوروس', [ReligiousSource.EGYPTIAN_PAPYRUS]: 'البردية المصرية', [ReligiousSource.SOMNIALE_DANIELIS]: 'سومنيالي دانيليس'
         },
         ui: {
             placeholder: "صف حلمك...", interpret: "تفسير الحلم", choose_tradition: "اختر التقليد", refine_sources: "تحديد المصادر", oracle_speaks: "العراف يتحدث", close: "إغلاق", listening: "جاري الاستماع...", voices: "الصوت",
@@ -1044,11 +1100,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_text: "للمطورين وعشاق التكنولوجيا: أنشئ حسابات مع موفري الذكاء الاصطناعي (مثل Google AI Studio)، وقم بإنشاء مفاتيح API الخاصة بك هناك وأضفها إلى التطبيق. بهذه الطريقة، تدفع فقط تكاليف API المنخفضة مباشرة للمزود + 3 يورو لاستخدام التطبيق. مثالي للمستخدمين المتقدمين!",
             upgrade: "ترقية", current: "حالياً", unlock: "فتح", try_free: "جرب مجانًا لمدة 7 أيام",
             ad_loading: "جاري تحميل الإعلان...", ad_reward: "تم كسب العملات!",
-            bronze_title: "برونز (مجاني)", bronze_features: ["2 صور/يوم", "إعلانات", "دعم المجتمع"], bronze_price: "0 €",
-            silver2_title: "فضي", silver2_features: ["25 صورة/شهر", "بدون إعلانات", "خصم 5%", "محادثة مباشرة 1x/أسبوع"], silver2_price_monthly: "4.99 € / شهر", silver2_price_yearly: "54.89 € / سنة",
-            gold2_title: "ذهبي", gold2_features: ["صور غير محدودة", "400 عملة/شهر", "خصم 10%", "5 فيديو/شهر", "محادثة مباشرة غير محدودة"], gold2_price_monthly: "9.99 € / شهر", gold2_price_yearly: "107.89 € / سنة",
-            deluxe_title: "ديلوكس", deluxe_features: ["كل الميزات الذهبية", "1200 عملة/شهر", "خصم 15%", "20 فيديو/شهر", "دعم أولوية"], deluxe_price_monthly: "19.99 € / شهر", deluxe_price_yearly: "215.89 € / سنة",
-            vip_title: "VIP", vip_features: ["كل ميزات ديلوكس", "5000 عملة/شهر", "خصم 15%", "فيديو غير محدود", "دعم شخصي", "وصول تجريبي"], vip_price_monthly: "49.99 € / شهر", vip_price_yearly: "539.89 € / سنة"
+            bronze_title: "مجاني", bronze_features: ["3 تفسيرات/يوم", "Groq ذكاء", "6 تقاليد", "إعلانات"], bronze_price: "0 €",
+            silver2_title: "برو", silver2_features: ["تفسيرات غير محدودة", "Gemini ذكاء", "جميع 9 تقاليد", "بدون إعلانات", "100 عملة/شهر", "خصم 10%"], silver2_price_monthly: "29,99 ر.س / شهر", silver2_price_yearly: "299,99 ر.س / سنة",
+            gold2_title: "بريميوم", gold2_features: ["Claude 6 وجهات نظر", "500 عملة/شهر", "خصم 20%", "صور HD", "5 فيديو/شهر", "صوت مباشر", "دردشة ذكاء متقدمة"], gold2_price_monthly: "89,99 ر.س / شهر", gold2_price_yearly: "899,99 ر.س / سنة",
+            vip_title: "VIP", vip_features: ["2000 عملة/شهر", "خصم 30%", "20 فيديو/شهر", "مذكرة أحلام", "مصادر حصرية", "دعم واتساب"], vip_price_monthly: "199,99 ر.س / شهر", vip_price_yearly: "1.999,99 ر.س / سنة"
         },
         earn: {
             title: "كسب العملات",
@@ -1101,13 +1156,14 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             [ReligiousSource.PYTHAGOREAN]: "Grécia Antiga",
             [ReligiousSource.CHALDEAN]: "Babilônia (Mesopotâmia)",
             [ReligiousSource.KABBALAH_NUMEROLOGY]: "Misticismo Judaico (Espanha)",
-            [ReligiousSource.VEDIC_NUMEROLOGY]: "Índia (Vedas)"
+            [ReligiousSource.VEDIC_NUMEROLOGY]: "Índia (Vedas)",
+            [ReligiousSource.IMAM_SADIQ]: "Tradição Xiita, Pérsia", [ReligiousSource.ISLAMSKI_SONNIK]: "Russo-Islâmico", [ReligiousSource.ZHOU_GONG]: "China, Interpretação de Sonhos", [ReligiousSource.HATSUYUME]: "Japão, Sonho de Ano Novo", [ReligiousSource.SWAPNA_SHASTRA]: "Índia, Védico/Hindu", [ReligiousSource.EDGAR_CAYCE]: "EUA, Profeta Adormecido", [ReligiousSource.RUDOLF_STEINER]: "Antroposofia, Áustria", [ReligiousSource.TALMUD_BERAKHOT]: "Babilônia, 55a-57b", [ReligiousSource.ZOHAR]: "Cabalístico, Séc. XIII", [ReligiousSource.VANGA]: "Bulgária, Séc. XX", [ReligiousSource.MILLER_RU]: "Interpretação Russa", [ReligiousSource.FREUD_RU]: "Adaptação Russa de Freud", [ReligiousSource.LOFF]: "Livro de Sonhos Russo", [ReligiousSource.NOSTRADAMUS_RU]: "Adaptação Russa", [ReligiousSource.ARTEMIDOROS]: "Grécia, Séc. II d.C.", [ReligiousSource.EGYPTIAN_PAPYRUS]: "Egito, ca. 1275 a.C.", [ReligiousSource.SOMNIALE_DANIELIS]: "Bizantino-Medieval"
         },
         categories: {
-            [ReligiousCategory.ISLAMIC]: 'Islâmico', [ReligiousCategory.CHRISTIAN]: 'Cristão', [ReligiousCategory.BUDDHIST]: 'Budista', [ReligiousCategory.PSYCHOLOGICAL]: 'Psicológico', [ReligiousCategory.ASTROLOGY]: 'Astrologia', [ReligiousCategory.NUMEROLOGY]: 'Numerologia',
+            [ReligiousCategory.ISLAMIC]: 'Islâmico', [ReligiousCategory.CHRISTIAN]: 'Cristão', [ReligiousCategory.BUDDHIST]: 'Budista', [ReligiousCategory.PSYCHOLOGICAL]: 'Psicológico', [ReligiousCategory.ASTROLOGY]: 'Astrologia', [ReligiousCategory.NUMEROLOGY]: 'Numerologia', [ReligiousCategory.JEWISH]: 'Judaico', [ReligiousCategory.SONNIKS]: 'Livros de Sonhos', [ReligiousCategory.ANCIENT]: 'Antigo',
         },
         sources: {
-            [ReligiousSource.TIBETAN]: 'Tibetano', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Medieval', [ReligiousSource.MODERN_THEOLOGY]: 'Teologia Moderna', [ReligiousSource.CHURCH_FATHERS]: 'Pais da Igreja', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Zodíaco Ocidental', [ReligiousSource.VEDIC_ASTROLOGY]: 'Védica', [ReligiousSource.CHINESE_ZODIAC]: 'Zodíaco Chinês', [ReligiousSource.PYTHAGOREAN]: 'Pitagórico', [ReligiousSource.CHALDEAN]: 'Caldeu', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Cabala', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Abjad', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Números Védicos'
+            [ReligiousSource.TIBETAN]: 'Tibetano', [ReligiousSource.IBN_SIRIN]: 'Ibn Sirin', [ReligiousSource.NABULSI]: 'Al-Nabulsi', [ReligiousSource.AL_ISKHAFI]: 'Al-Iskhafi', [ReligiousSource.MEDIEVAL]: 'Medieval', [ReligiousSource.MODERN_THEOLOGY]: 'Teologia Moderna', [ReligiousSource.CHURCH_FATHERS]: 'Pais da Igreja', [ReligiousSource.ZEN]: 'Zen', [ReligiousSource.THERAVADA]: 'Theravada', [ReligiousSource.FREUDIAN]: 'Freud', [ReligiousSource.JUNGIAN]: 'Jung', [ReligiousSource.GESTALT]: 'Gestalt', [ReligiousSource.WESTERN_ZODIAC]: 'Zodíaco Ocidental', [ReligiousSource.VEDIC_ASTROLOGY]: 'Védica', [ReligiousSource.CHINESE_ZODIAC]: 'Zodíaco Chinês', [ReligiousSource.PYTHAGOREAN]: 'Pitagórico', [ReligiousSource.CHALDEAN]: 'Caldeu', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Cabala', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Abjad', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Números Védicos', [ReligiousSource.IMAM_SADIQ]: 'Imam Sadiq', [ReligiousSource.ISLAMSKI_SONNIK]: 'Sonnik Islâmico', [ReligiousSource.ZHOU_GONG]: 'Zhou Gong', [ReligiousSource.HATSUYUME]: 'Hatsuyume', [ReligiousSource.SWAPNA_SHASTRA]: 'Swapna Shastra', [ReligiousSource.EDGAR_CAYCE]: 'Edgar Cayce', [ReligiousSource.RUDOLF_STEINER]: 'Rudolf Steiner', [ReligiousSource.TALMUD_BERAKHOT]: 'Talmud Berakhot', [ReligiousSource.ZOHAR]: 'Zohar', [ReligiousSource.VANGA]: 'Vanga', [ReligiousSource.MILLER_RU]: 'Miller', [ReligiousSource.FREUD_RU]: 'Freud (RU)', [ReligiousSource.LOFF]: 'Loff', [ReligiousSource.NOSTRADAMUS_RU]: 'Nostradamus', [ReligiousSource.ARTEMIDOROS]: 'Artemidoro', [ReligiousSource.EGYPTIAN_PAPYRUS]: 'Papiro Egípcio', [ReligiousSource.SOMNIALE_DANIELIS]: 'Somniale Danielis'
         },
         ui: {
             placeholder: "Descreva seu sonho...", interpret: "Interpretar Sonho", choose_tradition: "Escolher Tradição", refine_sources: "Refinar Fontes", oracle_speaks: "O Oráculo Fala", close: "Fechar", listening: "Ouvindo...", voices: "Voz",
@@ -1215,11 +1271,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_text: "Para desenvolvedores e entusiastas de tecnologia: crie contas com provedores de IA (por exemplo, Google AI Studio), gere suas próprias chaves de API lá e adicione-as ao aplicativo. Dessa forma, você paga apenas os baixos custos de API diretamente ao provedor + 3€ pelo uso do aplicativo. Perfeito para power users!",
             upgrade: "Atualizar", current: "Atual", unlock: "Desbloquear", try_free: "TESTE GRÁTIS POR 7 DIAS",
             ad_loading: "Carregando anúncio...", ad_reward: "Moedas ganhas!",
-            bronze_title: "Bronze (GRÁTIS)", bronze_features: ["2 Imagens/Dia", "Anúncios", "Suporte Comunidade"], bronze_price: "0 €",
-            silver2_title: "Prata", silver2_features: ["25 Imagens/Mês", "Sem Anúncios", "5% Desconto", "1x Chat ao Vivo/Semana"], silver2_price_monthly: "4,99 € / Mês", silver2_price_yearly: "54,89 € / Ano",
-            gold2_title: "Ouro", gold2_features: ["Imagens Ilimitadas", "400 Moedas/Mês", "10% Desconto", "5 Vídeos/Mês", "Chat ao Vivo Ilimitado"], gold2_price_monthly: "9,99 € / Mês", gold2_price_yearly: "107,89 € / Ano",
-            deluxe_title: "Deluxe", deluxe_features: ["Tudo em Ouro", "1.200 Moedas/Mês", "15% Desconto", "20 Vídeos/Mês", "Suporte Prioritário"], deluxe_price_monthly: "19,99 € / Mês", deluxe_price_yearly: "215,89 € / Ano",
-            vip_title: "VIP", vip_features: ["Tudo em Deluxe", "5.000 Moedas/Mês", "15% Desconto", "Vídeos Ilimitados", "Suporte Pessoal", "Acesso Beta"], vip_price_monthly: "49,99 € / Mês", vip_price_yearly: "539,89 € / Ano"
+            bronze_title: "Free", bronze_features: ["3 Interpretações/Dia", "Groq IA", "6 Tradições", "Anúncios"], bronze_price: "€0",
+            silver2_title: "Pro", silver2_features: ["Interpretações Ilimitadas", "Gemini IA", "Todas 9 Tradições", "Sem Anúncios", "100 Moedas/Mês", "10% Desconto"], silver2_price_monthly: "€4,99 / Mês", silver2_price_yearly: "€49,99 / Ano",
+            gold2_title: "Premium", gold2_features: ["Claude 6 Perspectivas", "500 Moedas/Mês", "20% Desconto", "Imagens HD", "5 Vídeos/Mês", "Voz ao Vivo", "Chat IA Premium"], gold2_price_monthly: "€14,99 / Mês", gold2_price_yearly: "€149,99 / Ano",
+            vip_title: "VIP", vip_features: ["2.000 Moedas/Mês", "30% Desconto", "20 Vídeos/Mês", "Diário de Sonhos", "Fontes Exclusivas", "Suporte WhatsApp"], vip_price_monthly: "199,99 SAR / Mês", vip_price_yearly: "1.999,99 SAR / Ano"
         },
         earn: {
             title: "Ganhar Moedas",
@@ -1272,13 +1327,30 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             [ReligiousSource.PYTHAGOREAN]: "Древняя Греция",
             [ReligiousSource.CHALDEAN]: "Вавилон (Месопотамия)",
             [ReligiousSource.KABBALAH_NUMEROLOGY]: "Еврейский мистицизм (Испания)",
-            [ReligiousSource.VEDIC_NUMEROLOGY]: "Индия (Веды)"
+            [ReligiousSource.VEDIC_NUMEROLOGY]: "Индия (Веды)",
+            [ReligiousSource.IMAM_SADIQ]: "Шиитская традиция, Персия",
+            [ReligiousSource.ISLAMSKI_SONNIK]: "Русско-исламский",
+            [ReligiousSource.ZHOU_GONG]: "Китай, Толкование снов",
+            [ReligiousSource.HATSUYUME]: "Япония, Новогодний сон",
+            [ReligiousSource.SWAPNA_SHASTRA]: "Индия, Ведический/Индуизм",
+            [ReligiousSource.EDGAR_CAYCE]: "США, Спящий пророк",
+            [ReligiousSource.RUDOLF_STEINER]: "Антропософия, Австрия",
+            [ReligiousSource.TALMUD_BERAKHOT]: "Вавилония, 55а-57б",
+            [ReligiousSource.ZOHAR]: "Каббалистический, XIII в.",
+            [ReligiousSource.VANGA]: "Болгария, XX в.",
+            [ReligiousSource.MILLER_RU]: "Русское толкование снов",
+            [ReligiousSource.FREUD_RU]: "Русская адаптация Фрейда",
+            [ReligiousSource.LOFF]: "Русский сонник",
+            [ReligiousSource.NOSTRADAMUS_RU]: "Русская адаптация",
+            [ReligiousSource.ARTEMIDOROS]: "Греция, II в. н.э.",
+            [ReligiousSource.EGYPTIAN_PAPYRUS]: "Египет, ок. 1275 до н.э.",
+            [ReligiousSource.SOMNIALE_DANIELIS]: "Византийско-средневековый"
         },
         categories: {
-            [ReligiousCategory.ISLAMIC]: 'Исламский', [ReligiousCategory.CHRISTIAN]: 'Христианский', [ReligiousCategory.BUDDHIST]: 'Буддийский', [ReligiousCategory.PSYCHOLOGICAL]: 'Психологический', [ReligiousCategory.ASTROLOGY]: 'Астрология', [ReligiousCategory.NUMEROLOGY]: 'Нумерология',
+            [ReligiousCategory.ISLAMIC]: 'Исламский', [ReligiousCategory.CHRISTIAN]: 'Христианский', [ReligiousCategory.BUDDHIST]: 'Буддийский', [ReligiousCategory.PSYCHOLOGICAL]: 'Психологический', [ReligiousCategory.ASTROLOGY]: 'Астрология', [ReligiousCategory.NUMEROLOGY]: 'Нумерология', [ReligiousCategory.JEWISH]: 'Иудейский', [ReligiousCategory.SONNIKS]: 'Сонники', [ReligiousCategory.ANCIENT]: 'Античный',
         },
         sources: {
-            [ReligiousSource.TIBETAN]: 'Тибетский', [ReligiousSource.IBN_SIRIN]: 'Ибн Сирин', [ReligiousSource.NABULSI]: 'Ан-Набулси', [ReligiousSource.AL_ISKHAFI]: 'Аль-Исхафи', [ReligiousSource.MEDIEVAL]: 'Средневековый', [ReligiousSource.MODERN_THEOLOGY]: 'Современное богословие', [ReligiousSource.CHURCH_FATHERS]: 'Отцы Церкви', [ReligiousSource.ZEN]: 'Дзен', [ReligiousSource.THERAVADA]: 'Тхеравада', [ReligiousSource.FREUDIAN]: 'Фрейд', [ReligiousSource.JUNGIAN]: 'Юнг', [ReligiousSource.GESTALT]: 'Гештальт', [ReligiousSource.WESTERN_ZODIAC]: 'Западный зодиак', [ReligiousSource.VEDIC_ASTROLOGY]: 'Ведическая', [ReligiousSource.CHINESE_ZODIAC]: 'Китайский зодиак', [ReligiousSource.PYTHAGOREAN]: 'Пифагорейская', [ReligiousSource.CHALDEAN]: 'Халдейская', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Каббала', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Абджад', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Ведические числа'
+            [ReligiousSource.TIBETAN]: 'Тибетский', [ReligiousSource.IBN_SIRIN]: 'Ибн Сирин', [ReligiousSource.NABULSI]: 'Ан-Набулси', [ReligiousSource.AL_ISKHAFI]: 'Аль-Исхафи', [ReligiousSource.MEDIEVAL]: 'Средневековый', [ReligiousSource.MODERN_THEOLOGY]: 'Современное богословие', [ReligiousSource.CHURCH_FATHERS]: 'Отцы Церкви', [ReligiousSource.ZEN]: 'Дзен', [ReligiousSource.THERAVADA]: 'Тхеравада', [ReligiousSource.FREUDIAN]: 'Фрейд', [ReligiousSource.JUNGIAN]: 'Юнг', [ReligiousSource.GESTALT]: 'Гештальт', [ReligiousSource.WESTERN_ZODIAC]: 'Западный зодиак', [ReligiousSource.VEDIC_ASTROLOGY]: 'Ведическая', [ReligiousSource.CHINESE_ZODIAC]: 'Китайский зодиак', [ReligiousSource.PYTHAGOREAN]: 'Пифагорейская', [ReligiousSource.CHALDEAN]: 'Халдейская', [ReligiousSource.KABBALAH_NUMEROLOGY]: 'Каббала', [ReligiousSource.ISLAMIC_NUMEROLOGY]: 'Абджад', [ReligiousSource.VEDIC_NUMEROLOGY]: 'Ведические числа', [ReligiousSource.IMAM_SADIQ]: 'Имам Садик', [ReligiousSource.ISLAMSKI_SONNIK]: 'Исламский сонник', [ReligiousSource.ZHOU_GONG]: 'Чжоу Гун', [ReligiousSource.HATSUYUME]: 'Хацуюмэ', [ReligiousSource.SWAPNA_SHASTRA]: 'Свапна Шастра', [ReligiousSource.EDGAR_CAYCE]: 'Эдгар Кейси', [ReligiousSource.RUDOLF_STEINER]: 'Рудольф Штайнер', [ReligiousSource.TALMUD_BERAKHOT]: 'Талмуд Берахот', [ReligiousSource.ZOHAR]: 'Зоар', [ReligiousSource.VANGA]: 'Ванга', [ReligiousSource.MILLER_RU]: 'Миллер', [ReligiousSource.FREUD_RU]: 'Фрейд (рус.)', [ReligiousSource.LOFF]: 'Лофф', [ReligiousSource.NOSTRADAMUS_RU]: 'Нострадамус', [ReligiousSource.ARTEMIDOROS]: 'Артемидор', [ReligiousSource.EGYPTIAN_PAPYRUS]: 'Египетский папирус', [ReligiousSource.SOMNIALE_DANIELIS]: 'Сомниале Даниелис'
         },
         ui: {
             placeholder: "Опишите ваш сон...", interpret: "Толковать сон", choose_tradition: "Выбрать традицию", refine_sources: "Уточнить источники", oracle_speaks: "Оракул говорит", close: "Закрыть", listening: "Слушаю...", voices: "Голос",
@@ -1386,11 +1458,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             smart_info_text: "Для разработчиков и энтузиастов: создайте аккаунты у поставщиков ИИ (например, Google AI Studio), сгенерируйте там свои API-ключи и добавьте их в приложение. Так вы платите только низкую стоимость API напрямую поставщику + 3€ за использование приложения. Идеально для продвинутых пользователей!",
             upgrade: "Обновить", current: "Текущий", unlock: "Разблокировать", try_free: "ПОПРОБОВАТЬ БЕСПЛАТНО 7 ДНЕЙ",
             ad_loading: "Загрузка рекламы...", ad_reward: "Монеты получены!",
-            bronze_title: "Бронза (БЕСПЛАТНО)", bronze_features: ["2 изображения/день", "Реклама", "Поддержка сообщества"], bronze_price: "0 €",
-            silver2_title: "Серебро", silver2_features: ["25 изображений/месяц", "Без рекламы", "Скидка 5%", "1x Живой чат/неделю"], silver2_price_monthly: "4,99 € / мес", silver2_price_yearly: "54,89 € / год",
-            gold2_title: "Золото", gold2_features: ["Неограниченно изображений", "400 монет/месяц", "Скидка 10%", "5 видео/месяц", "Неограниченный живой чат"], gold2_price_monthly: "9,99 € / мес", gold2_price_yearly: "107,89 € / год",
-            deluxe_title: "Делюкс", deluxe_features: ["Всё из Золота", "1.200 монет/месяц", "Скидка 15%", "20 видео/месяц", "Приоритетная поддержка"], deluxe_price_monthly: "19,99 € / мес", deluxe_price_yearly: "215,89 € / год",
-            vip_title: "VIP", vip_features: ["Всё из Делюкса", "5.000 монет/месяц", "Скидка 15%", "Неограниченно видео", "Личная поддержка", "Бета-доступ"], vip_price_monthly: "49,99 € / мес", vip_price_yearly: "539,89 € / год"
+            bronze_title: "Free", bronze_features: ["3 Толкования/День", "Groq ИИ", "6 Традиций", "Реклама"], bronze_price: "0 ₽",
+            silver2_title: "Про", silver2_features: ["Безлимитные Толкования", "Gemini ИИ", "Все 9 Традиций", "Без Рекламы", "100 Монет/Месяц", "Скидка 10%"], silver2_price_monthly: "299 ₽ / Месяц", silver2_price_yearly: "2.999 ₽ / Год",
+            gold2_title: "Премиум", gold2_features: ["Claude 6 Перспектив", "500 Монет/Месяц", "Скидка 20%", "HD Изображения", "5 Видео/Месяц", "Живой Голос", "Премиум ИИ Чат"], gold2_price_monthly: "999 ₽ / Месяц", gold2_price_yearly: "9.999 ₽ / Год",
+            vip_title: "VIP", vip_features: ["2.000 Монет/Месяц", "Скидка 30%", "20 Видео/Месяц", "Дневник Снов", "Эксклюзивные Источники", "Поддержка WhatsApp"], vip_price_monthly: "199,99 SAR / Месяц", vip_price_yearly: "1.999,99 SAR / Год"
         },
         earn: {
             title: "Заработать монеты",
@@ -1455,6 +1526,7 @@ interface SubscriptionModalProps {
     isLight: boolean;
     userProfile: UserProfile | null;
     onUpdateSubscription: (tier: SubscriptionTier) => void;
+    language?: string;
 }
 
 const App: React.FC = () => {
@@ -2360,16 +2432,7 @@ const App: React.FC = () => {
         setIsListening(false);
     };
     
-    const getAvailableSources = () => {
-        let sources: ReligiousSource[] = [];
-        if (selectedCategories.includes(ReligiousCategory.ISLAMIC)) sources.push(ReligiousSource.IBN_SIRIN, ReligiousSource.NABULSI, ReligiousSource.AL_ISKHAFI);
-        if (selectedCategories.includes(ReligiousCategory.CHRISTIAN)) sources.push(ReligiousSource.MEDIEVAL, ReligiousSource.MODERN_THEOLOGY, ReligiousSource.CHURCH_FATHERS);
-        if (selectedCategories.includes(ReligiousCategory.BUDDHIST)) sources.push(ReligiousSource.ZEN, ReligiousSource.TIBETAN, ReligiousSource.THERAVADA);
-        if (selectedCategories.includes(ReligiousCategory.PSYCHOLOGICAL)) sources.push(ReligiousSource.FREUDIAN, ReligiousSource.JUNGIAN, ReligiousSource.GESTALT);
-        if (selectedCategories.includes(ReligiousCategory.ASTROLOGY)) sources.push(ReligiousSource.WESTERN_ZODIAC, ReligiousSource.VEDIC_ASTROLOGY, ReligiousSource.CHINESE_ZODIAC);
-        if (selectedCategories.includes(ReligiousCategory.NUMEROLOGY)) sources.push(ReligiousSource.PYTHAGOREAN, ReligiousSource.CHALDEAN, ReligiousSource.KABBALAH_NUMEROLOGY, ReligiousSource.VEDIC_NUMEROLOGY, ReligiousSource.ISLAMIC_NUMEROLOGY);
-        return [...new Set(sources)];
-    };
+    const getAvailableSources = () => getSourcesForCategories(selectedCategories);
 
     const isLight = themeMode === ThemeMode.LIGHT;
     
@@ -2409,11 +2472,11 @@ const App: React.FC = () => {
             let style = isLight ? "bg-amber-100 text-amber-800 border-amber-200" : "bg-amber-900/20 text-amber-600 border-amber-700/30";
             let dateText = t.ui.base_version;
 
-            if (currentTier === SubscriptionTier.PLUS) {
+            if (currentTier === SubscriptionTier.PRO) {
                 label = t.ui.tier_silver;
                 style = isLight ? "bg-slate-100 text-slate-800 border-slate-300" : "bg-slate-800 text-slate-300 border-slate-500";
                 dateText = `${t.ui.until_date} ${dateStr}`;
-            } else if (currentTier === SubscriptionTier.PRO) {
+            } else if (currentTier === SubscriptionTier.PREMIUM) {
                 label = t.ui.tier_gold;
                 style = isLight ? "bg-yellow-100 text-yellow-800 border-yellow-300" : "bg-yellow-900/20 text-yellow-400 border-yellow-500";
                 dateText = `${t.ui.until_date} ${dateStr}`;
@@ -2491,30 +2554,37 @@ const App: React.FC = () => {
              </h3>
 
              <div className="grid grid-cols-3 gap-2.5 mb-5">
-                 {[
-                     ReligiousCategory.ISLAMIC, ReligiousCategory.CHRISTIAN, ReligiousCategory.BUDDHIST,
-                     ReligiousCategory.PSYCHOLOGICAL, ReligiousCategory.ASTROLOGY, ReligiousCategory.NUMEROLOGY
-                 ].map(cat => {
+                 {CATEGORY_ORDER.map(cat => {
                      const isSelected = selectedCategories.includes(cat);
-                     const isReligious = [ReligiousCategory.ISLAMIC, ReligiousCategory.CHRISTIAN, ReligiousCategory.BUDDHIST].includes(cat);
-                     const isBlue = [ReligiousCategory.PSYCHOLOGICAL, ReligiousCategory.NUMEROLOGY, ReligiousCategory.ASTROLOGY].includes(cat);
+                     const colorScheme = CATEGORY_COLOR_SCHEME[cat];
+                     const tierReq = CATEGORY_TIER_REQUIREMENT[cat];
+                     const isLocked = tierReq !== SubscriptionTier.FREE && (userProfile?.subscriptionTier === SubscriptionTier.FREE);
                      let buttonClass = "relative overflow-hidden p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all duration-300 group ";
-                     if (isReligious) {
+                     if (colorScheme === 'emerald') {
                          if (isSelected) { buttonClass += "bg-emerald-900/80 border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-emerald-50 border-emerald-200 shadow-sm shadow-emerald-100 hover:bg-emerald-100 hover:border-emerald-300 hover:shadow-md" : "bg-emerald-900/20 border-emerald-500/40 hover:bg-emerald-900/40 hover:border-emerald-400/60"; }
-                     } else if (isBlue) {
+                     } else if (colorScheme === 'blue') {
                          if (isSelected) { buttonClass += "bg-blue-900/80 border-blue-400 shadow-[0_0_25px_rgba(59,130,246,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-sky-50 border-sky-200 shadow-sm shadow-sky-100 hover:bg-sky-100 hover:border-sky-300 hover:shadow-md" : "bg-blue-900/20 border-blue-500/40 hover:bg-blue-900/40 hover:border-blue-400/60"; }
+                     } else if (colorScheme === 'amber') {
+                         if (isSelected) { buttonClass += "bg-amber-900/80 border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-amber-50 border-amber-200 shadow-sm shadow-amber-100 hover:bg-amber-100 hover:border-amber-300 hover:shadow-md" : "bg-amber-900/20 border-amber-500/40 hover:bg-amber-900/40 hover:border-amber-400/60"; }
+                     } else if (colorScheme === 'rose') {
+                         if (isSelected) { buttonClass += "bg-rose-900/80 border-rose-400 shadow-[0_0_25px_rgba(244,63,94,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-rose-50 border-rose-200 shadow-sm shadow-rose-100 hover:bg-rose-100 hover:border-rose-300 hover:shadow-md" : "bg-rose-900/20 border-rose-500/40 hover:bg-rose-900/40 hover:border-rose-400/60"; }
+                     } else if (colorScheme === 'stone') {
+                         if (isSelected) { buttonClass += "bg-stone-800/80 border-stone-400 shadow-[0_0_25px_rgba(168,162,158,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-stone-50 border-stone-200 shadow-sm shadow-stone-100 hover:bg-stone-100 hover:border-stone-300 hover:shadow-md" : "bg-stone-900/20 border-stone-500/40 hover:bg-stone-900/40 hover:border-stone-400/60"; }
                      } else {
                          if (isSelected) { buttonClass += "bg-fuchsia-900/60 border-fuchsia-400 shadow-[0_0_25px_rgba(192,38,211,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-fuchsia-50 border-fuchsia-200 shadow-sm shadow-fuchsia-100 hover:border-fuchsia-300 hover:bg-fuchsia-100 hover:shadow-md" : "bg-slate-800/40 border-white/5 hover:bg-slate-800 hover:border-white/20"; }
                      }
                      let textClass = "";
-                     if (isReligious) { textClass = isSelected ? 'text-emerald-100' : (isLight ? 'text-emerald-700' : 'text-emerald-400'); } else if (isBlue) { textClass = isSelected ? 'text-blue-100' : (isLight ? 'text-sky-700' : 'text-blue-400'); } else { textClass = isSelected ? 'text-white' : (isLight ? 'text-fuchsia-900' : 'text-slate-500'); }
+                     if (colorScheme === 'emerald') { textClass = isSelected ? 'text-emerald-100' : (isLight ? 'text-emerald-700' : 'text-emerald-400'); }
+                     else if (colorScheme === 'blue') { textClass = isSelected ? 'text-blue-100' : (isLight ? 'text-sky-700' : 'text-blue-400'); }
+                     else if (colorScheme === 'amber') { textClass = isSelected ? 'text-amber-100' : (isLight ? 'text-amber-700' : 'text-amber-400'); }
+                     else if (colorScheme === 'rose') { textClass = isSelected ? 'text-rose-100' : (isLight ? 'text-rose-700' : 'text-rose-400'); }
+                     else if (colorScheme === 'stone') { textClass = isSelected ? 'text-stone-100' : (isLight ? 'text-stone-700' : 'text-stone-400'); }
+                     else { textClass = isSelected ? 'text-white' : (isLight ? 'text-fuchsia-900' : 'text-slate-500'); }
                      return (
-                         <button key={cat} onClick={() => toggleCategory(cat)} className={buttonClass}>
+                         <button key={cat} onClick={() => isLocked ? undefined : toggleCategory(cat)} className={buttonClass + (isLocked ? ' opacity-60' : '')}>
                              {isSelected && <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-50"></div>}
-                             <span 
-                                 className={`text-3xl filter drop-shadow-lg transition-transform group-hover:scale-110 ${isReligious || isBlue ? 'grayscale-0' : (isSelected ? 'grayscale-0' : 'grayscale opacity-70')}`}
-                                 style={{ filter: isReligious ? 'hue-rotate(240deg) saturate(1.5)' : 'none' }} 
-                             >
+                             {isLocked && <span className="absolute top-1 right-1 text-[9px] font-bold bg-black/40 text-white px-1.5 py-0.5 rounded-full">SILBER+</span>}
+                             <span className={`text-3xl filter drop-shadow-lg transition-transform group-hover:scale-110 grayscale-0`}>
                                 {CATEGORY_ICONS[cat]}
                              </span>
                              <span className={`text-[10px] font-bold uppercase tracking-wider leading-tight text-center ${textClass}`}>{t.categories[cat]}</span>
@@ -2648,7 +2718,7 @@ const App: React.FC = () => {
             {loading && <ProcessingOverlay isLight={isLight} steps={processingSteps} categories={selectedCategories} sources={selectedSources} t={t} />}
             {isVideoLoading && <VideoLoadingOverlay t={t} />}
             {isAdPlaying && <AdOverlay t={t} duration={adDuration} />}
-            {showSubModal && <SubscriptionModal onClose={() => setShowSubModal(false)} t={t} isLight={isLight} userProfile={userProfile} onUpdateSubscription={handleUpdateSubscription} />}
+            {showSubModal && <SubscriptionModal onClose={() => setShowSubModal(false)} t={t} isLight={isLight} userProfile={userProfile} onUpdateSubscription={handleUpdateSubscription} language={language} />}
             {showEarnModal && <EarnCoinsModal onClose={() => setShowEarnModal(false)} t={t} isLight={isLight} onWatch={triggerAd} />}
             {showCoinShop && <CoinShopModal onClose={() => setShowCoinShop(false)} t={t} isLight={isLight} onPurchase={handleCoinPurchase} onEarnFree={() => { setShowCoinShop(false); setShowEarnModal(true); }} />}
             {showSettings && (
@@ -2980,9 +3050,9 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
             <div className="p-5 space-y-3 overflow-y-auto custom-scrollbar">
                 {/* DYNAMISCHE COIN PAKETE */}
                 {Object.values(COIN_PACKAGES).map((pkg, index) => {
-                    const isBestseller = pkg.id === 'bestseller_550';
-                    const isBestValue = pkg.id === 'mega_plus_7000';
-                    const isMegaPlus = pkg.coins === 7000; // WOW-Effekt für 7000er Paket
+                    const isBestseller = 'highlight' in pkg && (pkg as any).highlight === true;
+                    const isBestValue = pkg.id === 'mega_2500';
+                    const isMegaPlus = false; // MEGA_PLUS entfernt
                     const pricePerCoin = (pkg.price / pkg.coins).toFixed(4);
                     const emojis = ['🪙', '💰', '💎', '🌟', '⭐', '🏆'];
                     const colors = [
@@ -3211,7 +3281,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
     </div>
 );
 
-const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLight, userProfile, onUpdateSubscription }) => {
+const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLight, userProfile, onUpdateSubscription, language: lang }) => {
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
     const [showSmartInfo, setShowSmartInfo] = useState(false);
 
@@ -3284,7 +3354,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                     </div>
                 )}
 
-                {[SubscriptionTier.FREE, SubscriptionTier.PLUS, SubscriptionTier.PRO, SubscriptionTier.DELUXE, SubscriptionTier.VIP].map(tier => {
+                {[SubscriptionTier.FREE, SubscriptionTier.PRO, SubscriptionTier.PREMIUM, SubscriptionTier.VIP].map(tier => {
                     const isCurrent = userProfile?.subscriptionTier === tier;
                     let title = "", features: string[] = [], price = "";
                     let borderColor = "";
@@ -3296,23 +3366,20 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                         price = t.sub.bronze_price;
                         borderColor = "border-slate-500/20";
                     }
-                    if (tier === SubscriptionTier.PLUS) {
+                    if (tier === SubscriptionTier.PRO) {
                         title = t.sub.silver2_title;
                         features = t.sub.silver2_features;
                         price = billingCycle === 'yearly' ? t.sub.silver2_price_yearly : t.sub.silver2_price_monthly;
-                        borderColor = "border-slate-300";
+                        borderColor = "border-blue-400";
                     }
-                    if (tier === SubscriptionTier.PRO) {
+                    if (tier === SubscriptionTier.PREMIUM) {
                         title = t.sub.gold2_title;
                         features = t.sub.gold2_features;
                         price = billingCycle === 'yearly' ? t.sub.gold2_price_yearly : t.sub.gold2_price_monthly;
                         borderColor = "border-amber-400";
                     }
-                    if (tier === SubscriptionTier.DELUXE) {
-                        title = t.sub.deluxe_title;
-                        features = t.sub.deluxe_features;
-                        price = billingCycle === 'yearly' ? t.sub.deluxe_price_yearly : t.sub.deluxe_price_monthly;
-                        borderColor = "border-purple-400";
+                    if (tier === SubscriptionTier.VIP) {
+                        borderColor = "border-2 border-yellow-500";
                     }
                     if (tier === SubscriptionTier.VIP) {
                         title = t.sub.vip_title;
@@ -3322,13 +3389,23 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                     }
 
                     // Calculate if badge is present
-                    const hasBadge = (billingCycle === 'yearly' && (tier === SubscriptionTier.PLUS || tier === SubscriptionTier.PRO)) || tier === SubscriptionTier.SMART;
+                    const hasBadge = (billingCycle === 'yearly' && (tier === SubscriptionTier.PRO || tier === SubscriptionTier.PREMIUM)) || tier === SubscriptionTier.SMART;
 
                     return (
                         <div key={tier} onClick={() => onUpdateSubscription(tier)} className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col gap-3 relative group ${isCurrent ? (isLight ? 'bg-gradient-to-br from-indigo-50 to-fuchsia-50 border-indigo-400 shadow-md shadow-indigo-100' : 'bg-gradient-to-br from-indigo-900/30 to-fuchsia-900/20 border-indigo-500/60 shadow-lg shadow-indigo-500/10') : (isLight ? `bg-white/80 backdrop-blur-md hover:bg-white shadow-sm hover:shadow-md ${borderColor}` : `bg-white/5 backdrop-blur-md hover:bg-white/10 ${borderColor}`)}`}>
-                            {billingCycle === 'yearly' && (tier === SubscriptionTier.PLUS || tier === SubscriptionTier.PRO) && (
+                            {tier === SubscriptionTier.PRO && (
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full shadow-md whitespace-nowrap z-10">
+                                    {lang === 'AR' ? '\u0627\u0644\u0623\u0643\u062B\u0631 \u0634\u0639\u0628\u064A\u0629' : lang === 'DE' ? 'MEISTGEW\u00C4HLT' : 'MOST POPULAR'}
+                                </div>
+                            )}
+                            {billingCycle === 'yearly' && (tier === SubscriptionTier.PRO || tier === SubscriptionTier.PREMIUM) && (
                                 <div className="absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded-bl-xl rounded-tr-xl font-bold shadow-sm">
                                     {t.sub.yearly_discount}
+                                </div>
+                            )}
+                            {tier === SubscriptionTier.VIP && (
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full shadow-md whitespace-nowrap z-10">
+                                    {lang === 'AR' ? '\u062D\u0635\u0631\u064A \uD83D\uDC51' : 'EXCLUSIVE \uD83D\uDC51'}
                                 </div>
                             )}
                             {tier === SubscriptionTier.SMART && (
@@ -3344,6 +3421,9 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                                     {tier === SubscriptionTier.SMART && <span className="px-2 py-0.5 bg-cyan-500 text-white text-[9px] font-bold rounded-full uppercase">BYOK</span>}
                                 </div>
                                 <div className={`text-right ${hasBadge ? 'mt-5' : ''}`}>
+                                    {tier === SubscriptionTier.PREMIUM && billingCycle === 'monthly' && (
+                                        <span className={`block text-xs line-through ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>24,99 €</span>
+                                    )}
                                     <span className={`block font-extrabold text-xl ${isLight ? 'text-mystic-text' : 'text-white'}`}>{price}</span>
                                 </div>
                             </div>
@@ -3359,7 +3439,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
 
                             <div className="flex items-center justify-between mt-1 gap-2">
                                 {!isCurrent ? (
-                                    <span className={`flex-1 py-2.5 rounded-xl font-bold text-xs text-center transition-all ${tier === SubscriptionTier.PRO ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/30' : tier === SubscriptionTier.VIP || tier === SubscriptionTier.DELUXE ? 'bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white shadow-md shadow-fuchsia-500/30' : tier === SubscriptionTier.SMART ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md shadow-cyan-500/20' : (isLight ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' : 'bg-white/10 text-slate-300')}`}>{buttonText}</span>
+                                    <span className={`flex-1 py-2.5 rounded-xl font-bold text-xs text-center transition-all ${tier === SubscriptionTier.PRO ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/30' : tier === SubscriptionTier.VIP || tier === SubscriptionTier.PREMIUM ? 'bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white shadow-md shadow-fuchsia-500/30' : tier === SubscriptionTier.SMART ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md shadow-cyan-500/20' : (isLight ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' : 'bg-white/10 text-slate-300')}`}>{buttonText}</span>
                                 ) : (
                                     <span className={`flex-1 py-2.5 rounded-xl font-bold text-xs text-center ${isLight ? 'bg-green-100 text-green-700' : 'bg-green-900/30 text-green-400'}`}>{t.sub.current}</span>
                                 )}
