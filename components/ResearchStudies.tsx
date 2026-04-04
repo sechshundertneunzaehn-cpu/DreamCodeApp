@@ -29,6 +29,7 @@ interface Study {
   license: string | null;
   map_color: string | null;
   publication: string | null;
+  description: string | null;
 }
 
 interface Participant {
@@ -334,7 +335,17 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
                   <div>
                     {t.institution}: {study.institution}
                   </div>
+                  {study.country && (
+                    <div>
+                      {language === 'de' ? 'Land' : 'Country'}: {study.country}
+                    </div>
+                  )}
                 </div>
+                {study.description && (
+                  <div className="text-xs opacity-60 italic leading-relaxed">
+                    {study.description}
+                  </div>
+                )}
 
                 {/* Period */}
                 {(study.year_start || study.year_end) && (

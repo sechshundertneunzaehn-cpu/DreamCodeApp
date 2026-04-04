@@ -25,6 +25,12 @@ interface StudyRow {
   doi: string | null;
   publication: string | null;
   map_color: string | null;
+  country: string | null;
+  description: string | null;
+  license: string | null;
+  participant_count: number | null;
+  total_dreams: number | null;
+  created_at: string | null;
 }
 
 interface InterpretationRow {
@@ -159,6 +165,17 @@ function buildApa(study: StudyRow): string {
     ? ` ${study.doi.startsWith('http') ? study.doi : `https://doi.org/${study.doi}`}`
     : '';
   return `${study.principal_investigator} (${year}). ${study.study_name}.${pub}${doiUrl}`;
+}
+
+function flagForLang(lang: string | null): string {
+  if (!lang) return '';
+  const flags: Record<string, string> = {
+    en: '\u{1F1EC}\u{1F1E7}', de: '\u{1F1E9}\u{1F1EA}', tr: '\u{1F1F9}\u{1F1F7}',
+    fr: '\u{1F1EB}\u{1F1F7}', es: '\u{1F1EA}\u{1F1F8}', ar: '\u{1F1F8}\u{1F1E6}',
+    pt: '\u{1F1E7}\u{1F1F7}', ru: '\u{1F1F7}\u{1F1FA}', it: '\u{1F1EE}\u{1F1F9}',
+    nl: '\u{1F1F3}\u{1F1F1}', ja: '\u{1F1EF}\u{1F1F5}', zh: '\u{1F1E8}\u{1F1F3}',
+  };
+  return flags[lang] || '\u{1F310}';
 }
 
 // Color palette for tags
@@ -335,6 +352,12 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                         <span className="font-medium">{t.institution}:</span>{' '}
                         {study.institution}
                       </div>
+                      {study.country && (
+                        <div>
+                          <span className="font-medium">{language === 'de' ? 'Land' : 'Country'}:</span>{' '}
+                          {study.country}
+                        </div>
+                      )}
                       {(study.year_start || study.year_end) && (
                         <div>
                           <span className="font-medium">{t.period}:</span>{' '}
@@ -357,6 +380,11 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                           >
                             {study.doi}
                           </a>
+                        </div>
+                      )}
+                      {study.description && (
+                        <div className="mt-2 text-xs opacity-70 italic">
+                          {study.description}
                         </div>
                       )}
                     </div>
@@ -447,11 +475,19 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                           {dream.dream_date}
                         </span>
                       )}
+                      {dream.original_language && (
+                        <span className="opacity-60" title={dream.original_language}>
+                          {flagForLang(dream.original_language)}
+                        </span>
+                      )}
                     </div>
                     <div className="flex flex-wrap gap-2 items-center mb-3 text-xs opacity-50">
                       <span className="font-mono">{dream.dream_id}</span>
                       {dream.dream_night && (
                         <span>· {language === 'de' ? 'Nacht' : 'Night'} {dream.dream_night}</span>
+                      )}
+                      {dream.dream_week != null && (
+                        <span>· {language === 'de' ? 'Woche' : 'Week'} {dream.dream_week}</span>
                       )}
                       <span>· {wordCount} {language === 'de' ? 'Woerter' : 'words'}</span>
                     </div>
