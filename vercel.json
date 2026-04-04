@@ -1,4 +1,8 @@
 {
+  "redirects": [
+    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "dreamdata.world" }], "destination": "https://dream-code.app/:path", "permanent": true },
+    { "source": "/:path(.*)", "has": [{ "type": "host", "value": "www.dreamdata.world" }], "destination": "https://dream-code.app/:path", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/samedream",   "destination": "/samedream.html" },
     { "source": "/dreamatlas",  "destination": "/dreamatlas.html" },
