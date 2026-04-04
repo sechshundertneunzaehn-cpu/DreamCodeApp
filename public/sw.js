@@ -1,6 +1,6 @@
-const CACHE_NAME = 'traumcode-v6';
-const STATIC_CACHE = 'traumcode-static-v6';
-const DYNAMIC_CACHE = 'traumcode-dynamic-v6';
+const CACHE_NAME = 'traumcode-v7';
+const STATIC_CACHE = 'traumcode-static-v7';
+const DYNAMIC_CACHE = 'traumcode-dynamic-v7';
 
 const APP_SHELL = [
   '/',
@@ -11,8 +11,7 @@ const APP_SHELL = [
 
 const STATIC_EXTENSIONS = [
   '.woff', '.woff2', '.ttf', '.otf',
-  '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico',
-  '.css'
+  '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico'
 ];
 
 // Install: cache app shell
