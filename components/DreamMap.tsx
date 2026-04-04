@@ -469,6 +469,41 @@ interface SimUser extends BaseSimUser {
   interpretation?: string;
 }
 
+// Country center coordinates for participants with missing/zero lat/lng
+const COUNTRY_COORDS: Record<string, [number, number]> = {
+  'USA': [39.8, -98.5], 'United States': [39.8, -98.5],
+  'Germany': [51.2, 10.4], 'Deutschland': [51.2, 10.4],
+  'UK': [53.5, -2.5], 'United Kingdom': [53.5, -2.5],
+  'France': [46.6, 2.2], 'Japan': [36.2, 138.3],
+  'Turkey': [39.9, 32.9], 'Türkiye': [39.9, 32.9],
+  'Brazil': [-14.2, -51.9], 'China': [35.9, 104.2],
+  'India': [20.6, 78.9], 'Australia': [-25.3, 133.8],
+  'Canada': [56.1, -106.3], 'Spain': [40.5, -3.7],
+  'Italy': [41.9, 12.6], 'Russia': [61.5, 105.3],
+  'Netherlands': [52.1, 5.3], 'Mexico': [23.6, -102.5],
+  'South Korea': [35.9, 127.8], 'Argentina': [-38.4, -63.6],
+  'South Africa': [-30.6, 22.9], 'Egypt': [26.8, 30.8],
+  'Nigeria': [9.1, 8.7], 'Kenya': [-0.02, 37.9],
+  'Iran': [32.4, 53.7], 'Saudi Arabia': [23.9, 45.1],
+  'Indonesia': [-0.8, 113.9], 'Philippines': [12.9, 121.8],
+  'Pakistan': [30.4, 69.3], 'Austria': [47.5, 14.6],
+  'Switzerland': [46.8, 8.2], 'Sweden': [60.1, 18.6],
+  'Norway': [60.5, 8.5], 'Poland': [51.9, 19.1],
+  'Portugal': [39.4, -8.2], 'Greece': [39.1, 21.8],
+  'Colombia': [4.6, -74.3], 'Chile': [-35.7, -71.5],
+};
+
+// Resolve valid lat/lng — fallback to country center with jitter
+const resolveCoords = (lat: number | null, lng: number | null, country?: string): { lat: number; lng: number } => {
+  if (lat && lng && !(lat === 0 && lng === 0)) {
+    const jitter = () => (Math.random() - 0.5) * 1.5;
+    return { lat: lat + jitter(), lng: lng + jitter() };
+  }
+  const base = COUNTRY_COORDS[country || ''] || [39.8, -98.5];
+  const jitter = () => (Math.random() - 0.5) * 4;
+  return { lat: base[0] + jitter(), lng: base[1] + jitter() };
+};
+
 // Equirectangular projection: lat/lng -> percentage coordinates
 const getCoordinates = (lat: number, lng: number) => {
   const x = (lng + 180) * (100 / 360);
@@ -635,14 +670,16 @@ const DreamMap: React.FC<DreamMapProps> = ({
           }
         }
 
-        const mapped: SimUser[] = data.map((p: any) => ({
+        const mapped: SimUser[] = data.map((p: any) => {
+          const rc = resolveCoords(p.lat, p.lng, p.country);
+          return {
           id: p.id,
           name: p.participant_id,
           avatar: '🔬',
           city: p.country || '',
           country: p.country || '',
-          lat: p.lat,
-          lng: p.lng,
+          lat: rc.lat,
+          lng: rc.lng,
           dreamSummary: dreamMap.get(p.participant_id) || '',
           interpretation: interpMap.get(p.participant_id) || '',
           category: 'nature',
@@ -653,7 +690,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
           dreamCount: p.dream_count || 0,
           matchCount: 0,
           favCategory: 'nature'
-        }));
+        };});
         setUsers(mapped);
         setIsLiveData(true);
         const top5 = [...mapped].sort((a, b) => b.matchPct - a.matchPct).slice(0, 5);
@@ -924,12 +961,36 @@ const DreamMap: React.FC<DreamMapProps> = ({
                 : 'invert(1) hue-rotate(180deg) saturate(0.3) brightness(0.5) opacity(0.7)',
             }}
           />
-          {/* Globe 3D depth overlay */}
-          <div className="absolute inset-0 pointer-events-none" style={{
-            borderRadius: '50%',
-            background: 'radial-gradient(circle at 35% 35%, transparent 40%, rgba(0,0,0,0.3) 100%)',
-            zIndex: 5,
-          }} />
+          {/* Globe 3D depth overlay — click opens research map */}
+          <div
+            className="absolute inset-0"
+            style={{
+              borderRadius: '50%',
+              background: 'radial-gradient(circle at 35% 35%, transparent 40%, rgba(0,0,0,0.3) 100%)',
+              zIndex: 5,
+              cursor: onNavigateToResearch ? 'pointer' : 'default',
+            }}
+            onClick={(e) => {
+              if (onNavigateToResearch && mapScale <= 1) {
+                e.stopPropagation();
+                onNavigateToResearch();
+              }
+            }}
+          />
+          {/* Hint: tap globe to open research map */}
+          {onNavigateToResearch && (
+            <div className="absolute pointer-events-none" style={{
+              bottom: 8,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              fontSize: 10,
+              color: 'rgba(196,181,253,0.5)',
+              zIndex: 6,
+              whiteSpace: 'nowrap',
+            }}>
+              {lang === 'de' ? 'Tippen für Forschungskarte' : 'Tap for research map'}
+            </div>
+          )}
 
           {/* Marker layer */}
           <div className="absolute inset-0">
