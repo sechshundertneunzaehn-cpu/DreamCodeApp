@@ -226,6 +226,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
   const sourceReady = useRef(false);
   const latestMarkersRef = useRef<StudyMapMarker[]>([]);
   const latestStudyLookupRef = useRef<Map<string, ResearchStudy>>(new Map());
+  const latestParticipantsRef = useRef<ResearchParticipant[]>([]);
 
   // Data state
   const [studies, setStudies] = useState<ResearchStudy[]>([]);
@@ -292,6 +293,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
   // Keep refs in sync for use inside map.on('load') closure
   latestMarkersRef.current = filteredMarkers;
   latestStudyLookupRef.current = studyLookup;
+  latestParticipantsRef.current = participants;
 
   const totalDreamsCount = useMemo(
     () => filteredMarkers.reduce((sum, m) => sum + (m.dream_count || 0), 0),
@@ -413,6 +415,10 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
         const textColor = isLight ? '#1e1b4b' : '#e0e7ff';
         const subColor = isLight ? '#4b5563' : '#a5b4fc';
 
+        const studyHasParticipants = latestParticipantsRef.current.some(
+          (px) => px.study_code === props.study_code
+        );
+
         const html = `
           <div style="font-family:system-ui,sans-serif;min-width:200px;padding:4px 0;">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
@@ -430,9 +436,14 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
               <button id="sdm-btn-study" style="padding:4px 10px;border-radius:6px;border:none;background:#6366f1;color:#fff;font-size:12px;cursor:pointer;">
                 ${tr.details}
               </button>
-              <button id="sdm-btn-participant" style="padding:4px 10px;border-radius:6px;border:none;background:#8b5cf6;color:#fff;font-size:12px;cursor:pointer;">
-                ${tr.participants}
-              </button>
+              ${studyHasParticipants
+                ? `<button id="sdm-btn-participant" style="padding:4px 10px;border-radius:6px;border:none;background:#8b5cf6;color:#fff;font-size:12px;cursor:pointer;">
+                    ${tr.participants}
+                  </button>`
+                : `<span style="padding:4px 10px;border-radius:6px;background:rgba(107,114,128,0.3);color:rgba(255,255,255,0.4);font-size:12px;cursor:default;">
+                    📊 ${props.dream_count} ${tr.dreams}
+                  </span>`
+              }
             </div>
           </div>
         `;
@@ -453,10 +464,12 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           document.getElementById('sdm-btn-study')?.addEventListener('click', () => {
             onSelectStudy?.(props.study_code);
           });
-          document.getElementById('sdm-btn-participant')?.addEventListener('click', () => {
-            const p = participants.find((px) => px.study_code === props.study_code);
-            if (p) onSelectParticipant?.(p.participant_id);
-          });
+          if (studyHasParticipants) {
+            document.getElementById('sdm-btn-participant')?.addEventListener('click', () => {
+              const p = latestParticipantsRef.current.find((px) => px.study_code === props.study_code);
+              if (p) onSelectParticipant?.(p.participant_id);
+            });
+          }
         });
       });
 
