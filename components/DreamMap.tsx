@@ -1351,7 +1351,12 @@ const DreamMap: React.FC<DreamMapProps> = ({
                       <span className={`text-sm font-semibold truncate ${textMain}`}>{u.name}</span>
                       {cat && <span className="text-xs leading-none">{cat.icon}</span>}
                     </div>
-                    <div className={`text-[11px] ${textSub}`}>{u.name} · {u.country}</div>
+                    <div className={`text-[11px] ${textSub}`}>
+                      {u.name} · {u.country}
+                      {u.dreamCount > 0 && (
+                        <span style={{ color: '#a78bfa' }}> · 🌙 {u.dreamCount} {u.dreamCount === 1 ? (lang === 'de' ? 'Traum' : 'dream') : (lang === 'de' ? 'Träume' : 'dreams')}</span>
+                      )}
+                    </div>
                     <p className={`text-xs italic mt-0.5 line-clamp-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                       {u.dreamSummary}
                     </p>
