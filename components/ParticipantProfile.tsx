@@ -178,6 +178,61 @@ function flagForLang(lang: string | null): string {
   return flags[lang] || '\u{1F310}';
 }
 
+function formatDreamText(text: string): React.ReactNode {
+  if (!text) return null;
+  const paragraphs = text.split(/\n+/).filter(p => p.trim());
+
+  return (
+    <>
+      {paragraphs.map((para, i) => {
+        const trimmed = para.trim();
+        const isQuote =
+          (trimmed.startsWith('"') || trimmed.startsWith('\u201E') || trimmed.startsWith('\u201C')) &&
+          (trimmed.endsWith('"') || trimmed.endsWith('\u201D') || trimmed.endsWith('\u201C'));
+
+        if (isQuote) {
+          return (
+            <p key={i} style={{
+              margin: '0 0 12px 0', paddingLeft: 16,
+              borderLeft: '2px solid rgba(139,92,246,0.3)',
+              fontStyle: 'italic', opacity: 0.9,
+            }}>{para}</p>
+          );
+        }
+
+        if (para.length > 300) {
+          const sentences = para.match(/[^.!?]+[.!?]+\s*/g) || [para];
+          const chunks: string[] = [];
+          let current = '';
+          sentences.forEach(s => {
+            current += s;
+            if (current.length > 150) { chunks.push(current.trim()); current = ''; }
+          });
+          if (current.trim()) chunks.push(current.trim());
+
+          return (
+            <React.Fragment key={i}>
+              {chunks.map((chunk, j) => (
+                <p key={j} style={{
+                  margin: '0 0 12px 0',
+                  ...(i === 0 && j === 0 ? { fontSize: 15, fontWeight: 500 } : {}),
+                }}>{chunk}</p>
+              ))}
+            </React.Fragment>
+          );
+        }
+
+        return (
+          <p key={i} style={{
+            margin: '0 0 12px 0',
+            ...(i === 0 ? { fontSize: 15, fontWeight: 500 } : {}),
+          }}>{para}</p>
+        );
+      })}
+    </>
+  );
+}
+
 // Color palette for tags
 const TAG_COLORS = [
   'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
@@ -215,6 +270,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
   const [participant, setParticipant] = useState<ParticipantRow | null>(null);
   const [dreams, setDreams] = useState<DreamRow[]>([]);
   const [expandedDreams, setExpandedDreams] = useState<Set<string>>(new Set());
+  const [expandedDreamTexts, setExpandedDreamTexts] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -492,16 +548,64 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                       <span>· {wordCount} {language === 'de' ? 'Woerter' : 'words'}</span>
                     </div>
 
-                    {/* Dream Text — groessere Zeilenhoehe fuer Lesbarkeit */}
-                    <div
-                      className={`p-4 rounded-lg border font-serif text-[14px] leading-[1.7] whitespace-pre-wrap ${
-                        isLight
-                          ? 'bg-white border-gray-200 text-gray-800'
-                          : 'bg-gray-900/80 border-white/5 text-gray-200'
-                      }`}
-                    >
-                      <TranslatedText text={dream.dream_text} sourceId={dream.id} table="research_dreams" field="dream_text" showOriginalToggle />
-                    </div>
+                    {/* Dream Text — formatiert mit Expand/Collapse */}
+                    {(() => {
+                      const textIsLong = (dream.dream_text?.length ?? 0) > 500;
+                      const isTextExpanded = expandedDreamTexts.has(dream.id);
+                      return (
+                        <div style={{
+                          background: isLight ? '#f8f7ff' : 'rgba(15, 10, 30, 0.6)',
+                          borderRadius: 12,
+                          padding: '16px 20px',
+                          lineHeight: 1.8,
+                          fontSize: 14,
+                          fontFamily: 'Georgia, "Times New Roman", serif',
+                          color: isLight ? '#1e1b4b' : '#e2e8f0',
+                          letterSpacing: '0.01em',
+                          maxHeight: isTextExpanded || !textIsLong ? 'none' : 300,
+                          overflow: isTextExpanded || !textIsLong ? 'visible' : 'hidden',
+                          position: 'relative',
+                          transition: 'max-height 0.3s ease',
+                        }}>
+                          <TranslatedText
+                            text={dream.dream_text}
+                            sourceId={dream.id}
+                            table="research_dreams"
+                            field="dream_text"
+                            showOriginalToggle
+                            as="div"
+                            renderContent={formatDreamText}
+                          />
+                          {!isTextExpanded && textIsLong && (
+                            <div style={{
+                              position: 'absolute',
+                              bottom: 0, left: 0, right: 0, height: 60,
+                              background: `linear-gradient(transparent, ${isLight ? '#f8f7ff' : 'rgba(15,10,30,0.95)'})`,
+                              display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 8,
+                            }}>
+                              <button onClick={() => setExpandedDreamTexts(prev => new Set(prev).add(dream.id))} style={{
+                                background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.3)',
+                                borderRadius: 20, padding: '4px 16px', color: '#c4b5fd', fontSize: 12, cursor: 'pointer',
+                              }}>
+                                {language === 'de' ? 'Mehr lesen' : 'Read more'} \u25BC
+                              </button>
+                            </div>
+                          )}
+                          {isTextExpanded && textIsLong && (
+                            <div style={{ textAlign: 'center', marginTop: 8 }}>
+                              <button onClick={() => setExpandedDreamTexts(prev => {
+                                const next = new Set(prev); next.delete(dream.id); return next;
+                              })} style={{
+                                background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.3)',
+                                borderRadius: 20, padding: '4px 16px', color: '#c4b5fd', fontSize: 12, cursor: 'pointer',
+                              }}>
+                                {language === 'de' ? 'Weniger anzeigen' : 'Show less'} \u25B2
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
 
                     {/* HVdC Codes */}
                     {dream.hall_van_de_castle_codes && Object.keys(dream.hall_van_de_castle_codes).length > 0 && (

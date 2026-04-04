@@ -41,6 +41,15 @@ interface Participant {
 
 type SortKey = 'year' | 'dreams' | 'alpha';
 
+function getStudyType(study: Study): { label: string; color: string; icon: string } {
+  const pc = study.participant_count ?? 0;
+  const dc = study.total_dreams ?? 0;
+  if (pc > 0 && pc <= 3) return { label: 'Einzelperson', color: '#8B5CF6', icon: '\u{1F464}' };
+  const avg = pc > 0 ? dc / pc : 0;
+  if (avg > 5) return { label: 'Tagebuch', color: '#22c55e', icon: '\u{1F4D3}' };
+  return { label: 'Umfrage', color: '#3b82f6', icon: '\u{1F4CB}' };
+}
+
 // ---------------------------------------------------------------------------
 // Translations
 // ---------------------------------------------------------------------------
@@ -119,6 +128,10 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
     participants: number;
     dreams: number;
   } | null>(null);
+  const [filterWordCount, setFilterWordCount] = useState<number>(0);
+  const [filterDreamsPerPart, setFilterDreamsPerPart] = useState<number>(0);
+  const [filterStudyType, setFilterStudyType] = useState<string>('all');
+  const [studyAvgWordCounts, setStudyAvgWordCounts] = useState<Record<string, number> | null>(null);
 
   // Fetch studies
   useEffect(() => {
@@ -155,6 +168,46 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
     fetchCounts();
   }, []);
 
+  // Background: avg word counts per study for filter
+  useEffect(() => {
+    const run = async () => {
+      const PAGE = 1000;
+      const stats: Record<string, { tw: number; c: number }> = {};
+      let offset = 0;
+      let hasMore = true;
+      while (hasMore) {
+        const batch = [];
+        for (let i = 0; i < 5 && hasMore; i++) {
+          batch.push(
+            supabase.from('research_dreams')
+              .select('participant_id, dream_text')
+              .range(offset, offset + PAGE - 1)
+              .order('id')
+          );
+          offset += PAGE;
+        }
+        const results = await Promise.all(batch);
+        for (const { data } of results) {
+          if (!data || data.length === 0) { hasMore = false; continue; }
+          if (data.length < PAGE) hasMore = false;
+          for (const d of data) {
+            const code = (d.participant_id as string)?.match(/^(SDDB-\d+)/)?.[1];
+            if (!code) continue;
+            if (!stats[code]) stats[code] = { tw: 0, c: 0 };
+            stats[code].tw += ((d.dream_text as string)?.split(/\s+/).filter(Boolean).length || 0);
+            stats[code].c++;
+          }
+        }
+      }
+      const result: Record<string, number> = {};
+      for (const [code, s] of Object.entries(stats)) {
+        result[code] = s.c > 0 ? Math.round(s.tw / s.c) : 0;
+      }
+      setStudyAvgWordCounts(result);
+    };
+    run();
+  }, []);
+
   // Fetch participants when a study is expanded
   useEffect(() => {
     if (!expandedStudy) {
@@ -187,6 +240,26 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
         s.study_code?.toLowerCase().includes(q)
     );
 
+    if (filterStudyType !== 'all') {
+      list = list.filter(s => {
+        const st = getStudyType(s);
+        if (filterStudyType === 'survey') return st.label === 'Umfrage';
+        if (filterStudyType === 'journal') return st.label === 'Tagebuch';
+        if (filterStudyType === 'single') return st.label === 'Einzelperson';
+        return true;
+      });
+    }
+    if (filterDreamsPerPart > 0) {
+      list = list.filter(s => {
+        const pc = s.participant_count ?? 0;
+        const dc = s.total_dreams ?? 0;
+        return pc > 0 && (dc / pc) >= filterDreamsPerPart;
+      });
+    }
+    if (filterWordCount > 0 && studyAvgWordCounts) {
+      list = list.filter(s => (studyAvgWordCounts[s.study_code] ?? 0) >= filterWordCount);
+    }
+
     switch (sortKey) {
       case 'year':
         list = [...list].sort(
@@ -205,7 +278,7 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
         break;
     }
     return list;
-  }, [studies, search, sortKey]);
+  }, [studies, search, sortKey, filterStudyType, filterDreamsPerPart, filterWordCount, studyAvgWordCounts]);
 
   // Stats – use real DB counts when available, fall back to metadata sums
   const stats = useMemo(() => {
@@ -308,6 +381,76 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
           </div>
         </div>
 
+        {/* Filter Chips */}
+        {!loading && (
+          <div className="flex flex-col gap-3 mb-6">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              <span className="text-xs opacity-50 whitespace-nowrap" style={{ minWidth: 80 }}>
+                {language === 'de' ? 'Trauml\u00e4nge:' : 'Dream length:'}
+              </span>
+              {([
+                { v: 0, l: language === 'de' ? 'Alle' : 'All' },
+                { v: 50, l: language === 'de' ? 'Mind. 50 W\u00f6rter' : 'Min. 50 words' },
+                { v: 100, l: language === 'de' ? 'Mind. 100 W\u00f6rter' : 'Min. 100 words' },
+                { v: 200, l: language === 'de' ? 'Mind. 200 W\u00f6rter' : 'Min. 200 words' },
+                { v: 500, l: language === 'de' ? 'Lange Texte (500+)' : 'Long texts (500+)' },
+              ] as const).map(f => (
+                <button key={f.v} onClick={() => setFilterWordCount(f.v)} style={{
+                  padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 500,
+                  border: filterWordCount === f.v ? '1px solid #8B5CF6' : '1px solid rgba(139,92,246,0.3)',
+                  background: filterWordCount === f.v ? 'rgba(139,92,246,0.2)' : 'transparent',
+                  color: filterWordCount === f.v ? '#c4b5fd' : (f.v > 0 && !studyAvgWordCounts) ? '#4a5568' : '#94a3b8',
+                  cursor: (f.v > 0 && !studyAvgWordCounts) ? 'wait' : 'pointer',
+                  whiteSpace: 'nowrap', opacity: (f.v > 0 && !studyAvgWordCounts) ? 0.5 : 1,
+                }}>{f.l}{f.v > 0 && !studyAvgWordCounts ? ' ...' : ''}</button>
+              ))}
+            </div>
+            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              <span className="text-xs opacity-50 whitespace-nowrap" style={{ minWidth: 80 }}>
+                {language === 'de' ? 'Tr\u00e4ume/TN:' : 'Dreams/P:'}
+              </span>
+              {([
+                { v: 0, l: language === 'de' ? 'Alle' : 'All' },
+                { v: 5, l: 'Multi-Traum (5+)' },
+                { v: 30, l: language === 'de' ? 'Tageb\u00fccher (30+)' : 'Diaries (30+)' },
+                { v: 100, l: 'Intensiv (100+)' },
+              ] as const).map(f => (
+                <button key={f.v} onClick={() => setFilterDreamsPerPart(f.v)} style={{
+                  padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 500,
+                  border: filterDreamsPerPart === f.v ? '1px solid #8B5CF6' : '1px solid rgba(139,92,246,0.3)',
+                  background: filterDreamsPerPart === f.v ? 'rgba(139,92,246,0.2)' : 'transparent',
+                  color: filterDreamsPerPart === f.v ? '#c4b5fd' : '#94a3b8',
+                  cursor: 'pointer', whiteSpace: 'nowrap',
+                }}>{f.l}</button>
+              ))}
+            </div>
+            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              <span className="text-xs opacity-50 whitespace-nowrap" style={{ minWidth: 80 }}>
+                {language === 'de' ? 'Studientyp:' : 'Study type:'}
+              </span>
+              {([
+                { v: 'all', l: language === 'de' ? 'Alle' : 'All' },
+                { v: 'survey', l: '\u{1F4CB} Umfragen' },
+                { v: 'journal', l: '\u{1F4D3} Tageb\u00fccher' },
+                { v: 'single', l: '\u{1F464} Einzelperson' },
+              ] as const).map(f => (
+                <button key={f.v} onClick={() => setFilterStudyType(f.v)} style={{
+                  padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 500,
+                  border: filterStudyType === f.v ? '1px solid #8B5CF6' : '1px solid rgba(139,92,246,0.3)',
+                  background: filterStudyType === f.v ? 'rgba(139,92,246,0.2)' : 'transparent',
+                  color: filterStudyType === f.v ? '#c4b5fd' : '#94a3b8',
+                  cursor: 'pointer', whiteSpace: 'nowrap',
+                }}>{f.l}</button>
+              ))}
+            </div>
+            {(filterWordCount > 0 || filterDreamsPerPart > 0 || filterStudyType !== 'all') && (
+              <div className="text-xs opacity-50">
+                {filtered.length} {language === 'de' ? 'von' : 'of'} {studies.length} {language === 'de' ? 'Studien' : 'studies'}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Loading */}
         {loading && (
           <div className="flex items-center justify-center py-20">
@@ -329,16 +472,24 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
                 key={study.id}
                 className={`rounded-xl border p-6 ${cardBg} flex flex-col gap-3`}
               >
-                {/* Badge */}
+                {/* Badge + Study Type */}
                 <div className="flex items-start justify-between">
-                  <span
-                    className="rounded-full px-3 py-1 text-xs font-bold text-white"
-                    style={{
-                      backgroundColor: study.map_color || '#6366f1',
-                    }}
-                  >
-                    {study.study_code}
-                  </span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span
+                      className="rounded-full px-3 py-1 text-xs font-bold text-white"
+                      style={{
+                        backgroundColor: study.map_color || '#6366f1',
+                      }}
+                    >
+                      {study.study_code}
+                    </span>
+                    {(() => { const st = getStudyType(study); return (
+                      <span className="rounded-full px-2 py-0.5 text-xs font-medium" style={{
+                        backgroundColor: st.color + '20', color: st.color,
+                        border: `1px solid ${st.color}40`,
+                      }}>{st.icon} {st.label}</span>
+                    ); })()}
+                  </div>
                 </div>
 
                 {/* Title */}
