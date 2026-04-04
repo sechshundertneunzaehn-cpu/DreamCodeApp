@@ -115,6 +115,10 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
   const [expandedStudy, setExpandedStudy] = useState<string | null>(null);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [loadingParticipants, setLoadingParticipants] = useState(false);
+  const [dbCounts, setDbCounts] = useState<{
+    participants: number;
+    dreams: number;
+  } | null>(null);
 
   // Fetch studies
   useEffect(() => {
@@ -130,6 +134,25 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
       setLoading(false);
     };
     fetchStudies();
+  }, []);
+
+  // Fetch actual DB counts (not metadata sums)
+  useEffect(() => {
+    const fetchCounts = async () => {
+      const [dreamsRes, participantsRes] = await Promise.all([
+        supabase
+          .from('research_dreams')
+          .select('*', { count: 'exact', head: true }),
+        supabase
+          .from('research_participants')
+          .select('*', { count: 'exact', head: true }),
+      ]);
+      setDbCounts({
+        participants: participantsRes.count ?? 0,
+        dreams: dreamsRes.count ?? 0,
+      });
+    };
+    fetchCounts();
   }, []);
 
   // Fetch participants when a study is expanded
@@ -184,26 +207,22 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
     return list;
   }, [studies, search, sortKey]);
 
-  // Stats
+  // Stats – use real DB counts when available, fall back to metadata sums
   const stats = useMemo(() => {
-    const totalParticipants = studies.reduce(
-      (sum, s) => sum + (s.participant_count ?? 0),
-      0
-    );
-    const totalDreams = studies.reduce(
-      (sum, s) => sum + (s.total_dreams ?? 0),
-      0
-    );
     const countriesSet = new Set(
       studies.map((s) => s.country).filter(Boolean)
     );
     return {
       studies: studies.length,
-      participants: totalParticipants,
-      dreams: totalDreams,
+      participants: dbCounts?.participants ?? studies.reduce(
+        (sum, s) => sum + (s.participant_count ?? 0), 0
+      ),
+      dreams: dbCounts?.dreams ?? studies.reduce(
+        (sum, s) => sum + (s.total_dreams ?? 0), 0
+      ),
       countries: countriesSet.size,
     };
-  }, [studies]);
+  }, [studies, dbCounts]);
 
   // Styles
   const bg = isLight ? 'bg-white' : 'bg-gray-900/95 backdrop-blur';
@@ -432,10 +451,38 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-500" />
                         <span className="text-xs opacity-50">...</span>
                       </div>
-                    ) : participants.length === 0 ? (
-                      <div className="text-xs opacity-50 py-2">
-                        {t.noParticipants}
+                    ) : participants.length === 0 && (study.total_dreams ?? 0) > 0 ? (
+                      <div style={{
+                        padding: '12px 16px',
+                        background: 'rgba(139, 92, 246, 0.1)',
+                        borderRadius: 12,
+                        border: '1px solid rgba(139, 92, 246, 0.2)',
+                        margin: '8px 0',
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                          <span style={{ fontSize: 16 }}>📊</span>
+                          <span style={{ fontSize: 14, fontWeight: 600, color: isLight ? '#6d28d9' : '#c4b5fd' }}>
+                            {(study.total_dreams ?? 0).toLocaleString()} {language === 'de' ? 'Traumberichte in Originalstudie' : 'dream reports in original study'}
+                          </span>
+                        </div>
+                        <p style={{ fontSize: 12, opacity: 0.7, margin: '4px 0 0 28px' }}>
+                          {language === 'de' ? 'Daten werden nach und nach importiert' : 'Data is being imported gradually'}
+                        </p>
+                        {study.doi && (
+                          <a
+                            href={study.doi.startsWith('http') ? study.doi : `https://doi.org/${study.doi}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontSize: 12, color: '#8B5CF6', marginLeft: 28, marginTop: 4, display: 'inline-block' }}
+                          >
+                            {language === 'de' ? 'Studie ansehen' : 'View study'} →
+                          </a>
+                        )}
                       </div>
+                    ) : participants.length === 0 ? (
+                      <p style={{ fontSize: 13, opacity: 0.5, padding: '8px 0', margin: 0 }}>
+                        {language === 'de' ? 'Noch keine Daten verfügbar' : 'No data available yet'}
+                      </p>
                     ) : (
                       <div className="flex flex-wrap gap-2">
                         {participants.map((p) => (
