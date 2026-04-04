@@ -1,0 +1,1234 @@
+- generic [ref=e3]:
+  - generic [ref=e125]:
+    - generic [ref=e126]:
+      - generic [ref=e379]:
+        - generic [ref=e380]:
+          - heading "Traumkarte" [level=1] [ref=e381]
+          - paragraph [ref=e382]: Wer hat das Gleiche geträumt?
+        - button "Close" [ref=e383] [cursor=pointer]:
+          - generic [ref=e384]: close
+      - generic [ref=e385]:
+        - button "add" [ref=e386] [cursor=pointer]:
+          - generic [ref=e387]: add
+        - button "remove" [ref=e388] [cursor=pointer]:
+          - generic [ref=e389]: remove
+    - generic [ref=e391]:
+      - generic [ref=e392]: search
+      - textbox "Durchsuche Traeume, Stichworte, Staedte..." [ref=e393]
+    - generic [ref=e394]:
+      - generic [ref=e395]:
+        - generic [ref=e396]:
+          - generic [ref=e397]: public
+          - generic [ref=e398]: "2.095"
+        - generic [ref=e399]: weltweit
+      - generic [ref=e400]:
+        - generic [ref=e401]:
+          - generic [ref=e402]: favorite
+          - generic [ref=e403]: 42%
+        - generic [ref=e404]: der Träumer hatten ähnliche Träume
+      - generic [ref=e405]:
+        - generic [ref=e406]:
+          - generic [ref=e407]: bolt
+          - generic [ref=e408]: "171"
+        - generic [ref=e409]: Matches heute
+      - generic [ref=e410]: ● Live
+    - generic [ref=e411]:
+      - button "apps Alle" [ref=e412] [cursor=pointer]:
+        - generic [ref=e413]: apps
+        - text: Alle
+      - button "👻 Gruselig" [ref=e414] [cursor=pointer]:
+        - generic [ref=e415]: 👻
+        - text: Gruselig
+      - button "😂 Lustig" [ref=e416] [cursor=pointer]:
+        - generic [ref=e417]: 😂
+        - text: Lustig
+      - button "🛸 UFO" [ref=e418] [cursor=pointer]:
+        - generic [ref=e419]: 🛸
+        - text: UFO
+      - button "❤️ Liebe" [ref=e420] [cursor=pointer]:
+        - generic [ref=e421]: ❤️
+        - text: Liebe
+      - button "🔥 Erotik" [ref=e422] [cursor=pointer]:
+        - generic [ref=e423]: 🔥
+        - text: Erotik
+      - button "✈️ Fliegen" [ref=e424] [cursor=pointer]:
+        - generic [ref=e425]: ✈️
+        - text: Fliegen
+      - button "📉 Fallen" [ref=e426] [cursor=pointer]:
+        - generic [ref=e427]: 📉
+        - text: Fallen
+      - button "🌊 Wasser" [ref=e428] [cursor=pointer]:
+        - generic [ref=e429]: 🌊
+        - text: Wasser
+      - button "🐾 Tiere" [ref=e430] [cursor=pointer]:
+        - generic [ref=e431]: 🐾
+        - text: Tiere
+      - button "💀 Tod" [ref=e432] [cursor=pointer]:
+        - generic [ref=e433]: 💀
+        - text: Tod
+      - button "🏃 Verfolgung" [ref=e434] [cursor=pointer]:
+        - generic [ref=e435]: 🏃
+        - text: Verfolgung
+      - button "👨‍👩‍👧 Familie" [ref=e436] [cursor=pointer]:
+        - generic [ref=e437]: 👨‍👩‍👧
+        - text: Familie
+      - button "💰 Geld" [ref=e438] [cursor=pointer]:
+        - generic [ref=e439]: 💰
+        - text: Geld
+      - button "🏫 Schule" [ref=e440] [cursor=pointer]:
+        - generic [ref=e441]: 🏫
+        - text: Schule
+      - button "🧘 Spirituell" [ref=e442] [cursor=pointer]:
+        - generic [ref=e443]: 🧘
+        - text: Spirituell
+      - button "🌿 Natur" [ref=e444] [cursor=pointer]:
+        - generic [ref=e445]: 🌿
+        - text: Natur
+      - button "⏳ Zeitreise" [ref=e446] [cursor=pointer]:
+        - generic [ref=e447]: ⏳
+        - text: Zeitreise
+      - button "⭐ Prominente" [ref=e448] [cursor=pointer]:
+        - generic [ref=e449]: ⭐
+        - text: Prominente
+    - generic [ref=e450]:
+      - generic [ref=e451]:
+        - generic [ref=e452]: Match-Schwelle
+        - generic [ref=e453]: 50%
+      - slider [ref=e454] [cursor=pointer]: "50"
+    - button "leaderboard Trends zeigen expand_more" [ref=e455] [cursor=pointer]:
+      - generic [ref=e456]: leaderboard
+      - text: Trends zeigen
+      - generic [ref=e457]: expand_more
+    - generic [ref=e458]:
+      - generic [ref=e459]:
+        - generic [ref=e460]: Gematchte Traeumer (123)
+        - generic [ref=e461]: Marker antippen für Match-Details
+      - generic [ref=e462]:
+        - generic [ref=e463] [cursor=pointer]:
+          - generic [ref=e464]: 👩
+          - generic [ref=e465]:
+            - generic [ref=e466]:
+              - generic [ref=e467]: Sage Z.
+              - generic [ref=e468]: ✈️
+            - generic [ref=e469]: "?, EN"
+            - paragraph [ref=e470]: I was playing on my high school basketball team.
+          - generic [ref=e471]: 98%
+        - generic [ref=e472] [cursor=pointer]:
+          - generic [ref=e473]: 👩🏻
+          - generic [ref=e474]:
+            - generic [ref=e475]:
+              - generic [ref=e476]: River E.
+              - generic [ref=e477]: ✈️
+            - generic [ref=e478]: "?, EN"
+            - paragraph [ref=e479]: Running in the spend trlays
+          - generic [ref=e480]: 97%
+        - generic [ref=e481] [cursor=pointer]:
+          - generic [ref=e482]: 🧑🏿
+          - generic [ref=e483]:
+            - generic [ref=e484]:
+              - generic [ref=e485]: Miro B.
+              - generic [ref=e486]: ✈️
+            - generic [ref=e487]: "?, EN"
+            - paragraph [ref=e488]: I dreamt I was playing with Michael Jordan in the Chicago Bulls team
+          - generic [ref=e489]: 97%
+        - generic [ref=e490] [cursor=pointer]:
+          - generic [ref=e491]: 👩🏿
+          - generic [ref=e492]:
+            - generic [ref=e493]:
+              - generic [ref=e494]: Sky H.
+              - generic [ref=e495]: ✈️
+            - generic [ref=e496]: "?, EN"
+            - paragraph [ref=e497]: It was a sex themed.
+          - generic [ref=e498]: 96%
+        - generic [ref=e499] [cursor=pointer]:
+          - generic [ref=e500]: 🧑
+          - generic [ref=e501]:
+            - generic [ref=e502]:
+              - generic [ref=e503]: Dream I.
+              - generic [ref=e504]: ✈️
+            - generic [ref=e505]: "?, EN"
+            - paragraph [ref=e506]: I dreamt I played defensive tackle for the Steelers
+          - generic [ref=e507]: 96%
+        - generic [ref=e508] [cursor=pointer]:
+          - generic [ref=e509]: 👩‍🦰
+          - generic [ref=e510]:
+            - generic [ref=e511]:
+              - generic [ref=e512]: Nova D.
+              - generic [ref=e513]: ✈️
+            - generic [ref=e514]: "?, EN"
+            - paragraph [ref=e515]: i dreamed that I was a super athlete
+          - generic [ref=e516]: 95%
+        - generic [ref=e517] [cursor=pointer]:
+          - generic [ref=e518]: 👩‍🦰
+          - generic [ref=e519]:
+            - generic [ref=e520]:
+              - generic [ref=e521]: Sky O.
+              - generic [ref=e522]: ✈️
+            - generic [ref=e523]: "?, EN"
+            - paragraph [ref=e524]: When I played football, I once had a dream about making an interception and scoring a touchdown. It only happened once.
+          - generic [ref=e525]: 95%
+        - generic [ref=e526] [cursor=pointer]:
+          - generic [ref=e527]: 👩‍🦱
+          - generic [ref=e528]:
+            - generic [ref=e529]:
+              - generic [ref=e530]: Sage J.
+              - generic [ref=e531]: ✈️
+            - generic [ref=e532]: "?, EN"
+            - paragraph [ref=e533]: Yes. I was a professional diver in the Olympics.
+          - generic [ref=e534]: 95%
+        - generic [ref=e535] [cursor=pointer]:
+          - generic [ref=e536]: 👨🏿
+          - generic [ref=e537]:
+            - generic [ref=e538]:
+              - generic [ref=e539]: Miro L.
+              - generic [ref=e540]: ✈️
+            - generic [ref=e541]: "?, EN"
+            - paragraph [ref=e542]: I was at an LA Dodger game
+          - generic [ref=e543]: 95%
+        - generic [ref=e544] [cursor=pointer]:
+          - generic [ref=e545]: 🧑🏿
+          - generic [ref=e546]:
+            - generic [ref=e547]:
+              - generic [ref=e548]: Sky K.
+              - generic [ref=e549]: ✈️
+            - generic [ref=e550]: "?, EN"
+            - paragraph [ref=e551]: how hot they are and what it would like to sleep with them. What they look like naked.
+          - generic [ref=e552]: 94%
+        - generic [ref=e553] [cursor=pointer]:
+          - generic [ref=e554]: 🧑🏽
+          - generic [ref=e555]:
+            - generic [ref=e556]:
+              - generic [ref=e557]: Sky R.
+              - generic [ref=e558]: ✈️
+            - generic [ref=e559]: "?, EN"
+            - paragraph [ref=e560]: it was about games i would watch that day .
+          - generic [ref=e561]: 94%
+        - generic [ref=e562] [cursor=pointer]:
+          - generic [ref=e563]: 👨🏽
+          - generic [ref=e564]:
+            - generic [ref=e565]:
+              - generic [ref=e566]: Miro X.
+              - generic [ref=e567]: ✈️
+            - generic [ref=e568]: "?, EN"
+            - paragraph [ref=e569]: About 10 years ago, I had a dream about Joe Torre, the former manager of the NY Yankees. He and I were discussing whether he should retire as the Yank
+          - generic [ref=e570]: 94%
+        - generic [ref=e571] [cursor=pointer]:
+          - generic [ref=e572]: 👩‍🦰
+          - generic [ref=e573]:
+            - generic [ref=e574]:
+              - generic [ref=e575]: Dream Q.
+              - generic [ref=e576]: ✈️
+            - generic [ref=e577]: "?, EN"
+            - paragraph [ref=e578]: I have a few that come to mind when I was younger. It was me wanting to be a really good baseball player. Seemed to me to be normal.
+          - generic [ref=e579]: 94%
+        - generic [ref=e580] [cursor=pointer]:
+          - generic [ref=e581]: 👨🏽
+          - generic [ref=e582]:
+            - generic [ref=e583]:
+              - generic [ref=e584]: Nova Z.
+              - generic [ref=e585]: ✈️
+            - generic [ref=e586]: "?, EN"
+            - paragraph [ref=e587]: I'm golfing, and the ball is in a horrible position that I endlessly try to find a way to stand and swing, never finding a way to do it. Extremely fru
+          - generic [ref=e588]: 93%
+        - generic [ref=e589] [cursor=pointer]:
+          - generic [ref=e590]: 🧑🏽
+          - generic [ref=e591]:
+            - generic [ref=e592]:
+              - generic [ref=e593]: Luna D.
+              - generic [ref=e594]: ✈️
+            - generic [ref=e595]: "?, EN"
+            - paragraph [ref=e596]: Me being a famous basketball player that was very skillful.
+          - generic [ref=e597]: 93%
+        - generic [ref=e598] [cursor=pointer]:
+          - generic [ref=e599]: 👱‍♀️
+          - generic [ref=e600]:
+            - generic [ref=e601]:
+              - generic [ref=e602]: Luna R.
+              - generic [ref=e603]: ✈️
+            - generic [ref=e604]: "?, EN"
+            - paragraph [ref=e605]: Usually about playing golf. I find myself in a difficult position, usually in the trees or tall grass. When I play the shot it comes out nice and I ma
+          - generic [ref=e606]: 93%
+        - generic [ref=e607] [cursor=pointer]:
+          - generic [ref=e608]: 👨🏽
+          - generic [ref=e609]:
+            - generic [ref=e610]:
+              - generic [ref=e611]: Sky I.
+              - generic [ref=e612]: ✈️
+            - generic [ref=e613]: "?, EN"
+            - paragraph [ref=e614]: I dreamed I was a football player
+          - generic [ref=e615]: 92%
+        - generic [ref=e616] [cursor=pointer]:
+          - generic [ref=e617]: 👩
+          - generic [ref=e618]:
+            - generic [ref=e619]:
+              - generic [ref=e620]: Dream W.
+              - generic [ref=e621]: ✈️
+            - generic [ref=e622]: "?, EN"
+            - paragraph [ref=e623]: Basketball game playing with a friend who had died fairly recently.
+          - generic [ref=e624]: 92%
+        - generic [ref=e625] [cursor=pointer]:
+          - generic [ref=e626]: 👨🏿
+          - generic [ref=e627]:
+            - generic [ref=e628]:
+              - generic [ref=e629]: Dream S.
+              - generic [ref=e630]: ✈️
+            - generic [ref=e631]: "?, EN"
+            - paragraph [ref=e632]: Lebron James was making the most dunks and he was on Brooklyn nets so that was a dream indeed and mild colors
+          - generic [ref=e633]: 92%
+        - generic [ref=e634] [cursor=pointer]:
+          - generic [ref=e635]: 👩‍🦰
+          - generic [ref=e636]:
+            - generic [ref=e637]:
+              - generic [ref=e638]: River X.
+              - generic [ref=e639]: ✈️
+            - generic [ref=e640]: "?, EN"
+            - paragraph [ref=e641]: Dreamt that I was marrying Shaq. Also had a Michael Jordon dream but cannot remember what it was about.
+          - generic [ref=e642]: 92%
+        - generic [ref=e643] [cursor=pointer]:
+          - generic [ref=e644]: 👩🏽
+          - generic [ref=e645]:
+            - generic [ref=e646]:
+              - generic [ref=e647]: Nova X.
+              - generic [ref=e648]: ✈️
+            - generic [ref=e649]: "?, EN"
+            - paragraph [ref=e650]: I had a dream that I was part of some weird combination of football and hockey. We had to hit the football around with hockey sticks and get them into
+          - generic [ref=e651]: 92%
+        - generic [ref=e652] [cursor=pointer]:
+          - generic [ref=e653]: 🧑
+          - generic [ref=e654]:
+            - generic [ref=e655]:
+              - generic [ref=e656]: Sage Q.
+              - generic [ref=e657]: ✈️
+            - generic [ref=e658]: "?, EN"
+            - paragraph [ref=e659]: play basketball with michael jordan
+          - generic [ref=e660]: 91%
+        - generic [ref=e661] [cursor=pointer]:
+          - generic [ref=e662]: 👩‍🦰
+          - generic [ref=e663]:
+            - generic [ref=e664]:
+              - generic [ref=e665]: Dream P.
+              - generic [ref=e666]: ✈️
+            - generic [ref=e667]: "?, EN"
+            - paragraph [ref=e668]: Dream playing in pro tennis tournament
+          - generic [ref=e669]: 91%
+        - generic [ref=e670] [cursor=pointer]:
+          - generic [ref=e671]: 👨🏿
+          - generic [ref=e672]:
+            - generic [ref=e673]:
+              - generic [ref=e674]: Echo Z.
+              - generic [ref=e675]: ✈️
+            - generic [ref=e676]: "?, EN"
+            - paragraph [ref=e677]: Such dreams have been of long ago participation - when I was young & in school.
+          - generic [ref=e678]: 91%
+        - generic [ref=e679] [cursor=pointer]:
+          - generic [ref=e680]: 👱‍♀️
+          - generic [ref=e681]:
+            - generic [ref=e682]:
+              - generic [ref=e683]: Echo W.
+              - generic [ref=e684]: ✈️
+            - generic [ref=e685]: "?, EN"
+            - paragraph [ref=e686]: Dreamt about athletes that randomly show up in dreams every so often like a regular person
+          - generic [ref=e687]: 91%
+        - generic [ref=e688] [cursor=pointer]:
+          - generic [ref=e689]: 👩
+          - generic [ref=e690]:
+            - generic [ref=e691]:
+              - generic [ref=e692]: Nova A.
+              - generic [ref=e693]: ✈️
+            - generic [ref=e694]: "?, EN"
+            - paragraph [ref=e695]: I dream I am running a marathon, and am pushing as hard as I can toward the end.
+          - generic [ref=e696]: 91%
+        - generic [ref=e697] [cursor=pointer]:
+          - generic [ref=e698]: 👩🏻
+          - generic [ref=e699]:
+            - generic [ref=e700]:
+              - generic [ref=e701]: River I.
+              - generic [ref=e702]: ✈️
+            - generic [ref=e703]: "?, EN"
+            - paragraph [ref=e704]: I have a few things to do
+          - generic [ref=e705]: 90%
+        - generic [ref=e706] [cursor=pointer]:
+          - generic [ref=e707]: 👩🏽
+          - generic [ref=e708]:
+            - generic [ref=e709]:
+              - generic [ref=e710]: River D.
+              - generic [ref=e711]: ✈️
+            - generic [ref=e712]: "?, EN"
+            - paragraph [ref=e713]: Much details too was a sports apparently if you're normally are in an unusual way sports like racquetball or water balloons or sports like running or
+          - generic [ref=e714]: 89%
+        - generic [ref=e715] [cursor=pointer]:
+          - generic [ref=e716]: 🧑🏿
+          - generic [ref=e717]:
+            - generic [ref=e718]:
+              - generic [ref=e719]: Sage X.
+              - generic [ref=e720]: ✈️
+            - generic [ref=e721]: "?, EN"
+            - paragraph [ref=e722]: i was playing soccer but i wasn't human
+          - generic [ref=e723]: 89%
+        - generic [ref=e724] [cursor=pointer]:
+          - generic [ref=e725]: 👨🏽
+          - generic [ref=e726]:
+            - generic [ref=e727]:
+              - generic [ref=e728]: Sky M.
+              - generic [ref=e729]: ✈️
+            - generic [ref=e730]: "?, EN"
+            - paragraph [ref=e731]: Winning hit in a big game
+          - generic [ref=e732]: 88%
+        - generic [ref=e733] [cursor=pointer]:
+          - generic [ref=e734]: 👨🏽
+          - generic [ref=e735]:
+            - generic [ref=e736]:
+              - generic [ref=e737]: Nova D.
+              - generic [ref=e738]: ✈️
+            - generic [ref=e739]: "?, EN"
+            - paragraph [ref=e740]: had a dream I was flying like a bird does but I didnt have have wings and me and several flying people were racing
+          - generic [ref=e741]: 88%
+        - generic [ref=e742] [cursor=pointer]:
+          - generic [ref=e743]: 👨🏻
+          - generic [ref=e744]:
+            - generic [ref=e745]:
+              - generic [ref=e746]: Dream Z.
+              - generic [ref=e747]: ✈️
+            - generic [ref=e748]: "?, EN"
+            - paragraph [ref=e749]: I dream about participating in the sports I took part in throughout college—Fencing, Gymnastics, Archery. Typical “fear” dream—I’m late or unprepared
+          - generic [ref=e750]: 88%
+        - generic [ref=e751] [cursor=pointer]:
+          - generic [ref=e752]: 👱‍♀️
+          - generic [ref=e753]:
+            - generic [ref=e754]:
+              - generic [ref=e755]: Miro C.
+              - generic [ref=e756]: ✈️
+            - generic [ref=e757]: "?, EN"
+            - paragraph [ref=e758]: Playing basketball when I was younger and a lot my friends that are dead and buried are all there cheering.
+          - generic [ref=e759]: 88%
+        - generic [ref=e760] [cursor=pointer]:
+          - generic [ref=e761]: 👱‍♀️
+          - generic [ref=e762]:
+            - generic [ref=e763]:
+              - generic [ref=e764]: Sage D.
+              - generic [ref=e765]: ✈️
+            - generic [ref=e766]: "?, EN"
+            - paragraph [ref=e767]: I can't remember details although I do remember that the sporting events were more in the background of the dreams. They were realistic in terms of st
+          - generic [ref=e768]: 87%
+        - generic [ref=e769] [cursor=pointer]:
+          - generic [ref=e770]: 👩🏽
+          - generic [ref=e771]:
+            - generic [ref=e772]:
+              - generic [ref=e773]: Miro A.
+              - generic [ref=e774]: ✈️
+            - generic [ref=e775]: "?, EN"
+            - paragraph [ref=e776]: "Most often I am supposed to go into a football game to play, but something keeps me from doing so: I can't find my helmet; I'm outside the stadium and"
+          - generic [ref=e777]: 86%
+        - generic [ref=e778] [cursor=pointer]:
+          - generic [ref=e779]: 👨🏿
+          - generic [ref=e780]:
+            - generic [ref=e781]:
+              - generic [ref=e782]: River C.
+              - generic [ref=e783]: ✈️
+            - generic [ref=e784]: "?, EN"
+            - paragraph [ref=e785]: I make the wining shot or throw for the winning touchdown. The atheletes are normal
+          - generic [ref=e786]: 86%
+        - generic [ref=e787] [cursor=pointer]:
+          - generic [ref=e788]: 👩‍🦰
+          - generic [ref=e789]:
+            - generic [ref=e790]:
+              - generic [ref=e791]: Nova E.
+              - generic [ref=e792]: ✈️
+            - generic [ref=e793]: "?, EN"
+            - paragraph [ref=e794]: I;ve had dreams where i was going to a baseball game or I was hanging with some athlete. they seemed normal in them as far as I can remember
+          - generic [ref=e795]: 86%
+        - generic [ref=e796] [cursor=pointer]:
+          - generic [ref=e797]: 🧑🏻
+          - generic [ref=e798]:
+            - generic [ref=e799]:
+              - generic [ref=e800]: Nova X.
+              - generic [ref=e801]: ✈️
+            - generic [ref=e802]: "?, EN"
+            - paragraph [ref=e803]: chealsea vs juventus replay their first leg champions league match and chelsea won by 3-1 in my dream after juventus had already won the match that ni
+          - generic [ref=e804]: 85%
+        - generic [ref=e805] [cursor=pointer]:
+          - generic [ref=e806]: 🧑
+          - generic [ref=e807]:
+            - generic [ref=e808]:
+              - generic [ref=e809]: Nova Q.
+              - generic [ref=e810]: ✈️
+            - generic [ref=e811]: "?, EN"
+            - paragraph [ref=e812]: Several times it involved soccer, it usually was presented in a semi normal way.
+          - generic [ref=e813]: 85%
+        - generic [ref=e814] [cursor=pointer]:
+          - generic [ref=e815]: 👩‍🦱
+          - generic [ref=e816]:
+            - generic [ref=e817]:
+              - generic [ref=e818]: River Y.
+              - generic [ref=e819]: ✈️
+            - generic [ref=e820]: "?, EN"
+            - paragraph [ref=e821]: I have dreamt about football several times. Which is normal considering I played
+          - generic [ref=e822]: 84%
+        - generic [ref=e823] [cursor=pointer]:
+          - generic [ref=e824]: 👩🏽
+          - generic [ref=e825]:
+            - generic [ref=e826]:
+              - generic [ref=e827]: Miro T.
+              - generic [ref=e828]: ✈️
+            - generic [ref=e829]: "?, EN"
+            - paragraph [ref=e830]: I was the closer in world series game 7 and we won
+          - generic [ref=e831]: 84%
+        - generic [ref=e832] [cursor=pointer]:
+          - generic [ref=e833]: 👱‍♀️
+          - generic [ref=e834]:
+            - generic [ref=e835]:
+              - generic [ref=e836]: Nova A.
+              - generic [ref=e837]: ✈️
+            - generic [ref=e838]: "?, EN"
+            - paragraph [ref=e839]: Doing a different kind of gymnastic
+          - generic [ref=e840]: 84%
+        - generic [ref=e841] [cursor=pointer]:
+          - generic [ref=e842]: 👨🏿
+          - generic [ref=e843]:
+            - generic [ref=e844]:
+              - generic [ref=e845]: Miro Z.
+              - generic [ref=e846]: ✈️
+            - generic [ref=e847]: "?, EN"
+            - paragraph [ref=e848]: I’ve just dreamt about people that I’ve known in various situations l, I usually don’t remember dreams that I had long ago. I haven’t had a sports dre
+          - generic [ref=e849]: 83%
+        - generic [ref=e850] [cursor=pointer]:
+          - generic [ref=e851]: 👩🏿
+          - generic [ref=e852]:
+            - generic [ref=e853]:
+              - generic [ref=e854]: Miro J.
+              - generic [ref=e855]: ✈️
+            - generic [ref=e856]: "?, EN"
+            - paragraph [ref=e857]: I've had many dreams where I'm the golfer. Often times I am playing my home course back in Iowa. Veenker Memorial. The course is usually laid out diff
+          - generic [ref=e858]: 83%
+        - generic [ref=e859] [cursor=pointer]:
+          - generic [ref=e860]: 👨
+          - generic [ref=e861]:
+            - generic [ref=e862]:
+              - generic [ref=e863]: Dream F.
+              - generic [ref=e864]: ✈️
+            - generic [ref=e865]: "?, EN"
+            - paragraph [ref=e866]: I often have dreams that I am playing sports, sometimes against professional athletes. Athletes often appear caricaturized and very large in my dreams
+          - generic [ref=e867]: 83%
+        - generic [ref=e868] [cursor=pointer]:
+          - generic [ref=e869]: 👩🏽
+          - generic [ref=e870]:
+            - generic [ref=e871]:
+              - generic [ref=e872]: Sage A.
+              - generic [ref=e873]: ✈️
+            - generic [ref=e874]: "?, EN"
+            - paragraph [ref=e875]: Become a swimmer. Won a gold medal at the Olympics
+          - generic [ref=e876]: 83%
+        - generic [ref=e877] [cursor=pointer]:
+          - generic [ref=e878]: 👨🏽
+          - generic [ref=e879]:
+            - generic [ref=e880]:
+              - generic [ref=e881]: Sage E.
+              - generic [ref=e882]: ✈️
+            - generic [ref=e883]: "?, EN"
+            - paragraph [ref=e884]: about skating, doing my figure skating routine
+          - generic [ref=e885]: 82%
+        - generic [ref=e886] [cursor=pointer]:
+          - generic [ref=e887]: 👩
+          - generic [ref=e888]:
+            - generic [ref=e889]:
+              - generic [ref=e890]: Sky C.
+              - generic [ref=e891]: ✈️
+            - generic [ref=e892]: "?, EN"
+            - paragraph [ref=e893]: Exercises to build up my strength.
+          - generic [ref=e894]: 82%
+        - generic [ref=e895] [cursor=pointer]:
+          - generic [ref=e896]: 🧑🏽
+          - generic [ref=e897]:
+            - generic [ref=e898]:
+              - generic [ref=e899]: Echo W.
+              - generic [ref=e900]: ✈️
+            - generic [ref=e901]: "?, EN"
+            - paragraph [ref=e902]: Bodybuilder and a track star I was the faster best bodybuilder and track star runner
+          - generic [ref=e903]: 81%
+        - generic [ref=e904] [cursor=pointer]:
+          - generic [ref=e905]: 👩🏻
+          - generic [ref=e906]:
+            - generic [ref=e907]:
+              - generic [ref=e908]: Nova K.
+              - generic [ref=e909]: ✈️
+            - generic [ref=e910]: "?, EN"
+            - paragraph [ref=e911]: Yes, I have had a dream about myself going pro I. The tennis circuit
+          - generic [ref=e912]: 80%
+        - generic [ref=e913] [cursor=pointer]:
+          - generic [ref=e914]: 👩🏽
+          - generic [ref=e915]:
+            - generic [ref=e916]:
+              - generic [ref=e917]: Luna S.
+              - generic [ref=e918]: ✈️
+            - generic [ref=e919]: "?, EN"
+            - paragraph [ref=e920]: The last time was about me participating in a hurdle competition.
+          - generic [ref=e921]: 80%
+        - generic [ref=e922] [cursor=pointer]:
+          - generic [ref=e923]: 🧑🏻
+          - generic [ref=e924]:
+            - generic [ref=e925]:
+              - generic [ref=e926]: Sky V.
+              - generic [ref=e927]: ✈️
+            - generic [ref=e928]: "?, EN"
+            - paragraph [ref=e929]: Usually its after a loss and I dream that they have won instead
+          - generic [ref=e930]: 80%
+        - generic [ref=e931] [cursor=pointer]:
+          - generic [ref=e932]: 🧑🏽
+          - generic [ref=e933]:
+            - generic [ref=e934]:
+              - generic [ref=e935]: Miro I.
+              - generic [ref=e936]: ✈️
+            - generic [ref=e937]: "?, EN"
+            - paragraph [ref=e938]: bowling a perfect games 300
+          - generic [ref=e939]: 79%
+        - generic [ref=e940] [cursor=pointer]:
+          - generic [ref=e941]: 👩
+          - generic [ref=e942]:
+            - generic [ref=e943]:
+              - generic [ref=e944]: River D.
+              - generic [ref=e945]: ✈️
+            - generic [ref=e946]: "?, EN"
+            - paragraph [ref=e947]: When I wake up from a bad dream I always play a baseball game out in my head from me hitting the ball to running and all that ,then when I finally go
+          - generic [ref=e948]: 79%
+        - generic [ref=e949] [cursor=pointer]:
+          - generic [ref=e950]: 🧑🏻
+          - generic [ref=e951]:
+            - generic [ref=e952]:
+              - generic [ref=e953]: Nova R.
+              - generic [ref=e954]: ✈️
+            - generic [ref=e955]: "?, EN"
+            - paragraph [ref=e956]: I was competing in the Olympics for Gymnastics
+          - generic [ref=e957]: 78%
+        - generic [ref=e958] [cursor=pointer]:
+          - generic [ref=e959]: 🧑
+          - generic [ref=e960]:
+            - generic [ref=e961]:
+              - generic [ref=e962]: Echo H.
+              - generic [ref=e963]: ✈️
+            - generic [ref=e964]: "?, EN"
+            - paragraph [ref=e965]: in was playing basketball with the pro athletes.
+          - generic [ref=e966]: 78%
+        - generic [ref=e967] [cursor=pointer]:
+          - generic [ref=e968]: 👩‍🦳
+          - generic [ref=e969]:
+            - generic [ref=e970]:
+              - generic [ref=e971]: Sage E.
+              - generic [ref=e972]: ✈️
+            - generic [ref=e973]: "?, EN"
+            - paragraph [ref=e974]: I had a dream about playing basketball with my friends
+          - generic [ref=e975]: 78%
+        - generic [ref=e976] [cursor=pointer]:
+          - generic [ref=e977]: 🧑
+          - generic [ref=e978]:
+            - generic [ref=e979]:
+              - generic [ref=e980]: Sky M.
+              - generic [ref=e981]: ✈️
+            - generic [ref=e982]: "?, EN"
+            - paragraph [ref=e983]: Just playing football like I did long ago.
+          - generic [ref=e984]: 76%
+        - generic [ref=e985] [cursor=pointer]:
+          - generic [ref=e986]: 🧑
+          - generic [ref=e987]:
+            - generic [ref=e988]:
+              - generic [ref=e989]: Nova E.
+              - generic [ref=e990]: ✈️
+            - generic [ref=e991]: "?, EN"
+            - paragraph [ref=e992]: The Celtics were sitting on a wooden fence watching me. I can't remember what I was doing, but I woke up kind of scared. They all looked normal to me.
+          - generic [ref=e993]: 76%
+        - generic [ref=e994] [cursor=pointer]:
+          - generic [ref=e995]: 👱‍♀️
+          - generic [ref=e996]:
+            - generic [ref=e997]:
+              - generic [ref=e998]: Miro F.
+              - generic [ref=e999]: ✈️
+            - generic [ref=e1000]: "?, EN"
+            - paragraph [ref=e1001]: My dream was about me and my "brother" wrre a tag team in a mix martial arts winner take all
+          - generic [ref=e1002]: 76%
+        - generic [ref=e1003] [cursor=pointer]:
+          - generic [ref=e1004]: 👩
+          - generic [ref=e1005]:
+            - generic [ref=e1006]:
+              - generic [ref=e1007]: River O.
+              - generic [ref=e1008]: ✈️
+            - generic [ref=e1009]: "?, EN"
+            - paragraph [ref=e1010]: The Dallas Cowboys won the super bowl.
+          - generic [ref=e1011]: 76%
+        - generic [ref=e1012] [cursor=pointer]:
+          - generic [ref=e1013]: 👨
+          - generic [ref=e1014]:
+            - generic [ref=e1015]:
+              - generic [ref=e1016]: Miro I.
+              - generic [ref=e1017]: ✈️
+            - generic [ref=e1018]: "?, EN"
+            - paragraph [ref=e1019]: Frustration on the golf course as I try to tee up the ball and cannot find an unobstructed spot to do do.
+          - generic [ref=e1020]: 75%
+        - generic [ref=e1021] [cursor=pointer]:
+          - generic [ref=e1022]: 👩‍🦱
+          - generic [ref=e1023]:
+            - generic [ref=e1024]:
+              - generic [ref=e1025]: Dream G.
+              - generic [ref=e1026]: ✈️
+            - generic [ref=e1027]: "?, EN"
+            - paragraph [ref=e1028]: I had a dream that I was taking a shower in the locker room at Yankee Stadium, and one of the players was there stepping out in a towel.
+          - generic [ref=e1029]: 75%
+        - generic [ref=e1030] [cursor=pointer]:
+          - generic [ref=e1031]: 👩🏿
+          - generic [ref=e1032]:
+            - generic [ref=e1033]:
+              - generic [ref=e1034]: Miro T.
+              - generic [ref=e1035]: ✈️
+            - generic [ref=e1036]: "?, EN"
+            - paragraph [ref=e1037]: Just regular basisc dream about sport cheerleaders
+          - generic [ref=e1038]: 75%
+        - generic [ref=e1039] [cursor=pointer]:
+          - generic [ref=e1040]: 👱‍♀️
+          - generic [ref=e1041]:
+            - generic [ref=e1042]:
+              - generic [ref=e1043]: Sky Q.
+              - generic [ref=e1044]: ✈️
+            - generic [ref=e1045]: "?, EN"
+            - paragraph [ref=e1046]: I have dreamed that I was a competitive swimmer. (I'm not, though I swim for exercise often, and I have been a stroke and turn judge with U. S. Swimmi
+          - generic [ref=e1047]: 75%
+        - generic [ref=e1048] [cursor=pointer]:
+          - generic [ref=e1049]: 👱‍♀️
+          - generic [ref=e1050]:
+            - generic [ref=e1051]:
+              - generic [ref=e1052]: Sage Y.
+              - generic [ref=e1053]: ✈️
+            - generic [ref=e1054]: "?, EN"
+            - paragraph [ref=e1055]: I've dreamt that I was playing baseball and we were in the last inning and last the last baseball.
+          - generic [ref=e1056]: 74%
+        - generic [ref=e1057] [cursor=pointer]:
+          - generic [ref=e1058]: 👩‍🦱
+          - generic [ref=e1059]:
+            - generic [ref=e1060]:
+              - generic [ref=e1061]: Nova E.
+              - generic [ref=e1062]: ✈️
+            - generic [ref=e1063]: "?, EN"
+            - paragraph [ref=e1064]: I dreamed that I play the world cup final with the USA alongside Donovan in the attack and scored a wonderful goal against Brazil.
+          - generic [ref=e1065]: 74%
+        - generic [ref=e1066] [cursor=pointer]:
+          - generic [ref=e1067]: 👩‍🦱
+          - generic [ref=e1068]:
+            - generic [ref=e1069]:
+              - generic [ref=e1070]: Sky R.
+              - generic [ref=e1071]: ✈️
+            - generic [ref=e1072]: "?, EN"
+            - paragraph [ref=e1073]: My own basketball high school days
+          - generic [ref=e1074]: 74%
+        - generic [ref=e1075] [cursor=pointer]:
+          - generic [ref=e1076]: 🧑
+          - generic [ref=e1077]:
+            - generic [ref=e1078]:
+              - generic [ref=e1079]: River W.
+              - generic [ref=e1080]: ✈️
+            - generic [ref=e1081]: "?, EN"
+            - paragraph [ref=e1082]: I was going for a dunk and started leaping at the top of the key, I soared like Michael Jordan and Doctor J
+          - generic [ref=e1083]: 74%
+        - generic [ref=e1084] [cursor=pointer]:
+          - generic [ref=e1085]: 👨
+          - generic [ref=e1086]:
+            - generic [ref=e1087]:
+              - generic [ref=e1088]: Dream I.
+              - generic [ref=e1089]: ✈️
+            - generic [ref=e1090]: "?, EN"
+            - paragraph [ref=e1091]: playing sports, having relations with famous athletes, the usual stuff.
+          - generic [ref=e1092]: 72%
+        - generic [ref=e1093] [cursor=pointer]:
+          - generic [ref=e1094]: 🧑🏽
+          - generic [ref=e1095]:
+            - generic [ref=e1096]:
+              - generic [ref=e1097]: Sky L.
+              - generic [ref=e1098]: ✈️
+            - generic [ref=e1099]: "?, EN"
+            - paragraph [ref=e1100]: I played soccer in high school, and lately many of my dreams revolve around playing soccer with my high school teammates, most of whom I have not seen
+          - generic [ref=e1101]: 72%
+        - generic [ref=e1102] [cursor=pointer]:
+          - generic [ref=e1103]: 👩🏻
+          - generic [ref=e1104]:
+            - generic [ref=e1105]:
+              - generic [ref=e1106]: River E.
+              - generic [ref=e1107]: ✈️
+            - generic [ref=e1108]: "?, EN"
+            - paragraph [ref=e1109]: Some guy is helping to set up our dreams, making the big moments and elements bigger….setting up platforms for the action….But I do not trust him….Wha
+          - generic [ref=e1110]: 71%
+        - generic [ref=e1111] [cursor=pointer]:
+          - generic [ref=e1112]: 🧑🏻
+          - generic [ref=e1113]:
+            - generic [ref=e1114]:
+              - generic [ref=e1115]: River G.
+              - generic [ref=e1116]: ✈️
+            - generic [ref=e1117]: "?, EN"
+            - paragraph [ref=e1118]: I was a swimmer when young
+          - generic [ref=e1119]: 71%
+        - generic [ref=e1120] [cursor=pointer]:
+          - generic [ref=e1121]: 🧑
+          - generic [ref=e1122]:
+            - generic [ref=e1123]:
+              - generic [ref=e1124]: Dream S.
+              - generic [ref=e1125]: ✈️
+            - generic [ref=e1126]: "?, EN"
+            - paragraph [ref=e1127]: yeah running in a relay
+          - generic [ref=e1128]: 70%
+        - generic [ref=e1129] [cursor=pointer]:
+          - generic [ref=e1130]: 👩‍🦳
+          - generic [ref=e1131]:
+            - generic [ref=e1132]:
+              - generic [ref=e1133]: Luna O.
+              - generic [ref=e1134]: ✈️
+            - generic [ref=e1135]: "?, EN"
+            - paragraph [ref=e1136]: Something to do with equestrian....
+          - generic [ref=e1137]: 70%
+        - generic [ref=e1138] [cursor=pointer]:
+          - generic [ref=e1139]: 👱‍♀️
+          - generic [ref=e1140]:
+            - generic [ref=e1141]:
+              - generic [ref=e1142]: River I.
+              - generic [ref=e1143]: ✈️
+            - generic [ref=e1144]: "?, EN"
+            - paragraph [ref=e1145]: Mostly about horseback riding, usually riding or watching others ride. Mostly feature friends, not known athletes.
+          - generic [ref=e1146]: 69%
+        - generic [ref=e1147] [cursor=pointer]:
+          - generic [ref=e1148]: 🧑🏻
+          - generic [ref=e1149]:
+            - generic [ref=e1150]:
+              - generic [ref=e1151]: River M.
+              - generic [ref=e1152]: ✈️
+            - generic [ref=e1153]: "?, EN"
+            - paragraph [ref=e1154]: Probably many times over the years but I can't remember any of them.
+          - generic [ref=e1155]: 68%
+        - generic [ref=e1156] [cursor=pointer]:
+          - generic [ref=e1157]: 👱‍♀️
+          - generic [ref=e1158]:
+            - generic [ref=e1159]:
+              - generic [ref=e1160]: Dream K.
+              - generic [ref=e1161]: ✈️
+            - generic [ref=e1162]: "?, EN"
+            - paragraph [ref=e1163]: Yes, it was a dream of playing golf
+          - generic [ref=e1164]: 68%
+        - generic [ref=e1165] [cursor=pointer]:
+          - generic [ref=e1166]: 👨🏻
+          - generic [ref=e1167]:
+            - generic [ref=e1168]:
+              - generic [ref=e1169]: Luna M.
+              - generic [ref=e1170]: ✈️
+            - generic [ref=e1171]: "?, EN"
+            - paragraph [ref=e1172]: Playing with my old softball league and we were kicking ass
+          - generic [ref=e1173]: 68%
+        - generic [ref=e1174] [cursor=pointer]:
+          - generic [ref=e1175]: 👩🏻
+          - generic [ref=e1176]:
+            - generic [ref=e1177]:
+              - generic [ref=e1178]: Sky L.
+              - generic [ref=e1179]: ✈️
+            - generic [ref=e1180]: "?, EN"
+            - paragraph [ref=e1181]: I was at a park playing basketball an kyrie walked up.
+          - generic [ref=e1182]: 67%
+        - generic [ref=e1183] [cursor=pointer]:
+          - generic [ref=e1184]: 👩‍🦳
+          - generic [ref=e1185]:
+            - generic [ref=e1186]:
+              - generic [ref=e1187]: Echo T.
+              - generic [ref=e1188]: ✈️
+            - generic [ref=e1189]: "?, EN"
+            - paragraph [ref=e1190]: Dream of becoming an athlete. I can fly/fly very high
+          - generic [ref=e1191]: 67%
+        - generic [ref=e1192] [cursor=pointer]:
+          - generic [ref=e1193]: 👩
+          - generic [ref=e1194]:
+            - generic [ref=e1195]:
+              - generic [ref=e1196]: Dream W.
+              - generic [ref=e1197]: ✈️
+            - generic [ref=e1198]: "?, EN"
+            - paragraph [ref=e1199]: Sitting in the stands watching my brother play baseball.
+          - generic [ref=e1200]: 66%
+        - generic [ref=e1201] [cursor=pointer]:
+          - generic [ref=e1202]: 👩‍🦳
+          - generic [ref=e1203]:
+            - generic [ref=e1204]:
+              - generic [ref=e1205]: Sage D.
+              - generic [ref=e1206]: ✈️
+            - generic [ref=e1207]: "?, EN"
+            - paragraph [ref=e1208]: Hitting a pro game title winning Hr
+          - generic [ref=e1209]: 66%
+        - generic [ref=e1210] [cursor=pointer]:
+          - generic [ref=e1211]: 👩🏿
+          - generic [ref=e1212]:
+            - generic [ref=e1213]:
+              - generic [ref=e1214]: Luna D.
+              - generic [ref=e1215]: ✈️
+            - generic [ref=e1216]: "?, EN"
+            - paragraph [ref=e1217]: Dream a lot about sports like golf, white water rafting, softball.
+          - generic [ref=e1218]: 66%
+        - generic [ref=e1219] [cursor=pointer]:
+          - generic [ref=e1220]: 👩🏿
+          - generic [ref=e1221]:
+            - generic [ref=e1222]:
+              - generic [ref=e1223]: River O.
+              - generic [ref=e1224]: ✈️
+            - generic [ref=e1225]: "?, EN"
+            - paragraph [ref=e1226]: Once in a while I have dreams about former wwe Wrestlers fighting in the ring or My favorite baseball team.
+          - generic [ref=e1227]: 65%
+        - generic [ref=e1228] [cursor=pointer]:
+          - generic [ref=e1229]: 👩‍🦰
+          - generic [ref=e1230]:
+            - generic [ref=e1231]:
+              - generic [ref=e1232]: Nova P.
+              - generic [ref=e1233]: ✈️
+            - generic [ref=e1234]: "?, EN"
+            - paragraph [ref=e1235]: Rarely, the last sports related dream was a few months ago. I do have dreams where I go fishing often. I am often on family property and fishing at on
+          - generic [ref=e1236]: 64%
+        - generic [ref=e1237] [cursor=pointer]:
+          - generic [ref=e1238]: 🧑🏽
+          - generic [ref=e1239]:
+            - generic [ref=e1240]:
+              - generic [ref=e1241]: River I.
+              - generic [ref=e1242]: ✈️
+            - generic [ref=e1243]: "?, EN"
+            - paragraph [ref=e1244]: Yes, that I wa playing basketball and could not make any of my shots.
+          - generic [ref=e1245]: 64%
+        - generic [ref=e1246] [cursor=pointer]:
+          - generic [ref=e1247]: 👩🏻
+          - generic [ref=e1248]:
+            - generic [ref=e1249]:
+              - generic [ref=e1250]: Echo H.
+              - generic [ref=e1251]: ✈️
+            - generic [ref=e1252]: "?, EN"
+            - paragraph [ref=e1253]: Playing goal for the New York Islanders...my favorite team.I am a goalie...now cannot play because I'm paralyzed...
+          - generic [ref=e1254]: 62%
+        - generic [ref=e1255] [cursor=pointer]:
+          - generic [ref=e1256]: 🧑🏻
+          - generic [ref=e1257]:
+            - generic [ref=e1258]:
+              - generic [ref=e1259]: River Y.
+              - generic [ref=e1260]: ✈️
+            - generic [ref=e1261]: "?, EN"
+            - paragraph [ref=e1262]: i was a nba player
+          - generic [ref=e1263]: 62%
+        - generic [ref=e1264] [cursor=pointer]:
+          - generic [ref=e1265]: 🧑🏿
+          - generic [ref=e1266]:
+            - generic [ref=e1267]:
+              - generic [ref=e1268]: Luna C.
+              - generic [ref=e1269]: ✈️
+            - generic [ref=e1270]: "?, EN"
+            - paragraph [ref=e1271]: I dreamt Tom Brady was married to my daughter. He was normal.
+          - generic [ref=e1272]: 62%
+        - generic [ref=e1273] [cursor=pointer]:
+          - generic [ref=e1274]: 🧑🏽
+          - generic [ref=e1275]:
+            - generic [ref=e1276]:
+              - generic [ref=e1277]: Luna T.
+              - generic [ref=e1278]: ✈️
+            - generic [ref=e1279]: "?, EN"
+            - paragraph [ref=e1280]: I dreamt about playing ice hockey once in the past. I think the dream was relatively normal. I felt I was playing well, but don't remember much.
+          - generic [ref=e1281]: 62%
+        - generic [ref=e1282] [cursor=pointer]:
+          - generic [ref=e1283]: 👩‍🦱
+          - generic [ref=e1284]:
+            - generic [ref=e1285]:
+              - generic [ref=e1286]: River X.
+              - generic [ref=e1287]: ✈️
+            - generic [ref=e1288]: "?, EN"
+            - paragraph [ref=e1289]: I was on the basketball court playing ball, making every basket I shoot.
+          - generic [ref=e1290]: 61%
+        - generic [ref=e1291] [cursor=pointer]:
+          - generic [ref=e1292]: 🧑🏿
+          - generic [ref=e1293]:
+            - generic [ref=e1294]:
+              - generic [ref=e1295]: Sage M.
+              - generic [ref=e1296]: ✈️
+            - generic [ref=e1297]: "?, EN"
+            - paragraph [ref=e1298]: i had a dream that I was in a car with Tom Brady we were both going to the same place and were being taken there by a taxi who unbenounced to either o
+          - generic [ref=e1299]: 61%
+        - generic [ref=e1300] [cursor=pointer]:
+          - generic [ref=e1301]: 👨🏽
+          - generic [ref=e1302]:
+            - generic [ref=e1303]:
+              - generic [ref=e1304]: Miro X.
+              - generic [ref=e1305]: ✈️
+            - generic [ref=e1306]: "?, EN"
+            - paragraph [ref=e1307]: I score the game winner
+          - generic [ref=e1308]: 61%
+        - generic [ref=e1309] [cursor=pointer]:
+          - generic [ref=e1310]: 🧑🏽
+          - generic [ref=e1311]:
+            - generic [ref=e1312]:
+              - generic [ref=e1313]: Nova N.
+              - generic [ref=e1314]: ✈️
+            - generic [ref=e1315]: "?, EN"
+            - paragraph [ref=e1316]: I'm sure I've had dreams incorporating hiking, snorkeling, running or gym classes in some way shape or form. I don't recall specifics.
+          - generic [ref=e1317]: 61%
+        - generic [ref=e1318] [cursor=pointer]:
+          - generic [ref=e1319]: 👩
+          - generic [ref=e1320]:
+            - generic [ref=e1321]:
+              - generic [ref=e1322]: Dream W.
+              - generic [ref=e1323]: ✈️
+            - generic [ref=e1324]: "?, EN"
+            - paragraph [ref=e1325]: Basketball. I played college B-Ball
+          - generic [ref=e1326]: 60%
+        - generic [ref=e1327] [cursor=pointer]:
+          - generic [ref=e1328]: 👩
+          - generic [ref=e1329]:
+            - generic [ref=e1330]:
+              - generic [ref=e1331]: Sage K.
+              - generic [ref=e1332]: ✈️
+            - generic [ref=e1333]: "?, EN"
+            - paragraph [ref=e1334]: I was playing the sport but didn’t know fully how to play. The players and field appeared normal (it was Lucas Oil Stadium) but I didn’t have full kno
+          - generic [ref=e1335]: 60%
+        - generic [ref=e1336] [cursor=pointer]:
+          - generic [ref=e1337]: 👱‍♀️
+          - generic [ref=e1338]:
+            - generic [ref=e1339]:
+              - generic [ref=e1340]: Dream H.
+              - generic [ref=e1341]: ✈️
+            - generic [ref=e1342]: "?, EN"
+            - paragraph [ref=e1343]: skiing some of my past out of country favorite ski areas
+          - generic [ref=e1344]: 60%
+        - generic [ref=e1345] [cursor=pointer]:
+          - generic [ref=e1346]: 🧑🏻
+          - generic [ref=e1347]:
+            - generic [ref=e1348]:
+              - generic [ref=e1349]: Sky C.
+              - generic [ref=e1350]: ✈️
+            - generic [ref=e1351]: "?, EN"
+            - paragraph [ref=e1352]: Sharing trip with mom. I was doing something with my Husband, we were buy a new home, found out it cost to munch. Running -
+          - generic [ref=e1353]: 59%
+        - generic [ref=e1354] [cursor=pointer]:
+          - generic [ref=e1355]: 👨
+          - generic [ref=e1356]:
+            - generic [ref=e1357]:
+              - generic [ref=e1358]: Miro E.
+              - generic [ref=e1359]: ✈️
+            - generic [ref=e1360]: "?, EN"
+            - paragraph [ref=e1361]: Just going back to high school days and playing in games
+          - generic [ref=e1362]: 59%
+        - generic [ref=e1363] [cursor=pointer]:
+          - generic [ref=e1364]: 🧑🏽
+          - generic [ref=e1365]:
+            - generic [ref=e1366]:
+              - generic [ref=e1367]: Echo L.
+              - generic [ref=e1368]: ✈️
+            - generic [ref=e1369]: "?, EN"
+            - paragraph [ref=e1370]: I had a dream I was at Yankee st6adium watching a game. It was a full crowd and the Yankees won. I am a NY Yankees fan so I guess that isn't unusual.
+          - generic [ref=e1371]: 59%
+        - generic [ref=e1372] [cursor=pointer]:
+          - generic [ref=e1373]: 🧑🏿
+          - generic [ref=e1374]:
+            - generic [ref=e1375]:
+              - generic [ref=e1376]: Miro G.
+              - generic [ref=e1377]: ✈️
+            - generic [ref=e1378]: "?, EN"
+            - paragraph [ref=e1379]: Since I was a kid I love to run and defeat my friends from school, I thought I was going to go far but my parents did not support me
+          - generic [ref=e1380]: 59%
+        - generic [ref=e1381] [cursor=pointer]:
+          - generic [ref=e1382]: 👨
+          - generic [ref=e1383]:
+            - generic [ref=e1384]:
+              - generic [ref=e1385]: Luna R.
+              - generic [ref=e1386]: ✈️
+            - generic [ref=e1387]: "?, EN"
+            - paragraph [ref=e1388]: i was on a swimming relay team w/ serena williams and she basketball dunked the relay baton, so i couldn't compete my leg of the race.
+          - generic [ref=e1389]: 59%
+        - generic [ref=e1390] [cursor=pointer]:
+          - generic [ref=e1391]: 👩‍🦰
+          - generic [ref=e1392]:
+            - generic [ref=e1393]:
+              - generic [ref=e1394]: Luna N.
+              - generic [ref=e1395]: ✈️
+            - generic [ref=e1396]: "?, EN"
+            - paragraph [ref=e1397]: Yes they where normal but it was baby oil on the ball
+          - generic [ref=e1398]: 58%
+        - generic [ref=e1399] [cursor=pointer]:
+          - generic [ref=e1400]: 👩‍🦱
+          - generic [ref=e1401]:
+            - generic [ref=e1402]:
+              - generic [ref=e1403]: Miro P.
+              - generic [ref=e1404]: ✈️
+            - generic [ref=e1405]: "?, EN"
+            - paragraph [ref=e1406]: a dream that competed with Michael Jeffrey Jordan and beat him.
+          - generic [ref=e1407]: 58%
+        - generic [ref=e1408] [cursor=pointer]:
+          - generic [ref=e1409]: 👨
+          - generic [ref=e1410]:
+            - generic [ref=e1411]:
+              - generic [ref=e1412]: Miro M.
+              - generic [ref=e1413]: ✈️
+            - generic [ref=e1414]: "?, EN"
+            - paragraph [ref=e1415]: That i playing badminton in paradise
+          - generic [ref=e1416]: 57%
+        - generic [ref=e1417] [cursor=pointer]:
+          - generic [ref=e1418]: 👩🏿
+          - generic [ref=e1419]:
+            - generic [ref=e1420]:
+              - generic [ref=e1421]: Sky J.
+              - generic [ref=e1422]: ✈️
+            - generic [ref=e1423]: "?, EN"
+            - paragraph [ref=e1424]: That Michael Waltrip was going to win the Daytona 500
+          - generic [ref=e1425]: 56%
+        - generic [ref=e1426] [cursor=pointer]:
+          - generic [ref=e1427]: 👨
+          - generic [ref=e1428]:
+            - generic [ref=e1429]:
+              - generic [ref=e1430]: Sage Y.
+              - generic [ref=e1431]: ✈️
+            - generic [ref=e1432]: "?, EN"
+            - paragraph [ref=e1433]: Several times, I dreamed that I playing soccer, and then get tired and can’t run any more and can barely breathe. The weather is normal sunny day.
+          - generic [ref=e1434]: 56%
+        - generic [ref=e1435] [cursor=pointer]:
+          - generic [ref=e1436]: 👩‍🦱
+          - generic [ref=e1437]:
+            - generic [ref=e1438]:
+              - generic [ref=e1439]: Echo K.
+              - generic [ref=e1440]: ✈️
+            - generic [ref=e1441]: "?, EN"
+            - paragraph [ref=e1442]: Many years ago I dreamt of being part of soccer match in uptown Bronx where several uncanny occurrences took place.
+          - generic [ref=e1443]: 56%
+        - generic [ref=e1444] [cursor=pointer]:
+          - generic [ref=e1445]: 👨
+          - generic [ref=e1446]:
+            - generic [ref=e1447]:
+              - generic [ref=e1448]: Sky Q.
+              - generic [ref=e1449]: ✈️
+            - generic [ref=e1450]: "?, EN"
+            - paragraph [ref=e1451]: The Tampa Bay Buccaneers won the Superbowl. Some dreams do come true.
+          - generic [ref=e1452]: 55%
+        - generic [ref=e1453] [cursor=pointer]:
+          - generic [ref=e1454]: 👩🏿
+          - generic [ref=e1455]:
+            - generic [ref=e1456]:
+              - generic [ref=e1457]: Sage Z.
+              - generic [ref=e1458]: ✈️
+            - generic [ref=e1459]: "?, EN"
+            - paragraph [ref=e1460]: dreamed I was playing in a NFL game
+          - generic [ref=e1461]: 55%
+        - generic [ref=e1462] [cursor=pointer]:
+          - generic [ref=e1463]: 👩‍🦰
+          - generic [ref=e1464]:
+            - generic [ref=e1465]:
+              - generic [ref=e1466]: Dream K.
+              - generic [ref=e1467]: ✈️
+            - generic [ref=e1468]: "?, EN"
+            - paragraph [ref=e1469]: I dream about running half marathons sometimes, as that is an activity I’ve taken part in multiple times. It’s never unusual. Just me running with a f
+          - generic [ref=e1470]: 55%
+        - generic [ref=e1471] [cursor=pointer]:
+          - generic [ref=e1472]: 👩
+          - generic [ref=e1473]:
+            - generic [ref=e1474]:
+              - generic [ref=e1475]: Nova K.
+              - generic [ref=e1476]: ✈️
+            - generic [ref=e1477]: "?, EN"
+            - paragraph [ref=e1478]: Tom Brady just being himself
+          - generic [ref=e1479]: 54%
+        - generic [ref=e1480] [cursor=pointer]:
+          - generic [ref=e1481]: 🧑🏽
+          - generic [ref=e1482]:
+            - generic [ref=e1483]:
+              - generic [ref=e1484]: Miro F.
+              - generic [ref=e1485]: ✈️
+            - generic [ref=e1486]: "?, EN"
+            - paragraph [ref=e1487]: I had a dream I was making love with lebron James
+          - generic [ref=e1488]: 54%
+        - generic [ref=e1489] [cursor=pointer]:
+          - generic [ref=e1490]: 👩‍🦳
+          - generic [ref=e1491]:
+            - generic [ref=e1492]:
+              - generic [ref=e1493]: River J.
+              - generic [ref=e1494]: ✈️
+            - generic [ref=e1495]: "?, EN"
+            - paragraph [ref=e1496]: it is a dream that i love
+          - generic [ref=e1497]: 53%
+        - generic [ref=e1498] [cursor=pointer]:
+          - generic [ref=e1499]: 👱‍♀️
+          - generic [ref=e1500]:
+            - generic [ref=e1501]:
+              - generic [ref=e1502]: River S.
+              - generic [ref=e1503]: ✈️
+            - generic [ref=e1504]: "?, EN"
+            - paragraph [ref=e1505]: I dreamt that I hit a Grand Slam to win the World Series. Ted Williams met me at home plate to shake my hand.
+          - generic [ref=e1506]: 53%
+        - generic [ref=e1507] [cursor=pointer]:
+          - generic [ref=e1508]: 👱‍♀️
+          - generic [ref=e1509]:
+            - generic [ref=e1510]:
+              - generic [ref=e1511]: Miro I.
+              - generic [ref=e1512]: ✈️
+            - generic [ref=e1513]: "?, EN"
+            - paragraph [ref=e1514]: I often dream of playing badminton
+          - generic [ref=e1515]: 52%
+        - generic [ref=e1516] [cursor=pointer]:
+          - generic [ref=e1517]: 👨🏿
+          - generic [ref=e1518]:
+            - generic [ref=e1519]:
+              - generic [ref=e1520]: River W.
+              - generic [ref=e1521]: ✈️
+            - generic [ref=e1522]: "?, EN"
+            - paragraph [ref=e1523]: I won offensive player of the year
+          - generic [ref=e1524]: 52%
+        - generic [ref=e1525] [cursor=pointer]:
+          - generic [ref=e1526]: 👩🏻
+          - generic [ref=e1527]:
+            - generic [ref=e1528]:
+              - generic [ref=e1529]: Dream Q.
+              - generic [ref=e1530]: ✈️
+            - generic [ref=e1531]: "?, EN"
+            - paragraph [ref=e1532]: I dreamt about NFL or MLB before they went all american marxist!!! When the players played for the love of the game without any politics!!!!
+          - generic [ref=e1533]: 52%
+        - generic [ref=e1534] [cursor=pointer]:
+          - generic [ref=e1535]: 🧑🏽
+          - generic [ref=e1536]:
+            - generic [ref=e1537]:
+              - generic [ref=e1538]: Echo L.
+              - generic [ref=e1539]: ✈️
+            - generic [ref=e1540]: "?, EN"
+            - paragraph [ref=e1541]: When I was younger and playing sports and everyone was behaving normally … again when I was older I was supposed to go play in the game but a patient
+          - generic [ref=e1542]: 51%
+        - generic [ref=e1543] [cursor=pointer]:
+          - generic [ref=e1544]: 🧑🏻
+          - generic [ref=e1545]:
+            - generic [ref=e1546]:
+              - generic [ref=e1547]: Miro W.
+              - generic [ref=e1548]: ✈️
+            - generic [ref=e1549]: "?, EN"
+            - paragraph [ref=e1550]: Just routine, a major league baseball game or an ANF football game.
+          - generic [ref=e1551]: 51%
+        - generic [ref=e1552] [cursor=pointer]:
+          - generic [ref=e1553]: 🧑🏿
+          - generic [ref=e1554]:
+            - generic [ref=e1555]:
+              - generic [ref=e1556]: Dream K.
+              - generic [ref=e1557]: ✈️
+            - generic [ref=e1558]: "?, EN"
+            - paragraph [ref=e1559]: I dreamed on several occasions going back to a bowling alley for the first time in years.
+          - generic [ref=e1560]: 50%
+        - generic [ref=e1561] [cursor=pointer]:
+          - generic [ref=e1562]: 👩🏽
+          - generic [ref=e1563]:
+            - generic [ref=e1564]:
+              - generic [ref=e1565]: Nova K.
+              - generic [ref=e1566]: ✈️
+            - generic [ref=e1567]: "?, EN"
+            - paragraph [ref=e1568]: I grew up as a very talented right-handed pitcher who was a Major League prospect. I even tried out for a few Major league teams. Various issues in my
+          - generic [ref=e1569]: 50%
+  - main [ref=e4]
+  - navigation [ref=e103]:
+    - generic [ref=e104]:
+      - button "home Home" [ref=e105] [cursor=pointer]:
+        - generic [ref=e106]: home
+        - generic [ref=e107]: Home
+      - button "Settings" [ref=e109] [cursor=pointer]:
+        - generic [ref=e110]: settings
+        - generic [ref=e111]: Einstellungen
+      - button "graphic_eq Live Chat" [ref=e113] [cursor=pointer]:
+        - generic [ref=e114]: graphic_eq
+        - generic [ref=e115]: Live Chat
+      - button "biotech Wissenschaft" [ref=e116] [cursor=pointer]:
+        - generic [ref=e117]: biotech
+        - generic [ref=e118]: Wissenschaft
+      - button "public Traum-Netzwerk" [active] [ref=e119] [cursor=pointer]:
+        - generic [ref=e120]: public
+        - generic [ref=e121]: Traum-Netzwerk
+      - button "person Dein Profil" [ref=e122] [cursor=pointer]:
+        - generic [ref=e123]: person
+        - generic [ref=e124]: Dein Profil

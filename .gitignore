@@ -8,3 +8,8 @@ dist/
 C:
 playwright*
 data/raw/
+.env
+.env
+.playwright-mcp/
+*.png
+supabase/.temp/

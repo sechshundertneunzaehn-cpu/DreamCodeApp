@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2026-02-25.clover',
-});
-
-const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET!;
+function getStripe(): Stripe | null {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) return null;
+  return new Stripe(key, { apiVersion: '2026-02-25.clover' });
+}
 
 // Vercel serverless functions need raw body for signature verification.
 // Vercel provides req.body as parsed JSON by default, but we need the raw buffer.
@@ -29,6 +29,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const stripe = getStripe();
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!stripe || !webhookSecret) {
+    return res.status(503).json({ error: 'Payments not configured yet' });
+  }
+
   let event: Stripe.Event;
 
   try {
@@ -39,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Missing stripe-signature header' });
     }
 
-    event = stripe.webhooks.constructEvent(rawBody, signature, WEBHOOK_SECRET);
+    event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
   } catch (err: any) {
     console.error('[webhook] Signature verification failed:', err.message);
     return res.status(400).json({ error: `Webhook signature verification failed: ${err.message}` });

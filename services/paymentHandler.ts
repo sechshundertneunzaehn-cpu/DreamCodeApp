@@ -7,11 +7,14 @@ import { verifyPayment, getSessionIdFromUrl } from './stripeService';
 
 // Maps Stripe/pricing tier names to the app's SubscriptionTier enum
 const TIER_MAP: Record<string, SubscriptionTier> = {
-  SILVER: SubscriptionTier.PLUS,
-  GOLD: SubscriptionTier.PRO,
-  DELUXE: SubscriptionTier.DELUXE,
+  PRO: SubscriptionTier.PRO,
+  PREMIUM: SubscriptionTier.PREMIUM,
   VIP: SubscriptionTier.VIP,
   SMART: SubscriptionTier.SMART,
+  // Legacy-Mappings (30 Tage nach Deploy entfernen)
+  SILVER: SubscriptionTier.PRO,
+  GOLD: SubscriptionTier.PREMIUM,
+  DELUXE: SubscriptionTier.PREMIUM,
 };
 
 export interface PaymentResult {
