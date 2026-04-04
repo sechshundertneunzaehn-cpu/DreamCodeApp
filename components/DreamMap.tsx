@@ -461,9 +461,11 @@ interface SimUser extends BaseSimUser {
   // Profile fields
   privacy: 'public' | 'partial' | 'private';
   age?: number;
+  gender?: string;
   memberSince: string;
   bio?: string;
   dreamCount: number;
+  totalWords: number;
   matchCount: number;
   favCategory: string;
   interpretation?: string;
@@ -631,9 +633,10 @@ const DreamMap: React.FC<DreamMapProps> = ({
     const loadRealUsers = async () => {
       const { data } = await supabase
         .from('research_participants')
-        .select('id, participant_id, country, lat, lng, dream_count')
+        .select('id, participant_id, country, lat, lng, dream_count, gender, age')
         .not('lat', 'is', null)
         .not('lng', 'is', null)
+        .order('dream_count', { ascending: false })
         .limit(500);
 
       if (data && data.length > 0) {
@@ -644,7 +647,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
             .from('research_dreams')
             .select('participant_id, dream_text')
             .in('participant_id', pids)
-            .limit(500),
+            .limit(5000),
           supabase
             .from('research_interpretations')
             .select('participant_id, content')
@@ -653,11 +656,14 @@ const DreamMap: React.FC<DreamMapProps> = ({
         ]);
 
         const dreamMap = new Map<string, string>();
+        const wordCountMap = new Map<string, number>();
         if (dreamsRes.data) {
           for (const d of dreamsRes.data as any[]) {
             if (!dreamMap.has(d.participant_id)) {
               dreamMap.set(d.participant_id, d.dream_text || '');
             }
+            const words = d.dream_text ? d.dream_text.trim().split(/\s+/).length : 0;
+            wordCountMap.set(d.participant_id, (wordCountMap.get(d.participant_id) || 0) + words);
           }
         }
 
@@ -688,6 +694,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
           privacy: 'public' as const,
           memberSince: '2024-01',
           dreamCount: p.dream_count || 0,
+          totalWords: wordCountMap.get(p.participant_id) || 0,
+          gender: p.gender || undefined,
+          age: p.age || undefined,
           matchCount: 0,
           favCategory: 'nature'
         };});
@@ -750,9 +759,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
     return list;
   }, [users, activeCategory, effectiveThreshold, searchQuery]);
 
-  // Sorted for result list (descending by match%)
+  // Sorted for result list (descending by dream count)
   const sortedFilteredUsers = useMemo(
-    () => [...filteredUsers].sort((a, b) => b.matchPct - a.matchPct),
+    () => [...filteredUsers].sort((a, b) => b.dreamCount - a.dreamCount),
     [filteredUsers]
   );
 
@@ -1353,8 +1362,15 @@ const DreamMap: React.FC<DreamMapProps> = ({
                     </div>
                     <div className={`text-[11px] ${textSub}`}>
                       {u.name} · {u.country}
+                      {u.gender && <> · {u.gender === 'Female' ? '♀' : u.gender === 'Male' ? '♂' : '⚧'} {u.gender}</>}
+                      {u.age && <> · 👤 {u.age}</>}
+                    </div>
+                    <div className={`text-[11px] ${textSub}`}>
                       {u.dreamCount > 0 && (
-                        <span style={{ color: '#a78bfa' }}> · 🌙 {u.dreamCount} {u.dreamCount === 1 ? (lang === 'de' ? 'Traum' : 'dream') : (lang === 'de' ? 'Träume' : 'dreams')}</span>
+                        <span style={{ color: '#a78bfa' }}>🌙 {u.dreamCount} {u.dreamCount === 1 ? (lang === 'de' ? 'Traum' : 'dream') : (lang === 'de' ? 'Träume' : 'dreams')}</span>
+                      )}
+                      {u.totalWords > 0 && (
+                        <span style={{ color: '#94a3b8' }}> · 📝 {u.totalWords.toLocaleString()} {lang === 'de' ? 'Wörter' : 'words'}</span>
                       )}
                     </div>
                     <p className={`text-xs italic mt-0.5 line-clamp-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
