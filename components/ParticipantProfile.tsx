@@ -18,9 +18,15 @@ interface ParticipantRow {
   id: string;
   participant_id: string;
   study_id: string;
+  study_code: string;
   age: number | null;
   gender: string | null;
   ethnicity: string | null;
+  country: string | null;
+  city: string | null;
+  dream_count: number | null;
+  study_duration_days: number | null;
+  notes: string | null;
 }
 
 interface StudyRow {
@@ -42,9 +48,14 @@ interface DreamRow {
   participant_id: string;
   dream_date: string | null;
   dream_night: string | null;
+  dream_week: number | null;
   dream_text: string;
+  original_language: string | null;
   hall_van_de_castle_codes: Record<string, string> | null;
   emotions: string[] | null;
+  characters: string[] | null;
+  settings: string[] | null;
+  themes: string[] | null;
 }
 
 interface InterpretationRow {
@@ -366,7 +377,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                   )}
 
                   {/* Demographics (only if data exists) */}
-                  {(participant.age || participant.gender || participant.ethnicity) && (
+                  {(participant.age || participant.gender || participant.ethnicity || participant.country) && (
                     <div className="mt-3 pt-3 border-t border-white/10">
                       <div className="text-xs font-medium opacity-60 mb-1">
                         {t.demographics}
@@ -385,6 +396,16 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                         {participant.ethnicity && (
                           <span>
                             {t.ethnicity}: {participant.ethnicity}
+                          </span>
+                        )}
+                        {participant.country && (
+                          <span>
+                            {language === 'de' ? 'Land' : 'Country'}: {participant.country}
+                          </span>
+                        )}
+                        {participant.city && (
+                          <span>
+                            {language === 'de' ? 'Stadt' : 'City'}: {participant.city}
                           </span>
                         )}
                       </div>
@@ -488,6 +509,54 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                               className={`rounded-full px-2 py-0.5 text-xs border ${emotionTag}`}
                             >
                               {emo}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Characters */}
+                    {dream.characters && dream.characters.length > 0 && (
+                      <div className="mt-2">
+                        <span className="text-xs font-medium opacity-60 mr-2">
+                          {language === 'de' ? 'Charaktere' : 'Characters'}:
+                        </span>
+                        <div className="inline-flex flex-wrap gap-1">
+                          {dream.characters.map((ch, i) => (
+                            <span key={i} className={`rounded-full px-2 py-0.5 text-xs border ${tagColors[i % tagColors.length]}`}>
+                              {ch}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Settings */}
+                    {dream.settings && dream.settings.length > 0 && (
+                      <div className="mt-2">
+                        <span className="text-xs font-medium opacity-60 mr-2">
+                          {language === 'de' ? 'Schauplätze' : 'Settings'}:
+                        </span>
+                        <div className="inline-flex flex-wrap gap-1">
+                          {dream.settings.map((s, i) => (
+                            <span key={i} className={`rounded-full px-2 py-0.5 text-xs border ${tagColors[(i + 2) % tagColors.length]}`}>
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Themes */}
+                    {dream.themes && dream.themes.length > 0 && (
+                      <div className="mt-2">
+                        <span className="text-xs font-medium opacity-60 mr-2">
+                          {language === 'de' ? 'Themen' : 'Themes'}:
+                        </span>
+                        <div className="inline-flex flex-wrap gap-1">
+                          {dream.themes.map((th, i) => (
+                            <span key={i} className={`rounded-full px-2 py-0.5 text-xs border ${tagColors[(i + 4) % tagColors.length]}`}>
+                              {th}
                             </span>
                           ))}
                         </div>
