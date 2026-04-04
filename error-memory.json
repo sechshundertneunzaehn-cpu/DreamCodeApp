@@ -1,0 +1,96 @@
+{
+  "version": "1.0",
+  "description": "Bekannte Regressionsmuster — DreamCodeApp",
+  "known_errors": [
+    {
+      "id": "E001",
+      "severity": "critical",
+      "pattern": "Fake-Namen in DreamMap (Sage Z, River E, Miro B, Sky H)",
+      "location": "components/DreamMap.tsx",
+      "forbidden_strings": ["Sage Z", "River E", "Miro B", "Sky H", "Dream I"],
+      "fix": "Nur research_participants laden, keine BASE_USERS oder hardcoded Namen",
+      "status": "resolved"
+    },
+    {
+      "id": "E002",
+      "severity": "critical",
+      "pattern": "participant_code statt participant_id als Feldname",
+      "location": "components/ParticipantProfile.tsx",
+      "forbidden_strings": ["participant_code"],
+      "required_strings": [".eq('participant_id'"],
+      "fix": "Immer .eq('participant_id', value) verwenden",
+      "status": "resolved"
+    },
+    {
+      "id": "E003",
+      "severity": "medium",
+      "pattern": "Teilnehmer_id (grosses T) vs participant_id Feldname",
+      "location": "SQL + research_dreams Tabelle",
+      "fix": "Spalte heisst participant_id in allen Tabellen",
+      "status": "resolved"
+    },
+    {
+      "id": "E004",
+      "severity": "critical",
+      "pattern": "content statt dream_text fuer Traumtext",
+      "location": "components/ParticipantProfile.tsx",
+      "forbidden_strings": ["d.content", "dream.content"],
+      "required_strings": ["dream_text"],
+      "fix": "Spalte heisst dream_text NICHT content in research_dreams",
+      "status": "resolved"
+    },
+    {
+      "id": "E005",
+      "severity": "critical",
+      "pattern": "interpretation Array vs Objekt nicht behandelt",
+      "location": "components/ParticipantProfile.tsx",
+      "required_strings": ["Array.isArray"],
+      "fix": "Array.isArray(dream.interpretation) ? dream.interpretation[0] : dream.interpretation",
+      "status": "resolved"
+    },
+    {
+      "id": "E006",
+      "severity": "medium",
+      "pattern": "Weltkugel verschwindet (globe projection fehlt)",
+      "location": "components/ScientificDreamMap.tsx",
+      "required_strings": ["projection"],
+      "fix": "projection: 'globe' in mapboxgl.Map() Options",
+      "status": "resolved"
+    },
+    {
+      "id": "E007",
+      "severity": "critical",
+      "pattern": "Profil zeigt Anonim/gizli statt echte Daten",
+      "location": "components/ParticipantProfile.tsx + DreamMap.tsx",
+      "forbidden_strings": ["Anonim", "gizli", "Bu profil"],
+      "fix": "Richtige participant_id STRING verwenden, nicht UUID",
+      "status": "resolved"
+    },
+    {
+      "id": "E008",
+      "severity": "medium",
+      "pattern": "has_interpretation=true aber keine Deutung sichtbar",
+      "location": "research_dreams + research_interpretations",
+      "fix": "research_interpretations.dream_id muss mit research_dreams.id matchen (UUID)",
+      "status": "resolved"
+    },
+    {
+      "id": "E009",
+      "severity": "critical",
+      "pattern": "Demo Mode aktiv statt echte Daten",
+      "location": "components/DreamMap.tsx",
+      "forbidden_strings": ["isDemoMode", "DEMO_MODE", "demoData"],
+      "fix": "Kein Demo-Flag, nur Supabase-Queries",
+      "status": "resolved"
+    },
+    {
+      "id": "E010",
+      "severity": "critical",
+      "pattern": "Traumtext abgeschnitten nach N Zeichen",
+      "location": "components/ParticipantProfile.tsx",
+      "forbidden_strings": ["slice(0, 100)", "slice(0,100)", "substring(0", "dream_text.slice"],
+      "fix": "dream_text VOLLSTAENDIG anzeigen, kein Abschneiden",
+      "status": "resolved"
+    }
+  ]
+}
