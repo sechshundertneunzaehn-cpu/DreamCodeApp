@@ -11,6 +11,7 @@ export interface TranslatedTextProps {
   as?: keyof React.JSX.IntrinsicElements;
   maxLines?: number;
   showOriginalToggle?: boolean;
+  renderContent?: (text: string) => React.ReactNode;
 }
 
 const lineClampClass: Record<number, string> = {
@@ -32,6 +33,7 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
   as: Tag = 'span',
   maxLines,
   showOriginalToggle = false,
+  renderContent,
 }) => {
   const [showingOriginal, setShowingOriginal] = useState(false);
 
@@ -59,7 +61,7 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
   return (
     <>
       <Tag className={textClasses}>
-        {displayText}
+        {renderContent ? renderContent(displayText) : displayText}
         {!isOriginal && !showingOriginal && (
           <span
             className="ml-1 text-xs opacity-40 select-none"
