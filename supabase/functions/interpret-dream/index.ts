@@ -69,6 +69,52 @@ async function getEmbeddingCached(text: string): Promise<number[]> {
 }
 
 // ---------------------------------------------------------------------------
+// Cultural Knowledge Context (from Dream Database - 500 symbols, 12 languages, 18 traditions)
+// ---------------------------------------------------------------------------
+const CULTURAL_KNOWLEDGE_CONTEXT = `
+TRAUMDEUTUNGS-WISSENSBASIS (Komprimiert)
+=========================================
+UNIVERSALE TRAUMSYMBOLE (kulturuebergreifend):
+- Wasser: Unbewusstes/Emotionen (Jung), Segen/Fitna (Islam), Taufe (Bibel), Qi-Fluss (China)
+- Schlange: Triebe/Transformation (Freud), Feind/Versuchung (Islam), Satan/Weisheit (Bibel), Kundalini (Yoga)
+- Fliegen: Freiheit/Libido (Freud), Hochmut/Erhebung (Islam), Goettliche Erhebung (Bibel), Ego-Losloesung (Buddhismus)
+- Fallen: Kontrollverlust (Freud), Machtverlust (Islam), Suendenfall (Bibel), Anhaftung (Buddhismus)
+- Zaehne: Kastrationsangst (Freud), Familie-obere=maennl./untere=weibl. (Islam), Hilflosigkeit (Bibel)
+- Tod: Transformation/Neubeginn (Jung), Ermahnung (Islam), Auferstehung (Bibel), Wiedergeburt (Buddhismus)
+- Haus: Selbst/Psyche (Jung), Ehefrau/Familie (Islam), Tempel des Koerpers (Bibel)
+- Feuer: Leidenschaft (Freud), Strafe/Reinigung (Islam), Heiliger Geist (Bibel)
+- Katze: Weiblichkeit/Intuition (Jung), List/Diebstahl (Islam), Glueck/Maneki-neko (Japan)
+- Hund: Treue/Triebe (Freud), Unrein aber Waechter (Islam), Schutz (Bibel)
+- Baby: Neubeginn (Jung), Segen (Islam), Unschuld (Bibel), Reinkarnation (Buddhismus)
+- Berg: Hindernis/Ziel (Jung), Standhaftigkeit (Islam), Sinai/Offenbarung (Bibel)
+- Meer: Tiefes Unbewusstes (Jung), Herrscher/Macht (Islam), Sunyata (Buddhismus)
+- Vogel: Seele/Freiheit (Jung), Seele des Traeumers (Islam), Heiliger Geist/Taube (Bibel)
+
+ISLAMISCHE TRAUMDEUTUNG (Ibn Sirin, Nabulsi):
+- Drei Traumtypen: Ru'ya (wahre Vision), Hulm (von Shaitan), Hadith an-Nafs (Selbstgespraech)
+- Wahre Traeume = 1/46 der Prophetie (Hadith)
+- Traeume vor Fajr besonders bedeutsam
+- Adab: Gute Traeume teilen, schlechte verschweigen
+
+PSYCHOLOGISCH (Freud, Jung):
+- Freud: Traeume als Koenigsweg zum Unbewussten, Wunscherfuellung, Verdichtung, Verschiebung
+- Jung: Kollektives Unbewusstes, Archetypen (Schatten, Anima/Animus, Selbst), Individuation, Kompensation
+
+JUEDISCH (Talmud Berakhot 55a-57a):
+- Traeume folgen der Deutung (ein nicht gedeuteter Traum ist wie ein ungelesener Brief)
+- 24 Traumdeuter in Jerusalem; jeder deutet anders, aber alle Deutungen koennen wahr sein
+
+BIBLISCH-CHRISTLICH:
+- Traumoffenbarungen: Jakob (Leiter), Joseph (7 Kuehe), Daniel, Pharao
+- Symbole: Kreuz=Erlosung, Lamm=Christus, Taube=Heiliger Geist, Feuer=Laeuterung
+
+ASIATISCH:
+- Tibetisch: Dream Yoga, Bardo-Zustaende, 5 Weisheiten
+- Chinesisch: Zhou Gong Jie Meng, 5 Elemente, Yin/Yang
+- Japanisch: Hatsuyume (Neujahrs-Traum), Fuji-Falke-Aubergine
+`
+
+// ---------------------------------------------------------------------------
 // Tradition system prompts
 // ---------------------------------------------------------------------------
 const TRADITION_PROMPTS: Record<string, string> = {
@@ -97,7 +143,15 @@ const TRADITION_PROMPTS: Record<string, string> = {
 function getSystemPrompt(tradition: string, language: string): string {
   const base = TRADITION_PROMPTS[tradition] ?? TRADITION_PROMPTS['JUNGIAN']
   const langInstruction = `\n\nWICHTIG: Antworte ausschließlich auf ${languageLabel(language)}. Strukturiere deine Antwort klar: 1) Kernbotschaft des Traums, 2) Symbolanalyse, 3) Praktische Einsichten. Zitiere ähnliche Traumberichte aus dem bereitgestellten Kontext und nenne die Quellen.`
-  return base + langInstruction
+
+  // Cultural priority: Islamic traditions first for Arabic/Turkish users
+  const culturalHint = (language === 'ar' || language === 'tr')
+    ? `\n\nKULTURELLER KONTEXT: Der Nutzer spricht ${languageLabel(language)}. Priorisiere islamische Traumdeutung (Ibn Sirin, Nabulsi, Quran/Hadith-Referenzen) und ergaenze mit psychologischen Perspektiven.`
+    : (language === 'ru')
+    ? `\n\nKULTURELLER KONTEXT: Der Nutzer spricht Russisch. Beruecksichtige auch die Sonnik-Tradition (Miller, Vanga) neben der gewaehlten Deutungstradition.`
+    : ''
+
+  return CULTURAL_KNOWLEDGE_CONTEXT + '\n\n' + base + langInstruction + culturalHint
 }
 
 function languageLabel(lang: string): string {

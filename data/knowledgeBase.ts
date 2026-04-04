@@ -459,6 +459,4427 @@ export const symbols: DreamSymbol[] = [
       { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.WESTERN_ZODIAC, text: 'Kinder in Träumen stehen astrologisch für den Mond (Kindheit, Mutter) und Saturn (Karma und vergangene Leben). Sie zeigen emotionale Grundbedürfnisse.' },
     ],
   },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // KULTURELLE TRAUMSYMBOLE (466 Symbole aus Dream Database)
+  // 12 Sprachen, 18 Traditionen: Freud, Jung, Ibn Sirin, Bibel, Buddhismus...
+  // Generiert: 2026-04-04
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    id: 'katze',
+    name: 'Katze',
+    category: 'tier',
+    keywords: ['Cat'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weiblichkeit, Intuition, Unabhaengigkeit. Islam: List, Diebstahl. Japan: Glueck (Maneki-neko). Aegypten: Heiliges Tier (Bastet).' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Weiblichkeit, Intuition, Unabhaengigkeit. Islam: List, Diebstahl. Japan: Glueck (Maneki-neko). Aegypten: Heiliges Tier (Bastet).' },
+    ],
+  },
+  {
+    id: 'pferd',
+    name: 'Pferd',
+    category: 'tier',
+    keywords: ['Horse'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Kraft, Freiheit, Triebhaftigkeit. Islam: Ehre und Status. Freud: sexuelle Energie.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Kraft, Freiheit, Triebhaftigkeit. Islam: Ehre und Status. Freud: sexuelle Energie.' },
+    ],
+  },
+  {
+    id: 'fisch',
+    name: 'Fisch',
+    category: 'tier',
+    keywords: ['Fish'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Unbewusstes, Fruchtbarkeit. Islam: Rizq (Lebensunterhalt). Christlich: Christus-Symbol.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Unbewusstes, Fruchtbarkeit. Islam: Rizq (Lebensunterhalt). Christlich: Christus-Symbol.' },
+    ],
+  },
+  {
+    id: 'loewe',
+    name: 'Loewe',
+    category: 'tier',
+    keywords: ['Lion'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Macht, Mut, Autoritaet. Islam: starker Feind oder Herrscher. Bibel: Stamm Juda.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Macht, Mut, Autoritaet. Islam: starker Feind oder Herrscher. Bibel: Stamm Juda.' },
+    ],
+  },
+  {
+    id: 'baer',
+    name: 'Baer',
+    category: 'tier',
+    keywords: ['Bear'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Innere Kraft, Muetterlichkeit, Winterschlaf als Rueckzug. Schamanisch: Krafttier.' },
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Innere Kraft, Muetterlichkeit, Winterschlaf als Rueckzug. Schamanisch: Krafttier.' },
+    ],
+  },
+  {
+    id: 'wolf',
+    name: 'Wolf',
+    category: 'tier',
+    keywords: ['Wolf'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wildheit, Instinkt, Bedrohung. Islam: Tyrann. Tuerkisch: Stammessymbol (Bozkurt).' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Wildheit, Instinkt, Bedrohung. Islam: Tyrann. Tuerkisch: Stammessymbol (Bozkurt).' },
+    ],
+  },
+  {
+    id: 'adler',
+    name: 'Adler',
+    category: 'tier',
+    keywords: ['Eagle'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ueberblick, Macht, Spiritualitaet. Islam: Herrschaft. Schamanisch: Himmelsreise.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ueberblick, Macht, Spiritualitaet. Islam: Herrschaft. Schamanisch: Himmelsreise.' },
+    ],
+  },
+  {
+    id: 'kuh',
+    name: 'Kuh',
+    category: 'tier',
+    keywords: ['Cow'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Nahrung, Muetterlichkeit. Islam: Traumdeutung Josephs (7 fette/magere Kuehe). Hindu: Heilig.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Nahrung, Muetterlichkeit. Islam: Traumdeutung Josephs (7 fette/magere Kuehe). Hindu: Heilig.' },
+    ],
+  },
+  {
+    id: 'ziege',
+    name: 'Ziege',
+    category: 'tier',
+    keywords: ['Goat'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Fruchtbarkeit, Sturheit. Islam: Opfertier. Christlich: Suendenbock.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Fruchtbarkeit, Sturheit. Islam: Opfertier. Christlich: Suendenbock.' },
+    ],
+  },
+  {
+    id: 'esel',
+    name: 'Esel',
+    category: 'tier',
+    keywords: ['Donkey'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Geduld, Bescheidenheit. Islam: Diener. Bibel: Einzug in Jerusalem.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Geduld, Bescheidenheit. Islam: Diener. Bibel: Einzug in Jerusalem.' },
+    ],
+  },
+  {
+    id: 'kamel',
+    name: 'Kamel',
+    category: 'tier',
+    keywords: ['Camel'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ausdauer, Reise. Islam: Segen, hoher Status, lange Reise.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ausdauer, Reise. Islam: Segen, hoher Status, lange Reise.' },
+    ],
+  },
+  {
+    id: 'schmetterling',
+    name: 'Schmetterling',
+    category: 'tier',
+    keywords: ['Butterfly'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Transformation, Seele, Vergaenglichkeit. China: Zhuangzi-Paradoxon.' },
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.ZEN, text: 'Transformation, Seele, Vergaenglichkeit. China: Zhuangzi-Paradoxon.' },
+    ],
+  },
+  {
+    id: 'frosch',
+    name: 'Frosch',
+    category: 'tier',
+    keywords: ['Frog'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wandlung, Reinigung. Islam: Abscheu. Maerchen: Verwandlung.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Wandlung, Reinigung. Islam: Abscheu. Maerchen: Verwandlung.' },
+    ],
+  },
+  {
+    id: 'ameise',
+    name: 'Ameise',
+    category: 'tier',
+    keywords: ['Ant'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Fleiss, Gemeinschaft, Geduld. Islam: Sure An-Naml (Die Ameisen).' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Fleiss, Gemeinschaft, Geduld. Islam: Sure An-Naml (Die Ameisen).' },
+    ],
+  },
+  {
+    id: 'skorpion',
+    name: 'Skorpion',
+    category: 'tier',
+    keywords: ['Scorpion'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verrat, Gift, verborgene Gefahr. Islam: hinterhaeltiger Feind.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verrat, Gift, verborgene Gefahr. Islam: hinterhaeltiger Feind.' },
+    ],
+  },
+  {
+    id: 'ratte',
+    name: 'Ratte',
+    category: 'tier',
+    keywords: ['Rat'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Angst, Krankheit, Verlust. Islam: unehrliche Person. China: Cleverness (Zodiak).' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Angst, Krankheit, Verlust. Islam: unehrliche Person. China: Cleverness (Zodiak).' },
+    ],
+  },
+  {
+    id: 'elefant',
+    name: 'Elefant',
+    category: 'tier',
+    keywords: ['Elephant'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Weisheit, Gedaechtnis, Macht. Islam: Sure Al-Fil, Krieg. Hindu: Ganesha.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Weisheit, Gedaechtnis, Macht. Islam: Sure Al-Fil, Krieg. Hindu: Ganesha.' },
+    ],
+  },
+  {
+    id: 'tiger',
+    name: 'Tiger',
+    category: 'tier',
+    keywords: ['Tiger'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Kraft, Wildheit, unterdrueckte Aggression. China: Schutzgeist.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.CHINESE_ZODIAC, text: 'Kraft, Wildheit, unterdrueckte Aggression. China: Schutzgeist.' },
+    ],
+  },
+  {
+    id: 'delphin',
+    name: 'Delphin',
+    category: 'tier',
+    keywords: ['Dolphin'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Intelligenz, Freude, spiritueller Fuehrer. Griechisch: Apollon.' },
+    ],
+  },
+  {
+    id: 'eule',
+    name: 'Eule',
+    category: 'tier',
+    keywords: ['Owl'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weisheit, Tod, Nacht. Islam: schlechtes Omen. Griechisch: Athene.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Weisheit, Tod, Nacht. Islam: schlechtes Omen. Griechisch: Athene.' },
+    ],
+  },
+  {
+    id: 'kraehe',
+    name: 'Kraehe',
+    category: 'tier',
+    keywords: ['Crow'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Tod, Transformation, Botschaft. Islam: Kabil und Habil. Schamanisch: Trickster.' },
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Tod, Transformation, Botschaft. Islam: Kabil und Habil. Schamanisch: Trickster.' },
+    ],
+  },
+  {
+    id: 'biene',
+    name: 'Biene',
+    category: 'tier',
+    keywords: ['Bee'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Fleiss, Gemeinschaft, suesse Belohnung. Islam: Sure An-Nahl.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Fleiss, Gemeinschaft, suesse Belohnung. Islam: Sure An-Nahl.' },
+    ],
+  },
+  {
+    id: 'taube',
+    name: 'Taube',
+    category: 'tier',
+    keywords: ['Dove'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Frieden, Liebe, Heiliger Geist. Islam: Schutz in der Hoehle.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Frieden, Liebe, Heiliger Geist. Islam: Schutz in der Hoehle.' },
+    ],
+  },
+  {
+    id: 'affe',
+    name: 'Affe',
+    category: 'tier',
+    keywords: ['Monkey'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Nachahmung, Kindlichkeit, Schelmerei. Islam: Verwandlung als Strafe.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.CHINESE_ZODIAC, text: 'Nachahmung, Kindlichkeit, Schelmerei. Islam: Verwandlung als Strafe.' },
+    ],
+  },
+  {
+    id: 'schaf',
+    name: 'Schaf',
+    category: 'tier',
+    keywords: ['Sheep'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Sanftmut, Herde, Opfer. Islam: Opferfest. Christlich: Lamm Gottes.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Sanftmut, Herde, Opfer. Islam: Opferfest. Christlich: Lamm Gottes.' },
+    ],
+  },
+  {
+    id: 'schildkroete',
+    name: 'Schildkroete',
+    category: 'tier',
+    keywords: ['Turtle'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.CHINESE_ZODIAC, text: 'Langsamkeit, Schutz, Langlebigkeit. China: Welttier. Hindu: Vishnu-Avatar.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Langsamkeit, Schutz, Langlebigkeit. China: Welttier. Hindu: Vishnu-Avatar.' },
+    ],
+  },
+  {
+    id: 'stern',
+    name: 'Stern',
+    category: 'natur',
+    keywords: ['Star'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Hoffnung, Fuehrung, Schicksal. Islam: Rechtleitung. Bibel: Stern von Bethlehem.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Hoffnung, Fuehrung, Schicksal. Islam: Rechtleitung. Bibel: Stern von Bethlehem.' },
+    ],
+  },
+  {
+    id: 'blume',
+    name: 'Blume',
+    category: 'natur',
+    keywords: ['Flower'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schoenheit, Vergaenglichkeit, Liebe. Islam: Paradies. Lotus: Erleuchtung.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Schoenheit, Vergaenglichkeit, Liebe. Islam: Paradies. Lotus: Erleuchtung.' },
+    ],
+  },
+  {
+    id: 'baum',
+    name: 'Baum',
+    category: 'natur',
+    keywords: ['Tree'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Lebensbaum, Wachstum, Verwurzelung. Kabbala: Sefirot. Islam: guter Mensch.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Lebensbaum, Wachstum, Verwurzelung. Kabbala: Sefirot. Islam: guter Mensch.' },
+    ],
+  },
+  {
+    id: 'erde',
+    name: 'Erde',
+    category: 'natur',
+    keywords: ['Earth'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Muetterlichkeit, Stabilitaet, Tod und Wiedergeburt. Islam: Grab, Diesseits.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Muetterlichkeit, Stabilitaet, Tod und Wiedergeburt. Islam: Grab, Diesseits.' },
+    ],
+  },
+  {
+    id: 'wind',
+    name: 'Wind',
+    category: 'natur',
+    keywords: ['Wind'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Veraenderung, Geist, Unruhe. Islam: Goettliche Macht. Bibel: Heiliger Geist (Ruach).' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Veraenderung, Geist, Unruhe. Islam: Goettliche Macht. Bibel: Heiliger Geist (Ruach).' },
+    ],
+  },
+  {
+    id: 'schnee',
+    name: 'Schnee',
+    category: 'natur',
+    keywords: ['Snow'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Reinheit, Kaelte, Einsamkeit. Islam: Heilung. Russisch: Stille.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Reinheit, Kaelte, Einsamkeit. Islam: Heilung. Russisch: Stille.' },
+    ],
+  },
+  {
+    id: 'blitz',
+    name: 'Blitz',
+    category: 'natur',
+    keywords: ['Lightning'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ploetzliche Erkenntnis, goettliche Strafe. Islam: Warnung. Zeus.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Ploetzliche Erkenntnis, goettliche Strafe. Islam: Warnung. Zeus.' },
+    ],
+  },
+  {
+    id: 'erdbeben',
+    name: 'Erdbeben',
+    category: 'natur',
+    keywords: ['Earthquake'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Erschuetterung, Umbruch. Islam: Sure Az-Zalzala, Jenseits.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Erschuetterung, Umbruch. Islam: Sure Az-Zalzala, Jenseits.' },
+    ],
+  },
+  {
+    id: 'fluss',
+    name: 'Fluss',
+    category: 'natur',
+    keywords: ['River'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Lebensfluss, Zeit, Uebergang. Islam: Paradiesfluss. Griechisch: Styx.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Lebensfluss, Zeit, Uebergang. Islam: Paradiesfluss. Griechisch: Styx.' },
+    ],
+  },
+  {
+    id: 'wueste',
+    name: 'Wueste',
+    category: 'natur',
+    keywords: ['Desert'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Einsamkeit, Pruefung, spirituelle Suche. Islam: Hijra. Bibel: 40 Tage.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Einsamkeit, Pruefung, spirituelle Suche. Islam: Hijra. Bibel: 40 Tage.' },
+    ],
+  },
+  {
+    id: 'garten',
+    name: 'Garten',
+    category: 'natur',
+    keywords: ['Garden'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Paradies, innerer Frieden, Wachstum. Islam: Janna. Eden.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Paradies, innerer Frieden, Wachstum. Islam: Janna. Eden.' },
+    ],
+  },
+  {
+    id: 'regenbogen',
+    name: 'Regenbogen',
+    category: 'natur',
+    keywords: ['Rainbow'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Hoffnung, Versprechen, Verbindung. Bibel: Bund Noahs. Vielfalt.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Hoffnung, Versprechen, Verbindung. Bibel: Bund Noahs. Vielfalt.' },
+    ],
+  },
+  {
+    id: 'vulkan',
+    name: 'Vulkan',
+    category: 'natur',
+    keywords: ['Volcano'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Unterdrueckte Wut, Eruption von Emotionen, Transformation.' },
+    ],
+  },
+  {
+    id: 'nebel',
+    name: 'Nebel',
+    category: 'natur',
+    keywords: ['Fog'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verwirrung, Unsicherheit, verborgene Wahrheit.' },
+    ],
+  },
+  {
+    id: 'eis',
+    name: 'Eis',
+    category: 'natur',
+    keywords: ['Ice'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Emotionale Kaelte, Erstarrung, unterdrueckte Gefuehle.' },
+    ],
+  },
+  {
+    id: 'sonnenaufgang',
+    name: 'Sonnenaufgang',
+    category: 'natur',
+    keywords: ['Sunrise'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Neubeginn, Hoffnung, Erleuchtung. Islam: Fajr-Gebet.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Neubeginn, Hoffnung, Erleuchtung. Islam: Fajr-Gebet.' },
+    ],
+  },
+  {
+    id: 'sonnenuntergang',
+    name: 'Sonnenuntergang',
+    category: 'natur',
+    keywords: ['Sunset'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ende, Abschied, Lebensabend. Melancholie.' },
+    ],
+  },
+  {
+    id: 'rennen',
+    name: 'Rennen',
+    category: 'aktion',
+    keywords: ['Running'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Flucht, Verfolgung, Dringlichkeit. Flucht vor Problemen.' },
+    ],
+  },
+  {
+    id: 'schwimmen',
+    name: 'Schwimmen',
+    category: 'aktion',
+    keywords: ['Swimming'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Emotionale Navigation, Unbewusstes durchqueren.' },
+    ],
+  },
+  {
+    id: 'kaempfen',
+    name: 'Kaempfen',
+    category: 'aktion',
+    keywords: ['Fighting'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Innerer Konflikt, Selbstbehauptung. Islam: Dschihad an-Nafs.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Innerer Konflikt, Selbstbehauptung. Islam: Dschihad an-Nafs.' },
+    ],
+  },
+  {
+    id: 'weinen',
+    name: 'Weinen',
+    category: 'aktion',
+    keywords: ['Crying'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Emotionale Befreiung, Trauer. Islam: kann Freude bedeuten.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Emotionale Befreiung, Trauer. Islam: kann Freude bedeuten.' },
+    ],
+  },
+  {
+    id: 'lachen',
+    name: 'Lachen',
+    category: 'aktion',
+    keywords: ['Laughing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Freude, Verleugnung, Maskierung. Islam: kann Kummer anzeigen.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Freude, Verleugnung, Maskierung. Islam: kann Kummer anzeigen.' },
+    ],
+  },
+  {
+    id: 'essen',
+    name: 'Essen',
+    category: 'aktion',
+    keywords: ['Eating'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Beduerfnisbefriedigung, Wissensaufnahme. Islam: Halal=gut, Haram=schlecht.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Beduerfnisbefriedigung, Wissensaufnahme. Islam: Halal=gut, Haram=schlecht.' },
+    ],
+  },
+  {
+    id: 'sterben',
+    name: 'Sterben',
+    category: 'aktion',
+    keywords: ['Dying'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Transformation, Ende einer Phase. NICHT woertlicher Tod. Islam: Reue.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Transformation, Ende einer Phase. NICHT woertlicher Tod. Islam: Reue.' },
+    ],
+  },
+  {
+    id: 'heiraten',
+    name: 'Heiraten',
+    category: 'aktion',
+    keywords: ['Marriage'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Vereinigung, Integration von Gegensaetzen. Islam: Vertrag, Segen.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Vereinigung, Integration von Gegensaetzen. Islam: Vertrag, Segen.' },
+    ],
+  },
+  {
+    id: 'geburt',
+    name: 'Geburt',
+    category: 'aktion',
+    keywords: ['Birth'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Neubeginn, Kreativitaet, neues Projekt. Islam: Segen.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Neubeginn, Kreativitaet, neues Projekt. Islam: Segen.' },
+    ],
+  },
+  {
+    id: 'pruefung',
+    name: 'Pruefung',
+    category: 'aktion',
+    keywords: ['Exam'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Leistungsdruck, Selbstzweifel, Bewertungsangst.' },
+    ],
+  },
+  {
+    id: 'tanzen',
+    name: 'Tanzen',
+    category: 'aktion',
+    keywords: ['Dancing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Lebensfreude, Ausdruck, Harmonie. Islam: kann Vergnuegen bedeuten.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Lebensfreude, Ausdruck, Harmonie. Islam: kann Vergnuegen bedeuten.' },
+    ],
+  },
+  {
+    id: 'singen',
+    name: 'Singen',
+    category: 'aktion',
+    keywords: ['Singing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Selbstausdruck, Freude. Islam: Warnung vor Ablenkung.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Selbstausdruck, Freude. Islam: Warnung vor Ablenkung.' },
+    ],
+  },
+  {
+    id: 'beten',
+    name: 'Beten',
+    category: 'aktion',
+    keywords: ['Praying'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Spirituelle Suche, Hingabe. Islam: Verbindung zu Allah. Innerer Frieden.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Spirituelle Suche, Hingabe. Islam: Verbindung zu Allah. Innerer Frieden.' },
+    ],
+  },
+  {
+    id: 'klettern',
+    name: 'Klettern',
+    category: 'aktion',
+    keywords: ['Climbing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Aufstieg, Ambition, Fortschritt. Islam: spiritueller Aufstieg.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Aufstieg, Ambition, Fortschritt. Islam: spiritueller Aufstieg.' },
+    ],
+  },
+  {
+    id: 'graben',
+    name: 'Graben',
+    category: 'aktion',
+    keywords: ['Digging'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Suche nach Wahrheit, Vergangenheit aufdecken. Islam: Grab, Schatz.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Suche nach Wahrheit, Vergangenheit aufdecken. Islam: Grab, Schatz.' },
+    ],
+  },
+  {
+    id: 'waschen',
+    name: 'Waschen',
+    category: 'aktion',
+    keywords: ['Washing'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Reinigung, Schuld abwaschen. Islam: Wudu, Reinheit.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Reinigung, Schuld abwaschen. Islam: Wudu, Reinheit.' },
+    ],
+  },
+  {
+    id: 'verlieren',
+    name: 'Verlieren',
+    category: 'aktion',
+    keywords: ['Losing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Kontrollverlust, Identitaetskrise. Etwas Wertvolles aufgeben.' },
+    ],
+  },
+  {
+    id: 'suchen',
+    name: 'Suchen',
+    category: 'aktion',
+    keywords: ['Searching'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Sinnsuche, verlorener Aspekt des Selbst. Spirituelle Suche.' },
+    ],
+  },
+  {
+    id: 'fliehen',
+    name: 'Fliehen',
+    category: 'aktion',
+    keywords: ['Fleeing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Vermeidung, Angst konfrontieren. Islam: Flucht vor Suende.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Vermeidung, Angst konfrontieren. Islam: Flucht vor Suende.' },
+    ],
+  },
+  {
+    id: 'stehlen',
+    name: 'Stehlen',
+    category: 'aktion',
+    keywords: ['Stealing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Neid, Mangel, Grenzueberschreitung. Islam: Haram.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Neid, Mangel, Grenzueberschreitung. Islam: Haram.' },
+    ],
+  },
+  {
+    id: 'toeten',
+    name: 'Toeten',
+    category: 'aktion',
+    keywords: ['Killing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Aggression, Verdraengung, Ende einer Beziehung. NICHT woertlich.' },
+    ],
+  },
+  {
+    id: 'schreien',
+    name: 'Schreien',
+    category: 'aktion',
+    keywords: ['Screaming'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Hilferuf, unterdrueckte Wut, Machtlosigkeit.' },
+    ],
+  },
+  {
+    id: 'verstecken',
+    name: 'Verstecken',
+    category: 'aktion',
+    keywords: ['Hiding'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Vermeidung, Scham, Geheimnisse. Islam: Suende verbergen.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Vermeidung, Scham, Geheimnisse. Islam: Suende verbergen.' },
+    ],
+  },
+  {
+    id: 'reisen',
+    name: 'Reisen',
+    category: 'aktion',
+    keywords: ['Traveling'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Lebensreise, Veraenderung, Suche. Islam: Hijra, Pilgerfahrt.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Lebensreise, Veraenderung, Suche. Islam: Hijra, Pilgerfahrt.' },
+    ],
+  },
+  {
+    id: 'sprechen',
+    name: 'Sprechen',
+    category: 'aktion',
+    keywords: ['Speaking'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Kommunikation, Selbstausdruck. Unfaehigkeit zu sprechen = Machtlosigkeit.' },
+    ],
+  },
+  {
+    id: 'mutter',
+    name: 'Mutter',
+    category: 'person',
+    keywords: ['Mother'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Urquelle, Nahrung, Unbewusstes. Freud: Oedipus. Jung: Grosser Mutterarchetyp.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Urquelle, Nahrung, Unbewusstes. Freud: Oedipus. Jung: Grosser Mutterarchetyp.' },
+    ],
+  },
+  {
+    id: 'vater',
+    name: 'Vater',
+    category: 'person',
+    keywords: ['Father'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Autoritaet, Gesetz, Schutz. Freud: Ueber-Ich. Islam: Respekt.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Autoritaet, Gesetz, Schutz. Freud: Ueber-Ich. Islam: Respekt.' },
+    ],
+  },
+  {
+    id: 'fremder',
+    name: 'Fremder',
+    category: 'person',
+    keywords: ['Stranger'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Unbekannter Aspekt des Selbst, Schatten. Islam: Engel oder Dschinn.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Unbekannter Aspekt des Selbst, Schatten. Islam: Engel oder Dschinn.' },
+    ],
+  },
+  {
+    id: 'toter',
+    name: 'Toter',
+    category: 'person',
+    keywords: ['Dead person'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verdraengtes, Abschied, Botschaft. Islam: Warnung oder Bitte um Dua.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verdraengtes, Abschied, Botschaft. Islam: Warnung oder Bitte um Dua.' },
+    ],
+  },
+  {
+    id: 'arzt',
+    name: 'Arzt',
+    category: 'person',
+    keywords: ['Doctor'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Heilung, Autoritaet, Selbstheilung. Islam: Allah als Heiler (Ash-Shafi).' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Heilung, Autoritaet, Selbstheilung. Islam: Allah als Heiler (Ash-Shafi).' },
+    ],
+  },
+  {
+    id: 'lehrer',
+    name: 'Lehrer',
+    category: 'person',
+    keywords: ['Teacher'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weisheit, Fuehrung, innerer Mentor. Islam: Gelehrter.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Weisheit, Fuehrung, innerer Mentor. Islam: Gelehrter.' },
+    ],
+  },
+  {
+    id: 'koenig',
+    name: 'Koenig',
+    category: 'person',
+    keywords: ['King'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Macht, Selbst, hoehere Autoritaet. Islam: Herrscher, Allah.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Macht, Selbst, hoehere Autoritaet. Islam: Herrscher, Allah.' },
+    ],
+  },
+  {
+    id: 'koenigin',
+    name: 'Koenigin',
+    category: 'person',
+    keywords: ['Queen'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weibliche Macht, Anima, Muetterlichkeit.' },
+    ],
+  },
+  {
+    id: 'polizist',
+    name: 'Polizist',
+    category: 'person',
+    keywords: ['Police'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Gewissen, Ueber-Ich, Autoritaet, Regel.' },
+    ],
+  },
+  {
+    id: 'prophet',
+    name: 'Prophet',
+    category: 'person',
+    keywords: ['Prophet'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Goettliche Botschaft, hoechste Fuehrung. Islam: Segen, gutes Zeichen.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Goettliche Botschaft, hoechste Fuehrung. Islam: Segen, gutes Zeichen.' },
+    ],
+  },
+  {
+    id: 'teufel',
+    name: 'Teufel',
+    category: 'person',
+    keywords: ['Devil'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Versuchung, Schatten, verdraengtes Boeses. Islam: Iblis, Waswas.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Versuchung, Schatten, verdraengtes Boeses. Islam: Iblis, Waswas.' },
+    ],
+  },
+  {
+    id: 'grossvater',
+    name: 'Grossvater',
+    category: 'person',
+    keywords: ['Grandfather'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ahne, Weisheit, Tradition, Senex-Archetyp.' },
+    ],
+  },
+  {
+    id: 'grossmutter',
+    name: 'Grossmutter',
+    category: 'person',
+    keywords: ['Grandmother'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weisheit, Schutz, alte Frau-Archetyp.' },
+    ],
+  },
+  {
+    id: 'bruder',
+    name: 'Bruder',
+    category: 'person',
+    keywords: ['Brother'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Rivalitaet, Verbundenheit. Islam: Glaubensbruder. Bibel: Kain/Abel.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Rivalitaet, Verbundenheit. Islam: Glaubensbruder. Bibel: Kain/Abel.' },
+    ],
+  },
+  {
+    id: 'schwester',
+    name: 'Schwester',
+    category: 'person',
+    keywords: ['Sister'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weiblicher Aspekt, Verbundenheit, Anima.' },
+    ],
+  },
+  {
+    id: 'ehepartner',
+    name: 'Ehepartner',
+    category: 'person',
+    keywords: ['Spouse'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Partnerschaft, Integration, Anima/Animus. Islam: Sakina.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Partnerschaft, Integration, Anima/Animus. Islam: Sakina.' },
+    ],
+  },
+  {
+    id: 'geliebter',
+    name: 'Geliebter',
+    category: 'person',
+    keywords: ['Lover'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Sehnsucht, Eros, Projektion. Sufi: goettliche Liebe.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.NABULSI, text: 'Sehnsucht, Eros, Projektion. Sufi: goettliche Liebe.' },
+    ],
+  },
+  {
+    id: 'bett',
+    name: 'Bett',
+    category: 'objekt',
+    keywords: ['Bed'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Ruhe, Sexualitaet, Krankheit. Islam: Ehefrau. Freud: sexuelles Symbol.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ruhe, Sexualitaet, Krankheit. Islam: Ehefrau. Freud: sexuelles Symbol.' },
+    ],
+  },
+  {
+    id: 'schwert',
+    name: 'Schwert',
+    category: 'objekt',
+    keywords: ['Sword'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Macht, Gerechtigkeit, Trennung. Islam: Autoritaet. Bibel: Wort Gottes.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Macht, Gerechtigkeit, Trennung. Islam: Autoritaet. Bibel: Wort Gottes.' },
+    ],
+  },
+  {
+    id: 'ring',
+    name: 'Ring',
+    category: 'objekt',
+    keywords: ['Ring'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Bindung, Ehe, Ewigkeit. Islam: Autoritaet, Siegel. Tolkien: Macht.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Bindung, Ehe, Ewigkeit. Islam: Autoritaet, Siegel. Tolkien: Macht.' },
+    ],
+  },
+  {
+    id: 'buch',
+    name: 'Buch',
+    category: 'objekt',
+    keywords: ['Book'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Wissen, Lebensweg. Islam: Buch der Taten. Bibel: Buch des Lebens.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Wissen, Lebensweg. Islam: Buch der Taten. Bibel: Buch des Lebens.' },
+    ],
+  },
+  {
+    id: 'uhr',
+    name: 'Uhr',
+    category: 'objekt',
+    keywords: ['Clock'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Zeit, Vergaenglichkeit, Dringlichkeit, Deadline.' },
+    ],
+  },
+  {
+    id: 'telefon',
+    name: 'Telefon',
+    category: 'objekt',
+    keywords: ['Phone'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Kommunikation, Botschaft, Verbindung. Klingeln=Ruf des Unbewussten.' },
+    ],
+  },
+  {
+    id: 'flugzeug',
+    name: 'Flugzeug',
+    category: 'objekt',
+    keywords: ['Airplane'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Grosse Ambitionen, Reise, Perspektivwechsel. Absturz=Versagensangst.' },
+    ],
+  },
+  {
+    id: 'zug',
+    name: 'Zug',
+    category: 'objekt',
+    keywords: ['Train'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Lebensreise, Bestimmung. Verpasster Zug=verpasste Chance.' },
+    ],
+  },
+  {
+    id: 'schiff',
+    name: 'Schiff',
+    category: 'objekt',
+    keywords: ['Ship'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Lebensreise, Emotionen. Islam: Arche Noah. Schiffbruch=Krise.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Lebensreise, Emotionen. Islam: Arche Noah. Schiffbruch=Krise.' },
+    ],
+  },
+  {
+    id: 'messer',
+    name: 'Messer',
+    category: 'objekt',
+    keywords: ['Knife'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Aggression, Trennung, Entscheidung. Freud: phallisch. Islam: Gefahr.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Aggression, Trennung, Entscheidung. Freud: phallisch. Islam: Gefahr.' },
+    ],
+  },
+  {
+    id: 'kreuz',
+    name: 'Kreuz',
+    category: 'objekt',
+    keywords: ['Cross'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Leiden, Opfer, Erlosung. Christlich: Christus. Universell: Kreuzweg.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Leiden, Opfer, Erlosung. Christlich: Christus. Universell: Kreuzweg.' },
+    ],
+  },
+  {
+    id: 'krone',
+    name: 'Krone',
+    category: 'objekt',
+    keywords: ['Crown'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Macht, Erfolg, Selbstverwirklichung. Islam: Ehre. Bibel: Krone des Lebens.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Macht, Erfolg, Selbstverwirklichung. Islam: Ehre. Bibel: Krone des Lebens.' },
+    ],
+  },
+  {
+    id: 'kerze',
+    name: 'Kerze',
+    category: 'objekt',
+    keywords: ['Candle'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Hoffnung, Erkenntnis, Spiritualitaet. Islam: Wissen. Vergaenglichkeit.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Hoffnung, Erkenntnis, Spiritualitaet. Islam: Wissen. Vergaenglichkeit.' },
+    ],
+  },
+  {
+    id: 'kette',
+    name: 'Kette',
+    category: 'objekt',
+    keywords: ['Chain'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Bindung, Gefangenschaft, Verbindung. Islam: Fesseln der Suende.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Bindung, Gefangenschaft, Verbindung. Islam: Fesseln der Suende.' },
+    ],
+  },
+  {
+    id: 'maske',
+    name: 'Maske',
+    category: 'objekt',
+    keywords: ['Mask'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Persona, Verstellung, verborgenes Selbst. Jung: soziale Rolle.' },
+    ],
+  },
+  {
+    id: 'geschenk',
+    name: 'Geschenk',
+    category: 'objekt',
+    keywords: ['Gift'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Anerkennung, Liebe, unerwartetes Glueck. Islam: Segen.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Anerkennung, Liebe, unerwartetes Glueck. Islam: Segen.' },
+    ],
+  },
+  {
+    id: 'waffe',
+    name: 'Waffe',
+    category: 'objekt',
+    keywords: ['Weapon'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Aggression, Macht, Schutz. Freud: phallisch. Islam: Autorität.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Aggression, Macht, Schutz. Freud: phallisch. Islam: Autorität.' },
+    ],
+  },
+  {
+    id: 'kleidung',
+    name: 'Kleidung',
+    category: 'objekt',
+    keywords: ['Clothing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Persona, Rolle, Status. Islam: Froemmigkeit. Nackt=Verletzlichkeit.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Persona, Rolle, Status. Islam: Froemmigkeit. Nackt=Verletzlichkeit.' },
+    ],
+  },
+  {
+    id: 'brille',
+    name: 'Brille',
+    category: 'objekt',
+    keywords: ['Glasses'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Klarheit, Einsicht, neue Perspektive.' },
+    ],
+  },
+  {
+    id: 'fahrstuhl',
+    name: 'Fahrstuhl',
+    category: 'objekt',
+    keywords: ['Elevator'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Auf-/Abstieg, schneller Wechsel, Karriere.' },
+    ],
+  },
+  {
+    id: 'bruecke',
+    name: 'Bruecke',
+    category: 'objekt',
+    keywords: ['Bridge'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Uebergang, Verbindung, Entscheidung. Islam: Sirat-Bruecke.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Uebergang, Verbindung, Entscheidung. Islam: Sirat-Bruecke.' },
+    ],
+  },
+  {
+    id: 'tor',
+    name: 'Tor',
+    category: 'objekt',
+    keywords: ['Gate'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Uebergang, Schwelle, neues Kapitel. Islam: Paradiestor.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Uebergang, Schwelle, neues Kapitel. Islam: Paradiestor.' },
+    ],
+  },
+  {
+    id: 'koffer',
+    name: 'Koffer',
+    category: 'objekt',
+    keywords: ['Suitcase'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Erinnerungen, Ballast, Reisebereitschaft, Identitaet.' },
+    ],
+  },
+  {
+    id: 'zaehne',
+    name: 'Zaehne',
+    category: 'koerper',
+    keywords: ['Teeth'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Verlust, Angst, Selbstbild. Islam: obere=maennl. Familie, untere=weibl. Freud: Kastration.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verlust, Angst, Selbstbild. Islam: obere=maennl. Familie, untere=weibl. Freud: Kastration.' },
+    ],
+  },
+  {
+    id: 'haare',
+    name: 'Haare',
+    category: 'koerper',
+    keywords: ['Hair'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Kraft, Identitaet, Sexualitaet. Islam: Ehre. Samson. Haarausfall=Machtverlust.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Kraft, Identitaet, Sexualitaet. Islam: Ehre. Samson. Haarausfall=Machtverlust.' },
+    ],
+  },
+  {
+    id: 'augen',
+    name: 'Augen',
+    category: 'koerper',
+    keywords: ['Eyes'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Erkenntnis, Wahrheit, Seele. Islam: Basira (innere Sicht). Drittes Auge.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Erkenntnis, Wahrheit, Seele. Islam: Basira (innere Sicht). Drittes Auge.' },
+    ],
+  },
+  {
+    id: 'haende',
+    name: 'Haende',
+    category: 'koerper',
+    keywords: ['Hands'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Handlungsfaehigkeit, Geben/Nehmen. Islam: rechte=gut, linke=schlecht.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Handlungsfaehigkeit, Geben/Nehmen. Islam: rechte=gut, linke=schlecht.' },
+    ],
+  },
+  {
+    id: 'herz',
+    name: 'Herz',
+    category: 'koerper',
+    keywords: ['Heart'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Gefuehle, Liebe, Zentrum. Islam: Qalb, Sitz des Glaubens.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Gefuehle, Liebe, Zentrum. Islam: Qalb, Sitz des Glaubens.' },
+    ],
+  },
+  {
+    id: 'kopf',
+    name: 'Kopf',
+    category: 'koerper',
+    keywords: ['Head'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Intellekt, Fuehrung, Identitaet. Islam: Oberhaupt.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Intellekt, Fuehrung, Identitaet. Islam: Oberhaupt.' },
+    ],
+  },
+  {
+    id: 'fuesse',
+    name: 'Fuesse',
+    category: 'koerper',
+    keywords: ['Feet'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Fundament, Standfestigkeit, Richtung. Islam: Stabilität.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Fundament, Standfestigkeit, Richtung. Islam: Stabilität.' },
+    ],
+  },
+  {
+    id: 'ruecken',
+    name: 'Ruecken',
+    category: 'koerper',
+    keywords: ['Back'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Unterstuetzung, Vergangenheit, Last. Rueckenschmerzen=Ueberlastung.' },
+    ],
+  },
+  {
+    id: 'brust',
+    name: 'Brust',
+    category: 'koerper',
+    keywords: ['Chest'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Emotionen, Schutz, Nahrung. Islam: Sitz des Wissens (Sadr).' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Emotionen, Schutz, Nahrung. Islam: Sitz des Wissens (Sadr).' },
+    ],
+  },
+  {
+    id: 'bauch',
+    name: 'Bauch',
+    category: 'koerper',
+    keywords: ['Belly'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Instinkt, Verdauung, Schwangerschaft. Bauchgefuehl.' },
+    ],
+  },
+  {
+    id: 'nase',
+    name: 'Nase',
+    category: 'koerper',
+    keywords: ['Nose'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Intuition, Stolz, Neugier. Freud: phallisch. Islam: Ehre.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Intuition, Stolz, Neugier. Freud: phallisch. Islam: Ehre.' },
+    ],
+  },
+  {
+    id: 'ohr',
+    name: 'Ohr',
+    category: 'koerper',
+    keywords: ['Ear'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Zuhoeren, Gehorsamkeit, Botschaft. Islam: Ehefrau, Tochter.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Zuhoeren, Gehorsamkeit, Botschaft. Islam: Ehefrau, Tochter.' },
+    ],
+  },
+  {
+    id: 'mund',
+    name: 'Mund',
+    category: 'koerper',
+    keywords: ['Mouth'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Kommunikation, Nahrung, Ausdruck. Islam: Worte.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Kommunikation, Nahrung, Ausdruck. Islam: Worte.' },
+    ],
+  },
+  {
+    id: 'haut',
+    name: 'Haut',
+    category: 'koerper',
+    keywords: ['Skin'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Grenze, Schutz, Identitaet. Hautkrankheit=innere Konflikte.' },
+    ],
+  },
+  {
+    id: 'nacktheit',
+    name: 'Nacktheit',
+    category: 'koerper',
+    keywords: ['Nudity'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Verletzlichkeit, Scham, Authentizitaet. Islam: Bloßstellung.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verletzlichkeit, Scham, Authentizitaet. Islam: Bloßstellung.' },
+    ],
+  },
+  {
+    id: 'traenen',
+    name: 'Traenen',
+    category: 'koerper',
+    keywords: ['Tears'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Emotionale Befreiung, Trauer, Reinigung.' },
+    ],
+  },
+  {
+    id: 'finger',
+    name: 'Finger',
+    category: 'koerper',
+    keywords: ['Fingers'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Feinmotorik, Details, Familienbeziehungen. Islam: Gebetsperlen.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Feinmotorik, Details, Familienbeziehungen. Islam: Gebetsperlen.' },
+    ],
+  },
+  {
+    id: 'bart',
+    name: 'Bart',
+    category: 'koerper',
+    keywords: ['Beard'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Maennlichkeit, Weisheit, Autoritaet. Islam: Sunna, Ehre.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Maennlichkeit, Weisheit, Autoritaet. Islam: Sunna, Ehre.' },
+    ],
+  },
+  {
+    id: 'schule',
+    name: 'Schule',
+    category: 'ort',
+    keywords: ['School'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Lernen, Leistungsdruck, Kindheit. Zurueck in der Schule=Lektion.' },
+    ],
+  },
+  {
+    id: 'friedhof',
+    name: 'Friedhof',
+    category: 'ort',
+    keywords: ['Cemetery'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Vergaenglichkeit, Trauer, Ende. Islam: Erinnerung an Tod (Tathkira).' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Vergaenglichkeit, Trauer, Ende. Islam: Erinnerung an Tod (Tathkira).' },
+    ],
+  },
+  {
+    id: 'kirche',
+    name: 'Kirche',
+    category: 'ort',
+    keywords: ['Church'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Spiritualitaet, Gemeinschaft, Heiligkeit. Bibel: Leib Christi.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Spiritualitaet, Gemeinschaft, Heiligkeit. Bibel: Leib Christi.' },
+    ],
+  },
+  {
+    id: 'moschee',
+    name: 'Moschee',
+    category: 'ort',
+    keywords: ['Mosque'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Gebet, Gemeinschaft, spirituelle Reinheit. Islam: Bayt Allah.' },
+    ],
+  },
+  {
+    id: 'krankenhaus',
+    name: 'Krankenhaus',
+    category: 'ort',
+    keywords: ['Hospital'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Heilung, Verletzlichkeit, Krise. Selbstheilung.' },
+    ],
+  },
+  {
+    id: 'gefaengnis',
+    name: 'Gefaengnis',
+    category: 'ort',
+    keywords: ['Prison'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Gefangenschaft, Einschraenkung, Schuld. Islam: Pruefung. Selbstgemachte Kaefige.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Gefangenschaft, Einschraenkung, Schuld. Islam: Pruefung. Selbstgemachte Kaefige.' },
+    ],
+  },
+  {
+    id: 'hoehle',
+    name: 'Hoehle',
+    category: 'ort',
+    keywords: ['Cave'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Unbewusstes, Schutz, Rueckzug. Islam: Sure Al-Kahf. Platon: Hoehlengleichnis.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Unbewusstes, Schutz, Rueckzug. Islam: Sure Al-Kahf. Platon: Hoehlengleichnis.' },
+    ],
+  },
+  {
+    id: 'markt',
+    name: 'Markt',
+    category: 'ort',
+    keywords: ['Market'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Austausch, Wert, soziale Interaktion. Islam: Diesseits.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Austausch, Wert, soziale Interaktion. Islam: Diesseits.' },
+    ],
+  },
+  {
+    id: 'strand',
+    name: 'Strand',
+    category: 'ort',
+    keywords: ['Beach'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Grenze Bewusstes/Unbewusstes, Entspannung, Uebergang.' },
+    ],
+  },
+  {
+    id: 'insel',
+    name: 'Insel',
+    category: 'ort',
+    keywords: ['Island'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Isolation, Individualitaet, Rueckzug, Sehnsucht.' },
+    ],
+  },
+  {
+    id: 'turm',
+    name: 'Turm',
+    category: 'ort',
+    keywords: ['Tower'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Ehrgeiz, Isolation, Ueberblick. Bibel: Turm zu Babel. Islam: Hochmut.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ehrgeiz, Isolation, Ueberblick. Bibel: Turm zu Babel. Islam: Hochmut.' },
+    ],
+  },
+  {
+    id: 'keller',
+    name: 'Keller',
+    category: 'ort',
+    keywords: ['Basement'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Tiefes Unbewusstes, verdraengte Erinnerungen, Angst.' },
+    ],
+  },
+  {
+    id: 'dachboden',
+    name: 'Dachboden',
+    category: 'ort',
+    keywords: ['Attic'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Hoehere Gedanken, vergessene Erinnerungen, Geist.' },
+    ],
+  },
+  {
+    id: 'labyrinth',
+    name: 'Labyrinth',
+    category: 'ort',
+    keywords: ['Labyrinth'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verwirrung, Suche, Initiationsreise. Kreta: Minotaurus.' },
+    ],
+  },
+  {
+    id: 'palast',
+    name: 'Palast',
+    category: 'ort',
+    keywords: ['Palace'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Reichtum, Macht, hoeheres Selbst. Islam: Paradies.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Reichtum, Macht, hoeheres Selbst. Islam: Paradies.' },
+    ],
+  },
+  {
+    id: 'ruine',
+    name: 'Ruine',
+    category: 'ort',
+    keywords: ['Ruin'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verfall, Vergangenheit, Verlust. Wiederaufbau moeglich.' },
+    ],
+  },
+  {
+    id: 'flughafen',
+    name: 'Flughafen',
+    category: 'ort',
+    keywords: ['Airport'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Uebergang, neue Phase, Fernweh, Abschied.' },
+    ],
+  },
+  {
+    id: 'weg',
+    name: 'Weg',
+    category: 'ort',
+    keywords: ['Path'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Lebensweg, Entscheidung, Richtung. Islam: Sirat al-Mustaqim.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Lebensweg, Entscheidung, Richtung. Islam: Sirat al-Mustaqim.' },
+    ],
+  },
+  {
+    id: 'schlachtfeld',
+    name: 'Schlachtfeld',
+    category: 'ort',
+    keywords: ['Battlefield'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Innerer Konflikt, Kampf, Entscheidung.' },
+    ],
+  },
+  {
+    id: 'krieg',
+    name: 'Krieg',
+    category: 'emotion',
+    keywords: ['War'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Innerer Konflikt, Kampf der Werte. Islam: Dschihad an-Nafs.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Innerer Konflikt, Kampf der Werte. Islam: Dschihad an-Nafs.' },
+    ],
+  },
+  {
+    id: 'dunkelheit',
+    name: 'Dunkelheit',
+    category: 'emotion',
+    keywords: ['Darkness'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Unbewusstes, Angst, Unwissenheit. Islam: Kufr. Bibel: Finsternis.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Unbewusstes, Angst, Unwissenheit. Islam: Kufr. Bibel: Finsternis.' },
+    ],
+  },
+  {
+    id: 'angst',
+    name: 'Angst',
+    category: 'emotion',
+    keywords: ['Fear'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Unterdrueckte Gefuehle, Warnung, Wachstum. Islam: Taqwa (Gottesfurcht).' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Unterdrueckte Gefuehle, Warnung, Wachstum. Islam: Taqwa (Gottesfurcht).' },
+    ],
+  },
+  {
+    id: 'liebe',
+    name: 'Liebe',
+    category: 'emotion',
+    keywords: ['Love'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verbundenheit, Sehnsucht, Ganzheit. Sufi: goettliche Liebe (Ishq).' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.NABULSI, text: 'Verbundenheit, Sehnsucht, Ganzheit. Sufi: goettliche Liebe (Ishq).' },
+    ],
+  },
+  {
+    id: 'einsamkeit',
+    name: 'Einsamkeit',
+    category: 'emotion',
+    keywords: ['Loneliness'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Isolation, Selbstreflexion, Individuation.' },
+    ],
+  },
+  {
+    id: 'fliegen_koennen',
+    name: 'Fliegen koennen',
+    category: 'emotion',
+    keywords: ['Ability to fly'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Freiheit, Transzendenz. Klartraum-Indikator.' },
+    ],
+  },
+  {
+    id: 'nacktsein_in_oeffentlichkeit',
+    name: 'Nacktsein in Oeffentlichkeit',
+    category: 'emotion',
+    keywords: ['Public nudity'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Verletzlichkeit, Scham, Authentizitaet. Haeufigster Traum.' },
+    ],
+  },
+  {
+    id: 'verfolgt_werden',
+    name: 'Verfolgt werden',
+    category: 'emotion',
+    keywords: ['Being pursued'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Verdraengung, ungeloestes Problem, Angst.' },
+    ],
+  },
+  {
+    id: 'zaehne_verlieren',
+    name: 'Zaehne verlieren',
+    category: 'emotion',
+    keywords: ['Losing teeth'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Kontrollverlust, Alterung, Selbstbild. Islam: Familienverlust.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Kontrollverlust, Alterung, Selbstbild. Islam: Familienverlust.' },
+    ],
+  },
+  {
+    id: 'zu_spaet_kommen',
+    name: 'Zu spaet kommen',
+    category: 'emotion',
+    keywords: ['Being late'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Versagensangst, verpasste Chance, Perfektionismus.' },
+    ],
+  },
+  {
+    id: 'nicht_schreien_koennen',
+    name: 'Nicht schreien koennen',
+    category: 'emotion',
+    keywords: ['Unable to scream'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Machtlosigkeit, unterdrueckte Stimme.' },
+    ],
+  },
+  {
+    id: 'paradies',
+    name: 'Paradies',
+    category: 'emotion',
+    keywords: ['Paradise'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Vollkommenheit, Sehnsucht, Belohnung. Islam: Janna. Bibel: Eden.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Vollkommenheit, Sehnsucht, Belohnung. Islam: Janna. Bibel: Eden.' },
+    ],
+  },
+  {
+    id: 'hoelle',
+    name: 'Hoelle',
+    category: 'emotion',
+    keywords: ['Hell'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Strafe, Leid, innere Qual. Islam: Jahannam. Bibel: Gehenna.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Strafe, Leid, innere Qual. Islam: Jahannam. Bibel: Gehenna.' },
+    ],
+  },
+  {
+    id: 'farbe_gold',
+    name: 'Farbe Gold',
+    category: 'emotion',
+    keywords: ['Color Gold'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weisheit, Wert, Goettlichkeit. Islam: Paradies. Alchemie: Opus Magnum.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Weisheit, Wert, Goettlichkeit. Islam: Paradies. Alchemie: Opus Magnum.' },
+    ],
+  },
+  {
+    id: 'farbe_weiss',
+    name: 'Farbe Weiss',
+    category: 'emotion',
+    keywords: ['Color White'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Reinheit, Unschuld, Tod. Islam: Ihram. Tibetisch: Mitgefuehl.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Reinheit, Unschuld, Tod. Islam: Ihram. Tibetisch: Mitgefuehl.' },
+    ],
+  },
+  {
+    id: 'farbe_schwarz',
+    name: 'Farbe Schwarz',
+    category: 'emotion',
+    keywords: ['Color Black'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Unbewusstes, Trauer, Macht. Islam: Kaaba. Alchemie: Nigredo.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Unbewusstes, Trauer, Macht. Islam: Kaaba. Alchemie: Nigredo.' },
+    ],
+  },
+  {
+    id: 'farbe_rot',
+    name: 'Farbe Rot',
+    category: 'emotion',
+    keywords: ['Color Red'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Leidenschaft, Blut, Energie. Islam: Gefahr. China: Glueck.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Leidenschaft, Blut, Energie. Islam: Gefahr. China: Glueck.' },
+    ],
+  },
+  {
+    id: 'farbe_gruen',
+    name: 'Farbe Gruen',
+    category: 'emotion',
+    keywords: ['Color Green'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Wachstum, Islam, Natur. Islam: Paradies, Prophet. Hoffnung.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wachstum, Islam, Natur. Islam: Paradies, Prophet. Hoffnung.' },
+    ],
+  },
+  {
+    id: 'farbe_blau',
+    name: 'Farbe Blau',
+    category: 'emotion',
+    keywords: ['Color Blue'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Spiritualitaet, Himmel, Ruhe. Islam: Himmel. Tibetisch: Akasha.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Spiritualitaet, Himmel, Ruhe. Islam: Himmel. Tibetisch: Akasha.' },
+    ],
+  },
+  {
+    id: 'zahl_3',
+    name: 'Zahl 3',
+    category: 'emotion',
+    keywords: ['Number 3'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Dreieinigkeit, Synthese, Kreativitaet. Islam: Wiederholung. Pythagoras.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Dreieinigkeit, Synthese, Kreativitaet. Islam: Wiederholung. Pythagoras.' },
+    ],
+  },
+  {
+    id: 'zahl_7',
+    name: 'Zahl 7',
+    category: 'emotion',
+    keywords: ['Number 7'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Vollstaendigkeit, Spiritualitaet. Islam: 7 Himmel. Bibel: Schoepfung.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Vollstaendigkeit, Spiritualitaet. Islam: 7 Himmel. Bibel: Schoepfung.' },
+    ],
+  },
+  {
+    id: 'zahl_40',
+    name: 'Zahl 40',
+    category: 'emotion',
+    keywords: ['Number 40'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Pruefung, Transformation. Islam: 40 Tage. Bibel: 40 Tage Wueste.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Pruefung, Transformation. Islam: 40 Tage. Bibel: 40 Tage Wueste.' },
+    ],
+  },
+  {
+    id: 'hai',
+    name: 'Hai',
+    category: 'tier',
+    keywords: ['Shark'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Bedrohung, Aggression, unterbewusste Angst.' },
+    ],
+  },
+  {
+    id: 'papagei',
+    name: 'Papagei',
+    category: 'tier',
+    keywords: ['Parrot'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Nachahmung, Klatsch, bunte Kommunikation.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Nachahmung, Klatsch, bunte Kommunikation.' },
+    ],
+  },
+  {
+    id: 'fuchs',
+    name: 'Fuchs',
+    category: 'tier',
+    keywords: ['Fox'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'List, Cleverness, Taeuschung. Islam: listiger Mensch.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'List, Cleverness, Taeuschung. Islam: listiger Mensch.' },
+    ],
+  },
+  {
+    id: 'hirsch',
+    name: 'Hirsch',
+    category: 'tier',
+    keywords: ['Deer'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Sanftmut, Grazie, spirituelle Suche. Schamanisch: Fuehrer.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Sanftmut, Grazie, spirituelle Suche. Schamanisch: Fuehrer.' },
+    ],
+  },
+  {
+    id: 'krokodil',
+    name: 'Krokodil',
+    category: 'tier',
+    keywords: ['Crocodile'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verborgene Gefahr, Betrug, Urinstinkte. Islam: Polizist/Richter.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verborgene Gefahr, Betrug, Urinstinkte. Islam: Polizist/Richter.' },
+    ],
+  },
+  {
+    id: 'maus',
+    name: 'Maus',
+    category: 'tier',
+    keywords: ['Mouse'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Kleines Problem, Scheu, Verlust. Islam: unmoralische Frau.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Kleines Problem, Scheu, Verlust. Islam: unmoralische Frau.' },
+    ],
+  },
+  {
+    id: 'stier',
+    name: 'Stier',
+    category: 'tier',
+    keywords: ['Bull'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Kraft, Sturheit, Fertilitaet. Islam: starker Mann.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Kraft, Sturheit, Fertilitaet. Islam: starker Mann.' },
+    ],
+  },
+  {
+    id: 'wal',
+    name: 'Wal',
+    category: 'tier',
+    keywords: ['Whale'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Tiefes Unbewusstes, Yunus/Jona, spirituelle Reise.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Tiefes Unbewusstes, Yunus/Jona, spirituelle Reise.' },
+    ],
+  },
+  {
+    id: 'schwan',
+    name: 'Schwan',
+    category: 'tier',
+    keywords: ['Swan'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schoenheit, Transformation, Reinheit. Sterben des Schwans.' },
+    ],
+  },
+  {
+    id: 'drache',
+    name: 'Drache',
+    category: 'tier',
+    keywords: ['Dragon'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Urkraft, Hüter, Transformation. China: Glück. West: Gefahr.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.CHINESE_ZODIAC, text: 'Urkraft, Hüter, Transformation. China: Glück. West: Gefahr.' },
+    ],
+  },
+  {
+    id: 'wespe',
+    name: 'Wespe',
+    category: 'tier',
+    keywords: ['Wasp'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Aggression, Gefahr, Feindseligkeit.' },
+    ],
+  },
+  {
+    id: 'igel',
+    name: 'Igel',
+    category: 'tier',
+    keywords: ['Hedgehog'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Selbstschutz, Stacheln, Isolation.' },
+    ],
+  },
+  {
+    id: 'gans',
+    name: 'Gans',
+    category: 'tier',
+    keywords: ['Goose'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wachsamkeit, Gemeinschaft, Treue.' },
+    ],
+  },
+  {
+    id: 'flamingo',
+    name: 'Flamingo',
+    category: 'tier',
+    keywords: ['Flamingo'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Eleganz, Balance, Einzigartigkeit.' },
+    ],
+  },
+  {
+    id: 'hase',
+    name: 'Hase',
+    category: 'tier',
+    keywords: ['Rabbit'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.CHINESE_ZODIAC, text: 'Fruchtbarkeit, Angst, Schnelligkeit. Mondtier.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Fruchtbarkeit, Angst, Schnelligkeit. Mondtier.' },
+    ],
+  },
+  {
+    id: 'fledermaus',
+    name: 'Fledermaus',
+    category: 'tier',
+    keywords: ['Bat'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.CHINESE_ZODIAC, text: 'Transformation, Nacht, Wiedergeburt. China: Glueck.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Transformation, Nacht, Wiedergeburt. China: Glueck.' },
+    ],
+  },
+  {
+    id: 'pfau',
+    name: 'Pfau',
+    category: 'tier',
+    keywords: ['Peacock'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Stolz, Schoenheit, Eitelkeit. Islam: Paradiesvogel.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Stolz, Schoenheit, Eitelkeit. Islam: Paradiesvogel.' },
+    ],
+  },
+  {
+    id: 'wurm',
+    name: 'Wurm',
+    category: 'tier',
+    keywords: ['Worm'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Zerfall, Niedrige Triebe, Erneuerung. Bodenfruchtbarkeit.' },
+    ],
+  },
+  {
+    id: 'libelle',
+    name: 'Libelle',
+    category: 'tier',
+    keywords: ['Dragonfly'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Veraenderung, Leichtigkeit, Illusion. Japan: Mut.' },
+    ],
+  },
+  {
+    id: 'flut',
+    name: 'Flut',
+    category: 'natur',
+    keywords: ['Flood'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Ueberwältigung, emotionale Ueberflutung. Bibel: Sintflut.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ueberwältigung, emotionale Ueberflutung. Bibel: Sintflut.' },
+    ],
+  },
+  {
+    id: 'tsunami',
+    name: 'Tsunami',
+    category: 'natur',
+    keywords: ['Tsunami'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Unterdrueckte Emotionen brechen durch, Katastrophe.' },
+    ],
+  },
+  {
+    id: 'fruehling',
+    name: 'Fruehling',
+    category: 'natur',
+    keywords: ['Spring'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Neubeginn, Erwachen, Hoffnung, Jugend.' },
+    ],
+  },
+  {
+    id: 'herbst',
+    name: 'Herbst',
+    category: 'natur',
+    keywords: ['Autumn'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Vergaenglichkeit, Ernte, Loslassen, Reife.' },
+    ],
+  },
+  {
+    id: 'winter',
+    name: 'Winter',
+    category: 'natur',
+    keywords: ['Winter'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Rueckzug, Tod, Stille, innere Arbeit.' },
+    ],
+  },
+  {
+    id: 'sommer',
+    name: 'Sommer',
+    category: 'natur',
+    keywords: ['Summer'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Fuelle, Lebensfreude, Reife, Hoehepunkt.' },
+    ],
+  },
+  {
+    id: 'kristall',
+    name: 'Kristall',
+    category: 'natur',
+    keywords: ['Crystal'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Klarheit, Reinheit, innere Ordnung.' },
+    ],
+  },
+  {
+    id: 'perle',
+    name: 'Perle',
+    category: 'natur',
+    keywords: ['Pearl'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Weisheit, Wert, Traenen. Islam: Paradiesjuwel.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weisheit, Wert, Traenen. Islam: Paradiesjuwel.' },
+    ],
+  },
+  {
+    id: 'wasserfall',
+    name: 'Wasserfall',
+    category: 'natur',
+    keywords: ['Waterfall'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Emotionale Befreiung, Reinigung, Kraft.' },
+    ],
+  },
+  {
+    id: 'pilz',
+    name: 'Pilz',
+    category: 'natur',
+    keywords: ['Mushroom'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wachstum im Dunkeln, Unbewusstes, Transformation.' },
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Wachstum im Dunkeln, Unbewusstes, Transformation.' },
+    ],
+  },
+  {
+    id: 'rose',
+    name: 'Rose',
+    category: 'natur',
+    keywords: ['Rose'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.NABULSI, text: 'Liebe, Schoenheit, Schmerz (Dornen). Sufi: goettliche Liebe.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Liebe, Schoenheit, Schmerz (Dornen). Sufi: goettliche Liebe.' },
+    ],
+  },
+  {
+    id: 'lotus',
+    name: 'Lotus',
+    category: 'natur',
+    keywords: ['Lotus'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Erleuchtung, Reinheit aus Schmutz. Buddhismus: Erwachen.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Erleuchtung, Reinheit aus Schmutz. Buddhismus: Erwachen.' },
+    ],
+  },
+  {
+    id: 'sturm',
+    name: 'Sturm',
+    category: 'natur',
+    keywords: ['Storm'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Innerer Aufruhr, Veraenderung, Reinigung.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Innerer Aufruhr, Veraenderung, Reinigung.' },
+    ],
+  },
+  {
+    id: 'sumpf',
+    name: 'Sumpf',
+    category: 'natur',
+    keywords: ['Swamp'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Stagnation, emotionaler Morast, Gefahr.' },
+    ],
+  },
+  {
+    id: 'diamant',
+    name: 'Diamant',
+    category: 'natur',
+    keywords: ['Diamond'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Staerke, Unvergaenglichkeit, Klarheit, hoher Wert.' },
+    ],
+  },
+  {
+    id: 'autofahren',
+    name: 'Autofahren',
+    category: 'aktion',
+    keywords: ['Driving'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Lebenssteuerung, Kontrolle, Richtung.' },
+    ],
+  },
+  {
+    id: 'kochen',
+    name: 'Kochen',
+    category: 'aktion',
+    keywords: ['Cooking'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Transformation, Nahrung, Kreativitaet.' },
+    ],
+  },
+  {
+    id: 'umziehen',
+    name: 'Umziehen',
+    category: 'aktion',
+    keywords: ['Moving house'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Veraenderung, neuer Lebensabschnitt.' },
+    ],
+  },
+  {
+    id: 'tauchen',
+    name: 'Tauchen',
+    category: 'aktion',
+    keywords: ['Diving'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Tiefes Eintauchen ins Unbewusste, Mut.' },
+    ],
+  },
+  {
+    id: 'fangen',
+    name: 'Fangen',
+    category: 'aktion',
+    keywords: ['Catching'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Kontrolle, Erfolg, Besitz ergreifen.' },
+    ],
+  },
+  {
+    id: 'verlaufen',
+    name: 'Verlaufen',
+    category: 'aktion',
+    keywords: ['Getting lost'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Orientierungslosigkeit, Identitaetskrise.' },
+    ],
+  },
+  {
+    id: 'aufwachen',
+    name: 'Aufwachen',
+    category: 'aktion',
+    keywords: ['Waking up'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Falsches Erwachen, Bewusstwerden, Erkenntnis.' },
+    ],
+  },
+  {
+    id: 'fangen_spielen',
+    name: 'Fangen spielen',
+    category: 'aktion',
+    keywords: ['Playing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Inneres Kind, Leichtigkeit, Kreativitaet.' },
+    ],
+  },
+  {
+    id: 'putzen',
+    name: 'Putzen',
+    category: 'aktion',
+    keywords: ['Cleaning'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Reinigung, Ordnung schaffen, Schuld bereinigen.' },
+    ],
+  },
+  {
+    id: 'pflanzen',
+    name: 'Pflanzen',
+    category: 'aktion',
+    keywords: ['Planting'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Samen legen, Zukunft gestalten, Hoffnung.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Samen legen, Zukunft gestalten, Hoffnung.' },
+    ],
+  },
+  {
+    id: 'schneiden',
+    name: 'Schneiden',
+    category: 'aktion',
+    keywords: ['Cutting'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Trennung, Entscheidung, Befreiung.' },
+    ],
+  },
+  {
+    id: 'umarmung',
+    name: 'Umarmung',
+    category: 'aktion',
+    keywords: ['Embrace'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Akzeptanz, Liebe, Integration.' },
+    ],
+  },
+  {
+    id: 'kuss',
+    name: 'Kuss',
+    category: 'aktion',
+    keywords: ['Kiss'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Liebe, Vereinigung, Versoehnung. Freud: erotisch.' },
+    ],
+  },
+  {
+    id: 'schlafen',
+    name: 'Schlafen',
+    category: 'aktion',
+    keywords: ['Sleeping'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Traum im Traum, Bewusstlosigkeit, Verweigerung.' },
+    ],
+  },
+  {
+    id: 'aufraeumen',
+    name: 'Aufräumen',
+    category: 'aktion',
+    keywords: ['Tidying'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Innere Ordnung, Vergangenheit sortieren.' },
+    ],
+  },
+  {
+    id: 'heilen',
+    name: 'Heilen',
+    category: 'aktion',
+    keywords: ['Healing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Selbstheilung, Vergebung, Ganzwerdung.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Selbstheilung, Vergebung, Ganzwerdung.' },
+    ],
+  },
+  {
+    id: 'ertrinken',
+    name: 'Ertrinken',
+    category: 'aktion',
+    keywords: ['Drowning'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Ueberwältigung durch Emotionen, Hilflosigkeit.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ueberwältigung durch Emotionen, Hilflosigkeit.' },
+    ],
+  },
+  {
+    id: 'schreiben',
+    name: 'Schreiben',
+    category: 'aktion',
+    keywords: ['Writing'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Selbstausdruck, Festhalten, Botschaft. Islam: Aufzeichnung der Taten.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Selbstausdruck, Festhalten, Botschaft. Islam: Aufzeichnung der Taten.' },
+    ],
+  },
+  {
+    id: 'lesen',
+    name: 'Lesen',
+    category: 'aktion',
+    keywords: ['Reading'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Wissenssuche, Botschaft empfangen. Islam: Iqra (Lies!).' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wissenssuche, Botschaft empfangen. Islam: Iqra (Lies!).' },
+    ],
+  },
+  {
+    id: 'fasten',
+    name: 'Fasten',
+    category: 'aktion',
+    keywords: ['Fasting'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Reinigung, Disziplin, Spiritualitaet. Islam: Ramadan.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Reinigung, Disziplin, Spiritualitaet. Islam: Ramadan.' },
+    ],
+  },
+  {
+    id: 'bauen',
+    name: 'Bauen',
+    category: 'aktion',
+    keywords: ['Building'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Aufbau, Kreativitaet, Lebenswerk.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Aufbau, Kreativitaet, Lebenswerk.' },
+    ],
+  },
+  {
+    id: 'zerstoeren',
+    name: 'Zerstoeren',
+    category: 'aktion',
+    keywords: ['Destroying'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wut, Befreiung, Ende. Shiva-Aspekt.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Wut, Befreiung, Ende. Shiva-Aspekt.' },
+    ],
+  },
+  {
+    id: 'fotografieren',
+    name: 'Fotografieren',
+    category: 'aktion',
+    keywords: ['Photographing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Festhalten, Erinnerung, Perspektive.' },
+    ],
+  },
+  {
+    id: 'telefonieren',
+    name: 'Telefonieren',
+    category: 'aktion',
+    keywords: ['Calling'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Kommunikationswunsch, wichtige Nachricht.' },
+    ],
+  },
+  {
+    id: 'warten',
+    name: 'Warten',
+    category: 'aktion',
+    keywords: ['Waiting'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Geduld, Unsicherheit, Erwartung.' },
+    ],
+  },
+  {
+    id: 'operiert_werden',
+    name: 'Operiert werden',
+    category: 'aktion',
+    keywords: ['Having surgery'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Tiefe Veraenderung, Eingriff, Heilung.' },
+    ],
+  },
+  {
+    id: 'tragen',
+    name: 'Tragen',
+    category: 'aktion',
+    keywords: ['Carrying'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Last, Verantwortung, Bürde. Atlas-Motiv.' },
+    ],
+  },
+  {
+    id: 'schlafen_gehen',
+    name: 'Schlafen gehen',
+    category: 'aktion',
+    keywords: ['Going to sleep'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Uebergang, Loslassen, Rueckzug ins Unbewusste.' },
+    ],
+  },
+  {
+    id: 'springen',
+    name: 'Springen',
+    category: 'aktion',
+    keywords: ['Jumping'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Risikobereitschaft, Ueberwindung, Sprung ins Unbekannte.' },
+    ],
+  },
+  {
+    id: 'verloren_gehen',
+    name: 'Verloren gehen',
+    category: 'aktion',
+    keywords: ['Getting lost'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Desorientierung, Suche nach Identitaet.' },
+    ],
+  },
+  {
+    id: 'chef',
+    name: 'Chef',
+    category: 'person',
+    keywords: ['Boss'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Autoritaet, Ueber-Ich, Kontrolle.' },
+    ],
+  },
+  {
+    id: 'ex_partner',
+    name: 'Ex-Partner',
+    category: 'person',
+    keywords: ['Ex-partner'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Unverarbeitetes, alte Muster, Sehnsucht.' },
+    ],
+  },
+  {
+    id: 'promi',
+    name: 'Promi',
+    category: 'person',
+    keywords: ['Celebrity'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wuensche, Idealisierung, Projektion.' },
+    ],
+  },
+  {
+    id: 'zwilling',
+    name: 'Zwilling',
+    category: 'person',
+    keywords: ['Twin'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Doppelgaenger, Schatten, zweite Seite des Selbst.' },
+    ],
+  },
+  {
+    id: 'soldat',
+    name: 'Soldat',
+    category: 'person',
+    keywords: ['Soldier'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Disziplin, Kampf, innerer Krieger.' },
+    ],
+  },
+  {
+    id: 'dieb',
+    name: 'Dieb',
+    category: 'person',
+    keywords: ['Thief'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verlustangst, Eindringling, Schatten. Islam: Warnung.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verlustangst, Eindringling, Schatten. Islam: Warnung.' },
+    ],
+  },
+  {
+    id: 'richter',
+    name: 'Richter',
+    category: 'person',
+    keywords: ['Judge'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Gewissen, Urteil, Gerechtigkeit. Islam: Qadi.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Gewissen, Urteil, Gerechtigkeit. Islam: Qadi.' },
+    ],
+  },
+  {
+    id: 'heiler',
+    name: 'Heiler',
+    category: 'person',
+    keywords: ['Healer'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Selbstheilung, Weisheit, schamanische Kraft.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Selbstheilung, Weisheit, schamanische Kraft.' },
+    ],
+  },
+  {
+    id: 'hexe',
+    name: 'Hexe',
+    category: 'person',
+    keywords: ['Witch'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verdraengte weibliche Macht, Angst, Transformation.' },
+    ],
+  },
+  {
+    id: 'riese',
+    name: 'Riese',
+    category: 'person',
+    keywords: ['Giant'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Uebermacht, Einschuechterung, archaische Kraft.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Uebermacht, Einschuechterung, archaische Kraft.' },
+    ],
+  },
+  {
+    id: 'zwerg',
+    name: 'Zwerg',
+    category: 'person',
+    keywords: ['Dwarf'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verborgene Kraefte, Erdverbundenheit. Alchemie: innere Arbeit.' },
+    ],
+  },
+  {
+    id: 'braut',
+    name: 'Braut',
+    category: 'person',
+    keywords: ['Bride'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Anima, Vereinigung, neuer Beginn. Islam: Freude.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Anima, Vereinigung, neuer Beginn. Islam: Freude.' },
+    ],
+  },
+  {
+    id: 'braeutigam',
+    name: 'Braeutigam',
+    category: 'person',
+    keywords: ['Groom'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Animus, Verantwortung, Reife.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Animus, Verantwortung, Reife.' },
+    ],
+  },
+  {
+    id: 'nachbar',
+    name: 'Nachbar',
+    category: 'person',
+    keywords: ['Neighbor'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Naehe, soziale Beziehungen, Projektion.' },
+    ],
+  },
+  {
+    id: 'reiter',
+    name: 'Reiter',
+    category: 'person',
+    keywords: ['Rider'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Kontrolle ueber Instinkte, Held. Bibel: Apokalypse-Reiter.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Kontrolle ueber Instinkte, Held. Bibel: Apokalypse-Reiter.' },
+    ],
+  },
+  {
+    id: 'wanderer',
+    name: 'Wanderer',
+    category: 'person',
+    keywords: ['Wanderer'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Sucher, Lebensreise, Pilger. Sufi: Salik.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.NABULSI, text: 'Sucher, Lebensreise, Pilger. Sufi: Salik.' },
+    ],
+  },
+  {
+    id: 'schatten',
+    name: 'Schatten',
+    category: 'person',
+    keywords: ['Shadow figure'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verdraengtes, dunkle Seite, Jung: Schatten-Archetyp.' },
+    ],
+  },
+  {
+    id: 'alte_frau',
+    name: 'Alte Frau',
+    category: 'person',
+    keywords: ['Old woman'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weisheit, Tod, Mutter-Archetyp. Baba Yaga.' },
+    ],
+  },
+  {
+    id: 'alter_mann',
+    name: 'Alter Mann',
+    category: 'person',
+    keywords: ['Old man'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weiser, Senex, Mentor. Islam: Sheikh.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Weiser, Senex, Mentor. Islam: Sheikh.' },
+    ],
+  },
+  {
+    id: 'clown',
+    name: 'Clown',
+    category: 'person',
+    keywords: ['Clown'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Trickster, Maskierung, verborgene Trauer.' },
+    ],
+  },
+  {
+    id: 'brunnen',
+    name: 'Brunnen',
+    category: 'objekt',
+    keywords: ['Well'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Tiefes Wissen, Quelle, Unbewusstes. Islam: Zamzam.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Tiefes Wissen, Quelle, Unbewusstes. Islam: Zamzam.' },
+    ],
+  },
+  {
+    id: 'grab',
+    name: 'Grab',
+    category: 'objekt',
+    keywords: ['Grave'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Vergaenglichkeit, Ende, Transformation. Islam: Barzakh.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Vergaenglichkeit, Ende, Transformation. Islam: Barzakh.' },
+    ],
+  },
+  {
+    id: 'altar',
+    name: 'Altar',
+    category: 'objekt',
+    keywords: ['Altar'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Opfer, Hingabe, Heiligkeit.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Opfer, Hingabe, Heiligkeit.' },
+    ],
+  },
+  {
+    id: 'fenster',
+    name: 'Fenster',
+    category: 'objekt',
+    keywords: ['Window'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Perspektive, Einsicht, Oeffnung zur Welt.' },
+    ],
+  },
+  {
+    id: 'karte',
+    name: 'Karte',
+    category: 'objekt',
+    keywords: ['Map'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Orientierung, Lebensplan, Richtung.' },
+    ],
+  },
+  {
+    id: 'computer',
+    name: 'Computer',
+    category: 'objekt',
+    keywords: ['Computer'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Logik, Information, moderne Kommunikation.' },
+    ],
+  },
+  {
+    id: 'schatz',
+    name: 'Schatz',
+    category: 'objekt',
+    keywords: ['Treasure'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Innerer Wert, verborgenes Potenzial. Islam: Wissen.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Innerer Wert, verborgenes Potenzial. Islam: Wissen.' },
+    ],
+  },
+  {
+    id: 'rad',
+    name: 'Rad',
+    category: 'objekt',
+    keywords: ['Wheel'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Zyklus, Schicksal, Karma. Buddhismus: Dharma-Rad.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Zyklus, Schicksal, Karma. Buddhismus: Dharma-Rad.' },
+    ],
+  },
+  {
+    id: 'anker',
+    name: 'Anker',
+    category: 'objekt',
+    keywords: ['Anchor'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Stabilitaet, Hoffnung, Verwurzelung.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Stabilitaet, Hoffnung, Verwurzelung.' },
+    ],
+  },
+  {
+    id: 'flagge',
+    name: 'Flagge',
+    category: 'objekt',
+    keywords: ['Flag'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Identitaet, Zugehoerigkeit, Ideale.' },
+    ],
+  },
+  {
+    id: 'puppe',
+    name: 'Puppe',
+    category: 'objekt',
+    keywords: ['Doll'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Kindheit, Manipulation, inneres Kind.' },
+    ],
+  },
+  {
+    id: 'teppich',
+    name: 'Teppich',
+    category: 'objekt',
+    keywords: ['Carpet'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Komfort, Tradition, Gebet. Islam: Gebetsteppich.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Komfort, Tradition, Gebet. Islam: Gebetsteppich.' },
+    ],
+  },
+  {
+    id: 'nadel',
+    name: 'Nadel',
+    category: 'objekt',
+    keywords: ['Needle'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Praezision, Schmerz, Reparatur.' },
+    ],
+  },
+  {
+    id: 'schere',
+    name: 'Schere',
+    category: 'objekt',
+    keywords: ['Scissors'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Trennung, Entscheidung, Schnitt.' },
+    ],
+  },
+  {
+    id: 'regenschirm',
+    name: 'Regenschirm',
+    category: 'objekt',
+    keywords: ['Umbrella'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Schutz, Vorbereitung, emotionale Abschirmung.' },
+    ],
+  },
+  {
+    id: 'geige',
+    name: 'Geige',
+    category: 'objekt',
+    keywords: ['Violin'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Harmonie, Emotionen, Seele. Romantik.' },
+    ],
+  },
+  {
+    id: 'trommel',
+    name: 'Trommel',
+    category: 'objekt',
+    keywords: ['Drum'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Herzschlag, Rhythmus, schamanische Reise.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Herzschlag, Rhythmus, schamanische Reise.' },
+    ],
+  },
+  {
+    id: 'seil',
+    name: 'Seil',
+    category: 'objekt',
+    keywords: ['Rope'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verbindung, Rettung, Einschraenkung. Islam: Seil Allahs.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verbindung, Rettung, Einschraenkung. Islam: Seil Allahs.' },
+    ],
+  },
+  {
+    id: 'muenze',
+    name: 'Muenze',
+    category: 'objekt',
+    keywords: ['Coin'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wert, Entscheidung (Kopf/Zahl), Glueck.' },
+    ],
+  },
+  {
+    id: 'spielzeug',
+    name: 'Spielzeug',
+    category: 'objekt',
+    keywords: ['Toy'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Kindheit, Nostalgie, inneres Kind.' },
+    ],
+  },
+  {
+    id: 'krug',
+    name: 'Krug',
+    category: 'objekt',
+    keywords: ['Jug'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Fuelle, Nahrung, Weiblichkeit. Islam: Wudu-Krug.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Fuelle, Nahrung, Weiblichkeit. Islam: Wudu-Krug.' },
+    ],
+  },
+  {
+    id: 'laterne',
+    name: 'Laterne',
+    category: 'objekt',
+    keywords: ['Lantern'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Fuehrung im Dunkeln, Suche, Diogenes.' },
+    ],
+  },
+  {
+    id: 'zaun',
+    name: 'Zaun',
+    category: 'objekt',
+    keywords: ['Fence'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Grenze, Schutz, Einschraenkung.' },
+    ],
+  },
+  {
+    id: 'kissen',
+    name: 'Kissen',
+    category: 'objekt',
+    keywords: ['Pillow'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ruhe, Komfort, Rueckzug. Japan: Traumkissen.' },
+    ],
+  },
+  {
+    id: 'dose',
+    name: 'Dose',
+    category: 'objekt',
+    keywords: ['Can/Box'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Geheimnis, verborgener Inhalt, Pandora.' },
+    ],
+  },
+  {
+    id: 'tempel',
+    name: 'Tempel',
+    category: 'ort',
+    keywords: ['Temple'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Heiliger Raum, inneres Selbst, Goettlichkeit.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Heiliger Raum, inneres Selbst, Goettlichkeit.' },
+    ],
+  },
+  {
+    id: 'oase',
+    name: 'Oase',
+    category: 'ort',
+    keywords: ['Oasis'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Erholung, Hoffnung in der Wueste, Schutz.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Erholung, Hoffnung in der Wueste, Schutz.' },
+    ],
+  },
+  {
+    id: 'paradiesgarten',
+    name: 'Paradiesgarten',
+    category: 'ort',
+    keywords: ['Garden of Eden'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Urspruengliche Unschuld, Sehnsucht, Vollkommenheit.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Urspruengliche Unschuld, Sehnsucht, Vollkommenheit.' },
+    ],
+  },
+  {
+    id: 'bibliothek',
+    name: 'Bibliothek',
+    category: 'ort',
+    keywords: ['Library'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wissen, Erinnerung, Akasha-Chronik.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Wissen, Erinnerung, Akasha-Chronik.' },
+    ],
+  },
+  {
+    id: 'bushaltestelle',
+    name: 'Bushaltestelle',
+    category: 'ort',
+    keywords: ['Bus stop'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Warten, Uebergang, Geduld.' },
+    ],
+  },
+  {
+    id: 'spielplatz',
+    name: 'Spielplatz',
+    category: 'ort',
+    keywords: ['Playground'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Kindheit, Unbeschwertheit, inneres Kind.' },
+    ],
+  },
+  {
+    id: 'burg',
+    name: 'Burg',
+    category: 'ort',
+    keywords: ['Castle'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schutz, Isolation, Macht. Maerchen: verwunschen.' },
+    ],
+  },
+  {
+    id: 'dschungel',
+    name: 'Dschungel',
+    category: 'ort',
+    keywords: ['Jungle'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wildnis, Chaos, Urtriebe, Exploration.' },
+    ],
+  },
+  {
+    id: 'hafen',
+    name: 'Hafen',
+    category: 'ort',
+    keywords: ['Harbor'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Sicherheit, Ankunft, Ruhe nach der Reise.' },
+    ],
+  },
+  {
+    id: 'wolken',
+    name: 'Wolken',
+    category: 'ort',
+    keywords: ['Clouds'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Traeumerei, Unsicherheit, Goettlichkeit. Islam: Regen/Segen.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Traeumerei, Unsicherheit, Goettlichkeit. Islam: Regen/Segen.' },
+    ],
+  },
+  {
+    id: 'untergrund',
+    name: 'Untergrund',
+    category: 'ort',
+    keywords: ['Underground'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Unbewusstes, verborgene Kraefte, Unterwelt.' },
+    ],
+  },
+  {
+    id: 'arena',
+    name: 'Arena',
+    category: 'ort',
+    keywords: ['Arena'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Konfrontation, Pruefung, oeffentlicher Kampf.' },
+    ],
+  },
+  {
+    id: 'marktplatz',
+    name: 'Marktplatz',
+    category: 'ort',
+    keywords: ['Marketplace'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Austausch, Wert, soziale Dynamik.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Austausch, Wert, soziale Dynamik.' },
+    ],
+  },
+  {
+    id: 'hotelzimmer',
+    name: 'Hotelzimmer',
+    category: 'ort',
+    keywords: ['Hotel room'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Voruebergehend, Identitaetssuche, Reise.' },
+    ],
+  },
+  {
+    id: 'badezimmer',
+    name: 'Badezimmer',
+    category: 'ort',
+    keywords: ['Bathroom'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Reinigung, Privatheit, Loslassen. Islam: Hammam.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Reinigung, Privatheit, Loslassen. Islam: Hammam.' },
+    ],
+  },
+  {
+    id: 'kueche',
+    name: 'Kueche',
+    category: 'ort',
+    keywords: ['Kitchen'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Nahrung, Transformation, Kreativitaet.' },
+    ],
+  },
+  {
+    id: 'klassenzimmer',
+    name: 'Klassenzimmer',
+    category: 'ort',
+    keywords: ['Classroom'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Lernen, Pruefung, Kindheitserinnerung.' },
+    ],
+  },
+  {
+    id: 'tunnel',
+    name: 'Tunnel',
+    category: 'ort',
+    keywords: ['Tunnel'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Uebergang, Geburt, Nahtod. Licht am Ende.' },
+    ],
+  },
+  {
+    id: 'parkplatz',
+    name: 'Parkplatz',
+    category: 'ort',
+    keywords: ['Parking lot'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Stillstand, Pause, wartende Entscheidung.' },
+    ],
+  },
+  {
+    id: 'dach',
+    name: 'Dach',
+    category: 'ort',
+    keywords: ['Roof'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Geist, Ueberblick, Schutz, Bewusstsein.' },
+    ],
+  },
+  {
+    id: 'wunde',
+    name: 'Wunde',
+    category: 'koerper',
+    keywords: ['Wound'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Emotionaler Schmerz, Verletzung, Heilungsbedarf.' },
+    ],
+  },
+  {
+    id: 'narbe',
+    name: 'Narbe',
+    category: 'koerper',
+    keywords: ['Scar'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Vergangene Verletzung, Erinnerung, Staerke.' },
+    ],
+  },
+  {
+    id: 'knochen',
+    name: 'Knochen',
+    category: 'koerper',
+    keywords: ['Bones'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Grundstruktur, Essenz, Tod. Islam: Auferstehung.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Grundstruktur, Essenz, Tod. Islam: Auferstehung.' },
+    ],
+  },
+  {
+    id: 'stimme',
+    name: 'Stimme',
+    category: 'koerper',
+    keywords: ['Voice'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Intuition, innere Fuehrung, Selbstausdruck.' },
+    ],
+  },
+  {
+    id: 'atem',
+    name: 'Atem',
+    category: 'koerper',
+    keywords: ['Breath'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Leben, Geist, Pranayama. Islam: Ruh (Seele).' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Leben, Geist, Pranayama. Islam: Ruh (Seele).' },
+    ],
+  },
+  {
+    id: 'zunge',
+    name: 'Zunge',
+    category: 'koerper',
+    keywords: ['Tongue'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Sprache, Geschmack, Kommunikation. Islam: Kontrolle der Worte.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Sprache, Geschmack, Kommunikation. Islam: Kontrolle der Worte.' },
+    ],
+  },
+  {
+    id: 'schulter',
+    name: 'Schulter',
+    category: 'koerper',
+    keywords: ['Shoulder'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Last, Verantwortung, Staerke.' },
+    ],
+  },
+  {
+    id: 'knie',
+    name: 'Knie',
+    category: 'koerper',
+    keywords: ['Knee'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Demut, Flexibilitaet, Unterwerfung. Islam: Sujud.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Demut, Flexibilitaet, Unterwerfung. Islam: Sujud.' },
+    ],
+  },
+  {
+    id: 'nabel',
+    name: 'Nabel',
+    category: 'koerper',
+    keywords: ['Navel'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Zentrum, Verbindung zur Mutter, Ursprung.' },
+    ],
+  },
+  {
+    id: 'fluegel',
+    name: 'Fluegel',
+    category: 'koerper',
+    keywords: ['Wings'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Freiheit, Spiritualitaet, Engel. Islam: Dschibril.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Freiheit, Spiritualitaet, Engel. Islam: Dschibril.' },
+    ],
+  },
+  {
+    id: 'drittes_auge',
+    name: 'Drittes Auge',
+    category: 'koerper',
+    keywords: ['Third eye'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Intuition, hoeheres Bewusstsein, Ajna-Chakra.' },
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Intuition, hoeheres Bewusstsein, Ajna-Chakra.' },
+    ],
+  },
+  {
+    id: 'skelett',
+    name: 'Skelett',
+    category: 'koerper',
+    keywords: ['Skeleton'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Tod, Essenz, Vergaenglichkeit. Memento mori.' },
+    ],
+  },
+  {
+    id: 'lunge',
+    name: 'Lunge',
+    category: 'koerper',
+    keywords: ['Lungs'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Lebensatem, Freiheit, Beengung.' },
+    ],
+  },
+  {
+    id: 'traene',
+    name: 'Traene',
+    category: 'koerper',
+    keywords: ['Tear'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Emotionale Reinigung, Trauer, Erleichterung.' },
+    ],
+  },
+  {
+    id: 'niere',
+    name: 'Niere',
+    category: 'koerper',
+    keywords: ['Kidney'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.CHINESE_ZODIAC, text: 'Reinigung, Partnerschaft, Lebensenergie.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Reinigung, Partnerschaft, Lebensenergie.' },
+    ],
+  },
+  {
+    id: 'freiheit',
+    name: 'Freiheit',
+    category: 'emotion',
+    keywords: ['Freedom'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Befreiung, Autonomie, Transzendenz.' },
+    ],
+  },
+  {
+    id: 'schuld',
+    name: 'Schuld',
+    category: 'emotion',
+    keywords: ['Guilt'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Gewissensbisse, Ueber-Ich, Suende. Islam: Tawba.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Gewissensbisse, Ueber-Ich, Suende. Islam: Tawba.' },
+    ],
+  },
+  {
+    id: 'scham',
+    name: 'Scham',
+    category: 'emotion',
+    keywords: ['Shame'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Selbstbild, soziale Angst, Verletzlichkeit.' },
+    ],
+  },
+  {
+    id: 'wut',
+    name: 'Wut',
+    category: 'emotion',
+    keywords: ['Anger'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Unterdrueckte Energie, Grenze, Kraft. Islam: Sabar.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Unterdrueckte Energie, Grenze, Kraft. Islam: Sabar.' },
+    ],
+  },
+  {
+    id: 'trauer',
+    name: 'Trauer',
+    category: 'emotion',
+    keywords: ['Grief'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verlust, Verarbeitung, Loslassen.' },
+    ],
+  },
+  {
+    id: 'freude',
+    name: 'Freude',
+    category: 'emotion',
+    keywords: ['Joy'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Erfuellung, Ganzheit, innerer Frieden.' },
+    ],
+  },
+  {
+    id: 'eifersucht',
+    name: 'Eifersucht',
+    category: 'emotion',
+    keywords: ['Jealousy'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Unsicherheit, Vergleich, Mangel.' },
+    ],
+  },
+  {
+    id: 'hoffnung',
+    name: 'Hoffnung',
+    category: 'emotion',
+    keywords: ['Hope'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Zukunft, Glaube, Licht. Islam: Rajaa.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Zukunft, Glaube, Licht. Islam: Rajaa.' },
+    ],
+  },
+  {
+    id: 'verwandlung',
+    name: 'Verwandlung',
+    category: 'emotion',
+    keywords: ['Transformation'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Metamorphose, Wachstum, Alchemie.' },
+    ],
+  },
+  {
+    id: 'unendlichkeit',
+    name: 'Unendlichkeit',
+    category: 'emotion',
+    keywords: ['Infinity'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ewigkeit, Goettlichkeit, grenzenlose Moeglichkeiten.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Ewigkeit, Goettlichkeit, grenzenlose Moeglichkeiten.' },
+    ],
+  },
+  {
+    id: 'verlassenwerden',
+    name: 'Verlassenwerden',
+    category: 'emotion',
+    keywords: ['Abandonment'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Verlustangst, Einsamkeit, Bindungstrauma.' },
+    ],
+  },
+  {
+    id: 'betrug',
+    name: 'Betrug',
+    category: 'emotion',
+    keywords: ['Betrayal'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Vertrauensbruch, Verletzung, Schatten.' },
+    ],
+  },
+  {
+    id: 'heilung',
+    name: 'Heilung',
+    category: 'emotion',
+    keywords: ['Healing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ganzwerdung, Vergebung, Integration.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ganzwerdung, Vergebung, Integration.' },
+    ],
+  },
+  {
+    id: 'pruefung_bestehen',
+    name: 'Prüfung bestehen',
+    category: 'emotion',
+    keywords: ['Passing exam'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Bestaetigung, Kompetenz, Erleichterung.' },
+    ],
+  },
+  {
+    id: 'apokalypse',
+    name: 'Apokalypse',
+    category: 'emotion',
+    keywords: ['Apocalypse'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Weltende, totaler Wandel. Islam: Yawm al-Qiyama.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Weltende, totaler Wandel. Islam: Yawm al-Qiyama.' },
+    ],
+  },
+  {
+    id: 'wiedergeburt',
+    name: 'Wiedergeburt',
+    category: 'emotion',
+    keywords: ['Rebirth'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Erneuerung, Karma, Phoenix. Buddhismus: Samsara.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Erneuerung, Karma, Phoenix. Buddhismus: Samsara.' },
+    ],
+  },
+  {
+    id: 'vergebung',
+    name: 'Vergebung',
+    category: 'emotion',
+    keywords: ['Forgiveness'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Befreiung, Loslassen, innerer Frieden. Islam: Maghfira.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Befreiung, Loslassen, innerer Frieden. Islam: Maghfira.' },
+    ],
+  },
+  {
+    id: 'sehnsucht',
+    name: 'Sehnsucht',
+    category: 'emotion',
+    keywords: ['Longing'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Unerfuelltes Verlangen, Fernweh, Heimweh.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.NABULSI, text: 'Unerfuelltes Verlangen, Fernweh, Heimweh.' },
+    ],
+  },
+  {
+    id: 'erwachen',
+    name: 'Erwachen',
+    category: 'emotion',
+    keywords: ['Awakening'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Erleuchtung, Bewusstwerden. Buddhismus: Bodhi.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Erleuchtung, Bewusstwerden. Buddhismus: Bodhi.' },
+    ],
+  },
+  {
+    id: 'gefangen_sein',
+    name: 'Gefangen sein',
+    category: 'emotion',
+    keywords: ['Being trapped'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Einschraenkung, Hilflosigkeit, innere Kaefige.' },
+    ],
+  },
+  {
+    id: 'unsichtbar_sein',
+    name: 'Unsichtbar sein',
+    category: 'emotion',
+    keywords: ['Being invisible'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ignoriert, Bedeutungslosigkeit, Freiheit.' },
+    ],
+  },
+  {
+    id: 'zeitreise',
+    name: 'Zeitreise',
+    category: 'emotion',
+    keywords: ['Time travel'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Nostalgie, Zukunftsangst, ungeloeste Vergangenheit.' },
+    ],
+  },
+  {
+    id: 'auferstehung',
+    name: 'Auferstehung',
+    category: 'emotion',
+    keywords: ['Resurrection'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Neubeginn, Hoffnung, spirituelle Erneuerung. Ostern, Islam: Yawm.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Neubeginn, Hoffnung, spirituelle Erneuerung. Ostern, Islam: Yawm.' },
+    ],
+  },
+  {
+    id: 'taufe',
+    name: 'Taufe',
+    category: 'emotion',
+    keywords: ['Baptism'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Reinigung, Neubeginn, Initiation.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Reinigung, Neubeginn, Initiation.' },
+    ],
+  },
+  {
+    id: 'pilgerfahrt',
+    name: 'Pilgerfahrt',
+    category: 'emotion',
+    keywords: ['Pilgrimage'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Spirituelle Reise, Reinigung. Islam: Hajj, Umra.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Spirituelle Reise, Reinigung. Islam: Hajj, Umra.' },
+    ],
+  },
+  {
+    id: 'meditation',
+    name: 'Meditation',
+    category: 'emotion',
+    keywords: ['Meditation'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Innere Ruhe, Achtsamkeit, Erleuchtung.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Innere Ruhe, Achtsamkeit, Erleuchtung.' },
+    ],
+  },
+  {
+    id: 'gebet',
+    name: 'Gebet',
+    category: 'emotion',
+    keywords: ['Prayer'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verbindung zum Goettlichen, Bitte, Dankbarkeit.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Verbindung zum Goettlichen, Bitte, Dankbarkeit.' },
+    ],
+  },
+  {
+    id: 'opfer',
+    name: 'Opfer',
+    category: 'emotion',
+    keywords: ['Sacrifice'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Hingabe, Loslassen, spirituelles Opfer. Islam: Udhiya.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Hingabe, Loslassen, spirituelles Opfer. Islam: Udhiya.' },
+    ],
+  },
+  {
+    id: 'mandala',
+    name: 'Mandala',
+    category: 'emotion',
+    keywords: ['Mandala'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ganzheit, Zentrierung, Individuation. Jung: Selbst-Symbol.' },
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Ganzheit, Zentrierung, Individuation. Jung: Selbst-Symbol.' },
+    ],
+  },
+  {
+    id: 'karma',
+    name: 'Karma',
+    category: 'emotion',
+    keywords: ['Karma'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Ursache-Wirkung, vergangene Taten, Gerechtigkeit.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Ursache-Wirkung, vergangene Taten, Gerechtigkeit.' },
+    ],
+  },
+  {
+    id: 'samsara',
+    name: 'Samsara',
+    category: 'emotion',
+    keywords: ['Samsara'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Kreislauf von Geburt/Tod, Wiederholung, Befreiung.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Kreislauf von Geburt/Tod, Wiederholung, Befreiung.' },
+    ],
+  },
+  {
+    id: 'nirvana',
+    name: 'Nirvana',
+    category: 'emotion',
+    keywords: ['Nirvana'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Befreiung, Ende des Leidens, Erleuchtung.' },
+    ],
+  },
+  {
+    id: 'yin_yang',
+    name: 'Yin Yang',
+    category: 'emotion',
+    keywords: ['Yin Yang'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.CHINESE_ZODIAC, text: 'Balance, Dualitaet, Harmonie der Gegensaetze.' },
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.ZEN, text: 'Balance, Dualitaet, Harmonie der Gegensaetze.' },
+    ],
+  },
+  {
+    id: 'suende',
+    name: 'Suende',
+    category: 'emotion',
+    keywords: ['Sin'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Schuld, Verfehlung, moralischer Konflikt. Islam: Dhanb.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Schuld, Verfehlung, moralischer Konflikt. Islam: Dhanb.' },
+    ],
+  },
+  {
+    id: 'paradox',
+    name: 'Paradox',
+    category: 'emotion',
+    keywords: ['Paradox'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.ZEN, text: 'Widerspruch, Zhuangzi-Traum, Maya.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Widerspruch, Zhuangzi-Traum, Maya.' },
+    ],
+  },
+  {
+    id: 'deja_vu',
+    name: 'Deja-vu',
+    category: 'emotion',
+    keywords: ['Deja vu'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Wiederholung, Erinnerung, Zeitschleife.' },
+    ],
+  },
+  {
+    id: 'flucht',
+    name: 'Flucht',
+    category: 'emotion',
+    keywords: ['Escape'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Befreiung oder Vermeidung, Angst konfrontieren.' },
+    ],
+  },
+  {
+    id: 'klartraum',
+    name: 'Klartraum',
+    category: 'emotion',
+    keywords: ['Lucid dream'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Bewusstsein im Traum, Kontrolle. Tibetisch: Dream Yoga.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Bewusstsein im Traum, Kontrolle. Tibetisch: Dream Yoga.' },
+    ],
+  },
+  {
+    id: 'alptraum',
+    name: 'Alptraum',
+    category: 'emotion',
+    keywords: ['Nightmare'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Verdraengtes, Warnung, Verarbeitung. Islam: von Shaitan.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verdraengtes, Warnung, Verarbeitung. Islam: von Shaitan.' },
+    ],
+  },
+  {
+    id: 'wahrsagung',
+    name: 'Wahrsagung',
+    category: 'emotion',
+    keywords: ['Prophecy'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Zukunftsvision, Intuition. Islam: Ru\'ya Sadiqa.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Zukunftsvision, Intuition. Islam: Ru\'ya Sadiqa.' },
+    ],
+  },
+  {
+    id: 'synchronizitaet',
+    name: 'Synchronizitaet',
+    category: 'emotion',
+    keywords: ['Synchronicity'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Bedeutsamer Zufall, Verbindung. Jung: acausale Ordnung.' },
+    ],
+  },
+  {
+    id: 'individuation',
+    name: 'Individuation',
+    category: 'emotion',
+    keywords: ['Individuation'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ganzwerdung, Integration aller Aspekte. Jung: Lebenswerk.' },
+    ],
+  },
+  {
+    id: 'archetyp',
+    name: 'Archetyp',
+    category: 'emotion',
+    keywords: ['Archetype'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Urmuster, kollektives Unbewusstes. Jung: universelle Bilder.' },
+    ],
+  },
+  {
+    id: 'schatten_integration',
+    name: 'Schatten-Integration',
+    category: 'emotion',
+    keywords: ['Shadow integration'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verdraengtes akzeptieren, Ganzheit. Jung + Charlie Morley.' },
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Verdraengtes akzeptieren, Ganzheit. Jung + Charlie Morley.' },
+    ],
+  },
+  {
+    id: 'falke',
+    name: 'Falke',
+    category: 'tier',
+    keywords: ['Falcon'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ueberblick, Jagd, Adel. Islam: Herrscher. Aegypten: Horus.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ueberblick, Jagd, Adel. Islam: Herrscher. Aegypten: Horus.' },
+    ],
+  },
+  {
+    id: 'lama',
+    name: 'Lama',
+    category: 'tier',
+    keywords: ['Llama'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Geduld, Bescheidenheit, Ausdauer.' },
+    ],
+  },
+  {
+    id: 'chamaeleon',
+    name: 'Chamäleon',
+    category: 'tier',
+    keywords: ['Chameleon'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Anpassung, Wandelbarkeit, Taeuschung.' },
+    ],
+  },
+  {
+    id: 'gorilla',
+    name: 'Gorilla',
+    category: 'tier',
+    keywords: ['Gorilla'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Urkraft, Schutz, dominante Instinkte.' },
+    ],
+  },
+  {
+    id: 'storch',
+    name: 'Storch',
+    category: 'tier',
+    keywords: ['Stork'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Geburt, Fruehling, Glueck. Tuerkisch: Gluecksbringer.' },
+    ],
+  },
+  {
+    id: 'lachs',
+    name: 'Lachs',
+    category: 'tier',
+    keywords: ['Salmon'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Rueckkehr zum Ursprung, Ausdauer, Heimat.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Rueckkehr zum Ursprung, Ausdauer, Heimat.' },
+    ],
+  },
+  {
+    id: 'gazelle',
+    name: 'Gazelle',
+    category: 'tier',
+    keywords: ['Gazelle'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.NABULSI, text: 'Grazie, Schoenheit, Flucht. Sufi: Geliebte.' },
+    ],
+  },
+  {
+    id: 'krabbe',
+    name: 'Krabbe',
+    category: 'tier',
+    keywords: ['Crab'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.WESTERN_ZODIAC, text: 'Seitwärtsbewegung, Schutz, Emotionen.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Seitwärtsbewegung, Schutz, Emotionen.' },
+    ],
+  },
+  {
+    id: 'kolibri',
+    name: 'Kolibri',
+    category: 'tier',
+    keywords: ['Hummingbird'],
+    interpretations: [
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Freude, Leichtigkeit, Genuss des Augenblicks.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Freude, Leichtigkeit, Genuss des Augenblicks.' },
+    ],
+  },
+  {
+    id: 'morgenroete',
+    name: 'Morgenroete',
+    category: 'natur',
+    keywords: ['Dawn'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Neuer Anfang, Hoffnung, Fajr. Islam: beste Gebetszeit.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Neuer Anfang, Hoffnung, Fajr. Islam: beste Gebetszeit.' },
+    ],
+  },
+  {
+    id: 'sternschnuppe',
+    name: 'Sternschnuppe',
+    category: 'natur',
+    keywords: ['Shooting star'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wunsch, fluechtiges Glueck, Zeichen.' },
+    ],
+  },
+  {
+    id: 'tau',
+    name: 'Tau',
+    category: 'natur',
+    keywords: ['Dew'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Reinheit, Erneuerung, Vergaenglichkeit.' },
+    ],
+  },
+  {
+    id: 'lava',
+    name: 'Lava',
+    category: 'natur',
+    keywords: ['Lava'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Unterdrueckte Wut, zerstoererische Energie.' },
+    ],
+  },
+  {
+    id: 'koralle',
+    name: 'Koralle',
+    category: 'natur',
+    keywords: ['Coral'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verborgene Schoenheit, Tiefsee, Schutz.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verborgene Schoenheit, Tiefsee, Schutz.' },
+    ],
+  },
+  {
+    id: 'moos',
+    name: 'Moos',
+    category: 'natur',
+    keywords: ['Moss'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Geduld, langsames Wachstum, Bescheidenheit.' },
+    ],
+  },
+  {
+    id: 'kompass',
+    name: 'Kompass',
+    category: 'natur',
+    keywords: ['Compass'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Orientierung, Richtung, innere Fuehrung.' },
+    ],
+  },
+  {
+    id: 'horizont',
+    name: 'Horizont',
+    category: 'natur',
+    keywords: ['Horizon'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Zukunft, Moeglichkeiten, Grenze des Bekannten.' },
+    ],
+  },
+  {
+    id: 'quelle',
+    name: 'Quelle',
+    category: 'natur',
+    keywords: ['Spring/Source'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ursprung, Lebenskraft, Inspiration. Islam: Zamzam.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ursprung, Lebenskraft, Inspiration. Islam: Zamzam.' },
+    ],
+  },
+  {
+    id: 'bernstein',
+    name: 'Bernstein',
+    category: 'natur',
+    keywords: ['Amber'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Konservierung, Erinnerung, alte Weisheit.' },
+    ],
+  },
+  {
+    id: 'krieger',
+    name: 'Krieger',
+    category: 'person',
+    keywords: ['Warrior'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Innerer Kampf, Mut, Mars-Archetyp.' },
+    ],
+  },
+  {
+    id: 'priesterin',
+    name: 'Priesterin',
+    category: 'person',
+    keywords: ['Priestess'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weibliche Spiritualitaet, Intuition, Mysterien.' },
+    ],
+  },
+  {
+    id: 'narr',
+    name: 'Narr',
+    category: 'person',
+    keywords: ['Fool'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Anfang, Freiheit, Trickster. Tarot: 0.' },
+    ],
+  },
+  {
+    id: 'schattenfigur',
+    name: 'Schattenfigur',
+    category: 'person',
+    keywords: ['Shadow figure'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verdraengtes, Unbewusstes, Angst.' },
+    ],
+  },
+  {
+    id: 'meerjungfrau',
+    name: 'Meerjungfrau',
+    category: 'person',
+    keywords: ['Mermaid'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Anima, Verfuehrung, Emotionen. Slawisch: Rusalka.' },
+    ],
+  },
+  {
+    id: 'schmied',
+    name: 'Schmied',
+    category: 'person',
+    keywords: ['Blacksmith'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Transformation, Schoepfung, Hephaistos.' },
+    ],
+  },
+  {
+    id: 'pilot',
+    name: 'Pilot',
+    category: 'person',
+    keywords: ['Pilot'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Kontrolle, Ueberblick, Fuehrung.' },
+    ],
+  },
+  {
+    id: 'gefangener',
+    name: 'Gefangener',
+    category: 'person',
+    keywords: ['Prisoner'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Einschraenkung, Schuld, verdraengte Freiheit.' },
+    ],
+  },
+  {
+    id: 'musikerin',
+    name: 'Musikerin',
+    category: 'person',
+    keywords: ['Musician'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Harmonie, Selbstausdruck, Kreativitaet.' },
+    ],
+  },
+  {
+    id: 'gaukler',
+    name: 'Gaukler',
+    category: 'person',
+    keywords: ['Juggler'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Balance, Vielseitigkeit, Tarot: Magier.' },
+    ],
+  },
+  {
+    id: 'leiter',
+    name: 'Leiter',
+    category: 'objekt',
+    keywords: ['Ladder'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Aufstieg, Fortschritt. Bibel: Jakobsleiter. Islam: Mi\'raj.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Aufstieg, Fortschritt. Bibel: Jakobsleiter. Islam: Mi\'raj.' },
+    ],
+  },
+  {
+    id: 'fackel',
+    name: 'Fackel',
+    category: 'objekt',
+    keywords: ['Torch'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Erleuchtung, Fuehrung im Dunkeln.' },
+    ],
+  },
+  {
+    id: 'stift',
+    name: 'Stift',
+    category: 'objekt',
+    keywords: ['Pen'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Ausdruck, Schicksal, Islam: Al-Qalam (der Stift).' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ausdruck, Schicksal, Islam: Al-Qalam (der Stift).' },
+    ],
+  },
+  {
+    id: 'tagebuch',
+    name: 'Tagebuch',
+    category: 'objekt',
+    keywords: ['Diary'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Selbstreflexion, Erinnerung, innere Stimme.' },
+    ],
+  },
+  {
+    id: 'sarg',
+    name: 'Sarg',
+    category: 'objekt',
+    keywords: ['Coffin'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Tod, Ende, Transformation. Islam: Akhira.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Tod, Ende, Transformation. Islam: Akhira.' },
+    ],
+  },
+  {
+    id: 'wiege',
+    name: 'Wiege',
+    category: 'objekt',
+    keywords: ['Cradle'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Neubeginn, Schutz, Kindheit.' },
+    ],
+  },
+  {
+    id: 'waage',
+    name: 'Waage',
+    category: 'objekt',
+    keywords: ['Scale'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Gerechtigkeit, Balance. Islam: Mizan am Jüngsten Tag.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Gerechtigkeit, Balance. Islam: Mizan am Jüngsten Tag.' },
+    ],
+  },
+  {
+    id: 'glocke',
+    name: 'Glocke',
+    category: 'objekt',
+    keywords: ['Bell'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Warnung, Ruf, Bewusstwerden. Islam: Wahi.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Warnung, Ruf, Bewusstwerden. Islam: Wahi.' },
+    ],
+  },
+  {
+    id: 'sanduhr',
+    name: 'Sanduhr',
+    category: 'objekt',
+    keywords: ['Hourglass'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Vergaenglichkeit, Zeit, Geduld.' },
+    ],
+  },
+  {
+    id: 'amulett',
+    name: 'Amulett',
+    category: 'objekt',
+    keywords: ['Amulet'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Schutz, Glaube, Aberglauben. Islam: Ruqya.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schutz, Glaube, Aberglauben. Islam: Ruqya.' },
+    ],
+  },
+  {
+    id: 'schild',
+    name: 'Schild',
+    category: 'objekt',
+    keywords: ['Shield'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schutz, Verteidigung, Abgrenzung.' },
+    ],
+  },
+  {
+    id: 'krug_zerbrochen',
+    name: 'Krug zerbrochen',
+    category: 'objekt',
+    keywords: ['Broken jug'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verlust, Vergaenglichkeit, zerbrochene Hoffnung.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verlust, Vergaenglichkeit, zerbrochene Hoffnung.' },
+    ],
+  },
+  {
+    id: 'netz',
+    name: 'Netz',
+    category: 'objekt',
+    keywords: ['Net'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Falle, Verbindung, Verstrickung.' },
+    ],
+  },
+  {
+    id: 'lampe',
+    name: 'Lampe',
+    category: 'objekt',
+    keywords: ['Lamp'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Erkenntnis, Fuehrung. Islam: Mischkat (Lichtnische).' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Erkenntnis, Fuehrung. Islam: Mischkat (Lichtnische).' },
+    ],
+  },
+  {
+    id: 'brief',
+    name: 'Brief',
+    category: 'objekt',
+    keywords: ['Letter'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Nachricht, Kommunikation, Neuigkeit.' },
+    ],
+  },
+  {
+    id: 'foto',
+    name: 'Foto',
+    category: 'objekt',
+    keywords: ['Photo'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Erinnerung, Festhalten, Vergangenheit.' },
+    ],
+  },
+  {
+    id: 'saat_samen',
+    name: 'Saat/Samen',
+    category: 'objekt',
+    keywords: ['Seed'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Potenzial, Zukunft, Wachstum. Islam: Sadaqa.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Potenzial, Zukunft, Wachstum. Islam: Sadaqa.' },
+    ],
+  },
+  {
+    id: 'wein',
+    name: 'Wein',
+    category: 'objekt',
+    keywords: ['Wine'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Rausch, Transformation. Islam: Haram, aber Paradieswein. Sufi: goettliche Trunkenheit.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Rausch, Transformation. Islam: Haram, aber Paradieswein. Sufi: goettliche Trunkenheit.' },
+    ],
+  },
+  {
+    id: 'brot',
+    name: 'Brot',
+    category: 'objekt',
+    keywords: ['Bread'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Nahrung, Grundbeduerfnis, Gemeinschaft. Bibel: Abendmahl.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Nahrung, Grundbeduerfnis, Gemeinschaft. Bibel: Abendmahl.' },
+    ],
+  },
+  {
+    id: 'milch',
+    name: 'Milch',
+    category: 'objekt',
+    keywords: ['Milk'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Nahrung, Reinheit, Mutterliebe. Islam: Fitra (natuerliche Veranlagung).' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Nahrung, Reinheit, Mutterliebe. Islam: Fitra (natuerliche Veranlagung).' },
+    ],
+  },
+  {
+    id: 'honig',
+    name: 'Honig',
+    category: 'objekt',
+    keywords: ['Honey'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Suesse, Heilung, Belohnung. Islam: Quran-Heilmittel.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Suesse, Heilung, Belohnung. Islam: Quran-Heilmittel.' },
+    ],
+  },
+  {
+    id: 'oel',
+    name: 'Oel',
+    category: 'objekt',
+    keywords: ['Oil'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Salbung, Heilung, Licht. Bibel: Salboel. Islam: Olivenoel.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Salbung, Heilung, Licht. Bibel: Salboel. Islam: Olivenoel.' },
+    ],
+  },
+  {
+    id: 'salz',
+    name: 'Salz',
+    category: 'objekt',
+    keywords: ['Salt'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Weisheit, Bewahrung, Reinigung. Bibel: Salz der Erde.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Weisheit, Bewahrung, Reinigung. Bibel: Salz der Erde.' },
+    ],
+  },
+  {
+    id: 'staub',
+    name: 'Staub',
+    category: 'objekt',
+    keywords: ['Dust'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Vergaenglichkeit, Demut. Bibel: Staub zu Staub. Islam: Erschaffung.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Vergaenglichkeit, Demut. Bibel: Staub zu Staub. Islam: Erschaffung.' },
+    ],
+  },
+  {
+    id: 'wirbelsaeule',
+    name: 'Wirbelsaeule',
+    category: 'koerper',
+    keywords: ['Spine'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Rueckgrat, Stabilitaet, Kundalini. Yoga: Sushumna.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Rueckgrat, Stabilitaet, Kundalini. Yoga: Sushumna.' },
+    ],
+  },
+  {
+    id: 'gehirn',
+    name: 'Gehirn',
+    category: 'koerper',
+    keywords: ['Brain'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Intellekt, Kontrolle, Bewusstsein.' },
+    ],
+  },
+  {
+    id: 'leib',
+    name: 'Leib',
+    category: 'koerper',
+    keywords: ['Body'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ganzheit, Inkarnation, physische Existenz.' },
+    ],
+  },
+  {
+    id: 'leber',
+    name: 'Leber',
+    category: 'koerper',
+    keywords: ['Liver'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.CHINESE_ZODIAC, text: 'Entgiftung, Wut. TCM: Holz-Element, Zorn.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Entgiftung, Wut. TCM: Holz-Element, Zorn.' },
+    ],
+  },
+  {
+    id: 'darm',
+    name: 'Darm',
+    category: 'koerper',
+    keywords: ['Intestines'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Verarbeitung, Loslassen, Intuition (Bauchgefuehl).' },
+    ],
+  },
+  {
+    id: 'hals',
+    name: 'Hals',
+    category: 'koerper',
+    keywords: ['Throat'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Kommunikation, Ausdruck, Chakra: Vishuddha.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Kommunikation, Ausdruck, Chakra: Vishuddha.' },
+    ],
+  },
+  {
+    id: 'handflaeche',
+    name: 'Handflaeche',
+    category: 'koerper',
+    keywords: ['Palm'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schicksal, Geben, Chiromantie.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Schicksal, Geben, Chiromantie.' },
+    ],
+  },
+  {
+    id: 'lippen',
+    name: 'Lippen',
+    category: 'koerper',
+    keywords: ['Lips'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Kommunikation, Sinnlichkeit, Kuss.' },
+    ],
+  },
+  {
+    id: 'brustkorb',
+    name: 'Brustkorb',
+    category: 'koerper',
+    keywords: ['Ribcage'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schutz des Herzens, Emotionale Mauern.' },
+    ],
+  },
+  {
+    id: 'gebiss',
+    name: 'Gebiss',
+    category: 'koerper',
+    keywords: ['Dentures'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Verlust, kuenstliche Fassade, Alterung.' },
+    ],
+  },
+  {
+    id: 'muttermal',
+    name: 'Muttermal',
+    category: 'koerper',
+    keywords: ['Birthmark'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Identitaet, Schicksal, Markierung.' },
+    ],
+  },
+  {
+    id: 'adamsapfel',
+    name: 'Adamsapfel',
+    category: 'koerper',
+    keywords: ["Adam's apple"],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Maennlichkeit, Verletzlichkeit, Stimme.' },
+    ],
+  },
+  {
+    id: 'chakra',
+    name: 'Chakra',
+    category: 'koerper',
+    keywords: ['Chakra'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Energiezentrum, Balance, spirituelle Entwicklung.' },
+      { tradition: ReligiousCategory.BUDDHIST, source: ReligiousSource.TIBETAN, text: 'Energiezentrum, Balance, spirituelle Entwicklung.' },
+    ],
+  },
+  {
+    id: 'aura',
+    name: 'Aura',
+    category: 'koerper',
+    keywords: ['Aura'],
+    interpretations: [
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.VEDIC_ASTROLOGY, text: 'Energiefeld, Ausstrahlung, spiritueller Zustand.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Energiefeld, Ausstrahlung, spiritueller Zustand.' },
+    ],
+  },
+  {
+    id: 'zwillingsflamme',
+    name: 'Zwillingsflamme',
+    category: 'koerper',
+    keywords: ['Twin flame'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Seelenverbindung, Spiegelung, spirituelle Partnerschaft.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.NABULSI, text: 'Seelenverbindung, Spiegelung, spirituelle Partnerschaft.' },
+    ],
+  },
+  {
+    id: 'pyramide',
+    name: 'Pyramide',
+    category: 'ort',
+    keywords: ['Pyramid'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ewigkeit, Mysterium, spirituelle Kraft. Aegypten.' },
+    ],
+  },
+  {
+    id: 'kloster',
+    name: 'Kloster',
+    category: 'ort',
+    keywords: ['Monastery'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Rueckzug, Kontemplation, spirituelle Suche.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Rueckzug, Kontemplation, spirituelle Suche.' },
+    ],
+  },
+  {
+    id: 'markt_basar',
+    name: 'Markt/Basar',
+    category: 'ort',
+    keywords: ['Bazaar'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Austausch, Vielfalt, Lebendigkeit. Islam: Dunya.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Austausch, Vielfalt, Lebendigkeit. Islam: Dunya.' },
+    ],
+  },
+  {
+    id: 'vulkaninsel',
+    name: 'Vulkaninsel',
+    category: 'ort',
+    keywords: ['Volcanic island'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Isolation mit unterdrückter Energie.' },
+    ],
+  },
+  {
+    id: 'leuchtturm',
+    name: 'Leuchtturm',
+    category: 'ort',
+    keywords: ['Lighthouse'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Fuehrung, Warnung, Hoffnung. Islam: Minaret.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Fuehrung, Warnung, Hoffnung. Islam: Minaret.' },
+    ],
+  },
+  {
+    id: 'wueste_oase',
+    name: 'Wueste-Oase',
+    category: 'ort',
+    keywords: ['Desert oasis'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Rettung, Hoffnung inmitten von Pruefung.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Rettung, Hoffnung inmitten von Pruefung.' },
+    ],
+  },
+  {
+    id: 'spiraltreppe',
+    name: 'Spiraltreppe',
+    category: 'ort',
+    keywords: ['Spiral staircase'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Innere Reise, Aufstieg, DNA-Helix.' },
+    ],
+  },
+  {
+    id: 'schatzkammer',
+    name: 'Schatzkammer',
+    category: 'ort',
+    keywords: ['Treasure chamber'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Innerer Reichtum, verborgenes Potenzial.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Innerer Reichtum, verborgenes Potenzial.' },
+    ],
+  },
+  {
+    id: 'wolkenkratzer',
+    name: 'Wolkenkratzer',
+    category: 'ort',
+    keywords: ['Skyscraper'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Ehrgeiz, Status, Entfernung vom Boden.' },
+    ],
+  },
+  {
+    id: 'sphinx',
+    name: 'Sphinx',
+    category: 'emotion',
+    keywords: ['Sphinx'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Raetsel, Weisheit, Mysterium. Aegypten + Griechenland.' },
+    ],
+  },
+  {
+    id: 'phoenix',
+    name: 'Phoenix',
+    category: 'emotion',
+    keywords: ['Phoenix'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Wiedergeburt aus Asche, Transformation, Unsterblichkeit.' },
+    ],
+  },
+  {
+    id: 'engelsfluegel',
+    name: 'Engelsflügel',
+    category: 'emotion',
+    keywords: ['Angel wings'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Goettlicher Schutz, Aufstieg, Reinheit.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Goettlicher Schutz, Aufstieg, Reinheit.' },
+    ],
+  },
+  {
+    id: 'vollmond',
+    name: 'Vollmond',
+    category: 'emotion',
+    keywords: ['Full moon'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Hoehepunkt, Erfuellung, weibliche Kraft.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Hoehepunkt, Erfuellung, weibliche Kraft.' },
+    ],
+  },
+  {
+    id: 'neumond',
+    name: 'Neumond',
+    category: 'emotion',
+    keywords: ['New moon'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Neubeginn, Hilal, Islam: Ramadan-Beginn.' },
+      { tradition: ReligiousCategory.ASTROLOGY, source: ReligiousSource.WESTERN_ZODIAC, text: 'Neubeginn, Hilal, Islam: Ramadan-Beginn.' },
+    ],
+  },
+  {
+    id: 'feuervogel',
+    name: 'Feuervogel',
+    category: 'emotion',
+    keywords: ['Firebird'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Russisch: Glueck, Abenteuer. Transformation.' },
+    ],
+  },
+  {
+    id: 'paradiesvogel',
+    name: 'Paradiesvogel',
+    category: 'emotion',
+    keywords: ['Bird of paradise'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Goettliche Schoenheit, Paradies, Sehnsucht.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Goettliche Schoenheit, Paradies, Sehnsucht.' },
+    ],
+  },
+  {
+    id: 'dornenkrone',
+    name: 'Dornenkrone',
+    category: 'emotion',
+    keywords: ['Crown of thorns'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Leiden, Opfer, Erlosung. Christlich: Passion.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Leiden, Opfer, Erlosung. Christlich: Passion.' },
+    ],
+  },
+  {
+    id: 'siegel',
+    name: 'Siegel',
+    category: 'objekt',
+    keywords: ['Seal'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Autoritaet, Abschluss, Geheimnis. Islam: Siegel der Propheten.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Autoritaet, Abschluss, Geheimnis. Islam: Siegel der Propheten.' },
+    ],
+  },
+  {
+    id: 'schwelle',
+    name: 'Schwelle',
+    category: 'ort',
+    keywords: ['Threshold'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Uebergang, Initiation, Grenze zwischen Welten.' },
+    ],
+  },
+  {
+    id: 'feuerwerk',
+    name: 'Feuerwerk',
+    category: 'emotion',
+    keywords: ['Fireworks'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.GESTALT, text: 'Feier, kurzlebige Freude, Spektakel.' },
+    ],
+  },
+  {
+    id: 'pendel',
+    name: 'Pendel',
+    category: 'objekt',
+    keywords: ['Pendulum'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schwankung, Unentschlossenheit, Hypnose.' },
+    ],
+  },
+  {
+    id: 'dolch',
+    name: 'Dolch',
+    category: 'objekt',
+    keywords: ['Dagger'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verrat, Geheimnis, schnelle Entscheidung.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.FREUDIAN, text: 'Verrat, Geheimnis, schnelle Entscheidung.' },
+    ],
+  },
+  {
+    id: 'thron',
+    name: 'Thron',
+    category: 'objekt',
+    keywords: ['Throne'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Hoechste Macht, Goettlichkeit. Islam: Arsh.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Hoechste Macht, Goettlichkeit. Islam: Arsh.' },
+    ],
+  },
+  {
+    id: 'pfeil',
+    name: 'Pfeil',
+    category: 'objekt',
+    keywords: ['Arrow'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Richtung, Ziel, Amor. Islam: Dschihad.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Richtung, Ziel, Amor. Islam: Dschihad.' },
+    ],
+  },
+  {
+    id: 'amphore',
+    name: 'Amphore',
+    category: 'objekt',
+    keywords: ['Amphora'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Alte Weisheit, Bewahrung, Tradition.' },
+    ],
+  },
+  {
+    id: 'weihrauch',
+    name: 'Weihrauch',
+    category: 'objekt',
+    keywords: ['Incense'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Gebet, Reinigung, Spiritualitaet. Islam: Bakhoor.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Gebet, Reinigung, Spiritualitaet. Islam: Bakhoor.' },
+    ],
+  },
+  {
+    id: 'helm',
+    name: 'Helm',
+    category: 'objekt',
+    keywords: ['Helmet'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schutz des Geistes, Krieger, Ruestung.' },
+    ],
+  },
+  {
+    id: 'laub',
+    name: 'Laub',
+    category: 'natur',
+    keywords: ['Leaves'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Vergaenglichkeit, Jahreszeiten, Loslassen.' },
+    ],
+  },
+  {
+    id: 'glut',
+    name: 'Glut',
+    category: 'natur',
+    keywords: ['Embers'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Verborgene Leidenschaft, Restenergie, Hoffnung.' },
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Verborgene Leidenschaft, Restenergie, Hoffnung.' },
+    ],
+  },
+  {
+    id: 'zypresse',
+    name: 'Zypresse',
+    category: 'natur',
+    keywords: ['Cypress'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Trauer, Ewigkeit, Friedhof. Islam: Paradiesbaum.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Trauer, Ewigkeit, Friedhof. Islam: Paradiesbaum.' },
+    ],
+  },
+  {
+    id: 'dattelpalme',
+    name: 'Dattelpalme',
+    category: 'natur',
+    keywords: ['Date palm'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Segen, Fruchtbarkeit, Islam: Maryam-Sure.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Segen, Fruchtbarkeit, Islam: Maryam-Sure.' },
+    ],
+  },
+  {
+    id: 'olive',
+    name: 'Olive',
+    category: 'natur',
+    keywords: ['Olive'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Frieden, Segen, Licht. Islam: Gesegneter Baum.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Frieden, Segen, Licht. Islam: Gesegneter Baum.' },
+    ],
+  },
+  {
+    id: 'glockenturm',
+    name: 'Glockenturm',
+    category: 'ort',
+    keywords: ['Bell tower'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Ruf, Warnung, spirituelles Signal.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ruf, Warnung, spirituelles Signal.' },
+    ],
+  },
+  {
+    id: 'thronsaal',
+    name: 'Thronsaal',
+    category: 'ort',
+    keywords: ['Throne room'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Macht, Gericht, Goettliche Gegenwart.' },
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Macht, Gericht, Goettliche Gegenwart.' },
+    ],
+  },
+  {
+    id: 'minaret',
+    name: 'Minaret',
+    category: 'ort',
+    keywords: ['Minaret'],
+    interpretations: [
+      { tradition: ReligiousCategory.ISLAMIC, source: ReligiousSource.IBN_SIRIN, text: 'Gebetsruf, Glaube, Islam. Adhan.' },
+    ],
+  },
+  {
+    id: 'asche',
+    name: 'Asche',
+    category: 'natur',
+    keywords: ['Ash'],
+    interpretations: [
+      { tradition: ReligiousCategory.CHRISTIAN, source: ReligiousSource.MEDIEVAL, text: 'Ende, Reinigung, Phoenix. Aschermittwoch.' },
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ende, Reinigung, Phoenix. Aschermittwoch.' },
+    ],
+  },
+  {
+    id: 'nebelmeer',
+    name: 'Nebelmeer',
+    category: 'natur',
+    keywords: ['Sea of fog'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Ungewissheit, Uebergang, Romantik.' },
+    ],
+  },
+  {
+    id: 'totenkopf',
+    name: 'Totenkopf',
+    category: 'koerper',
+    keywords: ['Skull'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Memento mori, Vergaenglichkeit, Alchemie: Caput mortuum.' },
+    ],
+  },
+  {
+    id: 'doppelgaenger',
+    name: 'Doppelgaenger',
+    category: 'person',
+    keywords: ['Doppelganger'],
+    interpretations: [
+      { tradition: ReligiousCategory.PSYCHOLOGICAL, source: ReligiousSource.JUNGIAN, text: 'Schatten, andere Seite des Selbst, Spaltung.' },
+    ],
+  }
+,
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
