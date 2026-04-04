@@ -37,6 +37,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
         model: 'models/gemini-embedding-001',
         content: { parts: [{ text }] },
         taskType: 'SEMANTIC_SIMILARITY',
+        outputDimensionality: 768,
       }),
     })
 
@@ -47,7 +48,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
 
     const data = await res.json()
     const values = data?.embedding?.values
-    if (!Array.isArray(values) || values.length !== 768) {
+    if (!Array.isArray(values) || values.length === 0) {
       throw new Error('Unexpected embedding response shape')
     }
     return values as number[]
