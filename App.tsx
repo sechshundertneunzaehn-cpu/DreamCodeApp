@@ -131,9 +131,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             home_label: "Home",
             map_label: "Map",
             live_chat_label: "Live Chat",
-            tier_bronze: "Bronze",
-            tier_silver: "Silber",
-            tier_gold: "Gold",
+            tier_bronze: "FREE",
+            tier_silver: "PRO",
+            tier_gold: "PREMIUM",
             tier_smart: "Smart",
             audio_coin_prompt: "💰 +5 Münzen Bonus: Video mit deiner Stimme!",
             audio_coin_desc: "Deine Aufnahme wird gespeichert. Im Profil kannst du ein Traum-Video mit deiner eigenen Stimme erstellen und 5 Münzen verdienen!",
@@ -180,16 +180,16 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             billing_monthly: "Monatlich", billing_yearly: "Jährlich",
             yearly_discount: "1 Monat geschenkt!",
             smart_discount: "Für Entwickler",
-            free_title: "Bronze (FREE)", 
+            free_title: "Free",
             free_price: "0 €",
             free_features: ["Basis-Traumdeutung (Werbefinanziert)", "Zugang zur Offerwall für Gratis-Münzen", "Premium-Funktionen per Münzen", "Nur Link-Teilung der Deutung"],
-            silver_title: "Silber (Premium)",
+            silver_title: "Pro",
             silver_price: "4,99 € / Monat",
             silver_features: ["Komplett Werbefrei", "Unbegrenzte PDF-Konvertierung & Download", "Unbegrenzte Text-Deutungen", "25 HD-Bilder pro Monat", "1x wöchentlich Live-Chat mit KI", "Sprachsteuerung"],
             gold_title: "Gold (VIP)",
             gold_price: "12,99 € / Monat",
             gold_trial_text: "7 Tage gratis, dann 12,99 €/Mt",
-            gold_features: ["Alles aus Silber inklusive", "Unbegrenzter Live-Chat mit dem Orakel", "5 Traum-Videos pro Monat", "Exklusiver Rabatt auf Münzkäufe", "Priority Support"],
+            gold_features: ["Alles aus Pro inklusive", "Unbegrenzter Live-Chat mit dem Orakel", "5 Traum-Videos pro Monat", "Exklusiver Rabatt auf Münzkäufe", "Priority Support"],
             smart_title: "Smart (Entwickler)",
             smart_price: "29,99 € / Jahr",
             smart_features: ["Bring Your Own Key (BYOK)", "Alle Premium Features freigeschaltet", "Automatische Provider-Rotation", "Günstiger Jahrespreis (Fix 29,99€)"],
@@ -318,9 +318,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             home_label: "Home",
             map_label: "Map",
             live_chat_label: "Live Chat",
-            tier_bronze: "Bronze",
-            tier_silver: "Silver",
-            tier_gold: "Gold",
+            tier_bronze: "FREE",
+            tier_silver: "PRO",
+            tier_gold: "PREMIUM",
             tier_smart: "Smart",
             audio_coin_prompt: "💰 +5 Coins Bonus: Video with Your Voice!",
             audio_coin_desc: "Your recording is saved. Create a dream video with your own voice in your Profile and earn 5 coins!",
@@ -367,10 +367,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             billing_monthly: "Monthly", billing_yearly: "Yearly",
             yearly_discount: "1 Month Free!",
             smart_discount: "For Developers",
-            free_title: "Bronze (FREE)", 
+            free_title: "Free",
             free_price: "0 €",
             free_features: ["Basic Interpretation (Ad-supported)", "Access to Offerwall for free coins", "Premium via coins", "Link Sharing only"],
-            silver_title: "Silver (Premium)",
+            silver_title: "Pro",
             silver_price: "4.99 € / month",
             silver_features: ["Ad-Free Experience", "Unlimited PDF Conversion & Download", "Unlimited Interpretations", "25 HD Images/mo", "1x Weekly Live Chat", "Audio I/O"],
             gold_title: "Gold (VIP)", 
@@ -505,9 +505,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             home_label: "Ana Sayfa",
             map_label: "Harita",
             live_chat_label: "Canlı Sohbet",
-            tier_bronze: "Bronz",
-            tier_silver: "Gümüş",
-            tier_gold: "Altın",
+            tier_bronze: "FREE",
+            tier_silver: "PRO",
+            tier_gold: "PREMIUM",
             tier_smart: "Akıllı",
             audio_coin_prompt: "💰 +5 Jeton Bonus: Sesinle Video!",
             audio_coin_desc: "Kaydın saklandı. Profilinde kendi sesinle rüya videosu oluştur ve 5 jeton kazan!",
@@ -554,10 +554,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             billing_monthly: "Aylık", billing_yearly: "Yıllık",
             yearly_discount: "1 Ay Hediye!",
             smart_discount: "Geliştiriciler İçin",
-            free_title: "Bronz (FREE)", 
+            free_title: "Free",
             free_price: "0 €",
             free_features: ["Temel Rüya Tabiri (Reklamlı)", "Offerwall Erişimi", "Premium içeriği jetonla açma", "Sadece Link Paylaşımı"],
-            silver_title: "Gümüş (Premium)",
+            silver_title: "Pro",
             silver_price: "4.99 € / Ay",
             silver_features: ["Tamamen Reklamsız", "Sınırsız PDF Dönüştürme & İndirme", "Sınırsız Yorumlama", "25 HD Resim/Ay", "Haftada 1x Canlı Sohbet", "Sesli Giriş & Çıkış"],
             gold_title: "Altın (VIP)", 
@@ -676,9 +676,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             home_label: "Inicio",
             map_label: "Mapa",
             live_chat_label: "Chat en Vivo",
-            tier_bronze: "Bronce",
-            tier_silver: "Plata",
-            tier_gold: "Oro",
+            tier_bronze: "FREE",
+            tier_silver: "PRO",
+            tier_gold: "PREMIUM",
             tier_smart: "Inteligente",
             audio_coin_prompt: "💰 +5 Monedas Bonus: ¡Video con Tu Voz!",
             audio_coin_desc: "Tu grabación se guardó. Crea un video del sueño con tu propia voz en tu Perfil y gana 5 monedas!",
@@ -725,10 +725,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             billing_monthly: "Mensual", billing_yearly: "Anual",
             yearly_discount: "¡1 Mes Gratis!",
             smart_discount: "Para Desarrolladores",
-            free_title: "Bronce (GRATIS)", 
+            free_title: "Free",
             free_price: "0 €",
             free_features: ["Interpretación Básica (Con anuncios)", "Acceso a Offerwall para monedas gratis", "Premium vía monedas", "Solo compartir enlace"],
-            silver_title: "Plata (Premium)",
+            silver_title: "Pro",
             silver_price: "4.99 € / mes",
             silver_features: ["Experiencia sin anuncios", "Conversión y descarga ilimitada de PDF", "Interpretaciones ilimitadas", "25 Imágenes HD/mes", "1x Chat en vivo semanal", "Entrada/Salida de Audio"],
             gold_title: "Oro (VIP)", 
@@ -847,9 +847,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             home_label: "Accueil",
             map_label: "Carte",
             live_chat_label: "Chat en Direct",
-            tier_bronze: "Bronze",
-            tier_silver: "Argent",
-            tier_gold: "Or",
+            tier_bronze: "FREE",
+            tier_silver: "PRO",
+            tier_gold: "PREMIUM",
             tier_smart: "Intelligent",
             audio_coin_prompt: "💰 +5 Pièces Bonus: Vidéo avec Votre Voix!",
             audio_coin_desc: "Votre enregistrement est sauvegardé. Créez une vidéo de rêve avec votre voix dans votre Profil et gagnez 5 pièces!",
@@ -896,10 +896,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             billing_monthly: "Mensuel", billing_yearly: "Annuel",
             yearly_discount: "1 Mois Gratuit !",
             smart_discount: "Pour Développeurs",
-            free_title: "Bronze (GRATUIT)", 
+            free_title: "Free",
             free_price: "0 €",
             free_features: ["Interprétation de base (Avec pubs)", "Accès à l'Offerwall pour pièces gratuites", "Premium via pièces", "Partage de lien uniquement"],
-            silver_title: "Argent (Premium)",
+            silver_title: "Pro",
             silver_price: "4.99 € / mois",
             silver_features: ["Expérience sans publicité", "Conversion et téléchargement PDF illimités", "Interprétations illimitées", "25 Images HD/mois", "1x Chat en direct par semaine", "Entrée/Sortie Audio"],
             gold_title: "Or (VIP)", 
@@ -1034,9 +1034,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             home_label: "الرئيسية",
             map_label: "الخريطة",
             live_chat_label: "دردشة مباشرة",
-            tier_bronze: "برونزي",
-            tier_silver: "فضي",
-            tier_gold: "ذهبي",
+            tier_bronze: "FREE",
+            tier_silver: "PRO",
+            tier_gold: "PREMIUM",
             tier_smart: "ذكي",
             audio_coin_prompt: "💰 +5 عملات مكافأة: فيديو بصوتك!",
             audio_coin_desc: "تم حفظ تسجيلك. أنشئ فيديو حلم بصوتك في ملفك الشخصي واكسب 5 عملات!",
@@ -1083,10 +1083,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             billing_monthly: "شهري", billing_yearly: "سنوي",
             yearly_discount: "شهر مجاني!",
             smart_discount: "للمطورين",
-            free_title: "برونزي (مجاني)", 
+            free_title: "Free",
             free_price: "0 €",
             free_features: ["تفسير أساسي (مدعوم بالإعلانات)", "الوصول إلى جدار العروض لعملات مجانية", "بريميوم عبر العملات", "مشاركة الرابط فقط"],
-            silver_title: "فضي (بريميوم)",
+            silver_title: "Pro",
             silver_price: "4.99 € / شهر",
             silver_features: ["تجربة خالية من الإعلانات", "تحويل وتنزيل PDF غير محدود", "تفسيرات غير محدودة", "25 صورة HD/شهر", "دردشة مباشرة أسبوعية", "إدخال/إخراج صوتي"],
             gold_title: "ذهبي (VIP)",
@@ -1205,9 +1205,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             home_label: "Início",
             map_label: "Mapa",
             live_chat_label: "Chat ao Vivo",
-            tier_bronze: "Bronze",
-            tier_silver: "Prata",
-            tier_gold: "Ouro",
+            tier_bronze: "FREE",
+            tier_silver: "PRO",
+            tier_gold: "PREMIUM",
             tier_smart: "Inteligente",
             audio_coin_prompt: "💰 +5 Moedas Bônus: Vídeo com Sua Voz!",
             audio_coin_desc: "Sua gravação foi salva. Crie um vídeo do sonho com sua própria voz no seu Perfil e ganhe 5 moedas!",
@@ -1254,10 +1254,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             billing_monthly: "Mensal", billing_yearly: "Anual",
             yearly_discount: "1 Mês Grátis!",
             smart_discount: "Para Desenvolvedores",
-            free_title: "Bronze (GRÁTIS)", 
+            free_title: "Free",
             free_price: "0 €",
             free_features: ["Interpretação Básica (Com anúncios)", "Acesso ao Offerwall para moedas grátis", "Premium via moedas", "Apenas compartilhamento de link"],
-            silver_title: "Prata (Premium)",
+            silver_title: "Pro",
             silver_price: "4.99 € / mês",
             silver_features: ["Experiência sem anúncios", "Conversão e download ilimitado de PDF", "Interpretações ilimitadas", "25 Imagens HD/mês", "1x Chat ao vivo semanal", "Entrada/Saída de Áudio"],
             gold_title: "Ouro (VIP)", 
@@ -1392,9 +1392,9 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             home_label: "Главная",
             map_label: "Карта",
             live_chat_label: "Живой чат",
-            tier_bronze: "Бронза",
-            tier_silver: "Серебро",
-            tier_gold: "Золото",
+            tier_bronze: "FREE",
+            tier_silver: "PRO",
+            tier_gold: "PREMIUM",
             tier_smart: "Умный",
             audio_coin_prompt: "💰 +5 Монет Бонус: Видео с Вашим Голосом!",
             audio_coin_desc: "Ваша запись сохранена. Создайте видео сна с вашим голосом в Профиле и заработайте 5 монет!",
@@ -1441,10 +1441,10 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             billing_monthly: "Ежемесячно", billing_yearly: "Ежегодно",
             yearly_discount: "1 месяц бесплатно!",
             smart_discount: "Для разработчиков",
-            free_title: "Бронза (БЕСПЛАТНО)",
+            free_title: "Free",
             free_price: "0 €",
             free_features: ["Базовое толкование (С рекламой)", "Доступ к Offerwall для бесплатных монет", "Премиум через монеты", "Только ссылка для обмена"],
-            silver_title: "Серебро (Премиум)",
+            silver_title: "Pro",
             silver_price: "4.99 € / мес",
             silver_features: ["Без рекламы", "Неограниченная конвертация и загрузка PDF", "Неограниченные толкования", "25 HD изображений/мес", "1x еженедельный живой чат", "Аудио ввод/вывод"],
             gold_title: "Золото (VIP)",
@@ -2562,8 +2562,8 @@ const App: React.FC = () => {
                      let buttonClass = "relative overflow-hidden p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all duration-300 group ";
                      if (colorScheme === 'emerald') {
                          if (isSelected) { buttonClass += "bg-emerald-900/80 border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-emerald-50 border-emerald-200 shadow-sm shadow-emerald-100 hover:bg-emerald-100 hover:border-emerald-300 hover:shadow-md" : "bg-emerald-900/20 border-emerald-500/40 hover:bg-emerald-900/40 hover:border-emerald-400/60"; }
-                     } else if (colorScheme === 'blue') {
-                         if (isSelected) { buttonClass += "bg-blue-900/80 border-blue-400 shadow-[0_0_25px_rgba(59,130,246,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-sky-50 border-sky-200 shadow-sm shadow-sky-100 hover:bg-sky-100 hover:border-sky-300 hover:shadow-md" : "bg-blue-900/20 border-blue-500/40 hover:bg-blue-900/40 hover:border-blue-400/60"; }
+                     } else if (colorScheme === 'indigo') {
+                         if (isSelected) { buttonClass += "bg-indigo-900/80 border-indigo-400 shadow-[0_0_25px_rgba(99,102,241,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-indigo-50 border-indigo-200 shadow-sm shadow-indigo-100 hover:bg-indigo-100 hover:border-indigo-300 hover:shadow-md" : "bg-indigo-900/20 border-indigo-500/40 hover:bg-indigo-900/40 hover:border-indigo-400/60"; }
                      } else if (colorScheme === 'amber') {
                          if (isSelected) { buttonClass += "bg-amber-900/80 border-amber-400 shadow-[0_0_25px_rgba(245,158,11,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-amber-50 border-amber-200 shadow-sm shadow-amber-100 hover:bg-amber-100 hover:border-amber-300 hover:shadow-md" : "bg-amber-900/20 border-amber-500/40 hover:bg-amber-900/40 hover:border-amber-400/60"; }
                      } else if (colorScheme === 'rose') {
@@ -2575,7 +2575,7 @@ const App: React.FC = () => {
                      }
                      let textClass = "";
                      if (colorScheme === 'emerald') { textClass = isSelected ? 'text-emerald-100' : (isLight ? 'text-emerald-700' : 'text-emerald-400'); }
-                     else if (colorScheme === 'blue') { textClass = isSelected ? 'text-blue-100' : (isLight ? 'text-sky-700' : 'text-blue-400'); }
+                     else if (colorScheme === 'indigo') { textClass = isSelected ? 'text-indigo-100' : (isLight ? 'text-indigo-700' : 'text-indigo-400'); }
                      else if (colorScheme === 'amber') { textClass = isSelected ? 'text-amber-100' : (isLight ? 'text-amber-700' : 'text-amber-400'); }
                      else if (colorScheme === 'rose') { textClass = isSelected ? 'text-rose-100' : (isLight ? 'text-rose-700' : 'text-rose-400'); }
                      else if (colorScheme === 'stone') { textClass = isSelected ? 'text-stone-100' : (isLight ? 'text-stone-700' : 'text-stone-400'); }
@@ -2583,7 +2583,8 @@ const App: React.FC = () => {
                      return (
                          <button key={cat} onClick={() => isLocked ? undefined : toggleCategory(cat)} className={buttonClass + (isLocked ? ' opacity-60' : '')}>
                              {isSelected && <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-50"></div>}
-                             {isLocked && <span className="absolute top-1 right-1 text-[9px] font-bold bg-black/40 text-white px-1.5 py-0.5 rounded-full">SILBER+</span>}
+                             {isLocked && <span className="absolute top-1 right-1 text-[9px] font-bold bg-black/40 text-white px-1.5 py-0.5 rounded-full">PRO</span>}
+                             {[ReligiousCategory.JEWISH, ReligiousCategory.SONNIKS, ReligiousCategory.ANCIENT].includes(cat) && <span className="absolute top-1 left-1 bg-amber-400 text-amber-900 text-[8px] font-bold px-1.5 py-0.5 rounded">NEU</span>}
                              <span className={`text-3xl filter drop-shadow-lg transition-transform group-hover:scale-110 grayscale-0`}>
                                 {CATEGORY_ICONS[cat]}
                              </span>
@@ -2614,6 +2615,15 @@ const App: React.FC = () => {
                      <h3 className={`text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2 ${isLight ? 'text-[#4c1d95]' : 'text-slate-400'}`}>
                         <span className={`w-8 h-[1px] ${isLight ? 'bg-[#7c3aed]' : 'bg-slate-600'}`}></span> {t.ui.refine_sources}
                      </h3>
+                     {selectedCategories.length === 1 && (
+                         <p className={`text-center text-[11px] mb-2 ${isLight ? 'text-indigo-600' : 'text-indigo-400'}`}>
+                             {language === Language.DE ? `Zeigt nur ${t.categories[selectedCategories[0]]} Quellen` :
+                              language === Language.EN ? `Showing only ${t.categories[selectedCategories[0]]} sources` :
+                              language === Language.TR ? `Sadece ${t.categories[selectedCategories[0]]} kaynakları` :
+                              language === Language.RU ? `Только ${t.categories[selectedCategories[0]]} источники` :
+                              `${t.categories[selectedCategories[0]]} — filtered`}
+                         </p>
+                     )}
                      <div className="grid grid-cols-2 gap-2">
                          {getAvailableSources().map(src => {
                              const active = selectedSources.includes(src);
@@ -3422,7 +3432,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                                 </div>
                                 <div className={`text-right ${hasBadge ? 'mt-5' : ''}`}>
                                     {tier === SubscriptionTier.PREMIUM && billingCycle === 'monthly' && (
-                                        <span className={`block text-xs line-through ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>24,99 €</span>
+                                        <span className={`block text-xs line-through ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>{SUBSCRIPTION_TIERS.PREMIUM.strikethrough_monthly.toFixed(2).replace('.', ',')} €</span>
                                     )}
                                     <span className={`block font-extrabold text-xl ${isLight ? 'text-mystic-text' : 'text-white'}`}>{price}</span>
                                 </div>

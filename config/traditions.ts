@@ -73,15 +73,15 @@ export const CATEGORY_TIER_REQUIREMENT: Record<ReligiousCategory, SubscriptionTi
 };
 
 // --- Color Scheme per Category (for button styling) ---
-export type CategoryColorScheme = 'emerald' | 'blue' | 'fuchsia' | 'amber' | 'rose' | 'stone';
+export type CategoryColorScheme = 'emerald' | 'indigo' | 'fuchsia' | 'amber' | 'rose' | 'stone';
 
 export const CATEGORY_COLOR_SCHEME: Record<ReligiousCategory, CategoryColorScheme> = {
     [ReligiousCategory.ISLAMIC]: 'emerald',
     [ReligiousCategory.CHRISTIAN]: 'emerald',
     [ReligiousCategory.BUDDHIST]: 'emerald',
-    [ReligiousCategory.PSYCHOLOGICAL]: 'blue',
-    [ReligiousCategory.ASTROLOGY]: 'blue',
-    [ReligiousCategory.NUMEROLOGY]: 'blue',
+    [ReligiousCategory.PSYCHOLOGICAL]: 'indigo',
+    [ReligiousCategory.ASTROLOGY]: 'indigo',
+    [ReligiousCategory.NUMEROLOGY]: 'indigo',
     [ReligiousCategory.JEWISH]: 'amber',
     [ReligiousCategory.SONNIKS]: 'rose',
     [ReligiousCategory.ANCIENT]: 'stone',
