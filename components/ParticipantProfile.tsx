@@ -14,6 +14,28 @@ interface ParticipantProfileProps {
   onShowOnMap?: (studyCode: string) => void;
 }
 
+interface StudyRow {
+  id: string;
+  study_code: string;
+  study_name: string;
+  principal_investigator: string;
+  institution: string;
+  year_start: number | null;
+  year_end: number | null;
+  doi: string | null;
+  publication: string | null;
+  map_color: string | null;
+}
+
+interface InterpretationRow {
+  id: string;
+  dream_id: string;
+  participant_id: string;
+  content: string;
+  tradition: string;
+  created_at: string;
+}
+
 interface ParticipantRow {
   id: string;
   participant_id: string;
@@ -27,19 +49,7 @@ interface ParticipantRow {
   dream_count: number | null;
   study_duration_days: number | null;
   notes: string | null;
-}
-
-interface StudyRow {
-  id: string;
-  study_code: string;
-  study_name: string;
-  principal_investigator: string;
-  institution: string;
-  year_start: number | null;
-  year_end: number | null;
-  doi: string | null;
-  publication: string | null;
-  map_color: string | null;
+  study: StudyRow | null;
 }
 
 interface DreamRow {
@@ -56,14 +66,7 @@ interface DreamRow {
   characters: string[] | null;
   settings: string[] | null;
   themes: string[] | null;
-}
-
-interface InterpretationRow {
-  id: string;
-  dream_id: string;
-  content: string;
-  tradition: string;
-  created_at: string;
+  interpretation: InterpretationRow | InterpretationRow[] | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -142,6 +145,13 @@ function parseTags(raw: string | null): string[] {
     .filter(Boolean);
 }
 
+function getInterpretation(dream: DreamRow): InterpretationRow | null {
+  if (!dream.interpretation) return null;
+  if (Array.isArray(dream.interpretation))
+    return dream.interpretation[0] ?? null;
+  return dream.interpretation;
+}
+
 function buildApa(study: StudyRow): string {
   const year = study.year_start ?? '';
   const pub = study.publication ? ` ${study.publication}.` : '';
@@ -186,9 +196,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
   const t = language === 'de' ? T.de : T.en;
 
   const [participant, setParticipant] = useState<ParticipantRow | null>(null);
-  const [study, setStudy] = useState<StudyRow | null>(null);
   const [dreams, setDreams] = useState<DreamRow[]>([]);
-  const [interpMap, setInterpMap] = useState<Map<string, InterpretationRow>>(new Map());
   const [expandedDreams, setExpandedDreams] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
 
@@ -196,59 +204,31 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
     const load = async () => {
       setLoading(true);
 
-      // 1. Participant
-      const { data: pData, error: pErr } = await supabase
-        .from('research_participants')
-        .select('*')
-        .eq('participant_id', participantId)
-        .single();
-      if (pErr) {
-        console.error('Error fetching participant:', pErr);
+      const [participantRes, dreamsRes] = await Promise.all([
+        supabase
+          .from('research_participants')
+          .select('*, study:research_studies(*)')
+          .eq('participant_id', participantId)
+          .single(),
+        supabase
+          .from('research_dreams')
+          .select('*, interpretation:research_interpretations(*)')
+          .eq('participant_id', participantId)
+          .order('dream_date', { ascending: true })
+          .order('dream_id', { ascending: true }),
+      ]);
+
+      if (participantRes.error) {
+        console.error('Error fetching participant:', participantRes.error);
         setLoading(false);
         return;
       }
-      const p = pData as ParticipantRow;
-      setParticipant(p);
+      setParticipant(participantRes.data as ParticipantRow);
 
-      // 2. Study — erst via study_id (UUID), Fallback auf study_code (String)
-      let foundStudy: StudyRow | null = null;
-      if (p?.study_id) {
-        const { data: sData } = await supabase
-          .from('research_studies')
-          .select('*')
-          .eq('id', p.study_id)
-          .single();
-        if (sData) foundStudy = sData as StudyRow;
-      }
-      if (!foundStudy && p?.study_code) {
-        const { data: sData } = await supabase
-          .from('research_studies')
-          .select('*')
-          .eq('study_code', p.study_code)
-          .single();
-        if (sData) foundStudy = sData as StudyRow;
-      }
-      setStudy(foundStudy);
-
-      // 3. Dreams
-      const { data: dData, error: dErr } = await supabase
-        .from('research_dreams')
-        .select('*')
-        .eq('participant_id', participantId)
-        .order('dream_date', { ascending: true })
-        .order('dream_id', { ascending: true });
-      if (dErr) console.error('Error fetching dreams:', dErr);
-      else setDreams((dData as DreamRow[]) || []);
-
-      // 4. Interpretations
-      const { data: iData } = await supabase
-        .from('research_interpretations')
-        .select('id, dream_id, content, tradition, created_at')
-        .eq('participant_id', participantId);
-      if (iData && iData.length > 0) {
-        const m = new Map<string, InterpretationRow>();
-        (iData as InterpretationRow[]).forEach(i => m.set(i.dream_id, i));
-        setInterpMap(m);
+      if (dreamsRes.error) {
+        console.error('Error fetching dreams:', dreamsRes.error);
+      } else {
+        setDreams((dreamsRes.data as DreamRow[]) || []);
       }
 
       setLoading(false);
@@ -294,12 +274,18 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
           </div>
         )}
 
-        {/* Empty */}
+        {/* Empty — mit participantId fuer Debugging */}
         {!loading && !participant && (
-          <div className="text-center py-20 opacity-50">{t.empty}</div>
+          <div className="text-center py-20">
+            <div className="text-4xl mb-4">🔍</div>
+            <div className="opacity-70 font-medium">{t.empty}</div>
+            <div className="text-sm opacity-40 mt-2 font-mono">{participantId}</div>
+          </div>
         )}
 
-        {!loading && participant && (
+        {!loading && participant && (() => {
+          const study = participant.study ?? null;
+          return (
           <>
             {/* Read-Only Research Banner */}
             <div className={`rounded-xl border p-4 mb-4 flex items-center gap-3 ${isLight ? 'bg-amber-50 border-amber-200 text-amber-900' : 'bg-amber-900/20 border-amber-700/30 text-amber-200'}`}>
@@ -428,7 +414,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
             {/* Stats Bar */}
             <div className={`flex gap-6 mb-6 p-3 rounded-xl border ${cardBg} text-sm`}>
               <span>🌙 {dreams.length} {language === 'de' ? 'Träume' : 'Dreams'}</span>
-              <span>💡 {interpMap.size} {language === 'de' ? 'Deutungen' : 'Interpretations'}</span>
+              <span>💡 {dreams.filter(d => getInterpretation(d) !== null).length} {language === 'de' ? 'Deutungen' : 'Interpretations'}</span>
             </div>
 
             {/* Dreams List */}
@@ -437,36 +423,42 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
             </h2>
 
             {dreams.length === 0 ? (
-              <div className="text-center py-10 opacity-50">{t.noDreams}</div>
+              <div className={`text-center py-10 rounded-xl border ${cardBg}`}>
+                <div className="text-3xl mb-3">🌙</div>
+                <div className="opacity-60">{t.noDreams}</div>
+                <div className="text-xs opacity-30 mt-1 font-mono">{participantId}</div>
+              </div>
             ) : (
-              <div className="space-y-4">
-                {dreams.map((dream, idx) => (
+              <div className="space-y-6">
+                {dreams.map((dream, idx) => {
+                  const wordCount = dream.dream_text?.split(/\s+/).filter(Boolean).length || 0;
+                  return (
                   <div
                     key={dream.id || idx}
                     className={`rounded-xl border p-6 ${cardBg}`}
                   >
-                    {/* Dream Header */}
-                    <div className="flex flex-wrap gap-3 items-center mb-3 text-sm">
-                      <span className={`font-bold px-2 py-0.5 rounded ${isLight ? 'bg-indigo-100 text-indigo-800' : 'bg-indigo-900/40 text-indigo-300'}`}>
-                        {dream.dream_night
-                          ? `${language === 'de' ? 'Nacht' : 'Night'} ${dream.dream_night}`
-                          : dream.dream_id}
+                    {/* Dream Header — Nummerierung + Meta */}
+                    <div className="flex flex-wrap gap-3 items-center mb-1 text-sm">
+                      <span className={`font-bold text-base ${isLight ? 'text-indigo-700' : 'text-indigo-300'}`}>
+                        {language === 'de' ? 'Traum' : 'Dream'} #{idx + 1}
                       </span>
                       {dream.dream_date && (
                         <span className="opacity-60">
                           {dream.dream_date}
                         </span>
                       )}
-                      {!dream.dream_date && dream.dream_night && (
-                        <span className="opacity-40 text-xs">
-                          {language === 'de' ? `Nacht ${dream.dream_night} der Studie` : `Night ${dream.dream_night} of the study`}
-                        </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2 items-center mb-3 text-xs opacity-50">
+                      <span className="font-mono">{dream.dream_id}</span>
+                      {dream.dream_night && (
+                        <span>· {language === 'de' ? 'Nacht' : 'Night'} {dream.dream_night}</span>
                       )}
+                      <span>· {wordCount} {language === 'de' ? 'Woerter' : 'words'}</span>
                     </div>
 
-                    {/* Dream Text */}
+                    {/* Dream Text — groessere Zeilenhoehe fuer Lesbarkeit */}
                     <div
-                      className={`p-4 rounded-lg border font-serif text-sm leading-relaxed whitespace-pre-wrap ${
+                      className={`p-4 rounded-lg border font-serif text-[14px] leading-[1.7] whitespace-pre-wrap ${
                         isLight
                           ? 'bg-white border-gray-200 text-gray-800'
                           : 'bg-gray-900/80 border-white/5 text-gray-200'
@@ -563,43 +555,44 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                       </div>
                     )}
 
-                    {/* Word count + Interpretation */}
-                    <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-                      <span className="opacity-50">
-                        {dream.dream_text.split(/\s+/).filter(Boolean).length} {language === 'de' ? 'Wörter' : 'words'}
-                      </span>
-                      {interpMap.has(dream.id) ? (
+                    {/* Interpretation Button */}
+                    <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
+                      {getInterpretation(dream) ? (
                         <button
                           onClick={() => setExpandedDreams(prev => {
                             const next = new Set(prev);
                             next.has(dream.id) ? next.delete(dream.id) : next.add(dream.id);
                             return next;
                           })}
-                          className={`px-2 py-0.5 rounded-full border cursor-pointer transition-colors ${
+                          className={`px-3 py-1 rounded-full border cursor-pointer transition-colors font-medium ${
                             isLight
-                              ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
-                              : 'bg-green-900/30 border-green-700/40 text-green-400 hover:bg-green-900/50'
+                              ? 'bg-amber-50 border-amber-200 text-amber-700 hover:bg-amber-100'
+                              : 'bg-amber-900/30 border-amber-700/40 text-amber-400 hover:bg-amber-900/50'
                           }`}
                         >
-                          💡 {language === 'de' ? 'Deutung' : 'Interpretation'} {expandedDreams.has(dream.id) ? '▲' : '▼'}
+                          💡 {language === 'de' ? 'Deutung anzeigen' : 'Show Interpretation'} {expandedDreams.has(dream.id) ? '▲' : '▼'}
                         </button>
                       ) : (
-                        <span className="opacity-40 italic">
-                          ⏳ {language === 'de' ? 'Keine Deutung vorhanden' : 'No interpretation available'}
+                        <span className="opacity-30 text-xs">
+                          🔬 {language === 'de' ? 'Keine Deutung in Originalstudie' : 'No interpretation in original study'}
                         </span>
                       )}
                     </div>
-                    {expandedDreams.has(dream.id) && interpMap.has(dream.id) && (() => {
-                      const interp = interpMap.get(dream.id)!;
+                    {/* Expanded Interpretation — goldener linker Rahmen */}
+                    {expandedDreams.has(dream.id) && getInterpretation(dream) && (() => {
+                      const interp = getInterpretation(dream)!;
                       return (
-                        <div className={`mt-2 p-3 rounded-lg border text-sm leading-relaxed ${
+                        <div className={`mt-3 p-4 rounded-lg border-l-4 text-sm leading-[1.7] ${
                           isLight
-                            ? 'bg-green-50/50 border-green-200 text-green-900'
-                            : 'bg-green-900/20 border-green-800/30 text-green-200'
+                            ? 'bg-amber-50/60 border-amber-400 text-amber-950'
+                            : 'bg-amber-900/15 border-amber-500 text-amber-100'
                         }`}>
-                          <p>{interp.content}</p>
-                          <div className="mt-2 flex gap-2 text-xs opacity-60">
-                            <span className={`px-1.5 py-0.5 rounded ${isLight ? 'bg-green-100' : 'bg-green-900/40'}`}>
+                          <div className={`text-xs font-semibold mb-2 ${isLight ? 'text-amber-700' : 'text-amber-400'}`}>
+                            💡 {language === 'de' ? 'Wissenschaftliche Deutung' : 'Scientific Interpretation'}
+                          </div>
+                          <p className="whitespace-pre-wrap">{interp.content}</p>
+                          <div className="mt-3 flex gap-2 text-xs opacity-60">
+                            <span className={`px-1.5 py-0.5 rounded ${isLight ? 'bg-amber-100' : 'bg-amber-900/40'}`}>
                               {interp.tradition}
                             </span>
                             <span>{new Date(interp.created_at).toLocaleDateString()}</span>
@@ -608,7 +601,8 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                       );
                     })()}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 
@@ -625,7 +619,8 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
               </div>
             )}
           </>
-        )}
+          );
+        })()}
       </div>
     </div>
   );
