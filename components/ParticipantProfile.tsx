@@ -272,6 +272,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
   const [expandedDreams, setExpandedDreams] = useState<Set<string>>(new Set());
   const [expandedDreamTexts, setExpandedDreamTexts] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
+  const [showStudyInfo, setShowStudyInfo] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -385,13 +386,13 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                   </h2>
 
                   {study && (
-                    <div className="space-y-1 text-sm opacity-80">
-                      <div>
+                    <div className="relative text-sm opacity-80">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-medium">{t.study}:</span>{' '}
                         {study.study_name}
                         {study.study_code && (
                           <span
-                            className="ml-2 inline-block rounded-full px-2 py-0.5 text-xs font-bold text-white"
+                            className="inline-block rounded-full px-2 py-0.5 text-xs font-bold text-white"
                             style={{
                               backgroundColor: study.map_color || '#6366f1',
                             }}
@@ -399,48 +400,83 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                             {study.study_code}
                           </span>
                         )}
+                        <button
+                          onClick={() => setShowStudyInfo(!showStudyInfo)}
+                          className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold transition-colors ${
+                            showStudyInfo
+                              ? 'bg-indigo-500 text-white'
+                              : isLight
+                                ? 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'
+                                : 'bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30'
+                          }`}
+                          title={language === 'de' ? 'Studien-Info' : 'Study info'}
+                        >
+                          i
+                        </button>
                       </div>
-                      <div>
-                        <span className="font-medium">{t.researcher}:</span>{' '}
-                        {study.principal_investigator}
-                      </div>
-                      <div>
-                        <span className="font-medium">{t.institution}:</span>{' '}
-                        {study.institution}
-                      </div>
-                      {study.country && (
-                        <div>
-                          <span className="font-medium">{language === 'de' ? 'Land' : 'Country'}:</span>{' '}
-                          {study.country}
-                        </div>
-                      )}
-                      {(study.year_start || study.year_end) && (
-                        <div>
-                          <span className="font-medium">{t.period}:</span>{' '}
-                          {study.year_start ?? '?'} &ndash;{' '}
-                          {study.year_end ?? '?'}
-                        </div>
-                      )}
-                      {study.doi && (
-                        <div>
-                          <span className="font-medium">{t.doi}:</span>{' '}
-                          <a
-                            href={
-                              study.doi.startsWith('http')
-                                ? study.doi
-                                : `https://doi.org/${study.doi}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-indigo-400 hover:underline"
-                          >
-                            {study.doi}
-                          </a>
-                        </div>
-                      )}
-                      {study.description && (
-                        <div className="mt-2 text-xs opacity-70 italic">
-                          {study.description}
+
+                      {showStudyInfo && (
+                        <div
+                          className={`mt-2 rounded-xl border p-4 space-y-1.5 text-sm ${
+                            isLight
+                              ? 'bg-white border-indigo-200/60 shadow-lg'
+                              : 'bg-[#1a1030] border-indigo-500/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)]'
+                          }`}
+                        >
+                          <h4 className="text-xs font-bold uppercase tracking-wide opacity-60 mb-2">
+                            {language === 'de' ? 'Über diese Studie' : 'About this study'}
+                          </h4>
+                          {study.principal_investigator && (
+                            <div>
+                              <span className="font-medium">{t.researcher}:</span>{' '}
+                              {study.principal_investigator}
+                            </div>
+                          )}
+                          {study.institution && (
+                            <div>
+                              <span className="font-medium">{t.institution}:</span>{' '}
+                              {study.institution}
+                            </div>
+                          )}
+                          {study.country && (
+                            <div>
+                              <span className="font-medium">{language === 'de' ? 'Land' : 'Country'}:</span>{' '}
+                              {study.country}
+                            </div>
+                          )}
+                          {(study.year_start || study.year_end) && (
+                            <div>
+                              <span className="font-medium">{t.period}:</span>{' '}
+                              {study.year_start ?? '?'} &ndash; {study.year_end ?? '?'}
+                            </div>
+                          )}
+                          {study.doi && (
+                            <div>
+                              <a
+                                href={
+                                  study.doi.startsWith('http')
+                                    ? study.doi
+                                    : `https://doi.org/${study.doi}`
+                                }
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-indigo-400 hover:underline text-xs"
+                              >
+                                DOI: {study.doi}
+                              </a>
+                            </div>
+                          )}
+                          {study.license && (
+                            <div className="text-xs opacity-70">
+                              <span className="font-medium">{language === 'de' ? 'Lizenz' : 'License'}:</span>{' '}
+                              {study.license}
+                            </div>
+                          )}
+                          {study.description && (
+                            <div className="mt-2 text-xs opacity-70 italic leading-relaxed">
+                              {study.description}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

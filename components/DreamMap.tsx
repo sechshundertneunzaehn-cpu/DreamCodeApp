@@ -14,6 +14,7 @@ interface DreamMapProps {
   onClose?: () => void;
   isLight?: boolean;
   onSelectParticipant?: (id: string) => void;
+  onNavigateToResearch?: () => void;
   // Legacy compat
   themeMode?: string;
 }
@@ -527,6 +528,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
   onClose,
   isLight = false,
   onSelectParticipant,
+  onNavigateToResearch,
 }) => {
   const lang = (typeof language === 'string' ? language : String(language)).toLowerCase();
   const t: Translations = TRANSLATIONS[lang] ?? TRANSLATIONS['en'];
@@ -559,6 +561,23 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const closeProfile = useCallback(() => {
     setProfileVisible(false);
     setTimeout(() => setProfileUser(null), 350);
+  }, []);
+
+  // ── Global stats ──
+  const [globalStats, setGlobalStats] = useState<{ dreams: number; words: string } | null>(null);
+  useEffect(() => {
+    (async () => {
+      const { count } = await supabase
+        .from('research_dreams')
+        .select('*', { count: 'exact', head: true });
+      if (count != null) {
+        const words = count * 80;
+        const wordStr = words >= 1_000_000
+          ? `${(words / 1_000_000).toFixed(1)} Mio`
+          : words.toLocaleString();
+        setGlobalStats({ dreams: count, words: wordStr });
+      }
+    })();
   }, []);
 
   // ── New feature state ──
@@ -1000,6 +1019,16 @@ const DreamMap: React.FC<DreamMapProps> = ({
               <h1 className="text-lg font-bold leading-tight text-white">{t.title}</h1>
               <p className="text-xs text-white/70">{t.subtitle}</p>
             </div>
+            <div className="flex items-center gap-2">
+              {onNavigateToResearch && (
+                <button
+                  onClick={onNavigateToResearch}
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-medium bg-white/10 hover:bg-white/20 border border-white/20 text-white/90 backdrop-blur-sm transition-colors"
+                >
+                  <span className="material-icons text-sm">science</span>
+                  {lang === 'de' ? 'Forschungskarte' : 'Research Map'}
+                </button>
+              )}
             {onClose && (
               <button
                 onClick={onClose}
@@ -1009,6 +1038,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
                 <span className="material-icons text-xl">close</span>
               </button>
             )}
+            </div>
           </div>
         </div>
 
@@ -1078,6 +1108,14 @@ const DreamMap: React.FC<DreamMapProps> = ({
           {isLiveData ? '● Live' : '○ Demo'}
         </span>
       </div>
+
+      {/* ── Global Stats ── */}
+      {globalStats && (
+        <div className={`flex items-center justify-center gap-4 px-3 py-1.5 border-b text-[10px] ${isLight ? 'border-purple-100/40 text-slate-500' : 'border-white/5 text-slate-500'}`}>
+          <span>🌙 {globalStats.dreams.toLocaleString()} {lang === 'de' ? 'Träume gesamt' : 'dreams total'}</span>
+          <span>📝 {globalStats.words} {lang === 'de' ? 'Wörter' : 'words'}</span>
+        </div>
+      )}
 
       {/* ── Category Chips ── */}
       <div className="flex gap-2 px-3 py-2.5 overflow-x-auto dm-chip-scroll">
