@@ -22,11 +22,13 @@ interface VerifyResponse {
  * Creates a Stripe Checkout session and redirects the user.
  *
  * @param type - 'subscription' or 'coins'
- * @param identifier - Tier name (SILVER, GOLD, etc.) or package name (MICRO, STARTER, etc.)
+ * @param identifier - Tier name (PRO, PREMIUM, etc.) or package name (STARTER, POPULAR, etc.)
+ * @param region - Optional region code for regional pricing (SA, TR, RU, DE, etc.)
  */
 export async function createCheckoutSession(
   type: CheckoutType,
-  identifier: string
+  identifier: string,
+  region?: string
 ): Promise<void> {
   const baseUrl = window.location.origin;
 
@@ -40,6 +42,10 @@ export async function createCheckoutSession(
     body.tier = identifier;
   } else {
     body.package = identifier;
+  }
+
+  if (region) {
+    body.region = region;
   }
 
   const response = await fetch('/api/create-checkout', {

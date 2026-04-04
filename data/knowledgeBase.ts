@@ -4956,6 +4956,35 @@ export const traditions: Record<ReligiousCategory, { label: string; desc: string
       [ReligiousSource.KABBALAH_NUMEROLOGY]: { label: 'Kabbala-Numerologie', shortDesc: 'Jüdisch-mystische Gematria; Buchstaben des Alphabets tragen Zahlenwerte; Sefirot als kosmisches Zahlensystem' },
     },
   },
+  [ReligiousCategory.JEWISH]: {
+    label: 'Jüdische Traumdeutung',
+    desc: 'Die jüdische Traumdeutung hat tiefe Wurzeln im Talmud und der Kabbala. Der Talmud (Berakhot 55a-57b) enthält systematische Traumdeutungsregeln. Der Zohar verbindet Träume mit den Sefirot und der göttlichen Offenbarung.',
+    sources: {
+      [ReligiousSource.TALMUD_BERAKHOT]: { label: 'Talmud Berakhot', shortDesc: 'Babylonischer Talmud, Traktat Berakhot 55a-57b; systematische Traumdeutungsregeln der Rabbinen' },
+      [ReligiousSource.ZOHAR]: { label: 'Zohar/Sohar', shortDesc: 'Hauptwerk der Kabbala (13. Jh.); Traumdeutung durch die Sefirot und göttliche Emanationen' },
+      [ReligiousSource.KABBALAH_NUMEROLOGY]: { label: 'Kabbala', shortDesc: 'Jüdisch-mystische Tradition; Gematria und symbolische Traumdeutung' },
+    },
+  },
+  [ReligiousCategory.SONNIKS]: {
+    label: 'Russische Sonniks (Traumbucher)',
+    desc: 'Sonniks sind traditionelle russische Traumbucher mit langer Tradition. Von Vangas prophetischen Deutungen uber Millers psychologischen Ansatz bis zu volkstumlichen Adaptionen westlicher Quellen bilden sie ein eigenes Genre der Traumdeutung.',
+    sources: {
+      [ReligiousSource.VANGA]: { label: 'Vanga', shortDesc: 'Bulgarische Seherin (1911-1996); prophetische Traumdeutung mit slawisch-mystischem Hintergrund' },
+      [ReligiousSource.MILLER_RU]: { label: 'Miller (Russisch)', shortDesc: 'Klassischer russischer Traumdeuter; einer der bekanntesten Sonniks mit tausenden Symbolen' },
+      [ReligiousSource.FREUD_RU]: { label: 'Freud (Russisch)', shortDesc: 'Russische Adaption der Freudschen Traumdeutung; populare Interpretation der Psychoanalyse' },
+      [ReligiousSource.LOFF]: { label: 'Loff', shortDesc: 'Russischer Sonnik-Autor; volkstumliche Traumdeutung mit praktischem Fokus' },
+      [ReligiousSource.NOSTRADAMUS_RU]: { label: 'Nostradamus (Russisch)', shortDesc: 'Russische Adaption; prophetische Traumsymbolik basierend auf Nostradamus-Interpretationen' },
+    },
+  },
+  [ReligiousCategory.ANCIENT]: {
+    label: 'Antike Traumdeutung',
+    desc: 'Die altesten dokumentierten Traumdeutungen der Menschheit. Von Artemidoros\' systematischem Werk (2. Jh.) uber agyptische Traumpapyri (1275 v.Chr.) bis zum byzantinischen Somniale Danielis — die Wurzeln aller westlichen Traumdeutung.',
+    sources: {
+      [ReligiousSource.ARTEMIDOROS]: { label: 'Artemidoros', shortDesc: 'Griechischer Traumdeuter (2. Jh. n.Chr.); "Oneirokritika" — das einflussreichste Traumdeutungswerk der Antike' },
+      [ReligiousSource.EGYPTIAN_PAPYRUS]: { label: 'Agyptischer Papyrus', shortDesc: 'Chester Beatty Papyrus III (ca. 1275 v.Chr.); altestes erhaltenes Traumdeutungsbuch der Welt' },
+      [ReligiousSource.SOMNIALE_DANIELIS]: { label: 'Somniale Danielis', shortDesc: 'Byzantinisch-mittelalterliches Traumlexikon; dem Propheten Daniel zugeschrieben; verbreitet in ganz Europa' },
+    },
+  },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

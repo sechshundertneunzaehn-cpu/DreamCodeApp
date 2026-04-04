@@ -44,9 +44,8 @@ export enum DesignTheme {
 
 export enum SubscriptionTier {
     FREE = 'FREE',
-    PLUS = 'PLUS',
     PRO = 'PRO',
-    DELUXE = 'DELUXE',
+    PREMIUM = 'PREMIUM',
     VIP = 'VIP',
     SMART = 'SMART', // BYOK Tier
 }
@@ -58,6 +57,9 @@ export enum ReligiousCategory {
     PSYCHOLOGICAL = 'PSYCHOLOGICAL',
     ASTROLOGY = 'ASTROLOGY',
     NUMEROLOGY = 'NUMEROLOGY',
+    JEWISH = 'JEWISH',
+    SONNIKS = 'SONNIKS',
+    ANCIENT = 'ANCIENT',
 }
 
 export enum ReligiousSource {
@@ -65,6 +67,8 @@ export enum ReligiousSource {
     IBN_SIRIN = 'IBN_SIRIN',
     NABULSI = 'NABULSI',
     AL_ISKHAFI = 'AL_ISKHAFI',
+    IMAM_SADIQ = 'IMAM_SADIQ',
+    ISLAMSKI_SONNIK = 'ISLAMSKI_SONNIK',
     // Christian
     MEDIEVAL = 'MEDIEVAL',
     MODERN_THEOLOGY = 'MODERN_THEOLOGY',
@@ -73,10 +77,15 @@ export enum ReligiousSource {
     ZEN = 'ZEN',
     TIBETAN = 'TIBETAN',
     THERAVADA = 'THERAVADA',
+    ZHOU_GONG = 'ZHOU_GONG',
+    HATSUYUME = 'HATSUYUME',
+    SWAPNA_SHASTRA = 'SWAPNA_SHASTRA',
     // Psychological
     FREUDIAN = 'FREUDIAN',
     JUNGIAN = 'JUNGIAN',
     GESTALT = 'GESTALT',
+    EDGAR_CAYCE = 'EDGAR_CAYCE',
+    RUDOLF_STEINER = 'RUDOLF_STEINER',
     // Astrology
     WESTERN_ZODIAC = 'WESTERN_ZODIAC',
     VEDIC_ASTROLOGY = 'VEDIC_ASTROLOGY',
@@ -87,6 +96,19 @@ export enum ReligiousSource {
     KABBALAH_NUMEROLOGY = 'KABBALAH_NUMEROLOGY',
     ISLAMIC_NUMEROLOGY = 'ISLAMIC_NUMEROLOGY',
     VEDIC_NUMEROLOGY = 'VEDIC_NUMEROLOGY',
+    // Jewish
+    TALMUD_BERAKHOT = 'TALMUD_BERAKHOT',
+    ZOHAR = 'ZOHAR',
+    // Sonniks (Russian Dream Books)
+    VANGA = 'VANGA',
+    MILLER_RU = 'MILLER_RU',
+    FREUD_RU = 'FREUD_RU',
+    LOFF = 'LOFF',
+    NOSTRADAMUS_RU = 'NOSTRADAMUS_RU',
+    // Ancient
+    ARTEMIDOROS = 'ARTEMIDOROS',
+    EGYPTIAN_PAPYRUS = 'EGYPTIAN_PAPYRUS',
+    SOMNIALE_DANIELIS = 'SOMNIALE_DANIELIS',
 }
 
 export enum FontSize {

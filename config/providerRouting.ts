@@ -189,7 +189,7 @@ export const getVideoRoutes = (): VideoRoute[] => [
 
 export const isPremiumTextTier = (tier?: SubscriptionTier | null): boolean =>
   tier === SubscriptionTier.PRO ||
-  tier === SubscriptionTier.DELUXE ||
+  tier === SubscriptionTier.PREMIUM ||
   tier === SubscriptionTier.VIP;
 
 export const isPaidTier = (tier?: SubscriptionTier | null): boolean =>

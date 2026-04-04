@@ -246,8 +246,8 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
 
     const videoDreams = dreams.filter(d => d.videoUrl);
     const tier = displayProfile.subscriptionTier || SubscriptionTier.FREE;
-    const tierLabel = tier === SubscriptionTier.PRO ? t.tier_gold : tier === SubscriptionTier.PLUS ? t.tier_silver : t.tier_free;
-    const tierColor = tier === SubscriptionTier.PRO ? 'text-yellow-400 border-yellow-500/30 bg-yellow-900/20' : tier === SubscriptionTier.PLUS ? 'text-slate-300 border-slate-400/30 bg-slate-800/40' : 'text-amber-700 border-amber-800/30 bg-amber-900/10';
+    const tierLabel = tier === SubscriptionTier.PREMIUM ? t.tier_gold : tier === SubscriptionTier.PRO ? t.tier_silver : t.tier_free;
+    const tierColor = tier === SubscriptionTier.PREMIUM ? 'text-yellow-400 border-yellow-500/30 bg-yellow-900/20' : tier === SubscriptionTier.PRO ? 'text-slate-300 border-slate-400/30 bg-slate-800/40' : 'text-amber-700 border-amber-800/30 bg-amber-900/10';
 
     return (
         <div className={`max-w-2xl mx-auto pb-24 animate-in fade-in duration-500 bg-transparent min-h-screen ${textMain}`}>
