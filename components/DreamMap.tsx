@@ -1023,24 +1023,24 @@ interface DreamCategory {
 }
 
 const DREAM_CATEGORIES: DreamCategory[] = [
-  { id: 'horror',    label: { en:'Horror', de:'Gruselig', tr:'Korku', es:'Terror', fr:'Horreur', ar:'رعب', pt:'Horror', ru:'Ужас' },         icon: '👻', color: '#8b5cf6' },
-  { id: 'funny',     label: { en:'Funny', de:'Lustig', tr:'Komik', es:'Gracioso', fr:'Drôle', ar:'مضحك', pt:'Engraçado', ru:'Смешной' },    icon: '😂', color: '#f59e0b' },
-  { id: 'ufo',       label: { en:'UFO/Alien', de:'UFO', tr:'UFO', es:'OVNI', fr:'OVNI', ar:'مركبة فضائية', pt:'OVNI', ru:'НЛО' },             icon: '🛸', color: '#06b6d4' },
-  { id: 'love',      label: { en:'Love', de:'Liebe', tr:'Aşk', es:'Amor', fr:'Amour', ar:'حب', pt:'Amor', ru:'Любовь' },                    icon: '❤️', color: '#ec4899' },
-  { id: 'erotic',    label: { en:'Erotic', de:'Erotik', tr:'Erotik', es:'Erótico', fr:'Érotique', ar:'إثارة', pt:'Erótico', ru:'Эротика' },  icon: '🔥', color: '#ef4444' },
-  { id: 'flying',    label: { en:'Flying', de:'Fliegen', tr:'Uçmak', es:'Volar', fr:'Voler', ar:'طيران', pt:'Voar', ru:'Полёт' },            icon: '✈️', color: '#3b82f6' },
-  { id: 'falling',   label: { en:'Falling', de:'Fallen', tr:'Düşmek', es:'Caer', fr:'Chuter', ar:'سقوط', pt:'Cair', ru:'Падение' },          icon: '📉', color: '#64748b' },
-  { id: 'water',     label: { en:'Water', de:'Wasser', tr:'Su', es:'Agua', fr:'Eau', ar:'ماء', pt:'Água', ru:'Вода' },                      icon: '🌊', color: '#0ea5e9' },
-  { id: 'animals',   label: { en:'Animals', de:'Tiere', tr:'Hayvanlar', es:'Animales', fr:'Animaux', ar:'حيوانات', pt:'Animais', ru:'Животные' }, icon: '🐾', color: '#84cc16' },
-  { id: 'death',     label: { en:'Death', de:'Tod', tr:'Ölüm', es:'Muerte', fr:'Mort', ar:'موت', pt:'Morte', ru:'Смерть' },                  icon: '💀', color: '#1e293b' },
-  { id: 'chase',     label: { en:'Chase', de:'Verfolgung', tr:'Takip', es:'Persecución', fr:'Poursuite', ar:'مطاردة', pt:'Perseguição', ru:'Погоня' }, icon: '🏃', color: '#f97316' },
-  { id: 'family',    label: { en:'Family', de:'Familie', tr:'Aile', es:'Familia', fr:'Famille', ar:'عائلة', pt:'Família', ru:'Семья' },      icon: '👨‍👩‍👧', color: '#10b981' },
-  { id: 'money',     label: { en:'Money', de:'Geld', tr:'Para', es:'Dinero', fr:'Argent', ar:'مال', pt:'Dinheiro', ru:'Деньги' },            icon: '💰', color: '#eab308' },
-  { id: 'school',    label: { en:'School', de:'Schule', tr:'Okul', es:'Escuela', fr:'École', ar:'مدرسة', pt:'Escola', ru:'Школа' },          icon: '🏫', color: '#6366f1' },
-  { id: 'spiritual', label: { en:'Spiritual', de:'Spirituell', tr:'Ruhsal', es:'Espiritual', fr:'Spirituel', ar:'روحاني', pt:'Espiritual', ru:'Духовный' }, icon: '🧘', color: '#a855f7' },
-  { id: 'nature',    label: { en:'Nature', de:'Natur', tr:'Doğa', es:'Naturaleza', fr:'Nature', ar:'طبيعة', pt:'Natureza', ru:'Природа' },   icon: '🌿', color: '#22c55e' },
-  { id: 'timetravel',label: { en:'Time Travel', de:'Zeitreise', tr:'Zaman Yolculuğu', es:'Viaje en tiempo', fr:'Voyage temporel', ar:'سفر عبر الزمن', pt:'Viagem no tempo', ru:'Путешествие во времени' }, icon: '⏳', color: '#8b5cf6' },
-  { id: 'celebrity', label: { en:'Celebrity', de:'Prominente', tr:'Ünlüler', es:'Famosos', fr:'Célébrités', ar:'مشاهير', pt:'Celebridades', ru:'Знаменитости' }, icon: '⭐', color: '#f59e0b' },
+  { id: 'horror',    label: { en:'Horror', de:'Gruselig', tr:'Korku', es:'Terror', fr:'Horreur', ar:'رعب', pt:'Horror', ru:'Ужас', zh:'恐怖', hi:'डरावना', ja:'ホラー', ko:'공포', id:'Horor', fa:'وحشت', it:'Orrore', pl:'Horror', bn:'ভয়ংকর', ur:'خوفناک', vi:'Kinh dị', th:'สยองขวัญ', sw:'Kutisha', hu:'Horror' },         icon: '👻', color: '#8b5cf6' },
+  { id: 'funny',     label: { en:'Funny', de:'Lustig', tr:'Komik', es:'Gracioso', fr:'Drôle', ar:'مضحك', pt:'Engraçado', ru:'Смешной', zh:'搞笑', hi:'मज़ेदार', ja:'面白い', ko:'웃긴', id:'Lucu', fa:'خنده‌دار', it:'Divertente', pl:'Śmieszny', bn:'মজার', ur:'مزاحیہ', vi:'Hài hước', th:'ตลก', sw:'Kuchekesha', hu:'Vicces' },    icon: '😂', color: '#f59e0b' },
+  { id: 'ufo',       label: { en:'UFO/Alien', de:'UFO', tr:'UFO', es:'OVNI', fr:'OVNI', ar:'مركبة فضائية', pt:'OVNI', ru:'НЛО', zh:'UFO/外星人', hi:'UFO/एलियन', ja:'UFO/宇宙人', ko:'UFO/외계인', id:'UFO/Alien', fa:'بشقاب‌پرنده', it:'UFO/Alieni', pl:'UFO/Obcy', bn:'UFO/এলিয়েন', ur:'UFO/ایلین', vi:'UFO/Người ngoài hành tinh', th:'UFO/มนุษย์ต่างดาว', sw:'UFO/Wageni', hu:'UFO/Földönkívüli' },             icon: '🛸', color: '#06b6d4' },
+  { id: 'love',      label: { en:'Love', de:'Liebe', tr:'Aşk', es:'Amor', fr:'Amour', ar:'حب', pt:'Amor', ru:'Любовь', zh:'爱情', hi:'प्रेम', ja:'恋愛', ko:'사랑', id:'Cinta', fa:'عشق', it:'Amore', pl:'Miłość', bn:'প্রেম', ur:'محبت', vi:'Tình yêu', th:'ความรัก', sw:'Upendo', hu:'Szerelem' },                    icon: '❤️', color: '#ec4899' },
+  { id: 'erotic',    label: { en:'Erotic', de:'Erotik', tr:'Erotik', es:'Erótico', fr:'Érotique', ar:'إثارة', pt:'Erótico', ru:'Эротика', zh:'情色', hi:'कामुक', ja:'エロティック', ko:'에로틱', id:'Erotis', fa:'شهوانی', it:'Erotico', pl:'Erotyczny', bn:'কামোদ্দীপক', ur:'شہوانی', vi:'Gợi cảm', th:'อีโรติก', sw:'Mapenzi', hu:'Erotikus' },  icon: '🔥', color: '#ef4444' },
+  { id: 'flying',    label: { en:'Flying', de:'Fliegen', tr:'Uçmak', es:'Volar', fr:'Voler', ar:'طيران', pt:'Voar', ru:'Полёт', zh:'飞行', hi:'उड़ान', ja:'飛行', ko:'비행', id:'Terbang', fa:'پرواز', it:'Volare', pl:'Latanie', bn:'উড়ন্ত', ur:'پرواز', vi:'Bay', th:'บิน', sw:'Kuruka', hu:'Repülés' },            icon: '✈️', color: '#3b82f6' },
+  { id: 'falling',   label: { en:'Falling', de:'Fallen', tr:'Düşmek', es:'Caer', fr:'Chuter', ar:'سقوط', pt:'Cair', ru:'Падение', zh:'坠落', hi:'गिरना', ja:'落下', ko:'추락', id:'Jatuh', fa:'سقوط', it:'Cadere', pl:'Spadanie', bn:'পতন', ur:'گرنا', vi:'Rơi', th:'ตกหล่น', sw:'Kuanguka', hu:'Zuhanás' },          icon: '📉', color: '#64748b' },
+  { id: 'water',     label: { en:'Water', de:'Wasser', tr:'Su', es:'Agua', fr:'Eau', ar:'ماء', pt:'Água', ru:'Вода', zh:'水', hi:'पानी', ja:'水', ko:'물', id:'Air', fa:'آب', it:'Acqua', pl:'Woda', bn:'জল', ur:'پانی', vi:'Nước', th:'น้ำ', sw:'Maji', hu:'Víz' },                      icon: '🌊', color: '#0ea5e9' },
+  { id: 'animals',   label: { en:'Animals', de:'Tiere', tr:'Hayvanlar', es:'Animales', fr:'Animaux', ar:'حيوانات', pt:'Animais', ru:'Животные', zh:'动物', hi:'जानवर', ja:'動物', ko:'동물', id:'Hewan', fa:'حیوانات', it:'Animali', pl:'Zwierzęta', bn:'প্রাণী', ur:'جانور', vi:'Động vật', th:'สัตว์', sw:'Wanyama', hu:'Állatok' }, icon: '🐾', color: '#84cc16' },
+  { id: 'death',     label: { en:'Death', de:'Tod', tr:'Ölüm', es:'Muerte', fr:'Mort', ar:'موت', pt:'Morte', ru:'Смерть', zh:'死亡', hi:'मृत्यु', ja:'死', ko:'죽음', id:'Kematian', fa:'مرگ', it:'Morte', pl:'Śmierć', bn:'মৃত্যু', ur:'موت', vi:'Cái chết', th:'ความตาย', sw:'Kifo', hu:'Halál' },                  icon: '💀', color: '#1e293b' },
+  { id: 'chase',     label: { en:'Chase', de:'Verfolgung', tr:'Takip', es:'Persecución', fr:'Poursuite', ar:'مطاردة', pt:'Perseguição', ru:'Погоня', zh:'追逐', hi:'पीछा', ja:'追跡', ko:'추격', id:'Pengejaran', fa:'تعقیب', it:'Inseguimento', pl:'Pościg', bn:'তাড়া', ur:'تعاقب', vi:'Rượt đuổi', th:'ไล่ล่า', sw:'Kufuatilia', hu:'Üldözés' }, icon: '🏃', color: '#f97316' },
+  { id: 'family',    label: { en:'Family', de:'Familie', tr:'Aile', es:'Familia', fr:'Famille', ar:'عائلة', pt:'Família', ru:'Семья', zh:'家庭', hi:'परिवार', ja:'家族', ko:'가족', id:'Keluarga', fa:'خانواده', it:'Famiglia', pl:'Rodzina', bn:'পরিবার', ur:'خاندان', vi:'Gia đình', th:'ครอบครัว', sw:'Familia', hu:'Család' },      icon: '👨‍👩‍👧', color: '#10b981' },
+  { id: 'money',     label: { en:'Money', de:'Geld', tr:'Para', es:'Dinero', fr:'Argent', ar:'مال', pt:'Dinheiro', ru:'Деньги', zh:'金钱', hi:'पैसा', ja:'お金', ko:'돈', id:'Uang', fa:'پول', it:'Denaro', pl:'Pieniądze', bn:'টাকা', ur:'پیسہ', vi:'Tiền', th:'เงิน', sw:'Pesa', hu:'Pénz' },            icon: '💰', color: '#eab308' },
+  { id: 'school',    label: { en:'School', de:'Schule', tr:'Okul', es:'Escuela', fr:'École', ar:'مدرسة', pt:'Escola', ru:'Школа', zh:'学校', hi:'स्कूल', ja:'学校', ko:'학교', id:'Sekolah', fa:'مدرسه', it:'Scuola', pl:'Szkoła', bn:'স্কুল', ur:'اسکول', vi:'Trường học', th:'โรงเรียน', sw:'Shule', hu:'Iskola' },          icon: '🏫', color: '#6366f1' },
+  { id: 'spiritual', label: { en:'Spiritual', de:'Spirituell', tr:'Ruhsal', es:'Espiritual', fr:'Spirituel', ar:'روحاني', pt:'Espiritual', ru:'Духовный', zh:'心灵', hi:'आध्यात्मिक', ja:'スピリチュアル', ko:'영적', id:'Spiritual', fa:'معنوی', it:'Spirituale', pl:'Duchowy', bn:'আধ্যাত্মিক', ur:'روحانی', vi:'Tâm linh', th:'จิตวิญญาณ', sw:'Kiroho', hu:'Spirituális' }, icon: '🧘', color: '#a855f7' },
+  { id: 'nature',    label: { en:'Nature', de:'Natur', tr:'Doğa', es:'Naturaleza', fr:'Nature', ar:'طبيعة', pt:'Natureza', ru:'Природа', zh:'自然', hi:'प्रकृति', ja:'自然', ko:'자연', id:'Alam', fa:'طبیعت', it:'Natura', pl:'Natura', bn:'প্রকৃতি', ur:'فطرت', vi:'Thiên nhiên', th:'ธรรมชาติ', sw:'Asili', hu:'Természet' },   icon: '🌿', color: '#22c55e' },
+  { id: 'timetravel',label: { en:'Time Travel', de:'Zeitreise', tr:'Zaman Yolculuğu', es:'Viaje en tiempo', fr:'Voyage temporel', ar:'سفر عبر الزمن', pt:'Viagem no tempo', ru:'Путешествие во времени', zh:'时间旅行', hi:'समय यात्रा', ja:'タイムトラベル', ko:'시간 여행', id:'Perjalanan Waktu', fa:'سفر در زمان', it:'Viaggio nel tempo', pl:'Podróż w czasie', bn:'সময় ভ্রমণ', ur:'وقت کا سفر', vi:'Du hành thời gian', th:'ท่องเวลา', sw:'Safari ya Wakati', hu:'Időutazás' }, icon: '⏳', color: '#8b5cf6' },
+  { id: 'celebrity', label: { en:'Celebrity', de:'Prominente', tr:'Ünlüler', es:'Famosos', fr:'Célébrités', ar:'مشاهير', pt:'Celebridades', ru:'Знаменитости', zh:'名人', hi:'मशहूर', ja:'有名人', ko:'유명인', id:'Selebriti', fa:'مشهور', it:'Celebrità', pl:'Celebryci', bn:'বিখ্যাত', ur:'مشہور', vi:'Người nổi tiếng', th:'คนดัง', sw:'Mashuhuri', hu:'Híresség' }, icon: '⭐', color: '#f59e0b' },
 ];
 
 // ─── Simulated Users ──────────────────────────────────────────────────────────
@@ -1172,6 +1172,32 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const lang = (typeof language === 'string' ? language : String(language)).toLowerCase();
   const t: Translations = TRANSLATIONS[lang] ?? TRANSLATIONS['en'];
   const tLang = (cat: DreamCategory) => cat.label[lang] ?? cat.label['en'];
+
+  const MAP_LABELS: Record<string, {dreams_total: string, words: string, dream_s: string, dream_p: string, words_label: string, research_map: string, tap_research_map: string}> = {
+    en: {dreams_total:'dreams total', words:'words', dream_s:'dream', dream_p:'dreams', words_label:'words', research_map:'Research Map', tap_research_map:'Tap for research map'},
+    de: {dreams_total:'Träume gesamt', words:'Wörter', dream_s:'Traum', dream_p:'Träume', words_label:'Wörter', research_map:'Forschungskarte', tap_research_map:'Tippen für Forschungskarte'},
+    tr: {dreams_total:'toplam rüya', words:'kelime', dream_s:'rüya', dream_p:'rüya', words_label:'kelime', research_map:'Araştırma Haritası', tap_research_map:'Araştırma haritası için dokun'},
+    es: {dreams_total:'sueños en total', words:'palabras', dream_s:'sueño', dream_p:'sueños', words_label:'palabras', research_map:'Mapa de Investigación', tap_research_map:'Toca para mapa de investigación'},
+    fr: {dreams_total:'rêves au total', words:'mots', dream_s:'rêve', dream_p:'rêves', words_label:'mots', research_map:'Carte de Recherche', tap_research_map:'Appuyez pour la carte de recherche'},
+    ar: {dreams_total:'أحلام إجمالاً', words:'كلمة', dream_s:'حلم', dream_p:'أحلام', words_label:'كلمة', research_map:'خريطة البحث', tap_research_map:'انقر لخريطة البحث'},
+    pt: {dreams_total:'sonhos no total', words:'palavras', dream_s:'sonho', dream_p:'sonhos', words_label:'palavras', research_map:'Mapa de Pesquisa', tap_research_map:'Toque para mapa de pesquisa'},
+    ru: {dreams_total:'снов всего', words:'слов', dream_s:'сон', dream_p:'снов', words_label:'слов', research_map:'Карта исследований', tap_research_map:'Нажмите для карты исследований'},
+    zh: {dreams_total:'个梦境', words:'字', dream_s:'个梦', dream_p:'个梦', words_label:'字', research_map:'研究地图', tap_research_map:'点击查看研究地图'},
+    hi: {dreams_total:'कुल सपने', words:'शब्द', dream_s:'सपना', dream_p:'सपने', words_label:'शब्द', research_map:'अनुसंधान मानचित्र', tap_research_map:'अनुसंधान मानचित्र के लिए टैप करें'},
+    ja: {dreams_total:'件の夢', words:'語', dream_s:'件の夢', dream_p:'件の夢', words_label:'語', research_map:'研究マップ', tap_research_map:'研究マップをタップ'},
+    ko: {dreams_total:'개의 꿈', words:'단어', dream_s:'개의 꿈', dream_p:'개의 꿈', words_label:'단어', research_map:'연구 지도', tap_research_map:'연구 지도를 탭하세요'},
+    id: {dreams_total:'mimpi total', words:'kata', dream_s:'mimpi', dream_p:'mimpi', words_label:'kata', research_map:'Peta Penelitian', tap_research_map:'Ketuk untuk peta penelitian'},
+    fa: {dreams_total:'رویا در کل', words:'کلمه', dream_s:'رویا', dream_p:'رویا', words_label:'کلمه', research_map:'نقشه تحقیقات', tap_research_map:'برای نقشه تحقیقات ضربه بزنید'},
+    it: {dreams_total:'sogni in totale', words:'parole', dream_s:'sogno', dream_p:'sogni', words_label:'parole', research_map:'Mappa di Ricerca', tap_research_map:'Tocca per la mappa di ricerca'},
+    pl: {dreams_total:'snów łącznie', words:'słów', dream_s:'sen', dream_p:'snów', words_label:'słów', research_map:'Mapa Badań', tap_research_map:'Dotknij mapy badań'},
+    bn: {dreams_total:'মোট স্বপ্ন', words:'শব্দ', dream_s:'স্বপ্ন', dream_p:'স্বপ্ন', words_label:'শব্দ', research_map:'গবেষণা মানচিত্র', tap_research_map:'গবেষণা মানচিত্রের জন্য ট্যাপ করুন'},
+    ur: {dreams_total:'کل خواب', words:'الفاظ', dream_s:'خواب', dream_p:'خواب', words_label:'الفاظ', research_map:'تحقیقی نقشہ', tap_research_map:'تحقیقی نقشے کے لیے ٹیپ کریں'},
+    vi: {dreams_total:'giấc mơ', words:'từ', dream_s:'giấc mơ', dream_p:'giấc mơ', words_label:'từ', research_map:'Bản đồ nghiên cứu', tap_research_map:'Nhấn để xem bản đồ nghiên cứu'},
+    th: {dreams_total:'ความฝันทั้งหมด', words:'คำ', dream_s:'ความฝัน', dream_p:'ความฝัน', words_label:'คำ', research_map:'แผนที่วิจัย', tap_research_map:'แตะเพื่อดูแผนที่วิจัย'},
+    sw: {dreams_total:'ndoto jumla', words:'maneno', dream_s:'ndoto', dream_p:'ndoto', words_label:'maneno', research_map:'Ramani ya Utafiti', tap_research_map:'Gonga kwa ramani ya utafiti'},
+    hu: {dreams_total:'álom összesen', words:'szó', dream_s:'álom', dream_p:'álom', words_label:'szó', research_map:'Kutatási térkép', tap_research_map:'Koppintson a kutatási térképhez'},
+  };
+  const ml = MAP_LABELS[lang.toLowerCase()] || MAP_LABELS.en;
 
   const [users, setUsers] = useState<SimUser[]>([]);
   const [isLiveData, setIsLiveData] = useState<boolean>(false);
@@ -1599,7 +1625,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
               zIndex: 6,
               whiteSpace: 'nowrap',
             }}>
-              {lang === 'de' ? 'Tippen für Forschungskarte' : 'Tap for research map'}
+              {ml.tap_research_map}
             </div>
           )}
 
@@ -1711,7 +1737,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
                   className="flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-medium bg-white/10 hover:bg-white/20 border border-white/20 text-white/90 backdrop-blur-sm transition-colors"
                 >
                   <span className="material-icons text-sm">science</span>
-                  {lang === 'de' ? 'Forschungskarte' : 'Research Map'}
+                  {ml.research_map}
                 </button>
               )}
             {onClose && (
@@ -1802,8 +1828,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
           fontWeight: 500,
           color: isLight ? '#7c3aed' : '#c4b5fd',
         }}>
-          <span>🌙 {globalStats.dreams.toLocaleString()} {lang === 'de' ? 'Träume gesamt' : 'dreams total'}</span>
-          <span>📝 {globalStats.words} {lang === 'de' ? 'Wörter' : 'words'}</span>
+          <span>🌙 {globalStats.dreams.toLocaleString()} {ml.dreams_total}</span>
+          <span>📝 {globalStats.words} {ml.words_label}</span>
         </div>
       )}
 
@@ -1969,10 +1995,10 @@ const DreamMap: React.FC<DreamMapProps> = ({
                     </div>
                     <div className={`text-[11px] ${textSub}`}>
                       {u.dreamCount > 0 && (
-                        <span style={{ color: '#a78bfa' }}>🌙 {u.dreamCount} {u.dreamCount === 1 ? (lang === 'de' ? 'Traum' : 'dream') : (lang === 'de' ? 'Träume' : 'dreams')}</span>
+                        <span style={{ color: '#a78bfa' }}>🌙 {u.dreamCount} {u.dreamCount === 1 ? ml.dream_s : ml.dream_p}</span>
                       )}
                       {u.totalWords > 0 && (
-                        <span style={{ color: '#94a3b8' }}> · 📝 {u.totalWords.toLocaleString()} {lang === 'de' ? 'Wörter' : 'words'}</span>
+                        <span style={{ color: '#94a3b8' }}> · 📝 {u.totalWords.toLocaleString()} {ml.words_label}</span>
                       )}
                     </div>
                     <p className={`text-xs italic mt-0.5 line-clamp-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>

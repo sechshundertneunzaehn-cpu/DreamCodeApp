@@ -13,3 +13,7 @@ data/raw/
 .playwright-mcp/
 *.png
 supabase/.temp/
+
+# API Keys file
+api.txt
+alpi.txt

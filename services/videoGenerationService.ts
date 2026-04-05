@@ -58,7 +58,7 @@ const optimizePromptForVideo = (
 };
 
 // ============================================
-// REPLICATE - WAN 2.2 (guenstig, ~$0.09/5s)
+// REPLICATE - WAN 2.7 (Text-to-Video mit Audio)
 // ============================================
 const generateVideoWAN = async (
     options: VideoGenerationOptions
@@ -69,61 +69,39 @@ const generateVideoWAN = async (
     }
 
     const prompt = optimizePromptForVideo(options.prompt, options.style);
-    console.log('[WAN] Starte Video-Generierung...');
+    console.log('[WAN 2.7] Starte Video-Generierung...');
     const startTime = Date.now();
 
     try {
-        // Schritt 1: Prediction starten
         const createRes = await fetch('/api/replicate/v1/predictions', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,
+                'Authorization': `Token ${apiKey}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'wan-video/wan-2.2-t2v-480p',
+                version: '6c53841e185bd0cdd909e437f64040ab8a055bc30c527cd1588b55f347541c7a',
                 input: {
                     prompt: prompt,
                     negative_prompt: 'blurry, low quality, distorted, ugly, text, watermark',
-                    num_frames: 81,
-                    fps: 16,
-                    guidance_scale: 5.0,
-                    num_inference_steps: 30
+                    duration: 5,
+                    resolution: '720p',
+                    aspect_ratio: options.aspectRatio || '16:9',
+                    enable_prompt_expansion: true
                 }
             })
         });
 
         if (!createRes.ok) {
-            // Fallback: try older API format
-            const createRes2 = await fetch('/api/replicate/v1/predictions', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Token ${apiKey}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    version: 'wan-video/wan-2.2-t2v-480p',
-                    input: {
-                        prompt: prompt,
-                        negative_prompt: 'blurry, low quality, distorted',
-                        num_frames: 81,
-                        fps: 16
-                    }
-                })
-            });
-            if (!createRes2.ok) {
-                const err = await createRes2.text();
-                throw new Error(`Replicate API-Fehler: ${createRes2.status} - ${err}`);
-            }
-            const data2 = await createRes2.json();
-            return await pollReplicateResult(data2, apiKey, startTime, 'replicate_wan');
+            const err = await createRes.text();
+            throw new Error(`Replicate API-Fehler: ${createRes.status} - ${err}`);
         }
 
         const createData = await createRes.json();
         return await pollReplicateResult(createData, apiKey, startTime, 'replicate_wan');
 
     } catch (error) {
-        console.error('[WAN] Fehler:', error);
+        console.error('[WAN 2.7] Fehler:', error);
         throw error;
     }
 };
@@ -287,16 +265,7 @@ export const generateDreamVideo = async (
 
     console.log(`[VIDEO] Starte Generierung fuer Tier: ${subscriptionTier}, Key vorhanden: ${hasKey}`);
 
-    // Premium: Luma Ray (beste Qualitaet)
-    if (hasKey && (subscriptionTier === SubscriptionTier.PRO || subscriptionTier === SubscriptionTier.SMART)) {
-        try {
-            return await generateVideoLuma(options);
-        } catch (error) {
-            console.warn('[VIDEO] Luma fehlgeschlagen, versuche WAN...', error);
-        }
-    }
-
-    // Standard: WAN 2.2 (guenstig)
+    // WAN 2.7 (alle Tiers)
     if (hasKey) {
         try {
             return await generateVideoWAN(options);

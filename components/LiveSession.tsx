@@ -291,6 +291,11 @@ const LiveSession: React.FC<LiveSessionProps> = ({
         if (streamRef.current) { streamRef.current.getTracks().forEach(t => t.stop()); streamRef.current = null; }
         if (audioContextRef.current?.state !== 'closed') { audioContextRef.current?.close().catch(() => {}); }
         if (playbackContextRef.current?.state !== 'closed') { playbackContextRef.current?.close().catch(() => {}); }
+        // Cleanup Web Speech API fallback
+        if ((window as any).__dreamcode_recognition) {
+            try { (window as any).__dreamcode_recognition.stop(); } catch {}
+            (window as any).__dreamcode_recognition = null;
+        }
     }, []);
 
     useEffect(() => () => { cleanup(); }, [cleanup]);
@@ -605,11 +610,10 @@ ${CATEGORY_INFO}`;
         sessionLanguageRef.current = language;
 
         const deepgramKey = (import.meta.env.VITE_DEEPGRAM_API_KEY as string || '').trim();
-        if (!deepgramKey) {
-            console.error('[LiveSession] Deepgram key missing');
-            setStatus('error');
-            isConnectingRef.current = false;
-            return;
+        const useWebSpeechFallback = !deepgramKey;
+
+        if (useWebSpeechFallback) {
+            console.warn('[LiveSession] Deepgram key missing — using Web Speech API fallback');
         }
 
         try {
@@ -628,6 +632,70 @@ ${CATEGORY_INFO}`;
             analyser.fftSize = 256;
             mediaSrc.connect(analyser);
             analyserRef.current = analyser;
+
+            // --- Web Speech API Fallback (when Deepgram key is missing) ---
+            if (useWebSpeechFallback) {
+                const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+                if (!SpeechRecognition) {
+                    console.error('[LiveSession] Neither Deepgram nor Web Speech API available');
+                    setStatus('error');
+                    isConnectingRef.current = false;
+                    stream.getTracks().forEach(t => t.stop());
+                    return;
+                }
+
+                const recognition = new SpeechRecognition();
+                const webSpeechLangMap: Record<string, string> = {
+                    de: 'de-DE', en: 'en-US', tr: 'tr-TR', es: 'es-ES',
+                    fr: 'fr-FR', ar: 'ar-SA', pt: 'pt-PT', ru: 'ru-RU',
+                    zh: 'zh-CN', hi: 'hi-IN', ja: 'ja-JP', ko: 'ko-KR',
+                    id: 'id-ID', fa: 'fa-IR', it: 'it-IT', pl: 'pl-PL',
+                    bn: 'bn-BD', ur: 'ur-PK', vi: 'vi-VN', th: 'th-TH',
+                    sw: 'sw-KE', hu: 'hu-HU',
+                };
+                recognition.lang = webSpeechLangMap[language] || 'de-DE';
+                recognition.continuous = true;
+                recognition.interimResults = false;
+
+                setStatus('connected');
+                isConnectingRef.current = false;
+                startVisualizer();
+
+                // Send initial greeting
+                const GREETINGS: Record<string, string> = {
+                    de: 'Hallo', tr: 'Merhaba', en: 'Hello', es: 'Hola',
+                    fr: 'Bonjour', ar: 'Marhaba', pt: 'Ola', ru: 'Privet',
+                };
+                processUserInput(GREETINGS[language] || 'Hallo');
+
+                recognition.onresult = (event: any) => {
+                    const lastIdx = event.results.length - 1;
+                    const transcript = event.results[lastIdx][0].transcript.trim();
+                    if (transcript) {
+                        console.log('[LiveSession] Web Speech result:', transcript);
+                        processUserInput(transcript);
+                    }
+                };
+
+                recognition.onerror = (e: any) => {
+                    console.warn('[LiveSession] Web Speech error:', e.error);
+                    if (e.error === 'not-allowed') {
+                        setStatus('error');
+                    }
+                };
+
+                recognition.onend = () => {
+                    // Auto-restart if session is still active
+                    if (statusRef.current === 'connected') {
+                        try { recognition.start(); } catch {}
+                    }
+                };
+
+                recognition.start();
+                // Store ref for cleanup
+                (window as any).__dreamcode_recognition = recognition;
+                return;
+            }
 
             // Deepgram STT WebSocket – explicit audio format parameters
             const dgLang = DEEPGRAM_LANG[language] || 'de';

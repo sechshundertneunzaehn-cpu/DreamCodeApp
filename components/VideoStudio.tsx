@@ -9,6 +9,8 @@ export type ContentMode = 'dream_only' | 'interpretation' | 'both';
 // Types
 // ---------------------------------------------------------------------------
 
+export type VideoStyle = 'cinematic' | 'dreamlike' | 'surreal' | 'fantasy' | 'cartoon' | 'anime' | 'real';
+
 export interface VideoGenerateOptions {
     tab: Tab;
     quality: Quality;
@@ -16,16 +18,21 @@ export interface VideoGenerateOptions {
     contentMode: ContentMode;
     voiceId: string;
     voiceBlob: Blob | null;
+    style?: VideoStyle;
 }
 
 export interface VideoStudioProps {
     language: Language;
     themeMode: ThemeMode;
     dreamText: string;
+    interpretationText?: string;
+    dreamId?: string | null;
+    audioUrl?: string;
     onClose: () => void;
     onSave: (result: { videoUrl: string; type: 'ai' | 'slideshow' }) => void;
     onGenerate?: (dreamText: string, options: VideoGenerateOptions) => Promise<string | null>;
     userCredits: number;
+    initialMode?: 'choose' | 'ai' | 'slideshow';
 }
 
 type Tab = 'ai' | 'slideshow';
@@ -86,6 +93,19 @@ interface Translations {
     est_duration: string;
     need_recording: string;
     minutes_unit: string;
+    choose_title: string;
+    choose_subtitle: string;
+    style_cartoon: string;
+    style_anime: string;
+    style_real: string;
+    style_fantasy: string;
+    cat_standard: string;
+    cat_standard_desc: string;
+    cat_quality: string;
+    cat_quality_desc: string;
+    continue_btn: string;
+    live_transcript: string;
+    edit_transcript: string;
 }
 
 const T: Record<Language, Translations> = {
@@ -129,6 +149,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Geschaetzte Dauer',
         need_recording: 'Bitte zuerst aufnehmen',
         minutes_unit: 'Min.',
+        choose_title: 'Traumvideo erstellen',
+        choose_subtitle: 'Wähle Stil und Qualität',
+        style_cartoon: 'Cartoon',
+        style_anime: 'Anime',
+        style_real: 'Realistisch',
+        style_fantasy: 'Fantasy',
+        cat_standard: 'Standard',
+        cat_standard_desc: 'KI-Video (180 Coins)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'Hoechste Qualitaet (280 Coins)',
+        continue_btn: 'Weiter',
+        live_transcript: 'Live-Transkription',
+        edit_transcript: 'Text bearbeiten',
     },
     [Language.EN]: {
         title: 'VIDEO STUDIO',
@@ -170,6 +203,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Estimated duration',
         need_recording: 'Please record first',
         minutes_unit: 'min',
+        choose_title: 'Create Dream Video',
+        choose_subtitle: 'Choose style and quality',
+        style_cartoon: 'Cartoon',
+        style_anime: 'Anime',
+        style_real: 'Realistic',
+        style_fantasy: 'Fantasy',
+        cat_standard: 'Standard',
+        cat_standard_desc: 'AI Video (180 Coins)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'Highest quality (280 Coins)',
+        continue_btn: 'Continue',
+        live_transcript: 'Live transcription',
+        edit_transcript: 'Edit text',
     },
     [Language.TR]: {
         title: 'VIDEO STUDYO',
@@ -211,6 +257,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Tahmini sure',
         need_recording: 'Lutfen once kayit yapin',
         minutes_unit: 'dk',
+        choose_title: 'Ruya Videosu Olustur',
+        choose_subtitle: 'Stil ve kalite sec',
+        style_cartoon: 'Cizgi Film',
+        style_anime: 'Anime',
+        style_real: 'Gercekci',
+        style_fantasy: 'Fantezi',
+        cat_standard: 'Standart',
+        cat_standard_desc: 'Yapay Zeka Video (180 Coin)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'En yuksek kalite (280 Coin)',
+        continue_btn: 'Devam',
+        live_transcript: 'Canli transkripsiyon',
+        edit_transcript: 'Metni duzenle',
     },
     [Language.ES]: {
         title: 'ESTUDIO VIDEO',
@@ -252,6 +311,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Duracion estimada',
         need_recording: 'Primero graba tu voz',
         minutes_unit: 'min',
+        choose_title: 'Crear Video de Sueno',
+        choose_subtitle: 'Elige estilo y calidad',
+        style_cartoon: 'Dibujos',
+        style_anime: 'Anime',
+        style_real: 'Realista',
+        style_fantasy: 'Fantasia',
+        cat_standard: 'Estandar',
+        cat_standard_desc: 'Video IA (180 Monedas)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'Maxima calidad (280 Monedas)',
+        continue_btn: 'Continuar',
+        live_transcript: 'Transcripcion en vivo',
+        edit_transcript: 'Editar texto',
     },
     [Language.FR]: {
         title: 'STUDIO VIDEO',
@@ -293,6 +365,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Duree estimee',
         need_recording: 'Veuillez enregistrer d\'abord',
         minutes_unit: 'min',
+        choose_title: 'Creer une Video de Reve',
+        choose_subtitle: 'Choisissez style et qualite',
+        style_cartoon: 'Dessin anime',
+        style_anime: 'Anime',
+        style_real: 'Realiste',
+        style_fantasy: 'Fantaisie',
+        cat_standard: 'Standard',
+        cat_standard_desc: 'Video IA (180 Coins)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'Qualite maximale (280 Coins)',
+        continue_btn: 'Continuer',
+        live_transcript: 'Transcription en direct',
+        edit_transcript: 'Modifier le texte',
     },
     [Language.AR]: {
         title: 'استوديو الفيديو',
@@ -334,6 +419,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'المدة المقدرة',
         need_recording: 'يرجى التسجيل أولاً',
         minutes_unit: 'د',
+        choose_title: 'إنشاء فيديو الحلم',
+        choose_subtitle: 'اختر الأسلوب والجودة',
+        style_cartoon: 'رسوم متحركة',
+        style_anime: 'أنمي',
+        style_real: 'واقعي',
+        style_fantasy: 'خيالي',
+        cat_standard: 'عادي',
+        cat_standard_desc: 'فيديو ذكاء (180 عملة)',
+        cat_quality: 'بريميوم HD',
+        cat_quality_desc: 'أعلى جودة (280 عملة)',
+        continue_btn: 'متابعة',
+        live_transcript: 'نسخ مباشر',
+        edit_transcript: 'تعديل النص',
     },
     [Language.PT]: {
         title: 'ESTÚDIO DE VÍDEO',
@@ -375,6 +473,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Duracao estimada',
         need_recording: 'Grave primeiro',
         minutes_unit: 'min',
+        choose_title: 'Criar Video do Sonho',
+        choose_subtitle: 'Escolha estilo e qualidade',
+        style_cartoon: 'Desenho',
+        style_anime: 'Anime',
+        style_real: 'Realista',
+        style_fantasy: 'Fantasia',
+        cat_standard: 'Padrao',
+        cat_standard_desc: 'Video IA (180 Moedas)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'Qualidade maxima (280 Moedas)',
+        continue_btn: 'Continuar',
+        live_transcript: 'Transcricao ao vivo',
+        edit_transcript: 'Editar texto',
     },
     [Language.RU]: {
         title: 'ВИДЕО СТУДИЯ',
@@ -416,6 +527,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Примерная длительность',
         need_recording: 'Сначала запишите голос',
         minutes_unit: 'мин',
+        choose_title: 'Создать видео сна',
+        choose_subtitle: 'Выберите стиль и качество',
+        style_cartoon: 'Мультфильм',
+        style_anime: 'Аниме',
+        style_real: 'Реалистичный',
+        style_fantasy: 'Фэнтези',
+        cat_standard: 'Стандарт',
+        cat_standard_desc: 'ИИ-видео (180 монет)',
+        cat_quality: 'Премиум HD',
+        cat_quality_desc: 'Высшее качество (280 монет)',
+        continue_btn: 'Продолжить',
+        live_transcript: 'Живая транскрипция',
+        edit_transcript: 'Редактировать текст',
     },
     [Language.ZH]: {
         title: '视频工作室',
@@ -457,6 +581,19 @@ const T: Record<Language, Translations> = {
         est_duration: '预估时长',
         need_recording: '请先录制',
         minutes_unit: '分',
+        choose_title: '创建梦境视频',
+        choose_subtitle: '选择风格和质量',
+        style_cartoon: '卡通',
+        style_anime: '动漫',
+        style_real: '写实',
+        style_fantasy: '奇幻',
+        cat_standard: '标准',
+        cat_standard_desc: 'AI视频 (180金币)',
+        cat_quality: '高清版',
+        cat_quality_desc: '最高画质 (280金币)',
+        continue_btn: '继续',
+        live_transcript: '实时转录',
+        edit_transcript: '编辑文本',
     },
     [Language.HI]: {
         title: 'वीडियो स्टूडियो',
@@ -498,6 +635,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'अनुमानित अवधि',
         need_recording: 'कृपया पहले रिकॉर्ड करें',
         minutes_unit: 'मिनट',
+        choose_title: 'सपने का वीडियो बनाएं',
+        choose_subtitle: 'शैली और गुणवत्ता चुनें',
+        style_cartoon: 'कार्टून',
+        style_anime: 'एनिमे',
+        style_real: 'यथार्थवादी',
+        style_fantasy: 'फैंटेसी',
+        cat_standard: 'मानक',
+        cat_standard_desc: 'AI वीडियो (180 सिक्के)',
+        cat_quality: 'प्रीमियम HD',
+        cat_quality_desc: 'उच्चतम गुणवत्ता (280 सिक्के)',
+        continue_btn: 'जारी रखें',
+        live_transcript: 'लाइव ट्रांसक्रिप्शन',
+        edit_transcript: 'टेक्स्ट संपादित करें',
     },
     [Language.JA]: {
         title: 'ビデオスタジオ',
@@ -539,6 +689,19 @@ const T: Record<Language, Translations> = {
         est_duration: '推定時間',
         need_recording: '先に録音してください',
         minutes_unit: '分',
+        choose_title: '夢動画を作成',
+        choose_subtitle: 'スタイルと品質を選択',
+        style_cartoon: 'カートゥーン',
+        style_anime: 'アニメ',
+        style_real: 'リアル',
+        style_fantasy: 'ファンタジー',
+        cat_standard: 'スタンダード',
+        cat_standard_desc: 'AI動画 (180コイン)',
+        cat_quality: 'プレミアムHD',
+        cat_quality_desc: '最高品質 (280コイン)',
+        continue_btn: '次へ',
+        live_transcript: 'ライブ文字起こし',
+        edit_transcript: 'テキスト編集',
     },
     [Language.KO]: {
         title: '비디오 스튜디오',
@@ -580,6 +743,19 @@ const T: Record<Language, Translations> = {
         est_duration: '예상 시간',
         need_recording: '먼저 녹음해주세요',
         minutes_unit: '분',
+        choose_title: '꿈 영상 만들기',
+        choose_subtitle: '스타일과 품질 선택',
+        style_cartoon: '만화',
+        style_anime: '애니메이션',
+        style_real: '사실적',
+        style_fantasy: '판타지',
+        cat_standard: '표준',
+        cat_standard_desc: 'AI 영상 (180코인)',
+        cat_quality: '프리미엄 HD',
+        cat_quality_desc: '최고 품질 (280코인)',
+        continue_btn: '계속',
+        live_transcript: '실시간 전사',
+        edit_transcript: '텍스트 편집',
     },
     [Language.ID]: {
         title: 'STUDIO VIDEO',
@@ -621,6 +797,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Perkiraan durasi',
         need_recording: 'Silakan rekam dulu',
         minutes_unit: 'mnt',
+        choose_title: 'Buat Video Mimpi',
+        choose_subtitle: 'Pilih gaya dan kualitas',
+        style_cartoon: 'Kartun',
+        style_anime: 'Anime',
+        style_real: 'Realistis',
+        style_fantasy: 'Fantasi',
+        cat_standard: 'Standar',
+        cat_standard_desc: 'Video AI (180 Koin)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'Kualitas tertinggi (280 Koin)',
+        continue_btn: 'Lanjut',
+        live_transcript: 'Transkripsi langsung',
+        edit_transcript: 'Edit teks',
     },
     [Language.FA]: {
         title: 'استودیو ویدیو',
@@ -662,6 +851,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'مدت تخمینی',
         need_recording: 'لطفا ابتدا ضبط کنید',
         minutes_unit: 'دقیقه',
+        choose_title: 'ساخت ویدیوی رویا',
+        choose_subtitle: 'سبک و کیفیت را انتخاب کنید',
+        style_cartoon: 'کارتونی',
+        style_anime: 'انیمه',
+        style_real: 'واقعی',
+        style_fantasy: 'فانتزی',
+        cat_standard: 'استاندارد',
+        cat_standard_desc: 'ویدیو هوشمند (۱۸۰ سکه)',
+        cat_quality: 'پریمیوم HD',
+        cat_quality_desc: 'بالاترین کیفیت (۲۸۰ سکه)',
+        continue_btn: 'ادامه',
+        live_transcript: 'رونوشت زنده',
+        edit_transcript: 'ویرایش متن',
     },
     [Language.IT]: {
         title: 'STUDIO VIDEO',
@@ -703,6 +905,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Durata stimata',
         need_recording: 'Registra prima',
         minutes_unit: 'min',
+        choose_title: 'Crea Video del Sogno',
+        choose_subtitle: 'Scegli stile e qualita',
+        style_cartoon: 'Cartone',
+        style_anime: 'Anime',
+        style_real: 'Realistico',
+        style_fantasy: 'Fantasia',
+        cat_standard: 'Standard',
+        cat_standard_desc: 'Video IA (180 Monete)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'Qualita massima (280 Monete)',
+        continue_btn: 'Continua',
+        live_transcript: 'Trascrizione live',
+        edit_transcript: 'Modifica testo',
     },
     [Language.PL]: {
         title: 'STUDIO WIDEO',
@@ -744,6 +959,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Szacowany czas',
         need_recording: 'Najpierw nagraj',
         minutes_unit: 'min',
+        choose_title: 'Stworz Film ze Snu',
+        choose_subtitle: 'Wybierz styl i jakosc',
+        style_cartoon: 'Kreskówka',
+        style_anime: 'Anime',
+        style_real: 'Realistyczny',
+        style_fantasy: 'Fantasy',
+        cat_standard: 'Standard',
+        cat_standard_desc: 'Film AI (180 Monet)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'Najwyzsza jakosc (280 Monet)',
+        continue_btn: 'Dalej',
+        live_transcript: 'Transkrypcja na zywo',
+        edit_transcript: 'Edytuj tekst',
     },
     [Language.BN]: {
         title: 'ভিডিও স্টুডিও',
@@ -785,6 +1013,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'আনুমানিক সময়কাল',
         need_recording: 'অনুগ্রহ করে প্রথমে রেকর্ড করুন',
         minutes_unit: 'মিনিট',
+        choose_title: 'স্বপ্নের ভিডিও তৈরি করুন',
+        choose_subtitle: 'শৈলী এবং মান নির্বাচন করুন',
+        style_cartoon: 'কার্টুন',
+        style_anime: 'অ্যানিমে',
+        style_real: 'বাস্তবসম্মত',
+        style_fantasy: 'ফ্যান্টাসি',
+        cat_standard: 'মানক',
+        cat_standard_desc: 'AI ভিডিও (১৮০ কয়েন)',
+        cat_quality: 'প্রিমিয়াম HD',
+        cat_quality_desc: 'সর্বোচ্চ মান (২৮০ কয়েন)',
+        continue_btn: 'চালিয়ে যান',
+        live_transcript: 'লাইভ ট্রান্সক্রিপশন',
+        edit_transcript: 'টেক্সট সম্পাদনা',
     },
     [Language.UR]: {
         title: 'ویڈیو اسٹوڈیو',
@@ -826,6 +1067,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'تخمینی مدت',
         need_recording: 'پہلے ریکارڈ کریں',
         minutes_unit: 'منٹ',
+        choose_title: 'خواب کی ویڈیو بنائیں',
+        choose_subtitle: 'اسٹائل اور کوالٹی منتخب کریں',
+        style_cartoon: 'کارٹون',
+        style_anime: 'اینیمے',
+        style_real: 'حقیقت پسندانہ',
+        style_fantasy: 'فینٹسی',
+        cat_standard: 'معیاری',
+        cat_standard_desc: 'AI ویڈیو (180 سکے)',
+        cat_quality: 'پریمیم HD',
+        cat_quality_desc: 'اعلی ترین معیار (280 سکے)',
+        continue_btn: 'جاری رکھیں',
+        live_transcript: 'لائیو ٹرانسکرپشن',
+        edit_transcript: 'متن میں ترمیم',
     },
     [Language.VI]: {
         title: 'STUDIO VIDEO',
@@ -867,6 +1121,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Thoi luong uoc tinh',
         need_recording: 'Vui long ghi am truoc',
         minutes_unit: 'phut',
+        choose_title: 'Tao Video Giac Mo',
+        choose_subtitle: 'Chon phong cach va chat luong',
+        style_cartoon: 'Hoat hinh',
+        style_anime: 'Anime',
+        style_real: 'Thuc te',
+        style_fantasy: 'Ky ao',
+        cat_standard: 'Tieu chuan',
+        cat_standard_desc: 'Video AI (180 Xu)',
+        cat_quality: 'Cao cap HD',
+        cat_quality_desc: 'Chat luong cao nhat (280 Xu)',
+        continue_btn: 'Tiep tuc',
+        live_transcript: 'Phien am truc tiep',
+        edit_transcript: 'Chinh sua van ban',
     },
     [Language.TH]: {
         title: 'สตูดิโอวิดีโอ',
@@ -908,6 +1175,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'ระยะเวลาโดยประมาณ',
         need_recording: 'กรุณาบันทึกก่อน',
         minutes_unit: 'นาที',
+        choose_title: 'สร้างวิดีโอความฝัน',
+        choose_subtitle: 'เลือกสไตล์และคุณภาพ',
+        style_cartoon: 'การ์ตูน',
+        style_anime: 'อนิเมะ',
+        style_real: 'สมจริง',
+        style_fantasy: 'แฟนตาซี',
+        cat_standard: 'มาตรฐาน',
+        cat_standard_desc: 'วิดีโอ AI (180 เหรียญ)',
+        cat_quality: 'พรีเมียม HD',
+        cat_quality_desc: 'คุณภาพสูงสุด (280 เหรียญ)',
+        continue_btn: 'ดำเนินการต่อ',
+        live_transcript: 'ถอดเสียงสด',
+        edit_transcript: 'แก้ไขข้อความ',
     },
     [Language.SW]: {
         title: 'STUDIO YA VIDEO',
@@ -949,6 +1229,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Muda unaokadiriwa',
         need_recording: 'Tafadhali rekodi kwanza',
         minutes_unit: 'dak',
+        choose_title: 'Tengeneza Video ya Ndoto',
+        choose_subtitle: 'Chagua mtindo na ubora',
+        style_cartoon: 'Katuni',
+        style_anime: 'Anime',
+        style_real: 'Halisi',
+        style_fantasy: 'Fantasia',
+        cat_standard: 'Kawaida',
+        cat_standard_desc: 'Video ya AI (Sarafu 180)',
+        cat_quality: 'Premium HD',
+        cat_quality_desc: 'Ubora wa juu (Sarafu 280)',
+        continue_btn: 'Endelea',
+        live_transcript: 'Uandishi wa moja kwa moja',
+        edit_transcript: 'Hariri maandishi',
     },
     [Language.HU]: {
         title: 'VIDEO STUDIO',
@@ -990,6 +1283,19 @@ const T: Record<Language, Translations> = {
         est_duration: 'Becsult idotartam',
         need_recording: 'Eloszor rogzitsen',
         minutes_unit: 'perc',
+        choose_title: 'Álomvideó készítése',
+        choose_subtitle: 'Válassz stílust és minőséget',
+        style_cartoon: 'Rajzfilm',
+        style_anime: 'Anime',
+        style_real: 'Realisztikus',
+        style_fantasy: 'Fantasy',
+        cat_standard: 'Standard',
+        cat_standard_desc: 'AI videó (180 érme)',
+        cat_quality: 'Prémium HD',
+        cat_quality_desc: 'Legmagasabb minőség (280 érme)',
+        continue_btn: 'Tovább',
+        live_transcript: 'Élő átírás',
+        edit_transcript: 'Szöveg szerkesztése',
     },
 };
 
@@ -1100,14 +1406,21 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
     onSave,
     onGenerate,
     userCredits,
+    initialMode,
 }) => {
     const t = getT(language);
     const isLight = themeMode === ThemeMode.LIGHT;
     const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
 
+    // --- Choose screen state ---
+    const [showChooseScreen, setShowChooseScreen] = useState(initialMode === 'choose');
+    const [chosenStyle, setChosenStyle] = useState<'cartoon' | 'anime' | 'real' | 'fantasy'>('fantasy');
+    const [chosenQuality, setChosenQuality] = useState<Quality>('standard');
+
     // --- Tab & quality ---
-    const [activeTab, setActiveTab] = useState<Tab>('slideshow');
+    const [activeTab, setActiveTab] = useState<Tab>(initialMode === 'slideshow' ? 'slideshow' : 'ai');
     const [quality, setQuality] = useState<Quality>('standard');
+    const [videoStyle, setVideoStyle] = useState<VideoStyle>('dreamlike');
 
     // --- Slideshow settings ---
     const [imageInterval, setImageInterval] = useState<number>(3);
@@ -1129,6 +1442,12 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
     const [isPreviewingMusic, setIsPreviewingMusic] = useState(false);
     const previewVoiceRef = useRef<HTMLAudioElement | null>(null);
     const previewMusicRef = useRef<HTMLAudioElement | null>(null);
+
+    // --- Live transcription state ---
+    const [liveTranscript, setLiveTranscript] = useState('');
+    const [interimText, setInterimText] = useState('');
+    const [isEditingTranscript, setIsEditingTranscript] = useState(false);
+    const recognitionRef = useRef<any>(null);
 
     // --- Generation state ---
     const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -1240,17 +1559,74 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
             recorder.start();
             mediaRecorderRef.current = recorder;
             setIsRecording(true);
+            setLiveTranscript('');
+            setInterimText('');
+
+            // --- Start parallel live transcription via Web Speech API ---
+            const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+            if (SpeechRecognition) {
+                try {
+                    const recognition = new SpeechRecognition();
+                    const langMap: Record<string, string> = {
+                        [Language.DE]: 'de-DE', [Language.EN]: 'en-US', [Language.TR]: 'tr-TR',
+                        [Language.ES]: 'es-ES', [Language.FR]: 'fr-FR', [Language.AR]: 'ar-SA',
+                        [Language.PT]: 'pt-PT', [Language.RU]: 'ru-RU', [Language.ZH]: 'zh-CN',
+                        [Language.HI]: 'hi-IN', [Language.JA]: 'ja-JP', [Language.KO]: 'ko-KR',
+                        [Language.ID]: 'id-ID', [Language.FA]: 'fa-IR', [Language.IT]: 'it-IT',
+                        [Language.PL]: 'pl-PL', [Language.BN]: 'bn-BD', [Language.UR]: 'ur-PK',
+                        [Language.VI]: 'vi-VN', [Language.TH]: 'th-TH', [Language.SW]: 'sw-KE',
+                        [Language.HU]: 'hu-HU',
+                    };
+                    recognition.lang = langMap[language] || 'en-US';
+                    recognition.continuous = true;
+                    recognition.interimResults = true;
+
+                    recognition.onresult = (event: any) => {
+                        let finalText = '';
+                        let interim = '';
+                        for (let i = event.resultIndex; i < event.results.length; i++) {
+                            const transcript = event.results[i][0].transcript;
+                            if (event.results[i].isFinal) {
+                                finalText += transcript;
+                            } else {
+                                interim += transcript;
+                            }
+                        }
+                        if (finalText) {
+                            setLiveTranscript(prev => (prev + ' ' + finalText).trim());
+                        }
+                        setInterimText(interim);
+                    };
+
+                    recognition.onerror = (e: any) => {
+                        console.warn('[VideoStudio] Speech recognition error:', e.error);
+                    };
+
+                    recognition.start();
+                    recognitionRef.current = recognition;
+                } catch (e) {
+                    console.warn('[VideoStudio] Speech recognition not available', e);
+                }
+            }
         } catch {
             console.error('[VideoStudio] Mikrofon-Zugriff verweigert');
         }
-    }, []);
+    }, [language]);
 
     const stopRecording = useCallback(() => {
         if (mediaRecorderRef.current && isRecording) {
             mediaRecorderRef.current.stop();
             setIsRecording(false);
         }
-    }, [isRecording]);
+        if (recognitionRef.current) {
+            recognitionRef.current.stop();
+            recognitionRef.current = null;
+        }
+        setInterimText('');
+        if (liveTranscript.trim()) {
+            setIsEditingTranscript(true);
+        }
+    }, [isRecording, liveTranscript]);
 
     const handleMp3Upload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -1275,6 +1651,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                     contentMode,
                     voiceId: selectedAiVoice,
                     voiceBlob,
+                    style: activeTab === 'ai' ? videoStyle : undefined,
                 });
                 if (videoUrl) {
                     onSave({ videoUrl, type: activeTab === 'ai' ? 'ai' : 'slideshow' });
@@ -1336,6 +1713,92 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
     // Render
     // ---------------------------------------------------------------------------
 
+    // --- Choose Screen (Style + Quality selection) ---
+    if (showChooseScreen) {
+        const styleOptions: { key: 'cartoon' | 'anime' | 'real' | 'fantasy'; icon: string }[] = [
+            { key: 'cartoon', icon: 'draw' },
+            { key: 'anime', icon: 'animation' },
+            { key: 'real', icon: 'photo_camera' },
+            { key: 'fantasy', icon: 'castle' },
+        ];
+        return (
+            <div className={`fixed inset-0 z-50 flex flex-col ${bg} overflow-hidden`} dir={isRtl ? 'rtl' : 'ltr'}>
+                <div className={`flex items-center gap-3 px-4 py-3 ${headerBg} flex-shrink-0`}>
+                    <button onClick={onClose} className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl transition-colors ${isLight ? 'hover:bg-indigo-50 text-indigo-600' : 'hover:bg-white/10 text-white/60'}`}>
+                        <span className="material-icons">{isRtl ? 'arrow_forward' : 'arrow_back'}</span>
+                    </button>
+                    <h1 className={`text-sm font-bold tracking-widest uppercase flex-1 text-center ${sectionLabel}`}>{t.choose_title}</h1>
+                    <div className="min-w-[44px]" />
+                </div>
+                <div className="flex-1 overflow-y-auto overscroll-contain">
+                    <div className="max-w-lg mx-auto px-4 py-6 space-y-6">
+                        <p className={`text-center text-sm ${textSecondary}`}>{t.choose_subtitle}</p>
+
+                        {/* Style Selection */}
+                        <div className={`rounded-2xl p-4 space-y-3 ${cardBg}`}>
+                            <div className="flex items-center gap-2">
+                                <span className={`material-icons text-base ${sectionLabel}`}>palette</span>
+                                <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>Stil</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                                {styleOptions.map(({ key, icon }) => (
+                                    <button key={key} onClick={() => setChosenStyle(key)}
+                                        className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${chosenStyle === key
+                                            ? (isLight ? 'bg-violet-100 border-violet-400 shadow-md' : 'bg-violet-900/40 border-violet-400 shadow-[0_0_15px_rgba(139,92,246,0.3)]')
+                                            : (isLight ? 'bg-white border-gray-200 hover:border-violet-300' : 'bg-white/5 border-white/10 hover:border-violet-500/30')}`}>
+                                        <span className={`material-icons text-xl ${chosenStyle === key ? 'text-violet-500' : (isLight ? 'text-gray-400' : 'text-white/40')}`}>{icon}</span>
+                                        <span className={`text-sm font-semibold ${chosenStyle === key ? (isLight ? 'text-violet-700' : 'text-violet-200') : textSecondary}`}>
+                                            {key === 'cartoon' ? t.style_cartoon : key === 'anime' ? t.style_anime : key === 'real' ? t.style_real : t.style_fantasy}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Quality Selection */}
+                        <div className={`rounded-2xl p-4 space-y-3 ${cardBg}`}>
+                            <div className="flex items-center gap-2">
+                                <span className={`material-icons text-base ${sectionLabel}`}>high_quality</span>
+                                <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>{t.quality_label}</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                                <button onClick={() => setChosenQuality('standard')}
+                                    className={`p-4 rounded-xl border text-center transition-all ${chosenQuality === 'standard'
+                                        ? (isLight ? 'bg-violet-100 border-violet-400 shadow-md' : 'bg-violet-900/40 border-violet-400')
+                                        : (isLight ? 'bg-white border-gray-200 hover:border-violet-300' : 'bg-white/5 border-white/10 hover:border-violet-500/30')}`}>
+                                    <span className={`text-sm font-bold ${chosenQuality === 'standard' ? (isLight ? 'text-violet-700' : 'text-violet-200') : textSecondary}`}>{t.cat_standard}</span>
+                                    <p className={`text-xs mt-1 ${isLight ? 'text-gray-500' : 'text-white/40'}`}>{t.cat_standard_desc}</p>
+                                </button>
+                                <button onClick={() => setChosenQuality('hd')}
+                                    className={`p-4 rounded-xl border text-center transition-all ${chosenQuality === 'hd'
+                                        ? (isLight ? 'bg-amber-100 border-amber-400 shadow-md' : 'bg-amber-900/40 border-amber-400')
+                                        : (isLight ? 'bg-white border-gray-200 hover:border-amber-300' : 'bg-white/5 border-white/10 hover:border-amber-500/30')}`}>
+                                    <span className={`text-sm font-bold ${chosenQuality === 'hd' ? (isLight ? 'text-amber-700' : 'text-amber-200') : textSecondary}`}>{t.cat_quality}</span>
+                                    <p className={`text-xs mt-1 ${isLight ? 'text-gray-500' : 'text-white/40'}`}>{t.cat_quality_desc}</p>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Price display */}
+                        <div className={`text-center text-xs ${textSecondary}`}>
+                            {t.price_label}: <span className="font-bold">{chosenQuality === 'hd' ? 280 : 180}</span> Coins | {t.balance_label}: <span className="font-bold">{userCredits}</span>
+                        </div>
+
+                        {/* Continue button */}
+                        <button onClick={() => {
+                            setVideoStyle(chosenStyle as VideoStyle);
+                            setQuality(chosenQuality);
+                            setActiveTab('ai');
+                            setShowChooseScreen(false);
+                        }} className={`w-full py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all ${isLight ? 'bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white shadow-lg hover:shadow-xl' : 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/30 hover:shadow-xl'}`}>
+                            {t.continue_btn}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div
             className={`fixed inset-0 z-50 flex flex-col ${bg} overflow-hidden`}
@@ -1394,6 +1857,41 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                             {dreamText || '—'}
                         </p>
                     </div>
+
+                    {/* ── Video Style (nur KI-Video Tab) ── */}
+                    {activeTab === 'ai' && (
+                    <div className={`rounded-2xl p-4 space-y-3 ${cardBg}`}>
+                        <div className="flex items-center gap-2">
+                            <span className={`material-icons text-base ${sectionLabel}`}>palette</span>
+                            <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>
+                                Stil
+                            </span>
+                        </div>
+                        <div className="grid grid-cols-4 gap-1.5">
+                            {([
+                                { key: 'dreamlike' as VideoStyle, label: 'Traum', icon: 'auto_awesome' },
+                                { key: 'cinematic' as VideoStyle, label: 'Kino', icon: 'movie' },
+                                { key: 'fantasy' as VideoStyle, label: 'Fantasy', icon: 'castle' },
+                                { key: 'surreal' as VideoStyle, label: 'Surreal', icon: 'psychology' },
+                                { key: 'cartoon' as VideoStyle, label: 'Cartoon', icon: 'draw' },
+                                { key: 'anime' as VideoStyle, label: 'Anime', icon: 'animation' },
+                                { key: 'real' as VideoStyle, label: 'Real', icon: 'photo_camera' },
+                            ]).map(({ key, label, icon }) => (
+                                <button
+                                    key={key}
+                                    onClick={() => setVideoStyle(key)}
+                                    className={`
+                                        py-2 rounded-xl text-xs font-semibold min-h-[44px] transition-all duration-150 flex flex-col items-center gap-0.5
+                                        ${videoStyle === key ? tabActive : tabInactive}
+                                    `}
+                                >
+                                    <span className="material-icons text-sm">{icon}</span>
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                    )}
 
                     {/* ── Content Mode ── */}
                     <div className={`rounded-2xl p-4 space-y-3 ${cardBg}`}>
@@ -1568,6 +2066,30 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                                             : t.record_voice}
                                 </span>
                             </button>
+                        )}
+
+                        {/* Live transcription display */}
+                        {effectiveVoiceMode === 'user_voice' && (isRecording || liveTranscript || isEditingTranscript) && (
+                            <div className={`rounded-xl p-3 border ${isLight ? 'bg-gray-50 border-gray-200' : 'bg-white/5 border-white/10'}`}>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className={`material-icons text-sm ${sectionLabel}`}>subtitles</span>
+                                    <span className={`text-[10px] uppercase tracking-widest font-semibold ${sectionLabel}`}>{t.live_transcript}</span>
+                                </div>
+                                {isEditingTranscript && !isRecording ? (
+                                    <textarea
+                                        value={liveTranscript}
+                                        onChange={(e) => setLiveTranscript(e.target.value)}
+                                        className={`w-full bg-transparent text-sm resize-none outline-none min-h-[60px] ${textPrimary}`}
+                                        placeholder={t.edit_transcript}
+                                    />
+                                ) : (
+                                    <p className={`text-sm leading-relaxed ${textPrimary}`}>
+                                        {liveTranscript}
+                                        {interimText && <span className={`${isLight ? 'text-gray-400' : 'text-white/30'}`}> {interimText}</span>}
+                                        {isRecording && <span className="animate-pulse ml-1">|</span>}
+                                    </p>
+                                )}
+                            </div>
                         )}
 
                         {/* AI voice: character grid */}

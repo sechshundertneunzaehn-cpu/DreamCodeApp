@@ -104,6 +104,25 @@ const T = {
     noDreams: 'Keine Traeume gefunden',
     doi: 'DOI',
     demographics: 'Demografische Daten',
+    researchBannerTitle: 'Wissenschaftliches Forschungsprofil — Nur Lesen',
+    researchBannerSub: 'Keine Interaktion moeglich. Originaldaten aus der Studie.',
+    studyInfo: 'Studien-Info',
+    aboutStudy: 'Ueber diese Studie',
+    country: 'Land',
+    city: 'Stadt',
+    license: 'Lizenz',
+    statsInterpretations: 'Deutungen',
+    dreamLabel: 'Traum',
+    week: 'Woche',
+    words: 'Woerter',
+    readMore: 'Mehr lesen',
+    showLess: 'Weniger anzeigen',
+    characters: 'Charaktere',
+    settings: 'Schauplaetze',
+    themes: 'Themen',
+    showInterpretation: 'Deutung anzeigen',
+    noInterpretation: 'Keine Deutung in Originalstudie',
+    scientificInterpretation: 'Wissenschaftliche Deutung',
   },
   en: {
     title: 'Participant Profile',
@@ -129,6 +148,25 @@ const T = {
     noDreams: 'No dreams found',
     doi: 'DOI',
     demographics: 'Demographics',
+    researchBannerTitle: 'Scientific Research Profile — Read Only',
+    researchBannerSub: 'No interaction possible. Original data from the study.',
+    studyInfo: 'Study info',
+    aboutStudy: 'About this study',
+    country: 'Country',
+    city: 'City',
+    license: 'License',
+    statsInterpretations: 'Interpretations',
+    dreamLabel: 'Dream',
+    week: 'Week',
+    words: 'words',
+    readMore: 'Read more',
+    showLess: 'Show less',
+    characters: 'Characters',
+    settings: 'Settings',
+    themes: 'Themes',
+    showInterpretation: 'Show Interpretation',
+    noInterpretation: 'No interpretation in original study',
+    scientificInterpretation: 'Scientific Interpretation',
   },
   tr: {
     title: 'Katilimci Profili',
@@ -154,6 +192,25 @@ const T = {
     noDreams: 'Ruya bulunamadi',
     doi: 'DOI',
     demographics: 'Demografik Veriler',
+    researchBannerTitle: 'Bilimsel Arastirma Profili — Yalnizca Okuma',
+    researchBannerSub: 'Etkilesim mumkun degil. Calismadan orijinal veriler.',
+    studyInfo: 'Calisma bilgisi',
+    aboutStudy: 'Bu calisma hakkinda',
+    country: 'Ulke',
+    city: 'Sehir',
+    license: 'Lisans',
+    statsInterpretations: 'Yorumlar',
+    dreamLabel: 'Ruya',
+    week: 'Hafta',
+    words: 'kelime',
+    readMore: 'Devamini oku',
+    showLess: 'Daha az goster',
+    characters: 'Karakterler',
+    settings: 'Mekanlar',
+    themes: 'Temalar',
+    showInterpretation: 'Yorumu goster',
+    noInterpretation: 'Orijinal calismada yorum yok',
+    scientificInterpretation: 'Bilimsel Yorum',
   },
   es: {
     title: 'Perfil del Participante',
@@ -179,6 +236,25 @@ const T = {
     noDreams: 'No se encontraron suenos',
     doi: 'DOI',
     demographics: 'Datos Demograficos',
+    researchBannerTitle: 'Perfil de Investigacion Cientifica — Solo Lectura',
+    researchBannerSub: 'Sin interaccion posible. Datos originales del estudio.',
+    studyInfo: 'Info del estudio',
+    aboutStudy: 'Sobre este estudio',
+    country: 'Pais',
+    city: 'Ciudad',
+    license: 'Licencia',
+    statsInterpretations: 'Interpretaciones',
+    dreamLabel: 'Sueno',
+    week: 'Semana',
+    words: 'palabras',
+    readMore: 'Leer mas',
+    showLess: 'Mostrar menos',
+    characters: 'Personajes',
+    settings: 'Escenarios',
+    themes: 'Temas',
+    showInterpretation: 'Ver Interpretacion',
+    noInterpretation: 'Sin interpretacion en estudio original',
+    scientificInterpretation: 'Interpretacion Cientifica',
   },
   fr: {
     title: 'Profil du Participant',
@@ -204,6 +280,25 @@ const T = {
     noDreams: 'Aucun reve trouve',
     doi: 'DOI',
     demographics: 'Donnees Demographiques',
+    researchBannerTitle: 'Profil de Recherche Scientifique — Lecture Seule',
+    researchBannerSub: 'Aucune interaction possible. Donnees originales de l\'etude.',
+    studyInfo: 'Info etude',
+    aboutStudy: 'A propos de cette etude',
+    country: 'Pays',
+    city: 'Ville',
+    license: 'Licence',
+    statsInterpretations: 'Interpretations',
+    dreamLabel: 'Reve',
+    week: 'Semaine',
+    words: 'mots',
+    readMore: 'Lire la suite',
+    showLess: 'Afficher moins',
+    characters: 'Personnages',
+    settings: 'Lieux',
+    themes: 'Themes',
+    showInterpretation: 'Afficher l\'interpretation',
+    noInterpretation: 'Pas d\'interpretation dans l\'etude originale',
+    scientificInterpretation: 'Interpretation Scientifique',
   },
   ar: {
     title: 'ملف المشارك',
@@ -229,6 +324,25 @@ const T = {
     noDreams: 'لم يتم العثور على أحلام',
     doi: 'DOI',
     demographics: 'البيانات الديموغرافية',
+    researchBannerTitle: 'ملف بحثي علمي — للقراءة فقط',
+    researchBannerSub: 'لا تفاعل ممكن. بيانات أصلية من الدراسة.',
+    studyInfo: 'معلومات الدراسة',
+    aboutStudy: 'حول هذه الدراسة',
+    country: 'البلد',
+    city: 'المدينة',
+    license: 'الترخيص',
+    statsInterpretations: 'تفسيرات',
+    dreamLabel: 'حلم',
+    week: 'أسبوع',
+    words: 'كلمات',
+    readMore: 'اقرأ المزيد',
+    showLess: 'عرض أقل',
+    characters: 'الشخصيات',
+    settings: 'الأماكن',
+    themes: 'المواضيع',
+    showInterpretation: 'عرض التفسير',
+    noInterpretation: 'لا تفسير في الدراسة الأصلية',
+    scientificInterpretation: 'التفسير العلمي',
   },
   pt: {
     title: 'Perfil do Participante',
@@ -254,6 +368,25 @@ const T = {
     noDreams: 'Nenhum sonho encontrado',
     doi: 'DOI',
     demographics: 'Dados Demograficos',
+    researchBannerTitle: 'Perfil de Pesquisa Cientifica — Somente Leitura',
+    researchBannerSub: 'Sem interacao possivel. Dados originais do estudo.',
+    studyInfo: 'Info do estudo',
+    aboutStudy: 'Sobre este estudo',
+    country: 'Pais',
+    city: 'Cidade',
+    license: 'Licenca',
+    statsInterpretations: 'Interpretacoes',
+    dreamLabel: 'Sonho',
+    week: 'Semana',
+    words: 'palavras',
+    readMore: 'Ler mais',
+    showLess: 'Mostrar menos',
+    characters: 'Personagens',
+    settings: 'Cenarios',
+    themes: 'Temas',
+    showInterpretation: 'Ver Interpretacao',
+    noInterpretation: 'Sem interpretacao no estudo original',
+    scientificInterpretation: 'Interpretacao Cientifica',
   },
   ru: {
     title: 'Профиль участника',
@@ -279,6 +412,25 @@ const T = {
     noDreams: 'Сны не найдены',
     doi: 'DOI',
     demographics: 'Демографические данные',
+    researchBannerTitle: 'Научный исследовательский профиль — только чтение',
+    researchBannerSub: 'Взаимодействие невозможно. Оригинальные данные исследования.',
+    studyInfo: 'Инфо об исследовании',
+    aboutStudy: 'Об этом исследовании',
+    country: 'Страна',
+    city: 'Город',
+    license: 'Лицензия',
+    statsInterpretations: 'Интерпретации',
+    dreamLabel: 'Сон',
+    week: 'Неделя',
+    words: 'слов',
+    readMore: 'Читать далее',
+    showLess: 'Свернуть',
+    characters: 'Персонажи',
+    settings: 'Места',
+    themes: 'Темы',
+    showInterpretation: 'Показать интерпретацию',
+    noInterpretation: 'Нет интерпретации в оригинальном исследовании',
+    scientificInterpretation: 'Научная интерпретация',
   },
   zh: {
     title: '参与者资料',
@@ -304,6 +456,25 @@ const T = {
     noDreams: '未找到梦境',
     doi: 'DOI',
     demographics: '人口统计数据',
+    researchBannerTitle: '科学研究档案 — 只读',
+    researchBannerSub: '无法交互。来自研究的原始数据。',
+    studyInfo: '研究信息',
+    aboutStudy: '关于本研究',
+    country: '国家',
+    city: '城市',
+    license: '许可证',
+    statsInterpretations: '解读',
+    dreamLabel: '梦境',
+    week: '周',
+    words: '词',
+    readMore: '阅读更多',
+    showLess: '收起',
+    characters: '人物',
+    settings: '场景',
+    themes: '主题',
+    showInterpretation: '显示解读',
+    noInterpretation: '原始研究中无解读',
+    scientificInterpretation: '科学解读',
   },
   hi: {
     title: 'प्रतिभागी प्रोफ़ाइल',
@@ -329,6 +500,25 @@ const T = {
     noDreams: 'कोई सपने नहीं मिले',
     doi: 'DOI',
     demographics: 'जनसांख्यिकीय डेटा',
+    researchBannerTitle: 'वैज्ञानिक अनुसंधान प्रोफाइल — केवल पढें',
+    researchBannerSub: 'कोई इंटरेक्शन संभव नहीं। अध्ययन से मूल डेटा।',
+    studyInfo: 'अध्ययन जानकारी',
+    aboutStudy: 'इस अध्ययन के बारे में',
+    country: 'देश',
+    city: 'शहर',
+    license: 'लाइसेंस',
+    statsInterpretations: 'व्याख्याएं',
+    dreamLabel: 'सपना',
+    week: 'सप्ताह',
+    words: 'शब्द',
+    readMore: 'और पढें',
+    showLess: 'कम दिखाएं',
+    characters: 'पात्र',
+    settings: 'स्थान',
+    themes: 'विषय',
+    showInterpretation: 'व्याख्या दिखाएं',
+    noInterpretation: 'मूल अध्ययन में कोई व्याख्या नहीं',
+    scientificInterpretation: 'वैज्ञानिक व्याख्या',
   },
   ja: {
     title: '参加者プロフィール',
@@ -354,6 +544,25 @@ const T = {
     noDreams: '夢が見つかりません',
     doi: 'DOI',
     demographics: '人口統計データ',
+    researchBannerTitle: '科学的研究プロフィール — 読み取り専用',
+    researchBannerSub: 'インタラクション不可。研究からの元データ。',
+    studyInfo: '研究情報',
+    aboutStudy: 'この研究について',
+    country: '国',
+    city: '都市',
+    license: 'ライセンス',
+    statsInterpretations: '解釈',
+    dreamLabel: '夢',
+    week: '週',
+    words: '語',
+    readMore: '続きを読む',
+    showLess: '折りたたむ',
+    characters: '登場人物',
+    settings: '場所',
+    themes: 'テーマ',
+    showInterpretation: '解釈を表示',
+    noInterpretation: '元の研究に解釈なし',
+    scientificInterpretation: '科学的解釈',
   },
   ko: {
     title: '참여자 프로필',
@@ -379,6 +588,25 @@ const T = {
     noDreams: '꿈을 찾을 수 없습니다',
     doi: 'DOI',
     demographics: '인구통계 데이터',
+    researchBannerTitle: '과학적 연구 프로필 — 읽기 전용',
+    researchBannerSub: '상호작용 불가. 연구의 원본 데이터.',
+    studyInfo: '연구 정보',
+    aboutStudy: '이 연구에 대해',
+    country: '국가',
+    city: '도시',
+    license: '라이선스',
+    statsInterpretations: '해석',
+    dreamLabel: '꿈',
+    week: '주',
+    words: '단어',
+    readMore: '더 읽기',
+    showLess: '접기',
+    characters: '등장인물',
+    settings: '장소',
+    themes: '주제',
+    showInterpretation: '해석 보기',
+    noInterpretation: '원본 연구에 해석 없음',
+    scientificInterpretation: '과학적 해석',
   },
   id: {
     title: 'Profil Peserta',
@@ -404,6 +632,25 @@ const T = {
     noDreams: 'Tidak ada mimpi ditemukan',
     doi: 'DOI',
     demographics: 'Data Demografis',
+    researchBannerTitle: 'Profil Penelitian Ilmiah — Hanya Baca',
+    researchBannerSub: 'Tidak ada interaksi. Data asli dari penelitian.',
+    studyInfo: 'Info penelitian',
+    aboutStudy: 'Tentang penelitian ini',
+    country: 'Negara',
+    city: 'Kota',
+    license: 'Lisensi',
+    statsInterpretations: 'Interpretasi',
+    dreamLabel: 'Mimpi',
+    week: 'Minggu',
+    words: 'kata',
+    readMore: 'Baca selengkapnya',
+    showLess: 'Tampilkan lebih sedikit',
+    characters: 'Karakter',
+    settings: 'Lokasi',
+    themes: 'Tema',
+    showInterpretation: 'Lihat Interpretasi',
+    noInterpretation: 'Tidak ada interpretasi dalam penelitian asli',
+    scientificInterpretation: 'Interpretasi Ilmiah',
   },
   fa: {
     title: 'پروفایل شرکت‌کننده',
@@ -429,6 +676,25 @@ const T = {
     noDreams: 'رویایی یافت نشد',
     doi: 'DOI',
     demographics: 'داده‌های جمعیتی',
+    researchBannerTitle: 'پروفایل تحقیقاتی علمی — فقط خواندنی',
+    researchBannerSub: 'تعامل ممکن نیست. داده‌های اصلی از مطالعه.',
+    studyInfo: 'اطلاعات مطالعه',
+    aboutStudy: 'درباره این مطالعه',
+    country: 'کشور',
+    city: 'شهر',
+    license: 'مجوز',
+    statsInterpretations: 'تفسیرها',
+    dreamLabel: 'رویا',
+    week: 'هفته',
+    words: 'کلمه',
+    readMore: 'بیشتر بخوانید',
+    showLess: 'نمایش کمتر',
+    characters: 'شخصیت‌ها',
+    settings: 'مکان‌ها',
+    themes: 'موضوعات',
+    showInterpretation: 'نمایش تفسیر',
+    noInterpretation: 'بدون تفسیر در مطالعه اصلی',
+    scientificInterpretation: 'تفسیر علمی',
   },
   it: {
     title: 'Profilo Partecipante',
@@ -454,6 +720,25 @@ const T = {
     noDreams: 'Nessun sogno trovato',
     doi: 'DOI',
     demographics: 'Dati Demografici',
+    researchBannerTitle: 'Profilo di Ricerca Scientifica — Solo Lettura',
+    researchBannerSub: 'Nessuna interazione possibile. Dati originali dello studio.',
+    studyInfo: 'Info studio',
+    aboutStudy: 'Informazioni su questo studio',
+    country: 'Paese',
+    city: 'Citta',
+    license: 'Licenza',
+    statsInterpretations: 'Interpretazioni',
+    dreamLabel: 'Sogno',
+    week: 'Settimana',
+    words: 'parole',
+    readMore: 'Leggi di piu',
+    showLess: 'Mostra meno',
+    characters: 'Personaggi',
+    settings: 'Luoghi',
+    themes: 'Temi',
+    showInterpretation: 'Mostra Interpretazione',
+    noInterpretation: 'Nessuna interpretazione nello studio originale',
+    scientificInterpretation: 'Interpretazione Scientifica',
   },
   pl: {
     title: 'Profil Uczestnika',
@@ -479,6 +764,25 @@ const T = {
     noDreams: 'Nie znaleziono snow',
     doi: 'DOI',
     demographics: 'Dane Demograficzne',
+    researchBannerTitle: 'Naukowy Profil Badawczy — Tylko Odczyt',
+    researchBannerSub: 'Brak mozliwosci interakcji. Oryginalne dane z badania.',
+    studyInfo: 'Info o badaniu',
+    aboutStudy: 'O tym badaniu',
+    country: 'Kraj',
+    city: 'Miasto',
+    license: 'Licencja',
+    statsInterpretations: 'Interpretacje',
+    dreamLabel: 'Sen',
+    week: 'Tydzien',
+    words: 'slow',
+    readMore: 'Czytaj wiecej',
+    showLess: 'Pokaz mniej',
+    characters: 'Postacie',
+    settings: 'Miejsca',
+    themes: 'Tematy',
+    showInterpretation: 'Pokaz Interpretacje',
+    noInterpretation: 'Brak interpretacji w oryginalnym badaniu',
+    scientificInterpretation: 'Interpretacja Naukowa',
   },
   bn: {
     title: 'অংশগ্রহণকারীর প্রোফাইল',
@@ -504,6 +808,25 @@ const T = {
     noDreams: 'কোনো স্বপ্ন পাওয়া যায়নি',
     doi: 'DOI',
     demographics: 'জনমিতি তথ্য',
+    researchBannerTitle: 'বৈজ্ঞানিক গবেষণা প্রোফাইল — শুধুমাত্র পড়ুন',
+    researchBannerSub: 'কোনো ইন্টারঅ্যাকশন সম্ভব নয়। গবেষণার মূল ডেটা।',
+    studyInfo: 'গবেষণা তথ্য',
+    aboutStudy: 'এই গবেষণা সম্পর্কে',
+    country: 'দেশ',
+    city: 'শহর',
+    license: 'লাইসেন্স',
+    statsInterpretations: 'ব্যাখ্যা',
+    dreamLabel: 'স্বপ্ন',
+    week: 'সপ্তাহ',
+    words: 'শব্দ',
+    readMore: 'আরো পড়ুন',
+    showLess: 'কম দেখান',
+    characters: 'চরিত্র',
+    settings: 'স্থান',
+    themes: 'বিষয়',
+    showInterpretation: 'ব্যাখ্যা দেখান',
+    noInterpretation: 'মূল গবেষণায় কোনো ব্যাখ্যা নেই',
+    scientificInterpretation: 'বৈজ্ঞানিক ব্যাখ্যা',
   },
   ur: {
     title: 'شرکت کنندہ کا پروفائل',
@@ -529,6 +852,25 @@ const T = {
     noDreams: 'کوئی خواب نہیں ملے',
     doi: 'DOI',
     demographics: 'آبادیاتی ڈیٹا',
+    researchBannerTitle: 'سائنسی تحقیقی پروفائل — صرف پڑھنے کے لیے',
+    researchBannerSub: 'کوئی تعامل ممکن نہیں۔ تحقیق سے اصل ڈیٹا۔',
+    studyInfo: 'تحقیق کی معلومات',
+    aboutStudy: 'اس تحقیق کے بارے میں',
+    country: 'ملک',
+    city: 'شہر',
+    license: 'لائسنس',
+    statsInterpretations: 'تعبیرات',
+    dreamLabel: 'خواب',
+    week: 'ہفتہ',
+    words: 'الفاظ',
+    readMore: 'مزید پڑھیں',
+    showLess: 'کم دکھائیں',
+    characters: 'کردار',
+    settings: 'مقامات',
+    themes: 'موضوعات',
+    showInterpretation: 'تعبیر دیکھیں',
+    noInterpretation: 'اصل تحقیق میں کوئی تعبیر نہیں',
+    scientificInterpretation: 'سائنسی تعبیر',
   },
   vi: {
     title: 'Ho so Nguoi tham gia',
@@ -554,6 +896,25 @@ const T = {
     noDreams: 'Khong tim thay giac mo',
     doi: 'DOI',
     demographics: 'Du lieu Nhan khau hoc',
+    researchBannerTitle: 'Ho so Nghien cuu Khoa hoc — Chi Doc',
+    researchBannerSub: 'Khong co tuong tac. Du lieu goc tu nghien cuu.',
+    studyInfo: 'Thong tin nghien cuu',
+    aboutStudy: 'Ve nghien cuu nay',
+    country: 'Quoc gia',
+    city: 'Thanh pho',
+    license: 'Giay phep',
+    statsInterpretations: 'Giai thich',
+    dreamLabel: 'Giac mo',
+    week: 'Tuan',
+    words: 'tu',
+    readMore: 'Doc them',
+    showLess: 'Hien thi it hon',
+    characters: 'Nhan vat',
+    settings: 'Dia diem',
+    themes: 'Chu de',
+    showInterpretation: 'Xem Giai thich',
+    noInterpretation: 'Khong co giai thich trong nghien cuu goc',
+    scientificInterpretation: 'Giai thich Khoa hoc',
   },
   th: {
     title: 'โปรไฟล์ผู้เข้าร่วม',
@@ -579,6 +940,25 @@ const T = {
     noDreams: 'ไม่พบความฝัน',
     doi: 'DOI',
     demographics: 'ข้อมูลประชากร',
+    researchBannerTitle: 'โปรไฟล์การวิจัยทางวิทยาศาสตร์ — อ่านอย่างเดียว',
+    researchBannerSub: 'ไม่สามารถโต้ตอบได้ ข้อมูลต้นฉบับจากการศึกษา',
+    studyInfo: 'ข้อมูลการศึกษา',
+    aboutStudy: 'เกี่ยวกับการศึกษานี้',
+    country: 'ประเทศ',
+    city: 'เมือง',
+    license: 'ใบอนุญาต',
+    statsInterpretations: 'การตีความ',
+    dreamLabel: 'ความฝัน',
+    week: 'สัปดาห์',
+    words: 'คำ',
+    readMore: 'อ่านเพิ่มเติม',
+    showLess: 'แสดงน้อยลง',
+    characters: 'ตัวละคร',
+    settings: 'สถานที่',
+    themes: 'ธีม',
+    showInterpretation: 'แสดงการตีความ',
+    noInterpretation: 'ไม่มีการตีความในการศึกษาต้นฉบับ',
+    scientificInterpretation: 'การตีความทางวิทยาศาสตร์',
   },
   sw: {
     title: 'Wasifu wa Mshiriki',
@@ -604,6 +984,25 @@ const T = {
     noDreams: 'Hakuna ndoto zilizopatikana',
     doi: 'DOI',
     demographics: 'Data ya Idadi ya Watu',
+    researchBannerTitle: 'Wasifu wa Utafiti wa Kisayansi — Soma Tu',
+    researchBannerSub: 'Hakuna mwingiliano unaowezekana. Data halisi kutoka utafiti.',
+    studyInfo: 'Maelezo ya utafiti',
+    aboutStudy: 'Kuhusu utafiti huu',
+    country: 'Nchi',
+    city: 'Mji',
+    license: 'Leseni',
+    statsInterpretations: 'Tafsiri',
+    dreamLabel: 'Ndoto',
+    week: 'Wiki',
+    words: 'maneno',
+    readMore: 'Soma zaidi',
+    showLess: 'Onyesha kidogo',
+    characters: 'Wahusika',
+    settings: 'Maeneo',
+    themes: 'Mada',
+    showInterpretation: 'Onyesha Tafsiri',
+    noInterpretation: 'Hakuna tafsiri katika utafiti wa asili',
+    scientificInterpretation: 'Tafsiri ya Kisayansi',
   },
   hu: {
     title: 'Resztvevo Profil',
@@ -629,6 +1028,25 @@ const T = {
     noDreams: 'Nem talalhato alom',
     doi: 'DOI',
     demographics: 'Demografiai adatok',
+    researchBannerTitle: 'Tudomanyos Kutatasi Profil — Csak Olvasas',
+    researchBannerSub: 'Nincs interakcio lehetseges. Eredeti adatok a tanulmanybol.',
+    studyInfo: 'Tanulmany info',
+    aboutStudy: 'Errol a tanulmanyrol',
+    country: 'Orszag',
+    city: 'Varos',
+    license: 'Licenc',
+    statsInterpretations: 'Ertelmezesek',
+    dreamLabel: 'Alom',
+    week: 'Het',
+    words: 'szo',
+    readMore: 'Tovabb olvasom',
+    showLess: 'Kevesebbet mutat',
+    characters: 'Szereplok',
+    settings: 'Helyszinek',
+    themes: 'Temak',
+    showInterpretation: 'Ertelmezest mutat',
+    noInterpretation: 'Nincs ertelmezis az eredeti tanulmanyban',
+    scientificInterpretation: 'Tudomanyos Ertelmez',
   },
 } as Record<string, Record<string, string>>;
 
@@ -866,10 +1284,10 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
               <span className="text-xl">🔬</span>
               <div>
                 <div className="font-semibold text-sm">
-                  {language === 'de' ? 'Wissenschaftliches Forschungsprofil — Nur Lesen' : 'Scientific Research Profile — Read Only'}
+                  {t.researchBannerTitle}
                 </div>
                 <div className="text-xs opacity-70">
-                  {language === 'de' ? 'Keine Interaktion moeglich. Originaldaten aus der Studie.' : 'No interaction possible. Original data from the study.'}
+                  {t.researchBannerSub}
                 </div>
               </div>
               <span className={`ml-auto px-2 py-0.5 rounded text-xs font-mono ${isLight ? 'bg-gray-200 text-gray-600' : 'bg-gray-700 text-gray-300'}`}>
@@ -909,7 +1327,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                                 ? 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'
                                 : 'bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500/30'
                           }`}
-                          title={language === 'de' ? 'Studien-Info' : 'Study info'}
+                          title={t.studyInfo}
                         >
                           i
                         </button>
@@ -924,7 +1342,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                           }`}
                         >
                           <h4 className="text-xs font-bold uppercase tracking-wide opacity-60 mb-2">
-                            {language === 'de' ? 'Über diese Studie' : 'About this study'}
+                            {t.aboutStudy}
                           </h4>
                           {study.principal_investigator && (
                             <div>
@@ -940,7 +1358,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                           )}
                           {study.country && (
                             <div>
-                              <span className="font-medium">{language === 'de' ? 'Land' : 'Country'}:</span>{' '}
+                              <span className="font-medium">{t.country}:</span>{' '}
                               {study.country}
                             </div>
                           )}
@@ -968,7 +1386,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                           )}
                           {study.license && (
                             <div className="text-xs opacity-70">
-                              <span className="font-medium">{language === 'de' ? 'Lizenz' : 'License'}:</span>{' '}
+                              <span className="font-medium">{t.license}:</span>{' '}
                               {study.license}
                             </div>
                           )}
@@ -1006,12 +1424,12 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                         )}
                         {participant.country && (
                           <span>
-                            {language === 'de' ? 'Land' : 'Country'}: {participant.country}
+                            {t.country}: {participant.country}
                           </span>
                         )}
                         {participant.city && (
                           <span>
-                            {language === 'de' ? 'Stadt' : 'City'}: {participant.city}
+                            {t.city}: {participant.city}
                           </span>
                         )}
                       </div>
@@ -1033,8 +1451,8 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
 
             {/* Stats Bar */}
             <div className={`flex gap-6 mb-6 p-3 rounded-xl border ${cardBg} text-sm`}>
-              <span>🌙 {dreams.length} {language === 'de' ? 'Träume' : 'Dreams'}</span>
-              <span>💡 {dreams.filter(d => getInterpretation(d) !== null).length} {language === 'de' ? 'Deutungen' : 'Interpretations'}</span>
+              <span>🌙 {dreams.length} {t.dreams}</span>
+              <span>💡 {dreams.filter(d => getInterpretation(d) !== null).length} {t.statsInterpretations}</span>
             </div>
 
             {/* Dreams List */}
@@ -1060,7 +1478,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                     {/* Dream Header — Nummerierung + Meta */}
                     <div className="flex flex-wrap gap-3 items-center mb-1 text-sm">
                       <span className={`font-bold text-base ${isLight ? 'text-indigo-700' : 'text-indigo-300'}`}>
-                        {language === 'de' ? 'Traum' : 'Dream'} #{idx + 1}
+                        {t.dreamLabel} #{idx + 1}
                       </span>
                       {dream.dream_date && (
                         <span className="opacity-60">
@@ -1076,12 +1494,12 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                     <div className="flex flex-wrap gap-2 items-center mb-3 text-xs opacity-50">
                       <span className="font-mono">{dream.dream_id}</span>
                       {dream.dream_night && (
-                        <span>· {language === 'de' ? 'Nacht' : 'Night'} {dream.dream_night}</span>
+                        <span>· {t.night} {dream.dream_night}</span>
                       )}
                       {dream.dream_week != null && (
-                        <span>· {language === 'de' ? 'Woche' : 'Week'} {dream.dream_week}</span>
+                        <span>· {t.week} {dream.dream_week}</span>
                       )}
-                      <span>· {wordCount} {language === 'de' ? 'Woerter' : 'words'}</span>
+                      <span>· {wordCount} {t.words}</span>
                     </div>
 
                     {/* Dream Text — formatiert mit Expand/Collapse */}
@@ -1123,7 +1541,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                                 background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.3)',
                                 borderRadius: 20, padding: '4px 16px', color: '#c4b5fd', fontSize: 12, cursor: 'pointer',
                               }}>
-                                {language === 'de' ? 'Mehr lesen' : 'Read more'} \u25BC
+                                {t.readMore} \u25BC
                               </button>
                             </div>
                           )}
@@ -1135,7 +1553,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                                 background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.3)',
                                 borderRadius: 20, padding: '4px 16px', color: '#c4b5fd', fontSize: 12, cursor: 'pointer',
                               }}>
-                                {language === 'de' ? 'Weniger anzeigen' : 'Show less'} \u25B2
+                                {t.showLess} \u25B2
                               </button>
                             </div>
                           )}
@@ -1187,7 +1605,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                     {dream.characters && dream.characters.length > 0 && (
                       <div className="mt-2">
                         <span className="text-xs font-medium opacity-60 mr-2">
-                          {language === 'de' ? 'Charaktere' : 'Characters'}:
+                          {t.characters}:
                         </span>
                         <div className="inline-flex flex-wrap gap-1">
                           {dream.characters.map((ch, i) => (
@@ -1203,7 +1621,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                     {dream.settings && dream.settings.length > 0 && (
                       <div className="mt-2">
                         <span className="text-xs font-medium opacity-60 mr-2">
-                          {language === 'de' ? 'Schauplätze' : 'Settings'}:
+                          {t.settings}:
                         </span>
                         <div className="inline-flex flex-wrap gap-1">
                           {dream.settings.map((s, i) => (
@@ -1219,7 +1637,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                     {dream.themes && dream.themes.length > 0 && (
                       <div className="mt-2">
                         <span className="text-xs font-medium opacity-60 mr-2">
-                          {language === 'de' ? 'Themen' : 'Themes'}:
+                          {t.themes}:
                         </span>
                         <div className="inline-flex flex-wrap gap-1">
                           {dream.themes.map((th, i) => (
@@ -1246,11 +1664,11 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                               : 'bg-amber-900/30 border-amber-700/40 text-amber-400 hover:bg-amber-900/50'
                           }`}
                         >
-                          💡 {language === 'de' ? 'Deutung anzeigen' : 'Show Interpretation'} {expandedDreams.has(dream.id) ? '▲' : '▼'}
+                          💡 {t.showInterpretation} {expandedDreams.has(dream.id) ? '▲' : '▼'}
                         </button>
                       ) : (
                         <span className="opacity-30 text-xs">
-                          🔬 {language === 'de' ? 'Keine Deutung in Originalstudie' : 'No interpretation in original study'}
+                          🔬 {t.noInterpretation}
                         </span>
                       )}
                     </div>
@@ -1264,7 +1682,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                             : 'bg-amber-900/15 border-amber-500 text-amber-100'
                         }`}>
                           <div className={`text-xs font-semibold mb-2 ${isLight ? 'text-amber-700' : 'text-amber-400'}`}>
-                            💡 {language === 'de' ? 'Wissenschaftliche Deutung' : 'Scientific Interpretation'}
+                            💡 {t.scientificInterpretation}
                           </div>
                           <p className="whitespace-pre-wrap">{interp.content}</p>
                           <div className="mt-3 flex gap-2 text-xs opacity-60">
