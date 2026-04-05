@@ -82,6 +82,118 @@ const liveTranslations: Record<Language, {
         disconnect: "Zavershit Sessiyu", session_ended: "Sessiya Zavershena",
         save_btn: "Proanalizirovat i Sokhranit", discard_btn: "Otmenit",
         thinking: "Orakul dumayet...", speaking: "Orakul govorit..."
+    },
+    [Language.ZH]: {
+        ready: "准备连接", start: "开始会话", connecting: "正在连接神谕...",
+        listening: "神谕正在聆听", error: "连接丢失 / 错误",
+        instruction: "自由讲述你的梦境。神谕会聆听并用语音回应。",
+        disconnect: "结束会话", session_ended: "会话已结束",
+        save_btn: "分析并保存梦境", discard_btn: "丢弃",
+        thinking: "神谕正在思考...", speaking: "神谕正在说话..."
+    },
+    [Language.HI]: {
+        ready: "कनेक्ट करने को तैयार", start: "सत्र शुरू करें", connecting: "ओरेकल से कनेक्ट हो रहा है...",
+        listening: "ओरेकल सुन रहा है", error: "कनेक्शन टूट गया / त्रुटि",
+        instruction: "अपना सपना स्वतंत्र रूप से बताएं। ओरेकल सुनेगा और आवाज़ से जवाब देगा।",
+        disconnect: "सत्र समाप्त करें", session_ended: "सत्र समाप्त हुआ",
+        save_btn: "विश्लेषण करें और सहेजें", discard_btn: "हटाएं",
+        thinking: "ओरेकल सोच रहा है...", speaking: "ओरेकल बोल रहा है..."
+    },
+    [Language.JA]: {
+        ready: "接続準備完了", start: "セッション開始", connecting: "オラクルに接続中...",
+        listening: "オラクルが聞いています", error: "接続が切れました / エラー",
+        instruction: "自由に夢を語ってください。オラクルが聞いて音声で答えます。",
+        disconnect: "セッション終了", session_ended: "セッションが終了しました",
+        save_btn: "分析して保存", discard_btn: "破棄",
+        thinking: "オラクルが考えています...", speaking: "オラクルが話しています..."
+    },
+    [Language.KO]: {
+        ready: "연결 준비 완료", start: "세션 시작", connecting: "오라클에 연결 중...",
+        listening: "오라클이 듣고 있습니다", error: "연결 끊김 / 오류",
+        instruction: "자유롭게 꿈을 말해 주세요. 오라클이 듣고 음성으로 답합니다.",
+        disconnect: "세션 종료", session_ended: "세션이 종료되었습니다",
+        save_btn: "분석 및 저장", discard_btn: "삭제",
+        thinking: "오라클이 생각 중...", speaking: "오라클이 말하고 있습니다..."
+    },
+    [Language.ID]: {
+        ready: "Siap Terhubung", start: "Mulai Sesi", connecting: "Menghubungkan ke Oracle...",
+        listening: "Oracle Mendengarkan", error: "Koneksi Terputus / Error",
+        instruction: "Ceritakan mimpimu dengan bebas. Oracle akan mendengarkan dan menjawab dengan suara.",
+        disconnect: "Akhiri Sesi", session_ended: "Sesi Berakhir",
+        save_btn: "Analisis & Simpan Mimpi", discard_btn: "Buang",
+        thinking: "Oracle sedang berpikir...", speaking: "Oracle sedang berbicara..."
+    },
+    [Language.FA]: {
+        ready: "آماده اتصال", start: "شروع جلسه", connecting: "در حال اتصال به اوراکل...",
+        listening: "اوراکل گوش می‌دهد", error: "اتصال قطع شد / خطا",
+        instruction: "خواب خود را آزادانه بیان کنید. اوراکل گوش می‌دهد و با صدا پاسخ می‌دهد.",
+        disconnect: "پایان جلسه", session_ended: "جلسه پایان یافت",
+        save_btn: "تحلیل و ذخیره خواب", discard_btn: "حذف",
+        thinking: "اوراکل در حال تفکر...", speaking: "اوراکل در حال صحبت..."
+    },
+    [Language.IT]: {
+        ready: "Pronto a Connettersi", start: "Avvia Sessione", connecting: "Connessione all'Oracolo...",
+        listening: "L'Oracolo Ascolta", error: "Connessione Persa / Errore",
+        instruction: "Racconta il tuo sogno liberamente. L'oracolo ascolterà e risponderà con la voce.",
+        disconnect: "Termina Sessione", session_ended: "Sessione Terminata",
+        save_btn: "Analizza e Salva Sogno", discard_btn: "Scarta",
+        thinking: "L'oracolo sta pensando...", speaking: "L'oracolo sta parlando..."
+    },
+    [Language.PL]: {
+        ready: "Gotowy do Połączenia", start: "Rozpocznij Sesję", connecting: "Łączenie z Wyrocznią...",
+        listening: "Wyrocznia Słucha", error: "Połączenie Utracone / Błąd",
+        instruction: "Opowiedz swój sen swobodnie. Wyrocznia wysłucha i odpowie głosem.",
+        disconnect: "Zakończ Sesję", session_ended: "Sesja Zakończona",
+        save_btn: "Analizuj i Zapisz Sen", discard_btn: "Odrzuć",
+        thinking: "Wyrocznia myśli...", speaking: "Wyrocznia mówi..."
+    },
+    [Language.BN]: {
+        ready: "সংযুক্ত হতে প্রস্তুত", start: "সেশন শুরু করুন", connecting: "ওরাকলের সাথে সংযোগ হচ্ছে...",
+        listening: "ওরাকল শুনছে", error: "সংযোগ বিচ্ছিন্ন / ত্রুটি",
+        instruction: "আপনার স্বপ্ন স্বাধীনভাবে বলুন। ওরাকল শুনবে এবং কণ্ঠে উত্তর দেবে।",
+        disconnect: "সেশন শেষ করুন", session_ended: "সেশন শেষ হয়েছে",
+        save_btn: "বিশ্লেষণ করুন ও সংরক্ষণ করুন", discard_btn: "বাতিল",
+        thinking: "ওরাকল ভাবছে...", speaking: "ওরাকল বলছে..."
+    },
+    [Language.UR]: {
+        ready: "جڑنے کے لیے تیار", start: "سیشن شروع کریں", connecting: "اوریکل سے جڑ رہا ہے...",
+        listening: "اوریکل سن رہا ہے", error: "کنکشن ٹوٹ گیا / خرابی",
+        instruction: "اپنا خواب آزادی سے بیان کریں۔ اوریکل سنے گا اور آواز سے جواب دے گا۔",
+        disconnect: "سیشن ختم کریں", session_ended: "سیشن ختم ہوا",
+        save_btn: "تجزیہ کریں اور محفوظ کریں", discard_btn: "رد کریں",
+        thinking: "اوریکل سوچ رہا ہے...", speaking: "اوریکل بول رہا ہے..."
+    },
+    [Language.VI]: {
+        ready: "Sẵn sàng Kết nối", start: "Bắt đầu Phiên", connecting: "Đang kết nối với Nhà tiên tri...",
+        listening: "Nhà tiên tri đang Lắng nghe", error: "Mất kết nối / Lỗi",
+        instruction: "Hãy kể giấc mơ của bạn tự do. Nhà tiên tri sẽ lắng nghe và trả lời bằng giọng nói.",
+        disconnect: "Kết thúc Phiên", session_ended: "Phiên đã Kết thúc",
+        save_btn: "Phân tích & Lưu Giấc mơ", discard_btn: "Hủy bỏ",
+        thinking: "Nhà tiên tri đang suy nghĩ...", speaking: "Nhà tiên tri đang nói..."
+    },
+    [Language.TH]: {
+        ready: "พร้อมเชื่อมต่อ", start: "เริ่มเซสชัน", connecting: "กำลังเชื่อมต่อกับนักพยากรณ์...",
+        listening: "นักพยากรณ์กำลังฟัง", error: "การเชื่อมต่อขาด / ข้อผิดพลาด",
+        instruction: "เล่าความฝันของคุณอย่างอิสระ นักพยากรณ์จะฟังและตอบด้วยเสียง",
+        disconnect: "จบเซสชัน", session_ended: "เซสชันสิ้นสุดแล้ว",
+        save_btn: "วิเคราะห์และบันทึกความฝัน", discard_btn: "ทิ้ง",
+        thinking: "นักพยากรณ์กำลังคิด...", speaking: "นักพยากรณ์กำลังพูด..."
+    },
+    [Language.SW]: {
+        ready: "Tayari Kuunganisha", start: "Anza Kipindi", connecting: "Inaunganisha na Oracle...",
+        listening: "Oracle Inasikiliza", error: "Muunganisho Umepotea / Kosa",
+        instruction: "Eleza ndoto yako kwa uhuru. Oracle itasikiliza na kujibu kwa sauti.",
+        disconnect: "Maliza Kipindi", session_ended: "Kipindi Kimemalizika",
+        save_btn: "Changanua na Hifadhi Ndoto", discard_btn: "Tupa",
+        thinking: "Oracle inafikiria...", speaking: "Oracle inazungumza..."
+    },
+    [Language.HU]: {
+        ready: "Csatlakozásra kész", start: "Munkamenet indítása", connecting: "Csatlakozás az Orákulumhoz...",
+        listening: "Az Orákulum hallgat", error: "Kapcsolat megszakadt / Hiba",
+        instruction: "Meséld el szabadon az álmod. Az Orákulum hallgat és hangban válaszol.",
+        disconnect: "Munkamenet befejezése", session_ended: "A munkamenet véget ért",
+        save_btn: "Elemzés és álom mentése", discard_btn: "Elvetés",
+        thinking: "Az Orákulum gondolkodik...", speaking: "Az Orákulum beszél..."
     }
 };
 

@@ -28,6 +28,20 @@ export enum Language {
     AR = 'ar',
     PT = 'pt',
     RU = 'ru',
+    ZH = 'zh',
+    HI = 'hi',
+    JA = 'ja',
+    KO = 'ko',
+    ID = 'id',
+    FA = 'fa',
+    IT = 'it',
+    PL = 'pl',
+    BN = 'bn',
+    UR = 'ur',
+    VI = 'vi',
+    TH = 'th',
+    SW = 'sw',
+    HU = 'hu',
 }
 
 export enum ThemeMode {

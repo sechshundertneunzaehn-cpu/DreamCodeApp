@@ -58,7 +58,21 @@ export const ELEVENLABS_VOICES: Record<Language, { id: string; name: string; des
         id: 'VR6AewLTigWG4xSOukaG',  // Arnold - tiefe russische Stimme
         name: 'Arnold',
         description: 'Tief, beruhigend, russisch-optimiert'
-    }
+    },
+    [Language.ZH]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.HI]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.JA]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.KO]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.ID]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.FA]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.IT]: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella', description: 'Multilingual, gute italienische Aussprache' },
+    [Language.PL]: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella', description: 'Multilingual, gute polnische Aussprache' },
+    [Language.BN]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.UR]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.VI]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.TH]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.SW]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.HU]: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella', description: 'Multilingual, gute ungarische Aussprache' }
 };
 
 // ============================================

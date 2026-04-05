@@ -25,7 +25,7 @@ export const SUBSCRIPTION_TIERS = {
     name: 'Free',
     price_monthly: 0,
     price_yearly: 0,
-    names: { de: 'Free', en: 'Free', ar: '\u0645\u062C\u0627\u0646\u064A', tr: '\u00DCcretsiz', ru: '\u0411\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u044B\u0439' },
+    names: { de: 'Free', en: 'Free', ar: '\u0645\u062C\u0627\u0646\u064A', tr: '\u00DCcretsiz', ru: '\u0411\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u044B\u0439', zh: '\u514D\u8D39', hi: '\u092E\u0941\u092B\u093C\u094D\u0924', ja: '\u7121\u6599', ko: '\uBB34\uB8CC', id: 'Gratis', fa: '\u0631\u0627\u06CC\u06AF\u0627\u0646', it: 'Gratuito', pl: 'Darmowy', bn: '\u09AC\u09BF\u09A8\u09BE\u09AE\u09C2\u09B2\u09CD\u09AF\u09C7', ur: '\u0645\u0641\u062A', vi: 'Mi\u1EC5n ph\u00ED', th: '\u0E1F\u0E23\u0E35', sw: 'Bure', hu: 'Ingyenes' },
     features: {
       daily_interpretations: 3,
       ai_model: 'groq',
@@ -47,7 +47,7 @@ export const SUBSCRIPTION_TIERS = {
     name: 'Pro',
     price_monthly: 4.99,
     price_yearly: 49.99,
-    names: { de: 'Pro', en: 'Pro', ar: '\u0628\u0631\u0648', tr: 'Pro', ru: '\u041F\u0440\u043E' },
+    names: { de: 'Pro', en: 'Pro', ar: '\u0628\u0631\u0648', tr: 'Pro', ru: '\u041F\u0440\u043E', zh: '\u4E13\u4E1A\u7248', hi: '\u092A\u094D\u0930\u094B', ja: '\u30D7\u30ED', ko: '\uD504\uB85C', id: 'Pro', fa: '\u062D\u0631\u0641\u0647\u200C\u0627\u06CC', it: 'Pro', pl: 'Pro', bn: '\u09AA\u09CD\u09B0\u09CB', ur: '\u067E\u0631\u0648', vi: 'Pro', th: '\u0E42\u0E1B\u0E23', sw: 'Pro', hu: 'Pro' },
     badge: { de: 'MEISTGEW\u00C4HLT', en: 'MOST POPULAR', ar: '\u0627\u0644\u0623\u0643\u062B\u0631 \u0634\u0639\u0628\u064A\u0629' },
     features: {
       daily_interpretations: -1,
@@ -71,7 +71,7 @@ export const SUBSCRIPTION_TIERS = {
     price_monthly: 14.99,
     price_yearly: 149.99,
     strikethrough_monthly: 24.99,
-    names: { de: 'Premium', en: 'Premium', ar: '\u0628\u0631\u064A\u0645\u064A\u0648\u0645', tr: 'Premium', ru: '\u041F\u0440\u0435\u043C\u0438\u0443\u043C' },
+    names: { de: 'Premium', en: 'Premium', ar: '\u0628\u0631\u064A\u0645\u064A\u0648\u0645', tr: 'Premium', ru: '\u041F\u0440\u0435\u043C\u0438\u0443\u043C', zh: '\u9AD8\u7EA7\u7248', hi: '\u092A\u094D\u0930\u0940\u092E\u093F\u092F\u092E', ja: '\u30D7\u30EC\u30DF\u30A2\u30E0', ko: '\uD504\uB9AC\uBBF8\uC5C4', id: 'Premium', fa: '\u0648\u06CC\u0698\u0647', it: 'Premium', pl: 'Premium', bn: '\u09AA\u09CD\u09B0\u09BF\u09AE\u09BF\u09AF\u09BC\u09BE\u09AE', ur: '\u067E\u0631\u06CC\u0645\u06CC\u0645', vi: 'Cao c\u1EA5p', th: '\u0E1E\u0E23\u0E35\u0E40\u0E21\u0E35\u0E22\u0E21', sw: 'Premium', hu: 'Prémium' },
     features: {
       daily_interpretations: -1,
       ai_model: 'claude',
@@ -93,7 +93,7 @@ export const SUBSCRIPTION_TIERS = {
     name: 'Smart',
     price_monthly: null as number | null,
     price_yearly: 49.99,
-    names: { de: 'Smart', en: 'Smart', ar: '\u0630\u0643\u064A', tr: 'Ak\u0131ll\u0131', ru: '\u0421\u043C\u0430\u0440\u0442' },
+    names: { de: 'Smart', en: 'Smart', ar: '\u0630\u0643\u064A', tr: 'Ak\u0131ll\u0131', ru: '\u0421\u043C\u0430\u0440\u0442', zh: '\u667A\u80FD\u7248', hi: '\u0938\u094D\u092E\u093E\u0930\u094D\u091F', ja: '\u30B9\u30DE\u30FC\u30C8', ko: '\uC2A4\uB9C8\uD2B8', id: 'Cerdas', fa: '\u0647\u0648\u0634\u0645\u0646\u062F', it: 'Smart', pl: 'Smart', bn: '\u09B8\u09CD\u09AE\u09BE\u09B0\u09CD\u099F', ur: '\u0633\u0645\u0627\u0631\u0679', vi: 'Th\u00F4ng minh', th: '\u0E2A\u0E21\u0E32\u0E23\u0E4C\u0E17', sw: 'Smart', hu: 'Okos' },
     subtitle: { de: 'Eigene API-Keys nutzen', en: 'Bring Your Own Keys', ar: '\u0627\u0633\u062A\u062E\u062F\u0645 \u0645\u0641\u0627\u062A\u064A\u062D\u0643' },
     features: {
       daily_interpretations: -1,

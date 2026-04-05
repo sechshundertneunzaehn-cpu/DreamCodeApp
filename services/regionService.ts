@@ -31,6 +31,20 @@ const LOCALE_TO_COUNTRY: Record<string, string> = {
   'de-de': 'DE', 'de-at': 'AT', 'de-ch': 'CH',
   'tr-tr': 'TR', 'tr': 'TR',
   'ru-ru': 'RU', 'ru': 'RU',
+  'zh': 'CN', 'zh-cn': 'CN', 'zh-tw': 'TW',
+  'hi': 'IN', 'hi-in': 'IN',
+  'ja': 'JP', 'ja-jp': 'JP',
+  'ko': 'KR', 'ko-kr': 'KR',
+  'id': 'ID', 'id-id': 'ID',
+  'fa': 'IR', 'fa-ir': 'IR',
+  'it': 'IT', 'it-it': 'IT',
+  'pl': 'PL', 'pl-pl': 'PL',
+  'bn': 'BD', 'bn-bd': 'BD',
+  'ur': 'PK', 'ur-pk': 'PK',
+  'vi': 'VN', 'vi-vn': 'VN',
+  'th': 'TH', 'th-th': 'TH',
+  'sw': 'KE', 'sw-ke': 'KE',
+  'hu': 'HU', 'hu-hu': 'HU',
 };
 
 function countryToRegion(countryCode: string): PricingRegion {

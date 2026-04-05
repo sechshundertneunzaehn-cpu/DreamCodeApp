@@ -58,6 +58,90 @@ const hubTranslations: Record<string, { title: string; subtitle: string; coming:
         coming: 'Скоро',
         features: ['Делитесь снами с сообществом', 'Открывайте толкования', 'Вступайте в круги снов', 'Совместный анализ'],
     },
+    zh: {
+        title: '梦境中心',
+        subtitle: '你的梦境社区空间',
+        coming: '即将推出',
+        features: ['与社区分享梦境', '发现他人的解梦', '加入梦境圈子', '协作梦境分析'],
+    },
+    hi: {
+        title: 'ड्रीम हब',
+        subtitle: 'आपका स्वप्न समुदाय स्थान',
+        coming: 'जल्द आ रहा है',
+        features: ['समुदाय के साथ सपने साझा करें', 'दूसरों की व्याख्याएँ खोजें', 'स्वप्न मंडलों में शामिल हों', 'सहयोगी स्वप्न विश्लेषण'],
+    },
+    ja: {
+        title: 'ドリームハブ',
+        subtitle: 'あなたの夢のコミュニティスペース',
+        coming: '近日公開',
+        features: ['コミュニティと夢を共有', '他の人の解釈を発見', 'ドリームサークルに参加', '共同夢分析'],
+    },
+    ko: {
+        title: '드림 허브',
+        subtitle: '당신의 꿈 커뮤니티 공간',
+        coming: '곧 출시',
+        features: ['커뮤니티와 꿈 공유', '다른 사람의 해몽 발견', '꿈 서클 참여', '협력 꿈 분석'],
+    },
+    id: {
+        title: 'Pusat Mimpi',
+        subtitle: 'Ruang komunitas mimpimu',
+        coming: 'Segera Hadir',
+        features: ['Bagikan mimpi dengan komunitas', 'Temukan tafsir mimpi lainnya', 'Bergabung dengan lingkaran mimpi', 'Analisis mimpi kolaboratif'],
+    },
+    fa: {
+        title: 'مرکز رؤیا',
+        subtitle: 'فضای انجمن رؤیاهای شما',
+        coming: 'به زودی',
+        features: ['رؤیاها را با انجمن به اشتراک بگذارید', 'تعبیرهای دیگران را کشف کنید', 'به حلقه‌های رؤیا بپیوندید', 'تحلیل مشارکتی رؤیا'],
+    },
+    it: {
+        title: 'Hub dei Sogni',
+        subtitle: 'Il tuo spazio comunitario dei sogni',
+        coming: 'Prossimamente',
+        features: ['Condividi sogni con la comunità', 'Scopri le interpretazioni', 'Unisciti ai circoli dei sogni', 'Analisi collaborativa dei sogni'],
+    },
+    pl: {
+        title: 'Centrum Snów',
+        subtitle: 'Twoja przestrzeń społeczności snów',
+        coming: 'Wkrótce',
+        features: ['Dziel się snami ze społecznością', 'Odkrywaj interpretacje innych', 'Dołącz do kręgów snów', 'Wspólna analiza snów'],
+    },
+    bn: {
+        title: 'স্বপ্ন হাব',
+        subtitle: 'আপনার স্বপ্ন সম্প্রদায়ের জায়গা',
+        coming: 'শীঘ্রই আসছে',
+        features: ['সম্প্রদায়ের সাথে স্বপ্ন শেয়ার করুন', 'অন্যদের ব্যাখ্যা আবিষ্কার করুন', 'স্বপ্ন চক্রে যোগ দিন', 'সহযোগী স্বপ্ন বিশ্লেষণ'],
+    },
+    ur: {
+        title: 'خوابوں کا مرکز',
+        subtitle: 'آپ کی خوابوں کی کمیونٹی',
+        coming: 'جلد آ رہا ہے',
+        features: ['کمیونٹی کے ساتھ خواب شیئر کریں', 'دوسروں کی تعبیریں دریافت کریں', 'خواب حلقوں میں شامل ہوں', 'مشترکہ خواب تجزیہ'],
+    },
+    vi: {
+        title: 'Trung tâm Giấc mơ',
+        subtitle: 'Không gian cộng đồng giấc mơ của bạn',
+        coming: 'Sắp ra mắt',
+        features: ['Chia sẻ giấc mơ với cộng đồng', 'Khám phá giải mộng của người khác', 'Tham gia vòng tròn giấc mơ', 'Phân tích giấc mơ hợp tác'],
+    },
+    th: {
+        title: 'ศูนย์กลางความฝัน',
+        subtitle: 'พื้นที่ชุมชนความฝันของคุณ',
+        coming: 'เร็ว ๆ นี้',
+        features: ['แบ่งปันความฝันกับชุมชน', 'ค้นพบการตีความของผู้อื่น', 'เข้าร่วมวงความฝัน', 'วิเคราะห์ความฝันร่วมกัน'],
+    },
+    sw: {
+        title: 'Kituo cha Ndoto',
+        subtitle: 'Nafasi ya jamii ya ndoto zako',
+        coming: 'Inakuja Hivi Karibuni',
+        features: ['Shiriki ndoto na jamii', 'Gundua tafsiri za wengine', 'Jiunge na miduara ya ndoto', 'Uchambuzi wa ndoto kwa ushirikiano'],
+    },
+    hu: {
+        title: 'Álomközpont',
+        subtitle: 'A te álom-közösségi tered',
+        coming: 'Hamarosan',
+        features: ['Oszd meg álmaidat a közösséggel', 'Fedezd fel mások értelmezéseit', 'Csatlakozz álomkörökhöz', 'Közös álomélemzés'],
+    },
 };
 
 const DreamHub: React.FC<DreamHubProps> = ({ language = 'en', onClose, themeMode }) => {

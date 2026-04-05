@@ -15,6 +15,20 @@ const coinMessages: Record<Language, { earned: (n: number) => string; earned_sha
     [Language.AR]: { earned: (n) => `تم كسب ${n} عملة!`, earned_share: (n) => `تم كسب ${n} عملة من المشاركة!` },
     [Language.PT]: { earned: (n) => `${n} moeda${n > 1 ? 's' : ''} ganha${n > 1 ? 's' : ''}!`, earned_share: (n) => `${n} moeda${n > 1 ? 's' : ''} ganha${n > 1 ? 's' : ''} ao compartilhar!` },
     [Language.RU]: { earned: (n) => `${n} монет${n > 1 ? 'ы' : 'а'} заработано!`, earned_share: (n) => `${n} монет${n > 1 ? 'ы' : 'а'} заработано за пересылку!` },
+    [Language.ZH]: { earned: (n) => `获得了${n}枚硬币！`, earned_share: (n) => `通过分享获得了${n}枚硬币！` },
+    [Language.HI]: { earned: (n) => `${n} सिक्क${n > 1 ? 'े' : 'ा'} कमाया!`, earned_share: (n) => `शेयर करके ${n} सिक्क${n > 1 ? 'े' : 'ा'} कमाया!` },
+    [Language.JA]: { earned: (n) => `${n}コインを獲得！`, earned_share: (n) => `共有で${n}コインを獲得！` },
+    [Language.KO]: { earned: (n) => `${n}코인 획득!`, earned_share: (n) => `공유로 ${n}코인 획득!` },
+    [Language.ID]: { earned: (n) => `${n} koin diperoleh!`, earned_share: (n) => `${n} koin diperoleh dari berbagi!` },
+    [Language.FA]: { earned: (n) => `${n} سکه کسب شد!`, earned_share: (n) => `${n} سکه از اشتراک‌گذاری کسب شد!` },
+    [Language.IT]: { earned: (n) => `${n} moneta${n > 1 ? 'e' : ''} guadagnata${n > 1 ? 'e' : ''}!`, earned_share: (n) => `${n} moneta${n > 1 ? 'e' : ''} guadagnata${n > 1 ? 'e' : ''} condividendo!` },
+    [Language.PL]: { earned: (n) => `Zdobyto ${n} monet${n > 1 ? 'y' : 'ę'}!`, earned_share: (n) => `Zdobyto ${n} monet${n > 1 ? 'y' : 'ę'} za udostępnienie!` },
+    [Language.BN]: { earned: (n) => `${n}টি মুদ্রা অর্জিত!`, earned_share: (n) => `শেয়ার করে ${n}টি মুদ্রা অর্জিত!` },
+    [Language.UR]: { earned: (n) => `${n} سکہ کمایا!`, earned_share: (n) => `شیئر کرکے ${n} سکہ کمایا!` },
+    [Language.VI]: { earned: (n) => `Đã nhận ${n} xu!`, earned_share: (n) => `Đã nhận ${n} xu từ chia sẻ!` },
+    [Language.TH]: { earned: (n) => `ได้รับ ${n} เหรียญ!`, earned_share: (n) => `ได้รับ ${n} เหรียญจากการแชร์!` },
+    [Language.SW]: { earned: (n) => `Sarafu ${n} zimepatikana!`, earned_share: (n) => `Sarafu ${n} zimepatikana kwa kushiriki!` },
+    [Language.HU]: { earned: (n) => `${n} érme szerzve!`, earned_share: (n) => `${n} érme szerzve megosztásból!` },
 };
 
 export interface CoinUpdate {

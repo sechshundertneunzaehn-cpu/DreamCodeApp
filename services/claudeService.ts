@@ -23,7 +23,21 @@ const LANGUAGE_NAMES: Record<Language, { native: string; english: string }> = {
     [Language.FR]: { native: 'Francais', english: 'French' },
     [Language.AR]: { native: 'العربية', english: 'Arabic' },
     [Language.PT]: { native: 'Portugues', english: 'Portuguese' },
-    [Language.RU]: { native: 'Русский', english: 'Russian' }
+    [Language.RU]: { native: 'Русский', english: 'Russian' },
+    [Language.ZH]: { native: '中文', english: 'Chinese' },
+    [Language.HI]: { native: 'हिन्दी', english: 'Hindi' },
+    [Language.JA]: { native: '日本語', english: 'Japanese' },
+    [Language.KO]: { native: '한국어', english: 'Korean' },
+    [Language.ID]: { native: 'Bahasa Indonesia', english: 'Indonesian' },
+    [Language.FA]: { native: 'فارسی', english: 'Persian' },
+    [Language.IT]: { native: 'Italiano', english: 'Italian' },
+    [Language.PL]: { native: 'Polski', english: 'Polish' },
+    [Language.BN]: { native: 'বাংলা', english: 'Bengali' },
+    [Language.UR]: { native: 'اردو', english: 'Urdu' },
+    [Language.VI]: { native: 'Tiếng Việt', english: 'Vietnamese' },
+    [Language.TH]: { native: 'ภาษาไทย', english: 'Thai' },
+    [Language.SW]: { native: 'Kiswahili', english: 'Swahili' },
+    [Language.HU]: { native: 'Magyar', english: 'Hungarian' }
 };
 
 // ============================================
