@@ -80,6 +80,132 @@ const videoTranslations = {
         processing: "Обработка...",
         error_generic: "Не удалось создать видео",
         error_unavailable: "Создание видео недоступно"
+    },
+    [Language.ZH]: {
+        title: "梦境可视化（视频）",
+        beta: "测试版 (Veo)",
+        description: "生成梦境的电影级视频呈现。",
+        generate: "生成视频",
+        processing: "处理中...",
+        error_generic: "视频生成失败",
+        error_unavailable: "视频生成不可用"
+    },
+    [Language.HI]: {
+        title: "सपना विज़ुअलाइज़ करें (वीडियो)",
+        beta: "बीटा (Veo)",
+        description: "अपने सपने का सिनेमाई वीडियो प्रस्तुतीकरण बनाएं।",
+        generate: "वीडियो बनाएं",
+        processing: "प्रोसेसिंग...",
+        error_generic: "वीडियो बनाने में विफल",
+        error_unavailable: "वीडियो जनरेशन उपलब्ध नहीं है"
+    },
+    [Language.JA]: {
+        title: "夢を映像化（動画）",
+        beta: "ベータ版 (Veo)",
+        description: "夢のシネマティックな動画を生成します。",
+        generate: "動画を生成",
+        processing: "処理中...",
+        error_generic: "動画の生成に失敗しました",
+        error_unavailable: "動画生成は利用できません"
+    },
+    [Language.KO]: {
+        title: "꿈 시각화 (영상)",
+        beta: "베타 (Veo)",
+        description: "꿈의 시네마틱 영상을 생성합니다.",
+        generate: "영상 생성",
+        processing: "처리 중...",
+        error_generic: "영상 생성 실패",
+        error_unavailable: "영상 생성을 사용할 수 없습니다"
+    },
+    [Language.ID]: {
+        title: "Visualisasi Mimpi (Video)",
+        beta: "BETA (Veo)",
+        description: "Buat representasi video sinematik dari mimpi Anda.",
+        generate: "Buat Video",
+        processing: "Memproses...",
+        error_generic: "Gagal membuat video",
+        error_unavailable: "Pembuatan video tidak tersedia"
+    },
+    [Language.FA]: {
+        title: "تصویرسازی خواب (ویدیو)",
+        beta: "آزمایشی (Veo)",
+        description: "یک نمایش ویدیویی سینمایی از خواب خود بسازید.",
+        generate: "ساخت ویدیو",
+        processing: "در حال پردازش...",
+        error_generic: "ساخت ویدیو ناموفق بود",
+        error_unavailable: "ساخت ویدیو در دسترس نیست"
+    },
+    [Language.IT]: {
+        title: "Visualizza Sogno (Video)",
+        beta: "BETA (Veo)",
+        description: "Genera una rappresentazione cinematografica del tuo sogno in video.",
+        generate: "Genera Video",
+        processing: "Elaborazione...",
+        error_generic: "Generazione video fallita",
+        error_unavailable: "Generazione video non disponibile"
+    },
+    [Language.PL]: {
+        title: "Wizualizuj Sen (Wideo)",
+        beta: "BETA (Veo)",
+        description: "Wygeneruj kinematograficzną reprezentację swojego snu w formie wideo.",
+        generate: "Generuj Wideo",
+        processing: "Przetwarzanie...",
+        error_generic: "Nie udało się wygenerować wideo",
+        error_unavailable: "Generowanie wideo niedostępne"
+    },
+    [Language.BN]: {
+        title: "স্বপ্ন ভিজ্যুয়ালাইজ করুন (ভিডিও)",
+        beta: "বিটা (Veo)",
+        description: "আপনার স্বপ্নের একটি সিনেম্যাটিক ভিডিও উপস্থাপনা তৈরি করুন।",
+        generate: "ভিডিও তৈরি করুন",
+        processing: "প্রক্রিয়াকরণ...",
+        error_generic: "ভিডিও তৈরি ব্যর্থ",
+        error_unavailable: "ভিডিও তৈরি অনুপলব্ধ"
+    },
+    [Language.UR]: {
+        title: "خواب کو تصور کریں (ویڈیو)",
+        beta: "بیٹا (Veo)",
+        description: "اپنے خواب کی سنیمائی ویڈیو نمائندگی بنائیں۔",
+        generate: "ویڈیو بنائیں",
+        processing: "پروسیسنگ...",
+        error_generic: "ویڈیو بنانے میں ناکامی",
+        error_unavailable: "ویڈیو بنانا دستیاب نہیں"
+    },
+    [Language.VI]: {
+        title: "Hình dung Giấc mơ (Video)",
+        beta: "BETA (Veo)",
+        description: "Tạo video điện ảnh về giấc mơ của bạn.",
+        generate: "Tạo Video",
+        processing: "Đang xử lý...",
+        error_generic: "Tạo video thất bại",
+        error_unavailable: "Tạo video không khả dụng"
+    },
+    [Language.TH]: {
+        title: "แสดงภาพความฝัน (วิดีโอ)",
+        beta: "เบต้า (Veo)",
+        description: "สร้างวิดีโอแบบภาพยนตร์จากความฝันของคุณ",
+        generate: "สร้างวิดีโอ",
+        processing: "กำลังประมวลผล...",
+        error_generic: "สร้างวิดีโอไม่สำเร็จ",
+        error_unavailable: "การสร้างวิดีโอไม่พร้อมใช้งาน"
+    },
+    [Language.SW]: {
+        title: "Onyesha Ndoto (Video)",
+        beta: "BETA (Veo)",
+        description: "Tengeneza uwakilishi wa video wa sinema wa ndoto yako.",
+        generate: "Tengeneza Video",
+        processing: "Inachakata...",
+        error_generic: "Imeshindwa kutengeneza video",
+        error_unavailable: "Utengenezaji wa video haupatikani"
+    },
+    [Language.HU]: {
+        title: "Álom megjelenítése (Videó)",
+        beta: "BÉTA (Veo)",
+        description: "Készíts filmes videómegjelenítést álmodból.",
+        generate: "Videó készítése",
+        processing: "Feldolgozás...",
+        error_generic: "A videó készítése sikertelen",
+        error_unavailable: "A videókészítés nem elérhető"
     }
 };
 

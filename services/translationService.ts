@@ -21,6 +21,20 @@ const LANGUAGE_NAMES: Record<string, string> = {
   ar: 'Arabic',
   pt: 'Portuguese',
   ru: 'Russian',
+  zh: 'Chinese',
+  hi: 'Hindi',
+  ja: 'Japanese',
+  ko: 'Korean',
+  id: 'Indonesian',
+  fa: 'Persian',
+  it: 'Italian',
+  pl: 'Polish',
+  bn: 'Bengali',
+  ur: 'Urdu',
+  vi: 'Vietnamese',
+  th: 'Thai',
+  sw: 'Swahili',
+  hu: 'Hungarian',
 };
 
 // ─── Semaphore (max 10 concurrent translations) ───────────────────────────────

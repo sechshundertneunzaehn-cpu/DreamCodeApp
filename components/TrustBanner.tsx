@@ -39,6 +39,62 @@ const TRUST_TRANSLATIONS: Record<Language, { text: string; sources: string[] }> 
     text: 'Основано на 39 075+ научных отчётах о снах из 3 исследовательских баз данных',
     sources: ['SDDb', 'DreamBank', 'Monash'],
   },
+  [Language.ZH]: {
+    text: '基于3个研究数据库的39,075+份科学梦境报告',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.HI]: {
+    text: '3 शोध डेटाबेस से 39,075+ वैज्ञानिक स्वप्न रिपोर्ट पर आधारित',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.JA]: {
+    text: '3つの研究データベースから39,075件以上の科学的な夢のレポートに基づいています',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.KO]: {
+    text: '3개 연구 데이터베이스의 39,075건 이상의 과학적 꿈 보고서를 기반으로 합니다',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.ID]: {
+    text: 'Berdasarkan 39.075+ laporan mimpi ilmiah dari 3 database penelitian',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.FA]: {
+    text: 'بر اساس بیش از 39,075 گزارش علمی رؤیا از 3 پایگاه داده تحقیقاتی',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.IT]: {
+    text: 'Basato su oltre 39.075 rapporti scientifici sui sogni da 3 database di ricerca',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.PL]: {
+    text: 'Na podstawie ponad 39 075 naukowych raportów o snach z 3 baz danych badawczych',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.BN]: {
+    text: '3টি গবেষণা ডেটাবেস থেকে 39,075+ বৈজ্ঞানিক স্বপ্ন প্রতিবেদনের উপর ভিত্তি করে',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.UR]: {
+    text: '3 تحقیقی ڈیٹابیس سے 39,075+ سائنسی خوابوں کی رپورٹس پر مبنی',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.VI]: {
+    text: 'Dựa trên hơn 39.075 báo cáo giấc mơ khoa học từ 3 cơ sở dữ liệu nghiên cứu',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.TH]: {
+    text: 'อ้างอิงจากรายงานความฝันทางวิทยาศาสตร์กว่า 39,075 รายการจาก 3 ฐานข้อมูลวิจัย',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.SW]: {
+    text: 'Kulingana na ripoti 39,075+ za kisayansi za ndoto kutoka hifadhidata 3 za utafiti',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.HU]: {
+    text: '39 075+ tudomanyos alomjelentes alapjan 3 kutatasi adatbazisbol',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
 };
 
 const TrustBanner: React.FC<TrustBannerProps> = ({ language, onNavigateToScience }) => {

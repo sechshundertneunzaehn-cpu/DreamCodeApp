@@ -54,6 +54,20 @@ const LANGUAGE_NAMES: Record<Language, string> = {
   [Language.AR]: 'Arabic',
   [Language.PT]: 'Portuguese',
   [Language.RU]: 'Russian',
+  [Language.ZH]: 'Chinese',
+  [Language.HI]: 'Hindi',
+  [Language.JA]: 'Japanese',
+  [Language.KO]: 'Korean',
+  [Language.ID]: 'Indonesian',
+  [Language.FA]: 'Persian',
+  [Language.IT]: 'Italian',
+  [Language.PL]: 'Polish',
+  [Language.BN]: 'Bengali',
+  [Language.UR]: 'Urdu',
+  [Language.VI]: 'Vietnamese',
+  [Language.TH]: 'Thai',
+  [Language.SW]: 'Swahili',
+  [Language.HU]: 'Hungarian',
 };
 
 const STYLE_PROMPTS: Record<ImageStyle, { prefix: string; negative: string }> = {
@@ -253,6 +267,10 @@ const callGroqFallback = async (prompt: string, language: Language): Promise<str
   const LANG_NAMES: Record<string, string> = {
     de: 'Deutsch', tr: 'Tuerkisch', en: 'English', es: 'Spanisch',
     fr: 'Franzoesisch', ar: 'Arabisch', pt: 'Portugiesisch', ru: 'Russisch',
+    zh: 'Chinesisch', hi: 'Hindi', ja: 'Japanisch', ko: 'Koreanisch',
+    id: 'Indonesisch', fa: 'Persisch', it: 'Italienisch', pl: 'Polnisch',
+    bn: 'Bengalisch', ur: 'Urdu', vi: 'Vietnamesisch', th: 'Thailaendisch',
+    sw: 'Swahili',
   };
   const langName = LANG_NAMES[language] || 'Deutsch';
 
@@ -511,6 +529,20 @@ const getDeepgramVoice = (language: Language, preferredVoice?: string): string =
     [Language.AR]: 'aura-luna-en',
     [Language.PT]: 'aura-luna-en',
     [Language.RU]: 'aura-luna-en',
+    [Language.ZH]: 'aura-luna-en',
+    [Language.HI]: 'aura-luna-en',
+    [Language.JA]: 'aura-luna-en',
+    [Language.KO]: 'aura-luna-en',
+    [Language.ID]: 'aura-luna-en',
+    [Language.FA]: 'aura-luna-en',
+    [Language.IT]: 'aura-luna-en',
+    [Language.PL]: 'aura-luna-en',
+    [Language.BN]: 'aura-luna-en',
+    [Language.UR]: 'aura-luna-en',
+    [Language.VI]: 'aura-luna-en',
+    [Language.TH]: 'aura-luna-en',
+    [Language.SW]: 'aura-luna-en',
+    [Language.HU]: 'aura-luna-en',
   };
 
   return voices[language] || DEFAULT_DEEPGRAM_MODEL;

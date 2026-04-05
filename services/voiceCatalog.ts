@@ -316,7 +316,7 @@ const HQ_VOICES: VoiceCharacter[] = [
 export const VOICE_CATALOG: VoiceCharacter[] = [...NORMAL_VOICES, ...HQ_VOICES];
 
 // Languages without Deepgram TTS support (will use Azure later)
-export const UNSUPPORTED_TTS_LANGUAGES = ['ar', 'tr'];
+export const UNSUPPORTED_TTS_LANGUAGES = ['ar', 'tr', 'zh', 'hi', 'ja', 'ko', 'id', 'fa', 'bn', 'ur', 'vi', 'th', 'sw'];
 
 // --- HELPER FUNCTIONS ---
 
