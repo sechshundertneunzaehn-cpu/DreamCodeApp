@@ -7,7 +7,9 @@ export type ProviderName =
   | 'pollinations'
   | 'deepgram'
   | 'elevenlabs'
-  | 'slideshow';
+  | 'slideshow'
+  | 'ollama'
+  | 'openrouter';
 
 export type ProviderSecretKey =
   | 'gemini'
@@ -17,7 +19,8 @@ export type ProviderSecretKey =
   | 'elevenlabs'
   | 'runway'
   | 'pika'
-  | 'kling';
+  | 'kling'
+  | 'openrouter';
 
 export const PROVIDER_ENV_KEYS: Record<ProviderSecretKey, string> = {
   gemini: 'VITE_GEMINI_API_KEY',
@@ -28,6 +31,7 @@ export const PROVIDER_ENV_KEYS: Record<ProviderSecretKey, string> = {
   runway: 'VITE_RUNWAY_API_KEY',
   pika: 'VITE_PIKA_API_KEY',
   kling: 'VITE_KLING_API_KEY',
+  openrouter: 'VITE_OPENROUTER_API_KEY',
 };
 
 export const readEnv = (name: string): string | undefined => {
@@ -72,8 +76,8 @@ export const maskSecret = (value?: string): string =>
   value ? `${value.slice(0, 4)}...${value.slice(-2)}` : 'missing';
 
 export interface TextRoute {
-  tier: 'cheap' | 'default' | 'fallback' | 'premium';
-  provider: Extract<ProviderName, 'gemini' | 'deepseek'>;
+  tier: 'cheap' | 'default' | 'fallback' | 'premium' | 'local';
+  provider: Extract<ProviderName, 'gemini' | 'deepseek' | 'ollama' | 'openrouter'>;
   model: string;
   envKey: string;
   description: string;
@@ -131,7 +135,54 @@ export const getTextRoutes = (): TextRoute[] => [
     envKey: PROVIDER_ENV_KEYS.gemini,
     description: 'Premium path using Gemini',
   },
+  {
+    tier: 'local',
+    provider: 'ollama',
+    model: readEnv('VITE_OLLAMA_GEMMA_MODEL') || 'gemma4',
+    envKey: '',
+    description: 'Gemma 4 lokal via Ollama (kostenlos)',
+  },
+  {
+    tier: 'local',
+    provider: 'ollama',
+    model: readEnv('VITE_OLLAMA_QWEN_MODEL') || 'qwen3.5:7b',
+    envKey: '',
+    description: 'Qwen 3.6 lokal via Ollama (kostenlos)',
+  },
 ];
+
+// OpenRouter Fallback fuer Gemma/Qwen (Production)
+export const getOpenRouterLocalRoutes = (): TextRoute[] => [
+  {
+    tier: 'default',
+    provider: 'openrouter',
+    model: readEnv('VITE_OPENROUTER_GEMMA_MODEL') || 'google/gemma-3-27b-it',
+    envKey: PROVIDER_ENV_KEYS.openrouter,
+    description: 'Gemma via OpenRouter (Production)',
+  },
+  {
+    tier: 'default',
+    provider: 'openrouter',
+    model: readEnv('VITE_OPENROUTER_QWEN_MODEL') || 'qwen/qwen-2.5-72b-instruct',
+    envKey: PROVIDER_ENV_KEYS.openrouter,
+    description: 'Qwen via OpenRouter (Production)',
+  },
+];
+
+export const getOllamaBaseUrl = (): string =>
+  readEnv('VITE_OLLAMA_BASE_URL') || 'http://localhost:11434';
+
+export const isOllamaAvailable = async (): Promise<boolean> => {
+  try {
+    const url = getOllamaBaseUrl() + '/api/tags';
+    const res = await fetch(url, { signal: AbortSignal.timeout(2000) });
+    return res.ok;
+  } catch {
+    return false;
+  }
+};
+
+
 
 // FIX: Gemini Image Route entfernt (falscher Modellname) – nur Runware + Pollinations
 export const getImageRoutes = (): ImageRoute[] => [

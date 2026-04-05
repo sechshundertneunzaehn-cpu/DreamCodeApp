@@ -32,6 +32,7 @@ const ResearchStudies = React.lazy(() => import('./components/ResearchStudies'))
 const ParticipantProfile = React.lazy(() => import('./components/ParticipantProfile'));
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
 import { analyzeDreamText, generateDreamImage, generateImagePrompt, generateSpeechPreview, generateStoryVideo, generateDreamVideo, generateDreamNarrationVideo, generateDreamUserVoiceVideo } from './services/geminiService';
+import { generateDreamVideo as generateReplicateVideo, isReplicateConfigured } from './services/videoGenerationService';
 import StoryVideoPlayer from './components/StoryVideoPlayer';
 import { loadDreamsSecurely, loadProfileSecurely, saveDreamsSecurely, saveProfileSecurely, exportDataToFile, importDataFromFile, syncStorageOnStartup } from './services/storage';
 // Knowledge Base wird direkt importiert (wird für Analyse benötigt)
@@ -98,7 +99,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Dein Profil", profile_desc: "Statistik & Ich",
             hub_btn: "Traum Hub", hub_desc: "Community Träume",
             gen_image: "Bild generieren", saved_msg: "Traum gespeichert! Siehe Kalender.",
-            watch_ad: "Münzen verdienen", generate_video: "Video generieren (Gold)",
+            watch_ad: "Münzen verdienen", generate_video: "Video generieren (Gold)", create_dream_video: "Traumvideo",
             video_btn_short: "📹 Video generieren", video_duration_short: "30s, 180 Münzen",
             slideshow_btn: "📽️ Slideshow erstellen", slideshow_duration: "30s, 180 Münzen",
             premium_btn: "Premium / Abo", premium_desc: "Upgrade & Features",
@@ -159,11 +160,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Magisch",
             cosmic_dna: "Kosmische DNA",
             moon_sync: "Mond-Sync",
+            cosmic_dna_body: "Deine Kosmische DNA ist dein einzigartiger Traum-Fingerabdruck — basierend auf Geburtsdatum, Sternzeichen und deinen Traummustern. Sie verbindet Astrologie, Numerologie und Psychologie zu einem persönlichen Traumschlüssel.",
+            cosmic_dna_coming: "Demnächst",
+            cosmic_dna_enter: "Gib dein Geburtsdatum in deinem Profil ein, um deine Kosmische DNA zu berechnen.",
+            moon_phase_label: "Mondphase",
+            dream_meaning_today: "Traumbedeutung heute",
             save_btn: "Speichern",
             age_restricted_cat: "Diese Kategorie ist nur für Personen ab 18 Jahren verfügbar.",
             ok: "OK",
             video_studio: "Video Studio",
-            dream_network: "Traum-Netzwerk"
+            dream_network: "Traum-Netzwerk",
+            privacy_link: "Datenschutz", terms_link: "AGB", imprint_link: "Impressum", research_link: "Forschung", studies_link: "Studien", worldmap_link: "Weltkarte", showing_sources_only: "Zeigt nur {0} Quellen", science_label: "Wissen",
         },
         processing: {
             title: "Orakel arbeitet...",
@@ -200,7 +207,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Deutungen/Tag", "Groq-KI", "6 Traditionen", "Werbung"], bronze_price: "0 €",
             silver2_title: "Pro", silver2_features: ["Unbegrenzte Deutungen", "Gemini-KI", "Alle 9 Traditionen", "Keine Werbung", "100 Coins/Monat", "10% Coin-Rabatt"], silver2_price_monthly: "4,99 € / Monat", silver2_price_yearly: "49,99 € / Jahr",
             gold2_title: "Premium", gold2_features: ["Claude 6-Perspektiven", "500 Coins/Monat", "20% Coin-Rabatt", "HD-Bilder", "5 Videos/Monat", "Live Voice", "KI-Chat Premium"], gold2_price_monthly: "14,99 € / Monat", gold2_price_yearly: "149,99 € / Jahr",
-            vip_title: "VIP", vip_features: ["2.000 Coins/Monat", "30% Coin-Rabatt", "20 Videos/Monat", "Traumtagebuch", "Exklusive Quellen", "WhatsApp-Support"], vip_price_monthly: "299,99 SAR / Monat", vip_price_yearly: "2.999,99 SAR / Jahr"
+            vip_title: "VIP", vip_features: ["2.000 Coins/Monat", "30% Coin-Rabatt", "20 Videos/Monat", "Traumtagebuch", "Exklusive Quellen", "WhatsApp-Support"], vip_price_monthly: "299,99 SAR / Monat", vip_price_yearly: "2.999,99 SAR / Jahr",
+            pro_badge: "MEISTGEWÄHLT", vip_badge: "EXKLUSIV 👑",
         },
         earn: {
             title: "Münzen verdienen",
@@ -222,7 +230,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Kaufen",
             wow_badge: "💎 Unter 1 Cent/Münze!",
             coins_label: "Münzen",
-            per_coin: "pro Münze"
+            per_coin: "pro Münze",
+            pkg_starter: "Zum Testen", pkg_popular: "Beliebt", pkg_value: "Mehr Wert", pkg_premium: "Mehr sparen", pkg_mega: "Power User",
         },
         smart_guide: {
             step1_title: "Account erstellen", step1_desc: "Erstelle gratis Account bei Google AI Studio.",
@@ -285,7 +294,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Your Profile", profile_desc: "Stats & Me",
             hub_btn: "Dream Hub", hub_desc: "Community Dreams",
             gen_image: "Generate Image", saved_msg: "Dream saved to calendar!",
-            watch_ad: "Earn Coins", generate_video: "Generate Video (Gold)",
+            watch_ad: "Earn Coins", generate_video: "Generate Video (Gold)", create_dream_video: "Dream Video",
             video_btn_short: "📹 Generate Video", video_duration_short: "30s, 180 Coins",
             slideshow_btn: "📽️ Create Slideshow", slideshow_duration: "30s, 180 Coins",
             premium_btn: "Premium / Plan", premium_desc: "Upgrade & Features",
@@ -346,11 +355,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Magical",
             cosmic_dna: "Cosmic DNA",
             moon_sync: "Moon Sync",
+            cosmic_dna_body: "Your Cosmic DNA is your unique dream fingerprint — based on your birth date, zodiac sign, and the patterns of your dreams. It connects astrology, numerology, and psychology into a personal dream key.",
+            cosmic_dna_coming: "Coming Soon",
+            cosmic_dna_enter: "Enter your birth date in your profile to calculate your Cosmic DNA.",
+            moon_phase_label: "Moon phase",
+            dream_meaning_today: "Dream meaning today",
             save_btn: "Save",
             age_restricted_cat: "This category is only available for persons 18 years and older.",
             ok: "OK",
             video_studio: "Video Studio",
-            dream_network: "Dream Network"
+            dream_network: "Dream Network",
+            privacy_link: "Privacy", terms_link: "Terms", imprint_link: "Imprint", research_link: "Research", studies_link: "Studies", worldmap_link: "World Map", showing_sources_only: "Showing only {0} sources", science_label: "Knowledge",
         },
         processing: {
             title: "The Oracle works...",
@@ -387,7 +402,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interpretations/Day", "Groq AI", "6 Traditions", "Ads"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Unlimited Interpretations", "Gemini AI", "All 9 Traditions", "Ad-Free", "100 Coins/Month", "10% Coin Discount"], silver2_price_monthly: "€4.99 / Month", silver2_price_yearly: "€49.99 / Year",
             gold2_title: "Premium", gold2_features: ["Claude 6-Perspectives", "500 Coins/Month", "20% Coin Discount", "HD Images", "5 Videos/Month", "Live Voice", "Premium AI Chat"], gold2_price_monthly: "€14.99 / Month", gold2_price_yearly: "€149.99 / Year",
-            vip_title: "VIP", vip_features: ["2,000 Coins/Month", "30% Coin Discount", "20 Videos/Month", "Dream Journal", "Exclusive Sources", "WhatsApp Support"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year"
+            vip_title: "VIP", vip_features: ["2,000 Coins/Month", "30% Coin Discount", "20 Videos/Month", "Dream Journal", "Exclusive Sources", "WhatsApp Support"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            pro_badge: "MOST POPULAR", vip_badge: "EXCLUSIVE 👑",
         },
         earn: {
             title: "Earn Coins",
@@ -409,7 +425,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Buy",
             wow_badge: "💎 Under 1 Cent/Coin!",
             coins_label: "Coins",
-            per_coin: "per coin"
+            per_coin: "per coin",
+            pkg_starter: "Try It", pkg_popular: "Popular", pkg_value: "More Value", pkg_premium: "Save More", pkg_mega: "Power User",
         },
         smart_guide: {
             step1_title: "Create Account", step1_desc: "Create free account at Google AI Studio.",
@@ -472,7 +489,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Profilin", profile_desc: "İstatistikler",
             hub_btn: "Rüya Merkezi", hub_desc: "Topluluk Rüyaları",
             gen_image: "Resim Oluştur", saved_msg: "Rüya takvime kaydedildi!",
-            watch_ad: "Jeton Kazan", generate_video: "Video Oluştur (Gold)",
+            watch_ad: "Jeton Kazan", generate_video: "Video Oluştur (Gold)", create_dream_video: "Rüya Videosu",
             video_btn_short: "📹 Video Oluştur", video_duration_short: "30sn, 180 Jeton",
             slideshow_btn: "📽️ Slayt Gösterisi", slideshow_duration: "30sn, 180 Jeton",
             premium_btn: "Premium / Plan", premium_desc: "Yükselt & Özellikler",
@@ -533,11 +550,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Büyülü",
             cosmic_dna: "Kozmik DNA",
             moon_sync: "Ay Senkronu",
+            cosmic_dna_body: "Kozmik DNA'nız benzersiz rüya parmak izinizdir — doğum tarihinize, burcunuza ve rüya kalıplarınıza dayanır. Astroloji, numeroloji ve psikolojiyi kişisel bir rüya anahtarında birleştirir.",
+            cosmic_dna_coming: "Yakında",
+            cosmic_dna_enter: "Kozmik DNA'nızı hesaplamak için profilinize doğum tarihinizi girin.",
+            moon_phase_label: "Ay evresi",
+            dream_meaning_today: "Bugünün rüya anlamı",
             save_btn: "Kaydet",
             age_restricted_cat: "Bu kategori yalnızca 18 yaş ve üzeri kişiler için mevcuttur.",
             ok: "Tamam",
             video_studio: "Video Stüdyosu",
-            dream_network: "Rüya Ağı"
+            dream_network: "Rüya Ağı",
+            privacy_link: "Gizlilik", terms_link: "Şartlar", imprint_link: "Künye", research_link: "Araştırma", studies_link: "Çalışmalar", worldmap_link: "Dünya Haritası", showing_sources_only: "Sadece {0} kaynakları", science_label: "Bilgi",
         },
         processing: {
             title: "Kahin çalışıyor...",
@@ -574,7 +597,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Yorum/Gün", "Groq YZ", "6 Gelenek", "Reklamlar"], bronze_price: "0 ₺",
             silver2_title: "Pro", silver2_features: ["Sınırsız Yorum", "Gemini YZ", "Tüm 9 Gelenek", "Reklamsız", "100 Jeton/Ay", "%10 Jeton İndirimi"], silver2_price_monthly: "79,99 ₺ / Ay", silver2_price_yearly: "799 ₺ / Yıl",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspektif", "500 Jeton/Ay", "%20 Jeton İndirimi", "HD Görseller", "5 Video/Ay", "Canlı Ses", "Premium YZ Sohbet"], gold2_price_monthly: "229,99 ₺ / Ay", gold2_price_yearly: "2.299 ₺ / Yıl",
-            vip_title: "VIP", vip_features: ["2.000 Jeton/Ay", "%30 Jeton İndirimi", "20 Video/Ay", "Rüya Günlüğü", "Özel Kaynaklar", "WhatsApp Destek"], vip_price_monthly: "299,99 SAR / Ay", vip_price_yearly: "2.999,99 SAR / Yıl"
+            vip_title: "VIP", vip_features: ["2.000 Jeton/Ay", "%30 Jeton İndirimi", "20 Video/Ay", "Rüya Günlüğü", "Özel Kaynaklar", "WhatsApp Destek"], vip_price_monthly: "299,99 SAR / Ay", vip_price_yearly: "2.999,99 SAR / Yıl",
+            pro_badge: "EN POPÜLER", vip_badge: "ÖZEL 👑",
         },
         earn: {
             title: "Jeton Kazan",
@@ -596,7 +620,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Satın Al",
             wow_badge: "💎 1 Sent Altında/Jeton!",
             coins_label: "Jeton",
-            per_coin: "jeton başına"
+            per_coin: "jeton başına",
+            pkg_starter: "Deneyin", pkg_popular: "Popüler", pkg_value: "Daha Fazla", pkg_premium: "Daha Tasarruf", pkg_mega: "Güçlü Kullanıcı",
         },
         smart_guide: {
             step1_title: "Hesap Oluştur", step1_desc: "Google AI Studio'da ücretsiz hesap aç.",
@@ -643,7 +668,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Tu Perfil", profile_desc: "Estadísticas y Yo",
             hub_btn: "Centro de Sueños", hub_desc: "Sueños de la Comunidad",
             gen_image: "Generar Imagen", saved_msg: "¡Sueño guardado en calendario!",
-            watch_ad: "Ganar Monedas", generate_video: "Generar Video (Oro)",
+            watch_ad: "Ganar Monedas", generate_video: "Generar Video (Oro)", create_dream_video: "Video del Sueño",
             video_btn_short: "📹 Generar Video", video_duration_short: "30s, 180 Monedas",
             slideshow_btn: "📽️ Crear Presentación", slideshow_duration: "30s, 180 Monedas",
             premium_btn: "Premium / Plan", premium_desc: "Mejoras y Funciones",
@@ -704,11 +729,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Mágico",
             cosmic_dna: "ADN Cósmico",
             moon_sync: "Sincronía Lunar",
+            cosmic_dna_body: "Tu ADN Cósmico es tu huella de sueño única — basada en tu fecha de nacimiento, signo zodiacal y los patrones de tus sueños.",
+            cosmic_dna_coming: "Próximamente",
+            cosmic_dna_enter: "Ingresa tu fecha de nacimiento en tu perfil para calcular tu ADN Cósmico.",
+            moon_phase_label: "Fase lunar",
+            dream_meaning_today: "Significado del sueño hoy",
             save_btn: "Guardar",
             age_restricted_cat: "Esta categoría solo está disponible para personas de 18 años o más.",
             ok: "Aceptar",
             video_studio: "Estudio de Video",
-            dream_network: "Red de Sueños"
+            dream_network: "Red de Sueños",
+            privacy_link: "Privacidad", terms_link: "Términos", imprint_link: "Aviso Legal", research_link: "Investigación", studies_link: "Estudios", worldmap_link: "Mapa Mundial", showing_sources_only: "Mostrando solo fuentes de {0}", science_label: "Conocimiento",
         },
         processing: {
             title: "El Oráculo trabaja...",
@@ -745,7 +776,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interpretaciones/Día", "Groq IA", "6 Tradiciones", "Anuncios"], bronze_price: "0 €",
             silver2_title: "Pro", silver2_features: ["Interpretaciones Ilimitadas", "Gemini IA", "Las 9 Tradiciones", "Sin Anuncios", "100 Monedas/Mes", "10% Descuento"], silver2_price_monthly: "4,99 € / Mes", silver2_price_yearly: "49,99 € / Año",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspectivas", "500 Monedas/Mes", "20% Descuento", "Imágenes HD", "5 Videos/Mes", "Voz en Vivo", "Chat IA Premium"], gold2_price_monthly: "14,99 € / Mes", gold2_price_yearly: "149,99 € / Año",
-            vip_title: "VIP", vip_features: ["2.000 Monedas/Mes", "30% Descuento", "20 Videos/Mes", "Diario de Sueños", "Fuentes Exclusivas", "Soporte WhatsApp"], vip_price_monthly: "299,99 SAR / Mes", vip_price_yearly: "2.999,99 SAR / Año"
+            vip_title: "VIP", vip_features: ["2.000 Monedas/Mes", "30% Descuento", "20 Videos/Mes", "Diario de Sueños", "Fuentes Exclusivas", "Soporte WhatsApp"], vip_price_monthly: "299,99 SAR / Mes", vip_price_yearly: "2.999,99 SAR / Año",
+            pro_badge: "MÁS POPULAR", vip_badge: "EXCLUSIVO 👑",
         },
         earn: {
             title: "Ganar Monedas",
@@ -767,7 +799,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Comprar",
             wow_badge: "💎 ¡Menos de 1 Céntimo/Moneda!",
             coins_label: "Monedas",
-            per_coin: "por moneda"
+            per_coin: "por moneda",
+            pkg_starter: "Pruébalo", pkg_popular: "Popular", pkg_value: "Más Valor", pkg_premium: "Ahorra Más", pkg_mega: "Poder Total",
         },
         smart_guide: {
             step1_title: "Crear Cuenta", step1_desc: "Crea una cuenta gratuita en Google AI Studio.",
@@ -814,7 +847,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Votre Profil", profile_desc: "Stats et Moi",
             hub_btn: "Centre des Rêves", hub_desc: "Rêves de la Communauté",
             gen_image: "Générer Image", saved_msg: "Rêve sauvegardé dans le calendrier !",
-            watch_ad: "Gagner des Pièces", generate_video: "Générer Vidéo (Or)",
+            watch_ad: "Gagner des Pièces", generate_video: "Générer Vidéo (Or)", create_dream_video: "Vidéo du Rêve",
             video_btn_short: "📹 Générer Vidéo", video_duration_short: "30s, 180 Pièces",
             slideshow_btn: "📽️ Créer Diaporama", slideshow_duration: "30s, 180 Pièces",
             premium_btn: "Premium / Plan", premium_desc: "Mise à niveau et Fonctionnalités",
@@ -875,11 +908,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Magique",
             cosmic_dna: "ADN Cosmique",
             moon_sync: "Synchronisation Lunaire",
+            cosmic_dna_body: "Votre ADN Cosmique est votre empreinte de rêve unique — basée sur votre date de naissance, signe zodiacal et vos modèles de rêves.",
+            cosmic_dna_coming: "Bientôt",
+            cosmic_dna_enter: "Entrez votre date de naissance dans votre profil pour calculer votre ADN Cosmique.",
+            moon_phase_label: "Phase lunaire",
+            dream_meaning_today: "Signification du rêve aujourd'hui",
             save_btn: "Sauvegarder",
             age_restricted_cat: "Cette catégorie n'est disponible que pour les personnes de 18 ans et plus.",
             ok: "OK",
             video_studio: "Studio Vidéo",
-            dream_network: "Réseau de Rêves"
+            dream_network: "Réseau de Rêves",
+            privacy_link: "Confidentialité", terms_link: "Conditions", imprint_link: "Mentions Légales", research_link: "Recherche", studies_link: "Études", worldmap_link: "Carte du Monde", showing_sources_only: "Affichage des sources {0} uniquement", science_label: "Savoir",
         },
         processing: {
             title: "L'Oracle travaille...",
@@ -916,7 +955,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interprétations/Jour", "Groq IA", "6 Traditions", "Publicités"], bronze_price: "0 €",
             silver2_title: "Pro", silver2_features: ["Interprétations Illimitées", "Gemini IA", "Les 9 Traditions", "Sans Pub", "100 Pièces/Mois", "10% Réduction"], silver2_price_monthly: "4,99 € / Mois", silver2_price_yearly: "49,99 € / An",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspectives", "500 Pièces/Mois", "20% Réduction", "Images HD", "5 Vidéos/Mois", "Voix en Direct", "Chat IA Premium"], gold2_price_monthly: "14,99 € / Mois", gold2_price_yearly: "149,99 € / An",
-            vip_title: "VIP", vip_features: ["2 000 Pièces/Mois", "30% Réduction", "20 Vidéos/Mois", "Journal de Rêves", "Sources Exclusives", "Support WhatsApp"], vip_price_monthly: "299,99 SAR / Mois", vip_price_yearly: "2 999,99 SAR / An"
+            vip_title: "VIP", vip_features: ["2 000 Pièces/Mois", "30% Réduction", "20 Vidéos/Mois", "Journal de Rêves", "Sources Exclusives", "Support WhatsApp"], vip_price_monthly: "299,99 SAR / Mois", vip_price_yearly: "2 999,99 SAR / An",
+            pro_badge: "PLUS POPULAIRE", vip_badge: "EXCLUSIF 👑",
         },
         earn: {
             title: "Gagner des Pièces",
@@ -938,7 +978,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Acheter",
             wow_badge: "💎 Moins d'1 Centime/Pièce !",
             coins_label: "Pièces",
-            per_coin: "par pièce"
+            per_coin: "par pièce",
+            pkg_starter: "Essayez", pkg_popular: "Populaire", pkg_value: "Plus de Valeur", pkg_premium: "Économisez", pkg_mega: "Utilisateur Pro",
         },
         smart_guide: {
             step1_title: "Créer un Compte", step1_desc: "Créez un compte gratuit sur Google AI Studio.",
@@ -1001,7 +1042,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "ملفك الشخصي", profile_desc: "الإحصائيات وأنا",
             hub_btn: "مركز الأحلام", hub_desc: "أحلام المجتمع",
             gen_image: "إنشاء صورة", saved_msg: "تم حفظ الحلم في التقويم!",
-            watch_ad: "كسب عملات", generate_video: "إنشاء فيديو (ذهبي)",
+            watch_ad: "كسب عملات", generate_video: "إنشاء فيديو (ذهبي)", create_dream_video: "فيديو الحلم",
             video_btn_short: "📹 إنشاء فيديو", video_duration_short: "30 ثانية، 180 عملة",
             slideshow_btn: "📽️ إنشاء عرض شرائح", slideshow_duration: "30 ثانية، 180 عملة",
             premium_btn: "بريميوم / خطة", premium_desc: "تحديث وميزات",
@@ -1062,11 +1103,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "سحري",
             cosmic_dna: "الحمض النووي الكوني",
             moon_sync: "تزامن القمر",
+            cosmic_dna_body: "حمضك النووي الكوني هو بصمة أحلامك الفريدة — بناءً على تاريخ ميلادك وبرجك وأنماط أحلامك.",
+            cosmic_dna_coming: "قريباً",
+            cosmic_dna_enter: "أدخل تاريخ ميلادك في ملفك الشخصي لحساب حمضك النووي الكوني.",
+            moon_phase_label: "مرحلة القمر",
+            dream_meaning_today: "معنى الحلم اليوم",
             save_btn: "حفظ",
             age_restricted_cat: "هذه الفئة متاحة فقط للأشخاص الذين تبلغ أعمارهم 18 عامًا فما فوق.",
             ok: "حسنًا",
             video_studio: "استوديو الفيديو",
-            dream_network: "شبكة الأحلام"
+            dream_network: "شبكة الأحلام",
+            privacy_link: "الخصوصية", terms_link: "الشروط", imprint_link: "البصمة", research_link: "البحث", studies_link: "الدراسات", worldmap_link: "خريطة العالم", showing_sources_only: "عرض مصادر {0} فقط", science_label: "المعرفة",
         },
         processing: {
             title: "العراف يعمل...",
@@ -1103,7 +1150,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "مجاني", bronze_features: ["3 تفسيرات/يوم", "Groq ذكاء", "6 تقاليد", "إعلانات"], bronze_price: "0 €",
             silver2_title: "برو", silver2_features: ["تفسيرات غير محدودة", "Gemini ذكاء", "جميع 9 تقاليد", "بدون إعلانات", "100 عملة/شهر", "خصم 10%"], silver2_price_monthly: "49,99 ر.س / شهر", silver2_price_yearly: "499,99 ر.س / سنة",
             gold2_title: "بريميوم", gold2_features: ["Claude 6 وجهات نظر", "500 عملة/شهر", "خصم 20%", "صور HD", "5 فيديو/شهر", "صوت مباشر", "دردشة ذكاء متقدمة"], gold2_price_monthly: "149,99 ر.س / شهر", gold2_price_yearly: "1.499,99 ر.س / سنة",
-            vip_title: "VIP", vip_features: ["2000 عملة/شهر", "خصم 30%", "20 فيديو/شهر", "مذكرة أحلام", "مصادر حصرية", "دعم واتساب"], vip_price_monthly: "299,99 ر.س / شهر", vip_price_yearly: "2.999,99 ر.س / سنة"
+            vip_title: "VIP", vip_features: ["2000 عملة/شهر", "خصم 30%", "20 فيديو/شهر", "مذكرة أحلام", "مصادر حصرية", "دعم واتساب"], vip_price_monthly: "299,99 ر.س / شهر", vip_price_yearly: "2.999,99 ر.س / سنة",
+            pro_badge: "الأكثر شعبية", vip_badge: "حصري 👑",
         },
         earn: {
             title: "كسب العملات",
@@ -1125,7 +1173,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "شراء",
             wow_badge: "💎 أقل من سنت/عملة!",
             coins_label: "عملات",
-            per_coin: "لكل عملة"
+            per_coin: "لكل عملة",
+            pkg_starter: "جرّب", pkg_popular: "شائع", pkg_value: "قيمة أكبر", pkg_premium: "وفّر أكثر", pkg_mega: "مستخدم متقدم",
         },
         smart_guide: {
             step1_title: "إنشاء حساب", step1_desc: "أنشئ حسابًا مجانيًا في Google AI Studio.",
@@ -1172,7 +1221,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Seu Perfil", profile_desc: "Estatísticas e Eu",
             hub_btn: "Central de Sonhos", hub_desc: "Sonhos da Comunidade",
             gen_image: "Gerar Imagem", saved_msg: "Sonho salvo no calendário!",
-            watch_ad: "Ganhar Moedas", generate_video: "Gerar Vídeo (Ouro)",
+            watch_ad: "Ganhar Moedas", generate_video: "Gerar Vídeo (Ouro)", create_dream_video: "Vídeo do Sonho",
             video_btn_short: "📹 Gerar Vídeo", video_duration_short: "30s, 180 Moedas",
             slideshow_btn: "📽️ Criar Apresentação", slideshow_duration: "30s, 180 Moedas",
             premium_btn: "Premium / Plano", premium_desc: "Upgrade e Recursos",
@@ -1233,11 +1282,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Mágico",
             cosmic_dna: "DNA Cósmico",
             moon_sync: "Sincronização Lunar",
+            cosmic_dna_body: "Seu DNA Cósmico é sua impressão digital de sonho única — baseada na data de nascimento, signo e padrões de sonhos.",
+            cosmic_dna_coming: "Em breve",
+            cosmic_dna_enter: "Insira sua data de nascimento no perfil para calcular seu DNA Cósmico.",
+            moon_phase_label: "Fase da lua",
+            dream_meaning_today: "Significado do sonho hoje",
             save_btn: "Salvar",
             age_restricted_cat: "Esta categoria está disponível apenas para pessoas com 18 anos ou mais.",
             ok: "OK",
             video_studio: "Estúdio de Vídeo",
-            dream_network: "Rede de Sonhos"
+            dream_network: "Rede de Sonhos",
+            privacy_link: "Privacidade", terms_link: "Termos", imprint_link: "Marca Legal", research_link: "Pesquisa", studies_link: "Estudos", worldmap_link: "Mapa Mundial", showing_sources_only: "Mostrando apenas fontes de {0}", science_label: "Conhecimento",
         },
         processing: {
             title: "O Oráculo trabalha...",
@@ -1274,7 +1329,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interpretações/Dia", "Groq IA", "6 Tradições", "Anúncios"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Interpretações Ilimitadas", "Gemini IA", "Todas 9 Tradições", "Sem Anúncios", "100 Moedas/Mês", "10% Desconto"], silver2_price_monthly: "€4,99 / Mês", silver2_price_yearly: "€49,99 / Ano",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspectivas", "500 Moedas/Mês", "20% Desconto", "Imagens HD", "5 Vídeos/Mês", "Voz ao Vivo", "Chat IA Premium"], gold2_price_monthly: "€14,99 / Mês", gold2_price_yearly: "€149,99 / Ano",
-            vip_title: "VIP", vip_features: ["2.000 Moedas/Mês", "30% Desconto", "20 Vídeos/Mês", "Diário de Sonhos", "Fontes Exclusivas", "Suporte WhatsApp"], vip_price_monthly: "299,99 SAR / Mês", vip_price_yearly: "2.999,99 SAR / Ano"
+            vip_title: "VIP", vip_features: ["2.000 Moedas/Mês", "30% Desconto", "20 Vídeos/Mês", "Diário de Sonhos", "Fontes Exclusivas", "Suporte WhatsApp"], vip_price_monthly: "299,99 SAR / Mês", vip_price_yearly: "2.999,99 SAR / Ano",
+            pro_badge: "MAIS POPULAR", vip_badge: "EXCLUSIVO 👑",
         },
         earn: {
             title: "Ganhar Moedas",
@@ -1296,7 +1352,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Comprar",
             wow_badge: "💎 Menos de 1 Cêntimo/Moeda!",
             coins_label: "Moedas",
-            per_coin: "por moeda"
+            per_coin: "por moeda",
+            pkg_starter: "Experimente", pkg_popular: "Popular", pkg_value: "Mais Valor", pkg_premium: "Economize", pkg_mega: "Usuário Pro",
         },
         smart_guide: {
             step1_title: "Criar Conta", step1_desc: "Crie uma conta gratuita no Google AI Studio.",
@@ -1359,7 +1416,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Ваш профиль", profile_desc: "Статистика и я",
             hub_btn: "Центр снов", hub_desc: "Сны сообщества",
             gen_image: "Создать изображение", saved_msg: "Сон сохранен в календаре!",
-            watch_ad: "Заработать монеты", generate_video: "Создать видео (Золото)",
+            watch_ad: "Заработать монеты", generate_video: "Создать видео (Золото)", create_dream_video: "Видео Сна",
             video_btn_short: "📹 Создать видео", video_duration_short: "30с, 180 монет",
             slideshow_btn: "📽️ Создать слайдшоу", slideshow_duration: "30с, 180 монет",
             premium_btn: "Премиум / План", premium_desc: "Обновление и функции",
@@ -1420,11 +1477,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Волшебный",
             cosmic_dna: "Космическая ДНК",
             moon_sync: "Лунная Синхронизация",
+            cosmic_dna_body: "Ваша Космическая ДНК — уникальный отпечаток ваших снов, основанный на дате рождения, знаке зодиака и паттернах ваших снов.",
+            cosmic_dna_coming: "Скоро",
+            cosmic_dna_enter: "Введите дату рождения в профиле для расчёта вашей Космической ДНК.",
+            moon_phase_label: "Фаза луны",
+            dream_meaning_today: "Значение сна сегодня",
             save_btn: "Сохранить",
             age_restricted_cat: "Эта категория доступна только для лиц от 18 лет и старше.",
             ok: "ОК",
             video_studio: "Видео Студия",
-            dream_network: "Сеть Снов"
+            dream_network: "Сеть Снов",
+            privacy_link: "Конфиденциальность", terms_link: "Условия", imprint_link: "Выходные данные", research_link: "Исследования", studies_link: "Исследования", worldmap_link: "Карта мира", showing_sources_only: "Только {0} источники", science_label: "Знания",
         },
         processing: {
             title: "Оракул работает...",
@@ -1461,7 +1524,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Толкования/День", "Groq ИИ", "6 Традиций", "Реклама"], bronze_price: "0 ₽",
             silver2_title: "Про", silver2_features: ["Безлимитные Толкования", "Gemini ИИ", "Все 9 Традиций", "Без Рекламы", "100 Монет/Месяц", "Скидка 10%"], silver2_price_monthly: "249 ₽ / Месяц", silver2_price_yearly: "2.499 ₽ / Год",
             gold2_title: "Премиум", gold2_features: ["Claude 6 Перспектив", "500 Монет/Месяц", "Скидка 20%", "HD Изображения", "5 Видео/Месяц", "Живой Голос", "Премиум ИИ Чат"], gold2_price_monthly: "749 ₽ / Месяц", gold2_price_yearly: "7.499 ₽ / Год",
-            vip_title: "VIP", vip_features: ["2.000 Монет/Месяц", "Скидка 30%", "20 Видео/Месяц", "Дневник Снов", "Эксклюзивные Источники", "Поддержка WhatsApp"], vip_price_monthly: "299,99 SAR / Месяц", vip_price_yearly: "2.999,99 SAR / Год"
+            vip_title: "VIP", vip_features: ["2.000 Монет/Месяц", "Скидка 30%", "20 Видео/Месяц", "Дневник Снов", "Эксклюзивные Источники", "Поддержка WhatsApp"], vip_price_monthly: "299,99 SAR / Месяц", vip_price_yearly: "2.999,99 SAR / Год",
+            pro_badge: "САМЫЙ ПОПУЛЯРНЫЙ", vip_badge: "ЭКСКЛЮЗИВ 👑",
         },
         earn: {
             title: "Заработать монеты",
@@ -1483,7 +1547,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Купить",
             wow_badge: "💎 Меньше 1 Цента/Монета!",
             coins_label: "монет",
-            per_coin: "за монету"
+            per_coin: "за монету",
+            pkg_starter: "Попробуй", pkg_popular: "Популярный", pkg_value: "Больше ценности", pkg_premium: "Экономьте", pkg_mega: "Продвинутый",
         },
         smart_guide: {
             step1_title: "Создать аккаунт", step1_desc: "Создайте бесплатный аккаунт в Google AI Studio.",
@@ -1546,7 +1611,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "个人资料", profile_desc: "统计与我",
             hub_btn: "梦境中心", hub_desc: "社区梦境",
             gen_image: "生成图片", saved_msg: "梦境已保存到日历！",
-            watch_ad: "赚取金币", generate_video: "生成视频（黄金）",
+            watch_ad: "赚取金币", generate_video: "生成视频（黄金）", create_dream_video: "梦境视频",
             video_btn_short: "📹 生成视频", video_duration_short: "30秒，180金币",
             slideshow_btn: "📽️ 创建幻灯片", slideshow_duration: "30秒，180金币",
             premium_btn: "高级 / 计划", premium_desc: "升级与功能",
@@ -1607,11 +1672,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "魔幻风格",
             cosmic_dna: "宇宙DNA",
             moon_sync: "月亮同步",
+            cosmic_dna_body: "你的宇宙DNA是你独特的梦境指纹——基于你的出生日期、星座和梦境模式。",
+            cosmic_dna_coming: "即将推出",
+            cosmic_dna_enter: "在个人资料中输入出生日期以计算你的宇宙DNA。",
+            moon_phase_label: "月相",
+            dream_meaning_today: "今日梦境含义",
             save_btn: "保存",
             age_restricted_cat: "此类别仅适用于18岁及以上的用户。",
             ok: "确定",
             video_studio: "视频工作室",
-            dream_network: "梦境网络"
+            dream_network: "梦境网络",
+            privacy_link: "隐私", terms_link: "条款", imprint_link: "版权", research_link: "研究", studies_link: "研究", worldmap_link: "世界地图", showing_sources_only: "仅显示{0}来源", science_label: "知识",
         },
         processing: {
             title: "神谕运作中...",
@@ -1648,7 +1719,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "免费", bronze_features: ["每天3次解读", "Groq AI", "6种传统", "含广告"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["无限解读", "Gemini AI", "全部9种传统", "无广告", "每月100金币", "金币9折"], silver2_price_monthly: "€4.99 / 月", silver2_price_yearly: "€49.99 / 年",
             gold2_title: "Premium", gold2_features: ["Claude 6视角", "每月500金币", "金币8折", "高清图片", "每月5个视频", "实时语音", "高级AI聊天"], gold2_price_monthly: "€14.99 / 月", gold2_price_yearly: "€149.99 / 年",
-            vip_title: "VIP", vip_features: ["每月2,000金币", "金币7折", "每月20个视频", "梦境日记", "独家来源", "WhatsApp支持"], vip_price_monthly: "299.99 SAR / 月", vip_price_yearly: "2,999.99 SAR / 年"
+            vip_title: "VIP", vip_features: ["每月2,000金币", "金币7折", "每月20个视频", "梦境日记", "独家来源", "WhatsApp支持"], vip_price_monthly: "299.99 SAR / 月", vip_price_yearly: "2,999.99 SAR / 年",
+            pro_badge: "最受欢迎", vip_badge: "独家 👑",
         },
         earn: {
             title: "赚取金币",
@@ -1670,7 +1742,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "购买",
             wow_badge: "💎 不到1分钱/金币！",
             coins_label: "金币",
-            per_coin: "每金币"
+            per_coin: "每金币",
+            pkg_starter: "试用", pkg_popular: "热门", pkg_value: "超值", pkg_premium: "更省", pkg_mega: "高级用户",
         },
         smart_guide: {
             step1_title: "创建账户", step1_desc: "在Google AI Studio创建免费账户。",
@@ -1733,7 +1806,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "आपकी प्रोफ़ाइल", profile_desc: "आंकड़े और मैं",
             hub_btn: "ड्रीम हब", hub_desc: "सामुदायिक सपने",
             gen_image: "छवि बनाएं", saved_msg: "सपना कैलेंडर में सहेजा गया!",
-            watch_ad: "सिक्के कमाएं", generate_video: "वीडियो बनाएं (गोल्ड)",
+            watch_ad: "सिक्के कमाएं", generate_video: "वीडियो बनाएं (गोल्ड)", create_dream_video: "स्वप्न वीडियो",
             video_btn_short: "📹 वीडियो बनाएं", video_duration_short: "30सेकंड, 180 सिक्के",
             slideshow_btn: "📽️ स्लाइडशो बनाएं", slideshow_duration: "30सेकंड, 180 सिक्के",
             premium_btn: "प्रीमियम / प्लान", premium_desc: "अपग्रेड और फीचर्स",
@@ -1794,11 +1867,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "जादुई",
             cosmic_dna: "कॉस्मिक DNA",
             moon_sync: "मून सिंक",
+            cosmic_dna_body: "आपका कॉस्मिक DNA आपके सपनों का अनूठा फिंगरप्रिंट है — जन्मतिथि, राशि और सपनों के पैटर्न पर आधारित।",
+            cosmic_dna_coming: "जल्द आ रहा है",
+            cosmic_dna_enter: "अपना कॉस्मिक DNA गणना करने के लिए प्रोफ़ाइल में जन्मतिथि दर्ज करें।",
+            moon_phase_label: "चंद्र चरण",
+            dream_meaning_today: "आज का सपना अर्थ",
             save_btn: "सहेजें",
             age_restricted_cat: "यह श्रेणी केवल 18 वर्ष और उससे अधिक आयु के लोगों के लिए उपलब्ध है।",
             ok: "ठीक है",
             video_studio: "वीडियो स्टूडियो",
-            dream_network: "ड्रीम नेटवर्क"
+            dream_network: "ड्रीम नेटवर्क",
+            privacy_link: "गोपनीयता", terms_link: "शर्तें", imprint_link: "कानूनी", research_link: "अनुसंधान", studies_link: "अध्ययन", worldmap_link: "विश्व मानचित्र", showing_sources_only: "केवल {0} स्रोत दिखा रहे हैं", science_label: "ज्ञान",
         },
         processing: {
             title: "ओरेकल काम कर रहा है...",
@@ -1835,7 +1914,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "मुफ़्त", bronze_features: ["3 व्याख्याएं/दिन", "Groq AI", "6 परंपराएं", "विज्ञापन"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["असीमित व्याख्याएं", "Gemini AI", "सभी 9 परंपराएं", "विज्ञापन-मुक्त", "100 सिक्के/माह", "10% सिक्का छूट"], silver2_price_monthly: "€4.99 / माह", silver2_price_yearly: "€49.99 / वर्ष",
             gold2_title: "Premium", gold2_features: ["Claude 6-दृष्टिकोण", "500 सिक्के/माह", "20% सिक्का छूट", "HD छवियां", "5 वीडियो/माह", "लाइव वॉइस", "प्रीमियम AI चैट"], gold2_price_monthly: "€14.99 / माह", gold2_price_yearly: "€149.99 / वर्ष",
-            vip_title: "VIP", vip_features: ["2,000 सिक्के/माह", "30% सिक्का छूट", "20 वीडियो/माह", "स्वप्न डायरी", "विशेष स्रोत", "WhatsApp सहायता"], vip_price_monthly: "299.99 SAR / माह", vip_price_yearly: "2,999.99 SAR / वर्ष"
+            vip_title: "VIP", vip_features: ["2,000 सिक्के/माह", "30% सिक्का छूट", "20 वीडियो/माह", "स्वप्न डायरी", "विशेष स्रोत", "WhatsApp सहायता"], vip_price_monthly: "299.99 SAR / माह", vip_price_yearly: "2,999.99 SAR / वर्ष",
+            pro_badge: "सबसे लोकप्रिय", vip_badge: "विशेष 👑",
         },
         earn: {
             title: "सिक्के कमाएं",
@@ -1857,7 +1937,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "खरीदें",
             wow_badge: "💎 1 पैसे/सिक्के से कम!",
             coins_label: "सिक्के",
-            per_coin: "प्रति सिक्का"
+            per_coin: "प्रति सिक्का",
+            pkg_starter: "आज़माएं", pkg_popular: "लोकप्रिय", pkg_value: "ज़्यादा मूल्य", pkg_premium: "ज़्यादा बचत", pkg_mega: "पावर यूज़र",
         },
         smart_guide: {
             step1_title: "खाता बनाएं", step1_desc: "Google AI Studio पर मुफ़्त खाता बनाएं।",
@@ -1920,7 +2001,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "プロフィール", profile_desc: "統計と自分",
             hub_btn: "ドリームハブ", hub_desc: "コミュニティの夢",
             gen_image: "画像を生成", saved_msg: "夢がカレンダーに保存されました！",
-            watch_ad: "コインを獲得", generate_video: "動画を生成（ゴールド）",
+            watch_ad: "コインを獲得", generate_video: "動画を生成（ゴールド）", create_dream_video: "夢動画",
             video_btn_short: "📹 動画を生成", video_duration_short: "30秒、180コイン",
             slideshow_btn: "📽️ スライドショー作成", slideshow_duration: "30秒、180コイン",
             premium_btn: "プレミアム / プラン", premium_desc: "アップグレードと機能",
@@ -1981,11 +2062,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "マジカル",
             cosmic_dna: "コズミックDNA",
             moon_sync: "ムーンシンク",
+            cosmic_dna_body: "あなたのコスミックDNAはあなた独自の夢の指紋です — 生年月日、星座、夢のパターンに基づいています。",
+            cosmic_dna_coming: "近日公開",
+            cosmic_dna_enter: "コスミックDNAを計算するには、プロフィールに生年月日を入力してください。",
+            moon_phase_label: "月の満ち欠け",
+            dream_meaning_today: "今日の夢の意味",
             save_btn: "保存",
             age_restricted_cat: "このカテゴリは18歳以上の方のみご利用いただけます。",
             ok: "OK",
             video_studio: "ビデオスタジオ",
-            dream_network: "ドリームネットワーク"
+            dream_network: "ドリームネットワーク",
+            privacy_link: "プライバシー", terms_link: "利用規約", imprint_link: "特定商取引法", research_link: "研究", studies_link: "研究", worldmap_link: "世界地図", showing_sources_only: "{0}のソースのみ表示", science_label: "知識",
         },
         processing: {
             title: "オラクルが稼働中...",
@@ -2022,7 +2109,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "無料", bronze_features: ["1日3回の解釈", "Groq AI", "6つの伝統", "広告あり"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["無制限解釈", "Gemini AI", "全9つの伝統", "広告なし", "月100コイン", "コイン10%割引"], silver2_price_monthly: "€4.99 / 月", silver2_price_yearly: "€49.99 / 年",
             gold2_title: "Premium", gold2_features: ["Claude 6視点", "月500コイン", "コイン20%割引", "HD画像", "月5本の動画", "ライブボイス", "プレミアムAIチャット"], gold2_price_monthly: "€14.99 / 月", gold2_price_yearly: "€149.99 / 年",
-            vip_title: "VIP", vip_features: ["月2,000コイン", "コイン30%割引", "月20本の動画", "夢日記", "限定ソース", "WhatsAppサポート"], vip_price_monthly: "299.99 SAR / 月", vip_price_yearly: "2,999.99 SAR / 年"
+            vip_title: "VIP", vip_features: ["月2,000コイン", "コイン30%割引", "月20本の動画", "夢日記", "限定ソース", "WhatsAppサポート"], vip_price_monthly: "299.99 SAR / 月", vip_price_yearly: "2,999.99 SAR / 年",
+            pro_badge: "一番人気", vip_badge: "限定 👑",
         },
         earn: {
             title: "コインを獲得",
@@ -2044,7 +2132,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "購入",
             wow_badge: "💎 1コインあたり1セント未満！",
             coins_label: "コイン",
-            per_coin: "1コインあたり"
+            per_coin: "1コインあたり",
+            pkg_starter: "お試し", pkg_popular: "人気", pkg_value: "お得", pkg_premium: "もっと節約", pkg_mega: "パワーユーザー",
         },
         smart_guide: {
             step1_title: "アカウント作成", step1_desc: "Google AI Studioで無料アカウントを作成。",
@@ -2107,7 +2196,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "프로필", profile_desc: "통계 및 나",
             hub_btn: "드림 허브", hub_desc: "커뮤니티 꿈",
             gen_image: "이미지 생성", saved_msg: "꿈이 캘린더에 저장되었습니다!",
-            watch_ad: "코인 획득", generate_video: "동영상 생성 (골드)",
+            watch_ad: "코인 획득", generate_video: "동영상 생성 (골드)", create_dream_video: "꿈 동영상",
             video_btn_short: "📹 동영상 생성", video_duration_short: "30초, 180 코인",
             slideshow_btn: "📽️ 슬라이드쇼 만들기", slideshow_duration: "30초, 180 코인",
             premium_btn: "프리미엄 / 플랜", premium_desc: "업그레이드 및 기능",
@@ -2168,11 +2257,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "마법",
             cosmic_dna: "코스믹 DNA",
             moon_sync: "문 싱크",
+            cosmic_dna_body: "당신의 코스믹 DNA는 생년월일, 별자리, 꿈의 패턴을 바탕으로 한 고유한 꿈 지문입니다.",
+            cosmic_dna_coming: "곧 출시",
+            cosmic_dna_enter: "코스믹 DNA를 계산하려면 프로필에 생년월일을 입력하세요.",
+            moon_phase_label: "달의 위상",
+            dream_meaning_today: "오늘의 꿈 의미",
             save_btn: "저장",
             age_restricted_cat: "이 카테고리는 18세 이상만 이용할 수 있습니다.",
             ok: "확인",
             video_studio: "비디오 스튜디오",
-            dream_network: "드림 네트워크"
+            dream_network: "드림 네트워크",
+            privacy_link: "개인정보", terms_link: "이용약관", imprint_link: "법적 고지", research_link: "연구", studies_link: "연구", worldmap_link: "세계 지도", showing_sources_only: "{0} 소스만 표시", science_label: "지식",
         },
         processing: {
             title: "오라클이 작동 중...",
@@ -2209,7 +2304,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "무료", bronze_features: ["하루 3회 해석", "Groq AI", "6가지 전통", "광고"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["무제한 해석", "Gemini AI", "전체 9가지 전통", "광고 없음", "월 100코인", "코인 10% 할인"], silver2_price_monthly: "€4.99 / 월", silver2_price_yearly: "€49.99 / 년",
             gold2_title: "Premium", gold2_features: ["Claude 6관점", "월 500코인", "코인 20% 할인", "HD 이미지", "월 5개 동영상", "라이브 음성", "프리미엄 AI 채팅"], gold2_price_monthly: "€14.99 / 월", gold2_price_yearly: "€149.99 / 년",
-            vip_title: "VIP", vip_features: ["월 2,000코인", "코인 30% 할인", "월 20개 동영상", "꿈 일기", "독점 소스", "WhatsApp 지원"], vip_price_monthly: "299.99 SAR / 월", vip_price_yearly: "2,999.99 SAR / 년"
+            vip_title: "VIP", vip_features: ["월 2,000코인", "코인 30% 할인", "월 20개 동영상", "꿈 일기", "독점 소스", "WhatsApp 지원"], vip_price_monthly: "299.99 SAR / 월", vip_price_yearly: "2,999.99 SAR / 년",
+            pro_badge: "가장 인기", vip_badge: "독점 👑",
         },
         earn: {
             title: "코인 획득",
@@ -2231,7 +2327,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "구매",
             wow_badge: "💎 코인당 1센트 미만!",
             coins_label: "코인",
-            per_coin: "코인당"
+            per_coin: "코인당",
+            pkg_starter: "체험", pkg_popular: "인기", pkg_value: "더 큰 가치", pkg_premium: "더 절약", pkg_mega: "파워 유저",
         },
         smart_guide: {
             step1_title: "계정 만들기", step1_desc: "Google AI Studio에서 무료 계정을 만드세요.",
@@ -2294,7 +2391,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Profil Anda", profile_desc: "Statistik & Saya",
             hub_btn: "Dream Hub", hub_desc: "Mimpi Komunitas",
             gen_image: "Buat Gambar", saved_msg: "Mimpi disimpan ke kalender!",
-            watch_ad: "Dapatkan Koin", generate_video: "Buat Video (Gold)",
+            watch_ad: "Dapatkan Koin", generate_video: "Buat Video (Gold)", create_dream_video: "Video Mimpi",
             video_btn_short: "📹 Buat Video", video_duration_short: "30d, 180 Koin",
             slideshow_btn: "📽️ Buat Slideshow", slideshow_duration: "30d, 180 Koin",
             premium_btn: "Premium / Paket", premium_desc: "Upgrade & Fitur",
@@ -2355,11 +2452,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Magis",
             cosmic_dna: "DNA Kosmik",
             moon_sync: "Sinkronisasi Bulan",
+            cosmic_dna_body: "DNA Kosmis Anda adalah sidik jari mimpi unik Anda — berdasarkan tanggal lahir, zodiak, dan pola mimpi Anda.",
+            cosmic_dna_coming: "Segera Hadir",
+            cosmic_dna_enter: "Masukkan tanggal lahir di profil Anda untuk menghitung DNA Kosmis Anda.",
+            moon_phase_label: "Fase bulan",
+            dream_meaning_today: "Arti mimpi hari ini",
             save_btn: "Simpan",
             age_restricted_cat: "Kategori ini hanya tersedia untuk orang berusia 18 tahun ke atas.",
             ok: "OK",
             video_studio: "Studio Video",
-            dream_network: "Jaringan Mimpi"
+            dream_network: "Jaringan Mimpi",
+            privacy_link: "Privasi", terms_link: "Ketentuan", imprint_link: "Imprint", research_link: "Penelitian", studies_link: "Studi", worldmap_link: "Peta Dunia", showing_sources_only: "Menampilkan sumber {0} saja", science_label: "Pengetahuan",
         },
         processing: {
             title: "Oracle sedang bekerja...",
@@ -2396,7 +2499,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Gratis", bronze_features: ["3 Tafsir/Hari", "Groq AI", "6 Tradisi", "Iklan"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Tafsir Tanpa Batas", "Gemini AI", "Semua 9 Tradisi", "Tanpa Iklan", "100 Koin/Bulan", "Diskon Koin 10%"], silver2_price_monthly: "€4.99 / Bulan", silver2_price_yearly: "€49.99 / Tahun",
             gold2_title: "Premium", gold2_features: ["Claude 6-Perspektif", "500 Koin/Bulan", "Diskon Koin 20%", "Gambar HD", "5 Video/Bulan", "Suara Langsung", "Chat AI Premium"], gold2_price_monthly: "€14.99 / Bulan", gold2_price_yearly: "€149.99 / Tahun",
-            vip_title: "VIP", vip_features: ["2.000 Koin/Bulan", "Diskon Koin 30%", "20 Video/Bulan", "Jurnal Mimpi", "Sumber Eksklusif", "Dukungan WhatsApp"], vip_price_monthly: "299.99 SAR / Bulan", vip_price_yearly: "2,999.99 SAR / Tahun"
+            vip_title: "VIP", vip_features: ["2.000 Koin/Bulan", "Diskon Koin 30%", "20 Video/Bulan", "Jurnal Mimpi", "Sumber Eksklusif", "Dukungan WhatsApp"], vip_price_monthly: "299.99 SAR / Bulan", vip_price_yearly: "2,999.99 SAR / Tahun",
+            pro_badge: "TERPOPULER", vip_badge: "EKSKLUSIF 👑",
         },
         earn: {
             title: "Dapatkan Koin",
@@ -2418,7 +2522,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Beli",
             wow_badge: "💎 Di Bawah 1 Sen/Koin!",
             coins_label: "Koin",
-            per_coin: "per koin"
+            per_coin: "per koin",
+            pkg_starter: "Coba", pkg_popular: "Populer", pkg_value: "Lebih Hemat", pkg_premium: "Hemat Lebih", pkg_mega: "Pengguna Pro",
         },
         smart_guide: {
             step1_title: "Buat Akun", step1_desc: "Buat akun gratis di Google AI Studio.",
@@ -2481,7 +2586,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "پروفایل شما", profile_desc: "آمار و من",
             hub_btn: "مرکز رویا", hub_desc: "رویاهای جامعه",
             gen_image: "ساخت تصویر", saved_msg: "رویا در تقویم ذخیره شد!",
-            watch_ad: "کسب سکه", generate_video: "ساخت ویدیو (طلایی)",
+            watch_ad: "کسب سکه", generate_video: "ساخت ویدیو (طلایی)", create_dream_video: "ویدیو رویا",
             video_btn_short: "📹 ساخت ویدیو", video_duration_short: "۳۰ ثانیه، ۱۸۰ سکه",
             slideshow_btn: "📽️ ساخت اسلایدشو", slideshow_duration: "۳۰ ثانیه، ۱۸۰ سکه",
             premium_btn: "پرمیوم / طرح", premium_desc: "ارتقا و امکانات",
@@ -2542,11 +2647,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "جادویی",
             cosmic_dna: "DNA کیهانی",
             moon_sync: "هماهنگی ماه",
+            cosmic_dna_body: "DNA کیهانی شما اثر انگشت منحصر به فرد رویاهای شماست — بر اساس تاریخ تولد، نشان زودیاک و الگوهای رویاهایتان.",
+            cosmic_dna_coming: "به زودی",
+            cosmic_dna_enter: "برای محاسبه DNA کیهانی خود، تاریخ تولدتان را در پروفایل وارد کنید.",
+            moon_phase_label: "مرحله ماه",
+            dream_meaning_today: "معنای رویای امروز",
             save_btn: "ذخیره",
             age_restricted_cat: "این دسته‌بندی فقط برای افراد ۱۸ سال و بالاتر در دسترس است.",
             ok: "باشه",
             video_studio: "استودیوی ویدیو",
-            dream_network: "شبکه رویا"
+            dream_network: "شبکه رویا",
+            privacy_link: "حریم خصوصی", terms_link: "شرایط", imprint_link: "مشخصات", research_link: "تحقیقات", studies_link: "مطالعات", worldmap_link: "نقشه جهان", showing_sources_only: "فقط منابع {0}", science_label: "دانش",
         },
         processing: {
             title: "پیشگو در حال کار است...",
@@ -2583,7 +2694,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "رایگان", bronze_features: ["۳ تعبیر/روز", "Groq AI", "۶ سنت", "تبلیغات"], bronze_price: "€0",
             silver2_title: "حرفه‌ای", silver2_features: ["تعبیر نامحدود", "Gemini AI", "تمام ۹ سنت", "بدون تبلیغ", "۱۰۰ سکه/ماه", "۱۰٪ تخفیف سکه"], silver2_price_monthly: "€4.99 / ماه", silver2_price_yearly: "€49.99 / سال",
             gold2_title: "پرمیوم", gold2_features: ["Claude ۶ دیدگاه", "۵۰۰ سکه/ماه", "۲۰٪ تخفیف سکه", "تصاویر HD", "۵ ویدیو/ماه", "صدای زنده", "چت AI پرمیوم"], gold2_price_monthly: "€14.99 / ماه", gold2_price_yearly: "€149.99 / سال",
-            vip_title: "VIP", vip_features: ["۲,۰۰۰ سکه/ماه", "۳۰٪ تخفیف سکه", "۲۰ ویدیو/ماه", "دفتر رویا", "منابع اختصاصی", "پشتیبانی واتساپ"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year"
+            vip_title: "VIP", vip_features: ["۲,۰۰۰ سکه/ماه", "۳۰٪ تخفیف سکه", "۲۰ ویدیو/ماه", "دفتر رویا", "منابع اختصاصی", "پشتیبانی واتساپ"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            pro_badge: "محبوب‌ترین", vip_badge: "انحصاری 👑",
         },
         earn: {
             title: "کسب سکه",
@@ -2605,7 +2717,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "خرید",
             wow_badge: "💎 زیر ۱ سنت/سکه!",
             coins_label: "سکه",
-            per_coin: "هر سکه"
+            per_coin: "هر سکه",
+            pkg_starter: "امتحان کن", pkg_popular: "محبوب", pkg_value: "ارزش بیشتر", pkg_premium: "صرفه‌جویی", pkg_mega: "کاربر حرفه‌ای",
         },
         smart_guide: {
             step1_title: "ساخت حساب", step1_desc: "حساب رایگان در Google AI Studio بسازید.",
@@ -2668,7 +2781,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Il tuo profilo", profile_desc: "Statistiche e Io",
             hub_btn: "Hub dei sogni", hub_desc: "Sogni della community",
             gen_image: "Genera immagine", saved_msg: "Sogno salvato nel calendario!",
-            watch_ad: "Guadagna monete", generate_video: "Genera video (Gold)",
+            watch_ad: "Guadagna monete", generate_video: "Genera video (Gold)", create_dream_video: "Video del Sogno",
             video_btn_short: "📹 Genera video", video_duration_short: "30s, 180 monete",
             slideshow_btn: "📽️ Crea presentazione", slideshow_duration: "30s, 180 monete",
             premium_btn: "Premium / Piano", premium_desc: "Upgrade e funzionalità",
@@ -2729,11 +2842,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Magico",
             cosmic_dna: "DNA Cosmico",
             moon_sync: "Sincro Lunare",
+            cosmic_dna_body: "Il tuo DNA Cosmico è la tua impronta onirica unica — basata sulla data di nascita, segno zodiacale e i modelli dei tuoi sogni.",
+            cosmic_dna_coming: "Prossimamente",
+            cosmic_dna_enter: "Inserisci la data di nascita nel tuo profilo per calcolare il tuo DNA Cosmico.",
+            moon_phase_label: "Fase lunare",
+            dream_meaning_today: "Significato del sogno oggi",
             save_btn: "Salva",
             age_restricted_cat: "Questa categoria è disponibile solo per persone di 18 anni e oltre.",
             ok: "OK",
             video_studio: "Studio Video",
-            dream_network: "Rete dei Sogni"
+            dream_network: "Rete dei Sogni",
+            privacy_link: "Privacy", terms_link: "Termini", imprint_link: "Note Legali", research_link: "Ricerca", studies_link: "Studi", worldmap_link: "Mappa Mondiale", showing_sources_only: "Mostrando solo fonti {0}", science_label: "Conoscenza",
         },
         processing: {
             title: "L'Oracolo lavora...",
@@ -2770,7 +2889,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Gratuito", bronze_features: ["3 interpretazioni/giorno", "Groq AI", "6 tradizioni", "Pubblicità"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Interpretazioni illimitate", "Gemini AI", "Tutte le 9 tradizioni", "Senza pubblicità", "100 monete/mese", "10% sconto monete"], silver2_price_monthly: "€4.99 / mese", silver2_price_yearly: "€49.99 / anno",
             gold2_title: "Premium", gold2_features: ["Claude 6 prospettive", "500 monete/mese", "20% sconto monete", "Immagini HD", "5 video/mese", "Voce dal vivo", "Chat AI Premium"], gold2_price_monthly: "€14.99 / mese", gold2_price_yearly: "€149.99 / anno",
-            vip_title: "VIP", vip_features: ["2.000 monete/mese", "30% sconto monete", "20 video/mese", "Diario dei sogni", "Fonti esclusive", "Supporto WhatsApp"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year"
+            vip_title: "VIP", vip_features: ["2.000 monete/mese", "30% sconto monete", "20 video/mese", "Diario dei sogni", "Fonti esclusive", "Supporto WhatsApp"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            pro_badge: "PIÙ POPOLARE", vip_badge: "ESCLUSIVO 👑",
         },
         earn: {
             title: "Guadagna monete",
@@ -2792,7 +2912,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Acquista",
             wow_badge: "💎 Meno di 1 centesimo/moneta!",
             coins_label: "Monete",
-            per_coin: "per moneta"
+            per_coin: "per moneta",
+            pkg_starter: "Provalo", pkg_popular: "Popolare", pkg_value: "Più Valore", pkg_premium: "Risparmia", pkg_mega: "Utente Pro",
         },
         smart_guide: {
             step1_title: "Crea account", step1_desc: "Crea un account gratuito su Google AI Studio.",
@@ -2855,7 +2976,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Twój profil", profile_desc: "Statystyki i Ja",
             hub_btn: "Centrum snów", hub_desc: "Sny społeczności",
             gen_image: "Generuj obraz", saved_msg: "Sen zapisany w kalendarzu!",
-            watch_ad: "Zdobądź monety", generate_video: "Generuj wideo (Gold)",
+            watch_ad: "Zdobądź monety", generate_video: "Generuj wideo (Gold)", create_dream_video: "Film ze snu",
             video_btn_short: "📹 Generuj wideo", video_duration_short: "30s, 180 monet",
             slideshow_btn: "📽️ Utwórz pokaz", slideshow_duration: "30s, 180 monet",
             premium_btn: "Premium / Plan", premium_desc: "Ulepszenie i funkcje",
@@ -2916,11 +3037,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Magiczny",
             cosmic_dna: "Kosmiczne DNA",
             moon_sync: "Synchronizacja Księżyca",
+            cosmic_dna_body: "Twoje Kosmiczne DNA to Twój unikalny odcisk palca snów — oparty na dacie urodzenia, znaku zodiaku i wzorcach snów.",
+            cosmic_dna_coming: "Wkrótce",
+            cosmic_dna_enter: "Wpisz datę urodzenia w profilu, aby obliczyć swoje Kosmiczne DNA.",
+            moon_phase_label: "Faza księżyca",
+            dream_meaning_today: "Znaczenie snu dziś",
             save_btn: "Zapisz",
             age_restricted_cat: "Ta kategoria jest dostępna tylko dla osób w wieku 18 lat i starszych.",
             ok: "OK",
             video_studio: "Studio Wideo",
-            dream_network: "Sieć Snów"
+            dream_network: "Sieć Snów",
+            privacy_link: "Prywatność", terms_link: "Regulamin", imprint_link: "Impressum", research_link: "Badania", studies_link: "Studia", worldmap_link: "Mapa Świata", showing_sources_only: "Wyświetlanie tylko źródeł {0}", science_label: "Wiedza",
         },
         processing: {
             title: "Wyrocznia pracuje...",
@@ -2957,7 +3084,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Darmowy", bronze_features: ["3 interpretacje/dzień", "Groq AI", "6 tradycji", "Reklamy"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Nieograniczone interpretacje", "Gemini AI", "Wszystkie 9 tradycji", "Bez reklam", "100 monet/mies.", "10% rabat na monety"], silver2_price_monthly: "€4.99 / mies.", silver2_price_yearly: "€49.99 / rok",
             gold2_title: "Premium", gold2_features: ["Claude 6 perspektyw", "500 monet/mies.", "20% rabat na monety", "Obrazy HD", "5 filmów/mies.", "Głos na żywo", "Czat AI Premium"], gold2_price_monthly: "€14.99 / mies.", gold2_price_yearly: "€149.99 / rok",
-            vip_title: "VIP", vip_features: ["2000 monet/mies.", "30% rabat na monety", "20 filmów/mies.", "Dziennik snów", "Ekskluzywne źródła", "Wsparcie WhatsApp"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year"
+            vip_title: "VIP", vip_features: ["2000 monet/mies.", "30% rabat na monety", "20 filmów/mies.", "Dziennik snów", "Ekskluzywne źródła", "Wsparcie WhatsApp"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            pro_badge: "NAJPOPULARNIEJSZY", vip_badge: "EKSKLUZYWNY 👑",
         },
         earn: {
             title: "Zdobądź monety",
@@ -2979,7 +3107,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Kup",
             wow_badge: "💎 Poniżej 1 grosza/monetę!",
             coins_label: "Monety",
-            per_coin: "za monetę"
+            per_coin: "za monetę",
+            pkg_starter: "Wypróbuj", pkg_popular: "Popularny", pkg_value: "Więcej Wartości", pkg_premium: "Oszczędzaj", pkg_mega: "Zaawansowany",
         },
         smart_guide: {
             step1_title: "Utwórz konto", step1_desc: "Utwórz darmowe konto w Google AI Studio.",
@@ -3042,7 +3171,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "আপনার প্রোফাইল", profile_desc: "পরিসংখ্যান ও আমি",
             hub_btn: "স্বপ্ন হাব", hub_desc: "সম্প্রদায়ের স্বপ্ন",
             gen_image: "ছবি তৈরি", saved_msg: "স্বপ্ন ক্যালেন্ডারে সংরক্ষিত!",
-            watch_ad: "কয়েন উপার্জন", generate_video: "ভিডিও তৈরি (গোল্ড)",
+            watch_ad: "কয়েন উপার্জন", generate_video: "ভিডিও তৈরি (গোল্ড)", create_dream_video: "স্বপ্ন ভিডিও",
             video_btn_short: "📹 ভিডিও তৈরি", video_duration_short: "৩০সে, ১৮০ কয়েন",
             slideshow_btn: "📽️ স্লাইডশো তৈরি", slideshow_duration: "৩০সে, ১৮০ কয়েন",
             premium_btn: "প্রিমিয়াম / প্ল্যান", premium_desc: "আপগ্রেড ও বৈশিষ্ট্য",
@@ -3103,11 +3232,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "জাদুকরী",
             cosmic_dna: "কসমিক DNA",
             moon_sync: "চাঁদ সিঙ্ক",
+            cosmic_dna_body: "আপনার কসমিক DNA আপনার অনন্য স্বপ্ন আঙুলের ছাপ — জন্ম তারিখ, রাশিচক্র এবং স্বপ্নের ধরণের উপর ভিত্তি করে।",
+            cosmic_dna_coming: "শীঘ্রই আসছে",
+            cosmic_dna_enter: "আপনার কসমিক DNA গণনা করতে প্রোফাইলে জন্ম তারিখ লিখুন।",
+            moon_phase_label: "চাঁদের পর্যায়",
+            dream_meaning_today: "আজকের স্বপ্নের অর্থ",
             save_btn: "সংরক্ষণ",
             age_restricted_cat: "এই বিভাগটি শুধুমাত্র ১৮ বছর বা তার বেশি বয়সের ব্যক্তিদের জন্য উপলব্ধ।",
             ok: "ঠিক আছে",
             video_studio: "ভিডিও স্টুডিও",
-            dream_network: "স্বপ্ন নেটওয়ার্ক"
+            dream_network: "স্বপ্ন নেটওয়ার্ক",
+            privacy_link: "গোপনীয়তা", terms_link: "শর্তাবলী", imprint_link: "ইমপ্রিন্ট", research_link: "গবেষণা", studies_link: "গবেষণা", worldmap_link: "বিশ্ব মানচিত্র", showing_sources_only: "শুধুমাত্র {0} উৎস দেখানো হচ্ছে", science_label: "জ্ঞান",
         },
         processing: {
             title: "ওরাকল কাজ করছে...",
@@ -3144,7 +3279,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "বিনামূল্যে", bronze_features: ["৩ ব্যাখ্যা/দিন", "Groq AI", "৬ ঐতিহ্য", "বিজ্ঞাপন"], bronze_price: "€0",
             silver2_title: "প্রো", silver2_features: ["সীমাহীন ব্যাখ্যা", "Gemini AI", "সকল ৯ ঐতিহ্য", "বিজ্ঞাপন মুক্ত", "১০০ কয়েন/মাস", "১০% কয়েন ছাড়"], silver2_price_monthly: "€4.99 / মাস", silver2_price_yearly: "€49.99 / বছর",
             gold2_title: "প্রিমিয়াম", gold2_features: ["Claude ৬ দৃষ্টিকোণ", "৫০০ কয়েন/মাস", "২০% কয়েন ছাড়", "HD ছবি", "৫ ভিডিও/মাস", "লাইভ ভয়েস", "প্রিমিয়াম AI চ্যাট"], gold2_price_monthly: "€14.99 / মাস", gold2_price_yearly: "€149.99 / বছর",
-            vip_title: "VIP", vip_features: ["২,০০০ কয়েন/মাস", "৩০% কয়েন ছাড়", "২০ ভিডিও/মাস", "স্বপ্নের ডায়েরি", "একচেটিয়া উৎস", "হোয়াটসঅ্যাপ সাপোর্ট"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year"
+            vip_title: "VIP", vip_features: ["২,০০০ কয়েন/মাস", "৩০% কয়েন ছাড়", "২০ ভিডিও/মাস", "স্বপ্নের ডায়েরি", "একচেটিয়া উৎস", "হোয়াটসঅ্যাপ সাপোর্ট"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            pro_badge: "সবচেয়ে জনপ্রিয়", vip_badge: "এক্সক্লুসিভ 👑",
         },
         earn: {
             title: "কয়েন উপার্জন করুন",
@@ -3166,7 +3302,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "কিনুন",
             wow_badge: "💎 প্রতি কয়েনে ১ সেন্টের কম!",
             coins_label: "কয়েন",
-            per_coin: "প্রতি কয়েন"
+            per_coin: "প্রতি কয়েন",
+            pkg_starter: "চেষ্টা করুন", pkg_popular: "জনপ্রিয়", pkg_value: "বেশি মূল্য", pkg_premium: "বেশি সঞ্চয়", pkg_mega: "পাওয়ার ইউজার",
         },
         smart_guide: {
             step1_title: "অ্যাকাউন্ট তৈরি", step1_desc: "Google AI Studio-তে বিনামূল্যে অ্যাকাউন্ট তৈরি করুন।",
@@ -3229,7 +3366,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "آپ کا پروفائل", profile_desc: "اعدادوشمار اور میں",
             hub_btn: "خوابوں کا مرکز", hub_desc: "کمیونٹی کے خواب",
             gen_image: "تصویر بنائیں", saved_msg: "خواب کیلنڈر میں محفوظ ہو گیا!",
-            watch_ad: "سکے کمائیں", generate_video: "ویڈیو بنائیں (گولڈ)",
+            watch_ad: "سکے کمائیں", generate_video: "ویڈیو بنائیں (گولڈ)", create_dream_video: "خواب ویڈیو",
             video_btn_short: "📹 ویڈیو بنائیں", video_duration_short: "۳۰ سیکنڈ، ۱۸۰ سکے",
             slideshow_btn: "📽️ سلائیڈشو بنائیں", slideshow_duration: "۳۰ سیکنڈ، ۱۸۰ سکے",
             premium_btn: "پریمیم / پلان", premium_desc: "اپ گریڈ اور فیچرز",
@@ -3290,11 +3427,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "جادوئی",
             cosmic_dna: "کائناتی DNA",
             moon_sync: "چاند کی ہم آہنگی",
+            cosmic_dna_body: "آپ کا کائناتی DNA آپ کے خوابوں کا منفرد فنگر پرنٹ ہے — تاریخ پیدائش، برج اور خوابوں کے نمونوں پر مبنی۔",
+            cosmic_dna_coming: "جلد آرہا ہے",
+            cosmic_dna_enter: "اپنا کائناتی DNA حساب کرنے کے لیے پروفائل میں تاریخ پیدائش درج کریں۔",
+            moon_phase_label: "چاند کا مرحلہ",
+            dream_meaning_today: "آج کے خواب کا مطلب",
             save_btn: "محفوظ کریں",
             age_restricted_cat: "یہ زمرہ صرف ۱۸ سال یا اس سے زیادہ عمر کے افراد کے لیے دستیاب ہے۔",
             ok: "ٹھیک ہے",
             video_studio: "ویڈیو اسٹوڈیو",
-            dream_network: "خوابوں کا نیٹ ورک"
+            dream_network: "خوابوں کا نیٹ ورک",
+            privacy_link: "رازداری", terms_link: "شرائط", imprint_link: "نقوش", research_link: "تحقیق", studies_link: "مطالعات", worldmap_link: "عالمی نقشہ", showing_sources_only: "صرف {0} ذرائع دکھا رہے ہیں", science_label: "علم",
         },
         processing: {
             title: "اوریکل کام کر رہا ہے...",
@@ -3331,7 +3474,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "مفت", bronze_features: ["۳ تعبیرات/دن", "Groq AI", "۶ روایات", "اشتہارات"], bronze_price: "€0",
             silver2_title: "پرو", silver2_features: ["لامحدود تعبیرات", "Gemini AI", "تمام ۹ روایات", "اشتہارات سے پاک", "۱۰۰ سکے/ماہ", "۱۰٪ سکہ رعایت"], silver2_price_monthly: "€4.99 / ماہ", silver2_price_yearly: "€49.99 / سال",
             gold2_title: "پریمیم", gold2_features: ["Claude ۶ نقطہ نظر", "۵۰۰ سکے/ماہ", "۲۰٪ سکہ رعایت", "HD تصاویر", "۵ ویڈیوز/ماہ", "لائیو آواز", "پریمیم AI چیٹ"], gold2_price_monthly: "€14.99 / ماہ", gold2_price_yearly: "€149.99 / سال",
-            vip_title: "VIP", vip_features: ["۲,۰۰۰ سکے/ماہ", "۳۰٪ سکہ رعایت", "۲۰ ویڈیوز/ماہ", "خوابوں کی ڈائری", "خصوصی ذرائع", "واٹس ایپ سپورٹ"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year"
+            vip_title: "VIP", vip_features: ["۲,۰۰۰ سکے/ماہ", "۳۰٪ سکہ رعایت", "۲۰ ویڈیوز/ماہ", "خوابوں کی ڈائری", "خصوصی ذرائع", "واٹس ایپ سپورٹ"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            pro_badge: "سب سے مقبول", vip_badge: "خصوصی 👑",
         },
         earn: {
             title: "سکے کمائیں",
@@ -3353,7 +3497,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "خریدیں",
             wow_badge: "💎 فی سکہ ۱ سینٹ سے کم!",
             coins_label: "سکے",
-            per_coin: "فی سکہ"
+            per_coin: "فی سکہ",
+            pkg_starter: "آزمائیں", pkg_popular: "مقبول", pkg_value: "زیادہ قیمت", pkg_premium: "زیادہ بچت", pkg_mega: "پاور یوزر",
         },
         smart_guide: {
             step1_title: "اکاؤنٹ بنائیں", step1_desc: "Google AI Studio پر مفت اکاؤنٹ بنائیں۔",
@@ -3416,7 +3561,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Hồ sơ", profile_desc: "Thống kê & Tôi",
             hub_btn: "Trung tâm giấc mơ", hub_desc: "Giấc mơ cộng đồng",
             gen_image: "Tạo hình ảnh", saved_msg: "Giấc mơ đã lưu vào lịch!",
-            watch_ad: "Kiếm xu", generate_video: "Tạo video (Gold)",
+            watch_ad: "Kiếm xu", generate_video: "Tạo video (Gold)", create_dream_video: "Video giấc mơ",
             video_btn_short: "📹 Tạo video", video_duration_short: "30s, 180 xu",
             slideshow_btn: "📽️ Tạo trình chiếu", slideshow_duration: "30s, 180 xu",
             premium_btn: "Premium / Gói", premium_desc: "Nâng cấp & Tính năng",
@@ -3477,11 +3622,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Phép thuật",
             cosmic_dna: "ADN Vũ trụ",
             moon_sync: "Đồng bộ Mặt Trăng",
+            cosmic_dna_body: "DNA Vũ trụ của bạn là dấu vân tay giấc mơ độc đáo — dựa trên ngày sinh, cung hoàng đạo và mô hình giấc mơ.",
+            cosmic_dna_coming: "Sắp ra mắt",
+            cosmic_dna_enter: "Nhập ngày sinh trong hồ sơ để tính DNA Vũ trụ của bạn.",
+            moon_phase_label: "Pha trăng",
+            dream_meaning_today: "Ý nghĩa giấc mơ hôm nay",
             save_btn: "Lưu",
             age_restricted_cat: "Danh mục này chỉ dành cho người từ 18 tuổi trở lên.",
             ok: "OK",
             video_studio: "Studio Video",
-            dream_network: "Mạng giấc mơ"
+            dream_network: "Mạng giấc mơ",
+            privacy_link: "Quyền riêng tư", terms_link: "Điều khoản", imprint_link: "Thông tin pháp lý", research_link: "Nghiên cứu", studies_link: "Nghiên cứu", worldmap_link: "Bản đồ thế giới", showing_sources_only: "Chỉ hiển thị nguồn {0}", science_label: "Kiến thức",
         },
         processing: {
             title: "Sấm truyền đang hoạt động...",
@@ -3518,7 +3669,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Miễn phí", bronze_features: ["3 lần giải mộng/ngày", "Groq AI", "6 truyền thống", "Quảng cáo"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Giải mộng không giới hạn", "Gemini AI", "Tất cả 9 truyền thống", "Không quảng cáo", "100 xu/tháng", "Giảm 10% xu"], silver2_price_monthly: "€4.99 / Tháng", silver2_price_yearly: "€49.99 / Năm",
             gold2_title: "Premium", gold2_features: ["Claude 6 góc nhìn", "500 xu/tháng", "Giảm 20% xu", "Ảnh HD", "5 video/tháng", "Giọng nói trực tiếp", "AI Chat Premium"], gold2_price_monthly: "€14.99 / Tháng", gold2_price_yearly: "€149.99 / Năm",
-            vip_title: "VIP", vip_features: ["2.000 xu/tháng", "Giảm 30% xu", "20 video/tháng", "Nhật ký giấc mơ", "Nguồn độc quyền", "Hỗ trợ WhatsApp"], vip_price_monthly: "299.99 SAR / Tháng", vip_price_yearly: "2,999.99 SAR / Năm"
+            vip_title: "VIP", vip_features: ["2.000 xu/tháng", "Giảm 30% xu", "20 video/tháng", "Nhật ký giấc mơ", "Nguồn độc quyền", "Hỗ trợ WhatsApp"], vip_price_monthly: "299.99 SAR / Tháng", vip_price_yearly: "2,999.99 SAR / Năm",
+            pro_badge: "PHỔ BIẾN NHẤT", vip_badge: "ĐỘC QUYỀN 👑",
         },
         earn: {
             title: "Kiếm xu",
@@ -3540,7 +3692,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Mua",
             wow_badge: "💎 Dưới 1 cent/xu!",
             coins_label: "Xu",
-            per_coin: "mỗi xu"
+            per_coin: "mỗi xu",
+            pkg_starter: "Dùng thử", pkg_popular: "Phổ biến", pkg_value: "Giá trị hơn", pkg_premium: "Tiết kiệm hơn", pkg_mega: "Chuyên gia",
         },
         smart_guide: {
             step1_title: "Tạo tài khoản", step1_desc: "Tạo tài khoản miễn phí tại Google AI Studio.",
@@ -3603,7 +3756,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "โปรไฟล์", profile_desc: "สถิติ & ฉัน",
             hub_btn: "ศูนย์รวมความฝัน", hub_desc: "ความฝันชุมชน",
             gen_image: "สร้างภาพ", saved_msg: "บันทึกฝันลงปฏิทินแล้ว!",
-            watch_ad: "รับเหรียญ", generate_video: "สร้างวิดีโอ (Gold)",
+            watch_ad: "รับเหรียญ", generate_video: "สร้างวิดีโอ (Gold)", create_dream_video: "วิดีโอความฝัน",
             video_btn_short: "📹 สร้างวิดีโอ", video_duration_short: "30วิ 180 เหรียญ",
             slideshow_btn: "📽️ สร้างสไลด์โชว์", slideshow_duration: "30วิ 180 เหรียญ",
             premium_btn: "Premium / แพ็กเกจ", premium_desc: "อัปเกรด & ฟีเจอร์",
@@ -3664,11 +3817,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "มหัศจรรย์",
             cosmic_dna: "DNA จักรวาล",
             moon_sync: "ซิงค์ดวงจันทร์",
+            cosmic_dna_body: "DNA จักรวาลของคุณคือลายนิ้วมือแห่งความฝันที่เป็นเอกลักษณ์ — ตามวันเกิด ราศี และรูปแบบความฝัน",
+            cosmic_dna_coming: "เร็วๆ นี้",
+            cosmic_dna_enter: "กรอกวันเกิดในโปรไฟล์เพื่อคำนวณ DNA จักรวาลของคุณ",
+            moon_phase_label: "ข้างขึ้นข้างแรม",
+            dream_meaning_today: "ความหมายความฝันวันนี้",
             save_btn: "บันทึก",
             age_restricted_cat: "หมวดหมู่นี้สำหรับผู้มีอายุ 18 ปีขึ้นไปเท่านั้น",
             ok: "ตกลง",
             video_studio: "สตูดิโอวิดีโอ",
-            dream_network: "เครือข่ายความฝัน"
+            dream_network: "เครือข่ายความฝัน",
+            privacy_link: "ความเป็นส่วนตัว", terms_link: "ข้อกำหนด", imprint_link: "ข้อมูลทางกฎหมาย", research_link: "การวิจัย", studies_link: "การศึกษา", worldmap_link: "แผนที่โลก", showing_sources_only: "แสดงเฉพาะแหล่ง {0}", science_label: "ความรู้",
         },
         processing: {
             title: "คำทำนายกำลังทำงาน...",
@@ -3705,7 +3864,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "ฟรี", bronze_features: ["ตีความ 3 ครั้ง/วัน", "Groq AI", "6 ประเพณี", "โฆษณา"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["ตีความไม่จำกัด", "Gemini AI", "ทั้ง 9 ประเพณี", "ไม่มีโฆษณา", "100 เหรียญ/เดือน", "ส่วนลด 10%"], silver2_price_monthly: "€4.99 / เดือน", silver2_price_yearly: "€49.99 / ปี",
             gold2_title: "Premium", gold2_features: ["Claude 6 มุมมอง", "500 เหรียญ/เดือน", "ส่วนลด 20%", "ภาพ HD", "5 วิดีโอ/เดือน", "เสียงสด", "AI แชท Premium"], gold2_price_monthly: "€14.99 / เดือน", gold2_price_yearly: "€149.99 / ปี",
-            vip_title: "VIP", vip_features: ["2,000 เหรียญ/เดือน", "ส่วนลด 30%", "20 วิดีโอ/เดือน", "สมุดบันทึกฝัน", "แหล่งพิเศษ", "บริการ WhatsApp"], vip_price_monthly: "299.99 SAR / เดือน", vip_price_yearly: "2,999.99 SAR / ปี"
+            vip_title: "VIP", vip_features: ["2,000 เหรียญ/เดือน", "ส่วนลด 30%", "20 วิดีโอ/เดือน", "สมุดบันทึกฝัน", "แหล่งพิเศษ", "บริการ WhatsApp"], vip_price_monthly: "299.99 SAR / เดือน", vip_price_yearly: "2,999.99 SAR / ปี",
+            pro_badge: "ยอดนิยม", vip_badge: "พิเศษ 👑",
         },
         earn: {
             title: "รับเหรียญ",
@@ -3727,7 +3887,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "ซื้อ",
             wow_badge: "💎 ต่ำกว่า 1 เซ็นต์/เหรียญ!",
             coins_label: "เหรียญ",
-            per_coin: "ต่อเหรียญ"
+            per_coin: "ต่อเหรียญ",
+            pkg_starter: "ทดลอง", pkg_popular: "ยอดนิยม", pkg_value: "คุ้มค่า", pkg_premium: "ประหยัดกว่า", pkg_mega: "ผู้ใช้ระดับสูง",
         },
         smart_guide: {
             step1_title: "สร้างบัญชี", step1_desc: "สร้างบัญชีฟรีที่ Google AI Studio",
@@ -3790,7 +3951,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Wasifu Wako", profile_desc: "Takwimu & Mimi",
             hub_btn: "Kituo cha Ndoto", hub_desc: "Ndoto za Jamii",
             gen_image: "Tengeneza Picha", saved_msg: "Ndoto imehifadhiwa kwenye kalenda!",
-            watch_ad: "Pata Sarafu", generate_video: "Tengeneza Video (Gold)",
+            watch_ad: "Pata Sarafu", generate_video: "Tengeneza Video (Gold)", create_dream_video: "Video ya Ndoto",
             video_btn_short: "📹 Tengeneza Video", video_duration_short: "30s, Sarafu 180",
             slideshow_btn: "📽️ Unda Slideshow", slideshow_duration: "30s, Sarafu 180",
             premium_btn: "Premium / Mpango", premium_desc: "Boresha & Vipengele",
@@ -3851,11 +4012,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Uchawi",
             cosmic_dna: "DNA ya Ulimwengu",
             moon_sync: "Usawazishaji wa Mwezi",
+            cosmic_dna_body: "DNA yako ya Ulimwengu ni alama ya vidole ya ndoto yako ya kipekee — kulingana na tarehe ya kuzaliwa, ishara ya zodiac, na mifumo ya ndoto zako.",
+            cosmic_dna_coming: "Inakuja Hivi Karibuni",
+            cosmic_dna_enter: "Ingiza tarehe yako ya kuzaliwa kwenye wasifu wako ili kuhesabu DNA yako ya Ulimwengu.",
+            moon_phase_label: "Awamu ya mwezi",
+            dream_meaning_today: "Maana ya ndoto leo",
             save_btn: "Hifadhi",
             age_restricted_cat: "Kategoria hii inapatikana kwa watu wenye umri wa miaka 18 na zaidi pekee.",
             ok: "Sawa",
             video_studio: "Studio ya Video",
-            dream_network: "Mtandao wa Ndoto"
+            dream_network: "Mtandao wa Ndoto",
+            privacy_link: "Faragha", terms_link: "Masharti", imprint_link: "Alama", research_link: "Utafiti", studies_link: "Tafiti", worldmap_link: "Ramani ya Dunia", showing_sources_only: "Inaonyesha vyanzo vya {0} pekee", science_label: "Maarifa",
         },
         processing: {
             title: "Oracle inafanya kazi...",
@@ -3892,7 +4059,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Bure", bronze_features: ["Tafsiri 3/Siku", "Groq AI", "Mila 6", "Matangazo"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Tafsiri Zisizo na Kikomo", "Gemini AI", "Mila zote 9", "Bila Matangazo", "Sarafu 100/Mwezi", "Punguzo 10% la Sarafu"], silver2_price_monthly: "€4.99 / Mwezi", silver2_price_yearly: "€49.99 / Mwaka",
             gold2_title: "Premium", gold2_features: ["Claude Mitazamo 6", "Sarafu 500/Mwezi", "Punguzo 20% la Sarafu", "Picha HD", "Video 5/Mwezi", "Sauti ya Moja kwa Moja", "AI Chat Premium"], gold2_price_monthly: "€14.99 / Mwezi", gold2_price_yearly: "€149.99 / Mwaka",
-            vip_title: "VIP", vip_features: ["Sarafu 2,000/Mwezi", "Punguzo 30% la Sarafu", "Video 20/Mwezi", "Jarida la Ndoto", "Vyanzo Maalum", "Msaada wa WhatsApp"], vip_price_monthly: "299.99 SAR / Mwezi", vip_price_yearly: "2,999.99 SAR / Mwaka"
+            vip_title: "VIP", vip_features: ["Sarafu 2,000/Mwezi", "Punguzo 30% la Sarafu", "Video 20/Mwezi", "Jarida la Ndoto", "Vyanzo Maalum", "Msaada wa WhatsApp"], vip_price_monthly: "299.99 SAR / Mwezi", vip_price_yearly: "2,999.99 SAR / Mwaka",
+            pro_badge: "MAARUFU ZAIDI", vip_badge: "KIPEKEE 👑",
         },
         earn: {
             title: "Pata Sarafu",
@@ -3914,7 +4082,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Nunua",
             wow_badge: "💎 Chini ya senti 1/Sarafu!",
             coins_label: "Sarafu",
-            per_coin: "kwa sarafu"
+            per_coin: "kwa sarafu",
+            pkg_starter: "Jaribu", pkg_popular: "Maarufu", pkg_value: "Thamani Zaidi", pkg_premium: "Okoa Zaidi", pkg_mega: "Mtaalamu",
         },
         smart_guide: {
             step1_title: "Unda Akaunti", step1_desc: "Unda akaunti bure katika Google AI Studio.",
@@ -3977,7 +4146,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             profile_btn: "Profilod", profile_desc: "Statisztikák & Én",
             hub_btn: "Álomközpont", hub_desc: "Közösségi álmok",
             gen_image: "Kép generálása", saved_msg: "Álom mentve a naptárba!",
-            watch_ad: "Érmék szerzése", generate_video: "Videó generálása (Gold)",
+            watch_ad: "Érmék szerzése", generate_video: "Videó generálása (Gold)", create_dream_video: "Álomvideó",
             video_btn_short: "📹 Videó generálása", video_duration_short: "30mp, 180 érme",
             slideshow_btn: "📽️ Diavetítés készítése", slideshow_duration: "30mp, 180 érme",
             premium_btn: "Premium / Csomag", premium_desc: "Frissítés & Funkciók",
@@ -4038,11 +4207,17 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             style_desc_fantasy: "Varázslatos",
             cosmic_dna: "Kozmikus DNS",
             moon_sync: "Hold szinkron",
+            cosmic_dna_body: "A Kozmikus DNS-ed az álmaid egyedi ujjlenyomata — a születési dátumod, csillagjegyed és álommintáid alapján.",
+            cosmic_dna_coming: "Hamarosan",
+            cosmic_dna_enter: "Add meg a születési dátumodat a profilodban a Kozmikus DNS-ed kiszámításához.",
+            moon_phase_label: "Holdfázis",
+            dream_meaning_today: "Mai álomjelentés",
             save_btn: "Mentés",
             age_restricted_cat: "Ez a kategória csak 18 éven felülieknek érhető el.",
             ok: "OK",
             video_studio: "Videó Stúdió",
-            dream_network: "Álomhálózat"
+            dream_network: "Álomhálózat",
+            privacy_link: "Adatvédelem", terms_link: "Feltételek", imprint_link: "Impresszum", research_link: "Kutatás", studies_link: "Tanulmányok", worldmap_link: "Világtérkép", showing_sources_only: "Csak {0} források megjelenítése", science_label: "Tudás",
         },
         processing: {
             title: "Az Orákulum dolgozik...",
@@ -4079,7 +4254,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Ingyenes", bronze_features: ["3 értelmezés/nap", "Groq AI", "6 hagyomány", "Hirdetések"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Korlátlan értelmezés", "Gemini AI", "Mind a 9 hagyomány", "Hirdetésmentes", "100 érme/hó", "10% érme kedvezmény"], silver2_price_monthly: "€4.99 / Hó", silver2_price_yearly: "€49.99 / Év",
             gold2_title: "Premium", gold2_features: ["Claude 6 nézőpont", "500 érme/hó", "20% érme kedvezmény", "HD képek", "5 videó/hó", "Élő hang", "Prémium AI Chat"], gold2_price_monthly: "€14.99 / Hó", gold2_price_yearly: "€149.99 / Év",
-            vip_title: "VIP", vip_features: ["2000 érme/hó", "30% érme kedvezmény", "20 videó/hó", "Álomnapló", "Exkluzív források", "WhatsApp támogatás"], vip_price_monthly: "299.99 SAR / Hó", vip_price_yearly: "2,999.99 SAR / Év"
+            vip_title: "VIP", vip_features: ["2000 érme/hó", "30% érme kedvezmény", "20 videó/hó", "Álomnapló", "Exkluzív források", "WhatsApp támogatás"], vip_price_monthly: "299.99 SAR / Hó", vip_price_yearly: "2,999.99 SAR / Év",
+            pro_badge: "LEGNÉPSZERŰBB", vip_badge: "EXKLUZÍV 👑",
         },
         earn: {
             title: "Érmék szerzése",
@@ -4101,7 +4277,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             buy_btn: "Vásárlás",
             wow_badge: "💎 1 cent/érme alatt!",
             coins_label: "Érmék",
-            per_coin: "érménként"
+            per_coin: "érménként",
+            pkg_starter: "Próbáld ki", pkg_popular: "Népszerű", pkg_value: "Több érték", pkg_premium: "Spórolj többet", pkg_mega: "Profi felhasználó",
         },
         smart_guide: {
             step1_title: "Fiók létrehozása", step1_desc: "Hozz létre ingyenes fiókot a Google AI Studióban.",
@@ -4183,6 +4360,8 @@ const App: React.FC = () => {
         localStorage.setItem('dreamcode_language', lang);
     };
     const [dreamInput, setDreamInput] = useState('');
+    const [videoStudioDreamId, setVideoStudioDreamId] = useState<string | null>(null);
+    const [videoStudioInterpretation, setVideoStudioInterpretation] = useState<string>('');
     const [selectedCategories, setSelectedCategories] = useState<ReligiousCategory[]>([]);
     const [selectedSources, setSelectedSources] = useState<ReligiousSource[]>([]);
     const [loading, setLoading] = useState(false);
@@ -4192,6 +4371,8 @@ const App: React.FC = () => {
     const [showOnboarding, setShowOnboarding] = useState(false);
     const [showCalendar, setShowCalendar] = useState(false);
     const [showSavedMessage, setShowSavedMessage] = useState(false);
+    const [lastInterpretation, setLastInterpretation] = useState('');
+    const [lastSavedDreamId, setLastSavedDreamId] = useState('');
     const [isStorageReady, setIsStorageReady] = useState(false);
     const [currentAudioData, setCurrentAudioData] = useState<string | null>(null);
     const [audioIsFromLiveChat, setAudioIsFromLiveChat] = useState(false);
@@ -4286,8 +4467,8 @@ const App: React.FC = () => {
                      loadedProfile = {
                          name: 'Dreamer',
                          interests: [],
-                         credits: 100,
-                         subscriptionTier: SubscriptionTier.FREE,
+                         credits: 9999,
+                         subscriptionTier: SubscriptionTier.SMART,
                          isComplete: false,
                          customApiKeys: []
                      } as UserProfile;
@@ -4303,9 +4484,14 @@ const App: React.FC = () => {
                 // Language is now persisted in localStorage and auto-detected on first visit
                 // via the useState initializer — no need to override here
 
-                // Ensure Credits for FREE users
+                // DEV: Immer hoechste Stufe setzen damit nichts blockiert wird
+                if (loadedProfile.subscriptionTier !== SubscriptionTier.SMART) {
+                    loadedProfile = { ...loadedProfile, subscriptionTier: SubscriptionTier.SMART, credits: Math.max(loadedProfile.credits ?? 0, 9999) };
+                    await saveProfileSecurely(loadedProfile);
+                }
+                // Ensure Credits
                 if ((loadedProfile.credits ?? 0) < 100) {
-                     loadedProfile = { ...loadedProfile, credits: 100 };
+                     loadedProfile = { ...loadedProfile, credits: 9999 };
                      await saveProfileSecurely(loadedProfile);
                 }
 
@@ -4637,11 +4823,11 @@ const App: React.FC = () => {
             // STEP 2: CATEGORIES & TRADITIONS
             if (selectedCategories.length > 0 || selectedSources.length > 0) {
                 updateStep('context', 'active');
-                await new Promise(r => setTimeout(r, 800)); // Artificial delay
+                await new Promise(r => setTimeout(r, 150));
                 updateStep('context', 'completed');
             } else {
                 updateStep('context', 'skipped', t.processing.step_no_context);
-                await new Promise(r => setTimeout(r, 500));
+                await new Promise(r => setTimeout(r, 100));
             }
 
             // STEP 3: CUSTOMER CONTEXT
@@ -4655,11 +4841,11 @@ const App: React.FC = () => {
 
             if (hasCustomerData) {
                 updateStep('customer', 'active');
-                await new Promise(r => setTimeout(r, 600)); // Artificial delay
+                await new Promise(r => setTimeout(r, 150));
                 updateStep('customer', 'completed');
             } else {
                 updateStep('customer', 'skipped', t.processing.step_no_customer);
-                await new Promise(r => setTimeout(r, 500));
+                await new Promise(r => setTimeout(r, 100));
             }
 
             // PAUSE HERE: Show quality/style selection
@@ -4824,6 +5010,15 @@ const App: React.FC = () => {
         }
     };
 
+    const handleOpenVideoStudio = (dreamText: string, interpretation: string, dreamId: string, audioUrl?: string) => {
+        setDreamInput(dreamText);
+        setVideoStudioDreamId(dreamId);
+        setVideoStudioInterpretation(interpretation);
+        setLastInterpretation('');
+        setLastSavedDreamId('');
+        setView(View.VIDEO_STUDIO);
+    };
+
     const handleGenerateImageWithStyle = async (
         quality: 'normal' | 'high',
         style: 'cartoon' | 'anime' | 'real' | 'fantasy',
@@ -4889,7 +5084,7 @@ const App: React.FC = () => {
 
             // Skip image generation if style is null
             if (style !== null) {
-                const generatedUrl = await generateDreamImage(inputText, currentProfile, quality, style);
+                const generatedUrl = await generateDreamImage(inputText, currentProfile, quality, style, undefined, result.interpretation);
                 if (generatedUrl) {
                     imageUrl = generatedUrl;
                 }
@@ -4930,10 +5125,12 @@ const App: React.FC = () => {
             });
 
             await handleSaveDream(newDream);
-            await new Promise(r => setTimeout(r, 600));
+            setLastInterpretation(result.interpretation || '');
+            setLastSavedDreamId(newDream.id);
+            await new Promise(r => setTimeout(r, 200));
 
             // Finish
-            await new Promise(r => setTimeout(r, 1000));
+            await new Promise(r => setTimeout(r, 300));
             setLoading(false);
             setDreamInput('');
 
@@ -5269,11 +5466,7 @@ const App: React.FC = () => {
                      </h3>
                      {selectedCategories.length === 1 && (
                          <p className={`text-center text-[11px] mb-2 ${isLight ? 'text-indigo-600' : 'text-indigo-400'}`}>
-                             {language === Language.DE ? `Zeigt nur ${t.categories[selectedCategories[0]]} Quellen` :
-                              language === Language.EN ? `Showing only ${t.categories[selectedCategories[0]]} sources` :
-                              language === Language.TR ? `Sadece ${t.categories[selectedCategories[0]]} kaynakları` :
-                              language === Language.RU ? `Только ${t.categories[selectedCategories[0]]} источники` :
-                              `${t.categories[selectedCategories[0]]} — filtered`}
+                             {t.ui.showing_sources_only?.replace('{0}', t.categories[selectedCategories[0]]) || `${t.categories[selectedCategories[0]]} — filtered`}
                          </p>
                      )}
                      <div className="grid grid-cols-2 gap-2">
@@ -5322,9 +5515,9 @@ const App: React.FC = () => {
                  {loading ? (<span className="flex items-center justify-center gap-3">{t.processing.title}</span>) : noCredits ? (<span className="flex items-center justify-center gap-2"><span className="material-icons">lock</span> {t.ui.interpret} (0 Credits)</span>) : (<span className="flex items-center justify-center gap-2"><span className="material-icons">auto_awesome</span> {t.ui.interpret}</span>)}
              </button>
 
-             {showSavedMessage && (tier === SubscriptionTier.PRO || tier === SubscriptionTier.SMART) && (
-                  <button onClick={() => handleGenerateVideo(dreamInput)} className="w-full py-3 bg-amber-500/20 hover:bg-amber-500/40 text-amber-300 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border border-amber-500/30 mb-4">
-                     <span className="material-icons">movie_filter</span> {t.ui.generate_video}
+             {lastInterpretation && lastSavedDreamId && (
+                  <button onClick={() => handleOpenVideoStudio(dreams.find(d => d.id === lastSavedDreamId)?.description || '', lastInterpretation, lastSavedDreamId)} className={`w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border mb-4 ${isLight ? 'bg-gradient-to-r from-violet-100 to-fuchsia-100 border-violet-300 text-violet-700 hover:from-violet-200 hover:to-fuchsia-200' : 'bg-gradient-to-r from-violet-900/30 to-fuchsia-900/30 border-violet-500/30 text-violet-200 hover:bg-violet-800/40'}`}>
+                     <span className="material-icons">movie_filter</span> {t.ui.generate_video || 'Traumvideo erstellen'}
                   </button>
              )}
 
@@ -5417,22 +5610,14 @@ const App: React.FC = () => {
                         </div>
                         <div className="p-6 space-y-4">
                             <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>
-                                {language === Language.DE ? 'Deine Kosmische DNA ist dein einzigartiger Traum-Fingerabdruck — basierend auf deinem Geburtsdatum, Sternzeichen und den Mustern deiner bisherigen Träume. Sie verbindet Astrologie, Numerologie und Psychologie zu einem persönlichen Traumschlüssel.' :
-                                 language === Language.TR ? 'Kozmik DNA\'nız, doğum tarihiniz, burcunuz ve rüya kalıplarınıza dayanan benzersiz rüya parmak izinizdir.' :
-                                 language === Language.RU ? 'Ваша Космическая ДНК — это уникальный отпечаток сновидений, основанный на дате рождения, знаке зодиака и паттернах ваших снов.' :
-                                 language === Language.AR ? 'حمضك النووي الكوني هو بصمة أحلامك الفريدة — بناءً على تاريخ ميلادك وبرجك وأنماط أحلامك.' :
-                                 'Your Cosmic DNA is your unique dream fingerprint — based on your birth date, zodiac sign, and the patterns of your dreams. It connects astrology, numerology, and psychology into a personal dream key.'}
+                                {t.ui.cosmic_dna_body}
                             </p>
                             <div className={`p-4 rounded-xl border ${isLight ? 'bg-indigo-50 border-indigo-200' : 'bg-indigo-900/20 border-indigo-500/30'}`}>
                                 <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${isLight ? 'text-indigo-600' : 'text-indigo-400'}`}>
-                                    {language === Language.DE ? 'Demnächst verfügbar' : language === Language.TR ? 'Yakında' : language === Language.RU ? 'Скоро' : language === Language.AR ? 'قريباً' : 'Coming Soon'}
+                                    {t.ui.cosmic_dna_coming}
                                 </p>
                                 <p className={`text-xs ${isLight ? 'text-indigo-700' : 'text-indigo-300'}`}>
-                                    {language === Language.DE ? 'Trage dein Geburtsdatum im Profil ein, um deine Kosmische DNA zu berechnen.' :
-                                     language === Language.TR ? 'Kozmik DNA\'nızı hesaplamak için profilinize doğum tarihinizi girin.' :
-                                     language === Language.RU ? 'Введите дату рождения в профиле для расчёта Космической ДНК.' :
-                                     language === Language.AR ? 'أدخل تاريخ ميلادك في ملفك الشخصي لحساب حمضك النووي الكوني.' :
-                                     'Enter your birth date in your profile to calculate your Cosmic DNA.'}
+                                    {t.ui.cosmic_dna_enter}
                                 </p>
                             </div>
                         </div>
@@ -5452,15 +5637,56 @@ const App: React.FC = () => {
                 const moonAge = ((daysSinceNew % synodicMonth) + synodicMonth) % synodicMonth;
                 const moonPhaseIdx = Math.floor((moonAge / synodicMonth) * 8) % 8;
                 const moonEmojis = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
-                const moonPhaseDE = ['Neumond', 'Zunehmender Sichelmond', 'Erstes Viertel', 'Zunehmender Mond', 'Vollmond', 'Abnehmender Mond', 'Letztes Viertel', 'Abnehmender Sichelmond'];
-                const moonPhaseEN = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
-                const moonPhaseTR = ['Yeni Ay', 'Hilal', 'İlk Dördün', 'Şişkin Ay', 'Dolunay', 'Küçülen Ay', 'Son Dördün', 'Küçülen Hilal'];
-                const moonPhaseRU = ['Новолуние', 'Растущий серп', 'Первая четверть', 'Растущая луна', 'Полнолуние', 'Убывающая луна', 'Последняя четверть', 'Убывающий серп'];
-                const moonPhaseAR = ['محاق', 'هلال متزايد', 'تربيع أول', 'أحدب متزايد', 'بدر', 'أحدب متناقص', 'تربيع أخير', 'هلال متناقص'];
-                const phaseName = language === Language.DE ? moonPhaseDE[moonPhaseIdx] : language === Language.TR ? moonPhaseTR[moonPhaseIdx] : language === Language.RU ? moonPhaseRU[moonPhaseIdx] : language === Language.AR ? moonPhaseAR[moonPhaseIdx] : moonPhaseEN[moonPhaseIdx];
-                const dreamMeaningDE = ['Neuanfänge. Ideale Nacht für Intention-Setting.', 'Wachstum. Träume zeigen aufkeimende Ideen.', 'Entscheidungen. Träume konfrontieren mit Wahlmöglichkeiten.', 'Klarheit. Träume werden lebhafter und detailreicher.', 'Höhepunkt. Intensivste Traumphase — starke Symbole und Emotionen.', 'Loslassen. Träume verarbeiten Vergangenes.', 'Reflexion. Träume zeigen innere Konflikte.', 'Stille. Träume werden leiser — Zeit für Integration.'];
-                const dreamMeaningEN = ['New beginnings. Ideal night for intention-setting.', 'Growth. Dreams reveal emerging ideas.', 'Decisions. Dreams confront you with choices.', 'Clarity. Dreams become more vivid and detailed.', 'Peak. Most intense dream phase — strong symbols and emotions.', 'Release. Dreams process the past.', 'Reflection. Dreams reveal inner conflicts.', 'Stillness. Dreams grow quieter — time for integration.'];
-                const dreamMeaning = language === Language.DE ? dreamMeaningDE[moonPhaseIdx] : dreamMeaningEN[moonPhaseIdx];
+                const moonPhaseNames: Record<string, string[]> = {
+                    [Language.DE]: ['Neumond', 'Zunehmender Sichelmond', 'Erstes Viertel', 'Zunehmender Mond', 'Vollmond', 'Abnehmender Mond', 'Letztes Viertel', 'Abnehmender Sichelmond'],
+                    [Language.EN]: ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'],
+                    [Language.TR]: ['Yeni Ay', 'Hilal', 'İlk Dördün', 'Şişkin Ay', 'Dolunay', 'Küçülen Ay', 'Son Dördün', 'Küçülen Hilal'],
+                    [Language.ES]: ['Luna Nueva', 'Creciente', 'Cuarto Creciente', 'Gibosa Creciente', 'Luna Llena', 'Gibosa Menguante', 'Cuarto Menguante', 'Menguante'],
+                    [Language.FR]: ['Nouvelle Lune', 'Croissant', 'Premier Quartier', 'Gibbeuse Croissante', 'Pleine Lune', 'Gibbeuse Décroissante', 'Dernier Quartier', 'Décroissant'],
+                    [Language.AR]: ['محاق', 'هلال متزايد', 'تربيع أول', 'أحدب متزايد', 'بدر', 'أحدب متناقص', 'تربيع أخير', 'هلال متناقص'],
+                    [Language.PT]: ['Lua Nova', 'Crescente', 'Quarto Crescente', 'Gibosa Crescente', 'Lua Cheia', 'Gibosa Minguante', 'Quarto Minguante', 'Minguante'],
+                    [Language.RU]: ['Новолуние', 'Растущий серп', 'Первая четверть', 'Растущая луна', 'Полнолуние', 'Убывающая луна', 'Последняя четверть', 'Убывающий серп'],
+                    [Language.ZH]: ['新月', '峨眉月', '上弦月', '盈凸月', '满月', '亏凸月', '下弦月', '残月'],
+                    [Language.HI]: ['अमावस्या', 'बढ़ता चाँद', 'प्रथम तिमाही', 'पूर्ण बढ़ता', 'पूर्णिमा', 'घटता पूर्ण', 'अंतिम तिमाही', 'घटता चाँद'],
+                    [Language.JA]: ['新月', '三日月', '上弦の月', '十三夜月', '満月', '寝待月', '下弦の月', '二十六夜月'],
+                    [Language.KO]: ['삭', '초승달', '상현달', '상현망간', '보름달', '하현망간', '하현달', '그믐달'],
+                    [Language.ID]: ['Bulan Baru', 'Bulan Sabit Muda', 'Kuartal Pertama', 'Cembung Muda', 'Bulan Purnama', 'Cembung Tua', 'Kuartal Terakhir', 'Bulan Sabit Tua'],
+                    [Language.FA]: ['ماه نو', 'هلال در حال رشد', 'ربع اول', 'محدب در حال رشد', 'ماه کامل', 'محدب در حال کاهش', 'ربع آخر', 'هلال در حال کاهش'],
+                    [Language.IT]: ['Luna Nuova', 'Crescente', 'Primo Quarto', 'Gibbosa Crescente', 'Luna Piena', 'Gibbosa Calante', 'Ultimo Quarto', 'Calante'],
+                    [Language.PL]: ['Nów', 'Przybywający Sierp', 'Pierwsza Kwadra', 'Przybywający Garb', 'Pełnia', 'Ubywający Garb', 'Ostatnia Kwadra', 'Ubywający Sierp'],
+                    [Language.BN]: ['অমাবস্যা', 'বাড়ন্ত চাঁদ', 'প্রথম ত্রৈমাসিক', 'পূর্ণ বাড়ন্ত', 'পূর্ণিমা', 'কমন্ত পূর্ণ', 'শেষ ত্রৈমাসিক', 'কমন্ত চাঁদ'],
+                    [Language.UR]: ['نیا چاند', 'بڑھتا ہلال', 'پہلی سہ ماہی', 'بڑھتا پورا', 'پورا چاند', 'گھٹتا پورا', 'آخری سہ ماہی', 'گھٹتا ہلال'],
+                    [Language.VI]: ['Trăng Mới', 'Trăng Lưỡi Liềm Tăng', 'Trăng Bán Nguyệt Đầu', 'Trăng Khuyết Tăng', 'Trăng Tròn', 'Trăng Khuyết Giảm', 'Trăng Bán Nguyệt Cuối', 'Trăng Lưỡi Liềm Giảm'],
+                    [Language.TH]: ['ดับ', 'ขึ้น 3 ค่ำ', 'ขึ้น 8 ค่ำ', 'ขึ้น 13 ค่ำ', 'เพ็ญ', 'แรม 3 ค่ำ', 'แรม 8 ค่ำ', 'แรม 13 ค่ำ'],
+                    [Language.SW]: ['Mwezi Mpya', 'Mwandamo', 'Robo ya Kwanza', 'Mwezi Mkubwa Unaokua', 'Mwezi Mzima', 'Mwezi Mkubwa Unaopungua', 'Robo ya Mwisho', 'Mwandamo Unaopungua'],
+                    [Language.HU]: ['Újhold', 'Növekvő Sarló', 'Első Negyed', 'Növekvő Púpos', 'Telihold', 'Fogyó Púpos', 'Utolsó Negyed', 'Fogyó Sarló'],
+                };
+                const phaseName = (moonPhaseNames[language] || moonPhaseNames[Language.EN])[moonPhaseIdx];
+                const dreamMeaningMap: Record<string, string[]> = {
+                    [Language.DE]: ['Neuanfänge. Ideale Nacht für Intention-Setting.', 'Wachstum. Träume zeigen aufkeimende Ideen.', 'Entscheidungen. Träume konfrontieren mit Wahlmöglichkeiten.', 'Klarheit. Träume werden lebhafter und detailreicher.', 'Höhepunkt. Intensivste Traumphase — starke Symbole und Emotionen.', 'Loslassen. Träume verarbeiten Vergangenes.', 'Reflexion. Träume zeigen innere Konflikte.', 'Stille. Träume werden leiser — Zeit für Integration.'],
+                    [Language.EN]: ['New beginnings. Ideal night for intention-setting.', 'Growth. Dreams reveal emerging ideas.', 'Decisions. Dreams confront you with choices.', 'Clarity. Dreams become more vivid and detailed.', 'Peak. Most intense dream phase — strong symbols and emotions.', 'Release. Dreams process the past.', 'Reflection. Dreams reveal inner conflicts.', 'Stillness. Dreams grow quieter — time for integration.'],
+                    [Language.TR]: ['Yeni başlangıçlar. Niyet belirleme için ideal gece.', 'Büyüme. Rüyalar filizlenen fikirleri ortaya çıkarır.', 'Kararlar. Rüyalar sizi seçimlerle yüzleştirir.', 'Netlik. Rüyalar daha canlı ve ayrıntılı hale gelir.', 'Zirve. En yoğun rüya evresi — güçlü semboller ve duygular.', 'Bırakma. Rüyalar geçmişi işler.', 'Yansıma. Rüyalar iç çatışmaları ortaya çıkarır.', 'Sessizlik. Rüyalar sakinleşir — entegrasyon zamanı.'],
+                    [Language.ES]: ['Nuevos comienzos. Noche ideal para establecer intenciones.', 'Crecimiento. Los sueños revelan ideas emergentes.', 'Decisiones. Los sueños te confrontan con elecciones.', 'Claridad. Los sueños se vuelven más vívidos y detallados.', 'Apogeo. Fase de sueños más intensa — fuertes símbolos y emociones.', 'Liberación. Los sueños procesan el pasado.', 'Reflexión. Los sueños revelan conflictos internos.', 'Quietud. Los sueños se calman — tiempo de integración.'],
+                    [Language.FR]: ['Nouveaux départs. Nuit idéale pour définir des intentions.', 'Croissance. Les rêves révèlent des idées émergentes.', 'Décisions. Les rêves vous confrontent à des choix.', 'Clarté. Les rêves deviennent plus vifs et détaillés.', 'Sommet. Phase de rêves la plus intense — forts symboles et émotions.', 'Libération. Les rêves traitent le passé.', 'Réflexion. Les rêves révèlent des conflits intérieurs.', 'Silence. Les rêves s\'apaisent — temps d\'intégration.'],
+                    [Language.AR]: ['بدايات جديدة. ليلة مثالية لتحديد النوايا.', 'النمو. تكشف الأحلام عن أفكار ناشئة.', 'القرارات. تواجهك الأحلام بالخيارات.', 'الوضوح. تصبح الأحلام أكثر حيوية وتفصيلاً.', 'الذروة. أكثر مراحل الأحلام كثافة — رموز وعواطف قوية.', 'التحرر. تعالج الأحلام الماضي.', 'التأمل. تكشف الأحلام عن الصراعات الداخلية.', 'الهدوء. تهدأ الأحلام — وقت للتكامل.'],
+                    [Language.PT]: ['Novos começos. Noite ideal para definir intenções.', 'Crescimento. Os sonhos revelam ideias emergentes.', 'Decisões. Os sonhos confrontam você com escolhas.', 'Clareza. Os sonhos ficam mais vívidos e detalhados.', 'Auge. Fase de sonhos mais intensa — símbolos e emoções fortes.', 'Liberação. Os sonhos processam o passado.', 'Reflexão. Os sonhos revelam conflitos internos.', 'Quietude. Os sonhos ficam mais silenciosos — tempo de integração.'],
+                    [Language.RU]: ['Новые начала. Идеальная ночь для постановки намерений.', 'Рост. Сны раскрывают зарождающиеся идеи.', 'Решения. Сны сталкивают вас с выборами.', 'Ясность. Сны становятся более яркими и детальными.', 'Пик. Самая интенсивная фаза снов — сильные символы и эмоции.', 'Отпускание. Сны обрабатывают прошлое.', 'Рефлексия. Сны раскрывают внутренние конфликты.', 'Тишина. Сны становятся тише — время для интеграции.'],
+                    [Language.ZH]: ['新的开始。设定意图的理想之夜。', '成长。梦境揭示新兴想法。', '决策。梦境让你面对选择。', '清晰。梦境变得更加生动详细。', '高峰。最强烈的梦境阶段——强烈的象征和情感。', '释放。梦境处理过去。', '反思。梦境揭示内心冲突。', '宁静。梦境变得平静——整合时间。'],
+                    [Language.HI]: ['नई शुरुआत। इरादे तय करने की आदर्श रात।', 'विकास। सपने उभरते विचारों को प्रकट करते हैं।', 'निर्णय। सपने आपको विकल्पों का सामना कराते हैं।', 'स्पष्टता। सपने अधिक जीवंत और विस्तृत होते हैं।', 'शिखर। सबसे तीव्र स्वप्न चरण — मजबूत प्रतीक और भावनाएं।', 'मुक्ति। सपने अतीत को संसाधित करते हैं।', 'प्रतिबिंब। सपने आंतरिक संघर्षों को प्रकट करते हैं।', 'शांति। सपने शांत होते हैं — एकीकरण का समय।'],
+                    [Language.JA]: ['新しい始まり。意図を設定するのに理想的な夜。', '成長。夢は芽生えるアイデアを明らかにします。', '決断。夢はあなたを選択と向き合わせます。', '明晰さ。夢はより鮮明で詳細になります。', 'ピーク。最も強烈な夢のフェーズ — 強い象徴と感情。', '解放。夢は過去を処理します。', '内省。夢は内なる葛藤を明らかにします。', '静寂。夢は静かになります — 統合の時間。'],
+                    [Language.KO]: ['새로운 시작. 의도 설정에 이상적인 밤.', '성장. 꿈은 새로운 아이디어를 드러냅니다.', '결정. 꿈은 선택과 대면하게 합니다.', '명료함. 꿈이 더 생생하고 상세해집니다.', '절정. 가장 강렬한 꿈의 단계 — 강한 상징과 감정.', '해방. 꿈은 과거를 처리합니다.', '성찰. 꿈은 내면의 갈등을 드러냅니다.', '고요. 꿈이 조용해집니다 — 통합의 시간.'],
+                    [Language.ID]: ['Awal baru. Malam ideal untuk menetapkan niat.', 'Pertumbuhan. Mimpi mengungkapkan ide-ide baru.', 'Keputusan. Mimpi menghadapkan Anda dengan pilihan.', 'Kejelasan. Mimpi menjadi lebih jelas dan terperinci.', 'Puncak. Fase mimpi paling intens — simbol dan emosi yang kuat.', 'Pelepasan. Mimpi memproses masa lalu.', 'Refleksi. Mimpi mengungkapkan konflik internal.', 'Ketenangan. Mimpi menjadi lebih tenang — waktu integrasi.'],
+                    [Language.FA]: ['آغازهای جدید. شب ایده‌آل برای تعیین نیت.', 'رشد. رویاها ایده‌های نوپدید را آشکار می‌کنند.', 'تصمیم‌ها. رویاها شما را با انتخاب‌ها مواجه می‌کنند.', 'وضوح. رویاها زنده‌تر و مفصل‌تر می‌شوند.', 'اوج. شدیدترین مرحله رویا — نمادها و احساسات قوی.', 'رهایی. رویاها گذشته را پردازش می‌کنند.', 'بازتاب. رویاها تعارضات درونی را آشکار می‌کنند.', 'آرامش. رویاها آرام‌تر می‌شوند — زمان یکپارچه‌سازی.'],
+                    [Language.IT]: ['Nuovi inizi. Notte ideale per fissare intenzioni.', 'Crescita. I sogni rivelano idee emergenti.', 'Decisioni. I sogni ti confrontano con le scelte.', 'Chiarezza. I sogni diventano più vividi e dettagliati.', 'Apice. La fase onirica più intensa — forti simboli ed emozioni.', 'Liberazione. I sogni elaborano il passato.', 'Riflessione. I sogni rivelano conflitti interiori.', 'Quiete. I sogni si calmano — tempo di integrazione.'],
+                    [Language.PL]: ['Nowe początki. Idealna noc do ustalania intencji.', 'Wzrost. Sny ujawniają kiełkujące pomysły.', 'Decyzje. Sny konfrontują cię z wyborami.', 'Jasność. Sny stają się bardziej żywe i szczegółowe.', 'Szczyt. Najbardziej intensywna faza snów — silne symbole i emocje.', 'Uwolnienie. Sny przetwarzają przeszłość.', 'Refleksja. Sny ujawniają wewnętrzne konflikty.', 'Cisza. Sny stają się cichsze — czas integracji.'],
+                    [Language.BN]: ['নতুন শুরু। উদ্দেশ্য নির্ধারণের আদর্শ রাত।', 'বিকাশ। স্বপ্ন উদীয়মান ধারণা প্রকাশ করে।', 'সিদ্ধান্ত। স্বপ্ন আপনাকে পছন্দের মুখোমুখি করে।', 'স্পষ্টতা। স্বপ্ন আরও জীবন্ত ও বিস্তারিত হয়।', 'শীর্ষ। সবচেয়ে তীব্র স্বপ্ন পর্যায় — শক্তিশালী প্রতীক ও আবেগ।', 'মুক্তি। স্বপ্ন অতীত প্রক্রিয়া করে।', 'প্রতিফলন। স্বপ্ন অভ্যন্তরীণ দ্বন্দ্ব প্রকাশ করে।', 'নিস্তব্ধতা। স্বপ্ন শান্ত হয় — একীভূতকরণের সময়।'],
+                    [Language.UR]: ['نئی شروعات۔ نیت طے کرنے کی مثالی رات۔', 'ترقی۔ خواب ابھرتے خیالات ظاہر کرتے ہیں۔', 'فیصلے۔ خواب آپ کو انتخاب کا سامنا کراتے ہیں۔', 'وضاحت۔ خواب زیادہ واضح اور تفصیلی ہو جاتے ہیں۔', 'عروج۔ سب سے شدید خواب کا مرحلہ — مضبوط علامات اور جذبات۔', 'آزادی۔ خواب ماضی کو پروسیس کرتے ہیں۔', 'عکاسی۔ خواب اندرونی تنازعات ظاہر کرتے ہیں۔', 'خاموشی۔ خواب پرسکون ہو جاتے ہیں — انضمام کا وقت۔'],
+                    [Language.VI]: ['Khởi đầu mới. Đêm lý tưởng để đặt ý định.', 'Tăng trưởng. Giấc mơ tiết lộ ý tưởng mới nảy sinh.', 'Quyết định. Giấc mơ đối mặt bạn với những lựa chọn.', 'Rõ ràng. Giấc mơ trở nên sống động và chi tiết hơn.', 'Đỉnh cao. Giai đoạn giấc mơ mãnh liệt nhất — biểu tượng và cảm xúc mạnh mẽ.', 'Giải phóng. Giấc mơ xử lý quá khứ.', 'Phản ánh. Giấc mơ tiết lộ xung đột nội tâm.', 'Tĩnh lặng. Giấc mơ trở nên yên tĩnh hơn — thời gian tích hợp.'],
+                    [Language.TH]: ['การเริ่มต้นใหม่ คืนที่เหมาะสำหรับการตั้งเจตนา', 'การเติบโต ความฝันเผยให้เห็นแนวคิดใหม่', 'การตัดสินใจ ความฝันเผชิญหน้าคุณกับทางเลือก', 'ความชัดเจน ความฝันกลายเป็นสิ่งที่ชัดเจนและละเอียดมากขึ้น', 'จุดสูงสุด ช่วงความฝันที่เข้มข้นที่สุด — สัญลักษณ์และอารมณ์ที่แข็งแกร่ง', 'การปลดปล่อย ความฝันประมวลผลอดีต', 'การสะท้อน ความฝันเผยให้เห็นความขัดแย้งภายใน', 'ความสงบ ความฝันเงียบลง — เวลาแห่งการบูรณาการ'],
+                    [Language.SW]: ['Mwanzo mpya. Usiku mzuri wa kuweka nia.', 'Ukuaji. Ndoto zinafunua mawazo yanayoibuka.', 'Maamuzi. Ndoto zinakukabili na chaguo.', 'Uwazi. Ndoto zinakuwa za kina na za kina zaidi.', 'Kilele. Awamu ya ndoto yenye nguvu zaidi — ishara na hisia kali.', 'Kutolewa. Ndoto zinashughulikia yaliyopita.', 'Kutafakari. Ndoto zinafunua migogoro ya ndani.', 'Utulivu. Ndoto zinatulia — wakati wa muunganiko.'],
+                    [Language.HU]: ['Új kezdetek. Ideális éjszaka szándékok kitűzéséhez.', 'Növekedés. Az álmok felszínre hozzák az újonnan születő ötleteket.', 'Döntések. Az álmok szembesítenek a választásokkal.', 'Tisztánlátás. Az álmok élénkebbek és részletesebbek lesznek.', 'Csúcspont. A legalapvetőbb álomfázis — erős szimbólumok és érzelmek.', 'Elengedés. Az álmok feldolgozzák a múltat.', 'Reflexió. Az álmok belső konfliktusokat tárnak fel.', 'Csend. Az álmok elcsendesednek — az integráció ideje.'],
+                };
+                const dreamMeaning = (dreamMeaningMap[language] || dreamMeaningMap[Language.EN])[moonPhaseIdx];
                 return (
                     <div className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowMoonSync(false)}>
                         <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 border-purple-100/60' : 'bg-dream-surface/95 border-fuchsia-500/20'} backdrop-blur-md border rounded-2xl shadow-2xl overflow-hidden`} onClick={e => e.stopPropagation()}>
@@ -5472,16 +5698,12 @@ const App: React.FC = () => {
                             <div className="p-6 space-y-4">
                                 <div className={`p-4 rounded-xl border ${isLight ? 'bg-purple-50 border-purple-200' : 'bg-purple-900/20 border-purple-500/30'}`}>
                                     <p className={`text-xs font-bold uppercase tracking-wider mb-2 ${isLight ? 'text-purple-600' : 'text-purple-400'}`}>
-                                        {language === Language.DE ? 'Traumbedeutung heute' : language === Language.TR ? 'Bugünkü rüya anlamı' : language === Language.RU ? 'Значение снов сегодня' : language === Language.AR ? 'معنى الأحلام اليوم' : 'Dream meaning today'}
+                                        {t.ui.dream_meaning_today}
                                     </p>
                                     <p className={`text-sm leading-relaxed ${isLight ? 'text-purple-800' : 'text-purple-200'}`}>{dreamMeaning}</p>
                                 </div>
                                 <p className={`text-xs text-center ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
-                                    {language === Language.DE ? `Mondphase: Tag ${Math.floor(moonAge)} von ${Math.floor(synodicMonth)}` :
-                                     language === Language.TR ? `Ay fazı: ${Math.floor(synodicMonth)} günün ${Math.floor(moonAge)}. günü` :
-                                     language === Language.RU ? `Фаза луны: день ${Math.floor(moonAge)} из ${Math.floor(synodicMonth)}` :
-                                     language === Language.AR ? `مرحلة القمر: اليوم ${Math.floor(moonAge)} من ${Math.floor(synodicMonth)}` :
-                                     `Moon phase: Day ${Math.floor(moonAge)} of ${Math.floor(synodicMonth)}`}
+                                    {t.ui.moon_phase_label}: {Math.floor(moonAge)} / {Math.floor(synodicMonth)}
                                 </p>
                             </div>
                             <div className="p-4 pt-0">
@@ -5512,7 +5734,10 @@ const App: React.FC = () => {
                         language={language}
                         themeMode={themeMode}
                         dreamText={dreamInput}
-                        onClose={() => setView(View.HOME)}
+                        interpretationText={videoStudioInterpretation}
+                        dreamId={videoStudioDreamId}
+                        initialMode={videoStudioInterpretation ? 'choose' : undefined}
+                        onClose={() => { setVideoStudioDreamId(null); setVideoStudioInterpretation(''); setView(View.HOME); }}
                         onGenerate={async (text, options) => {
                             const log = (msg: string, pct: number) => console.log(`[VIDEO-STUDIO] ${msg} - ${pct}%`);
                             try {
@@ -5530,34 +5755,72 @@ const App: React.FC = () => {
 
                                 const cm = options.contentMode;
                                 const isUserVoice = options.voiceMode === 'user_voice' && !!options.voiceBlob;
+                                const videoStyle = options.style || 'dreamlike';
 
-                                // Analyse einmal ausfuehren und cachen
+                                // Analyse einmal ausfuehren und cachen (Skip wenn bereits vorhanden)
                                 let interpretationText = '';
                                 if (cm !== 'dream_only') {
-                                    const analysis = await analyzeDreamText(text, language, userProfile);
-                                    if (!analysis?.interpretation) { console.error('[VideoStudio] Analyse fehlgeschlagen'); return null; }
-                                    interpretationText = analysis.interpretation;
+                                    if (videoStudioInterpretation) {
+                                        interpretationText = videoStudioInterpretation;
+                                    } else {
+                                        const analysis = await analyzeDreamText(text, language, userProfile);
+                                        if (!analysis?.interpretation) { console.error('[VideoStudio] Analyse fehlgeschlagen'); return null; }
+                                        interpretationText = analysis.interpretation;
+                                    }
                                 }
 
+                                // ── KI-Video Tab: Echtes Video via Replicate ──
+                                if (options.tab === 'ai' && isReplicateConfigured()) {
+                                    log('Starte echtes KI-Video via Replicate...', 10);
+                                    const promptText = cm === 'dream_only' ? text
+                                        : cm === 'interpretation' ? interpretationText
+                                        : `${text}. ${interpretationText}`;
+                                    try {
+                                        const replicateResult = await generateReplicateVideo(
+                                            { prompt: promptText, style: videoStyle, aspectRatio: '16:9' },
+                                            userProfile?.subscriptionTier || SubscriptionTier.FREE
+                                        );
+                                        log('KI-Video fertig!', 100);
+                                        const videoUrl = replicateResult.videoUrl;
+
+                                        // Persist
+                                        if (videoUrl) {
+                                            const dreamId = videoStudioDreamId || `dream-${Date.now()}`;
+                                            const existing = (videoStudioDreamId && dreams.find(d => d.id === videoStudioDreamId)) || dreams.find(d => d.description === text);
+                                            if (existing) {
+                                                await handleUpdateDream({ ...existing, videoUrl });
+                                            } else {
+                                                await handleSaveDream({
+                                                    id: dreamId, title: text.slice(0, 60).trim() + (text.length > 60 ? '...' : ''),
+                                                    description: text, interpretation: interpretationText,
+                                                    date: new Date().toISOString().split('T')[0], userAvatar: '',
+                                                    videoUrl, tags: [], likes: 0, comments: 0, matchPercentage: 0,
+                                                });
+                                            }
+                                        }
+                                        return videoUrl;
+                                    } catch (replicateErr) {
+                                        console.warn('[VIDEO-STUDIO] Replicate fehlgeschlagen, Fallback auf Slideshow...', replicateErr);
+                                    }
+                                }
+
+                                // ── Slideshow-Fallback (oder Slideshow-Tab) ──
                                 if (cm === 'dream_only') {
-                                    // ── Nur Erzaehlung (kein Deuten) ──
                                     if (isUserVoice) {
                                         audioBase64ForSave = await blobToB64(options.voiceBlob!);
-                                        result = await generateDreamUserVoiceVideo(text, audioBase64ForSave, 'fantasy', language, log);
+                                        result = await generateDreamUserVoiceVideo(text, audioBase64ForSave, videoStyle, language, log);
                                     } else {
-                                        result = await generateDreamNarrationVideo(text, 'fantasy', language, log);
+                                        result = await generateDreamNarrationVideo(text, videoStyle, language, log);
                                     }
                                 } else if (cm === 'interpretation') {
-                                    // ── Nur Deutung (KI-Stimme) ──
-                                    result = await generateStoryVideo(text, interpretationText, 'fantasy', language, log);
+                                    result = await generateStoryVideo(text, interpretationText, videoStyle, language, log);
                                 } else {
-                                    // ── Beides: Erzaehlung + Deutung ──
                                     const combinedText = `${text}\n\n---\n\n${interpretationText}`;
                                     if (isUserVoice) {
                                         audioBase64ForSave = await blobToB64(options.voiceBlob!);
-                                        result = await generateDreamUserVoiceVideo(combinedText, audioBase64ForSave, 'fantasy', language, log);
+                                        result = await generateDreamUserVoiceVideo(combinedText, audioBase64ForSave, videoStyle, language, log);
                                     } else {
-                                        result = await generateStoryVideo(text, combinedText, 'fantasy', language, log);
+                                        result = await generateStoryVideo(text, combinedText, videoStyle, language, log);
                                     }
                                 }
 
@@ -5565,7 +5828,7 @@ const App: React.FC = () => {
 
                                 // ── Persist: Video + Audio im Dream-Objekt speichern ──
                                 if (videoUrl) {
-                                    const dreamId = `dream-${Date.now()}`;
+                                    const dreamId = videoStudioDreamId || `dream-${Date.now()}`;
                                     const newDream: Dream = {
                                         id: dreamId,
                                         title: text.slice(0, 60).trim() + (text.length > 60 ? '...' : ''),
@@ -5581,8 +5844,8 @@ const App: React.FC = () => {
                                         comments: 0,
                                         matchPercentage: 0,
                                     };
-                                    // Check if dream with this text already exists
-                                    const existing = dreams.find(d => d.description === text);
+                                    // Check if dream already exists (by ID or text)
+                                    const existing = (videoStudioDreamId && dreams.find(d => d.id === videoStudioDreamId)) || dreams.find(d => d.description === text);
                                     if (existing) {
                                         await handleUpdateDream({
                                             ...existing,
@@ -5605,6 +5868,8 @@ const App: React.FC = () => {
                                 setVideoUrl(result.videoUrl);
                                 setShowVideoModal(true);
                             }
+                            setVideoStudioDreamId(null);
+                            setVideoStudioInterpretation('');
                             setView(View.HOME);
                         }}
                         userCredits={userProfile?.credits || 0}
@@ -5672,7 +5937,7 @@ const App: React.FC = () => {
             <main className="relative z-10 p-4 pt-6 pb-24">
                 {view === View.HOME && renderHome()}
                     {view === View.DREAM_HUB && <DreamHub dreams={dreams} language={language} themeMode={themeMode} onClose={() => setView(View.HOME)} />}
-                    {view === View.PROFILE && <Profile language={language} dreams={dreams} userProfile={userProfile} onUpdateProfile={handleSaveProfile} onUpdateDream={handleUpdateDream} onGenerateVideo={handleGenerateVideo} onGenerateNarrationVideo={handleGenerateNarrationVideo} onGenerateUserVoiceVideo={handleGenerateUserVoiceVideo} onPlayVideo={(url) => { setVideoUrl(url); setShowVideoModal(true); }} fontSize={FontSize.MEDIUM} themeMode={themeMode} />}
+                    {view === View.PROFILE && <Profile language={language} dreams={dreams} userProfile={userProfile} onUpdateProfile={handleSaveProfile} onUpdateDream={handleUpdateDream} onOpenVideoStudio={handleOpenVideoStudio} onPlayVideo={(url) => { setVideoUrl(url); setShowVideoModal(true); }} fontSize={FontSize.MEDIUM} themeMode={themeMode} />}
             </main>
 
             {/* Legal Footer Links */}
@@ -5707,25 +5972,25 @@ const App: React.FC = () => {
               <footer className={`relative z-10 px-4 pb-28 pt-4 text-center text-xs ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
                 <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
                   <button onClick={() => setView(View.DATENSCHUTZ)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
-                    {language === 'de' ? 'Datenschutz' : 'Privacy'}
+                    {t.ui.privacy_link}
                   </button>
                   <button onClick={() => setView(View.AGB)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
-                    {language === 'de' ? 'AGB' : 'Terms'}
+                    {t.ui.terms_link}
                   </button>
                   <button onClick={() => setView(View.IMPRESSUM)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
-                    {language === 'de' ? 'Impressum' : 'Imprint'}
+                    {t.ui.imprint_link}
                   </button>
                   <button onClick={() => setView(View.FORSCHUNG)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
-                    {language === 'de' ? 'Forschung' : 'Research'}
+                    {t.ui.research_link}
                   </button>
                   <button onClick={() => setView(View.CENSUS)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
                     Census
                   </button>
                   <button onClick={() => setView(View.RESEARCH_STUDIES)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
-                    {language === 'de' ? 'Studien' : 'Studies'}
+                    {t.ui.studies_link}
                   </button>
                   <button onClick={() => setView(View.RESEARCH_MAP)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
-                    {language === 'de' ? 'Weltkarte' : 'World Map'}
+                    {t.ui.worldmap_link}
                   </button>
                 </div>
                 <p className={`mt-2 ${isLight ? 'text-slate-300' : 'text-slate-600'}`}>
@@ -5749,7 +6014,7 @@ const App: React.FC = () => {
                         </button>
                     </div>
                     {/* WISSENSCHAFT */}
-                    <NavBtn icon="biotech" label="Wissenschaft" active={view === View.SCIENCE} onClick={() => setView(View.SCIENCE)} isLight={isLight} />
+                    <NavBtn icon="biotech" label={t.ui.science_label} active={view === View.SCIENCE} onClick={() => setView(View.SCIENCE)} isLight={isLight} />
                     {/* DREAM MAP */}
                     <NavBtn icon="public" label={t.ui.dream_network} active={view === View.DREAM_MAP} onClick={() => setView(View.DREAM_MAP)} isLight={isLight} />
                     <NavBtn icon="person" label={t.ui.profile_btn} active={view === View.PROFILE} onClick={() => setView(View.PROFILE)} isLight={isLight} />
@@ -5855,7 +6120,7 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
                                     <p className={`text-xs font-bold ${
                                         isMegaPlus ? 'text-pink-500 uppercase' : isBestseller ? 'text-amber-500 uppercase' : isBestValue ? 'text-emerald-500' : 'text-slate-400'
                                     }`}>
-                                        {pkg.id.split('_')[0].charAt(0).toUpperCase() + pkg.id.split('_')[0].slice(1)}
+                                        {({starter_50: t.shop.pkg_starter, popular_150: t.shop.pkg_popular, value_400: t.shop.pkg_value, premium_900: t.shop.pkg_premium, mega_2500: t.shop.pkg_mega} as Record<string, string>)[pkg.id] || pkg.id}
                                     </p>
                                     <p className={`text-xs mt-0.5 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-500'}`}>
                                         {pricePerCoin}€ {t.shop.per_coin}
@@ -6142,7 +6407,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                         <div key={tier} onClick={() => onUpdateSubscription(tier)} className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col gap-3 relative group ${isCurrent ? (isLight ? 'bg-gradient-to-br from-indigo-50 to-fuchsia-50 border-indigo-400 shadow-md shadow-indigo-100' : 'bg-gradient-to-br from-indigo-900/30 to-fuchsia-900/20 border-indigo-500/60 shadow-lg shadow-indigo-500/10') : (isLight ? `bg-white/80 backdrop-blur-md hover:bg-white shadow-sm hover:shadow-md ${borderColor}` : `bg-white/5 backdrop-blur-md hover:bg-white/10 ${borderColor}`)}`}>
                             {tier === SubscriptionTier.PRO && (
                                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full shadow-md whitespace-nowrap z-10">
-                                    {lang === 'AR' ? '\u0627\u0644\u0623\u0643\u062B\u0631 \u0634\u0639\u0628\u064A\u0629' : lang === 'DE' ? 'MEISTGEW\u00C4HLT' : 'MOST POPULAR'}
+                                    {t.sub.pro_badge}
                                 </div>
                             )}
                             {billingCycle === 'yearly' && (tier === SubscriptionTier.PRO || tier === SubscriptionTier.PREMIUM) && (
@@ -6152,7 +6417,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                             )}
                             {tier === SubscriptionTier.VIP && (
                                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-500 to-amber-600 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full shadow-md whitespace-nowrap z-10">
-                                    {lang === 'AR' ? '\u062D\u0635\u0631\u064A \uD83D\uDC51' : 'EXCLUSIVE \uD83D\uDC51'}
+                                    {t.sub.vip_badge}
                                 </div>
                             )}
                             {tier === SubscriptionTier.SMART && (

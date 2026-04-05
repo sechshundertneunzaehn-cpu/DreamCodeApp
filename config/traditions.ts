@@ -56,7 +56,7 @@ export const CATEGORY_ORDER: ReligiousCategory[] = [
     // Row 2
     ReligiousCategory.PSYCHOLOGICAL, ReligiousCategory.ASTROLOGY, ReligiousCategory.NUMEROLOGY,
     // Row 3 (new)
-    ReligiousCategory.JEWISH, ReligiousCategory.SONNIKS, ReligiousCategory.ANCIENT,
+    ReligiousCategory.ANCIENT, ReligiousCategory.SONNIKS, ReligiousCategory.JEWISH,
 ];
 
 // --- Tier Requirements per Category ---

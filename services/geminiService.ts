@@ -22,7 +22,7 @@ const DEFAULT_DEEPGRAM_MODEL = 'aura-asteria-en';
 type ImageStyle = 'cartoon' | 'anime' | 'real' | 'fantasy' | 'surreal' | 'watercolor';
 type ImageQuality = 'normal' | 'high';
 
-type TextProvider = 'gemini' | 'deepseek';
+type TextProvider = 'gemini' | 'deepseek' | 'ollama' | 'openrouter';
 
 type DreamAnalysisResult = {
   interpretation: string;
@@ -263,6 +263,69 @@ const callDeepSeekText = async (
   return text.trim();
 };
 
+
+const callOllamaText = async (
+  model: string,
+  prompt: string,
+  options?: { temperature?: number; maxTokens?: number },
+): Promise<string> => {
+  const baseUrl = import.meta.env.VITE_OLLAMA_BASE_URL || 'http://localhost:11434';
+  const response = await fetch(`${baseUrl}/v1/chat/completions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model,
+      messages: [{ role: 'user', content: prompt }],
+      temperature: options?.temperature ?? 0.7,
+      max_tokens: options?.maxTokens ?? 2000,
+      stream: false,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Ollama API-Fehler: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const text = data.choices?.[0]?.message?.content;
+  if (!text) throw new Error('Ollama lieferte keinen Text');
+  return text.trim();
+};
+
+const callOpenRouterText = async (
+  model: string,
+  prompt: string,
+  options?: { temperature?: number; maxTokens?: number },
+): Promise<string> => {
+  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
+  if (!apiKey) throw new Error('OpenRouter API-Key fehlt');
+
+  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+      'HTTP-Referer': 'https://dreamcodeapp.vercel.app',
+      'X-Title': 'DreamCode App',
+    },
+    body: JSON.stringify({
+      model,
+      messages: [{ role: 'user', content: prompt }],
+      temperature: options?.temperature ?? 0.7,
+      max_tokens: options?.maxTokens ?? 2000,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`OpenRouter API-Fehler: ${response.status}`);
+  }
+
+  const data = await response.json();
+  const text = data.choices?.[0]?.message?.content;
+  if (!text) throw new Error('OpenRouter lieferte keinen Text');
+  return text.trim();
+};
+
 const callGroqFallback = async (prompt: string, language: Language): Promise<string> => {
   const LANG_NAMES: Record<string, string> = {
     de: 'Deutsch', tr: 'Tuerkisch', en: 'English', es: 'Spanisch',
@@ -308,6 +371,14 @@ const analyzeDreamInternal = async (
         const interpretation = await callGeminiText(route!.model, prompt, { temperature: 0.75, maxOutputTokens: 2200 });
         return { interpretation, provider: 'gemini', model: route!.model };
       }
+      if (route!.provider === 'ollama') {
+        const interpretation = await callOllamaText(route!.model, prompt, { temperature: 0.75, maxTokens: 2200 });
+        return { interpretation, provider: 'ollama', model: route!.model };
+      }
+      if (route!.provider === 'openrouter') {
+        const interpretation = await callOpenRouterText(route!.model, prompt, { temperature: 0.75, maxTokens: 2200 });
+        return { interpretation, provider: 'openrouter', model: route!.model };
+      }
 
       const interpretation = await callDeepSeekText(route!.model, prompt, { temperature: 0.75, maxTokens: 2200 });
       return { interpretation, provider: 'deepseek', model: route!.model };
@@ -345,7 +416,7 @@ export const analyzeDreamPremium = async (
   language: Language = Language.DE,
   userProfile: UserProfile | null = null,
   usePremium: boolean = false,
-): Promise<{ interpretation: string; provider: 'gemini' | 'deepseek' | 'unavailable' }> => {
+): Promise<{ interpretation: string; provider: TextProvider | 'unavailable' }> => {
   const preferredTier = usePremium && isPremiumTextTier(userProfile?.subscriptionTier) ? 'premium' : 'default';
   const result = await analyzeDreamInternal(dreamText, language, userProfile, preferredTier);
   return {
@@ -485,13 +556,15 @@ export const generateDreamImage = async (
   arg3?: unknown,
   arg4?: unknown,
   arg5?: unknown,
+  interpretationText?: string,
 ): Promise<string | null> => {
   const { quality, style } = normalizeImageArgs(arg2, arg3, arg4, arg5);
   const styleConfig = STYLE_PROMPTS[style] || STYLE_PROMPTS.fantasy;
 
   let visualPrompt = dreamDescription.trim();
   try {
-    const optimized = await generateImagePrompt(dreamDescription, 'Visualize the core symbolic meaning of the dream.');
+    const interpForPrompt = interpretationText || 'Visualize the core symbolic meaning of the dream.';
+    const optimized = await generateImagePrompt(dreamDescription, interpForPrompt);
     if (optimized) {
       visualPrompt = optimized;
     }
