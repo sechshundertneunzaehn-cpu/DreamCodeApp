@@ -191,7 +191,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             gold_trial_text: "7 Tage gratis, dann 12,99 €/Mt",
             gold_features: ["Alles aus Pro inklusive", "Unbegrenzter Live-Chat mit dem Orakel", "5 Traum-Videos pro Monat", "Exklusiver Rabatt auf Münzkäufe", "Priority Support"],
             smart_title: "Smart (Entwickler)",
-            smart_price: "29,99 € / Jahr",
+            smart_price: "49,99 € / Jahr",
             smart_features: ["Bring Your Own Key (BYOK)", "Alle Premium Features freigeschaltet", "Automatische Provider-Rotation", "Günstiger Jahrespreis (Fix 29,99€)"],
             smart_info_title: "Was ist der Smart Developer Tarif?",
             smart_info_text: "Für Entwickler & Tech-Enthusiasten: Erstelle Accounts bei KI-Providern (z.B. Google AI Studio), generiere dort deine eigenen API Keys und füge sie hier in der App ein. So zahlst du nur die günstigen API-Kosten direkt beim Provider + 3€ für die App-Nutzung. Perfekt für Power-User!",
@@ -200,7 +200,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Deutungen/Tag", "Groq-KI", "6 Traditionen", "Werbung"], bronze_price: "0 €",
             silver2_title: "Pro", silver2_features: ["Unbegrenzte Deutungen", "Gemini-KI", "Alle 9 Traditionen", "Keine Werbung", "100 Coins/Monat", "10% Coin-Rabatt"], silver2_price_monthly: "4,99 € / Monat", silver2_price_yearly: "49,99 € / Jahr",
             gold2_title: "Premium", gold2_features: ["Claude 6-Perspektiven", "500 Coins/Monat", "20% Coin-Rabatt", "HD-Bilder", "5 Videos/Monat", "Live Voice", "KI-Chat Premium"], gold2_price_monthly: "14,99 € / Monat", gold2_price_yearly: "149,99 € / Jahr",
-            vip_title: "VIP", vip_features: ["2.000 Coins/Monat", "30% Coin-Rabatt", "20 Videos/Monat", "Traumtagebuch", "Exklusive Quellen", "WhatsApp-Support"], vip_price_monthly: "199,99 SAR / Monat", vip_price_yearly: "1.999,99 SAR / Jahr"
+            vip_title: "VIP", vip_features: ["2.000 Coins/Monat", "30% Coin-Rabatt", "20 Videos/Monat", "Traumtagebuch", "Exklusive Quellen", "WhatsApp-Support"], vip_price_monthly: "299,99 SAR / Monat", vip_price_yearly: "2.999,99 SAR / Jahr"
         },
         earn: {
             title: "Münzen verdienen",
@@ -378,7 +378,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             gold_trial_text: "7 days free, then 12.99 €/mo",
             gold_features: ["All Silver Features Included", "Unlimited Live Oracle Chat", "5 Dream Videos/mo", "Exclusive Coin Discount", "Priority Support"],
             smart_title: "Smart (Developer)",
-            smart_price: "29.99 € / year",
+            smart_price: "49.99 € / year",
             smart_features: ["Bring Your Own Key (BYOK)", "All Premium Features Unlocked", "Auto-Provider Rotation", "Fixed Annual Price (29.99€)"],
             smart_info_title: "What is the Smart Developer Tier?",
             smart_info_text: "For developers & tech enthusiasts: Create accounts with AI providers (e.g., Google AI Studio), generate your own API keys there, and add them to the app. This way, you only pay the low API costs directly to the provider + €3 for app usage. Perfect for power users!",
@@ -387,7 +387,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interpretations/Day", "Groq AI", "6 Traditions", "Ads"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Unlimited Interpretations", "Gemini AI", "All 9 Traditions", "Ad-Free", "100 Coins/Month", "10% Coin Discount"], silver2_price_monthly: "€4.99 / Month", silver2_price_yearly: "€49.99 / Year",
             gold2_title: "Premium", gold2_features: ["Claude 6-Perspectives", "500 Coins/Month", "20% Coin Discount", "HD Images", "5 Videos/Month", "Live Voice", "Premium AI Chat"], gold2_price_monthly: "€14.99 / Month", gold2_price_yearly: "€149.99 / Year",
-            vip_title: "VIP", vip_features: ["2,000 Coins/Month", "30% Coin Discount", "20 Videos/Month", "Dream Journal", "Exclusive Sources", "WhatsApp Support"], vip_price_monthly: "199.99 SAR / Month", vip_price_yearly: "1,999.99 SAR / Year"
+            vip_title: "VIP", vip_features: ["2,000 Coins/Month", "30% Coin Discount", "20 Videos/Month", "Dream Journal", "Exclusive Sources", "WhatsApp Support"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year"
         },
         earn: {
             title: "Earn Coins",
@@ -565,7 +565,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             gold_trial_text: "7 gün ücretsiz, sonra 12.99 €/Ay",
             gold_features: ["Tüm Gümüş özellikleri dahil", "Sınırsız Canlı Kahin Sohbeti", "5 Rüya Videosu/Ay", "Jeton Alımlarında VIP İndirim", "Öncelikli Destek"],
             smart_title: "Akıllı (Geliştirici)",
-            smart_price: "29.99 € / Yıl",
+            smart_price: "49.99 € / Yıl",
             smart_features: ["Kendi Anahtarını Getir (BYOK)", "Tüm Premium Özellikler Açık", "Otomatik Sağlayıcı Geçişi", "Sabit Yıllık Ücret (29.99€)"],
             smart_info_title: "Smart Developer Tier Nedir?",
             smart_info_text: "Geliştiriciler ve teknoloji meraklıları için: Yapay zeka sağlayıcılarında hesap oluşturun (ör. Google AI Studio), orada kendi API anahtarlarınızı oluşturun ve buraya ekleyin. Böylece sadece düşük API maliyetlerini doğrudan sağlayıcıya ödeyip + uygulama kullanımı için 3€ ödersiniz. Power kullanıcılar için mükemmel!",
@@ -573,8 +573,8 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             ad_loading: "Reklam yükleniyor...", ad_reward: "Kredi kazanıldı!",
             bronze_title: "Free", bronze_features: ["3 Yorum/Gün", "Groq YZ", "6 Gelenek", "Reklamlar"], bronze_price: "0 ₺",
             silver2_title: "Pro", silver2_features: ["Sınırsız Yorum", "Gemini YZ", "Tüm 9 Gelenek", "Reklamsız", "100 Jeton/Ay", "%10 Jeton İndirimi"], silver2_price_monthly: "79,99 ₺ / Ay", silver2_price_yearly: "799 ₺ / Yıl",
-            gold2_title: "Premium", gold2_features: ["Claude 6 Perspektif", "500 Jeton/Ay", "%20 Jeton İndirimi", "HD Görseller", "5 Video/Ay", "Canlı Ses", "Premium YZ Sohbet"], gold2_price_monthly: "249,99 ₺ / Ay", gold2_price_yearly: "2.499 ₺ / Yıl",
-            vip_title: "VIP", vip_features: ["2.000 Jeton/Ay", "%30 Jeton İndirimi", "20 Video/Ay", "Rüya Günlüğü", "Özel Kaynaklar", "WhatsApp Destek"], vip_price_monthly: "199,99 SAR / Ay", vip_price_yearly: "1.999,99 SAR / Yıl"
+            gold2_title: "Premium", gold2_features: ["Claude 6 Perspektif", "500 Jeton/Ay", "%20 Jeton İndirimi", "HD Görseller", "5 Video/Ay", "Canlı Ses", "Premium YZ Sohbet"], gold2_price_monthly: "229,99 ₺ / Ay", gold2_price_yearly: "2.299 ₺ / Yıl",
+            vip_title: "VIP", vip_features: ["2.000 Jeton/Ay", "%30 Jeton İndirimi", "20 Video/Ay", "Rüya Günlüğü", "Özel Kaynaklar", "WhatsApp Destek"], vip_price_monthly: "299,99 SAR / Ay", vip_price_yearly: "2.999,99 SAR / Yıl"
         },
         earn: {
             title: "Jeton Kazan",
@@ -736,7 +736,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             gold_trial_text: "7 días gratis, luego 12.99 €/mes",
             gold_features: ["Todas las características de Plata", "Chat ilimitado con el Oráculo", "5 Videos de Sueños/mes", "Descuento exclusivo en monedas", "Soporte Prioritario"],
             smart_title: "Inteligente (Desarrollador)",
-            smart_price: "29.99 € / año",
+            smart_price: "49.99 € / año",
             smart_features: ["Trae Tu Propia Clave (BYOK)", "Todas las funciones Premium desbloqueadas", "Rotación automática de proveedor", "Precio anual fijo (29.99€)"],
             smart_info_title: "¿Qué es el plan Smart Developer?",
             smart_info_text: "Para desarrolladores y entusiastas de la tecnología: crea cuentas con proveedores de IA (por ejemplo, Google AI Studio), genera tus propias claves API allí y agrégalas a la aplicación. De esta manera, solo pagas los bajos costos de API directamente al proveedor + 3 € por el uso de la aplicación. ¡Perfecto para usuarios avanzados!",
@@ -745,7 +745,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interpretaciones/Día", "Groq IA", "6 Tradiciones", "Anuncios"], bronze_price: "0 €",
             silver2_title: "Pro", silver2_features: ["Interpretaciones Ilimitadas", "Gemini IA", "Las 9 Tradiciones", "Sin Anuncios", "100 Monedas/Mes", "10% Descuento"], silver2_price_monthly: "4,99 € / Mes", silver2_price_yearly: "49,99 € / Año",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspectivas", "500 Monedas/Mes", "20% Descuento", "Imágenes HD", "5 Videos/Mes", "Voz en Vivo", "Chat IA Premium"], gold2_price_monthly: "14,99 € / Mes", gold2_price_yearly: "149,99 € / Año",
-            vip_title: "VIP", vip_features: ["2.000 Monedas/Mes", "30% Descuento", "20 Videos/Mes", "Diario de Sueños", "Fuentes Exclusivas", "Soporte WhatsApp"], vip_price_monthly: "199,99 SAR / Mes", vip_price_yearly: "1.999,99 SAR / Año"
+            vip_title: "VIP", vip_features: ["2.000 Monedas/Mes", "30% Descuento", "20 Videos/Mes", "Diario de Sueños", "Fuentes Exclusivas", "Soporte WhatsApp"], vip_price_monthly: "299,99 SAR / Mes", vip_price_yearly: "2.999,99 SAR / Año"
         },
         earn: {
             title: "Ganar Monedas",
@@ -907,7 +907,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             gold_trial_text: "7 jours gratuits, puis 12.99 €/mois",
             gold_features: ["Toutes les fonctionnalités Argent", "Chat Oracle illimité", "5 Vidéos de Rêves/mois", "Remise exclusive sur les pièces", "Support Prioritaire"],
             smart_title: "Intelligent (Développeur)",
-            smart_price: "29.99 € / an",
+            smart_price: "49.99 € / an",
             smart_features: ["Apportez votre propre clé (BYOK)", "Toutes les fonctions Premium débloquées", "Rotation automatique du fournisseur", "Prix annuel fixe (29.99€)"],
             smart_info_title: "Qu'est-ce que le forfait Smart Developer ?",
             smart_info_text: "Pour les développeurs et passionnés de technologie : créez des comptes auprès de fournisseurs d'IA (par ex. Google AI Studio), générez vos propres clés API là-bas et ajoutez-les à l'application. Ainsi, vous ne payez que les faibles coûts d'API directement au fournisseur + 3 € pour l'utilisation de l'application. Parfait pour les power users !",
@@ -916,7 +916,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interprétations/Jour", "Groq IA", "6 Traditions", "Publicités"], bronze_price: "0 €",
             silver2_title: "Pro", silver2_features: ["Interprétations Illimitées", "Gemini IA", "Les 9 Traditions", "Sans Pub", "100 Pièces/Mois", "10% Réduction"], silver2_price_monthly: "4,99 € / Mois", silver2_price_yearly: "49,99 € / An",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspectives", "500 Pièces/Mois", "20% Réduction", "Images HD", "5 Vidéos/Mois", "Voix en Direct", "Chat IA Premium"], gold2_price_monthly: "14,99 € / Mois", gold2_price_yearly: "149,99 € / An",
-            vip_title: "VIP", vip_features: ["2 000 Pièces/Mois", "30% Réduction", "20 Vidéos/Mois", "Journal de Rêves", "Sources Exclusives", "Support WhatsApp"], vip_price_monthly: "199,99 SAR / Mois", vip_price_yearly: "1 999,99 SAR / An"
+            vip_title: "VIP", vip_features: ["2 000 Pièces/Mois", "30% Réduction", "20 Vidéos/Mois", "Journal de Rêves", "Sources Exclusives", "Support WhatsApp"], vip_price_monthly: "299,99 SAR / Mois", vip_price_yearly: "2 999,99 SAR / An"
         },
         earn: {
             title: "Gagner des Pièces",
@@ -1094,16 +1094,16 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             gold_trial_text: "7 أيام مجانًا، ثم 12.99 €/شهر",
             gold_features: ["جميع ميزات الفضي", "دردشة غير محدودة مع العراف", "5 فيديوهات أحلام/شهر", "خصم حصري على العملات", "دعم ذو أولوية"],
             smart_title: "ذكي (للمطورين)",
-            smart_price: "29.99 € / سنة",
+            smart_price: "49.99 € / سنة",
             smart_features: ["استخدم مفتاحك الخاص (BYOK)", "فتح جميع ميزات البريميوم", "تدوير تلقائي للمزود", "سعر سنوي ثابت (29.99€)"],
             smart_info_title: "ما هو تعريفة Smart Developer؟",
             smart_info_text: "للمطورين وعشاق التكنولوجيا: أنشئ حسابات مع موفري الذكاء الاصطناعي (مثل Google AI Studio)، وقم بإنشاء مفاتيح API الخاصة بك هناك وأضفها إلى التطبيق. بهذه الطريقة، تدفع فقط تكاليف API المنخفضة مباشرة للمزود + 3 يورو لاستخدام التطبيق. مثالي للمستخدمين المتقدمين!",
             upgrade: "ترقية", current: "حالياً", unlock: "فتح", try_free: "جرب مجانًا لمدة 7 أيام",
             ad_loading: "جاري تحميل الإعلان...", ad_reward: "تم كسب العملات!",
             bronze_title: "مجاني", bronze_features: ["3 تفسيرات/يوم", "Groq ذكاء", "6 تقاليد", "إعلانات"], bronze_price: "0 €",
-            silver2_title: "برو", silver2_features: ["تفسيرات غير محدودة", "Gemini ذكاء", "جميع 9 تقاليد", "بدون إعلانات", "100 عملة/شهر", "خصم 10%"], silver2_price_monthly: "29,99 ر.س / شهر", silver2_price_yearly: "299,99 ر.س / سنة",
-            gold2_title: "بريميوم", gold2_features: ["Claude 6 وجهات نظر", "500 عملة/شهر", "خصم 20%", "صور HD", "5 فيديو/شهر", "صوت مباشر", "دردشة ذكاء متقدمة"], gold2_price_monthly: "89,99 ر.س / شهر", gold2_price_yearly: "899,99 ر.س / سنة",
-            vip_title: "VIP", vip_features: ["2000 عملة/شهر", "خصم 30%", "20 فيديو/شهر", "مذكرة أحلام", "مصادر حصرية", "دعم واتساب"], vip_price_monthly: "199,99 ر.س / شهر", vip_price_yearly: "1.999,99 ر.س / سنة"
+            silver2_title: "برو", silver2_features: ["تفسيرات غير محدودة", "Gemini ذكاء", "جميع 9 تقاليد", "بدون إعلانات", "100 عملة/شهر", "خصم 10%"], silver2_price_monthly: "49,99 ر.س / شهر", silver2_price_yearly: "499,99 ر.س / سنة",
+            gold2_title: "بريميوم", gold2_features: ["Claude 6 وجهات نظر", "500 عملة/شهر", "خصم 20%", "صور HD", "5 فيديو/شهر", "صوت مباشر", "دردشة ذكاء متقدمة"], gold2_price_monthly: "149,99 ر.س / شهر", gold2_price_yearly: "1.499,99 ر.س / سنة",
+            vip_title: "VIP", vip_features: ["2000 عملة/شهر", "خصم 30%", "20 فيديو/شهر", "مذكرة أحلام", "مصادر حصرية", "دعم واتساب"], vip_price_monthly: "299,99 ر.س / شهر", vip_price_yearly: "2.999,99 ر.س / سنة"
         },
         earn: {
             title: "كسب العملات",
@@ -1265,7 +1265,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             gold_trial_text: "7 dias grátis, depois 12.99 €/mês",
             gold_features: ["Todos os recursos Prata", "Chat Ilimitado com o Oráculo", "5 Vídeos de Sonhos/mês", "Desconto exclusivo em moedas", "Suporte Prioritário"],
             smart_title: "Inteligente (Desenvolvedor)",
-            smart_price: "29.99 € / ano",
+            smart_price: "49.99 € / ano",
             smart_features: ["Traga Sua Própria Chave (BYOK)", "Todos os recursos Premium desbloqueados", "Rotação automática de provedor", "Preço anual fixo (29.99€)"],
             smart_info_title: "O que é o plano Smart Developer?",
             smart_info_text: "Para desenvolvedores e entusiastas de tecnologia: crie contas com provedores de IA (por exemplo, Google AI Studio), gere suas próprias chaves de API lá e adicione-as ao aplicativo. Dessa forma, você paga apenas os baixos custos de API diretamente ao provedor + 3€ pelo uso do aplicativo. Perfeito para power users!",
@@ -1274,7 +1274,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interpretações/Dia", "Groq IA", "6 Tradições", "Anúncios"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Interpretações Ilimitadas", "Gemini IA", "Todas 9 Tradições", "Sem Anúncios", "100 Moedas/Mês", "10% Desconto"], silver2_price_monthly: "€4,99 / Mês", silver2_price_yearly: "€49,99 / Ano",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspectivas", "500 Moedas/Mês", "20% Desconto", "Imagens HD", "5 Vídeos/Mês", "Voz ao Vivo", "Chat IA Premium"], gold2_price_monthly: "€14,99 / Mês", gold2_price_yearly: "€149,99 / Ano",
-            vip_title: "VIP", vip_features: ["2.000 Moedas/Mês", "30% Desconto", "20 Vídeos/Mês", "Diário de Sonhos", "Fontes Exclusivas", "Suporte WhatsApp"], vip_price_monthly: "199,99 SAR / Mês", vip_price_yearly: "1.999,99 SAR / Ano"
+            vip_title: "VIP", vip_features: ["2.000 Moedas/Mês", "30% Desconto", "20 Vídeos/Mês", "Diário de Sonhos", "Fontes Exclusivas", "Suporte WhatsApp"], vip_price_monthly: "299,99 SAR / Mês", vip_price_yearly: "2.999,99 SAR / Ano"
         },
         earn: {
             title: "Ganhar Moedas",
@@ -1452,16 +1452,16 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             gold_trial_text: "7 дней бесплатно, затем 12.99 €/мес",
             gold_features: ["Все функции Серебра", "Неограниченный чат с Оракулом", "5 видео снов/мес", "Эксклюзивная скидка на монеты", "Приоритетная поддержка"],
             smart_title: "Умный (Разработчик)",
-            smart_price: "29.99 € / год",
+            smart_price: "49.99 € / год",
             smart_features: ["Используйте свой ключ (BYOK)", "Все премиум-функции разблокированы", "Автоматическая ротация провайдера", "Фиксированная годовая цена (29.99€)"],
             smart_info_title: "Что такое тариф Smart Developer?",
             smart_info_text: "Для разработчиков и энтузиастов: создайте аккаунты у поставщиков ИИ (например, Google AI Studio), сгенерируйте там свои API-ключи и добавьте их в приложение. Так вы платите только низкую стоимость API напрямую поставщику + 3€ за использование приложения. Идеально для продвинутых пользователей!",
             upgrade: "Обновить", current: "Текущий", unlock: "Разблокировать", try_free: "ПОПРОБОВАТЬ БЕСПЛАТНО 7 ДНЕЙ",
             ad_loading: "Загрузка рекламы...", ad_reward: "Монеты получены!",
             bronze_title: "Free", bronze_features: ["3 Толкования/День", "Groq ИИ", "6 Традиций", "Реклама"], bronze_price: "0 ₽",
-            silver2_title: "Про", silver2_features: ["Безлимитные Толкования", "Gemini ИИ", "Все 9 Традиций", "Без Рекламы", "100 Монет/Месяц", "Скидка 10%"], silver2_price_monthly: "299 ₽ / Месяц", silver2_price_yearly: "2.999 ₽ / Год",
-            gold2_title: "Премиум", gold2_features: ["Claude 6 Перспектив", "500 Монет/Месяц", "Скидка 20%", "HD Изображения", "5 Видео/Месяц", "Живой Голос", "Премиум ИИ Чат"], gold2_price_monthly: "999 ₽ / Месяц", gold2_price_yearly: "9.999 ₽ / Год",
-            vip_title: "VIP", vip_features: ["2.000 Монет/Месяц", "Скидка 30%", "20 Видео/Месяц", "Дневник Снов", "Эксклюзивные Источники", "Поддержка WhatsApp"], vip_price_monthly: "199,99 SAR / Месяц", vip_price_yearly: "1.999,99 SAR / Год"
+            silver2_title: "Про", silver2_features: ["Безлимитные Толкования", "Gemini ИИ", "Все 9 Традиций", "Без Рекламы", "100 Монет/Месяц", "Скидка 10%"], silver2_price_monthly: "249 ₽ / Месяц", silver2_price_yearly: "2.499 ₽ / Год",
+            gold2_title: "Премиум", gold2_features: ["Claude 6 Перспектив", "500 Монет/Месяц", "Скидка 20%", "HD Изображения", "5 Видео/Месяц", "Живой Голос", "Премиум ИИ Чат"], gold2_price_monthly: "749 ₽ / Месяц", gold2_price_yearly: "7.499 ₽ / Год",
+            vip_title: "VIP", vip_features: ["2.000 Монет/Месяц", "Скидка 30%", "20 Видео/Месяц", "Дневник Снов", "Эксклюзивные Источники", "Поддержка WhatsApp"], vip_price_monthly: "299,99 SAR / Месяц", vip_price_yearly: "2.999,99 SAR / Год"
         },
         earn: {
             title: "Заработать монеты",
@@ -2595,16 +2595,8 @@ const App: React.FC = () => {
              </div>
 
              {/* FEATURE PILLS */}
-             <div className="flex justify-center gap-2 mb-5">
-                 <button className={`flex-1 max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-indigo-50 border-indigo-200 hover:bg-indigo-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
-                     <span className={`material-icons text-lg ${isLight ? 'text-indigo-500' : 'text-indigo-400'}`}>fingerprint</span>
-                     <span className={`text-[10px] font-bold uppercase leading-tight ${isLight ? 'text-indigo-700' : 'text-slate-300'}`}>{t.ui.cosmic_dna}</span>
-                 </button>
-                 <button className={`flex-1 max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-purple-50 border-purple-200 hover:bg-purple-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
-                     <span className={`material-icons text-lg ${isLight ? 'text-purple-500' : 'text-purple-400'}`}>nightlight</span>
-                     <span className={`text-[10px] font-bold uppercase leading-tight ${isLight ? 'text-purple-700' : 'text-slate-300'}`}>{t.ui.moon_sync}</span>
-                 </button>
-                 <button onClick={handleSaveCategories} className={`flex-1 max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-pink-50 border-pink-200 hover:bg-pink-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
+             <div className="flex justify-center mb-5">
+                 <button onClick={handleSaveCategories} className={`max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-pink-50 border-pink-200 hover:bg-pink-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
                      <span className={`material-icons text-lg ${isLight ? 'text-pink-500' : 'text-pink-400'}`}>bookmark</span>
                      <span className={`text-[10px] font-bold uppercase leading-tight ${isLight ? 'text-pink-700' : 'text-slate-300'}`}>{t.ui.save_btn}</span>
                  </button>
