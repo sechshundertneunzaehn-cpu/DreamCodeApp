@@ -1602,6 +1602,8 @@ const App: React.FC = () => {
     const [showSubModal, setShowSubModal] = useState(false);
     const [showEarnModal, setShowEarnModal] = useState(false);
     const [showCoinShop, setShowCoinShop] = useState(false);
+    const [showCosmicDna, setShowCosmicDna] = useState(false);
+    const [showMoonSync, setShowMoonSync] = useState(false);
     const [isAdPlaying, setIsAdPlaying] = useState(false);
     const [adDuration, setAdDuration] = useState(0);
     const adTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -2584,7 +2586,6 @@ const App: React.FC = () => {
                          <button key={cat} onClick={() => isLocked ? undefined : toggleCategory(cat)} className={buttonClass + (isLocked ? ' opacity-60' : '')}>
                              {isSelected && <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-50"></div>}
                              {isLocked && <span className="absolute top-1 right-1 text-[9px] font-bold bg-black/40 text-white px-1.5 py-0.5 rounded-full">PRO</span>}
-                             {[ReligiousCategory.JEWISH, ReligiousCategory.SONNIKS, ReligiousCategory.ANCIENT].includes(cat) && <span className="absolute top-1 left-1 bg-amber-400 text-amber-900 text-[8px] font-bold px-1.5 py-0.5 rounded">NEU</span>}
                              <span className={`text-3xl filter drop-shadow-lg transition-transform group-hover:scale-110 grayscale-0`}>
                                 {CATEGORY_ICONS[cat]}
                              </span>
@@ -2595,8 +2596,16 @@ const App: React.FC = () => {
              </div>
 
              {/* FEATURE PILLS */}
-             <div className="flex justify-center mb-5">
-                 <button onClick={handleSaveCategories} className={`max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-pink-50 border-pink-200 hover:bg-pink-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
+             <div className="flex justify-center gap-2 mb-5">
+                 <button onClick={() => setShowCosmicDna(true)} className={`flex-1 max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-indigo-50 border-indigo-200 hover:bg-indigo-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
+                     <span className={`material-icons text-lg ${isLight ? 'text-indigo-500' : 'text-indigo-400'}`}>fingerprint</span>
+                     <span className={`text-[10px] font-bold uppercase leading-tight ${isLight ? 'text-indigo-700' : 'text-slate-300'}`}>{t.ui.cosmic_dna}</span>
+                 </button>
+                 <button onClick={() => setShowMoonSync(true)} className={`flex-1 max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-purple-50 border-purple-200 hover:bg-purple-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
+                     <span className={`material-icons text-lg ${isLight ? 'text-purple-500' : 'text-purple-400'}`}>nightlight</span>
+                     <span className={`text-[10px] font-bold uppercase leading-tight ${isLight ? 'text-purple-700' : 'text-slate-300'}`}>{t.ui.moon_sync}</span>
+                 </button>
+                 <button onClick={handleSaveCategories} className={`flex-1 max-w-[140px] py-2.5 px-3 rounded-xl border text-center transition-all flex items-center justify-center gap-2 ${isLight ? 'bg-pink-50 border-pink-200 hover:bg-pink-100' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}>
                      <span className={`material-icons text-lg ${isLight ? 'text-pink-500' : 'text-pink-400'}`}>bookmark</span>
                      <span className={`text-[10px] font-bold uppercase leading-tight ${isLight ? 'text-pink-700' : 'text-slate-300'}`}>{t.ui.save_btn}</span>
                  </button>
@@ -2746,6 +2755,91 @@ const App: React.FC = () => {
                 />
             )}
             {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} data={infoModalData} t={t} isLight={isLight} />}
+
+            {/* COSMIC DNA MODAL */}
+            {showCosmicDna && (
+                <div className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowCosmicDna(false)}>
+                    <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 border-indigo-100/60' : 'bg-dream-surface/95 border-fuchsia-500/20'} backdrop-blur-md border rounded-2xl shadow-2xl overflow-hidden`} onClick={e => e.stopPropagation()}>
+                        <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-fuchsia-900 p-6 text-center">
+                            <span className="text-4xl">🧬</span>
+                            <h2 className="text-xl font-bold text-white mt-2">{t.ui.cosmic_dna}</h2>
+                        </div>
+                        <div className="p-6 space-y-4">
+                            <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>
+                                {language === Language.DE ? 'Deine Kosmische DNA ist dein einzigartiger Traum-Fingerabdruck — basierend auf deinem Geburtsdatum, Sternzeichen und den Mustern deiner bisherigen Träume. Sie verbindet Astrologie, Numerologie und Psychologie zu einem persönlichen Traumschlüssel.' :
+                                 language === Language.TR ? 'Kozmik DNA\'nız, doğum tarihiniz, burcunuz ve rüya kalıplarınıza dayanan benzersiz rüya parmak izinizdir.' :
+                                 language === Language.RU ? 'Ваша Космическая ДНК — это уникальный отпечаток сновидений, основанный на дате рождения, знаке зодиака и паттернах ваших снов.' :
+                                 language === Language.AR ? 'حمضك النووي الكوني هو بصمة أحلامك الفريدة — بناءً على تاريخ ميلادك وبرجك وأنماط أحلامك.' :
+                                 'Your Cosmic DNA is your unique dream fingerprint — based on your birth date, zodiac sign, and the patterns of your dreams. It connects astrology, numerology, and psychology into a personal dream key.'}
+                            </p>
+                            <div className={`p-4 rounded-xl border ${isLight ? 'bg-indigo-50 border-indigo-200' : 'bg-indigo-900/20 border-indigo-500/30'}`}>
+                                <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${isLight ? 'text-indigo-600' : 'text-indigo-400'}`}>
+                                    {language === Language.DE ? 'Demnächst verfügbar' : language === Language.TR ? 'Yakında' : language === Language.RU ? 'Скоро' : language === Language.AR ? 'قريباً' : 'Coming Soon'}
+                                </p>
+                                <p className={`text-xs ${isLight ? 'text-indigo-700' : 'text-indigo-300'}`}>
+                                    {language === Language.DE ? 'Trage dein Geburtsdatum im Profil ein, um deine Kosmische DNA zu berechnen.' :
+                                     language === Language.TR ? 'Kozmik DNA\'nızı hesaplamak için profilinize doğum tarihinizi girin.' :
+                                     language === Language.RU ? 'Введите дату рождения в профиле для расчёта Космической ДНК.' :
+                                     language === Language.AR ? 'أدخل تاريخ ميلادك في ملفك الشخصي لحساب حمضك النووي الكوني.' :
+                                     'Enter your birth date in your profile to calculate your Cosmic DNA.'}
+                                </p>
+                            </div>
+                        </div>
+                        <div className="p-4 pt-0">
+                            <button onClick={() => setShowCosmicDna(false)} className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white font-bold text-sm shadow-lg">{t.ui.close}</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* MOON SYNC MODAL */}
+            {showMoonSync && (() => {
+                const now = new Date();
+                const synodicMonth = 29.53059;
+                const knownNewMoon = new Date('2000-01-06T18:14:00Z');
+                const daysSinceNew = (now.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
+                const moonAge = ((daysSinceNew % synodicMonth) + synodicMonth) % synodicMonth;
+                const moonPhaseIdx = Math.floor((moonAge / synodicMonth) * 8) % 8;
+                const moonEmojis = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+                const moonPhaseDE = ['Neumond', 'Zunehmender Sichelmond', 'Erstes Viertel', 'Zunehmender Mond', 'Vollmond', 'Abnehmender Mond', 'Letztes Viertel', 'Abnehmender Sichelmond'];
+                const moonPhaseEN = ['New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent'];
+                const moonPhaseTR = ['Yeni Ay', 'Hilal', 'İlk Dördün', 'Şişkin Ay', 'Dolunay', 'Küçülen Ay', 'Son Dördün', 'Küçülen Hilal'];
+                const moonPhaseRU = ['Новолуние', 'Растущий серп', 'Первая четверть', 'Растущая луна', 'Полнолуние', 'Убывающая луна', 'Последняя четверть', 'Убывающий серп'];
+                const moonPhaseAR = ['محاق', 'هلال متزايد', 'تربيع أول', 'أحدب متزايد', 'بدر', 'أحدب متناقص', 'تربيع أخير', 'هلال متناقص'];
+                const phaseName = language === Language.DE ? moonPhaseDE[moonPhaseIdx] : language === Language.TR ? moonPhaseTR[moonPhaseIdx] : language === Language.RU ? moonPhaseRU[moonPhaseIdx] : language === Language.AR ? moonPhaseAR[moonPhaseIdx] : moonPhaseEN[moonPhaseIdx];
+                const dreamMeaningDE = ['Neuanfänge. Ideale Nacht für Intention-Setting.', 'Wachstum. Träume zeigen aufkeimende Ideen.', 'Entscheidungen. Träume konfrontieren mit Wahlmöglichkeiten.', 'Klarheit. Träume werden lebhafter und detailreicher.', 'Höhepunkt. Intensivste Traumphase — starke Symbole und Emotionen.', 'Loslassen. Träume verarbeiten Vergangenes.', 'Reflexion. Träume zeigen innere Konflikte.', 'Stille. Träume werden leiser — Zeit für Integration.'];
+                const dreamMeaningEN = ['New beginnings. Ideal night for intention-setting.', 'Growth. Dreams reveal emerging ideas.', 'Decisions. Dreams confront you with choices.', 'Clarity. Dreams become more vivid and detailed.', 'Peak. Most intense dream phase — strong symbols and emotions.', 'Release. Dreams process the past.', 'Reflection. Dreams reveal inner conflicts.', 'Stillness. Dreams grow quieter — time for integration.'];
+                const dreamMeaning = language === Language.DE ? dreamMeaningDE[moonPhaseIdx] : dreamMeaningEN[moonPhaseIdx];
+                return (
+                    <div className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowMoonSync(false)}>
+                        <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 border-purple-100/60' : 'bg-dream-surface/95 border-fuchsia-500/20'} backdrop-blur-md border rounded-2xl shadow-2xl overflow-hidden`} onClick={e => e.stopPropagation()}>
+                            <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-blue-900 p-6 text-center">
+                                <span className="text-5xl">{moonEmojis[moonPhaseIdx]}</span>
+                                <h2 className="text-xl font-bold text-white mt-2">{t.ui.moon_sync}</h2>
+                                <p className="text-purple-200 text-sm mt-1">{phaseName}</p>
+                            </div>
+                            <div className="p-6 space-y-4">
+                                <div className={`p-4 rounded-xl border ${isLight ? 'bg-purple-50 border-purple-200' : 'bg-purple-900/20 border-purple-500/30'}`}>
+                                    <p className={`text-xs font-bold uppercase tracking-wider mb-2 ${isLight ? 'text-purple-600' : 'text-purple-400'}`}>
+                                        {language === Language.DE ? 'Traumbedeutung heute' : language === Language.TR ? 'Bugünkü rüya anlamı' : language === Language.RU ? 'Значение снов сегодня' : language === Language.AR ? 'معنى الأحلام اليوم' : 'Dream meaning today'}
+                                    </p>
+                                    <p className={`text-sm leading-relaxed ${isLight ? 'text-purple-800' : 'text-purple-200'}`}>{dreamMeaning}</p>
+                                </div>
+                                <p className={`text-xs text-center ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>
+                                    {language === Language.DE ? `Mondphase: Tag ${Math.floor(moonAge)} von ${Math.floor(synodicMonth)}` :
+                                     language === Language.TR ? `Ay fazı: ${Math.floor(synodicMonth)} günün ${Math.floor(moonAge)}. günü` :
+                                     language === Language.RU ? `Фаза луны: день ${Math.floor(moonAge)} из ${Math.floor(synodicMonth)}` :
+                                     language === Language.AR ? `مرحلة القمر: اليوم ${Math.floor(moonAge)} من ${Math.floor(synodicMonth)}` :
+                                     `Moon phase: Day ${Math.floor(moonAge)} of ${Math.floor(synodicMonth)}`}
+                                </p>
+                            </div>
+                            <div className="p-4 pt-0">
+                                <button onClick={() => setShowMoonSync(false)} className="w-full py-3 bg-purple-600 hover:bg-purple-500 rounded-xl text-white font-bold text-sm shadow-lg">{t.ui.close}</button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            })()}
             <SpeechToVideoModal
                 open={showSpeechModal}
                 initialText={dreamInput}
