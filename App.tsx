@@ -5400,6 +5400,17 @@ const App: React.FC = () => {
 
              <TrustBanner language={language} onNavigateToScience={() => setView(View.SCIENCE)} />
 
+             {/* Dream Symbol Library Button */}
+             <button onClick={() => setView(View.DREAM_SYMBOLS)}
+                 className={`w-full mb-5 p-4 rounded-2xl border flex items-center gap-4 transition-all ${isLight ? 'bg-gradient-to-r from-indigo-50 to-fuchsia-50 border-indigo-200 hover:shadow-md hover:border-indigo-300' : 'bg-gradient-to-r from-indigo-900/20 to-fuchsia-900/15 border-white/10 hover:border-indigo-500/40 hover:bg-indigo-900/30'}`}>
+                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${isLight ? 'bg-indigo-100' : 'bg-indigo-900/40'}`}>📚</div>
+                 <div className="text-left flex-1">
+                     <div className={`text-sm font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.symbols_link || 'Traumsymbol-Bibliothek'}</div>
+                     <div className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>258 {t.ui.symbols_link ? '' : 'Symbole'} · Freud · Ibn Sirin</div>
+                 </div>
+                 <span className={`material-icons text-lg ${isLight ? 'text-indigo-400' : 'text-indigo-500'}`}>chevron_right</span>
+             </button>
+
              <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-[#4c1d95]' : 'text-slate-500'}`}>
                  <span className={`w-6 h-[1px] ${isLight ? 'bg-[#7c3aed]' : 'bg-slate-700'}`}></span> {t.ui.choose_tradition}
              </h3>
