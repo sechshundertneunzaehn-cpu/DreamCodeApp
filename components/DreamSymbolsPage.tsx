@@ -164,6 +164,33 @@ function renderBold(text: string): React.ReactNode[] {
   return parts.map((part, i) => i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>);
 }
 
+// ─── Source definitions ──────────────────────────────────────────────────────
+
+const SOURCE_DEFS: { key: string; label: string; icon: string; color: string }[] = [
+  { key: 'freud', label: 'Freud', icon: '🧠', color: 'blue' },
+  { key: 'ibn_sirin', label: 'Ibn Sirin', icon: '🕌', color: 'emerald' },
+  { key: 'jung', label: 'C.G. Jung', icon: '🔮', color: 'purple' },
+  { key: 'gestalt', label: 'Gestalt', icon: '🪞', color: 'orange' },
+  { key: 'nabulsi', label: 'Al-Nabulsi', icon: '📖', color: 'teal' },
+  { key: 'medieval', label: 'Mittelalter', icon: '🏰', color: 'amber' },
+  { key: 'church_fathers', label: 'Kirchenväter', icon: '⛪', color: 'rose' },
+  { key: 'modern_theology', label: 'Mod. Theologie', icon: '✝️', color: 'sky' },
+  { key: 'tibetan', label: 'Tibet', icon: '🏔️', color: 'violet' },
+  { key: 'zen', label: 'Zen', icon: '☯️', color: 'lime' },
+  { key: 'theravada', label: 'Theravada', icon: '🪷', color: 'yellow' },
+  { key: 'western_zodiac', label: 'Astrologie', icon: '♈', color: 'pink' },
+];
+
+function getSymbolSources(sym: any): string[] {
+  const sources: string[] = [];
+  if (sym.freud?.vorhanden) sources.push('freud');
+  if (sym.ibn_sirin?.vorhanden) sources.push('ibn_sirin');
+  if (sym.additional_sources) {
+    Object.keys(sym.additional_sources).forEach(k => sources.push(k));
+  }
+  return sources;
+}
+
 // ─── Component ───────────────────────────────────────────────────────────────
 
 const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, onNavigateHome, themeMode }) => {
@@ -171,15 +198,28 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
   const t = T[language] || T.en;
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedSource, setSelectedSource] = useState<string | null>(null);
   const [expandedSymbol, setExpandedSymbol] = useState<string | null>(null);
 
   const symbols = (symbolData as any).symbole as any[];
   const meta = (symbolData as any).metadata;
   const categories = Object.keys(CATEGORY_ICONS);
 
+  // Count how many symbols each source has
+  const sourceCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    symbols.forEach((s: any) => {
+      getSymbolSources(s).forEach(src => {
+        counts[src] = (counts[src] || 0) + 1;
+      });
+    });
+    return counts;
+  }, [symbols]);
+
   const filtered = useMemo(() => {
     let result = symbols;
     if (selectedCategory) result = result.filter((s: any) => s.kategorie === selectedCategory);
+    if (selectedSource) result = result.filter((s: any) => getSymbolSources(s).includes(selectedSource));
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter((s: any) =>
@@ -188,7 +228,7 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
       );
     }
     return result;
-  }, [search, selectedCategory, symbols]);
+  }, [search, selectedCategory, selectedSource, symbols]);
 
   const card = isLight ? 'bg-white/80 border-slate-200' : 'bg-white/5 border-white/10';
   const accent = isLight ? 'text-indigo-700' : 'text-indigo-400';
@@ -208,19 +248,39 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          {[
-            { value: meta.statistik.gesamt_symbole, label: t.stats_symbols, icon: '📚' },
-            { value: meta.statistik.symbole_mit_freud, label: t.stats_freud, icon: '🧠' },
-            { value: meta.statistik.symbole_mit_ibn_sirin, label: t.stats_ibn_sirin, icon: '🕌' },
-            { value: meta.statistik.symbole_mit_beiden, label: t.stats_both, icon: '🤝' },
-          ].map((s, i) => (
-            <div key={i} className={`rounded-xl border p-3 text-center ${card}`}>
-              <div className="text-2xl mb-1">{s.icon}</div>
-              <div className={`text-xl font-bold ${accent}`}>{s.value}</div>
-              <div className="text-[10px] uppercase tracking-wider text-slate-500">{s.label}</div>
-            </div>
-          ))}
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className={`rounded-xl border p-3 text-center ${card}`}>
+            <div className="text-2xl mb-1">📚</div>
+            <div className={`text-xl font-bold ${accent}`}>{meta.statistik.gesamt_symbole}</div>
+            <div className="text-[10px] uppercase tracking-wider text-slate-500">{t.stats_symbols}</div>
+          </div>
+          <div className={`rounded-xl border p-3 text-center ${card}`}>
+            <div className="text-2xl mb-1">📖</div>
+            <div className={`text-xl font-bold ${accent}`}>{SOURCE_DEFS.filter(s => sourceCounts[s.key]).length}</div>
+            <div className="text-[10px] uppercase tracking-wider text-slate-500">{t.stats_categories}</div>
+          </div>
+          <div className={`rounded-xl border p-3 text-center ${card}`}>
+            <div className="text-2xl mb-1">🌍</div>
+            <div className={`text-xl font-bold ${accent}`}>{Object.keys(CATEGORY_ICONS).length}</div>
+            <div className="text-[10px] uppercase tracking-wider text-slate-500">{t.all_categories}</div>
+          </div>
+        </div>
+
+        {/* Source Filter Buttons */}
+        <div className="mb-4">
+          <p className="text-[10px] uppercase tracking-wider font-bold text-slate-500 mb-2">{t.stats_freud.includes('Freud') ? 'Quellen' : 'Sources'}</p>
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            <button onClick={() => setSelectedSource(null)}
+              className={`px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${!selectedSource ? 'bg-indigo-600 text-white shadow-lg' : `border ${card}`}`}>
+              {t.all_categories} ({meta.statistik.gesamt_symbole})
+            </button>
+            {SOURCE_DEFS.filter(s => sourceCounts[s.key]).map(src => (
+              <button key={src.key} onClick={() => setSelectedSource(selectedSource === src.key ? null : src.key)}
+                className={`px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${selectedSource === src.key ? 'bg-indigo-600 text-white shadow-lg' : `border ${card}`}`}>
+                <span>{src.icon}</span> {src.label} <span className="opacity-60">({sourceCounts[src.key]})</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Search */}
@@ -233,14 +293,14 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
         </div>
 
         {/* Category Filter */}
-        <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-hide">
+        <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
           <button onClick={() => setSelectedCategory(null)}
-            className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${!selectedCategory ? 'bg-indigo-600 text-white' : `border ${card}`}`}>
+            className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${!selectedCategory ? 'bg-fuchsia-600 text-white' : `border ${card}`}`}>
             {t.all_categories}
           </button>
           {categories.map(cat => (
             <button key={cat} onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1 ${selectedCategory === cat ? 'bg-indigo-600 text-white' : `border ${card}`}`}>
+              className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1 ${selectedCategory === cat ? 'bg-fuchsia-600 text-white' : `border ${card}`}`}>
               {CATEGORY_ICONS[cat]} {t.category_names[cat] || cat}
             </button>
           ))}
@@ -258,7 +318,7 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
               const isExpanded = expandedSymbol === sym.id;
               const hasFreud = sym.freud?.vorhanden;
               const hasIbnSirin = sym.ibn_sirin?.vorhanden;
-              const deutungenCount = (hasFreud ? 1 : 0) + (hasIbnSirin ? (sym.ibn_sirin.deutungen?.length || 0) : 0);
+              const allSources = getSymbolSources(sym);
 
               return (
                 <div key={sym.id} className={`rounded-xl border overflow-hidden transition-all ${card} ${isExpanded ? 'ring-1 ring-indigo-500/50' : ''}`}>
@@ -278,10 +338,12 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="flex gap-1">
-                        {hasFreud && <span className="w-5 h-5 rounded-full bg-blue-500/20 text-[10px] flex items-center justify-center" title="Freud">F</span>}
-                        {hasIbnSirin && <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-[10px] flex items-center justify-center" title="Ibn Sirin">I</span>}
+                        {allSources.map(src => {
+                          const def = SOURCE_DEFS.find(d => d.key === src);
+                          return def ? <span key={src} className="text-xs" title={def.label}>{def.icon}</span> : null;
+                        })}
                       </div>
-                      <span className="text-xs text-slate-500">{deutungenCount} {t.interpretations}</span>
+                      <span className="text-xs text-slate-500">{allSources.length} {t.interpretations}</span>
                       <span className={`material-icons text-sm transition-transform ${isExpanded ? 'rotate-180' : ''}`}>expand_more</span>
                     </div>
                   </button>
@@ -327,6 +389,21 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
                           </ul>
                         </div>
                       )}
+
+                      {/* Additional Sources (Jung, Gestalt, etc.) */}
+                      {sym.additional_sources && Object.entries(sym.additional_sources).map(([key, val]: [string, any]) => {
+                        const def = SOURCE_DEFS.find(d => d.key === key);
+                        return (
+                          <div key={key} className="pt-2">
+                            <h4 className={`text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1 ${isLight ? 'text-purple-600' : 'text-purple-400'}`}>
+                              <span>{def?.icon || '📖'}</span> {val.label || def?.label || key}
+                            </h4>
+                            <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>
+                              {val.text}
+                            </p>
+                          </div>
+                        );
+                      })}
 
                       {/* East-West Comparison */}
                       {sym.ost_west_vergleich?.unterschiede && (
