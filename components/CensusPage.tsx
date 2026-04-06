@@ -70,6 +70,7 @@ const T = {
     loading: 'Lade Statistiken...',
     refresh: 'Aktualisieren',
     last_update: 'Zuletzt aktualisiert',
+    records: 'Einträge',
   },
   en: {
     back: 'Back',
@@ -87,6 +88,7 @@ const T = {
     loading: 'Loading statistics...',
     refresh: 'Refresh',
     last_update: 'Last updated',
+    records: 'records',
   },
   tr: {
     back: 'Geri',
@@ -104,6 +106,7 @@ const T = {
     loading: 'Istatistikler yukleniyor...',
     refresh: 'Yenile',
     last_update: 'Son guncelleme',
+    records: 'kayıt',
   },
   es: {
     back: 'Volver',
@@ -121,6 +124,7 @@ const T = {
     loading: 'Cargando estadisticas...',
     refresh: 'Actualizar',
     last_update: 'Ultima actualizacion',
+    records: 'registros',
   },
   fr: {
     back: 'Retour',
@@ -138,6 +142,7 @@ const T = {
     loading: 'Chargement des statistiques...',
     refresh: 'Actualiser',
     last_update: 'Derniere mise a jour',
+    records: 'enregistrements',
   },
   ar: {
     back: 'رجوع',
@@ -155,6 +160,7 @@ const T = {
     loading: 'جاري تحميل الإحصائيات...',
     refresh: 'تحديث',
     last_update: 'آخر تحديث',
+    records: 'سجلات',
   },
   pt: {
     back: 'Voltar',
@@ -172,6 +178,7 @@ const T = {
     loading: 'Carregando estatisticas...',
     refresh: 'Atualizar',
     last_update: 'Ultima atualizacao',
+    records: 'registros',
   },
   ru: {
     back: 'Назад',
@@ -189,6 +196,7 @@ const T = {
     loading: 'Загрузка статистики...',
     refresh: 'Обновить',
     last_update: 'Последнее обновление',
+    records: 'записей',
   },
   zh: {
     back: '返回',
@@ -206,6 +214,7 @@ const T = {
     loading: '正在加载统计...',
     refresh: '刷新',
     last_update: '最后更新',
+    records: '条记录',
   },
   hi: {
     back: 'वापस',
@@ -223,6 +232,7 @@ const T = {
     loading: 'आंकड़े लोड हो रहे हैं...',
     refresh: 'रिफ्रेश',
     last_update: 'अंतिम अपडेट',
+    records: 'रिकॉर्ड',
   },
   ja: {
     back: '戻る',
@@ -240,6 +250,7 @@ const T = {
     loading: '統計を読み込み中...',
     refresh: '更新',
     last_update: '最終更新',
+    records: '件',
   },
   ko: {
     back: '뒤로',
@@ -257,6 +268,7 @@ const T = {
     loading: '통계 로딩 중...',
     refresh: '새로고침',
     last_update: '마지막 업데이트',
+    records: '건',
   },
   id: {
     back: 'Kembali',
@@ -274,6 +286,7 @@ const T = {
     loading: 'Memuat statistik...',
     refresh: 'Segarkan',
     last_update: 'Terakhir diperbarui',
+    records: 'catatan',
   },
   fa: {
     back: 'بازگشت',
@@ -291,6 +304,7 @@ const T = {
     loading: 'در حال بارگذاری آمار...',
     refresh: 'بازخوانی',
     last_update: 'آخرین بروزرسانی',
+    records: 'رکورد',
   },
   it: {
     back: 'Indietro',
@@ -308,6 +322,7 @@ const T = {
     loading: 'Caricamento statistiche...',
     refresh: 'Aggiorna',
     last_update: 'Ultimo aggiornamento',
+    records: 'record',
   },
   pl: {
     back: 'Wstecz',
@@ -325,6 +340,7 @@ const T = {
     loading: 'Ladowanie statystyk...',
     refresh: 'Odswiez',
     last_update: 'Ostatnia aktualizacja',
+    records: 'rekordów',
   },
   bn: {
     back: 'ফিরে যান',
@@ -342,6 +358,7 @@ const T = {
     loading: 'পরিসংখ্যান লোড হচ্ছে...',
     refresh: 'রিফ্রেশ',
     last_update: 'সর্বশেষ আপডেট',
+    records: 'রেকর্ড',
   },
   ur: {
     back: 'واپس',
@@ -359,6 +376,7 @@ const T = {
     loading: 'اعداد و شمار لوڈ ہو رہے ہیں...',
     refresh: 'تازہ کریں',
     last_update: 'آخری تازہ کاری',
+    records: 'ریکارڈز',
   },
   vi: {
     back: 'Quay lai',
@@ -376,6 +394,7 @@ const T = {
     loading: 'Dang tai thong ke...',
     refresh: 'Lam moi',
     last_update: 'Cap nhat lan cuoi',
+    records: 'bản ghi',
   },
   th: {
     back: 'กลับ',
@@ -393,6 +412,7 @@ const T = {
     loading: 'กำลังโหลดสถิติ...',
     refresh: 'รีเฟรช',
     last_update: 'อัปเดตล่าสุด',
+    records: 'รายการ',
   },
   sw: {
     back: 'Rudi',
@@ -410,6 +430,7 @@ const T = {
     loading: 'Inapakia takwimu...',
     refresh: 'Sasisha',
     last_update: 'Ilisasishwa mwisho',
+    records: 'rekodi',
   },
   hu: {
     back: 'Vissza',
@@ -427,6 +448,7 @@ const T = {
     loading: 'Statisztikak betoltese...',
     refresh: 'Frissites',
     last_update: 'Utolso frissites',
+    records: 'rekord',
   },
 } as Record<string, Record<string, string>>;
 
@@ -536,7 +558,7 @@ const CensusPage: React.FC<CensusPageProps> = ({ language, onClose, themeMode })
                 <span className="material-icons text-violet-500">science</span>
                 <div>
                   <p className={`text-sm font-bold ${headColor}`}>{t.sddb}</p>
-                  <p className={`text-xs ${subColor}`}>{stats.total_dream_reports.toLocaleString()} records</p>
+                  <p className={`text-xs ${subColor}`}>{stats.total_dream_reports.toLocaleString()} {t.records}</p>
                 </div>
               </div>
             </div>
