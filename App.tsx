@@ -4762,6 +4762,50 @@ const App: React.FC = () => {
         }
     };
 
+    // --- LIVE CHAT: Convert raw transcript to narrative story ---
+    const convertTranscriptToStory = async (transcript: string, lang: Language): Promise<string> => {
+        const userLines = transcript
+            .split('\n')
+            .filter(line => line.startsWith('[User]:'))
+            .map(line => line.replace(/^\[User\]:\s*/, '').trim())
+            .filter(Boolean);
+
+        if (userLines.length === 0) return transcript;
+
+        const userContent = userLines.join(' ');
+
+        const LANG_NAMES: Record<string, string> = {
+            de: 'Deutsch', tr: 'Türkisch', en: 'English', es: 'Spanisch',
+            fr: 'Französisch', ar: 'Arabisch', pt: 'Portugiesisch', ru: 'Russisch',
+        };
+        const langName = LANG_NAMES[lang] || 'Deutsch';
+
+        const systemPrompt = `You are a dream scribe. Convert the following dream fragments (spoken by the dreamer) into a single coherent dream narrative in ${langName}.
+Rules:
+- Use ONLY what the dreamer said. Do not add, invent or embellish anything.
+- Write in first person ("Ich...").
+- Use flowing prose with natural paragraph breaks.
+- Do not include any meta-text, introductions or explanations – only the dream narrative itself.
+- Respond in ${langName} only.`;
+
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [{ role: 'user', content: userContent }],
+                    language: lang,
+                    systemPrompt,
+                }),
+            });
+            if (!res.ok) return userContent;
+            const data = await res.json();
+            return data.reply || userContent;
+        } catch {
+            return userContent;
+        }
+    };
+
     // --- ENHANCED ANALYSIS HANDLER (FROZEN LOGIC) ---
     const handleAnalyze = async (directInput?: string) => {
         if (!isStorageReady) {
@@ -5972,7 +6016,7 @@ const App: React.FC = () => {
                     <LiveSession
                         key="live-session"
                         onClose={() => setView(View.HOME)}
-                        onSaveSession={(text, audioData) => { setDreamInput(text); if (audioData) { setCurrentAudioData(audioData); setAudioIsFromLiveChat(true); } setView(View.HOME); setTimeout(() => handleAnalyze(text), 200); }}
+                        onSaveSession={async (text, audioData) => { if (audioData) { setCurrentAudioData(audioData); setAudioIsFromLiveChat(true); } setView(View.HOME); const story = await convertTranscriptToStory(text, language); setDreamInput(story); setTimeout(() => handleAnalyze(story), 200); }}
                         language={language}
                         voiceName={userProfile?.preferredVoice || 'Puck'}
                         selectedCategories={selectedCategories}

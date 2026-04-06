@@ -6,6 +6,8 @@ import {
   getGeminiKeys,
   maskSecret,
   isPremiumTextTier,
+  isOllamaAvailable,
+  getOpenRouterLocalRoutes,
 } from '../config/providerRouting';
 import {
   generateSpeechElevenLabs,
@@ -326,7 +328,69 @@ const callOpenRouterText = async (
   return text.trim();
 };
 
+// Groq direkt (Browser-safe via Key-Rotation, 3 Accounts)
+const getGroqKeys = (): string[] =>
+  [
+    import.meta.env.VITE_GROQ_API_KEY,
+    import.meta.env.VITE_GROQ_API_KEY_2,
+    import.meta.env.VITE_GROQ_API_KEY_3,
+  ].filter((k): k is string => typeof k === 'string' && k.trim().length > 0);
+
+const callGroqDirect = async (
+  model: string,
+  prompt: string,
+  options?: { temperature?: number; maxTokens?: number },
+): Promise<string> => {
+  const keys = getGroqKeys();
+  if (keys.length === 0) throw new Error('Kein Groq-Key konfiguriert');
+
+  for (const apiKey of keys) {
+    try {
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: 'user', content: prompt }],
+          temperature: options?.temperature ?? 0.75,
+          max_tokens: options?.maxTokens ?? 2200,
+        }),
+      });
+      if (res.status === 429 || res.status === 403) {
+        console.warn('[GROQ] Key erschoepft, naechster Key...');
+        continue;
+      }
+      if (!res.ok) throw new Error(`Groq API-Fehler: ${res.status}`);
+      const data = await res.json();
+      const text = data.choices?.[0]?.message?.content;
+      if (!text) throw new Error('Groq lieferte keinen Text');
+      return text.trim();
+    } catch (err) {
+      if (err instanceof Error && (err.message.includes('429') || err.message.includes('403'))) continue;
+      throw err;
+    }
+  }
+  throw new Error('Alle Groq-Keys erschoepft');
+};
+
 const callGroqFallback = async (prompt: string, language: Language): Promise<string> => {
+  // Direkt via Browser (kostenlos, kein GPU noetig) - Gemma2 zuerst
+  const models = [
+    import.meta.env.VITE_GROQ_MODEL_FAST || 'gemma2-9b-it',
+    import.meta.env.VITE_GROQ_MODEL_DEFAULT || 'llama-3.3-70b-versatile',
+  ];
+  for (const model of models) {
+    try {
+      return await callGroqDirect(model, prompt);
+    } catch (err) {
+      console.warn('[GROQ] Modell fehlgeschlagen:', model, err);
+    }
+  }
+
+  // Server-Fallback wenn alle direkten Keys erschoepft
   const LANG_NAMES: Record<string, string> = {
     de: 'Deutsch', tr: 'Tuerkisch', en: 'English', es: 'Spanisch',
     fr: 'Franzoesisch', ar: 'Arabisch', pt: 'Portugiesisch', ru: 'Russisch',
@@ -336,20 +400,18 @@ const callGroqFallback = async (prompt: string, language: Language): Promise<str
     sw: 'Swahili',
   };
   const langName = LANG_NAMES[language] || 'Deutsch';
-
   const res = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       messages: [{ role: 'user', content: prompt }],
       language,
-      systemPrompt: `Du bist ein einfuehlsamer Traumdeuter. Antworte NUR in ${langName}. Analysiere den Traum mit Symbolik, emotionaler Bedeutung und praktischer Orientierung. Nutze klare Abschnitte und einen warmen, fundierten Ton.`,
+      systemPrompt: `Du bist ein einfuehlsamer Traumdeuter. Antworte NUR in ${langName}.`,
     }),
   });
-
-  if (!res.ok) throw new Error(`Groq fallback error: ${res.status}`);
+  if (!res.ok) throw new Error(`Groq server fallback error: ${res.status}`);
   const data = await res.json();
-  if (!data.reply) throw new Error('Groq lieferte keine Antwort');
+  if (!data.reply) throw new Error('Server-Fallback lieferte keine Antwort');
   return data.reply;
 };
 
@@ -394,6 +456,32 @@ const analyzeDreamInternal = async (
     return { interpretation, provider: 'gemini' as any, model: 'groq-fallback' };
   } catch (error) {
     console.warn('[TEXT] Groq-Fallback fehlgeschlagen', error);
+  }
+
+  // Lokale Modelle via Ollama (kostenlos) oder OpenRouter Fallback
+  try {
+    const ollamaOnline = await isOllamaAvailable();
+    const localRoutes = getTextRoutes().filter(r => r.tier === 'local');
+    for (const route of localRoutes) {
+      try {
+        if (ollamaOnline) {
+          const interpretation = await callOllamaText(route.model, prompt, { temperature: 0.75, maxTokens: 2200 });
+          return { interpretation, provider: 'ollama', model: route.model };
+        } else {
+          // Ollama nicht verfuegbar - OpenRouter als Cloud-Fallback
+          const orRoutes = getOpenRouterLocalRoutes();
+          const orRoute = orRoutes.find(r => r.model.includes('gemma') || r.model.includes('qwen'));
+          if (orRoute) {
+            const interpretation = await callOpenRouterText(orRoute.model, prompt, { temperature: 0.75, maxTokens: 2200 });
+            return { interpretation, provider: 'openrouter', model: orRoute.model };
+          }
+        }
+      } catch (localErr) {
+        console.warn('[TEXT] Lokales Modell fehlgeschlagen', route.model, localErr);
+      }
+    }
+  } catch (localSetupErr) {
+    console.warn('[TEXT] Lokaler Fallback Setup fehlgeschlagen', localSetupErr);
   }
 
   return {

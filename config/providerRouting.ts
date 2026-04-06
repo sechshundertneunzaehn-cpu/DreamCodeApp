@@ -138,16 +138,23 @@ export const getTextRoutes = (): TextRoute[] => [
   {
     tier: 'local',
     provider: 'ollama',
-    model: readEnv('VITE_OLLAMA_GEMMA_MODEL') || 'gemma4',
+    model: readEnv('VITE_OLLAMA_GEMMA_MODEL') || 'gemma3:12b',
     envKey: '',
     description: 'Gemma 4 lokal via Ollama (kostenlos)',
   },
   {
     tier: 'local',
     provider: 'ollama',
-    model: readEnv('VITE_OLLAMA_QWEN_MODEL') || 'qwen3.5:7b',
+    model: readEnv('VITE_OLLAMA_QWEN_MODEL') || 'qwen2.5:7b',
     envKey: '',
-    description: 'Qwen 3.6 lokal via Ollama (kostenlos)',
+    description: 'Qwen lokal via Ollama (kostenlos)',
+  },
+  {
+    tier: 'local',
+    provider: 'ollama',
+    model: readEnv('VITE_OLLAMA_MISTRAL_MODEL') || 'mistral:7b',
+    envKey: '',
+    description: 'Mistral lokal via Ollama (kostenlos)',
   },
 ];
 
