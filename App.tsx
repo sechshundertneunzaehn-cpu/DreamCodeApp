@@ -30,6 +30,7 @@ const CensusPage = React.lazy(() => import('./components/CensusPage'));
 const ScientificDreamMap = React.lazy(() => import('./components/ScientificDreamMap'));
 const ResearchStudies = React.lazy(() => import('./components/ResearchStudies'));
 const ParticipantProfile = React.lazy(() => import('./components/ParticipantProfile'));
+const DreamSymbolsPage = React.lazy(() => import('./components/DreamSymbolsPage'));
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
 import { analyzeDreamText, generateDreamImage, generateImagePrompt, generateSpeechPreview, generateStoryVideo, generateDreamVideo, generateDreamNarrationVideo, generateDreamUserVoiceVideo } from './services/geminiService';
 import { generateDreamVideo as generateReplicateVideo, isReplicateConfigured } from './services/videoGenerationService';
@@ -5902,6 +5903,7 @@ const App: React.FC = () => {
             {view === View.IMPRESSUM && <ImpressumPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
             {view === View.FORSCHUNG && <ForschungPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
             {view === View.CENSUS && <CensusPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
+            {view === View.DREAM_SYMBOLS && <DreamSymbolsPage language={language} onClose={() => setView(View.HOME)} onNavigateHome={() => setView(View.HOME)} themeMode={themeMode} />}
 
             {view === View.RESEARCH_MAP && (
                 <ScientificDreamMap
@@ -5988,6 +5990,9 @@ const App: React.FC = () => {
                   </button>
                   <button onClick={() => setView(View.RESEARCH_STUDIES)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
                     {t.ui.studies_link}
+                  </button>
+                  <button onClick={() => setView(View.DREAM_SYMBOLS)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
+                    {t.ui.symbols_link || 'Symbole'}
                   </button>
                   <button onClick={() => setView(View.RESEARCH_MAP)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
                     {t.ui.worldmap_link}
