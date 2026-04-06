@@ -191,6 +191,13 @@ function getSymbolSources(sym: any): string[] {
   return sources;
 }
 
+// ─── Translated name helper ──────────────────────────────────────────────────
+
+function getSymbolName(sym: any, lang: string): string {
+  if (lang === 'de') return sym.name;
+  return sym.name_translations?.[lang] || sym.name;
+}
+
 // ─── Component ───────────────────────────────────────────────────────────────
 
 const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, onNavigateHome, themeMode }) => {
@@ -224,6 +231,7 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
       const q = search.toLowerCase();
       result = result.filter((s: any) =>
         s.name.toLowerCase().includes(q) ||
+        getSymbolName(s, language).toLowerCase().includes(q) ||
         (s.synonyme || []).some((syn: string) => syn.toLowerCase().includes(q))
       );
     }
@@ -328,7 +336,7 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
                     <div className="flex items-center gap-3">
                       <span className="text-lg">{CATEGORY_ICONS[sym.kategorie] || '✨'}</span>
                       <div>
-                        <span className="font-bold text-sm">{sym.name}</span>
+                        <span className="font-bold text-sm">{getSymbolName(sym, language)}</span>
                         {sym.synonyme?.length > 0 && (
                           <span className={`text-xs ml-2 ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>
                             ({sym.synonyme.slice(0, 3).join(', ')})

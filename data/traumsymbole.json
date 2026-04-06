@@ -121,6 +121,15 @@
           "label": "Tibet. Buddhismus",
           "text": "Feuer ist eines der fünf Elemente und symbolisiert Weisheit, die Unwissenheit verbrennt. Unkontrolliertes Feuer steht für Gier und Begierde."
         }
+      },
+      "name_translations": {
+        "en": "Fire",
+        "tr": "Ateş",
+        "es": "Fuego",
+        "ar": "نار",
+        "fr": "Feu",
+        "pt": "Fogo",
+        "ru": "Огонь"
       }
     },
     {
@@ -165,7 +174,16 @@
       },
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Garden",
+        "tr": "Bahçe",
+        "es": "Jardín",
+        "ar": "حديقة",
+        "fr": "Jardin",
+        "pt": "Jardim",
+        "ru": "Сад"
+      }
     },
     {
       "id": "objekt_001",
@@ -207,7 +225,16 @@
       },
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Knife",
+        "tr": "Bıçak",
+        "es": "Cuchillo",
+        "ar": "سكين",
+        "fr": "Couteau",
+        "pt": "Faca",
+        "ru": "Нож"
+      }
     },
     {
       "id": "person_001",
@@ -254,7 +281,16 @@
       },
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Mother",
+        "tr": "Anne",
+        "es": "Madre",
+        "ar": "أم",
+        "fr": "Mère",
+        "pt": "Mãe",
+        "ru": "Мать"
+      }
     },
     {
       "id": "natur_003",
@@ -299,7 +335,16 @@
           "ibn_sirin": "Islamische Traumdeutung, kollektivistisch, religiöse Weltanschauung"
         }
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Snow",
+        "tr": "Kar",
+        "es": "Nieve",
+        "ar": "ثلج",
+        "fr": "Neige",
+        "pt": "Neve",
+        "ru": "Снег"
+      }
     },
     {
       "id": "objekt_002",
@@ -339,7 +384,16 @@
       },
       "traumtyp_kategorien": [
         "Wunschtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Mirror",
+        "tr": "Ayna",
+        "es": "Espejo",
+        "ar": "مرآة",
+        "fr": "Miroir",
+        "pt": "Espelho",
+        "ru": "Зеркало"
+      }
     },
     {
       "id": "objekt_003",
@@ -364,7 +418,16 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Balcony",
+        "tr": "Balkon",
+        "es": "Balcón",
+        "ar": "شرفة",
+        "fr": "Balcon",
+        "pt": "Varanda",
+        "ru": "Балкон"
+      }
     },
     {
       "id": "natur_004",
@@ -388,7 +451,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Flowers",
+        "tr": "Çiçekler",
+        "es": "Flores",
+        "ar": "زهور",
+        "fr": "Fleurs",
+        "pt": "Flores",
+        "ru": "Цветы"
+      }
     },
     {
       "id": "objekt_004",
@@ -412,7 +484,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Wunschtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Letter",
+        "tr": "Mektup",
+        "es": "Carta",
+        "ar": "رسالة",
+        "fr": "Lettre",
+        "pt": "Carta",
+        "ru": "Письмо"
+      }
     },
     {
       "id": "symbol_001",
@@ -437,7 +518,16 @@
       "traumtyp_kategorien": [
         "Wunschtraum",
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Food",
+        "tr": "Yemek",
+        "es": "Comida",
+        "ar": "طعام",
+        "fr": "Nourriture",
+        "pt": "Comida",
+        "ru": "Еда"
+      }
     },
     {
       "id": "symbol_002",
@@ -476,6 +566,15 @@
           "label": "Theravada",
           "text": "Fallen weist auf Anhaftung und das Festhalten an vergänglichen Dingen hin, das Leiden verursacht."
         }
+      },
+      "name_translations": {
+        "en": "Falling",
+        "tr": "Düşmek",
+        "es": "Caer",
+        "ar": "سقوط",
+        "fr": "Chute",
+        "pt": "Queda",
+        "ru": "Падение"
       }
     },
     {
@@ -500,7 +599,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Angsttraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Enemy",
+        "tr": "Düşman",
+        "es": "Enemigo",
+        "ar": "عدو",
+        "fr": "Ennemi",
+        "pt": "Inimigo",
+        "ru": "Враг"
+      }
     },
     {
       "id": "symbol_003",
@@ -522,7 +630,16 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Fire (House Burns)",
+        "tr": "Ateş (Ev Yanıyor)",
+        "es": "Fuego (La Casa Arde)",
+        "ar": "Fire (House Burns)",
+        "fr": "Fire (House Burns)",
+        "pt": "Fire (House Burns)",
+        "ru": "Fire (House Burns)"
+      }
     },
     {
       "id": "symbol_004",
@@ -560,6 +677,15 @@
           "label": "Zen-Buddhismus",
           "text": "Fliegen verkörpert die Loslösung vom Ego und das Durchbrechen karmischer Bindungen."
         }
+      },
+      "name_translations": {
+        "en": "Flying",
+        "tr": "Uçmak",
+        "es": "Volar",
+        "ar": "طيران",
+        "fr": "Vol",
+        "pt": "Voar",
+        "ru": "Полёт"
       }
     },
     {
@@ -584,7 +710,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Flood",
+        "tr": "Sel",
+        "es": "Inundación",
+        "ar": "فيضان",
+        "fr": "Inondation",
+        "pt": "Inundação",
+        "ru": "Наводнение"
+      }
     },
     {
       "id": "person_003",
@@ -608,7 +743,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Wunschtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Friend",
+        "tr": "Arkadaş",
+        "es": "Amigo",
+        "ar": "صديق",
+        "fr": "Ami",
+        "pt": "Amigo",
+        "ru": "Друг"
+      }
     },
     {
       "id": "symbol_005",
@@ -630,11 +774,20 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Birth",
+        "tr": "Doğum",
+        "es": "Nacimiento",
+        "ar": "ولادة",
+        "fr": "Naissance",
+        "pt": "Nascimento",
+        "ru": "Рождение"
+      }
     },
     {
       "id": "objekt_005",
-      "name": "Gebã¤Ude (Allgemein)",
+      "name": "Gebäude (Allgemein)",
       "kategorie": "Objekte",
       "synonyme": [],
       "freud": {
@@ -655,7 +808,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Building (General)",
+        "tr": "Bina (Genel)",
+        "es": "Edificio (General)",
+        "ar": "مبنى (عام)",
+        "fr": "Building (General)",
+        "pt": "Building (General)",
+        "ru": "Building (General)"
+      }
     },
     {
       "id": "objekt_006",
@@ -686,7 +848,16 @@
       ],
       "traumtyp_kategorien": [
         "Wunschtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Money",
+        "tr": "Para",
+        "es": "Dinero",
+        "ar": "مال",
+        "fr": "Argent",
+        "pt": "Dinheiro",
+        "ru": "Деньги"
+      }
     },
     {
       "id": "objekt_007",
@@ -730,11 +901,20 @@
           "label": "Zen-Buddhismus",
           "text": "Das Haus steht für das Ego-Konstrukt. Das Verlassen des Hauses symbolisiert Loslösung und den Weg zur Erleuchtung."
         }
+      },
+      "name_translations": {
+        "en": "House",
+        "tr": "Ev",
+        "es": "Casa",
+        "ar": "بيت",
+        "fr": "Maison",
+        "pt": "Casa",
+        "ru": "Дом"
       }
     },
     {
       "id": "person_004",
-      "name": "Kaiser/Kã¶Nig",
+      "name": "Kaiser/König",
       "kategorie": "Personen",
       "synonyme": [],
       "freud": {
@@ -752,7 +932,16 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Emperor/King",
+        "tr": "İmparator/Kral",
+        "es": "Emperador/Rey",
+        "ar": "إمبراطور/ملك",
+        "fr": "Emperor/King",
+        "pt": "Emperor/King",
+        "ru": "Emperor/King"
+      }
     },
     {
       "id": "person_005",
@@ -780,7 +969,16 @@
         "Bruder",
         "Schwester"
       ],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Child",
+        "tr": "Çocuk",
+        "es": "Niño",
+        "ar": "طفل",
+        "fr": "Enfant",
+        "pt": "Criança",
+        "ru": "Ребёнок"
+      }
     },
     {
       "id": "objekt_008",
@@ -804,7 +1002,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Clothes",
+        "tr": "Giysiler",
+        "es": "Ropa",
+        "ar": "ملابس",
+        "fr": "Vêtements",
+        "pt": "Roupas",
+        "ru": "Одежда"
+      }
     },
     {
       "id": "symbol_001",
@@ -829,11 +1036,20 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Wunschtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Nudity",
+        "tr": "Çıplaklık",
+        "es": "Desnudez",
+        "ar": "عري",
+        "fr": "Nudité",
+        "pt": "Nudity",
+        "ru": "Нагота"
+      }
     },
     {
       "id": "symbol_006",
-      "name": "Prã¼Fung",
+      "name": "Prüfung",
       "kategorie": "Emotionen",
       "synonyme": [],
       "freud": {
@@ -853,7 +1069,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Angsttraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Test",
+        "tr": "Sınav",
+        "es": "Examen",
+        "ar": "اختبار",
+        "fr": "Test",
+        "pt": "Test",
+        "ru": "Test"
+      }
     },
     {
       "id": "symbol_007",
@@ -875,7 +1100,16 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Travel",
+        "tr": "Seyahat",
+        "es": "Viaje",
+        "ar": "سفر",
+        "fr": "Voyage",
+        "pt": "Travel",
+        "ru": "Travel"
+      }
     },
     {
       "id": "objekt_009",
@@ -897,7 +1131,16 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Box/Crate",
+        "tr": "Kutu/Sandık",
+        "es": "Caja/Cajón",
+        "ar": "صندوق",
+        "fr": "Box/Crate",
+        "pt": "Box/Crate",
+        "ru": "Box/Crate"
+      }
     },
     {
       "id": "objekt_010",
@@ -921,11 +1164,20 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Umbrella",
+        "tr": "Şemsiye",
+        "es": "Paraguas",
+        "ar": "مظلة",
+        "fr": "Umbrella",
+        "pt": "Umbrella",
+        "ru": "Umbrella"
+      }
     },
     {
       "id": "objekt_011",
-      "name": "Schlã¼Ssel",
+      "name": "Schlüssel",
       "kategorie": "Objekte",
       "synonyme": [],
       "freud": {
@@ -945,7 +1197,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Key",
+        "tr": "Anahtar",
+        "es": "Llave",
+        "ar": "مفتاح",
+        "fr": "Clé",
+        "pt": "Chave",
+        "ru": "Ключ"
+      }
     },
     {
       "id": "objekt_012",
@@ -969,7 +1230,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Shoes",
+        "tr": "Ayakkabılar",
+        "es": "Zapatos",
+        "ar": "أحذية",
+        "fr": "Chaussures",
+        "pt": "Shoes",
+        "ru": "Shoes"
+      }
     },
     {
       "id": "tier_001",
@@ -993,7 +1263,16 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Angsttraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Animals (General)",
+        "tr": "Hayvanlar (Genel)",
+        "es": "Animales (General)",
+        "ar": "حيوانات (عام)",
+        "fr": "Animals (General)",
+        "pt": "Animals (General)",
+        "ru": "Animals (General)"
+      }
     },
     {
       "id": "symbol_008",
@@ -1039,6 +1318,15 @@
           "label": "Tibet. Buddhismus",
           "text": "Im Tibetischen Buch der Toten (Bardo Thodol) ist der Tod ein Übergang. Traumtod bedeutet Auflösung alter Konditionierungen und karma-reinigendes Erleben."
         }
+      },
+      "name_translations": {
+        "en": "Death",
+        "tr": "Ölüm",
+        "es": "Muerte",
+        "ar": "موت",
+        "fr": "Mort",
+        "pt": "Morte",
+        "ru": "Смерть"
       }
     },
     {
@@ -1064,7 +1352,16 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Stairs",
+        "tr": "Merdivenler",
+        "es": "Escaleras",
+        "ar": "درج",
+        "fr": "Escaliers",
+        "pt": "Escadas",
+        "ru": "Лестница"
+      }
     },
     {
       "id": "person_006",
@@ -1094,7 +1391,16 @@
       ],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Father",
+        "tr": "Baba",
+        "es": "Padre",
+        "ar": "أب",
+        "fr": "Père",
+        "pt": "Pai",
+        "ru": "Отец"
+      }
     },
     {
       "id": "symbol_009",
@@ -1120,7 +1426,16 @@
         "Angsttraum",
         "Wunschtraum",
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Pursuit",
+        "tr": "Takip",
+        "es": "Persecución",
+        "ar": "مطاردة",
+        "fr": "Poursuite",
+        "pt": "Perseguição",
+        "ru": "Преследование"
+      }
     },
     {
       "id": "natur_006",
@@ -1164,6 +1479,15 @@
           "label": "Tibet. Buddhismus",
           "text": "Wasser symbolisiert Mitgefühl und Formlosigkeit. Das Spiegelbild im Wasser zeigt die Illusion des Selbst (Maya)."
         }
+      },
+      "name_translations": {
+        "en": "Water",
+        "tr": "Su",
+        "es": "Agua",
+        "ar": "ماء",
+        "fr": "Eau",
+        "pt": "Água",
+        "ru": "Вода"
       }
     },
     {
@@ -1188,11 +1512,20 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Train",
+        "tr": "Tren",
+        "es": "Tren",
+        "ar": "قطار",
+        "fr": "Train",
+        "pt": "Trem",
+        "ru": "Поезд"
+      }
     },
     {
       "id": "symbol_002",
-      "name": "Zã¤Hne",
+      "name": "Zähne",
       "kategorie": "Körper",
       "synonyme": [],
       "freud": {
@@ -1213,7 +1546,16 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Sexualtraum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Teeth",
+        "tr": "Dişler",
+        "es": "Dientes",
+        "ar": "أسنان",
+        "fr": "Dents",
+        "pt": "Dentes",
+        "ru": "Зубы"
+      }
     },
     {
       "id": "objekt_015",
@@ -1236,7 +1578,16 @@
           "Sieht es jemand anderes, bedeutet es das Gegenteil."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "'Ashura",
+        "tr": "Aşure",
+        "es": "Ashura",
+        "ar": "عاشوراء",
+        "fr": "'Ashura",
+        "pt": "'Ashura",
+        "ru": "'Ashura"
+      }
     },
     {
       "id": "objekt_016",
@@ -1255,7 +1606,16 @@
           "Bedeutet **Vertrauen auf Gott** den Allmächtigen, Sich-Ihm-Zuwendung für die eigenen Bedürfnisse und **Sieg über den Feind**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Abstaining from Evil",
+        "tr": "Kötülükten Kaçınmak",
+        "es": "Abstenerse del Mal",
+        "ar": "Abstaining from Evil",
+        "fr": "Abstaining from Evil",
+        "pt": "Abstaining from Evil",
+        "ru": "Abstaining from Evil"
+      }
     },
     {
       "id": "aktivitaet_001",
@@ -1279,7 +1639,16 @@
           "Der Abstieg von einer alten Leiter bedeutet, in ein Geschäft zu investieren, aus dem man keinen Gewinn erzielt; bricht die Leiter auf halbem Weg, verliert man gegen den Gegner."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Descent",
+        "tr": "İniş",
+        "es": "Descenso",
+        "ar": "Descent",
+        "fr": "Descent",
+        "pt": "Descent",
+        "ru": "Descent"
+      }
     },
     {
       "id": "emotion_001",
@@ -1301,7 +1670,16 @@
           "Wenn sie das Anvertraute im Traum zurückgibt, bedeutet dies, dass die Schwangerschaft nicht zur Vollendung kommt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Entrusting",
+        "tr": "Emanet Etme",
+        "es": "Confiar",
+        "ar": "Entrusting",
+        "fr": "Entrusting",
+        "pt": "Entrusting",
+        "ru": "Entrusting"
+      }
     },
     {
       "id": "objekt_017",
@@ -1337,7 +1715,16 @@
         "Hitze",
         "Verbrennung",
         "Rauch"
-      ]
+      ],
+      "name_translations": {
+        "en": "Ash",
+        "tr": "Kül",
+        "es": "Ceniza",
+        "ar": "رماد",
+        "fr": "Cendre",
+        "pt": "Cinza",
+        "ru": "Пепел"
+      }
     },
     {
       "id": "ort_001",
@@ -1356,7 +1743,16 @@
           "Bezeichnet an sich viele Dinge."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Bath",
+        "tr": "Banyo",
+        "es": "Baño",
+        "ar": "حمام",
+        "fr": "Bain",
+        "pt": "Banho",
+        "ru": "Баня"
+      }
     },
     {
       "id": "ort_002",
@@ -1383,7 +1779,16 @@
           "Wenn das Badehaus und sein Wasser kalt sind, bedeutet dies, dass seine Familie ihn geächtet oder verbannt hat."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Bathhouse",
+        "tr": "Hamam",
+        "es": "Baño Público",
+        "ar": "حمام عام",
+        "fr": "Bathhouse",
+        "pt": "Bathhouse",
+        "ru": "Bathhouse"
+      }
     },
     {
       "id": "emotion_002",
@@ -1402,7 +1807,16 @@
           "Ein Segen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Condolences (To a Needy Person)",
+        "tr": "Başsağlığı (İhtiyaç Sahibine)",
+        "es": "Condolences (To a Needy Person)",
+        "ar": "Condolences (To a Needy Person)",
+        "fr": "Condolences (To a Needy Person)",
+        "pt": "Condolences (To a Needy Person)",
+        "ru": "Condolences (To a Needy Person)"
+      }
     },
     {
       "id": "emotion_003",
@@ -1421,7 +1835,16 @@
           "Frohe Botschaften."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Condolences (To a Person in Difficulty)",
+        "tr": "Başsağlığı (Zorlukta Olan Birine)",
+        "es": "Condolences (To a Person in Difficulty)",
+        "ar": "Condolences (To a Person in Difficulty)",
+        "fr": "Condolences (To a Person in Difficulty)",
+        "pt": "Condolences (To a Person in Difficulty)",
+        "ru": "Condolences (To a Person in Difficulty)"
+      }
     },
     {
       "id": "emotion_004",
@@ -1440,7 +1863,16 @@
           "Widrigkeiten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Condolences (To a Wealthy Person)",
+        "tr": "Başsağlığı (Zengin Birine)",
+        "es": "Condolences (To a Wealthy Person)",
+        "ar": "Condolences (To a Wealthy Person)",
+        "fr": "Condolences (To a Wealthy Person)",
+        "pt": "Condolences (To a Wealthy Person)",
+        "ru": "Condolences (To a Wealthy Person)"
+      }
     },
     {
       "id": "aktivitaet_002",
@@ -1459,7 +1891,16 @@
           "Verrat, Täuschung, Irreführung anderer, oder es könnte Krieg bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Fraud",
+        "tr": "Dolandırıcılık",
+        "es": "Fraude",
+        "ar": "احتيال",
+        "fr": "Fraud",
+        "pt": "Fraud",
+        "ru": "Fraud"
+      }
     },
     {
       "id": "objekt_018",
@@ -1485,7 +1926,16 @@
           "Eine kranke Person, die im Bett aufsitzt: Sie wird von ihrer Krankheit genesen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Bed",
+        "tr": "Yatak",
+        "es": "Cama",
+        "ar": "سرير",
+        "fr": "Lit",
+        "pt": "Cama",
+        "ru": "Кровать"
+      }
     },
     {
       "id": "person_007",
@@ -1508,7 +1958,16 @@
           "Das Bett mit bösen Gefährten, Geistern, Satanen oder Dschinn teilen: Kampf gegen einen Verbrecherring."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Bedfellow",
+        "tr": "Yatak Arkadaşı",
+        "es": "Compañero de Cama",
+        "ar": "Bedfellow",
+        "fr": "Bedfellow",
+        "pt": "Bedfellow",
+        "ru": "Bedfellow"
+      }
     },
     {
       "id": "person_008",
@@ -1537,7 +1996,16 @@
           "Wenn Bettler in einer Gruppe in sein Haus oder seine Stadt kommen: Zerstreuung seiner Familie oder seines Haushalts."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Beggar",
+        "tr": "Dilenci",
+        "es": "Mendigo",
+        "ar": "شحاذ",
+        "fr": "Mendiant",
+        "pt": "Beggar",
+        "ru": "Beggar"
+      }
     },
     {
       "id": "tier_002",
@@ -1557,7 +2025,16 @@
           "Bedeutet auch eine Burg oder Zitadelle. Die Bienen stellen ihre Bewohner dar, und die Honigwaben ihren Besitz."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Beehive",
+        "tr": "Arı Kovanı",
+        "es": "Colmena",
+        "ar": "خلية نحل",
+        "fr": "Ruche",
+        "pt": "Beehive",
+        "ru": "Beehive"
+      }
     },
     {
       "id": "ort_003",
@@ -1586,7 +2063,16 @@
           "Sich selbst in eine Brücke verwandelt sehen: Er wird für ein Führungspostion gewählt, und die Menschen werden ihn, sein Ansehen und sein Angebot brauchen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Bridge",
+        "tr": "Köprü",
+        "es": "Puente",
+        "ar": "جسر",
+        "fr": "Pont",
+        "pt": "Ponte",
+        "ru": "Мост"
+      }
     },
     {
       "id": "objekt_019",
@@ -1607,7 +2093,16 @@
           "Bedeutet, unter gerichtliche Beschränkung gestellt zu werden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Signing a Loan",
+        "tr": "Kredi İmzalamak",
+        "es": "Signing a Loan",
+        "ar": "Signing a Loan",
+        "fr": "Signing a Loan",
+        "pt": "Signing a Loan",
+        "ru": "Signing a Loan"
+      }
     },
     {
       "id": "natur_007",
@@ -1635,7 +2130,16 @@
           "**Einen Dattelbaum fällen:** Den Tod eines Gelehrten herbeiführen oder jemandem Unrecht zufügen, der Güte verdient hat."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Date/Date Palm",
+        "tr": "Hurma/Hurma Ağacı",
+        "es": "Date/Date Palm",
+        "ar": "Date/Date Palm",
+        "fr": "Date/Date Palm",
+        "pt": "Date/Date Palm",
+        "ru": "Date/Date Palm"
+      }
     },
     {
       "id": "emotion_005",
@@ -1661,7 +2165,16 @@
           "Wenn man im Wachzustand leidet, kann dieser Traum Erleichterung bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Depression",
+        "tr": "Depresyon",
+        "es": "Depresión",
+        "ar": "اكتئاب",
+        "fr": "Depression",
+        "pt": "Depression",
+        "ru": "Depression"
+      }
     },
     {
       "id": "natur_008",
@@ -1683,7 +2196,16 @@
           "Einen Bund Dill zu tragen, bedeutet, dass einem etwas **Unvorhergesehenes** zustoßen wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Dill",
+        "tr": "Dereotu",
+        "es": "Eneldo",
+        "ar": "Dill",
+        "fr": "Dill",
+        "pt": "Dill",
+        "ru": "Dill"
+      }
     },
     {
       "id": "natur_009",
@@ -1707,7 +2229,16 @@
           "Im Traum bedeutet Dunkelheit, **in die Irre zu gehen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Darkness",
+        "tr": "Karanlık",
+        "es": "Oscuridad",
+        "ar": "ظلام",
+        "fr": "Obscurité",
+        "pt": "Escuridão",
+        "ru": "Тьма"
+      }
     },
     {
       "id": "objekt_020",
@@ -1730,7 +2261,16 @@
           "Das Einhüllen der Toten nach dem Waschen bedeutet, sie von Unreinheiten reinzuwaschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Wrapping",
+        "tr": "Sarmak",
+        "es": "Wrapping",
+        "ar": "Wrapping",
+        "fr": "Wrapping",
+        "pt": "Wrapping",
+        "ru": "Wrapping"
+      }
     },
     {
       "id": "objekt_021",
@@ -1749,7 +2289,16 @@
           "Er ermahnt die Menschen, der göttlichen Führung zu folgen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Invitation to a Litigant for an Out-of-Court Settlement",
+        "tr": "Davalıyı Uzlaşmaya Davet",
+        "es": "Invitation to a Litigant for an Out-of-Court Settlement",
+        "ar": "Invitation to a Litigant for an Out-of-Court Settlement",
+        "fr": "Invitation to a Litigant for an Out-of-Court Settlement",
+        "pt": "Invitation to a Litigant for an Out-of-Court Settlement",
+        "ru": "Invitation to a Litigant for an Out-of-Court Settlement"
+      }
     },
     {
       "id": "objekt_022",
@@ -1770,7 +2319,16 @@
           "Kann auch **Waisen** oder **Kinder der Sünde** darstellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Discoverer/Explorer",
+        "tr": "Kaşif/Araştırmacı",
+        "es": "Discoverer/Explorer",
+        "ar": "Discoverer/Explorer",
+        "fr": "Discoverer/Explorer",
+        "pt": "Discoverer/Explorer",
+        "ru": "Discoverer/Explorer"
+      }
     },
     {
       "id": "objekt_023",
@@ -1790,7 +2348,16 @@
           "Wenn die Person bereits ein Mann des Wissens ist, werden ihr neue **spirituelle oder materielle Offenbarungen** zuteil."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Revelation",
+        "tr": "Vahiy",
+        "es": "Revelation",
+        "ar": "Revelation",
+        "fr": "Revelation",
+        "pt": "Revelation",
+        "ru": "Revelation"
+      }
     },
     {
       "id": "tier_003",
@@ -1817,7 +2384,16 @@
           "**Esel verlieren:** Verlust von Reichtum und Status."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Donkey",
+        "tr": "Eşek",
+        "es": "Burro",
+        "ar": "حمار",
+        "fr": "Âne",
+        "pt": "Burro",
+        "ru": "Осёл"
+      }
     },
     {
       "id": "tier_004",
@@ -1837,7 +2413,16 @@
           "Er kann auch eine **Person mit hohem Wissen** sein, die viele Schüler führt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Donkey Driver",
+        "tr": "Eşekçi",
+        "es": "Donkey Driver",
+        "ar": "Donkey Driver",
+        "fr": "Donkey Driver",
+        "pt": "Donkey Driver",
+        "ru": "Donkey Driver"
+      }
     },
     {
       "id": "objekt_024",
@@ -1862,7 +2447,16 @@
           "**Fackel erlischt:** Der Tod eines Gelehrten oder ein Verlust an Wissen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Torch",
+        "tr": "Meşale",
+        "es": "Antorcha",
+        "ar": "مشعل",
+        "fr": "Torche",
+        "pt": "Torch",
+        "ru": "Torch"
+      }
     },
     {
       "id": "objekt_025",
@@ -1886,7 +2480,16 @@
           "**Das Abwickeln eines Fadens:** Eine neue Reise antreten oder die **Wahrheit enthüllen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Thread/Yarn",
+        "tr": "İplik",
+        "es": "Thread/Yarn",
+        "ar": "Thread/Yarn",
+        "fr": "Thread/Yarn",
+        "pt": "Thread/Yarn",
+        "ru": "Thread/Yarn"
+      }
     },
     {
       "id": "tier_005",
@@ -1911,7 +2514,16 @@
           "**Falke jagen:** Geld oder **Einfluss** von einem mächtigen Mann erhalten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Falcon",
+        "tr": "Şahin",
+        "es": "Halcón",
+        "ar": "صقر",
+        "fr": "Faucon",
+        "pt": "Falcão",
+        "ru": "Сокол"
+      }
     },
     {
       "id": "objekt_026",
@@ -1934,7 +2546,16 @@
           "**Zeuge der Falschheit sein:** Man wird in eine **Sünde** oder **korrupte Angelegenheit** verwickelt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Falsehood",
+        "tr": "Yalan",
+        "es": "Falsehood",
+        "ar": "Falsehood",
+        "fr": "Falsehood",
+        "pt": "Falsehood",
+        "ru": "Falsehood"
+      }
     },
     {
       "id": "objekt_027",
@@ -1960,7 +2581,16 @@
           "**Weiße Farbe:** Reinheit, Glaube, Frömmigkeit und Glück."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Color",
+        "tr": "Renk",
+        "es": "Color",
+        "ar": "لون",
+        "fr": "Couleur",
+        "pt": "Cor",
+        "ru": "Цвет"
+      }
     },
     {
       "id": "objekt_028",
@@ -1984,7 +2614,16 @@
           "**Handflächen mit Henna färben:** Glück, Freude und Überwindung von Stress."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Dye",
+        "tr": "Boya",
+        "es": "Dye",
+        "ar": "Dye",
+        "fr": "Dye",
+        "pt": "Dye",
+        "ru": "Dye"
+      }
     },
     {
       "id": "objekt_029",
@@ -2008,7 +2647,16 @@
           "**Auf einer Feder schreiben:** Man wird **hohes Wissen** erlangen oder **Befehle** von einer Autoritätsperson empfangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Feather",
+        "tr": "Tüy",
+        "es": "Pluma",
+        "ar": "ريشة",
+        "fr": "Plume",
+        "pt": "Pena",
+        "ru": "Перо"
+      }
     },
     {
       "id": "natur_010",
@@ -2031,7 +2679,16 @@
           "**Feigen im Überfluss:** Reichtum, der **leicht** kommt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Fig",
+        "tr": "İncir",
+        "es": "Higo",
+        "ar": "تين",
+        "fr": "Figue",
+        "pt": "Fig",
+        "ru": "Fig"
+      }
     },
     {
       "id": "natur_011",
@@ -2056,7 +2713,16 @@
           "**Fels in ein Haus bringen:** **Reichtum** oder **Status** gewinnen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Rock/Stone",
+        "tr": "Kaya/Taş",
+        "es": "Rock/Stone",
+        "ar": "Rock/Stone",
+        "fr": "Rock/Stone",
+        "pt": "Rock/Stone",
+        "ru": "Rock/Stone"
+      }
     },
     {
       "id": "natur_012",
@@ -2079,7 +2745,16 @@
           "**Fenchel riechen:** Guter **Ruf** und **Anerkennung** von Menschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Fennel",
+        "tr": "Rezene",
+        "es": "Fennel",
+        "ar": "Fennel",
+        "fr": "Fennel",
+        "pt": "Fennel",
+        "ru": "Fennel"
+      }
     },
     {
       "id": "ort_004",
@@ -2110,7 +2785,16 @@
         "Dach",
         "Keller",
         "Treppe"
-      ]
+      ],
+      "name_translations": {
+        "en": "Window",
+        "tr": "Pencere",
+        "es": "Ventana",
+        "ar": "نافذة",
+        "fr": "Fenêtre",
+        "pt": "Janela",
+        "ru": "Окно"
+      }
     },
     {
       "id": "tier_006",
@@ -2132,7 +2816,16 @@
           "**Ferkel füttern:** Man wird mit **niederen oder ungerechten Menschen** Umgang pflegen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Piglet",
+        "tr": "Domuz Yavrusu",
+        "es": "Piglet",
+        "ar": "Piglet",
+        "fr": "Piglet",
+        "pt": "Piglet",
+        "ru": "Piglet"
+      }
     },
     {
       "id": "objekt_030",
@@ -2157,7 +2850,16 @@
           "**Eine Fessel lösen:** **Freiheit** von Angst, Krankheit oder Schulden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Shackle",
+        "tr": "Pranga",
+        "es": "Shackle",
+        "ar": "Shackle",
+        "fr": "Shackle",
+        "pt": "Shackle",
+        "ru": "Shackle"
+      }
     },
     {
       "id": "objekt_031",
@@ -2181,7 +2883,16 @@
           "**Kein Essen beim Fest:** **Enttäuschung** oder unerfüllte Hoffnung."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Festival/Celebration",
+        "tr": "Şenlik/Kutlama",
+        "es": "Festival/Celebration",
+        "ar": "Festival/Celebration",
+        "fr": "Festival/Celebration",
+        "pt": "Festival/Celebration",
+        "ru": "Festival/Celebration"
+      }
     },
     {
       "id": "koerper_001",
@@ -2206,7 +2917,16 @@
           "**Finger verrenkt:** Probleme in der **Familie** oder im **Geschäft**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Finger",
+        "tr": "Parmak",
+        "es": "Dedo",
+        "ar": "إصبع",
+        "fr": "Doigt",
+        "pt": "Dedo",
+        "ru": "Палец"
+      }
     },
     {
       "id": "tier_007",
@@ -2232,7 +2952,16 @@
           "**Fisch aus dem Ozean:** Geld aus dem **Staatsschatz** oder von einem **mächtigen Führer**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Fish",
+        "tr": "Balık",
+        "es": "Pez",
+        "ar": "سمك",
+        "fr": "Poisson",
+        "pt": "Peixe",
+        "ru": "Рыба"
+      }
     },
     {
       "id": "tier_008",
@@ -2256,7 +2985,16 @@
           "**Fliegen töten:** **Sieg** über schwache Feinde."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Fly",
+        "tr": "Sinek",
+        "es": "Mosca",
+        "ar": "ذبابة",
+        "fr": "Mouche",
+        "pt": "Fly",
+        "ru": "Fly"
+      }
     },
     {
       "id": "natur_013",
@@ -2289,7 +3027,16 @@
         "Eis",
         "Schnee",
         "Tränen"
-      ]
+      ],
+      "name_translations": {
+        "en": "River",
+        "tr": "Nehir",
+        "es": "Río",
+        "ar": "نهر",
+        "fr": "Rivière",
+        "pt": "Rio",
+        "ru": "Река"
+      }
     },
     {
       "id": "natur_014",
@@ -2315,7 +3062,16 @@
           "**Saure Früchte:** **Traurigkeit** und **Kummer**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Fruit",
+        "tr": "Meyve",
+        "es": "Fruta",
+        "ar": "فاكهة",
+        "fr": "Fruit",
+        "pt": "Fruta",
+        "ru": "Плод"
+      }
     },
     {
       "id": "objekt_032",
@@ -2340,7 +3096,16 @@
           "Bedeuten auch böse Taten, Sünden und Verbrechen, die zur Bestrafung in der Hölle führen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Spark",
+        "tr": "Kıvılcım",
+        "es": "Spark",
+        "ar": "شرارة",
+        "fr": "Spark",
+        "pt": "Spark",
+        "ru": "Spark"
+      }
     },
     {
       "id": "objekt_033",
@@ -2365,7 +3130,16 @@
           "Ein Verstorbener in einem grünen Gewand bedeutet, dass er in einem **guten Zustand** lebt und die Früchte seiner Taten erntet (oder den Märtyrertod starb)."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Garment (Green)",
+        "tr": "Giysi (Yeşil)",
+        "es": "Garment (Green)",
+        "ar": "Garment (Green)",
+        "fr": "Garment (Green)",
+        "pt": "Garment (Green)",
+        "ru": "Garment (Green)"
+      }
     },
     {
       "id": "ort_005",
@@ -2389,7 +3163,16 @@
           "Ein geschlossenes oder zerbrochenes Tor deutet auf **Verlust** oder **Schwierigkeiten** hin."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Gate",
+        "tr": "Kapı",
+        "es": "Gate",
+        "ar": "Gate",
+        "fr": "Gate",
+        "pt": "Gate",
+        "ru": "Gate"
+      }
     },
     {
       "id": "aktivitaet_003",
@@ -2413,7 +3196,16 @@
           "Das Beenden des Gebets mit dem Friedensgruß bedeutet, den **richtigen Weg einzuschlagen** und seine **Aufgabe abzuschließen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Prayer (Salaat)",
+        "tr": "Namaz",
+        "es": "Prayer (Salaat)",
+        "ar": "صلاة",
+        "fr": "Prayer (Salaat)",
+        "pt": "Prayer (Salaat)",
+        "ru": "Prayer (Salaat)"
+      }
     },
     {
       "id": "ort_006",
@@ -2436,7 +3228,16 @@
           "Repräsentiert auch die sichere Rückkehr eines Reisenden oder den Tod eines kranken Menschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Prison",
+        "tr": "Hapishane",
+        "es": "Prisión",
+        "ar": "سجن",
+        "fr": "Prison",
+        "pt": "Prisão",
+        "ru": "Тюрьма"
+      }
     },
     {
       "id": "objekt_034",
@@ -2461,7 +3262,16 @@
           "**Ein silbernes Gefäß:** Man wird die **Freuden des Jenseits** anstreben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Vessel/Ship",
+        "tr": "Gemi",
+        "es": "Vessel/Ship",
+        "ar": "Vessel/Ship",
+        "fr": "Vessel/Ship",
+        "pt": "Vessel/Ship",
+        "ru": "Vessel/Ship"
+      }
     },
     {
       "id": "objekt_035",
@@ -2485,7 +3295,16 @@
           "Die Anwesenheit eines Dämons im Haus bedeutet, dass dort **Schaden oder Magie** vorliegt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Spirit/Ghost",
+        "tr": "Ruh/Hayalet",
+        "es": "Spirit/Ghost",
+        "ar": "روح/شبح",
+        "fr": "Spirit/Ghost",
+        "pt": "Spirit/Ghost",
+        "ru": "Spirit/Ghost"
+      }
     },
     {
       "id": "objekt_036",
@@ -2508,7 +3327,16 @@
           "Ein Geschenk des Propheten (Friede sei auf ihm) bedeutet **Segen und Rechtleitung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Gift",
+        "tr": "Hediye",
+        "es": "Regalo",
+        "ar": "هدية",
+        "fr": "Cadeau",
+        "pt": "Presente",
+        "ru": "Подарок"
+      }
     },
     {
       "id": "objekt_037",
@@ -2538,7 +3366,16 @@
         "Silber",
         "Armut",
         "Reichtum"
-      ]
+      ],
+      "name_translations": {
+        "en": "Gold",
+        "tr": "Altın",
+        "es": "Oro",
+        "ar": "ذهب",
+        "fr": "Or",
+        "pt": "Ouro",
+        "ru": "Золото"
+      }
     },
     {
       "id": "aktivitaet_004",
@@ -2560,7 +3397,16 @@
           "Das Graben der Erde bedeutet auch, sich in die **Falschheit** zu verstricken, um nichts als Zorn zu ernten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Ditch",
+        "tr": "Hendek",
+        "es": "Ditch",
+        "ar": "خندق",
+        "fr": "Ditch",
+        "pt": "Ditch",
+        "ru": "Ditch"
+      }
     },
     {
       "id": "natur_015",
@@ -2583,7 +3429,16 @@
           "**Trockenes Gras:** Mangel an Wissen, **Armut** oder **Krankheit**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Grass",
+        "tr": "Çim",
+        "es": "Hierba",
+        "ar": "عشب",
+        "fr": "Herbe",
+        "pt": "Grass",
+        "ru": "Grass"
+      }
     },
     {
       "id": "objekt_038",
@@ -2607,7 +3462,16 @@
           "Aus dem Grab steigen: **Buße** tun und **Rechtleitung** finden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Grave",
+        "tr": "Mezar",
+        "es": "Grave",
+        "ar": "قبر",
+        "fr": "Tombe",
+        "pt": "Grave",
+        "ru": "Grave"
+      }
     },
     {
       "id": "objekt_039",
@@ -2630,7 +3494,16 @@
           "Fett auf das Gesicht reiben: Ein Leben in **Enthaltung und religiösem Fasten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Grease",
+        "tr": "Yağ",
+        "es": "Grease",
+        "ar": "Grease",
+        "fr": "Grease",
+        "pt": "Grease",
+        "ru": "Grease"
+      }
     },
     {
       "id": "objekt_040",
@@ -2653,7 +3526,16 @@
           "Auf einem Greif reiten: **Aufstieg in Rang und Stellung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Griffin",
+        "tr": "Griffin",
+        "es": "Griffin",
+        "ar": "Griffin",
+        "fr": "Griffin",
+        "pt": "Griffin",
+        "ru": "Griffin"
+      }
     },
     {
       "id": "koerper_002",
@@ -2682,7 +3564,16 @@
           "Eine kleine Person sieht sich groß: Selbsttäuschung und Prahlerei, oder es könnte ihren Geiz darstellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Size/Height",
+        "tr": "Boy",
+        "es": "Size/Height",
+        "ar": "Size/Height",
+        "fr": "Size/Height",
+        "pt": "Size/Height",
+        "ru": "Size/Height"
+      }
     },
     {
       "id": "koerper_003",
@@ -2707,7 +3598,16 @@
           "Weißes Haar: **Würde** und **Alter**, kann aber auch **Armut** bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hair",
+        "tr": "Saç",
+        "es": "Cabello",
+        "ar": "شعر",
+        "fr": "Cheveux",
+        "pt": "Cabelo",
+        "ru": "Волосы"
+      }
     },
     {
       "id": "objekt_041",
@@ -2726,7 +3626,16 @@
           "Repräsentiert einen Heuchler, der sich in die Angelegenheiten anderer einmischt und in ihren Streitigkeiten Partei ergreift."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Chopping Block",
+        "tr": "Kıyma Tahtası",
+        "es": "Chopping Block",
+        "ar": "Chopping Block",
+        "fr": "Chopping Block",
+        "pt": "Chopping Block",
+        "ru": "Chopping Block"
+      }
     },
     {
       "id": "koerper_004",
@@ -2749,7 +3658,16 @@
           "Verlust einer Hand: **Tod eines nahen Verwandten** oder **finanzieller Ruin**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hand",
+        "tr": "El",
+        "es": "Mano",
+        "ar": "يد",
+        "fr": "Main",
+        "pt": "Mão",
+        "ru": "Рука"
+      }
     },
     {
       "id": "koerper_005",
@@ -2772,7 +3690,16 @@
           "Handschlag und Umarmung: **Frohe Botschaften** oder der **Austausch von Wissen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Handshake",
+        "tr": "Tokalaşma",
+        "es": "Handshake",
+        "ar": "Handshake",
+        "fr": "Handshake",
+        "pt": "Handshake",
+        "ru": "Handshake"
+      }
     },
     {
       "id": "koerper_006",
@@ -2795,7 +3722,16 @@
           "Ein Taschentuch tragen: **Heirat mit einer schönen Frau**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Towel/Handkerchief",
+        "tr": "Havlu/Mendil",
+        "es": "Towel/Handkerchief",
+        "ar": "Towel/Handkerchief",
+        "fr": "Towel/Handkerchief",
+        "pt": "Towel/Handkerchief",
+        "ru": "Towel/Handkerchief"
+      }
     },
     {
       "id": "ort_007",
@@ -2816,7 +3752,16 @@
           "Korruption, Abweichung von Gottes Pfad, Leugnen der Wahrheit oder Weigerung, dem gesunden Menschenverstand zu folgen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Trespassing",
+        "tr": "İzinsiz Giriş",
+        "es": "Trespassing",
+        "ar": "Trespassing",
+        "fr": "Trespassing",
+        "pt": "Trespassing",
+        "ru": "Trespassing"
+      }
     },
     {
       "id": "objekt_042",
@@ -2840,7 +3785,16 @@
           "Ein Helm aus Eisen: Repräsentiert einen **Anführer**, der die Menschen verteidigt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Helmet",
+        "tr": "Kask",
+        "es": "Helmet",
+        "ar": "خوذة",
+        "fr": "Helmet",
+        "pt": "Helmet",
+        "ru": "Helmet"
+      }
     },
     {
       "id": "objekt_043",
@@ -2866,7 +3820,16 @@
           "**Der Schwanz des Pferdes:** Repräsentiert die **Nachkommen** oder **Anhänger** des Träumers."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Stallion/Steed",
+        "tr": "Aygır",
+        "es": "Stallion/Steed",
+        "ar": "Stallion/Steed",
+        "fr": "Stallion/Steed",
+        "pt": "Stallion/Steed",
+        "ru": "Stallion/Steed"
+      }
     },
     {
       "id": "koerper_007",
@@ -2890,7 +3853,16 @@
           "Ein Herz essen: **Macht** über einen Feind erlangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Heart",
+        "tr": "Kalp",
+        "es": "Corazón",
+        "ar": "قلب",
+        "fr": "Cœur",
+        "pt": "Coração",
+        "ru": "Сердце"
+      }
     },
     {
       "id": "objekt_044",
@@ -2914,7 +3886,16 @@
           "Das Sammeln von Honig: **Reichtum** durch **ehrliche Arbeit** erhalten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Honey",
+        "tr": "Bal",
+        "es": "Miel",
+        "ar": "عسل",
+        "fr": "Miel",
+        "pt": "Mel",
+        "ru": "Мёд"
+      }
     },
     {
       "id": "tier_009",
@@ -2958,6 +3939,15 @@
           "label": "Zen-Buddhismus",
           "text": "Ein ruhiger Hund symbolisiert die gezähmten Sinne. Ein wild bellender Hund steht für den unruhigen Geist (Monkey Mind), der Meditation stört."
         }
+      },
+      "name_translations": {
+        "en": "Dog",
+        "tr": "Köpek",
+        "es": "Perro",
+        "ar": "كلب",
+        "fr": "Chien",
+        "pt": "Cão",
+        "ru": "Собака"
       }
     },
     {
@@ -2981,7 +3971,16 @@
           "Hunger stillen: **Verlust** von Geld oder **Ende** einer schwierigen Zeit."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hunger",
+        "tr": "Açlık",
+        "es": "Hambre",
+        "ar": "جوع",
+        "fr": "Faim",
+        "pt": "Hunger",
+        "ru": "Голод"
+      }
     },
     {
       "id": "objekt_045",
@@ -3001,7 +4000,16 @@
           "Händedruck und Umarmung: Frohe Botschaften, gute Nachrichten, gute Worte, auf die mit Gleichem geantwortet wird, oder es könnte Wissen darstellen, das er anderen lehrt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Handshake",
+        "tr": "El Sıkışma",
+        "es": "Handshake",
+        "ar": "Handshake",
+        "fr": "Handshake",
+        "pt": "Handshake",
+        "ru": "Handshake"
+      }
     },
     {
       "id": "objekt_046",
@@ -3023,7 +4031,16 @@
           "Herabhängen, um gefährliche Tiere zu erreichen: **Umgang mit bösen Gefährten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hanging",
+        "tr": "Asılı",
+        "es": "Hanging",
+        "ar": "Hanging",
+        "fr": "Hanging",
+        "pt": "Hanging",
+        "ru": "Hanging"
+      }
     },
     {
       "id": "natur_016",
@@ -3047,7 +4064,16 @@
           "Die Hölle sehen, aber nicht betreten: **Angst** vor Gott und **Buße**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hell/Hellfire (Jahannam)",
+        "tr": "Cehennem",
+        "es": "Hell/Hellfire (Jahannam)",
+        "ar": "جهنم",
+        "fr": "Hell/Hellfire (Jahannam)",
+        "pt": "Hell/Hellfire (Jahannam)",
+        "ru": "Hell/Hellfire (Jahannam)"
+      }
     },
     {
       "id": "natur_017",
@@ -3071,7 +4097,16 @@
           "Auf einem Hügel stehen: **Hohen Status** und **Sicherheit** erlangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hill",
+        "tr": "Tepe",
+        "es": "Hill",
+        "ar": "تل",
+        "fr": "Colline",
+        "pt": "Hill",
+        "ru": "Hill"
+      }
     },
     {
       "id": "objekt_047",
@@ -3094,7 +4129,16 @@
           "Ein Idol zerbrechen: **Rückkehr zum Glauben** und **Buße**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Idol",
+        "tr": "Put",
+        "es": "Idol",
+        "ar": "صنم",
+        "fr": "Idol",
+        "pt": "Idol",
+        "ru": "Idol"
+      }
     },
     {
       "id": "objekt_048",
@@ -3116,7 +4160,16 @@
           "Aus der Ignoranz erwachen: **Rechtleitung** und **Sicherheit**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Ignorance",
+        "tr": "Cehalet",
+        "es": "Ignorance",
+        "ar": "جهل",
+        "fr": "Ignorance",
+        "pt": "Ignorance",
+        "ru": "Ignorance"
+      }
     },
     {
       "id": "objekt_049",
@@ -3139,7 +4192,16 @@
           "Ein Bild aufhängen: **Verwirrung** und **Unsicherheit**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Image/Picture",
+        "tr": "Resim",
+        "es": "Image/Picture",
+        "ar": "صورة",
+        "fr": "Image/Picture",
+        "pt": "Image/Picture",
+        "ru": "Image/Picture"
+      }
     },
     {
       "id": "objekt_050",
@@ -3161,7 +4223,16 @@
           "Das Verteilen eines Erbes: **Gerechtigkeit** walten lassen und **Segen** empfangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Inheritance",
+        "tr": "Miras",
+        "es": "Inheritance",
+        "ar": "ميراث",
+        "fr": "Inheritance",
+        "pt": "Inheritance",
+        "ru": "Inheritance"
+      }
     },
     {
       "id": "objekt_051",
@@ -3183,7 +4254,16 @@
           "Verschüttete Tinte: **Verlust von Geld** oder **unnützes Wissen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Ink",
+        "tr": "Mürekkep",
+        "es": "Ink",
+        "ar": "حبر",
+        "fr": "Ink",
+        "pt": "Ink",
+        "ru": "Ink"
+      }
     },
     {
       "id": "objekt_052",
@@ -3206,7 +4286,16 @@
           "Eisenschmied: Ein **mächtiger Mann** oder ein **Diktator**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Iron",
+        "tr": "Demir",
+        "es": "Iron",
+        "ar": "حديد",
+        "fr": "Iron",
+        "pt": "Iron",
+        "ru": "Iron"
+      }
     },
     {
       "id": "objekt_053",
@@ -3228,7 +4317,16 @@
           "Ihn in seiner besten Form und strahlender Schönheit zu sehen, ist ein Zeichen für frohe Botschaften, rechtschaffene Nachkommen, Erleichterung von Bedrängnis, Wandel von Unachtsamkeit zu Führung, Armut zu Reichtum und von Ungehorsam zu Gehorsam gegenüber den Eltern."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Ishaq (Uwbp) (Prophet Isaac)",
+        "tr": "İshak (AS)",
+        "es": "Ishaq (Uwbp) (Prophet Isaac)",
+        "ar": "Ishaq (Uwbp) (Prophet Isaac)",
+        "fr": "Ishaq (Uwbp) (Prophet Isaac)",
+        "pt": "Ishaq (Uwbp) (Prophet Isaac)",
+        "ru": "Ishaq (Uwbp) (Prophet Isaac)"
+      }
     },
     {
       "id": "objekt_054",
@@ -3251,7 +4349,16 @@
           "Den Islam erneuern: **Sicherheit** vor Plagen und **Krankheiten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Islam",
+        "tr": "İslam",
+        "es": "Islam",
+        "ar": "إسلام",
+        "fr": "Islam",
+        "pt": "Islam",
+        "ru": "Islam"
+      }
     },
     {
       "id": "objekt_055",
@@ -3273,7 +4380,16 @@
           "Sich kratzen: **Geld** erlangen, das man **verlangt** hat."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Itching",
+        "tr": "Kaşıntı",
+        "es": "Itching",
+        "ar": "Itching",
+        "fr": "Itching",
+        "pt": "Itching",
+        "ru": "Itching"
+      }
     },
     {
       "id": "aktivitaet_005",
@@ -3297,7 +4413,16 @@
           "Jagd auf wilde, unbekannte Tiere: **Unerwarteter Reichtum** von einem Fremden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hunting",
+        "tr": "Avcılık",
+        "es": "Hunting",
+        "ar": "صيد",
+        "fr": "Hunting",
+        "pt": "Hunting",
+        "ru": "Hunting"
+      }
     },
     {
       "id": "objekt_056",
@@ -3322,7 +4447,16 @@
           "Juwelen verlieren: **Vergessen** des Korans oder **Verlust eines Sohnes**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Jewels",
+        "tr": "Mücevherler",
+        "es": "Jewels",
+        "ar": "جواهر",
+        "fr": "Jewels",
+        "pt": "Jewels",
+        "ru": "Jewels"
+      }
     },
     {
       "id": "tier_010",
@@ -3346,7 +4480,16 @@
           "Ein Kalb in der Wüste: **Reichtum** nach **Armut**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Calf/Ox",
+        "tr": "Buzağı/Öküz",
+        "es": "Calf/Ox",
+        "ar": "Calf/Ox",
+        "fr": "Calf/Ox",
+        "pt": "Calf/Ox",
+        "ru": "Calf/Ox"
+      }
     },
     {
       "id": "objekt_057",
@@ -3368,7 +4511,16 @@
           "Heißes Wetter im Winter erleben: Das Gegenteil."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Cold Weather",
+        "tr": "Soğuk Hava",
+        "es": "Cold Weather",
+        "ar": "Cold Weather",
+        "fr": "Cold Weather",
+        "pt": "Cold Weather",
+        "ru": "Cold Weather"
+      }
     },
     {
       "id": "objekt_058",
@@ -3392,7 +4544,16 @@
           "Kamel verlieren: **Verlust des Glaubens** oder **finanzielle Not**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Camel Driver/Rider",
+        "tr": "Deveci",
+        "es": "Camel Driver/Rider",
+        "ar": "Camel Driver/Rider",
+        "fr": "Camel Driver/Rider",
+        "pt": "Camel Driver/Rider",
+        "ru": "Camel Driver/Rider"
+      }
     },
     {
       "id": "aktivitaet_006",
@@ -3416,7 +4577,16 @@
           "Im Kampf besiegt werden: **Verlust** im Leben oder **Schwäche** im Glauben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Battle",
+        "tr": "Savaş",
+        "es": "Battle",
+        "ar": "معركة",
+        "fr": "Bataille",
+        "pt": "Battle",
+        "ru": "Battle"
+      }
     },
     {
       "id": "ort_008",
@@ -3438,7 +4608,16 @@
           "In einer Kirche beten: **Sicherheit** und **Frieden** finden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Chapel/Church",
+        "tr": "Şapel/Kilise",
+        "es": "Chapel/Church",
+        "ar": "Chapel/Church",
+        "fr": "Chapel/Church",
+        "pt": "Chapel/Church",
+        "ru": "Chapel/Church"
+      }
     },
     {
       "id": "objekt_059",
@@ -3462,7 +4641,16 @@
           "Kerze anzünden: **Heirat** für einen Unverheirateten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Candle/Light",
+        "tr": "Mum/Işık",
+        "es": "Candle/Light",
+        "ar": "شمعة/نور",
+        "fr": "Candle/Light",
+        "pt": "Candle/Light",
+        "ru": "Candle/Light"
+      }
     },
     {
       "id": "objekt_060",
@@ -3485,7 +4673,16 @@
           "Von Ketten befreit werden: **Genesung** oder **Freiheit** von Ungerechtigkeit."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Chain",
+        "tr": "Zincir",
+        "es": "Cadena",
+        "ar": "سلسلة",
+        "fr": "Chaîne",
+        "pt": "Chain",
+        "ru": "Chain"
+      }
     },
     {
       "id": "objekt_061",
@@ -3510,7 +4707,16 @@
           "**Ketten an Händen oder Füßen:** Stehen für die **Vernachlässigung religiöser Pflichten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Chain/Shackle",
+        "tr": "Zincir/Pranga",
+        "es": "Chain/Shackle",
+        "ar": "Chain/Shackle",
+        "fr": "Chain/Shackle",
+        "pt": "Chain/Shackle",
+        "ru": "Chain/Shackle"
+      }
     },
     {
       "id": "person_009",
@@ -3533,7 +4739,16 @@
           "Mit einem Kind sprechen: **Gute Nachrichten** oder **Erfüllung eines Wunsches**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Child/Baby",
+        "tr": "Çocuk/Bebek",
+        "es": "Child/Baby",
+        "ar": "Child/Baby",
+        "fr": "Child/Baby",
+        "pt": "Child/Baby",
+        "ru": "Child/Baby"
+      }
     },
     {
       "id": "objekt_062",
@@ -3556,7 +4771,16 @@
           "Kissen verlieren: **Scheidung** oder **Verlust des Dieners**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Pillow/Blanket",
+        "tr": "Yastık/Battaniye",
+        "es": "Pillow/Blanket",
+        "ar": "Pillow/Blanket",
+        "fr": "Pillow/Blanket",
+        "pt": "Pillow/Blanket",
+        "ru": "Pillow/Blanket"
+      }
     },
     {
       "id": "objekt_063",
@@ -3579,7 +4803,16 @@
           "Schwarze Kleidung: **Ehre** und **Würde**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Clothing (New)",
+        "tr": "Giysi (Yeni)",
+        "es": "Clothing (New)",
+        "ar": "Clothing (New)",
+        "fr": "Clothing (New)",
+        "pt": "Clothing (New)",
+        "ru": "Clothing (New)"
+      }
     },
     {
       "id": "objekt_064",
@@ -3601,7 +4834,16 @@
           "Ein Kleidungsstück in der Sonne zum Trocknen aufhängen: Jemand wird bald von einer langen Reise zurückkehren."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hanging Clothes",
+        "tr": "Giysi Asmak",
+        "es": "Hanging Clothes",
+        "ar": "Hanging Clothes",
+        "fr": "Hanging Clothes",
+        "pt": "Hanging Clothes",
+        "ru": "Hanging Clothes"
+      }
     },
     {
       "id": "person_010",
@@ -3624,7 +4866,16 @@
           "Ein schlechter Koch: **Streit** und **Probleme** im Haushalt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Cook",
+        "tr": "Aşçı",
+        "es": "Cook",
+        "ar": "Cook",
+        "fr": "Cook",
+        "pt": "Cook",
+        "ru": "Cook"
+      }
     },
     {
       "id": "objekt_065",
@@ -3648,7 +4899,16 @@
           "Ein Sack, der Wissen enthält: **Wahres Wissen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Suitcase/Sack",
+        "tr": "Bavul/Çuval",
+        "es": "Suitcase/Sack",
+        "ar": "Suitcase/Sack",
+        "fr": "Suitcase/Sack",
+        "pt": "Suitcase/Sack",
+        "ru": "Suitcase/Sack"
+      }
     },
     {
       "id": "objekt_066",
@@ -3675,7 +4935,16 @@
           "Kann auch eine **Dienstmagd** oder **Hausangestellte** darstellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Suitcase/Chest",
+        "tr": "Bavul/Sandık",
+        "es": "Suitcase/Chest",
+        "ar": "Suitcase/Chest",
+        "fr": "Suitcase/Chest",
+        "pt": "Suitcase/Chest",
+        "ru": "Suitcase/Chest"
+      }
     },
     {
       "id": "objekt_067",
@@ -3694,7 +4963,16 @@
           "Die Geburt einer neuen Ideologie, Innovationen und Prüfungen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Compromise (Between Two Opposing Groups)",
+        "tr": "Uzlaşma (İki Rakip Grup Arasında)",
+        "es": "Compromise (Between Two Opposing Groups)",
+        "ar": "Compromise (Between Two Opposing Groups)",
+        "fr": "Compromise (Between Two Opposing Groups)",
+        "pt": "Compromise (Between Two Opposing Groups)",
+        "ru": "Compromise (Between Two Opposing Groups)"
+      }
     },
     {
       "id": "objekt_068",
@@ -3715,7 +4993,16 @@
           "Der Zustimmung zu Gottes Geboten/göttlichen Gesetzen: Liebe zu den Brüdern, Umgang mit den Gerechten und Verzicht auf die Gemeinschaft böser Gefährten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Conformity",
+        "tr": "Uyumluluk",
+        "es": "Conformity",
+        "ar": "Conformity",
+        "fr": "Conformity",
+        "pt": "Conformity",
+        "ru": "Conformity"
+      }
     },
     {
       "id": "koerper_008",
@@ -3738,7 +5025,16 @@
           "Einen großen Kopf haben: **Reichtum** und **große Ehre**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Head/Headache",
+        "tr": "Baş/Baş Ağrısı",
+        "es": "Head/Headache",
+        "ar": "Head/Headache",
+        "fr": "Head/Headache",
+        "pt": "Head/Headache",
+        "ru": "Head/Headache"
+      }
     },
     {
       "id": "objekt_069",
@@ -3762,7 +5058,16 @@
           "Von Krankheit genesen: **Buße** und **Wiederherstellung des Glaubens**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Illness/Fever",
+        "tr": "Hastalık/Ateş",
+        "es": "Illness/Fever",
+        "ar": "Illness/Fever",
+        "fr": "Illness/Fever",
+        "pt": "Illness/Fever",
+        "ru": "Illness/Fever"
+      }
     },
     {
       "id": "objekt_070",
@@ -3784,7 +5089,16 @@
           "Eine Krone verlieren: **Verlust von Ehre** oder **finanzieller Ruin**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Crown",
+        "tr": "Taç",
+        "es": "Corona",
+        "ar": "تاج",
+        "fr": "Couronne",
+        "pt": "Crown",
+        "ru": "Корона"
+      }
     },
     {
       "id": "objekt_071",
@@ -3808,7 +5122,16 @@
           "Kuchen essen: **Freude** und **Feierlichkeiten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Cake/Bread",
+        "tr": "Kek/Ekmek",
+        "es": "Cake/Bread",
+        "ar": "Cake/Bread",
+        "fr": "Cake/Bread",
+        "pt": "Cake/Bread",
+        "ru": "Cake/Bread"
+      }
     },
     {
       "id": "emotion_007",
@@ -3840,7 +5163,16 @@
           "Allgemein: Arbeit für einen Arbeitslosen, eine Ehefrau für einen Unverheirateten, und bei vielen Ornamenten: der zusätzliche Segen vieler Kinder."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Cummerbund",
+        "tr": "Kuşak",
+        "es": "Cummerbund",
+        "ar": "Cummerbund",
+        "fr": "Cummerbund",
+        "pt": "Cummerbund",
+        "ru": "Cummerbund"
+      }
     },
     {
       "id": "objekt_072",
@@ -3862,7 +5194,16 @@
           "Den Boden küssen: **Demut** und **Unterwerfung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Kiss",
+        "tr": "Öpücük",
+        "es": "Beso",
+        "ar": "قبلة",
+        "fr": "Baiser",
+        "pt": "Kiss",
+        "ru": "Поцелуй"
+      }
     },
     {
       "id": "tier_011",
@@ -3882,7 +5223,16 @@
           "Wenn ein Käfer sich in einen Skorpion verwandelt: Ein Feind, dessen wahre Absicht unbekannt ist."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Beetle",
+        "tr": "Böcek",
+        "es": "Beetle",
+        "ar": "خنفساء",
+        "fr": "Beetle",
+        "pt": "Beetle",
+        "ru": "Beetle"
+      }
     },
     {
       "id": "objekt_073",
@@ -3906,7 +5256,16 @@
           "Zuflucht vor der Hitze der Sonne im Schatten suchen: Stress und Traurigkeit werden sich auflösen. Im Sommer bedeutet dies Wohlstand."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Cold",
+        "tr": "Soğuk",
+        "es": "Cold",
+        "ar": "برد",
+        "fr": "Froid",
+        "pt": "Cold",
+        "ru": "Cold"
+      }
     },
     {
       "id": "person_011",
@@ -3929,7 +5288,16 @@
           "Er könnte auch eine eigensinnige Person, einen Experten, einen Freund, einen Immobilienmakler, einen Wissenschaftler oder einen Kommandanten darstellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Artist",
+        "tr": "Sanatçı",
+        "es": "Artista",
+        "ar": "فنان",
+        "fr": "Artiste",
+        "pt": "Artist",
+        "ru": "Artist"
+      }
     },
     {
       "id": "objekt_074",
@@ -3953,7 +5321,16 @@
           "Lampe erlischt: **Tod** des Haushaltsvorstands oder **Verlust von Führung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Lamp",
+        "tr": "Lamba",
+        "es": "Lámpara",
+        "ar": "مصباح",
+        "fr": "Lampe",
+        "pt": "Lamp",
+        "ru": "Lamp"
+      }
     },
     {
       "id": "natur_018",
@@ -3975,7 +5352,16 @@
           "Laub von einem Baum fallen sehen: **Verlust von Geld** oder **Ende des Glücks**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Foliage",
+        "tr": "Yapraklar",
+        "es": "Foliage",
+        "ar": "Foliage",
+        "fr": "Foliage",
+        "pt": "Foliage",
+        "ru": "Foliage"
+      }
     },
     {
       "id": "objekt_075",
@@ -3998,7 +5384,16 @@
           "Ein Lederbeutel: **Speicherung von Geld** und **Geheimnissen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Leather",
+        "tr": "Deri",
+        "es": "Cuero",
+        "ar": "جلد",
+        "fr": "Cuir",
+        "pt": "Leather",
+        "ru": "Leather"
+      }
     },
     {
       "id": "objekt_076",
@@ -4020,7 +5415,16 @@
           "Ein Leichentuch kann auch ein Gefängnis oder das Begehen einer schweren Sünde symbolisieren."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Shroud",
+        "tr": "Kefen",
+        "es": "Shroud",
+        "ar": "كفن",
+        "fr": "Shroud",
+        "pt": "Shroud",
+        "ru": "Shroud"
+      }
     },
     {
       "id": "objekt_077",
@@ -4044,7 +5448,16 @@
           "Eine zerbrochene Leiter: **Unglück** und **Enttäuschung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Ladder",
+        "tr": "Merdiven",
+        "es": "Escalera",
+        "ar": "سلم",
+        "fr": "Échelle",
+        "pt": "Ladder",
+        "ru": "Ladder"
+      }
     },
     {
       "id": "person_012",
@@ -4065,7 +5478,16 @@
           "Repräsentiert Festlichkeiten, Freude, Glück, Tod, Krankheit, Führung, Wissen, Verlangen oder Weinen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Candle Merchant",
+        "tr": "Mumcu",
+        "es": "Candle Merchant",
+        "ar": "Candle Merchant",
+        "fr": "Candle Merchant",
+        "pt": "Candle Merchant",
+        "ru": "Candle Merchant"
+      }
     },
     {
       "id": "objekt_078",
@@ -4087,7 +5509,16 @@
           "Locker hängen, um Vieh oder eine Schafherde zu erreichen: Wohltätigkeiten geben oder Geld auf gute Weise ausgeben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hanging Loosely",
+        "tr": "Gevşek Asılı",
+        "es": "Hanging Loosely",
+        "ar": "Hanging Loosely",
+        "fr": "Hanging Loosely",
+        "pt": "Hanging Loosely",
+        "ru": "Hanging Loosely"
+      }
     },
     {
       "id": "natur_019",
@@ -4110,7 +5541,16 @@
           "In der Luft schweben: **Hohen Status** erlangen oder **reisen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Air/Wind",
+        "tr": "Hava/Rüzgâr",
+        "es": "Air/Wind",
+        "ar": "Air/Wind",
+        "fr": "Air/Wind",
+        "pt": "Air/Wind",
+        "ru": "Air/Wind"
+      }
     },
     {
       "id": "emotion_008",
@@ -4133,7 +5573,16 @@
           "Jemanden auslachen: **Überlegenheit** über einen Feind."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Smile/Laugh",
+        "tr": "Gülümseme/Gülme",
+        "es": "Smile/Laugh",
+        "ar": "Smile/Laugh",
+        "fr": "Smile/Laugh",
+        "pt": "Smile/Laugh",
+        "ru": "Smile/Laugh"
+      }
     },
     {
       "id": "objekt_079",
@@ -4155,7 +5604,16 @@
           "Viele Löffel: **Viele Töchter** oder **weibliche Nachkommen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Spoon",
+        "tr": "Kaşık",
+        "es": "Cuchara",
+        "ar": "ملعقة",
+        "fr": "Cuillère",
+        "pt": "Spoon",
+        "ru": "Spoon"
+      }
     },
     {
       "id": "tier_012",
@@ -4185,7 +5643,16 @@
         "Pferd",
         "Vogel",
         "Schlange"
-      ]
+      ],
+      "name_translations": {
+        "en": "Lion",
+        "tr": "Aslan",
+        "es": "León",
+        "ar": "أسد",
+        "fr": "Lion",
+        "pt": "Leão",
+        "ru": "Лев"
+      }
     },
     {
       "id": "tier_013",
@@ -4208,7 +5675,16 @@
           "Eine Maus töten: **Sieg** über eine ungerechte Frau."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Mouse/Rat",
+        "tr": "Fare/Sıçan",
+        "es": "Mouse/Rat",
+        "ar": "فأر/جرذ",
+        "fr": "Mouse/Rat",
+        "pt": "Mouse/Rat",
+        "ru": "Mouse/Rat"
+      }
     },
     {
       "id": "natur_020",
@@ -4231,7 +5707,16 @@
           "Trübes Meer: **Kummer, Sorgen** oder **ungerechter Herrscher**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sea/Ocean",
+        "tr": "Deniz/Okyanus",
+        "es": "Sea/Ocean",
+        "ar": "بحر/محيط",
+        "fr": "Mer/Océan",
+        "pt": "Mar/Oceano",
+        "ru": "Море/Океан"
+      }
     },
     {
       "id": "person_013",
@@ -4257,7 +5742,16 @@
           "Repräsentiert auch eine ungerechte Person."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Butcher",
+        "tr": "Kasap",
+        "es": "Butcher",
+        "ar": "جزار",
+        "fr": "Boucher",
+        "pt": "Butcher",
+        "ru": "Butcher"
+      }
     },
     {
       "id": "objekt_080",
@@ -4280,7 +5774,16 @@
           "Sauermilch: **Schwierigkeiten** bei der Erlangung von Unterhalt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Milk",
+        "tr": "Süt",
+        "es": "Leche",
+        "ar": "حليب",
+        "fr": "Lait",
+        "pt": "Leite",
+        "ru": "Молоко"
+      }
     },
     {
       "id": "natur_021",
@@ -4321,6 +5824,15 @@
           "label": "Zen-Buddhismus",
           "text": "Der Finger zeigt auf den Mond, doch der Finger ist nicht der Mond. Der Vollmond steht für vollständige Erleuchtung."
         }
+      },
+      "name_translations": {
+        "en": "Moon",
+        "tr": "Ay",
+        "es": "Luna",
+        "ar": "قمر",
+        "fr": "Lune",
+        "pt": "Lua",
+        "ru": "Луна"
       }
     },
     {
@@ -4344,7 +5856,16 @@
           "In der Moschee schlafen: **Sicherheit** und **Frieden**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Mosque",
+        "tr": "Cami",
+        "es": "Mezquita",
+        "ar": "مسجد",
+        "fr": "Mosquée",
+        "pt": "Mosque",
+        "ru": "Mosque"
+      }
     },
     {
       "id": "koerper_009",
@@ -4368,7 +5889,16 @@
           "Ein geschlossener Mund: **Geheimnis** bewahren und **Zufriedenheit**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Mouth",
+        "tr": "Ağız",
+        "es": "Boca",
+        "ar": "فم",
+        "fr": "Bouche",
+        "pt": "Boca",
+        "ru": "Рот"
+      }
     },
     {
       "id": "objekt_081",
@@ -4391,7 +5921,16 @@
           "Eine dunkle Nacht: **Sorgen** und **Verwirrung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Night",
+        "tr": "Gece",
+        "es": "Noche",
+        "ar": "ليل",
+        "fr": "Nuit",
+        "pt": "Noite",
+        "ru": "Ночь"
+      }
     },
     {
       "id": "objekt_082",
@@ -4414,7 +5953,16 @@
           "Nägel schneiden: **Einhaltung der Sunna** (Tradition) und **Überwindung von Schulden**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Nail",
+        "tr": "Çivi",
+        "es": "Clavo",
+        "ar": "مسمار",
+        "fr": "Clou",
+        "pt": "Nail",
+        "ru": "Nail"
+      }
     },
     {
       "id": "objekt_083",
@@ -4437,7 +5985,16 @@
           "Essen teilen: **Gute Taten** und **Segen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Food",
+        "tr": "Gıda/Yemek",
+        "es": "Food",
+        "ar": "طعام",
+        "fr": "Nourriture",
+        "pt": "Comida",
+        "ru": "Еда"
+      }
     },
     {
       "id": "koerper_010",
@@ -4460,7 +6017,16 @@
           "Blut aus der Nase: **Verlust von Geld** oder **Schwierigkeiten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Nose",
+        "tr": "Burun",
+        "es": "Nariz",
+        "ar": "أنف",
+        "fr": "Nez",
+        "pt": "Nose",
+        "ru": "Nose"
+      }
     },
     {
       "id": "natur_022",
@@ -4482,7 +6048,16 @@
           "Der Nebel lichtet sich: **Klarheit** und **Lösung** der Probleme."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Fog",
+        "tr": "Sis",
+        "es": "Niebla",
+        "ar": "ضباب",
+        "fr": "Brouillard",
+        "pt": "Fog",
+        "ru": "Туман"
+      }
     },
     {
       "id": "koerper_011",
@@ -4505,7 +6080,16 @@
           "Ohr verlieren: **Tod des Sohnes** oder **Verlust des Glaubens**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Ear",
+        "tr": "Kulak",
+        "es": "Oreja",
+        "ar": "أذن",
+        "fr": "Oreille",
+        "pt": "Ear",
+        "ru": "Ухо"
+      }
     },
     {
       "id": "objekt_084",
@@ -4527,7 +6111,16 @@
           "An einem schönen unbekannten Ort: **Guter Ausgang** im Jenseits."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Place (Unknown)",
+        "tr": "Yer (Bilinmeyen)",
+        "es": "Place (Unknown)",
+        "ar": "Place (Unknown)",
+        "fr": "Place (Unknown)",
+        "pt": "Place (Unknown)",
+        "ru": "Place (Unknown)"
+      }
     },
     {
       "id": "tier_014",
@@ -4552,7 +6145,16 @@
           "Alle Arten des Oryx-Geschlechts repräsentieren einen großen Führer, eine fromme und zurückgezogene Person, die jedoch nicht den prophetischen Traditionen folgt, oder er könnte ein Asket oder ein Innovator sein."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Oryx",
+        "tr": "Oryx",
+        "es": "Oryx",
+        "ar": "Oryx",
+        "fr": "Oryx",
+        "pt": "Oryx",
+        "ru": "Oryx"
+      }
     },
     {
       "id": "ort_010",
@@ -4575,7 +6177,16 @@
           "Einen Palast betreten: **Erfolg** und **große Ehre** erlangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Palace",
+        "tr": "Saray",
+        "es": "Palacio",
+        "ar": "قصر",
+        "fr": "Palais",
+        "pt": "Palace",
+        "ru": "Palace"
+      }
     },
     {
       "id": "objekt_085",
@@ -4597,7 +6208,16 @@
           "Papier erhalten: **Gute Nachrichten** und **Erfolg**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Paper",
+        "tr": "Kâğıt",
+        "es": "Papel",
+        "ar": "ورق",
+        "fr": "Papier",
+        "pt": "Paper",
+        "ru": "Paper"
+      }
     },
     {
       "id": "objekt_086",
@@ -4619,7 +6239,16 @@
           "Aus dem Paradies vertrieben werden: **Verlust des Glaubens** oder **große Sünde**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Paradise (Jannah)",
+        "tr": "Cennet",
+        "es": "Paradise (Jannah)",
+        "ar": "جنة",
+        "fr": "Paradise (Jannah)",
+        "pt": "Paradise (Jannah)",
+        "ru": "Paradise (Jannah)"
+      }
     },
     {
       "id": "objekt_087",
@@ -4649,7 +6278,16 @@
           "Eine Perle gegen gefälschten Schmuck oder Glasscherben zu tauschen bedeutet, die Belohnung des Jenseits gegen die Freuden dieser Welt verkauft zu haben, oder es könnte eine Sünde oder Apostasie bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Pearl",
+        "tr": "İnci",
+        "es": "Perla",
+        "ar": "لؤلؤة",
+        "fr": "Perle",
+        "pt": "Pearl",
+        "ru": "Pearl"
+      }
     },
     {
       "id": "objekt_088",
@@ -4671,7 +6309,16 @@
           "Pfeffer essen: **Kummer** und **Sorgen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Pepper",
+        "tr": "Biber",
+        "es": "Pimienta",
+        "ar": "فلفل",
+        "fr": "Poivre",
+        "pt": "Pepper",
+        "ru": "Pepper"
+      }
     },
     {
       "id": "tier_015",
@@ -4690,7 +6337,16 @@
           "Bedeuten auch die Angst eines Gesandten um sein Leben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Arrows",
+        "tr": "Oklar",
+        "es": "Flechas",
+        "ar": "سهام",
+        "fr": "Flèches",
+        "pt": "Arrows",
+        "ru": "Arrows"
+      }
     },
     {
       "id": "tier_016",
@@ -4709,7 +6365,16 @@
           "Bedeutet, über andere schlecht zu reden und sie zu verleumden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Throwing Arrows",
+        "tr": "Ok Atmak",
+        "es": "Throwing Arrows",
+        "ar": "Throwing Arrows",
+        "fr": "Throwing Arrows",
+        "pt": "Throwing Arrows",
+        "ru": "Throwing Arrows"
+      }
     },
     {
       "id": "tier_017",
@@ -4731,7 +6396,16 @@
           "Die Pfeilspitze steht für Stärke, Macht oder Störung."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Arrowheads",
+        "tr": "Ok Uçları",
+        "es": "Arrowheads",
+        "ar": "Arrowheads",
+        "fr": "Arrowheads",
+        "pt": "Arrowheads",
+        "ru": "Arrowheads"
+      }
     },
     {
       "id": "aktivitaet_007",
@@ -4754,7 +6428,16 @@
           "Die Pilgerfahrt versäumen: **Verlust** oder **Schwierigkeiten** auf einer Reise."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Pilgrimage (Hajj)",
+        "tr": "Hac",
+        "es": "Pilgrimage (Hajj)",
+        "ar": "حج",
+        "fr": "Pilgrimage (Hajj)",
+        "pt": "Pilgrimage (Hajj)",
+        "ru": "Pilgrimage (Hajj)"
+      }
     },
     {
       "id": "objekt_089",
@@ -4778,7 +6461,16 @@
           "Die Rückkehr von einer Pilgerfahrt bedeutet Gewinne und Erleichterung von Stress."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Pilgrimage Rituals",
+        "tr": "Hac Ritüelleri",
+        "es": "Pilgrimage Rituals",
+        "ar": "Pilgrimage Rituals",
+        "fr": "Pilgrimage Rituals",
+        "pt": "Pilgrimage Rituals",
+        "ru": "Pilgrimage Rituals"
+      }
     },
     {
       "id": "natur_023",
@@ -4801,7 +6493,16 @@
           "Trübes Wasser trinken: **Kummer** und **Sorgen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Spring/Well",
+        "tr": "Kaynak/Kuyu",
+        "es": "Spring/Well",
+        "ar": "Spring/Well",
+        "fr": "Spring/Well",
+        "pt": "Spring/Well",
+        "ru": "Spring/Well"
+      }
     },
     {
       "id": "natur_024",
@@ -4845,6 +6546,15 @@
           "label": "Theravada",
           "text": "Regen symbolisiert den Dharma, der auf alle ohne Unterschied fällt. Er reinigt Karma und fördert geistiges Wachstum."
         }
+      },
+      "name_translations": {
+        "en": "Rain",
+        "tr": "Yağmur",
+        "es": "Lluvia",
+        "ar": "مطر",
+        "fr": "Pluie",
+        "pt": "Chuva",
+        "ru": "Дождь"
       }
     },
     {
@@ -4873,7 +6583,16 @@
         "Gold",
         "Silber",
         "Armut"
-      ]
+      ],
+      "name_translations": {
+        "en": "Wealth",
+        "tr": "Zenginlik",
+        "es": "Wealth",
+        "ar": "ثروة",
+        "fr": "Richesse",
+        "pt": "Wealth",
+        "ru": "Wealth"
+      }
     },
     {
       "id": "objekt_091",
@@ -4895,7 +6614,16 @@
           "Reis kochen: **Geld** von einem **mächtigen Mann** erhalten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Rice",
+        "tr": "Pirinç",
+        "es": "Arroz",
+        "ar": "أرز",
+        "fr": "Riz",
+        "pt": "Rice",
+        "ru": "Rice"
+      }
     },
     {
       "id": "natur_025",
@@ -4917,7 +6645,16 @@
           "Eine Rose riechen: **Angenehme Worte** hören."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Rose",
+        "tr": "Gül",
+        "es": "Rosa",
+        "ar": "وردة",
+        "fr": "Rose",
+        "pt": "Rosa",
+        "ru": "Роза"
+      }
     },
     {
       "id": "objekt_092",
@@ -4939,7 +6676,16 @@
           "Der Zobel repräsentiert eine **undankbare, ungerechte Person** oder einen **Ungläubigen**, der Reichtum anhäuft, von dem niemand profitieren kann, bis er stirbt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sable",
+        "tr": "Sansar",
+        "es": "Sable",
+        "ar": "Sable",
+        "fr": "Sable",
+        "pt": "Sable",
+        "ru": "Sable"
+      }
     },
     {
       "id": "natur_026",
@@ -4962,7 +6708,16 @@
           "Sand essen: **Schwierigkeiten** bei der Erlangung von Unterhalt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sand",
+        "tr": "Kum",
+        "es": "Arena",
+        "ar": "رمل",
+        "fr": "Sable",
+        "pt": "Areia",
+        "ru": "Песок"
+      }
     },
     {
       "id": "ort_011",
@@ -4985,7 +6740,16 @@
           "Die Hitze im Badhaus: **Sorgen** und **Kummer**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sauna/Turkish Bath",
+        "tr": "Sauna/Türk Hamamı",
+        "es": "Sauna/Turkish Bath",
+        "ar": "Sauna/Turkish Bath",
+        "fr": "Sauna/Turkish Bath",
+        "pt": "Sauna/Turkish Bath",
+        "ru": "Sauna/Turkish Bath"
+      }
     },
     {
       "id": "tier_018",
@@ -5007,7 +6771,16 @@
           "Ein Lamm schlachten: **Opfer** bringen oder **Geburt eines Sohnes**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sheep/Lamb",
+        "tr": "Koyun/Kuzu",
+        "es": "Sheep/Lamb",
+        "ar": "غنم/حمل",
+        "fr": "Sheep/Lamb",
+        "pt": "Sheep/Lamb",
+        "ru": "Sheep/Lamb"
+      }
     },
     {
       "id": "natur_027",
@@ -5029,7 +6802,16 @@
           "Im Schatten sitzen: **Schutz** vor Sorgen und **Problemen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Shadow",
+        "tr": "Gölge",
+        "es": "Sombra",
+        "ar": "ظل",
+        "fr": "Ombre",
+        "pt": "Shadow",
+        "ru": "Shadow"
+      }
     },
     {
       "id": "objekt_093",
@@ -5053,7 +6835,16 @@
           "Das Halten einer Schere bedeutet, einen Bruder für den erstgeborenen Sohn zu gebären oder zwei sich gegenseitig stützende Geschäfte zu haben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Scissors",
+        "tr": "Makas",
+        "es": "Tijeras",
+        "ar": "مقص",
+        "fr": "Ciseaux",
+        "pt": "Scissors",
+        "ru": "Scissors"
+      }
     },
     {
       "id": "objekt_094",
@@ -5081,7 +6872,16 @@
         "Straße",
         "Auto",
         "Flugzeug"
-      ]
+      ],
+      "name_translations": {
+        "en": "Ship",
+        "tr": "Gemi",
+        "es": "Barco",
+        "ar": "سفينة",
+        "fr": "Navire",
+        "pt": "Ship",
+        "ru": "Ship"
+      }
     },
     {
       "id": "tier_019",
@@ -5104,7 +6904,16 @@
           "Eine Schildkröte auf einem Müllhaufen: Eine wissende Person, die inmitten unwissender Menschen lebt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Turtle",
+        "tr": "Kaplumbağa",
+        "es": "Turtle",
+        "ar": "Turtle",
+        "fr": "Turtle",
+        "pt": "Turtle",
+        "ru": "Turtle"
+      }
     },
     {
       "id": "aktivitaet_008",
@@ -5130,7 +6939,16 @@
           "Unter einem Baum: Eine große Nachkommenschaft haben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sleeping",
+        "tr": "Uyuma",
+        "es": "Sleeping",
+        "ar": "نوم",
+        "fr": "Sommeil",
+        "pt": "Sleeping",
+        "ru": "Sleeping"
+      }
     },
     {
       "id": "aktivitaet_009",
@@ -5151,7 +6969,16 @@
           "Verlust eines Geliebten, der Tod eines Kindes, Trennung zwischen Liebenden oder Verlassen der Familie und Reisen in ein fremdes Land."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Insomnia",
+        "tr": "Uykusuzluk",
+        "es": "Insomnia",
+        "ar": "أرق",
+        "fr": "Insomnie",
+        "pt": "Insomnia",
+        "ru": "Insomnia"
+      }
     },
     {
       "id": "ort_012",
@@ -5177,7 +7004,16 @@
           "Ein schlecht aussehendes Schlafzimmer: Schlechter Charakter."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Bedroom",
+        "tr": "Yatak Odası",
+        "es": "Bedroom",
+        "ar": "غرفة نوم",
+        "fr": "Bedroom",
+        "pt": "Bedroom",
+        "ru": "Bedroom"
+      }
     },
     {
       "id": "tier_020",
@@ -5221,6 +7057,15 @@
           "label": "Tibet. Buddhismus",
           "text": "Im tibetischen Buddhismus steht die Schlange für Nāgas – Schutzgeister des Wassers. Gier ist einer der drei Gifte, symbolisiert durch die Schlange."
         }
+      },
+      "name_translations": {
+        "en": "Snake",
+        "tr": "Yılan",
+        "es": "Serpiente",
+        "ar": "ثعبان",
+        "fr": "Serpent",
+        "pt": "Cobra",
+        "ru": "Змея"
       }
     },
     {
@@ -5243,7 +7088,16 @@
           "Eine Tür aufschließen: **Erfolg** und **Erleichterung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Key",
+        "tr": "Anahtar",
+        "es": "Llave",
+        "ar": "مفتاح",
+        "fr": "Clé",
+        "pt": "Chave",
+        "ru": "Ключ"
+      }
     },
     {
       "id": "person_014",
@@ -5269,7 +7123,16 @@
           "**Selbst Schreiber sein:** Man wird in seiner Arbeit erfolgreich sein und **großen Respekt** erlangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Scribe",
+        "tr": "Kâtip",
+        "es": "Scribe",
+        "ar": "Scribe",
+        "fr": "Scribe",
+        "pt": "Scribe",
+        "ru": "Scribe"
+      }
     },
     {
       "id": "natur_028",
@@ -5292,7 +7155,16 @@
           "Schuhe verlieren: **Scheidung** oder **Verlust** auf Reisen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Shoe/Sandals",
+        "tr": "Ayakkabı/Sandalet",
+        "es": "Shoe/Sandals",
+        "ar": "Shoe/Sandals",
+        "fr": "Shoe/Sandals",
+        "pt": "Shoe/Sandals",
+        "ru": "Shoe/Sandals"
+      }
     },
     {
       "id": "ort_013",
@@ -5317,7 +7189,16 @@
           "Bedeutet auch Rechtschaffenheit, die Etablierung göttlicher Gesetze, die Förderung eines Geschäfts oder die Einladung von Ärger."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "School",
+        "tr": "Okul",
+        "es": "Escuela",
+        "ar": "مدرسة",
+        "fr": "École",
+        "pt": "School",
+        "ru": "School"
+      }
     },
     {
       "id": "natur_029",
@@ -5342,7 +7223,16 @@
           "Sein Anblick ist möglicherweise ein Hinweis auf die bevorstehende Pilgerfahrt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Black Stone",
+        "tr": "Kara Taş",
+        "es": "Black Stone",
+        "ar": "Black Stone",
+        "fr": "Black Stone",
+        "pt": "Black Stone",
+        "ru": "Black Stone"
+      }
     },
     {
       "id": "aktivitaet_010",
@@ -5364,7 +7254,16 @@
           "Im trüben Wasser schwimmen: **Verstrickung** in Sünden und **Probleme**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Swimming",
+        "tr": "Yüzme",
+        "es": "Nadar",
+        "ar": "سباحة",
+        "fr": "Nage",
+        "pt": "Swimming",
+        "ru": "Swimming"
+      }
     },
     {
       "id": "objekt_096",
@@ -5386,7 +7285,16 @@
           "Seide tragen: **Aufstieg** in Rang und **Gunst**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Silk",
+        "tr": "İpek",
+        "es": "Seda",
+        "ar": "حرير",
+        "fr": "Soie",
+        "pt": "Silk",
+        "ru": "Шёлк"
+      }
     },
     {
       "id": "person_015",
@@ -5406,7 +7314,16 @@
           "Kann auch einen Sozialarbeiter, geistlichen Führer oder Psychologen darstellen, der Experte im Lösen von Problemen und Fördern des Friedens ist."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Silk Merchant",
+        "tr": "İpek Tüccarı",
+        "es": "Silk Merchant",
+        "ar": "Silk Merchant",
+        "fr": "Silk Merchant",
+        "pt": "Silk Merchant",
+        "ru": "Silk Merchant"
+      }
     },
     {
       "id": "emotion_009",
@@ -5426,7 +7343,16 @@
           "Zeigt im Allgemeinen eine Beteiligung an, die Leiden verursachen wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sigh",
+        "tr": "İç Çekme",
+        "es": "Sigh",
+        "ar": "Sigh",
+        "fr": "Sigh",
+        "pt": "Sigh",
+        "ru": "Sigh"
+      }
     },
     {
       "id": "objekt_097",
@@ -5448,7 +7374,16 @@
           "Sieht er schrecklich aus, kann dies den Verlust des Augenlichts bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Shu'Aib (Uwbp) (Prophet Jethro)",
+        "tr": "Şuayb (AS)",
+        "es": "Shu'Aib (Uwbp) (Prophet Jethro)",
+        "ar": "Shu'Aib (Uwbp) (Prophet Jethro)",
+        "fr": "Shu'Aib (Uwbp) (Prophet Jethro)",
+        "pt": "Shu'Aib (Uwbp) (Prophet Jethro)",
+        "ru": "Shu'Aib (Uwbp) (Prophet Jethro)"
+      }
     },
     {
       "id": "objekt_098",
@@ -5473,7 +7408,16 @@
           "**Sich in der Moschee verstecken:** Schutz vor weltlichen Ablenkungen und **Segen im Glauben**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Hiding",
+        "tr": "Saklanma",
+        "es": "Hiding",
+        "ar": "Hiding",
+        "fr": "Hiding",
+        "pt": "Hiding",
+        "ru": "Hiding"
+      }
     },
     {
       "id": "objekt_099",
@@ -5492,7 +7436,16 @@
           "Behält kein Wasser zurück: Der Hinterleger wird sein Versprechen nicht halten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sieve",
+        "tr": "Elek",
+        "es": "Sieve",
+        "ar": "غربال",
+        "fr": "Sieve",
+        "pt": "Sieve",
+        "ru": "Sieve"
+      }
     },
     {
       "id": "tier_021",
@@ -5515,7 +7468,16 @@
           "Repräsentiert Niedertracht, eine verabscheuungswürdige Natur oder den Umgang mit niedrigen Menschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Scarab",
+        "tr": "Bok Böceği",
+        "es": "Scarab",
+        "ar": "جعران",
+        "fr": "Scarab",
+        "pt": "Scarab",
+        "ru": "Scarab"
+      }
     },
     {
       "id": "natur_030",
@@ -5556,6 +7518,15 @@
           "label": "Tibet. Buddhismus",
           "text": "Die Sonne symbolisiert den Dharmakaya – den reinen, erleuchteten Geist. Sonnenstrahlen sind Mitgefühl (Karuna), das alle Wesen erreicht."
         }
+      },
+      "name_translations": {
+        "en": "Sun",
+        "tr": "Güneş",
+        "es": "Sol",
+        "ar": "شمس",
+        "fr": "Soleil",
+        "pt": "Sol",
+        "ru": "Солнце"
       }
     },
     {
@@ -5580,7 +7551,16 @@
           "Das Halten eines Spatzen bedeutet auch die Wahl einer Gemeinschaft von Ältesten und das Anbieten der eigenen Dienste."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sparrow",
+        "tr": "Serçe",
+        "es": "Sparrow",
+        "ar": "عصفور",
+        "fr": "Sparrow",
+        "pt": "Sparrow",
+        "ru": "Sparrow"
+      }
     },
     {
       "id": "tier_023",
@@ -5603,7 +7583,16 @@
         ]
       },
       "verwandte_symbole": [],
-      "additional_sources": {}
+      "additional_sources": {},
+      "name_translations": {
+        "en": "Spider",
+        "tr": "Örümcek",
+        "es": "Araña",
+        "ar": "عنكبوت",
+        "fr": "Araignée",
+        "pt": "Aranha",
+        "ru": "Паук"
+      }
     },
     {
       "id": "objekt_100",
@@ -5625,7 +7614,16 @@
           "Sich auf einen Stock stützen: **Unterstützung** von einem **starken Mann** erhalten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Stick/Staff",
+        "tr": "Çubuk/Asa",
+        "es": "Stick/Staff",
+        "ar": "Stick/Staff",
+        "fr": "Stick/Staff",
+        "pt": "Stick/Staff",
+        "ru": "Stick/Staff"
+      }
     },
     {
       "id": "ort_014",
@@ -5654,7 +7652,16 @@
         "Auto",
         "Schiff",
         "Flugzeug"
-      ]
+      ],
+      "name_translations": {
+        "en": "Street",
+        "tr": "Sokak",
+        "es": "Calle",
+        "ar": "شارع",
+        "fr": "Rue",
+        "pt": "Rua",
+        "ru": "Улица"
+      }
     },
     {
       "id": "objekt_101",
@@ -5677,7 +7684,16 @@
           "Ein zerbrochener Säbel: **Verlust** eines nahen Verwandten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Saber/Knife",
+        "tr": "Kılıç/Bıçak",
+        "es": "Saber/Knife",
+        "ar": "Saber/Knife",
+        "fr": "Saber/Knife",
+        "pt": "Saber/Knife",
+        "ru": "Saber/Knife"
+      }
     },
     {
       "id": "objekt_102",
@@ -5699,7 +7715,16 @@
           "Sie steht auch für **Stärke, Gewinn** und einen **weisen Richter**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Saw",
+        "tr": "Testere",
+        "es": "Saw",
+        "ar": "منشار",
+        "fr": "Saw",
+        "pt": "Saw",
+        "ru": "Saw"
+      }
     },
     {
       "id": "objekt_103",
@@ -5721,7 +7746,16 @@
           "Viele Süßigkeiten: **Überfluss** an guten Taten und **Reichtum**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sweets",
+        "tr": "Tatlılar",
+        "es": "Sweets",
+        "ar": "حلويات",
+        "fr": "Bonbons",
+        "pt": "Sweets",
+        "ru": "Sweets"
+      }
     },
     {
       "id": "objekt_104",
@@ -5742,7 +7776,16 @@
           "Repräsentiert jemanden, der die Reichen verletzt und den Armen nützt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Tamarisk",
+        "tr": "Ilgın",
+        "es": "Tamarisk",
+        "ar": "Tamarisk",
+        "fr": "Tamarisk",
+        "pt": "Tamarisk",
+        "ru": "Tamarisk"
+      }
     },
     {
       "id": "tier_024",
@@ -5764,7 +7807,16 @@
           "Eine Taube fangen: **Heirat** oder **gute Nachrichten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Dove",
+        "tr": "Güvercin",
+        "es": "Paloma",
+        "ar": "حمامة",
+        "fr": "Colombe",
+        "pt": "Dove",
+        "ru": "Голубь"
+      }
     },
     {
       "id": "objekt_105",
@@ -5786,7 +7838,16 @@
           "Auf einem Teppich sitzen: **Wohlstand** und **Stabilität**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Carpet",
+        "tr": "Halı",
+        "es": "Alfombra",
+        "ar": "سجادة",
+        "fr": "Tapis",
+        "pt": "Carpet",
+        "ru": "Ковёр"
+      }
     },
     {
       "id": "objekt_106",
@@ -5810,7 +7871,16 @@
           "**Tinte kaufen:** Wissen suchen oder in eine neue Geschäftsbeziehung eintreten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Ink",
+        "tr": "Mürekkep",
+        "es": "Tinta",
+        "ar": "حبر",
+        "fr": "Ink",
+        "pt": "Ink",
+        "ru": "Ink"
+      }
     },
     {
       "id": "objekt_107",
@@ -5832,7 +7902,16 @@
           "Ein voller Tisch: **Reichtum** und **Überfluss**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Table",
+        "tr": "Masa",
+        "es": "Mesa",
+        "ar": "طاولة",
+        "fr": "Table",
+        "pt": "Table",
+        "ru": "Стол"
+      }
     },
     {
       "id": "natur_031",
@@ -5855,7 +7934,16 @@
           "Schwarze Trauben: **Reichtum** von **Männern**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Grapes",
+        "tr": "Üzüm",
+        "es": "Uvas",
+        "ar": "عنب",
+        "fr": "Raisins",
+        "pt": "Grapes",
+        "ru": "Виноград"
+      }
     },
     {
       "id": "emotion_010",
@@ -5883,7 +7971,16 @@
         "Grab",
         "Beerdigung",
         "Sarg"
-      ]
+      ],
+      "name_translations": {
+        "en": "Mourning",
+        "tr": "Yas",
+        "es": "Duelo",
+        "ar": "حداد",
+        "fr": "Deuil",
+        "pt": "Mourning",
+        "ru": "Mourning"
+      }
     },
     {
       "id": "objekt_108",
@@ -5908,7 +8005,16 @@
           "Stufen aus Ton sind positive Zeichen, aus gebrannten Ziegeln ungünstig und aus Steinen bedeuten Geschäftserfolg."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Stairs/Steps",
+        "tr": "Merdiven/Basamak",
+        "es": "Stairs/Steps",
+        "ar": "Stairs/Steps",
+        "fr": "Stairs/Steps",
+        "pt": "Stairs/Steps",
+        "ru": "Stairs/Steps"
+      }
     },
     {
       "id": "objekt_109",
@@ -5933,7 +8039,16 @@
           "**Eine zerrissene Trommel:** Ende der Heuchelei oder Verleumdung."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Drum",
+        "tr": "Davul",
+        "es": "Drum",
+        "ar": "طبل",
+        "fr": "Tambour",
+        "pt": "Drum",
+        "ru": "Drum"
+      }
     },
     {
       "id": "objekt_110",
@@ -5952,7 +8067,16 @@
           "Steht für eine **verleumderische Person** oder einen **Heuchler**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Drummer",
+        "tr": "Davulcu",
+        "es": "Drummer",
+        "ar": "طبال",
+        "fr": "Drummer",
+        "pt": "Drummer",
+        "ru": "Drummer"
+      }
     },
     {
       "id": "objekt_111",
@@ -5977,7 +8101,16 @@
           "**Töpfern:** Ein **neues Unternehmen** gründen oder eine **Familie gründen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Pottery",
+        "tr": "Çömlekçilik",
+        "es": "Pottery",
+        "ar": "فخار",
+        "fr": "Pottery",
+        "pt": "Pottery",
+        "ru": "Pottery"
+      }
     },
     {
       "id": "ort_015",
@@ -6007,7 +8140,16 @@
         "Dach",
         "Keller",
         "Treppe"
-      ]
+      ],
+      "name_translations": {
+        "en": "Door",
+        "tr": "Kapı",
+        "es": "Puerta",
+        "ar": "باب",
+        "fr": "Porte",
+        "pt": "Porta",
+        "ru": "Дверь"
+      }
     },
     {
       "id": "ort_016",
@@ -6029,7 +8171,16 @@
           "Eine schwangere Frau hält einen Dolch/ein Messer mit Türkisgriff: Sie wird einen Sohn zur Welt bringen, der ein hohes Alter erreichen wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Turquoise",
+        "tr": "Turkuaz",
+        "es": "Turquoise",
+        "ar": "فيروز",
+        "fr": "Turquoise",
+        "pt": "Turquoise",
+        "ru": "Turquoise"
+      }
     },
     {
       "id": "objekt_112",
@@ -6051,7 +8202,16 @@
           "Eine Uhr sehen: **Erinnerung** an die **religiösen Pflichten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Clock/Time",
+        "tr": "Saat/Zaman",
+        "es": "Clock/Time",
+        "ar": "Clock/Time",
+        "fr": "Clock/Time",
+        "pt": "Clock/Time",
+        "ru": "Clock/Time"
+      }
     },
     {
       "id": "emotion_011",
@@ -6077,7 +8237,16 @@
           "Im Allgemeinen bedeutet Verlangen im Traum **Böses**, wenn es von Weinen oder Klage begleitet wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Desire",
+        "tr": "Arzu",
+        "es": "Desire",
+        "ar": "رغبة",
+        "fr": "Désir",
+        "pt": "Desire",
+        "ru": "Desire"
+      }
     },
     {
       "id": "emotion_012",
@@ -6101,7 +8270,16 @@
           "Ein leerer Ort kann auch Kummer und Ärger bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Abandonment",
+        "tr": "Terk Etme",
+        "es": "Abandonment",
+        "ar": "Abandonment",
+        "fr": "Abandonment",
+        "pt": "Abandonment",
+        "ru": "Abandonment"
+      }
     },
     {
       "id": "emotion_013",
@@ -6120,7 +8298,16 @@
           "Feindschaft zwischen Menschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Reconciliation (Between Quarreling Drunkards)",
+        "tr": "Uzlaşma",
+        "es": "Reconciliation (Between Quarreling Drunkards)",
+        "ar": "Reconciliation (Between Quarreling Drunkards)",
+        "fr": "Reconciliation (Between Quarreling Drunkards)",
+        "pt": "Reconciliation (Between Quarreling Drunkards)",
+        "ru": "Reconciliation (Between Quarreling Drunkards)"
+      }
     },
     {
       "id": "emotion_014",
@@ -6141,7 +8328,16 @@
           "Jemandem ein Geheimnis anvertrauen: Der Tod der zweiten Person."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Trust",
+        "tr": "Güven",
+        "es": "Trust",
+        "ar": "ثقة",
+        "fr": "Confiance",
+        "pt": "Trust",
+        "ru": "Trust"
+      }
     },
     {
       "id": "objekt_113",
@@ -6166,7 +8362,16 @@
           "Aus der Heimat verbannt zu werden, bedeutet, dass man ins **Gefängnis** kommen könnte."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Expulsion",
+        "tr": "Sürme",
+        "es": "Expulsion",
+        "ar": "Expulsion",
+        "fr": "Expulsion",
+        "pt": "Expulsion",
+        "ru": "Expulsion"
+      }
     },
     {
       "id": "tier_025",
@@ -6185,7 +8390,16 @@
           "Ein Regierungsangestellter, der ungerecht wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Transformation (Of an Ox Into a Wolf)",
+        "tr": "Dönüşüm (Öküzden Kurda)",
+        "es": "Transformation (Of an Ox Into a Wolf)",
+        "ar": "Transformation (Of an Ox Into a Wolf)",
+        "fr": "Transformation (Of an Ox Into a Wolf)",
+        "pt": "Transformation (Of an Ox Into a Wolf)",
+        "ru": "Transformation (Of an Ox Into a Wolf)"
+      }
     },
     {
       "id": "tier_026",
@@ -6204,7 +8418,16 @@
           "Wohlstand, umgeben von Abwesenheit menschlicher Würde."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Transformation (Into a Pig)",
+        "tr": "Dönüşüm (Domuza)",
+        "es": "Transformation (Into a Pig)",
+        "ar": "Transformation (Into a Pig)",
+        "fr": "Transformation (Into a Pig)",
+        "pt": "Transformation (Into a Pig)",
+        "ru": "Transformation (Into a Pig)"
+      }
     },
     {
       "id": "tier_027",
@@ -6223,7 +8446,16 @@
           "Er wird von seinem Sexualleben besessen oder geistig verwirrt bis hin zur Ausübung bisexueller Praktiken."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Transformation (Into a Deer, Gazelle, or Antelope)",
+        "tr": "Dönüşüm (Geyik, Ceylan veya Antilop)",
+        "es": "Transformation (Into a Deer, Gazelle, or Antelope)",
+        "ar": "Transformation (Into a Deer, Gazelle, or Antelope)",
+        "fr": "Transformation (Into a Deer, Gazelle, or Antelope)",
+        "pt": "Transformation (Into a Deer, Gazelle, or Antelope)",
+        "ru": "Transformation (Into a Deer, Gazelle, or Antelope)"
+      }
     },
     {
       "id": "objekt_114",
@@ -6246,7 +8478,16 @@
           "Mit der Waage betrügen: **Ungerechtigkeit** im Geschäft oder **schlechte Absichten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Scale",
+        "tr": "Terazi",
+        "es": "Scale",
+        "ar": "ميزان",
+        "fr": "Balance",
+        "pt": "Scale",
+        "ru": "Scale"
+      }
     },
     {
       "id": "objekt_115",
@@ -6270,7 +8511,16 @@
           "Stellt das Streben dar, von Menschen akzeptiert zu werden, entweder durch ihre Verteidigung oder durch den Mut, sich ihrem Feind zu stellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Recklessness",
+        "tr": "Gözükaralık",
+        "es": "Recklessness",
+        "ar": "Recklessness",
+        "fr": "Recklessness",
+        "pt": "Recklessness",
+        "ru": "Recklessness"
+      }
     },
     {
       "id": "objekt_116",
@@ -6296,7 +8546,16 @@
           "Das Weggehen von der Welt bedeutet, dass man ein ... [Satzende abgeschnitten]."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "World",
+        "tr": "Dünya",
+        "es": "Mundo",
+        "ar": "عالم",
+        "fr": "Monde",
+        "pt": "Mundo",
+        "ru": "Мир"
+      }
     },
     {
       "id": "tier_028",
@@ -6323,7 +8582,16 @@
           "Wolfsmilch bedeutet Angst, Stress oder den Verfall eines Projekts."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Wolf",
+        "tr": "Kurt",
+        "es": "Lobo",
+        "ar": "ذئب",
+        "fr": "Loup",
+        "pt": "Lobo",
+        "ru": "Волк"
+      }
     },
     {
       "id": "emotion_015",
@@ -6342,7 +8610,16 @@
           "Würdevoll zu sein bedeutet im Traum **Demütigung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Dignity",
+        "tr": "Onur",
+        "es": "Dignity",
+        "ar": "Dignity",
+        "fr": "Dignity",
+        "pt": "Dignity",
+        "ru": "Dignity"
+      }
     },
     {
       "id": "natur_032",
@@ -6364,7 +8641,16 @@
           "Kann Reue für eine Sünde, die Umkehr des Geschäftsverlaufs von Verlust zu Gewinn oder die Genesung von einer Krankheit bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Desert",
+        "tr": "Çöl",
+        "es": "Desierto",
+        "ar": "صحراء",
+        "fr": "Désert",
+        "pt": "Deserto",
+        "ru": "Пустыня"
+      }
     },
     {
       "id": "objekt_117",
@@ -6388,7 +8674,16 @@
           "Das Spielen mit einem Zepter bedeutet, die Hilfe einer solchen Person zu nutzen, um Rivalen zu besiegen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Scepter",
+        "tr": "Asa",
+        "es": "Scepter",
+        "ar": "صولجان",
+        "fr": "Scepter",
+        "pt": "Scepter",
+        "ru": "Scepter"
+      }
     },
     {
       "id": "koerper_012",
@@ -6413,7 +8708,16 @@
           "Eine schwangere Frau sieht ein Erdbeben: Repräsentiert Wehen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Trembling",
+        "tr": "Titreme",
+        "es": "Trembling",
+        "ar": "ارتعاش",
+        "fr": "Trembling",
+        "pt": "Trembling",
+        "ru": "Trembling"
+      }
     },
     {
       "id": "objekt_118",
@@ -6432,7 +8736,16 @@
           "Repräsentieren Geld."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Sleeve",
+        "tr": "Kol",
+        "es": "Sleeve",
+        "ar": "كم",
+        "fr": "Sleeve",
+        "pt": "Sleeve",
+        "ru": "Sleeve"
+      }
     },
     {
       "id": "objekt_119",
@@ -6454,7 +8767,16 @@
           "Öl auf den Körper reiben: **Heilung** von Krankheit und **Guter Ruf**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "name_translations": {
+        "en": "Oil",
+        "tr": "Yağ",
+        "es": "Aceite",
+        "ar": "زيت",
+        "fr": "Huile",
+        "pt": "Óleo",
+        "ru": "Масло"
+      }
     },
     {
       "id": "kb_zahn___zähne",
@@ -6492,7 +8814,16 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Tooth / Teeth",
+        "tr": "Diş / Dişler",
+        "es": "Tooth / Teeth",
+        "ar": "سن / أسنان",
+        "fr": "Tooth / Teeth",
+        "pt": "Tooth / Teeth",
+        "ru": "Tooth / Teeth"
+      }
     },
     {
       "id": "kb_baby___kleinkind",
@@ -6530,7 +8861,16 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Baby / Toddler",
+        "tr": "Bebek / Küçük Çocuk",
+        "es": "Baby / Toddler",
+        "ar": "رضيع / طفل صغير",
+        "fr": "Baby / Toddler",
+        "pt": "Baby / Toddler",
+        "ru": "Baby / Toddler"
+      }
     },
     {
       "id": "kb_auto___fahrzeug",
@@ -6569,7 +8909,16 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Car / Vehicle",
+        "tr": "Araba / Araç",
+        "es": "Car / Vehicle",
+        "ar": "سيارة / مركبة",
+        "fr": "Car / Vehicle",
+        "pt": "Car / Vehicle",
+        "ru": "Car / Vehicle"
+      }
     },
     {
       "id": "kb_wald",
@@ -6605,7 +8954,16 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Forest",
+        "tr": "Orman",
+        "es": "Bosque",
+        "ar": "غابة",
+        "fr": "Forêt",
+        "pt": "Floresta",
+        "ru": "Лес"
+      }
     },
     {
       "id": "kb_meer___ozean",
@@ -6643,7 +9001,16 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Sea / Ocean",
+        "tr": "Deniz / Okyanus",
+        "es": "Sea / Ocean",
+        "ar": "بحر / محيط",
+        "fr": "Sea / Ocean",
+        "pt": "Sea / Ocean",
+        "ru": "Sea / Ocean"
+      }
     },
     {
       "id": "kb_berg",
@@ -6678,7 +9045,16 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Mountain",
+        "tr": "Dağ",
+        "es": "Montaña",
+        "ar": "جبل",
+        "fr": "Montagne",
+        "pt": "Montanha",
+        "ru": "Гора"
+      }
     },
     {
       "id": "kb_blut",
@@ -6716,7 +9092,16 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "name_translations": {
+        "en": "Blood",
+        "tr": "Kan",
+        "es": "Sangre",
+        "ar": "دم",
+        "fr": "Sang",
+        "pt": "Sangue",
+        "ru": "Кровь"
+      }
     }
   ],
   "such_index": {
