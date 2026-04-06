@@ -5,6 +5,7 @@ import { Dream, Language, ReligiousCategory } from '../types';
 import { FEATURE_FLAGS } from '../config/featureFlags';
 // import BotProfileModal from './BotProfileModal';
 // import { useBotFriends } from '../hooks/useBotFriends';
+import { fetchMapDreams, type MapDreamUser } from '../services/dreamMapService';
 import { supabase } from '../services/supabaseClient';
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -13,8 +14,6 @@ interface DreamMapProps {
   language?: Language | string;
   onClose?: () => void;
   isLight?: boolean;
-  onSelectParticipant?: (id: string) => void;
-  onNavigateToResearch?: () => void;
   // Legacy compat
   themeMode?: string;
 }
@@ -133,14 +132,14 @@ const TRANSLATIONS: Record<string, Translations> = {
     trendDreamers: 'Träumer',
     showTrends: 'Trends zeigen',
     hideTrends: 'Trends ausblenden',
-    searchPlaceholder: 'Durchsuche Traeume, Stichworte, Staedte...',
+    searchPlaceholder: 'Durchsuche Träume, Stichworte, Städte...',
     matchThreshold: 'Match-Schwelle',
-    matchedDreamers: 'Gematchte Traeumer',
-    noDreamsFound: 'Keine Traeume gefunden',
-    profileBack: 'Zurueck',
+    matchedDreamers: 'Gematchte Träumer',
+    noDreamsFound: 'Keine Träume gefunden',
+    profileBack: 'Zurück',
     profileReport: 'Melden',
     profileMemberSince: 'Mitglied seit',
-    profileDreams: 'Traeume',
+    profileDreams: 'Träume',
     profileMatches: 'Matches',
     profileFavorite: 'Liebling',
     profileLastDream: 'Letzter Traum',
@@ -148,8 +147,8 @@ const TRANSLATIONS: Record<string, Translations> = {
     profileRequestConnection: 'Verbindung anfragen',
     profilePartialPrivate: 'Dieses Profil ist teilweise privat',
     profilePrivate: 'Dieses Profil ist privat',
-    profileAnonymous: 'Anonymer Traeumer',
-    profileDreamDetailsUnavailable: 'Traum-Details nicht verfuegbar',
+    profileAnonymous: 'Anonymer Träumer',
+    profileDreamDetailsUnavailable: 'Traum-Details nicht verfügbar',
     profileShowProfile: 'Profil anzeigen',
   },
   tr: {
@@ -182,18 +181,18 @@ const TRANSLATIONS: Record<string, Translations> = {
     noDreamsFound: 'Rüya bulunamadı',
     profileBack: 'Geri',
     profileReport: 'Bildir',
-    profileMemberSince: 'Uye oldu',
-    profileDreams: 'Ruyalar',
-    profileMatches: 'Eslesme',
+    profileMemberSince: 'Üye oldu',
+    profileDreams: 'Rüyalar',
+    profileMatches: 'Eşleşme',
     profileFavorite: 'Favori',
-    profileLastDream: 'Son Ruya',
-    profileConnect: 'Baglan',
-    profileRequestConnection: 'Baglanti Iste',
-    profilePartialPrivate: 'Bu profil kismi olarak gizli',
+    profileLastDream: 'Son Rüya',
+    profileConnect: 'Bağlan',
+    profileRequestConnection: 'Bağlantı İste',
+    profilePartialPrivate: 'Bu profil kısmen gizli',
     profilePrivate: 'Bu profil gizli',
-    profileAnonymous: 'Anonim Ruyaci',
-    profileDreamDetailsUnavailable: 'Ruya detaylari mevcut degil',
-    profileShowProfile: 'Profili Goster',
+    profileAnonymous: 'Anonim Rüyacı',
+    profileDreamDetailsUnavailable: 'Rüya detayları mevcut değil',
+    profileShowProfile: 'Profili Göster',
   },
   es: {
     title: 'Mapa de Sueños',
@@ -226,16 +225,16 @@ const TRANSLATIONS: Record<string, Translations> = {
     profileBack: 'Volver',
     profileReport: 'Reportar',
     profileMemberSince: 'Miembro desde',
-    profileDreams: 'Suenos',
+    profileDreams: 'Sueños',
     profileMatches: 'Coincidencias',
     profileFavorite: 'Favorito',
-    profileLastDream: 'Ultimo Sueno',
+    profileLastDream: 'Último Sueño',
     profileConnect: 'Conectar',
-    profileRequestConnection: 'Solicitar Conexion',
+    profileRequestConnection: 'Solicitar Conexión',
     profilePartialPrivate: 'Este perfil es parcialmente privado',
     profilePrivate: 'Este perfil es privado',
-    profileAnonymous: 'Sonador Anonimo',
-    profileDreamDetailsUnavailable: 'Detalles del sueno no disponibles',
+    profileAnonymous: 'Soñador Anónimo',
+    profileDreamDetailsUnavailable: 'Detalles del sueño no disponibles',
     profileShowProfile: 'Ver Perfil',
   },
   fr: {
@@ -269,16 +268,16 @@ const TRANSLATIONS: Record<string, Translations> = {
     profileBack: 'Retour',
     profileReport: 'Signaler',
     profileMemberSince: 'Membre depuis',
-    profileDreams: 'Reves',
+    profileDreams: 'Rêves',
     profileMatches: 'Correspondances',
     profileFavorite: 'Favori',
-    profileLastDream: 'Dernier Reve',
+    profileLastDream: 'Dernier Rêve',
     profileConnect: 'Connecter',
     profileRequestConnection: 'Demander Connexion',
-    profilePartialPrivate: 'Ce profil est partiellement prive',
-    profilePrivate: 'Ce profil est prive',
-    profileAnonymous: 'Reveur Anonyme',
-    profileDreamDetailsUnavailable: 'Details du reve non disponibles',
+    profilePartialPrivate: 'Ce profil est partiellement privé',
+    profilePrivate: 'Ce profil est privé',
+    profileAnonymous: 'Rêveur Anonyme',
+    profileDreamDetailsUnavailable: 'Détails du rêve non disponibles',
     profileShowProfile: 'Voir le Profil',
   },
   ar: {
@@ -356,15 +355,15 @@ const TRANSLATIONS: Record<string, Translations> = {
     profileReport: 'Denunciar',
     profileMemberSince: 'Membro desde',
     profileDreams: 'Sonhos',
-    profileMatches: 'Correspondencias',
+    profileMatches: 'Correspondências',
     profileFavorite: 'Favorito',
-    profileLastDream: 'Ultimo Sonho',
+    profileLastDream: 'Último Sonho',
     profileConnect: 'Conectar',
-    profileRequestConnection: 'Solicitar Conexao',
-    profilePartialPrivate: 'Este perfil e parcialmente privado',
-    profilePrivate: 'Este perfil e privado',
-    profileAnonymous: 'Sonhador Anonimo',
-    profileDreamDetailsUnavailable: 'Detalhes do sonho indisponiveis',
+    profileRequestConnection: 'Solicitar Conexão',
+    profilePartialPrivate: 'Este perfil é parcialmente privado',
+    profilePrivate: 'Este perfil é privado',
+    profileAnonymous: 'Sonhador Anônimo',
+    profileDreamDetailsUnavailable: 'Detalhes do sonho indisponíveis',
     profileShowProfile: 'Ver Perfil',
   },
   ru: {
@@ -410,608 +409,6 @@ const TRANSLATIONS: Record<string, Translations> = {
     profileDreamDetailsUnavailable: 'Детали сна недоступны',
     profileShowProfile: 'Показать профиль',
   },
-  zh: {
-    title: '梦境地图',
-    subtitle: '谁做了同样的梦？',
-    activedreamers: '活跃梦者',
-    similarToday: '今日相似',
-    matchestoday: '今日匹配',
-    newmatch: '新匹配！',
-    from: '来自',
-    similarDream: '做了类似的梦',
-    connect: '连接',
-    matchScore: '匹配分数',
-    dreamSummary: '梦境摘要',
-    category: '类别',
-    mood: '心情',
-    close: '关闭',
-    filterAll: '全部',
-    worldwide: '全球',
-    dreamersSimilar: '%的梦者有类似的梦',
-    loading: '正在扫描梦者...',
-    tapMarker: '点击标记查看匹配详情',
-    trendTitle: '最热门梦境主题',
-    trendDreamers: '梦者',
-    showTrends: '显示趋势',
-    hideTrends: '隐藏趋势',
-    searchPlaceholder: '搜索梦境、关键词、城市...',
-    matchThreshold: '匹配阈值',
-    matchedDreamers: '匹配的梦者',
-    noDreamsFound: '未找到梦境',
-    profileBack: '返回',
-    profileReport: '举报',
-    profileMemberSince: '加入于',
-    profileDreams: '梦境',
-    profileMatches: '匹配',
-    profileFavorite: '收藏',
-    profileLastDream: '最近的梦',
-    profileConnect: '连接',
-    profileRequestConnection: '请求连接',
-    profilePartialPrivate: '此个人资料部分私密',
-    profilePrivate: '此个人资料为私密',
-    profileAnonymous: '匿名梦者',
-    profileDreamDetailsUnavailable: '梦境详情不可用',
-    profileShowProfile: '查看资料',
-  },
-  hi: {
-    title: 'सपनों का नक्शा',
-    subtitle: 'किसने वही सपना देखा?',
-    activedreamers: 'सक्रिय स्वप्नदर्शी',
-    similarToday: 'आज समान',
-    matchestoday: 'आज के मैच',
-    newmatch: 'नया मैच!',
-    from: 'से',
-    similarDream: 'ने एक समान सपना देखा',
-    connect: 'जुड़ें',
-    matchScore: 'मैच स्कोर',
-    dreamSummary: 'सपने का सारांश',
-    category: 'श्रेणी',
-    mood: 'मनोदशा',
-    close: 'बंद करें',
-    filterAll: 'सभी',
-    worldwide: 'विश्वव्यापी',
-    dreamersSimilar: '% स्वप्नदर्शियों ने समान सपने देखे',
-    loading: 'स्वप्नदर्शी स्कैन हो रहे हैं...',
-    tapMarker: 'मैच विवरण के लिए मार्कर टैप करें',
-    trendTitle: 'सबसे लोकप्रिय सपने',
-    trendDreamers: 'स्वप्नदर्शी',
-    showTrends: 'रुझान दिखाएं',
-    hideTrends: 'रुझान छुपाएं',
-    searchPlaceholder: 'सपने, कीवर्ड, शहर खोजें...',
-    matchThreshold: 'मैच सीमा',
-    matchedDreamers: 'मिलान स्वप्नदर्शी',
-    noDreamsFound: 'कोई सपने नहीं मिले',
-    profileBack: 'वापस',
-    profileReport: 'रिपोर्ट',
-    profileMemberSince: 'सदस्य बने',
-    profileDreams: 'सपने',
-    profileMatches: 'मैच',
-    profileFavorite: 'पसंदीदा',
-    profileLastDream: 'अंतिम सपना',
-    profileConnect: 'जुड़ें',
-    profileRequestConnection: 'कनेक्शन अनुरोध',
-    profilePartialPrivate: 'यह प्रोफ़ाइल आंशिक रूप से निजी है',
-    profilePrivate: 'यह प्रोफ़ाइल निजी है',
-    profileAnonymous: 'अनाम स्वप्नदर्शी',
-    profileDreamDetailsUnavailable: 'सपने का विवरण उपलब्ध नहीं',
-    profileShowProfile: 'प्रोफ़ाइल देखें',
-  },
-  ja: {
-    title: 'ドリームマップ',
-    subtitle: '同じ夢を見たのは誰？',
-    activedreamers: 'アクティブな夢見る人',
-    similarToday: '今日の類似',
-    matchestoday: '今日のマッチ',
-    newmatch: '新しいマッチ！',
-    from: '出身',
-    similarDream: '似た夢を見ました',
-    connect: 'つながる',
-    matchScore: 'マッチスコア',
-    dreamSummary: '夢の要約',
-    category: 'カテゴリー',
-    mood: '気分',
-    close: '閉じる',
-    filterAll: 'すべて',
-    worldwide: '世界中',
-    dreamersSimilar: '%の夢見る人が似た夢を見ました',
-    loading: '夢見る人をスキャン中...',
-    tapMarker: 'マーカーをタップして詳細を表示',
-    trendTitle: '最も人気のある夢のテーマ',
-    trendDreamers: '夢見る人',
-    showTrends: 'トレンドを表示',
-    hideTrends: 'トレンドを非表示',
-    searchPlaceholder: '夢、キーワード、都市を検索...',
-    matchThreshold: 'マッチ閾値',
-    matchedDreamers: 'マッチした夢見る人',
-    noDreamsFound: '夢が見つかりません',
-    profileBack: '戻る',
-    profileReport: '報告',
-    profileMemberSince: '登録日',
-    profileDreams: '夢',
-    profileMatches: 'マッチ',
-    profileFavorite: 'お気に入り',
-    profileLastDream: '最後の夢',
-    profileConnect: 'つながる',
-    profileRequestConnection: '接続リクエスト',
-    profilePartialPrivate: 'このプロフィールは一部非公開です',
-    profilePrivate: 'このプロフィールは非公開です',
-    profileAnonymous: '匿名の夢見る人',
-    profileDreamDetailsUnavailable: '夢の詳細は利用できません',
-    profileShowProfile: 'プロフィールを表示',
-  },
-  ko: {
-    title: '꿈 지도',
-    subtitle: '누가 같은 꿈을 꿨을까?',
-    activedreamers: '활동 중인 꿈꾸는 이',
-    similarToday: '오늘 유사',
-    matchestoday: '오늘 매치',
-    newmatch: '새로운 매치!',
-    from: '출신',
-    similarDream: '비슷한 꿈을 꿨습니다',
-    connect: '연결',
-    matchScore: '매치 점수',
-    dreamSummary: '꿈 요약',
-    category: '카테고리',
-    mood: '기분',
-    close: '닫기',
-    filterAll: '전체',
-    worldwide: '전 세계',
-    dreamersSimilar: '%의 꿈꾸는 이가 비슷한 꿈을 꿨습니다',
-    loading: '꿈꾸는 이를 스캔 중...',
-    tapMarker: '매치 세부 정보를 보려면 마커를 탭하세요',
-    trendTitle: '가장 인기 있는 꿈 주제',
-    trendDreamers: '꿈꾸는 이',
-    showTrends: '트렌드 보기',
-    hideTrends: '트렌드 숨기기',
-    searchPlaceholder: '꿈, 키워드, 도시 검색...',
-    matchThreshold: '매치 임계값',
-    matchedDreamers: '매치된 꿈꾸는 이',
-    noDreamsFound: '꿈을 찾을 수 없습니다',
-    profileBack: '뒤로',
-    profileReport: '신고',
-    profileMemberSince: '가입일',
-    profileDreams: '꿈',
-    profileMatches: '매치',
-    profileFavorite: '즐겨찾기',
-    profileLastDream: '마지막 꿈',
-    profileConnect: '연결',
-    profileRequestConnection: '연결 요청',
-    profilePartialPrivate: '이 프로필은 부분적으로 비공개입니다',
-    profilePrivate: '이 프로필은 비공개입니다',
-    profileAnonymous: '익명의 꿈꾸는 이',
-    profileDreamDetailsUnavailable: '꿈 세부 정보를 사용할 수 없습니다',
-    profileShowProfile: '프로필 보기',
-  },
-  id: {
-    title: 'Peta Mimpi',
-    subtitle: 'Siapa yang bermimpi sama?',
-    activedreamers: 'pemimpi aktif',
-    similarToday: 'mirip hari ini',
-    matchestoday: 'kecocokan hari ini',
-    newmatch: 'Kecocokan Baru!',
-    from: 'dari',
-    similarDream: 'bermimpi serupa',
-    connect: 'Hubungkan',
-    matchScore: 'Skor Kecocokan',
-    dreamSummary: 'Ringkasan Mimpi',
-    category: 'Kategori',
-    mood: 'Suasana Hati',
-    close: 'Tutup',
-    filterAll: 'Semua',
-    worldwide: 'seluruh dunia',
-    dreamersSimilar: '% pemimpi memiliki mimpi serupa',
-    loading: 'Memindai pemimpi...',
-    tapMarker: 'Ketuk penanda untuk melihat detail',
-    trendTitle: 'Topik Mimpi Terpopuler',
-    trendDreamers: 'pemimpi',
-    showTrends: 'Tampilkan Tren',
-    hideTrends: 'Sembunyikan Tren',
-    searchPlaceholder: 'Cari mimpi, kata kunci, kota...',
-    matchThreshold: 'Ambang Kecocokan',
-    matchedDreamers: 'Pemimpi yang Cocok',
-    noDreamsFound: 'Tidak ada mimpi ditemukan',
-    profileBack: 'Kembali',
-    profileReport: 'Laporkan',
-    profileMemberSince: 'Anggota sejak',
-    profileDreams: 'Mimpi',
-    profileMatches: 'Kecocokan',
-    profileFavorite: 'Favorit',
-    profileLastDream: 'Mimpi Terakhir',
-    profileConnect: 'Hubungkan',
-    profileRequestConnection: 'Minta Koneksi',
-    profilePartialPrivate: 'Profil ini sebagian privat',
-    profilePrivate: 'Profil ini privat',
-    profileAnonymous: 'Pemimpi Anonim',
-    profileDreamDetailsUnavailable: 'Detail mimpi tidak tersedia',
-    profileShowProfile: 'Lihat Profil',
-  },
-  fa: {
-    title: 'نقشه رویاها',
-    subtitle: 'چه کسی همان خواب را دید؟',
-    activedreamers: 'رویابین فعال',
-    similarToday: 'مشابه امروز',
-    matchestoday: 'تطابق‌های امروز',
-    newmatch: 'تطابق جدید!',
-    from: 'از',
-    similarDream: 'خواب مشابهی دید',
-    connect: 'اتصال',
-    matchScore: 'امتیاز تطابق',
-    dreamSummary: 'خلاصه رویا',
-    category: 'دسته‌بندی',
-    mood: 'حال و هوا',
-    close: 'بستن',
-    filterAll: 'همه',
-    worldwide: 'جهانی',
-    dreamersSimilar: '% از رویابینان خواب‌های مشابهی دیدند',
-    loading: 'در حال اسکن رویابینان...',
-    tapMarker: 'برای مشاهده جزئیات روی نشانگر بزنید',
-    trendTitle: 'محبوب‌ترین موضوعات رویا',
-    trendDreamers: 'رویابین',
-    showTrends: 'نمایش روندها',
-    hideTrends: 'پنهان کردن روندها',
-    searchPlaceholder: 'جستجوی رویاها، کلمات کلیدی، شهرها...',
-    matchThreshold: 'آستانه تطابق',
-    matchedDreamers: 'رویابینان مطابق',
-    noDreamsFound: 'رویایی یافت نشد',
-    profileBack: 'بازگشت',
-    profileReport: 'گزارش',
-    profileMemberSince: 'عضو از',
-    profileDreams: 'رویاها',
-    profileMatches: 'تطابق‌ها',
-    profileFavorite: 'مورد علاقه',
-    profileLastDream: 'آخرین رویا',
-    profileConnect: 'اتصال',
-    profileRequestConnection: 'درخواست اتصال',
-    profilePartialPrivate: 'این پروفایل تا حدی خصوصی است',
-    profilePrivate: 'این پروفایل خصوصی است',
-    profileAnonymous: 'رویابین ناشناس',
-    profileDreamDetailsUnavailable: 'جزئیات رویا در دسترس نیست',
-    profileShowProfile: 'مشاهده پروفایل',
-  },
-  it: {
-    title: 'Mappa dei Sogni',
-    subtitle: 'Chi ha sognato lo stesso?',
-    activedreamers: 'sognatori attivi',
-    similarToday: 'simili oggi',
-    matchestoday: 'corrispondenze oggi',
-    newmatch: 'Nuova corrispondenza!',
-    from: 'da',
-    similarDream: 'ha avuto un sogno simile',
-    connect: 'Connetti',
-    matchScore: 'Punteggio',
-    dreamSummary: 'Riassunto del sogno',
-    category: 'Categoria',
-    mood: 'Umore',
-    close: 'Chiudi',
-    filterAll: 'Tutti',
-    worldwide: 'mondiale',
-    dreamersSimilar: '% dei sognatori ha avuto sogni simili',
-    loading: 'Scansione sognatori...',
-    tapMarker: 'Tocca un indicatore per i dettagli',
-    trendTitle: 'Temi dei sogni piu popolari',
-    trendDreamers: 'sognatori',
-    showTrends: 'Mostra tendenze',
-    hideTrends: 'Nascondi tendenze',
-    searchPlaceholder: 'Cerca sogni, parole chiave, citta...',
-    matchThreshold: 'Soglia di corrispondenza',
-    matchedDreamers: 'Sognatori corrispondenti',
-    noDreamsFound: 'Nessun sogno trovato',
-    profileBack: 'Indietro',
-    profileReport: 'Segnala',
-    profileMemberSince: 'Membro dal',
-    profileDreams: 'Sogni',
-    profileMatches: 'Corrispondenze',
-    profileFavorite: 'Preferito',
-    profileLastDream: 'Ultimo sogno',
-    profileConnect: 'Connetti',
-    profileRequestConnection: 'Richiedi connessione',
-    profilePartialPrivate: 'Questo profilo e parzialmente privato',
-    profilePrivate: 'Questo profilo e privato',
-    profileAnonymous: 'Sognatore anonimo',
-    profileDreamDetailsUnavailable: 'Dettagli del sogno non disponibili',
-    profileShowProfile: 'Mostra profilo',
-  },
-  pl: {
-    title: 'Mapa Snow',
-    subtitle: 'Kto mial ten sam sen?',
-    activedreamers: 'aktywnych sniacych',
-    similarToday: 'podobnych dzisiaj',
-    matchestoday: 'dopasowania dzisiaj',
-    newmatch: 'Nowe dopasowanie!',
-    from: 'z',
-    similarDream: 'mial podobny sen',
-    connect: 'Polacz',
-    matchScore: 'Wynik dopasowania',
-    dreamSummary: 'Streszczenie snu',
-    category: 'Kategoria',
-    mood: 'Nastroj',
-    close: 'Zamknij',
-    filterAll: 'Wszystkie',
-    worldwide: 'na calym swiecie',
-    dreamersSimilar: '% sniacych mialo podobne sny',
-    loading: 'Skanowanie sniacych...',
-    tapMarker: 'Dotknij znacznika, aby zobaczyc szczegoly',
-    trendTitle: 'Najpopularniejsze tematy snow',
-    trendDreamers: 'sniacych',
-    showTrends: 'Pokaz trendy',
-    hideTrends: 'Ukryj trendy',
-    searchPlaceholder: 'Szukaj snow, slow kluczowych, miast...',
-    matchThreshold: 'Prog dopasowania',
-    matchedDreamers: 'Dopasowani sniacy',
-    noDreamsFound: 'Nie znaleziono snow',
-    profileBack: 'Wstecz',
-    profileReport: 'Zglos',
-    profileMemberSince: 'Czlonek od',
-    profileDreams: 'Sny',
-    profileMatches: 'Dopasowania',
-    profileFavorite: 'Ulubione',
-    profileLastDream: 'Ostatni sen',
-    profileConnect: 'Polacz',
-    profileRequestConnection: 'Popros o polaczenie',
-    profilePartialPrivate: 'Ten profil jest czesciowo prywatny',
-    profilePrivate: 'Ten profil jest prywatny',
-    profileAnonymous: 'Anonimowy sniacy',
-    profileDreamDetailsUnavailable: 'Szczegoly snu niedostepne',
-    profileShowProfile: 'Pokaz profil',
-  },
-  bn: {
-    title: 'স্বপ্নের মানচিত্র',
-    subtitle: 'কে একই স্বপ্ন দেখেছে?',
-    activedreamers: 'সক্রিয় স্বপ্নদ্রষ্টা',
-    similarToday: 'আজ সদৃশ',
-    matchestoday: 'আজকের মিল',
-    newmatch: 'নতুন মিল!',
-    from: 'থেকে',
-    similarDream: 'একই রকম স্বপ্ন দেখেছে',
-    connect: 'সংযুক্ত হন',
-    matchScore: 'মিলের স্কোর',
-    dreamSummary: 'স্বপ্নের সারাংশ',
-    category: 'বিভাগ',
-    mood: 'মেজাজ',
-    close: 'বন্ধ করুন',
-    filterAll: 'সব',
-    worldwide: 'বিশ্বজুড়ে',
-    dreamersSimilar: '% স্বপ্নদ্রষ্টা একই রকম স্বপ্ন দেখেছে',
-    loading: 'স্বপ্নদ্রষ্টা স্ক্যান হচ্ছে...',
-    tapMarker: 'বিস্তারিত দেখতে মার্কারে ট্যাপ করুন',
-    trendTitle: 'সর্বাধিক জনপ্রিয় স্বপ্নের বিষয়',
-    trendDreamers: 'স্বপ্নদ্রষ্টা',
-    showTrends: 'ট্রেন্ড দেখান',
-    hideTrends: 'ট্রেন্ড লুকান',
-    searchPlaceholder: 'স্বপ্ন, কীওয়ার্ড, শহর খুঁজুন...',
-    matchThreshold: 'মিলের সীমা',
-    matchedDreamers: 'মিলিত স্বপ্নদ্রষ্টা',
-    noDreamsFound: 'কোনো স্বপ্ন পাওয়া যায়নি',
-    profileBack: 'ফিরে যান',
-    profileReport: 'রিপোর্ট',
-    profileMemberSince: 'সদস্য হয়েছেন',
-    profileDreams: 'স্বপ্ন',
-    profileMatches: 'মিল',
-    profileFavorite: 'পছন্দের',
-    profileLastDream: 'শেষ স্বপ্ন',
-    profileConnect: 'সংযুক্ত হন',
-    profileRequestConnection: 'সংযোগ অনুরোধ',
-    profilePartialPrivate: 'এই প্রোফাইল আংশিক ব্যক্তিগত',
-    profilePrivate: 'এই প্রোফাইল ব্যক্তিগত',
-    profileAnonymous: 'বেনামী স্বপ্নদ্রষ্টা',
-    profileDreamDetailsUnavailable: 'স্বপ্নের বিবরণ পাওয়া যায়নি',
-    profileShowProfile: 'প্রোফাইল দেখুন',
-  },
-  ur: {
-    title: 'خوابوں کا نقشہ',
-    subtitle: 'کس نے وہی خواب دیکھا؟',
-    activedreamers: 'فعال خواب دیکھنے والے',
-    similarToday: 'آج مشابہ',
-    matchestoday: 'آج کے میچ',
-    newmatch: 'نیا میچ!',
-    from: 'سے',
-    similarDream: 'نے ایک جیسا خواب دیکھا',
-    connect: 'جڑیں',
-    matchScore: 'میچ سکور',
-    dreamSummary: 'خواب کا خلاصہ',
-    category: 'زمرہ',
-    mood: 'مزاج',
-    close: 'بند کریں',
-    filterAll: 'سب',
-    worldwide: 'دنیا بھر میں',
-    dreamersSimilar: '% خواب دیکھنے والوں نے ملتے جلتے خواب دیکھے',
-    loading: 'خواب دیکھنے والوں کو سکین کر رہا ہے...',
-    tapMarker: 'تفصیلات کے لیے مارکر پر ٹیپ کریں',
-    trendTitle: 'سب سے مقبول خوابوں کے موضوعات',
-    trendDreamers: 'خواب دیکھنے والے',
-    showTrends: 'رجحانات دکھائیں',
-    hideTrends: 'رجحانات چھپائیں',
-    searchPlaceholder: 'خواب، الفاظ، شہر تلاش کریں...',
-    matchThreshold: 'میچ کی حد',
-    matchedDreamers: 'میچ ہونے والے',
-    noDreamsFound: 'کوئی خواب نہیں ملا',
-    profileBack: 'واپس',
-    profileReport: 'رپورٹ',
-    profileMemberSince: 'رکن بنے',
-    profileDreams: 'خواب',
-    profileMatches: 'میچ',
-    profileFavorite: 'پسندیدہ',
-    profileLastDream: 'آخری خواب',
-    profileConnect: 'جڑیں',
-    profileRequestConnection: 'کنکشن کی درخواست',
-    profilePartialPrivate: 'یہ پروفائل جزوی طور پر نجی ہے',
-    profilePrivate: 'یہ پروفائل نجی ہے',
-    profileAnonymous: 'گمنام خواب دیکھنے والا',
-    profileDreamDetailsUnavailable: 'خواب کی تفصیلات دستیاب نہیں',
-    profileShowProfile: 'پروفائل دیکھیں',
-  },
-  vi: {
-    title: 'Ban do Giac mo',
-    subtitle: 'Ai da mo giong vay?',
-    activedreamers: 'nguoi mo dang hoat dong',
-    similarToday: 'tuong tu hom nay',
-    matchestoday: 'ket qua hom nay',
-    newmatch: 'Ket qua moi!',
-    from: 'tu',
-    similarDream: 'da co giac mo tuong tu',
-    connect: 'Ket noi',
-    matchScore: 'Diem phu hop',
-    dreamSummary: 'Tom tat giac mo',
-    category: 'Danh muc',
-    mood: 'Tam trang',
-    close: 'Dong',
-    filterAll: 'Tat ca',
-    worldwide: 'toan cau',
-    dreamersSimilar: '% nguoi mo co giac mo tuong tu',
-    loading: 'Dang quet nguoi mo...',
-    tapMarker: 'Nhan vao diem danh dau de xem chi tiet',
-    trendTitle: 'Chu de giac mo pho bien nhat',
-    trendDreamers: 'nguoi mo',
-    showTrends: 'Hien xu huong',
-    hideTrends: 'An xu huong',
-    searchPlaceholder: 'Tim kiem giac mo, tu khoa, thanh pho...',
-    matchThreshold: 'Nguong phu hop',
-    matchedDreamers: 'Nguoi mo phu hop',
-    noDreamsFound: 'Khong tim thay giac mo',
-    profileBack: 'Quay lai',
-    profileReport: 'Bao cao',
-    profileMemberSince: 'Thanh vien tu',
-    profileDreams: 'Giac mo',
-    profileMatches: 'Ket qua',
-    profileFavorite: 'Yeu thich',
-    profileLastDream: 'Giac mo gan nhat',
-    profileConnect: 'Ket noi',
-    profileRequestConnection: 'Yeu cau ket noi',
-    profilePartialPrivate: 'Ho so nay mot phan la rieng tu',
-    profilePrivate: 'Ho so nay la rieng tu',
-    profileAnonymous: 'Nguoi mo an danh',
-    profileDreamDetailsUnavailable: 'Chi tiet giac mo khong kha dung',
-    profileShowProfile: 'Xem ho so',
-  },
-  th: {
-    title: 'แผนที่ความฝัน',
-    subtitle: 'ใครฝันเหมือนกัน?',
-    activedreamers: 'นักฝันที่กำลังใช้งาน',
-    similarToday: 'คล้ายกันวันนี้',
-    matchestoday: 'การจับคู่วันนี้',
-    newmatch: 'การจับคู่ใหม่!',
-    from: 'จาก',
-    similarDream: 'ฝันคล้ายกัน',
-    connect: 'เชื่อมต่อ',
-    matchScore: 'คะแนนจับคู่',
-    dreamSummary: 'สรุปความฝัน',
-    category: 'หมวดหมู่',
-    mood: 'อารมณ์',
-    close: 'ปิด',
-    filterAll: 'ทั้งหมด',
-    worldwide: 'ทั่วโลก',
-    dreamersSimilar: '% ของนักฝันมีความฝันคล้ายกัน',
-    loading: 'กำลังสแกนนักฝัน...',
-    tapMarker: 'แตะเครื่องหมายเพื่อดูรายละเอียด',
-    trendTitle: 'หัวข้อความฝันยอดนิยม',
-    trendDreamers: 'นักฝัน',
-    showTrends: 'แสดงเทรนด์',
-    hideTrends: 'ซ่อนเทรนด์',
-    searchPlaceholder: 'ค้นหาความฝัน คำสำคัญ เมือง...',
-    matchThreshold: 'เกณฑ์การจับคู่',
-    matchedDreamers: 'นักฝันที่จับคู่ได้',
-    noDreamsFound: 'ไม่พบความฝัน',
-    profileBack: 'กลับ',
-    profileReport: 'รายงาน',
-    profileMemberSince: 'สมาชิกตั้งแต่',
-    profileDreams: 'ความฝัน',
-    profileMatches: 'การจับคู่',
-    profileFavorite: 'รายการโปรด',
-    profileLastDream: 'ความฝันล่าสุด',
-    profileConnect: 'เชื่อมต่อ',
-    profileRequestConnection: 'ขอเชื่อมต่อ',
-    profilePartialPrivate: 'โปรไฟล์นี้เป็นส่วนตัวบางส่วน',
-    profilePrivate: 'โปรไฟล์นี้เป็นส่วนตัว',
-    profileAnonymous: 'นักฝันนิรนาม',
-    profileDreamDetailsUnavailable: 'ไม่มีรายละเอียดความฝัน',
-    profileShowProfile: 'ดูโปรไฟล์',
-  },
-  sw: {
-    title: 'Ramani ya Ndoto',
-    subtitle: 'Nani aliota sawa?',
-    activedreamers: 'waotaji hai',
-    similarToday: 'zinazofanana leo',
-    matchestoday: 'mechi leo',
-    newmatch: 'Mechi Mpya!',
-    from: 'kutoka',
-    similarDream: 'aliota ndoto kama hiyo',
-    connect: 'Ungana',
-    matchScore: 'Alama ya Mechi',
-    dreamSummary: 'Muhtasari wa Ndoto',
-    category: 'Jamii',
-    mood: 'Hali',
-    close: 'Funga',
-    filterAll: 'Zote',
-    worldwide: 'ulimwenguni',
-    dreamersSimilar: '% ya waotaji waliota ndoto zinazofanana',
-    loading: 'Inatafuta waotaji...',
-    tapMarker: 'Gusa alama kuona maelezo',
-    trendTitle: 'Mada Maarufu za Ndoto',
-    trendDreamers: 'waotaji',
-    showTrends: 'Onyesha Mitindo',
-    hideTrends: 'Ficha Mitindo',
-    searchPlaceholder: 'Tafuta ndoto, maneno, miji...',
-    matchThreshold: 'Kiwango cha Mechi',
-    matchedDreamers: 'Waotaji Wanaofanana',
-    noDreamsFound: 'Hakuna ndoto zilizopatikana',
-    profileBack: 'Rudi',
-    profileReport: 'Ripoti',
-    profileMemberSince: 'Mwanachama tangu',
-    profileDreams: 'Ndoto',
-    profileMatches: 'Mechi',
-    profileFavorite: 'Pendwa',
-    profileLastDream: 'Ndoto ya Mwisho',
-    profileConnect: 'Ungana',
-    profileRequestConnection: 'Omba Muunganisho',
-    profilePartialPrivate: 'Wasifu huu ni faragha kwa sehemu',
-    profilePrivate: 'Wasifu huu ni faragha',
-    profileAnonymous: 'Mwotaji Asiyejulikana',
-    profileDreamDetailsUnavailable: 'Maelezo ya ndoto hayapatikani',
-    profileShowProfile: 'Onyesha Wasifu',
-  },
-  hu: {
-    title: 'Alomterkep',
-    subtitle: 'Ki almodta ugyanazt?',
-    activedreamers: 'aktiv almodok',
-    similarToday: 'hasonlo ma',
-    matchestoday: 'talalatok ma',
-    newmatch: 'Uj Talalat!',
-    from: 'innen',
-    similarDream: 'hasonlot almodott',
-    connect: 'Kapcsolodas',
-    matchScore: 'Talalati pontszam',
-    dreamSummary: 'Alom osszefoglalo',
-    category: 'Kategoria',
-    mood: 'Hangulat',
-    close: 'Bezaras',
-    filterAll: 'Osszes',
-    worldwide: 'vilagszerte',
-    dreamersSimilar: '% almodonak hasonlo almuk volt',
-    loading: 'Almodok keresese...',
-    tapMarker: 'Koppints a jelolore a reszletekhez',
-    trendTitle: 'Legnepszerubb alom temak',
-    trendDreamers: 'almodo',
-    showTrends: 'Trendek mutatasa',
-    hideTrends: 'Trendek elrejtese',
-    searchPlaceholder: 'Almok, kulcsszavak, varosok keresese...',
-    matchThreshold: 'Talalati kuszobertek',
-    matchedDreamers: 'Egyezo almodok',
-    noDreamsFound: 'Nem talalhato alom',
-    profileBack: 'Vissza',
-    profileReport: 'Jelentes',
-    profileMemberSince: 'Tag ota',
-    profileDreams: 'Almok',
-    profileMatches: 'Talalatok',
-    profileFavorite: 'Kedvenc',
-    profileLastDream: 'Utolso alom',
-    profileConnect: 'Kapcsolodas',
-    profileRequestConnection: 'Kapcsolat keres',
-    profilePartialPrivate: 'Ez a profil reszben privat',
-    profilePrivate: 'Ez a profil privat',
-    profileAnonymous: 'Nev nelkuli almodo',
-    profileDreamDetailsUnavailable: 'Alom reszletek nem elerhetoek',
-    profileShowProfile: 'Profil megtekintese',
-  },
 };
 
 // ─── Dream Categories ─────────────────────────────────────────────────────────
@@ -1023,24 +420,24 @@ interface DreamCategory {
 }
 
 const DREAM_CATEGORIES: DreamCategory[] = [
-  { id: 'horror',    label: { en:'Horror', de:'Gruselig', tr:'Korku', es:'Terror', fr:'Horreur', ar:'رعب', pt:'Horror', ru:'Ужас', zh:'恐怖', hi:'डरावना', ja:'ホラー', ko:'공포', id:'Horor', fa:'وحشت', it:'Orrore', pl:'Horror', bn:'ভয়ংকর', ur:'خوفناک', vi:'Kinh dị', th:'สยองขวัญ', sw:'Kutisha', hu:'Horror' },         icon: '👻', color: '#8b5cf6' },
-  { id: 'funny',     label: { en:'Funny', de:'Lustig', tr:'Komik', es:'Gracioso', fr:'Drôle', ar:'مضحك', pt:'Engraçado', ru:'Смешной', zh:'搞笑', hi:'मज़ेदार', ja:'面白い', ko:'웃긴', id:'Lucu', fa:'خنده‌دار', it:'Divertente', pl:'Śmieszny', bn:'মজার', ur:'مزاحیہ', vi:'Hài hước', th:'ตลก', sw:'Kuchekesha', hu:'Vicces' },    icon: '😂', color: '#f59e0b' },
-  { id: 'ufo',       label: { en:'UFO/Alien', de:'UFO', tr:'UFO', es:'OVNI', fr:'OVNI', ar:'مركبة فضائية', pt:'OVNI', ru:'НЛО', zh:'UFO/外星人', hi:'UFO/एलियन', ja:'UFO/宇宙人', ko:'UFO/외계인', id:'UFO/Alien', fa:'بشقاب‌پرنده', it:'UFO/Alieni', pl:'UFO/Obcy', bn:'UFO/এলিয়েন', ur:'UFO/ایلین', vi:'UFO/Người ngoài hành tinh', th:'UFO/มนุษย์ต่างดาว', sw:'UFO/Wageni', hu:'UFO/Földönkívüli' },             icon: '🛸', color: '#06b6d4' },
-  { id: 'love',      label: { en:'Love', de:'Liebe', tr:'Aşk', es:'Amor', fr:'Amour', ar:'حب', pt:'Amor', ru:'Любовь', zh:'爱情', hi:'प्रेम', ja:'恋愛', ko:'사랑', id:'Cinta', fa:'عشق', it:'Amore', pl:'Miłość', bn:'প্রেম', ur:'محبت', vi:'Tình yêu', th:'ความรัก', sw:'Upendo', hu:'Szerelem' },                    icon: '❤️', color: '#ec4899' },
-  { id: 'erotic',    label: { en:'Erotic', de:'Erotik', tr:'Erotik', es:'Erótico', fr:'Érotique', ar:'إثارة', pt:'Erótico', ru:'Эротика', zh:'情色', hi:'कामुक', ja:'エロティック', ko:'에로틱', id:'Erotis', fa:'شهوانی', it:'Erotico', pl:'Erotyczny', bn:'কামোদ্দীপক', ur:'شہوانی', vi:'Gợi cảm', th:'อีโรติก', sw:'Mapenzi', hu:'Erotikus' },  icon: '🔥', color: '#ef4444' },
-  { id: 'flying',    label: { en:'Flying', de:'Fliegen', tr:'Uçmak', es:'Volar', fr:'Voler', ar:'طيران', pt:'Voar', ru:'Полёт', zh:'飞行', hi:'उड़ान', ja:'飛行', ko:'비행', id:'Terbang', fa:'پرواز', it:'Volare', pl:'Latanie', bn:'উড়ন্ত', ur:'پرواز', vi:'Bay', th:'บิน', sw:'Kuruka', hu:'Repülés' },            icon: '✈️', color: '#3b82f6' },
-  { id: 'falling',   label: { en:'Falling', de:'Fallen', tr:'Düşmek', es:'Caer', fr:'Chuter', ar:'سقوط', pt:'Cair', ru:'Падение', zh:'坠落', hi:'गिरना', ja:'落下', ko:'추락', id:'Jatuh', fa:'سقوط', it:'Cadere', pl:'Spadanie', bn:'পতন', ur:'گرنا', vi:'Rơi', th:'ตกหล่น', sw:'Kuanguka', hu:'Zuhanás' },          icon: '📉', color: '#64748b' },
-  { id: 'water',     label: { en:'Water', de:'Wasser', tr:'Su', es:'Agua', fr:'Eau', ar:'ماء', pt:'Água', ru:'Вода', zh:'水', hi:'पानी', ja:'水', ko:'물', id:'Air', fa:'آب', it:'Acqua', pl:'Woda', bn:'জল', ur:'پانی', vi:'Nước', th:'น้ำ', sw:'Maji', hu:'Víz' },                      icon: '🌊', color: '#0ea5e9' },
-  { id: 'animals',   label: { en:'Animals', de:'Tiere', tr:'Hayvanlar', es:'Animales', fr:'Animaux', ar:'حيوانات', pt:'Animais', ru:'Животные', zh:'动物', hi:'जानवर', ja:'動物', ko:'동물', id:'Hewan', fa:'حیوانات', it:'Animali', pl:'Zwierzęta', bn:'প্রাণী', ur:'جانور', vi:'Động vật', th:'สัตว์', sw:'Wanyama', hu:'Állatok' }, icon: '🐾', color: '#84cc16' },
-  { id: 'death',     label: { en:'Death', de:'Tod', tr:'Ölüm', es:'Muerte', fr:'Mort', ar:'موت', pt:'Morte', ru:'Смерть', zh:'死亡', hi:'मृत्यु', ja:'死', ko:'죽음', id:'Kematian', fa:'مرگ', it:'Morte', pl:'Śmierć', bn:'মৃত্যু', ur:'موت', vi:'Cái chết', th:'ความตาย', sw:'Kifo', hu:'Halál' },                  icon: '💀', color: '#1e293b' },
-  { id: 'chase',     label: { en:'Chase', de:'Verfolgung', tr:'Takip', es:'Persecución', fr:'Poursuite', ar:'مطاردة', pt:'Perseguição', ru:'Погоня', zh:'追逐', hi:'पीछा', ja:'追跡', ko:'추격', id:'Pengejaran', fa:'تعقیب', it:'Inseguimento', pl:'Pościg', bn:'তাড়া', ur:'تعاقب', vi:'Rượt đuổi', th:'ไล่ล่า', sw:'Kufuatilia', hu:'Üldözés' }, icon: '🏃', color: '#f97316' },
-  { id: 'family',    label: { en:'Family', de:'Familie', tr:'Aile', es:'Familia', fr:'Famille', ar:'عائلة', pt:'Família', ru:'Семья', zh:'家庭', hi:'परिवार', ja:'家族', ko:'가족', id:'Keluarga', fa:'خانواده', it:'Famiglia', pl:'Rodzina', bn:'পরিবার', ur:'خاندان', vi:'Gia đình', th:'ครอบครัว', sw:'Familia', hu:'Család' },      icon: '👨‍👩‍👧', color: '#10b981' },
-  { id: 'money',     label: { en:'Money', de:'Geld', tr:'Para', es:'Dinero', fr:'Argent', ar:'مال', pt:'Dinheiro', ru:'Деньги', zh:'金钱', hi:'पैसा', ja:'お金', ko:'돈', id:'Uang', fa:'پول', it:'Denaro', pl:'Pieniądze', bn:'টাকা', ur:'پیسہ', vi:'Tiền', th:'เงิน', sw:'Pesa', hu:'Pénz' },            icon: '💰', color: '#eab308' },
-  { id: 'school',    label: { en:'School', de:'Schule', tr:'Okul', es:'Escuela', fr:'École', ar:'مدرسة', pt:'Escola', ru:'Школа', zh:'学校', hi:'स्कूल', ja:'学校', ko:'학교', id:'Sekolah', fa:'مدرسه', it:'Scuola', pl:'Szkoła', bn:'স্কুল', ur:'اسکول', vi:'Trường học', th:'โรงเรียน', sw:'Shule', hu:'Iskola' },          icon: '🏫', color: '#6366f1' },
-  { id: 'spiritual', label: { en:'Spiritual', de:'Spirituell', tr:'Ruhsal', es:'Espiritual', fr:'Spirituel', ar:'روحاني', pt:'Espiritual', ru:'Духовный', zh:'心灵', hi:'आध्यात्मिक', ja:'スピリチュアル', ko:'영적', id:'Spiritual', fa:'معنوی', it:'Spirituale', pl:'Duchowy', bn:'আধ্যাত্মিক', ur:'روحانی', vi:'Tâm linh', th:'จิตวิญญาณ', sw:'Kiroho', hu:'Spirituális' }, icon: '🧘', color: '#a855f7' },
-  { id: 'nature',    label: { en:'Nature', de:'Natur', tr:'Doğa', es:'Naturaleza', fr:'Nature', ar:'طبيعة', pt:'Natureza', ru:'Природа', zh:'自然', hi:'प्रकृति', ja:'自然', ko:'자연', id:'Alam', fa:'طبیعت', it:'Natura', pl:'Natura', bn:'প্রকৃতি', ur:'فطرت', vi:'Thiên nhiên', th:'ธรรมชาติ', sw:'Asili', hu:'Természet' },   icon: '🌿', color: '#22c55e' },
-  { id: 'timetravel',label: { en:'Time Travel', de:'Zeitreise', tr:'Zaman Yolculuğu', es:'Viaje en tiempo', fr:'Voyage temporel', ar:'سفر عبر الزمن', pt:'Viagem no tempo', ru:'Путешествие во времени', zh:'时间旅行', hi:'समय यात्रा', ja:'タイムトラベル', ko:'시간 여행', id:'Perjalanan Waktu', fa:'سفر در زمان', it:'Viaggio nel tempo', pl:'Podróż w czasie', bn:'সময় ভ্রমণ', ur:'وقت کا سفر', vi:'Du hành thời gian', th:'ท่องเวลา', sw:'Safari ya Wakati', hu:'Időutazás' }, icon: '⏳', color: '#8b5cf6' },
-  { id: 'celebrity', label: { en:'Celebrity', de:'Prominente', tr:'Ünlüler', es:'Famosos', fr:'Célébrités', ar:'مشاهير', pt:'Celebridades', ru:'Знаменитости', zh:'名人', hi:'मशहूर', ja:'有名人', ko:'유명인', id:'Selebriti', fa:'مشهور', it:'Celebrità', pl:'Celebryci', bn:'বিখ্যাত', ur:'مشہور', vi:'Người nổi tiếng', th:'คนดัง', sw:'Mashuhuri', hu:'Híresség' }, icon: '⭐', color: '#f59e0b' },
+  { id: 'horror',    label: { en:'Horror', de:'Gruselig', tr:'Korku', es:'Terror', fr:'Horreur', ar:'رعب', pt:'Horror', ru:'Ужас' },         icon: '👻', color: '#8b5cf6' },
+  { id: 'funny',     label: { en:'Funny', de:'Lustig', tr:'Komik', es:'Gracioso', fr:'Drôle', ar:'مضحك', pt:'Engraçado', ru:'Смешной' },    icon: '😂', color: '#f59e0b' },
+  { id: 'ufo',       label: { en:'UFO/Alien', de:'UFO', tr:'UFO', es:'OVNI', fr:'OVNI', ar:'مركبة فضائية', pt:'OVNI', ru:'НЛО' },             icon: '🛸', color: '#06b6d4' },
+  { id: 'love',      label: { en:'Love', de:'Liebe', tr:'Aşk', es:'Amor', fr:'Amour', ar:'حب', pt:'Amor', ru:'Любовь' },                    icon: '❤️', color: '#ec4899' },
+  { id: 'erotic',    label: { en:'Erotic', de:'Erotik', tr:'Erotik', es:'Erótico', fr:'Érotique', ar:'إثارة', pt:'Erótico', ru:'Эротика' },  icon: '🔥', color: '#ef4444' },
+  { id: 'flying',    label: { en:'Flying', de:'Fliegen', tr:'Uçmak', es:'Volar', fr:'Voler', ar:'طيران', pt:'Voar', ru:'Полёт' },            icon: '✈️', color: '#3b82f6' },
+  { id: 'falling',   label: { en:'Falling', de:'Fallen', tr:'Düşmek', es:'Caer', fr:'Chuter', ar:'سقوط', pt:'Cair', ru:'Падение' },          icon: '📉', color: '#64748b' },
+  { id: 'water',     label: { en:'Water', de:'Wasser', tr:'Su', es:'Agua', fr:'Eau', ar:'ماء', pt:'Água', ru:'Вода' },                      icon: '🌊', color: '#0ea5e9' },
+  { id: 'animals',   label: { en:'Animals', de:'Tiere', tr:'Hayvanlar', es:'Animales', fr:'Animaux', ar:'حيوانات', pt:'Animais', ru:'Животные' }, icon: '🐾', color: '#84cc16' },
+  { id: 'death',     label: { en:'Death', de:'Tod', tr:'Ölüm', es:'Muerte', fr:'Mort', ar:'موت', pt:'Morte', ru:'Смерть' },                  icon: '💀', color: '#1e293b' },
+  { id: 'chase',     label: { en:'Chase', de:'Verfolgung', tr:'Takip', es:'Persecución', fr:'Poursuite', ar:'مطاردة', pt:'Perseguição', ru:'Погоня' }, icon: '🏃', color: '#f97316' },
+  { id: 'family',    label: { en:'Family', de:'Familie', tr:'Aile', es:'Familia', fr:'Famille', ar:'عائلة', pt:'Família', ru:'Семья' },      icon: '👨‍👩‍👧', color: '#10b981' },
+  { id: 'money',     label: { en:'Money', de:'Geld', tr:'Para', es:'Dinero', fr:'Argent', ar:'مال', pt:'Dinheiro', ru:'Деньги' },            icon: '💰', color: '#eab308' },
+  { id: 'school',    label: { en:'School', de:'Schule', tr:'Okul', es:'Escuela', fr:'École', ar:'مدرسة', pt:'Escola', ru:'Школа' },          icon: '🏫', color: '#6366f1' },
+  { id: 'spiritual', label: { en:'Spiritual', de:'Spirituell', tr:'Ruhsal', es:'Espiritual', fr:'Spirituel', ar:'روحاني', pt:'Espiritual', ru:'Духовный' }, icon: '🧘', color: '#a855f7' },
+  { id: 'nature',    label: { en:'Nature', de:'Natur', tr:'Doğa', es:'Naturaleza', fr:'Nature', ar:'طبيعة', pt:'Natureza', ru:'Природа' },   icon: '🌿', color: '#22c55e' },
+  { id: 'timetravel',label: { en:'Time Travel', de:'Zeitreise', tr:'Zaman Yolculuğu', es:'Viaje en tiempo', fr:'Voyage temporel', ar:'سفر عبر الزمن', pt:'Viagem no tempo', ru:'Путешествие во времени' }, icon: '⏳', color: '#8b5cf6' },
+  { id: 'celebrity', label: { en:'Celebrity', de:'Prominente', tr:'Ünlüler', es:'Famosos', fr:'Célébrités', ar:'مشاهير', pt:'Celebridades', ru:'Знаменитости' }, icon: '⭐', color: '#f59e0b' },
 ];
 
 // ─── Simulated Users ──────────────────────────────────────────────────────────
@@ -1060,53 +457,15 @@ interface BaseSimUser {
 
 interface SimUser extends BaseSimUser {
   matchPct: number;
-  // Profile fields
+  // Profile fields (generated in generateUsers)
   privacy: 'public' | 'partial' | 'private';
   age?: number;
-  gender?: string;
   memberSince: string;
   bio?: string;
   dreamCount: number;
-  totalWords: number;
   matchCount: number;
   favCategory: string;
-  interpretation?: string;
 }
-
-// Country center coordinates for participants with missing/zero lat/lng
-const COUNTRY_COORDS: Record<string, [number, number]> = {
-  'USA': [39.8, -98.5], 'United States': [39.8, -98.5],
-  'Germany': [51.2, 10.4], 'Deutschland': [51.2, 10.4],
-  'UK': [53.5, -2.5], 'United Kingdom': [53.5, -2.5],
-  'France': [46.6, 2.2], 'Japan': [36.2, 138.3],
-  'Turkey': [39.9, 32.9], 'Türkiye': [39.9, 32.9],
-  'Brazil': [-14.2, -51.9], 'China': [35.9, 104.2],
-  'India': [20.6, 78.9], 'Australia': [-25.3, 133.8],
-  'Canada': [56.1, -106.3], 'Spain': [40.5, -3.7],
-  'Italy': [41.9, 12.6], 'Russia': [61.5, 105.3],
-  'Netherlands': [52.1, 5.3], 'Mexico': [23.6, -102.5],
-  'South Korea': [35.9, 127.8], 'Argentina': [-38.4, -63.6],
-  'South Africa': [-30.6, 22.9], 'Egypt': [26.8, 30.8],
-  'Nigeria': [9.1, 8.7], 'Kenya': [-0.02, 37.9],
-  'Iran': [32.4, 53.7], 'Saudi Arabia': [23.9, 45.1],
-  'Indonesia': [-0.8, 113.9], 'Philippines': [12.9, 121.8],
-  'Pakistan': [30.4, 69.3], 'Austria': [47.5, 14.6],
-  'Switzerland': [46.8, 8.2], 'Sweden': [60.1, 18.6],
-  'Norway': [60.5, 8.5], 'Poland': [51.9, 19.1],
-  'Portugal': [39.4, -8.2], 'Greece': [39.1, 21.8],
-  'Colombia': [4.6, -74.3], 'Chile': [-35.7, -71.5],
-};
-
-// Resolve valid lat/lng — fallback to country center with jitter
-const resolveCoords = (lat: number | null, lng: number | null, country?: string): { lat: number; lng: number } => {
-  if (lat && lng && !(lat === 0 && lng === 0)) {
-    const jitter = () => (Math.random() - 0.5) * 1.5;
-    return { lat: lat + jitter(), lng: lng + jitter() };
-  }
-  const base = COUNTRY_COORDS[country || ''] || [39.8, -98.5];
-  const jitter = () => (Math.random() - 0.5) * 4;
-  return { lat: base[0] + jitter(), lng: base[1] + jitter() };
-};
 
 // Equirectangular projection: lat/lng -> percentage coordinates
 const getCoordinates = (lat: number, lng: number) => {
@@ -1114,6 +473,355 @@ const getCoordinates = (lat: number, lng: number) => {
   const y = ((-1 * lat) + 90) * (100 / 180);
   return { x, y };
 };
+
+// 150 bot users with real lat/lng coordinates — 90% female
+const BASE_USERS: BaseSimUser[] = [
+  // ── EUROPE (40) ──
+  { id:'u1',  name:'Elif Yilmaz',       avatar:'👩🏽', city:'Istanbul',     country:'TR', lat:41.01, lng:28.98, category:'flying',    mood:'free',       dreamSummary:'Bogazin uzerinde ruzgarda suzuluyordum...' },
+  { id:'u2',  name:'Marie Dupont',      avatar:'👩‍🦰', city:'Lyon',        country:'FR', lat:45.76, lng:4.84,  category:'love',      mood:'yearning',   dreamSummary:'Il me tenait la main sur un pont de lumiere...' },
+  { id:'u3',  name:'Lena Hoffmann',     avatar:'👱‍♀️', city:'Berlin',      country:'DE', lat:52.52, lng:13.40, category:'falling',   mood:'scared',     dreamSummary:'Ich fiel durch Wolken und konnte nicht schreien...' },
+  { id:'u4',  name:'Sofia Rossi',       avatar:'👩🏻', city:'Rome',         country:'IT', lat:41.90, lng:12.50, category:'chase',     mood:'terrified',  dreamSummary:'Correvo nel Colosseo e le mura si chiudevano...' },
+  { id:'u5',  name:'Emma Lindqvist',    avatar:'👩‍🦳', city:'Stockholm',   country:'SE', lat:59.33, lng:18.07, category:'nature',    mood:'serene',     dreamSummary:'Norrsken som formade mitt namn pa himlen...' },
+  { id:'u6',  name:'Clara Fernandez',   avatar:'👩🏽', city:'Madrid',       country:'ES', lat:40.42, lng:-3.70, category:'erotic',    mood:'passionate', dreamSummary:'Sus manos eran fuego y yo era agua...' },
+  { id:'u7',  name:'Ingrid Bakken',     avatar:'👩‍🦰', city:'Oslo',        country:'NO', lat:59.91, lng:10.75, category:'water',     mood:'calm',       dreamSummary:'Fjorden ble til glass og jeg gikk over...' },
+  { id:'u8',  name:'Anna Kowalska',     avatar:'👩🏻', city:'Warsaw',       country:'PL', lat:52.23, lng:21.01, category:'horror',    mood:'terrified',  dreamSummary:'Lustro w ktorym stala ktos inny niz ja...' },
+  { id:'u9',  name:'Thomas Mueller',    avatar:'🧔',  city:'Munich',       country:'DE', lat:48.14, lng:11.58, category:'ufo',       mood:'amazed',     dreamSummary:'Das Licht kam naeher und ich hoerte Musik...' },
+  { id:'u10', name:'Giulia Bianchi',    avatar:'👩‍🦱', city:'Milan',       country:'IT', lat:45.46, lng:9.19,  category:'celebrity', mood:'star-struck', dreamSummary:'Camminavo sul red carpet con le ali...' },
+  { id:'u11', name:'Margot Lefevre',    avatar:'👩',  city:'Paris',        country:'FR', lat:48.86, lng:2.35,  category:'flying',    mood:'euphoric',   dreamSummary:'Je volais au-dessus de la Seine a minuit...' },
+  { id:'u12', name:'Katarina Novak',    avatar:'👩🏻', city:'Prague',       country:'CZ', lat:50.08, lng:14.44, category:'timetravel',mood:'wonder',     dreamSummary:'Hodiny na Staromestskem namesti se tocily pozpatku...' },
+  { id:'u13', name:'Isabel Mendes',     avatar:'👩🏽', city:'Lisbon',       country:'PT', lat:38.72, lng:-9.14, category:'water',     mood:'melancholic', dreamSummary:'O oceano engoliu a cidade e eu flutuava em paz...' },
+  { id:'u14', name:'Freya Andersen',    avatar:'👱‍♀️', city:'Copenhagen',  country:'DK', lat:55.68, lng:12.57, category:'love',      mood:'longing',    dreamSummary:'Han holdt min hand under nordlyset...' },
+  { id:'u15', name:'Nina Petrova',      avatar:'👩‍🦰', city:'Moscow',      country:'RU', lat:55.76, lng:37.62, category:'death',     mood:'eerie',      dreamSummary:'Babushka sidela v pustom dome i ulybalasc...' },
+  { id:'u16', name:'Eva Szabo',         avatar:'👩🏻', city:'Budapest',     country:'HU', lat:47.50, lng:19.04, category:'funny',     mood:'amused',     dreamSummary:'A Parlament felszallt mint egy leggomb...' },
+  { id:'u17', name:'Aleksandra Jovic',  avatar:'👩‍🦱', city:'Belgrade',    country:'RS', lat:44.79, lng:20.47, category:'school',    mood:'stressed',   dreamSummary:'Ispit je bio na jeziku koji ne poznajem...' },
+  { id:'u18', name:'Fiona O\'Brien',    avatar:'👩‍🦰', city:'Dublin',      country:'IE', lat:53.35, lng:-6.26, category:'animals',   mood:'playful',    dreamSummary:'The sheep were flying over the cliffs singing...' },
+  { id:'u19', name:'Greta Zimmer',      avatar:'👩‍🦳', city:'Vienna',      country:'AT', lat:48.21, lng:16.37, category:'spiritual', mood:'peaceful',   dreamSummary:'Ein Engel spielte Walzer im leeren Schloss...' },
+  { id:'u20', name:'Eleni Papadaki',    avatar:'👩🏽', city:'Athens',       country:'GR', lat:37.98, lng:23.73, category:'water',     mood:'mystified',  dreamSummary:'Kolymboysa me archaia agalmata ston vytho...' },
+  { id:'u21', name:'Chloe Martin',      avatar:'👩‍🦱', city:'Brussels',    country:'BE', lat:50.85, lng:4.35,  category:'chase',     mood:'breathless', dreamSummary:'Quelqu\'un me poursuivait dans un labyrinthe de chocolat...' },
+  { id:'u22', name:'Astrid Holm',       avatar:'👱‍♀️', city:'Gothenburg',  country:'SE', lat:57.71, lng:11.97, category:'family',    mood:'nostalgic',  dreamSummary:'Mormor lagade mat i ett hus som inte finns langre...' },
+  { id:'u23', name:'Maja Eriksen',      avatar:'👩',  city:'Helsinki',     country:'FI', lat:60.17, lng:24.94, category:'nature',    mood:'bliss',      dreamSummary:'Revontulet sulivat ja minusta tuli valo...' },
+  { id:'u24', name:'Stefan Horvat',     avatar:'🧔',  city:'Zagreb',       country:'HR', lat:45.81, lng:15.98, category:'falling',   mood:'dizzy',      dreamSummary:'Padao sam kroz oblake iznad Jadrana...' },
+  { id:'u25', name:'Carmen Ruiz',       avatar:'👩🏽', city:'Barcelona',    country:'ES', lat:41.39, lng:2.17,  category:'horror',    mood:'frightened', dreamSummary:'La Sagrada Familia se derretia como cera...' },
+  { id:'u26', name:'Daria Volkov',      avatar:'👩‍🦰', city:'St Petersburg',country:'RU', lat:59.93, lng:30.32, category:'timetravel',mood:'lost',      dreamSummary:'Ya gulyala po Zimniemu dvortsu v drugom veke...' },
+  { id:'u27', name:'Laura Visser',      avatar:'👩‍🦱', city:'Amsterdam',   country:'NL', lat:52.37, lng:4.90,  category:'money',     mood:'greedy',     dreamSummary:'De grachten waren van goud en ik zwom erin...' },
+  { id:'u28', name:'Tatiana Ionescu',   avatar:'👩🏻', city:'Bucharest',    country:'RO', lat:44.43, lng:26.10, category:'horror',    mood:'chilled',    dreamSummary:'Castelul s-a trezit la viata si m-a chemat...' },
+  { id:'u29', name:'Heidi Brunner',     avatar:'👱‍♀️', city:'Zurich',      country:'CH', lat:47.38, lng:8.54,  category:'flying',    mood:'free',       dreamSummary:'Ich flog ueber die Alpen wie ein Adler...' },
+  { id:'u30', name:'Oksana Melnyk',     avatar:'👩🏻', city:'Kyiv',         country:'UA', lat:50.45, lng:30.52, category:'family',    mood:'tearful',    dreamSummary:'Babusya spivala pisniu yaku ya vzhe zabula...' },
+  { id:'u31', name:'Agnieszka Wozniak', avatar:'👩‍🦰', city:'Krakow',     country:'PL', lat:50.06, lng:19.94, category:'spiritual', mood:'guided',     dreamSummary:'Kosciol unosil sie w powietrze i slyszalam chory...' },
+  { id:'u32', name:'Sophie Bernard',    avatar:'👩',  city:'Marseille',    country:'FR', lat:43.30, lng:5.37,  category:'erotic',    mood:'intense',    dreamSummary:'La mer etait chaude comme sa peau...' },
+  { id:'u33', name:'Valentina Costa',   avatar:'👩🏽', city:'Naples',       country:'IT', lat:40.85, lng:14.27, category:'death',     mood:'serene',     dreamSummary:'Il Vesuvio parlava e io capivo ogni parola...' },
+  { id:'u34', name:'Emilia Fischer',    avatar:'👩‍🦳', city:'Hamburg',     country:'DE', lat:53.55, lng:9.99,  category:'animals',   mood:'wonder',     dreamSummary:'Ein Wal schwamm durch die Elbe und sang...' },
+  { id:'u35', name:'Klara Johansson',   avatar:'👩🏻', city:'Malmoe',       country:'SE', lat:55.60, lng:13.00, category:'school',    mood:'anxious',    dreamSummary:'Provet var pa ett sprak som inte finns...' },
+  { id:'u36', name:'Diana Almeida',     avatar:'👩🏽', city:'Porto',        country:'PT', lat:41.15, lng:-8.61, category:'love',      mood:'warm',       dreamSummary:'Dancavamos sobre o Douro enquanto chovia estrelas...' },
+  { id:'u37', name:'Nadia Christensen', avatar:'👩‍🦱', city:'Aarhus',     country:'DK', lat:56.15, lng:10.21, category:'funny',     mood:'delighted',  dreamSummary:'Min kat talte og fortalte vittigheder...' },
+  { id:'u38', name:'Sienna Clarke',     avatar:'👱‍♀️', city:'Edinburgh',   country:'GB', lat:55.95, lng:-3.19, category:'nature',    mood:'mystified',  dreamSummary:'The highlands whispered my name in Gaelic...' },
+  { id:'u39', name:'Olivia Bennett',    avatar:'👩‍🦰', city:'London',      country:'GB', lat:51.51, lng:-0.13, category:'celebrity', mood:'embarrassed', dreamSummary:'I met the Queen but I was in my pyjamas...' },
+  { id:'u40', name:'Livia Keller',      avatar:'👩🏻', city:'Bern',         country:'CH', lat:46.95, lng:7.45,  category:'money',     mood:'amazed',     dreamSummary:'Goldmuenzen fielen wie Schnee vom Himmel...' },
+  // ── MIDDLE EAST (15) ──
+  { id:'u41', name:'Zeynep Demir',      avatar:'👩🏽', city:'Ankara',       country:'TR', lat:39.93, lng:32.86, category:'spiritual', mood:'peaceful',   dreamSummary:'Cami kubbesinden isigin icine yukseldim...' },
+  { id:'u42', name:'Layla Hassan',      avatar:'👩🏽', city:'Cairo',        country:'EG', lat:30.04, lng:31.24, category:'timetravel',mood:'awed',       dreamSummary:'Mashaytu bayn al-ahramat wa hiya jadida...' },
+  { id:'u43', name:'Fatima Benali',     avatar:'👩🏽‍🦱', city:'Casablanca', country:'MA', lat:33.59, lng:-7.62, category:'flying',    mood:'magical',    dreamSummary:'Je volais sur un tapis au-dessus du desert...' },
+  { id:'u44', name:'Nour Al-Ahmad',     avatar:'👩🏽', city:'Dubai',        country:'AE', lat:25.20, lng:55.27, category:'money',     mood:'dazzled',    dreamSummary:'Al-madina al-dhahabiya tash\'a min al-rimal...' },
+  { id:'u45', name:'Yasmin Rahimi',     avatar:'👩🏽', city:'Tehran',       country:'IR', lat:35.69, lng:51.39, category:'nature',    mood:'enchanted',  dreamSummary:'Bagh-e behesht ba golhaye sokhangu...' },
+  { id:'u46', name:'Sara Mansour',      avatar:'👩🏽', city:'Beirut',       country:'LB', lat:33.89, lng:35.50, category:'family',    mood:'hopeful',    dreamSummary:'Al-madina tu\'id bina\'a nafsaha min jadid...' },
+  { id:'u47', name:'Omar Al-Farsi',     avatar:'🧔🏽', city:'Riyadh',      country:'SA', lat:24.71, lng:46.67, category:'spiritual', mood:'blessed',    dreamSummary:'Mashaytu ala al-ma\'a fi al-sahra\'...' },
+  { id:'u48', name:'Mariam Khoury',     avatar:'👩🏽', city:'Amman',        country:'JO', lat:31.95, lng:35.93, category:'water',     mood:'peaceful',   dreamSummary:'Al-bahr al-mayyit tahawwal ila dhahab sa\'il...' },
+  { id:'u49', name:'Rania Haddad',      avatar:'👩🏽', city:'Baghdad',      country:'IQ', lat:33.31, lng:44.37, category:'school',    mood:'anxious',    dreamSummary:'Al-maktaba al-qadima wa kutub tatakallam...' },
+  { id:'u50', name:'Dina Trabelsi',     avatar:'👩🏽', city:'Tunis',        country:'TN', lat:36.81, lng:10.18, category:'chase',     mood:'breathless', dreamSummary:'Les murs de la medina changeaient de place...' },
+  { id:'u51', name:'Hiba Oueslati',     avatar:'👩🏿', city:'Algiers',      country:'DZ', lat:36.75, lng:3.06,  category:'nature',    mood:'amazed',     dreamSummary:'La tempete de sable revelait une oasis cachee...' },
+  { id:'u52', name:'Leila Sharif',      avatar:'👩🏽', city:'Muscat',       country:'OM', lat:23.59, lng:58.38, category:'love',      mood:'yearning',   dreamSummary:'Kana yamsik yadi taht nujum al-sahra\'...' },
+  { id:'u53', name:'Amira El-Sayed',    avatar:'👩🏽', city:'Alexandria',   country:'EG', lat:31.20, lng:29.92, category:'horror',    mood:'frightened', dreamSummary:'Al-bahr ibtala\'a al-manarah wa ana wahdi...' },
+  { id:'u54', name:'Nur Celik',         avatar:'👩🏽', city:'Izmir',        country:'TR', lat:38.42, lng:27.14, category:'erotic',    mood:'passionate', dreamSummary:'Deniz kenarinda ates gibi bir dans...' },
+  { id:'u55', name:'Khalid Nasser',     avatar:'🧔🏽', city:'Kuwait City', country:'KW', lat:29.38, lng:47.99, category:'ufo',       mood:'shocked',    dreamSummary:'Markaba fada\'iya hawmat fawqa al-khalij...' },
+  // ── AFRICA (15) ──
+  { id:'u56', name:'Amina Okafor',      avatar:'👩🏿', city:'Lagos',        country:'NG', lat:6.52,  lng:3.38,  category:'spiritual', mood:'guided',     dreamSummary:'My ancestors spoke through the baobab tree...' },
+  { id:'u57', name:'Aisha Wanjiku',     avatar:'👩🏿', city:'Nairobi',      country:'KE', lat:-1.29, lng:36.82, category:'animals',   mood:'brave',      dreamSummary:'I ran with lions across the golden savannah...' },
+  { id:'u58', name:'Fatou Diallo',      avatar:'👩🏿', city:'Dakar',        country:'SN', lat:14.72, lng:-17.47,category:'flying',    mood:'free',       dreamSummary:'Je volais au-dessus de l\'ocean comme un oiseau...' },
+  { id:'u59', name:'Zara Ndlovu',       avatar:'👩🏿', city:'Johannesburg', country:'ZA', lat:-26.20,lng:28.04, category:'money',     mood:'excited',    dreamSummary:'Gold was raining from the sky over Joburg...' },
+  { id:'u60', name:'Blessing Adekunle', avatar:'👩🏿', city:'Abuja',        country:'NG', lat:9.06,  lng:7.49,  category:'love',      mood:'warm',       dreamSummary:'He held me under a sky full of fireflies...' },
+  { id:'u61', name:'Kofi Mensah',       avatar:'👨🏿', city:'Accra',        country:'GH', lat:5.56,  lng:-0.19, category:'chase',     mood:'fearful',    dreamSummary:'Something chased me through the night market...' },
+  { id:'u62', name:'Naledi Mokoena',    avatar:'👩🏿', city:'Cape Town',    country:'ZA', lat:-33.93,lng:18.42, category:'water',     mood:'calm',       dreamSummary:'Table Mountain melted into the ocean like butter...' },
+  { id:'u63', name:'Aya Tesfaye',       avatar:'👩🏿', city:'Addis Ababa',  country:'ET', lat:9.02,  lng:38.75, category:'family',    mood:'nostalgic',  dreamSummary:'Grandmother served coffee to angels at dawn...' },
+  { id:'u64', name:'Chioma Eze',        avatar:'👩🏿', city:'Enugu',        country:'NG', lat:6.44,  lng:7.50,  category:'school',    mood:'stressed',   dreamSummary:'The exam paper was written in a language of light...' },
+  { id:'u65', name:'Grace Muthoni',     avatar:'👩🏿', city:'Kampala',      country:'UG', lat:0.35,  lng:32.58, category:'nature',    mood:'wonder',     dreamSummary:'The forest sang and every tree had a face...' },
+  { id:'u66', name:'Mariame Toure',     avatar:'👩🏿', city:'Bamako',       country:'ML', lat:12.64, lng:-8.00, category:'death',     mood:'serene',     dreamSummary:'Les ancetres dansaient dans la lumiere doree...' },
+  { id:'u67', name:'Fatoumata Camara',  avatar:'👩🏿', city:'Conakry',      country:'GN', lat:9.64,  lng:-13.58,category:'celebrity', mood:'star-struck', dreamSummary:'Je chantais sur scene devant des milliers...' },
+  { id:'u68', name:'Thandiwe Phiri',    avatar:'👩🏿', city:'Lusaka',       country:'ZM', lat:-15.39,lng:28.32, category:'funny',     mood:'amused',     dreamSummary:'The elephants were doing a conga line at my wedding...' },
+  { id:'u69', name:'Adama Traore',      avatar:'👩🏿', city:'Abidjan',      country:'CI', lat:5.36,  lng:-4.01, category:'falling',   mood:'dizzy',      dreamSummary:'Je tombais a travers les nuages de chocolat...' },
+  { id:'u70', name:'Ruth Haile',        avatar:'👩🏿', city:'Dar es Salaam',country:'TZ', lat:-6.79, lng:39.28, category:'ufo',       mood:'shocked',    dreamSummary:'A bright light hovered over the Indian Ocean...' },
+  // ── SOUTH ASIA (12) ──
+  { id:'u71', name:'Priya Sharma',      avatar:'👩🏽', city:'Mumbai',       country:'IN', lat:19.08, lng:72.88, category:'school',    mood:'stressed',   dreamSummary:'Exam mein sawal hindi mein the lekin jawaab english mein...' },
+  { id:'u72', name:'Ananya Gupta',      avatar:'👩🏽', city:'Delhi',        country:'IN', lat:28.61, lng:77.21, category:'spiritual', mood:'blessed',    dreamSummary:'Ganga ka paani sone ka ho gaya tha...' },
+  { id:'u73', name:'Nisha Rajapaksa',   avatar:'👩🏽', city:'Colombo',      country:'LK', lat:6.93,  lng:79.85, category:'water',     mood:'calm',       dreamSummary:'The ocean turned to glass and I walked across...' },
+  { id:'u74', name:'Kavya Reddy',       avatar:'👩🏽', city:'Bangalore',    country:'IN', lat:12.97, lng:77.59, category:'flying',    mood:'euphoric',   dreamSummary:'I flew over the Western Ghats touching the clouds...' },
+  { id:'u75', name:'Deepika Iyer',      avatar:'👩🏽', city:'Chennai',      country:'IN', lat:13.08, lng:80.27, category:'celebrity', mood:'star-struck', dreamSummary:'Shah Rukh Khan was my neighbour and we had chai...' },
+  { id:'u76', name:'Meera Joshi',       avatar:'👩🏽', city:'Kolkata',      country:'IN', lat:22.57, lng:88.36, category:'animals',   mood:'joyful',     dreamSummary:'Durga Puja mein sher mere saath naach raha tha...' },
+  { id:'u77', name:'Sita Thapa',        avatar:'👩🏽', city:'Kathmandu',    country:'NP', lat:27.72, lng:85.32, category:'nature',    mood:'bliss',      dreamSummary:'Himalaya le malai aakash sammama puryayo...' },
+  { id:'u78', name:'Fatima Bibi',       avatar:'👩🏽', city:'Karachi',      country:'PK', lat:24.86, lng:67.01, category:'timetravel',mood:'nostalgic',  dreamSummary:'Bazaar mein yaadein heeron ki tarah bik rahi thi...' },
+  { id:'u79', name:'Rashmi Nair',       avatar:'👩🏽', city:'Kochi',        country:'IN', lat:9.93,  lng:76.26, category:'love',      mood:'yearning',   dreamSummary:'He whispered my name and the backwaters glowed...' },
+  { id:'u80', name:'Ayesha Khan',       avatar:'👩🏽', city:'Lahore',       country:'PK', lat:31.55, lng:74.35, category:'family',    mood:'warm',       dreamSummary:'Ammi ki khushboo puri haveli mein pheli thi...' },
+  { id:'u81', name:'Ravi Patel',        avatar:'🧑🏽', city:'Ahmedabad',    country:'IN', lat:23.02, lng:72.57, category:'money',     mood:'greedy',     dreamSummary:'Gold coins rained on the old city streets...' },
+  { id:'u82', name:'Sunita Tamang',     avatar:'👩🏽', city:'Pokhara',      country:'NP', lat:28.21, lng:83.99, category:'horror',    mood:'terrified',  dreamSummary:'The mountain opened its eyes and looked at me...' },
+  // ── EAST ASIA (15) ──
+  { id:'u83', name:'Yuki Tanaka',       avatar:'👩🏻', city:'Osaka',        country:'JP', lat:34.69, lng:135.50,category:'water',     mood:'serene',     dreamSummary:'Crystal lake reflecting a thousand moons...' },
+  { id:'u84', name:'Sakura Yamamoto',   avatar:'👩🏻', city:'Kyoto',        country:'JP', lat:35.01, lng:135.77,category:'nature',    mood:'peaceful',   dreamSummary:'Sakura no hana ga chou ni natta...' },
+  { id:'u85', name:'Mei Lin Chen',      avatar:'👩🏻', city:'Shanghai',     country:'CN', lat:31.23, lng:121.47,category:'timetravel',mood:'amazed',     dreamSummary:'Wo chuan yue dao Tang chao de Chang\'an...' },
+  { id:'u86', name:'Hana Kim',          avatar:'👩🏻', city:'Seoul',        country:'KR', lat:37.57, lng:126.98,category:'love',      mood:'yearning',   dreamSummary:'Geuneun bitmul soge nae ireumeul bulleosseo...' },
+  { id:'u87', name:'Jia Wei',           avatar:'👩🏻', city:'Beijing',      country:'CN', lat:39.90, lng:116.40,category:'flying',    mood:'euphoric',   dreamSummary:'Wo fei guo Changcheng kan dao le yongheng...' },
+  { id:'u88', name:'Yuna Park',         avatar:'👩🏻', city:'Busan',        country:'KR', lat:35.18, lng:129.08,category:'celebrity', mood:'thrilled',   dreamSummary:'K-pop mudae wieseo gaegeuri wa hamkke chuneul chwosseo...' },
+  { id:'u89', name:'Rin Nakamura',      avatar:'👩🏻', city:'Tokyo',        country:'JP', lat:35.68, lng:139.69,category:'chase',     mood:'breathless', dreamSummary:'Shibuya no kosaten de kage ni oikaketeta...' },
+  { id:'u90', name:'Xiao Yue',          avatar:'👩🏻', city:'Chengdu',      country:'CN', lat:30.57, lng:104.07,category:'animals',   mood:'delighted',  dreamSummary:'Xiongmao dailingzhe wo chuanguo zhulinjian...' },
+  { id:'u91', name:'Soo-jin Lee',       avatar:'👩🏻', city:'Incheon',      country:'KR', lat:37.46, lng:126.70,category:'school',    mood:'panicked',   dreamSummary:'Siheom munje ga haengseong eoneoro doeeosseo...' },
+  { id:'u92', name:'Lin Hsiao-Ting',    avatar:'👩🏻', city:'Taipei',       country:'TW', lat:25.03, lng:121.57,category:'funny',     mood:'amused',     dreamSummary:'Yeshi de shiw dou huo le guolai tiaow...' },
+  { id:'u93', name:'Aoi Suzuki',        avatar:'👩🏻', city:'Nagoya',       country:'JP', lat:35.18, lng:136.91,category:'death',     mood:'eerie',      dreamSummary:'Obaachan ga mado kara hohoende miteita...' },
+  { id:'u94', name:'Haruto Sato',       avatar:'🧑🏻', city:'Sapporo',     country:'JP', lat:43.06, lng:141.35,category:'horror',    mood:'chilled',    dreamSummary:'Yuki no naka de dareka ga watashi wo yonda...' },
+  { id:'u95', name:'Minji Choi',        avatar:'👩🏻', city:'Daegu',        country:'KR', lat:35.87, lng:128.60,category:'erotic',    mood:'intense',    dreamSummary:'Geuui sonkili naui pireul bul buthyeosseo...' },
+  { id:'u96', name:'Fang Zhi',          avatar:'👩🏻', city:'Hangzhou',     country:'CN', lat:30.27, lng:120.15,category:'spiritual', mood:'transcendent',dreamSummary:'Xihu de shui bian cheng le guang...' },
+  { id:'u97', name:'Natsuki Ito',       avatar:'👩🏻', city:'Fukuoka',      country:'JP', lat:33.59, lng:130.40,category:'falling',   mood:'scared',     dreamSummary:'Ochiru toki ni tsubasa ga haeta...' },
+  // ── SOUTHEAST ASIA (8) ──
+  { id:'u98', name:'Rina Sari',         avatar:'👩🏽', city:'Jakarta',      country:'ID', lat:-6.21, lng:106.85,category:'nature',    mood:'wonder',     dreamSummary:'Gunung meletus bunga bukan lava...' },
+  { id:'u99', name:'Ploy Suthamma',     avatar:'👩🏽', city:'Bangkok',      country:'TH', lat:13.76, lng:100.50,category:'spiritual', mood:'serene',     dreamSummary:'Wat thawng lawy yuu nuea mek...' },
+  { id:'u100',name:'Maria Santos',      avatar:'👩🏽', city:'Manila',       country:'PH', lat:14.60, lng:120.98,category:'water',     mood:'terrified',  dreamSummary:'Bagyong naging isang dragon sa dagat...' },
+  { id:'u101',name:'Linh Nguyen',       avatar:'👩🏻', city:'Ho Chi Minh',  country:'VN', lat:10.82, lng:106.63,category:'timetravel',mood:'thrilled',   dreamSummary:'Xe may bay qua cong thoi gian...' },
+  { id:'u102',name:'Putri Wulandari',   avatar:'👩🏽', city:'Bali',         country:'ID', lat:-8.41, lng:115.19,category:'love',      mood:'enchanted',  dreamSummary:'Upacara di pura dimana semua melayang...' },
+  { id:'u103',name:'Thanh Pham',        avatar:'👩🏻', city:'Hanoi',        country:'VN', lat:21.03, lng:105.85,category:'animals',   mood:'awed',       dreamSummary:'Rong bay len tu suong mu Vinh Ha Long...' },
+  { id:'u104',name:'Aisyah Rahman',     avatar:'👩🏽', city:'Kuala Lumpur', country:'MY', lat:3.14,  lng:101.69,category:'celebrity', mood:'star-struck', dreamSummary:'Saya menyanyi di pentas bersama bintang K-pop...' },
+  { id:'u105',name:'Nang Kham',         avatar:'👩🏽', city:'Yangon',       country:'MM', lat:16.87, lng:96.20, category:'flying',    mood:'free',       dreamSummary:'Shwedagon hpaya apaw ko pwyan pyee...' },
+  // ── OCEANIA (5) ──
+  { id:'u106',name:'Jade Mitchell',     avatar:'👩',  city:'Sydney',       country:'AU', lat:-33.87,lng:151.21,category:'ufo',       mood:'shocked',    dreamSummary:'A spacecraft hovered over the Opera House at dawn...' },
+  { id:'u107',name:'Aroha Tane',        avatar:'👩🏽', city:'Auckland',     country:'NZ', lat:-36.85,lng:174.76,category:'family',    mood:'powerful',   dreamSummary:'Tipuna performed the haka across the sky...' },
+  { id:'u108',name:'Sophie Harris',     avatar:'👱‍♀️', city:'Melbourne',   country:'AU', lat:-37.81,lng:144.96,category:'animals',   mood:'amazed',     dreamSummary:'The reef started singing in whale song...' },
+  { id:'u109',name:'Emma Thompson',     avatar:'👩‍🦰', city:'Perth',       country:'AU', lat:-31.95,lng:115.86,category:'water',     mood:'disoriented',dreamSummary:'The outback turned into an endless ocean overnight...' },
+  { id:'u110',name:'Mia Rawiri',        avatar:'👩🏽', city:'Wellington',   country:'NZ', lat:-41.29,lng:174.78,category:'funny',     mood:'delighted',  dreamSummary:'Hobbit holes appeared in my neighbourhood for real...' },
+  // ── NORTH AMERICA (20) ──
+  { id:'u111',name:'Jessica Rivera',    avatar:'👩🏽', city:'New York',     country:'US', lat:40.71, lng:-74.01,category:'chase',     mood:'fearful',    dreamSummary:'Something chased me through a dark subway tunnel...' },
+  { id:'u112',name:'Mia Chen',          avatar:'👩🏻', city:'San Francisco',country:'US', lat:37.77, lng:-122.42,category:'flying',   mood:'euphoric',   dreamSummary:'I flew over the Golden Gate into another dimension...' },
+  { id:'u113',name:'Chloe Tremblay',    avatar:'👩‍🦰', city:'Montreal',    country:'CA', lat:45.50, lng:-73.57,category:'love',      mood:'enchanted',  dreamSummary:'Le chateau de glace chantait des berceuses...' },
+  { id:'u114',name:'Ashley Williams',   avatar:'👩‍🦱', city:'Los Angeles', country:'US', lat:34.05, lng:-118.24,category:'celebrity', mood:'embarrassed',dreamSummary:'I was on the red carpet in my pyjamas...' },
+  { id:'u115',name:'Valentina Morales', avatar:'👩🏽', city:'Mexico City',  country:'MX', lat:19.43, lng:-99.13,category:'death',     mood:'calm',       dreamSummary:'Los muertos bailaban y yo me uni a la fiesta...' },
+  { id:'u116',name:'Taylor Brooks',     avatar:'👩',  city:'Chicago',      country:'US', lat:41.88, lng:-87.63,category:'timetravel',mood:'dizzy',      dreamSummary:'The skyscrapers grew like trees in fast forward...' },
+  { id:'u117',name:'Sophia Garcia',     avatar:'👩🏽', city:'Miami',        country:'US', lat:25.76, lng:-80.19,category:'erotic',    mood:'passionate', dreamSummary:'The ocean danced to the rhythm of our heartbeat...' },
+  { id:'u118',name:'Emma Nguyen',       avatar:'👩🏻', city:'Toronto',      country:'CA', lat:43.65, lng:-79.38,category:'family',    mood:'tearful',    dreamSummary:'Grandma was waiting in a garden of light...' },
+  { id:'u119',name:'Madison Cooper',    avatar:'👱‍♀️', city:'Seattle',     country:'US', lat:47.61, lng:-122.33,category:'nature',   mood:'mystified',  dreamSummary:'The coffee shop was floating in the clouds...' },
+  { id:'u120',name:'Isabella Flores',   avatar:'👩🏽', city:'Houston',      country:'US', lat:29.76, lng:-95.37,category:'ufo',       mood:'excited',    dreamSummary:'Un cohete despego de mi jardin y yo iba dentro...' },
+  { id:'u121',name:'Ava Campbell',      avatar:'👩‍🦰', city:'Vancouver',   country:'CA', lat:49.28, lng:-123.12,category:'animals',  mood:'playful',    dreamSummary:'Forest wolves invited me to their moonlit dance...' },
+  { id:'u122',name:'Destiny Jackson',   avatar:'👩🏿', city:'Atlanta',      country:'US', lat:33.75, lng:-84.39,category:'money',     mood:'thrilled',   dreamSummary:'Money trees grew in my backyard overnight...' },
+  { id:'u123',name:'Olivia Patel',      avatar:'👩🏽', city:'Denver',       country:'US', lat:39.74, lng:-104.99,category:'spiritual', mood:'transcendent',dreamSummary:'The mountains opened like doors to heaven...' },
+  { id:'u124',name:'James Wilson',      avatar:'🧑',  city:'Boston',       country:'US', lat:42.36, lng:-71.06,category:'school',    mood:'panicked',   dreamSummary:'The exam was in an alien language I almost knew...' },
+  { id:'u125',name:'Gabrielle Dube',    avatar:'👩‍🦱', city:'Quebec City', country:'CA', lat:46.81, lng:-71.21,category:'horror',    mood:'chilled',    dreamSummary:'Le Chateau Frontenac etait hante par ma voix...' },
+  { id:'u126',name:'Aaliyah Brown',     avatar:'👩🏿', city:'Detroit',      country:'US', lat:42.33, lng:-83.05,category:'funny',     mood:'amused',     dreamSummary:'My car turned into a giant roller skate downtown...' },
+  { id:'u127',name:'Sofia Hernandez',   avatar:'👩🏽', city:'Phoenix',      country:'US', lat:33.45, lng:-112.07,category:'falling',  mood:'scared',     dreamSummary:'Cai del cielo pero el desierto me atrapo suave...' },
+  { id:'u128',name:'Naomi Williams',    avatar:'👩🏿', city:'Washington DC',country:'US', lat:38.91, lng:-77.04,category:'water',     mood:'calm',       dreamSummary:'The Potomac turned to crystal and I could see forever...' },
+  { id:'u129',name:'Camila Rodriguez',  avatar:'👩🏽', city:'San Antonio',  country:'US', lat:29.42, lng:-98.49,category:'love',      mood:'warm',       dreamSummary:'El Alamo se lleno de luces y el me beso alli...' },
+  { id:'u130',name:'Maya Thompson',     avatar:'👩',  city:'Portland',     country:'US', lat:45.52, lng:-122.68,category:'nature',   mood:'serene',     dreamSummary:'The trees whispered secrets about tomorrow...' },
+  // ── SOUTH AMERICA (15) ──
+  { id:'u131',name:'Valentina Rojas',   avatar:'👩🏽', city:'Buenos Aires', country:'AR', lat:-34.60,lng:-58.38,category:'love',      mood:'passionate', dreamSummary:'Bailabamos tango bajo una luna gigante...' },
+  { id:'u132',name:'Beatriz Silva',     avatar:'👩🏽', city:'Sao Paulo',    country:'BR', lat:-23.55,lng:-46.63,category:'money',     mood:'excited',    dreamSummary:'Ouro chovia sobre a Paulista e eu dancava...' },
+  { id:'u133',name:'Camila Vargas',     avatar:'👩🏽', city:'Bogota',       country:'CO', lat:4.71,  lng:-74.07,category:'nature',    mood:'wonder',     dreamSummary:'La selva se convirtio en un cuento de hadas...' },
+  { id:'u134',name:'Ana Lucia Perez',   avatar:'👩🏽', city:'Lima',         country:'PE', lat:-12.05,lng:-77.04,category:'timetravel',mood:'awed',       dreamSummary:'Machu Picchu se reconstruia ante mis ojos...' },
+  { id:'u135',name:'Isadora Mendes',    avatar:'👩🏽', city:'Rio de Janeiro',country:'BR', lat:-22.91,lng:-43.17,category:'spiritual', mood:'tearful',   dreamSummary:'O Cristo desceu e abracou cada pessoa...' },
+  { id:'u136',name:'Francisca Munoz',   avatar:'👩🏽', city:'Santiago',     country:'CL', lat:-33.45,lng:-70.67,category:'falling',   mood:'dizzy',      dreamSummary:'Cai de los Andes pero flores me sostuvieron...' },
+  { id:'u137',name:'Lucia Fernandez',   avatar:'👩🏽', city:'Montevideo',   country:'UY', lat:-34.88,lng:-56.16,category:'horror',    mood:'thrilled',   dreamSummary:'Bailaba tango con un fantasma en el puerto...' },
+  { id:'u138',name:'Carolina Suarez',   avatar:'👩🏽', city:'Quito',        country:'EC', lat:-0.18, lng:-78.47,category:'animals',   mood:'enchanted',  dreamSummary:'Mariposas de luz brotaban del volcan...' },
+  { id:'u139',name:'Gabriela Torres',   avatar:'👩🏽', city:'Medellin',     country:'CO', lat:6.25,  lng:-75.56,category:'flying',    mood:'free',       dreamSummary:'Volaba sobre las montanas con alas de flores...' },
+  { id:'u140',name:'Diego Ramirez',     avatar:'🧑🏽', city:'Caracas',     country:'VE', lat:10.49, lng:-66.88,category:'family',    mood:'nostalgic',  dreamSummary:'La mesa familiar flotaba sobre la ciudad de noche...' },
+  { id:'u141',name:'Juliana Costa',     avatar:'👩🏽', city:'Brasilia',     country:'BR', lat:-15.79,lng:-47.88,category:'ufo',       mood:'amazed',     dreamSummary:'Uma nave pousou na Esplanada dos Ministerios...' },
+  { id:'u142',name:'Maria Jose Vidal',  avatar:'👩🏽', city:'Asuncion',     country:'PY', lat:-25.26,lng:-57.58,category:'erotic',    mood:'intense',    dreamSummary:'El rio Paraguay ardia y nosotros tambien...' },
+  { id:'u143',name:'Alejandra Gomez',   avatar:'👩🏽', city:'Cali',         country:'CO', lat:3.45,  lng:-76.53,category:'celebrity', mood:'star-struck', dreamSummary:'Shakira me enseno a bailar en la Plaza de Caicedo...' },
+  { id:'u144',name:'Renata Oliveira',   avatar:'👩🏽', city:'Salvador',     country:'BR', lat:-12.97,lng:-38.51,category:'death',     mood:'serene',     dreamSummary:'Os orixas danc\u0327avam e eu virei luz...' },
+  { id:'u145',name:'Micaela Diaz',      avatar:'👩🏽', city:'Cordoba',      country:'AR', lat:-31.42,lng:-64.18,category:'school',    mood:'anxious',    dreamSummary:'El examen era en un idioma que inventaba mientras leia...' },
+  // ── CENTRAL ASIA (5) ──
+  { id:'u146',name:'Aizhan Bekova',     avatar:'👩🏽', city:'Almaty',       country:'KZ', lat:43.24, lng:76.95, category:'nature',    mood:'bliss',      dreamSummary:'Tauler altyn zharyqqa toldy, men ushtyp kettim...' },
+  { id:'u147',name:'Gulnara Sadikova',  avatar:'👩🏽', city:'Tashkent',     country:'UZ', lat:41.30, lng:69.28, category:'chase',     mood:'breathless', dreamSummary:'Eski shahar devorlar ortida quvib yurdim...' },
+  { id:'u148',name:'Madina Akhmetova',  avatar:'👩🏽', city:'Astana',       country:'KZ', lat:51.17, lng:71.43, category:'funny',     mood:'delighted',  dreamSummary:'At meni dalaga alip uchty, men kuldim...' },
+  { id:'u149',name:'Farida Umarova',    avatar:'👩🏽', city:'Dushanbe',     country:'TJ', lat:38.54, lng:68.77, category:'water',     mood:'mystified',  dreamSummary:'Daryo oqib oqib, osmonga chiqib ketdi...' },
+  { id:'u150',name:'Nuriya Aliyeva',    avatar:'👩🏽', city:'Baku',         country:'AZ', lat:40.41, lng:49.87, category:'spiritual', mood:'transcendent',dreamSummary:'Alov qullelerinin icinden nur yagirdi...' },
+  // ─── Nickname Bots u151–u300 ─────────────────────────────────────────────────
+  // Europa (u151–u190)
+  { id:'u151', name:'jolly.m',        avatar:'👩🏼', city:'Munich',       country:'DE', lat:48.14, lng:11.58,  category:'love',      mood:'happy',        dreamSummary:'Er hat mich im Traum angelaechelt und ich bin aufgewacht mit Herzrasen...' },
+  { id:'u152', name:'katya.a',        avatar:'👩🏼', city:'Vienna',       country:'AT', lat:48.21, lng:16.37,  category:'chase',     mood:'breathless',   dreamSummary:'Ich rannte durch die Ringstrasse und der Himmel war violett...' },
+  { id:'u153', name:'beate.biene',    avatar:'👩🏼', city:'Hamburg',      country:'DE', lat:53.55, lng:10.00,  category:'nature',    mood:'bliss',        dreamSummary:'Der Hafen verschwand im Nebel und ich wurde ein Vogel...' },
+  { id:'u154', name:'knoepfchen77',   avatar:'👩🏻', city:'Zurich',       country:'CH', lat:47.38, lng:8.54,   category:'water',     mood:'serene',       dreamSummary:'Der See war spiegelglatt und ich konnte durch ihn hindurchsehen...' },
+  { id:'u155', name:'carolin1999',    avatar:'👩🏼', city:'Berlin',       country:'DE', lat:52.52, lng:13.40,  category:'school',    mood:'anxious',      dreamSummary:'Das Abitur war vorbei und trotzdem saß ich noch im Pruefungsraum...' },
+  { id:'u156', name:'kate007',        avatar:'👩🏻', city:'London',       country:'GB', lat:51.51, lng:-0.13,  category:'spy',       mood:'intense',      dreamSummary:'I was chasing someone across Tower Bridge in the rain...' },
+  { id:'u157', name:'dreamcatcher22', avatar:'👩🏻', city:'Dublin',       country:'IE', lat:53.33, lng:-6.25,  category:'spiritual', mood:'transcendent', dreamSummary:'The cliffs of Moher spoke to me in a language of wind...' },
+  { id:'u158', name:'nightowl_99',    avatar:'👩🏼', city:'Paris',        country:'FR', lat:48.86, lng:2.35,   category:'ufo',       mood:'amazed',       dreamSummary:'Une lumiere au-dessus de la Tour Eiffel m\'a emmene dans le ciel...' },
+  { id:'u159', name:'moonchild.x',    avatar:'👩🏼', city:'Amsterdam',    country:'NL', lat:52.37, lng:4.90,   category:'mystical',  mood:'mystified',    dreamSummary:'De grachten verdwenen en de stad zweefde boven de wolken...' },
+  { id:'u160', name:'luna.stars',     avatar:'👩🏼', city:'Barcelona',    country:'ES', lat:41.39, lng:2.17,   category:'flying',    mood:'euphoric',     dreamSummary:'Sobrevolaba la Sagrada Familia y el mar brillaba como espejos...' },
+  { id:'u161', name:'sunny.maya',     avatar:'👩🏼', city:'Madrid',       country:'ES', lat:40.42, lng:-3.70,  category:'love',      mood:'romantic',     dreamSummary:'Nos encontramos en el Retiro y el tiempo se detuvo...' },
+  { id:'u162', name:'dreamy.sara',    avatar:'👩🏽', city:'Rome',         country:'IT', lat:41.90, lng:12.49,  category:'history',   mood:'awestruck',    dreamSummary:'Passeggiavo nel Colosseo e i gladiatori mi salutavano...' },
+  { id:'u163', name:'mimi_paris',     avatar:'👩🏼', city:'Lyon',         country:'FR', lat:45.75, lng:4.84,   category:'food',      mood:'delighted',    dreamSummary:'La tarte aux pralines flottait dans les airs et je la mangeais...' },
+  { id:'u164', name:'elli_berlin',    avatar:'👩🏼', city:'Leipzig',      country:'DE', lat:51.34, lng:12.38,  category:'music',     mood:'moved',        dreamSummary:'Ein Orchester spielte mitten auf dem Augustusplatz fuer mich allein...' },
+  { id:'u165', name:'sofi.rose99',    avatar:'👩🏼', city:'Stockholm',    country:'SE', lat:59.33, lng:18.07,  category:'nature',    mood:'peaceful',     dreamSummary:'Snon fell upward in Stockholm and I danced in reverse...' },
+  { id:'u166', name:'emma98',         avatar:'👩🏻', city:'Copenhagen',   country:'DK', lat:55.68, lng:12.57,  category:'family',    mood:'nostalgic',    dreamSummary:'Vi sad ved det gamle bage-bord og farmor sang for os igen...' },
+  { id:'u167', name:'nina42',         avatar:'👩🏼', city:'Oslo',         country:'NO', lat:59.91, lng:10.75,  category:'water',     mood:'mystified',    dreamSummary:'Fjorden var full av lysende fisk og jeg svomte blant dem...' },
+  { id:'u168', name:'traumfee',       avatar:'👩🏼', city:'Frankfurt',    country:'DE', lat:50.11, lng:8.68,   category:'flying',    mood:'free',         dreamSummary:'Ich stieg vom Maintower ab und glitt ueber die Stadt wie eine Feder...' },
+  { id:'u169', name:'mondkind',       avatar:'👩🏼', city:'Cologne',      country:'DE', lat:50.94, lng:6.96,   category:'spiritual', mood:'transcendent', dreamSummary:'Der Dom leuchtete von innen und ich war ein Teil des Lichts...' },
+  { id:'u170', name:'sakura.dreams',  avatar:'👩🏻', city:'Helsinki',     country:'FI', lat:60.17, lng:24.94,  category:'nature',    mood:'serene',       dreamSummary:'The northern lights shaped themselves into a hand reaching for me...' },
+  { id:'u171', name:'elif.ist',       avatar:'👩🏽', city:'Istanbul',     country:'TR', lat:41.01, lng:28.95,  category:'history',   mood:'awestruck',    dreamSummary:'Ay Sofya\'nin kubbesi acildi ve icinden guvercinler cikti...' },
+  { id:'u172', name:'marie.lyon',     avatar:'👩🏼', city:'Marseille',    country:'FR', lat:43.30, lng:5.37,   category:'water',     mood:'bliss',        dreamSummary:'La mer etait violette et les dauphins me guidaient vers l\'horizon...' },
+  { id:'u173', name:'zara.x',         avatar:'👩🏼', city:'Milan',        country:'IT', lat:45.46, lng:9.19,   category:'celebrity', mood:'star-struck',  dreamSummary:'Sfilavo in Duomo davanti a tutto il mondo e non avevo paura...' },
+  { id:'u174', name:'kiki.rio',       avatar:'👩🏼', city:'Porto',        country:'PT', lat:41.15, lng:-8.61,  category:'music',     mood:'joyful',       dreamSummary:'O fado soava nas ruas e as pedras cantavam comigo...' },
+  { id:'u175', name:'leni.wave',      avatar:'👩🏼', city:'Lisbon',       country:'PT', lat:38.72, lng:-9.14,  category:'travel',    mood:'adventurous',  dreamSummary:'O Tejo levou-me para o mar e eu nao tive medo nenhum...' },
+  { id:'u176', name:'anika.blue',     avatar:'👩🏼', city:'Brussels',     country:'BE', lat:50.85, lng:4.35,   category:'funny',     mood:'amused',       dreamSummary:'De EU-vergadering werd een danswedstrijd en ik won...' },
+  { id:'u177', name:'vera.prg',       avatar:'👩🏼', city:'Prague',       country:'CZ', lat:50.08, lng:14.44,  category:'mystical',  mood:'mystified',    dreamSummary:'Prazsky hrad se pohyboval jako ziva bytost v noci...' },
+  { id:'u178', name:'dina.waw',       avatar:'👩🏼', city:'Warsaw',       country:'PL', lat:52.23, lng:21.01,  category:'chase',     mood:'tense',        dreamSummary:'Biegłam przez Stare Miasto i mury stawały się coraz węższe...' },
+  { id:'u179', name:'ria.bud',        avatar:'👩🏼', city:'Budapest',     country:'HU', lat:47.50, lng:19.04,  category:'love',      mood:'romantic',     dreamSummary:'A Duna partjan allva tudtam hogy ez igazi volt...' },
+  { id:'u180', name:'sasha.kyiv',     avatar:'👩🏼', city:'Kyiv',         country:'UA', lat:50.45, lng:30.52,  category:'spiritual', mood:'hopeful',      dreamSummary:'Nad Khreshchatyk zlitaly angely i misto tsvilо bílym svitlom...' },
+  { id:'u181', name:'tonia.buc',      avatar:'👩🏼', city:'Bucharest',    country:'RO', lat:44.43, lng:26.10,  category:'nature',    mood:'bliss',        dreamSummary:'Padurea Baneasa vorbea si fiecare copac spunea un secret...' },
+  { id:'u182', name:'cleo.sofia',     avatar:'👩🏼', city:'Sofia',        country:'BG', lat:42.70, lng:23.32,  category:'history',   mood:'awestruck',    dreamSummary:'Vitosha se razhodila iz planina i mi pogledaxme v ochi...' },
+  { id:'u183', name:'mela.ath',       avatar:'👩🏼', city:'Athens',       country:'GR', lat:37.98, lng:23.73,  category:'history',   mood:'awestruck',    dreamSummary:'Oi theoi tis Akropolhs mou milisan kai tous katalava...' },
+  { id:'u184', name:'niko.m',         avatar:'🧑🏼', city:'Dusseldorf',   country:'DE', lat:51.23, lng:6.77,   category:'funny',     mood:'amused',       dreamSummary:'Ich war ein Rennwagen auf der Autobahn ohne Fahrer...' },
+  { id:'u185', name:'luisa.stu',      avatar:'👩🏼', city:'Stuttgart',    country:'DE', lat:48.78, lng:9.18,   category:'work',      mood:'stressed',     dreamSummary:'Die Praesentation hatte 1000 Folien und keine Bilder...' },
+  { id:'u186', name:'feli.muc',       avatar:'👩🏼', city:'Munich',       country:'DE', lat:48.15, lng:11.60,  category:'animals',   mood:'joyful',       dreamSummary:'Ein Fuchs fuehrte mich durch den Englischen Garten bei Nacht...' },
+  { id:'u187', name:'pia.swiss',      avatar:'👩🏼', city:'Bern',         country:'CH', lat:46.95, lng:7.45,   category:'nature',    mood:'peaceful',     dreamSummary:'Die Alpen waren aus Kristall und ich spiegelte mich in ihnen...' },
+  { id:'u188', name:'nora.wien',      avatar:'👩🏼', city:'Graz',         country:'AT', lat:47.07, lng:15.44,  category:'music',     mood:'moved',        dreamSummary:'Eine Geige spielte alleine im Schlossbergturm...' },
+  { id:'u189', name:'bella.milan',    avatar:'👩🏼', city:'Turin',        country:'IT', lat:45.07, lng:7.69,   category:'travel',    mood:'adventurous',  dreamSummary:'Le Alpi erano un labirinto e trovai l\'uscita solo sorridendo...' },
+  { id:'u190', name:'isla.scot',      avatar:'👩🏻', city:'Edinburgh',    country:'GB', lat:55.95, lng:-3.19,  category:'mystical',  mood:'eerie',        dreamSummary:'The castle ghosts danced reels all night and asked me to join...' },
+  // Nahost (u191–u205)
+  { id:'u191', name:'nour.bey',       avatar:'👩🏽', city:'Beirut',       country:'LB', lat:33.89, lng:35.50,  category:'water',     mood:'bittersweet',  dreamSummary:'Bahriyye kaanat tushriqu wa ana kuntu atadhakkaru al-manzil...' },
+  { id:'u192', name:'lara.tel',       avatar:'👩🏽', city:'Tel Aviv',     country:'IL', lat:32.08, lng:34.78,  category:'love',      mood:'tender',       dreamSummary:'We danced on the beach and the sand turned to flowers...' },
+  { id:'u193', name:'yasmin.cai',     avatar:'👩🏽', city:'Cairo',        country:'EG', lat:30.04, lng:31.24,  category:'history',   mood:'awestruck',    dreamSummary:'Kuntu amshi baina l-ahram wa l-nujum tatakallam...' },
+  { id:'u194', name:'dina.amm',       avatar:'👩🏽', city:'Amman',        country:'JO', lat:31.96, lng:35.95,  category:'family',    mood:'nostalgic',    dreamSummary:'Bayt jiddi kaan ma\'li bish-shajar w as-sawt al-qadim...' },
+  { id:'u195', name:'reem.kuw',       avatar:'👩🏽', city:'Kuwait City',  country:'KW', lat:29.37, lng:47.98,  category:'flying',    mood:'free',         dreamSummary:'Talaatu min burg al-kuwayt w tayartu fawq al-khalij...' },
+  { id:'u196', name:'sara.dub',       avatar:'👩🏽', city:'Dubai',        country:'AE', lat:25.20, lng:55.27,  category:'celebrity', mood:'star-struck',  dreamSummary:'I was a guest at a party on the Burj Khalifa rooftop...' },
+  { id:'u197', name:'mona.ira',       avatar:'👩🏽', city:'Baghdad',      country:'IQ', lat:33.34, lng:44.40,  category:'spiritual', mood:'transcendent', dreamSummary:'Dijla nehri altin renk akti ve ben onun uzerinde yuruyebildim...' },
+  { id:'u198', name:'zoya.teh',       avatar:'👩🏽', city:'Tehran',       country:'IR', lat:35.69, lng:51.39,  category:'chase',     mood:'tense',        dreamSummary:'Dar koochehaye Tehran dowidan mikardam va saham az khودm bud...' },
+  { id:'u199', name:'hana.ank',       avatar:'👩🏽', city:'Ankara',       country:'TR', lat:39.93, lng:32.86,  category:'school',    mood:'anxious',      dreamSummary:'Sinav kagidim bos kaldi ama herkese puan verdiler...' },
+  { id:'u200', name:'mira.riy',       avatar:'👩🏽', city:'Riyadh',       country:'SA', lat:24.69, lng:46.72,  category:'nature',    mood:'serene',       dreamSummary:'Ar-Riyad kaanat khadraa wa l-anhar tajri fawqa r-raml...' },
+  { id:'u201', name:'tala.jer',       avatar:'👩🏽', city:'Jerusalem',    country:'IL', lat:31.77, lng:35.22,  category:'spiritual', mood:'transcendent', dreamSummary:'The old city walls glowed gold and all gates were open...' },
+  { id:'u202', name:'amal.mus',       avatar:'👩🏽', city:'Muscat',       country:'OM', lat:23.61, lng:58.59,  category:'water',     mood:'bliss',        dreamSummary:'Al-bahr kaan kafif al-lawn wa l-asmaak tatakallam...' },
+  { id:'u203', name:'jude.man',       avatar:'🧑🏽', city:'Manama',       country:'BH', lat:26.22, lng:50.59,  category:'ufo',       mood:'amazed',       dreamSummary:'A disc-shaped craft hovered over the causeway and lit up the sea...' },
+  { id:'u204', name:'nada.doe',       avatar:'👩🏽', city:'Doha',         country:'QA', lat:25.29, lng:51.53,  category:'funny',     mood:'delighted',    dreamSummary:'Al-ibil kaanat talbus thiyab wa tushahid kurat al-qadam...' },
+  { id:'u205', name:'leen.aba',       avatar:'👩🏽', city:'Abu Dhabi',    country:'AE', lat:24.45, lng:54.38,  category:'animals',   mood:'joyful',       dreamSummary:'A white falcon took me across the desert on its back...' },
+  // Afrika (u206–u220)
+  { id:'u206', name:'amara.acc',      avatar:'👩🏿', city:'Accra',        country:'GH', lat:5.56,  lng:-0.20,  category:'music',     mood:'joyful',       dreamSummary:'The drums never stopped and my feet knew every beat...' },
+  { id:'u207', name:'zola.joh',       avatar:'👩🏿', city:'Johannesburg', country:'ZA', lat:-26.20,lng:28.05,  category:'flying',    mood:'free',         dreamSummary:'I soared over the Highveld and the cities looked like circuits...' },
+  { id:'u208', name:'kemi.lag',       avatar:'👩🏿', city:'Lagos',        country:'NG', lat:6.52,  lng:3.38,   category:'love',      mood:'romantic',     dreamSummary:'He was waiting on the bridge and the ocean smelled of frangipani...' },
+  { id:'u209', name:'abeni.abi',      avatar:'👩🏿', city:'Abidjan',      country:'CI', lat:5.36,  lng:-4.01,  category:'nature',    mood:'bliss',        dreamSummary:'La foret de Tai chantait et les singes portaient des couronnes...' },
+  { id:'u210', name:'sadia.dar',      avatar:'👩🏿', city:'Dar es Salaam',country:'TZ', lat:-6.79, lng:39.21,  category:'water',     mood:'serene',       dreamSummary:'Bahari ya Hindi ilikuwa ya rangi ya dhahabu usiku huo...' },
+  { id:'u211', name:'nana.kin',       avatar:'👩🏿', city:'Kinshasa',     country:'CD', lat:-4.32, lng:15.32,  category:'family',    mood:'nostalgic',    dreamSummary:'Mama dansait dans la cour comme quand j\'etais petite...' },
+  { id:'u212', name:'yara.nai',       avatar:'👩🏿', city:'Nairobi',      country:'KE', lat:-1.29, lng:36.82,  category:'animals',   mood:'amazed',       dreamSummary:'A giraffe looked me in the eye and I understood everything...' },
+  { id:'u213', name:'lila.add',       avatar:'👩🏿', city:'Addis Ababa',  country:'ET', lat:9.03,  lng:38.74,  category:'spiritual', mood:'transcendent', dreamSummary:'Ye-sema neger metetat lijoch lay enkuan ena wede fiyamot leketalen...' },
+  { id:'u214', name:'imara.lus',      avatar:'👩🏿', city:'Lusaka',       country:'ZM', lat:-15.42,lng:28.28,  category:'chase',     mood:'breathless',   dreamSummary:'I ran through copper-colored tunnels that kept shifting around me...' },
+  { id:'u215', name:'tansy.tun',      avatar:'👩🏽', city:'Tunis',        country:'TN', lat:36.82, lng:10.17,  category:'history',   mood:'awestruck',    dreamSummary:'Carthage brulait de nouveau mais cette fois de lumiere bleue...' },
+  { id:'u216', name:'malak.cas',      avatar:'👩🏽', city:'Casablanca',   country:'MA', lat:33.59, lng:-7.62,  category:'love',      mood:'tender',       dreamSummary:'Le cafe maure etait deserte et il m\'attendait avec du the a la menthe...' },
+  { id:'u217', name:'ines.alg',       avatar:'👩🏽', city:'Algiers',      country:'DZ', lat:36.74, lng:3.06,   category:'flying',    mood:'euphoric',     dreamSummary:'Kunt attir fawqa l-qasba wa l-jasad kaan khafif ka-r-rih...' },
+  { id:'u218', name:'binta.dak',      avatar:'👩🏿', city:'Dakar',        country:'SN', lat:14.72, lng:-17.47, category:'water',     mood:'mystified',    dreamSummary:'L\'ocean Atlantique s\'est retire et j\'ai marche jusqu\'en Amerique...' },
+  { id:'u219', name:'sira.bam',       avatar:'👩🏿', city:'Bamako',       country:'ML', lat:12.65, lng:-8.00,  category:'music',     mood:'moved',        dreamSummary:'Le kora jouait seul sous le baobab et toute la nuit pleurait...' },
+  { id:'u220', name:'priya.hre',      avatar:'👩🏿', city:'Harare',       country:'ZW', lat:-17.83,lng:31.05,  category:'school',    mood:'anxious',      dreamSummary:'The exam paper was written in the language of birds but I could read it...' },
+  // Suedasien (u221–u232)
+  { id:'u221', name:'riya.mum',       avatar:'👩🏽', city:'Mumbai',       country:'IN', lat:19.08, lng:72.88,  category:'love',      mood:'romantic',     dreamSummary:'Woh Marine Drive pe khada tha aur samundar hum dono ke liye ruka tha...' },
+  { id:'u222', name:'devi.del',       avatar:'👩🏽', city:'Delhi',        country:'IN', lat:28.61, lng:77.21,  category:'spiritual', mood:'transcendent', dreamSummary:'Mata ji ne mujhe sapne mein darshan diye aur sab kuch roshan ho gaya...' },
+  { id:'u223', name:'ananya.ban',     avatar:'👩🏽', city:'Bangalore',    country:'IN', lat:12.97, lng:77.59,  category:'work',      mood:'stressed',     dreamSummary:'The code compiled perfectly in the dream but crashed when I woke up...' },
+  { id:'u224', name:'puja.kol',       avatar:'👩🏽', city:'Kolkata',      country:'IN', lat:22.57, lng:88.36,  category:'water',     mood:'serene',       dreamSummary:'Hooghly nodi amar sopne aakaasher moto phulike gyache chilo...' },
+  { id:'u225', name:'layla.kar',      avatar:'👩🏽', city:'Karachi',      country:'PK', lat:24.86, lng:67.01,  category:'family',    mood:'nostalgic',    dreamSummary:'Ammi ki biryani ki khushbu sapne mein bhi aayi thi...' },
+  { id:'u226', name:'sara.isk',       avatar:'👩🏽', city:'Islamabad',    country:'PK', lat:33.72, lng:73.04,  category:'nature',    mood:'peaceful',     dreamSummary:'The Margalla Hills sang a song only I could hear...' },
+  { id:'u227', name:'nisha.col',      avatar:'👩🏽', city:'Colombo',      country:'LK', lat:6.93,  lng:79.85,  category:'animals',   mood:'amazed',       dreamSummary:'A blue elephant walked across the ocean floor and I followed it...' },
+  { id:'u228', name:'mia.dha',        avatar:'👩🏽', city:'Dhaka',        country:'BD', lat:23.81, lng:90.41,  category:'flying',    mood:'euphoric',     dreamSummary:'Padma nadir upor diye ure gelam ar mone holo pakhir moto...' },
+  { id:'u229', name:'tia.kat',        avatar:'👩🏽', city:'Kathmandu',    country:'NP', lat:27.71, lng:85.31,  category:'mystical',  mood:'eerie',        dreamSummary:'Pashupatinath ko mandir sanga boli ra mero naam dohoryayo...' },
+  { id:'u230', name:'suni.mat',       avatar:'👩🏽', city:'Matara',       country:'LK', lat:5.95,  lng:80.54,  category:'water',     mood:'bliss',        dreamSummary:'Muhudu uda den hitiya aduma gahena me sapanaya oya...' },
+  { id:'u231', name:'roo.kab',        avatar:'🧑🏽', city:'Kabul',        country:'AF', lat:34.53, lng:69.17,  category:'nature',    mood:'hopeful',      dreamSummary:'Paghman gardens were full of children laughing in the springtime...' },
+  { id:'u232', name:'mara.mum2',      avatar:'👩🏽', city:'Pune',         country:'IN', lat:18.52, lng:73.86,  category:'funny',     mood:'amused',       dreamSummary:'Maza boss chakku gheun mala office madhye paduwa sambhavat hota...' },
+  // Ostasien (u233–u247)
+  { id:'u233', name:'yuki.tok',       avatar:'👩🏻', city:'Tokyo',        country:'JP', lat:35.69, lng:139.69, category:'love',      mood:'tender',       dreamSummary:'Sakura no shita de atta hito no kao ga wasurarenu yoru datta...' },
+  { id:'u234', name:'hana.osk',       avatar:'👩🏻', city:'Osaka',        country:'JP', lat:34.69, lng:135.50, category:'food',      mood:'delighted',    dreamSummary:'Takoyaki ga sora wo tobikonde watashi no kuchi ni haitte kita...' },
+  { id:'u235', name:'miku.kyo',       avatar:'👩🏻', city:'Kyoto',        country:'JP', lat:35.01, lng:135.77, category:'spiritual', mood:'transcendent', dreamSummary:'Fushimi Inari no torii ga tsuzuite tsuzuite yame ni natta...' },
+  { id:'u236', name:'soo.seo',        avatar:'👩🏻', city:'Seoul',        country:'KR', lat:37.57, lng:126.98, category:'celebrity', mood:'star-struck',  dreamSummary:'BTS oppa naege sarang gosaek norae bulleo jwosseo jeongmal saebeol katda...' },
+  { id:'u237', name:'ji.bur',         avatar:'👩🏻', city:'Busan',        country:'KR', lat:35.10, lng:129.04, category:'water',     mood:'serene',       dreamSummary:'Haeundae badag-eun hareubbam sai cheonggukhaeng haendabogo malhaesseo...' },
+  { id:'u238', name:'wei.bei',        avatar:'👩🏻', city:'Beijing',      country:'CN', lat:39.91, lng:116.39, category:'history',   mood:'awestruck',    dreamSummary:'Gu Gong de chengqiang hui shuo hua huan gaosu wo qianshi de gushi...' },
+  { id:'u239', name:'xiao.sha',       avatar:'👩🏻', city:'Shanghai',     country:'CN', lat:31.23, lng:121.47, category:'flying',    mood:'free',         dreamSummary:'Cong Dongfang Mingzhu shang tiao xia, wo xiang he zhi niao yi yang fei...' },
+  { id:'u240', name:'mei.che',        avatar:'👩🏻', city:'Chengdu',      country:'CN', lat:30.66, lng:104.07, category:'animals',   mood:'joyful',       dreamSummary:'Xiong mao he wo yi qi tiao wu zhi dao tian liang...' },
+  { id:'u241', name:'lin.tai',        avatar:'👩🏻', city:'Taipei',       country:'TW', lat:25.05, lng:121.53, category:'food',      mood:'amused',       dreamSummary:'Shilin ye shi de lu bian tan zhe hen duo wo hai mei chi guo de dongxi...' },
+  { id:'u242', name:'yu.hon',         avatar:'👩🏻', city:'Hong Kong',    country:'HK', lat:22.32, lng:114.17, category:'chase',     mood:'breathless',   dreamSummary:'I ran across the harbour bridge as the city turned into a jungle...' },
+  { id:'u243', name:'rina.sap',       avatar:'👩🏻', city:'Sapporo',      country:'JP', lat:43.06, lng:141.35, category:'nature',    mood:'peaceful',     dreamSummary:'Yuki ga furu shizuka na mori de kitsune ga tomodachi ni natta...' },
+  { id:'u244', name:'luna.ulb',       avatar:'👩🏻', city:'Ulaanbaatar',  country:'MN', lat:47.91, lng:106.88, category:'animals',   mood:'amazed',       dreamSummary:'A white horse galloped across the steppe and I was its shadow...' },
+  { id:'u245', name:'ruby.pyo',       avatar:'👩🏻', city:'Pyongyang',    country:'KP', lat:39.02, lng:125.75, category:'mystical',  mood:'eerie',        dreamSummary:'The city was silent except for a lullaby from a radio no one owned...' },
+  { id:'u246', name:'ami.nag',        avatar:'👩🏻', city:'Nagoya',       country:'JP', lat:35.18, lng:136.91, category:'school',    mood:'anxious',      dreamSummary:'Nyuugaku shiken no hi ni seifuku wo wasurete gakkou ni itta yume...' },
+  { id:'u247', name:'lin.gua',        avatar:'👩🏻', city:'Guangzhou',    country:'CN', lat:23.13, lng:113.26, category:'funny',     mood:'amused',       dreamSummary:'Wode laoshi bianle yi zhi ya dang wo da chiqian shuo cuo hua...' },
+  // Suedostasien (u248–u255)
+  { id:'u248', name:'anya.bkk',       avatar:'👩🏽', city:'Bangkok',      country:'TH', lat:13.75, lng:100.52, category:'spiritual', mood:'transcendent', dreamSummary:'Wat Phra Kaew sang phaan faan lae phra phum bin ma ha phon...' },
+  { id:'u249', name:'sita.jog',       avatar:'👩🏽', city:'Yogyakarta',   country:'ID', lat:-7.80, lng:110.37, category:'history',   mood:'awestruck',    dreamSummary:'Borobudur bersinar dan setiap relief bergerak seperti film...' },
+  { id:'u250', name:'maya.kul',       avatar:'👩🏽', city:'Kuala Lumpur', country:'MY', lat:3.14,  lng:101.69, category:'flying',    mood:'euphoric',     dreamSummary:'I flew between the Petronas Towers and touched the sky bridge...' },
+  { id:'u251', name:'lita.sg',        avatar:'👩🏽', city:'Singapore',    country:'SG', lat:1.35,  lng:103.82, category:'food',      mood:'delighted',    dreamSummary:'The hawker centre had infinite stalls and I tried them all...' },
+  { id:'u252', name:'ana.mnl',        avatar:'👩🏽', city:'Manila',       country:'PH', lat:14.60, lng:120.98, category:'water',     mood:'serene',       dreamSummary:'Ang dagat ng Batangas ay kumikinang sa gabi at lumapit sa aking mga paa...' },
+  { id:'u253', name:'zin.ygn',        avatar:'👩🏽', city:'Yangon',       country:'MM', lat:16.87, lng:96.19,  category:'animals',   mood:'joyful',       dreamSummary:'A peacock danced on the Shwedagon stupa roof just for me...' },
+  { id:'u254', name:'linh.han',       avatar:'👩🏽', city:'Hanoi',        country:'VN', lat:21.03, lng:105.85, category:'nature',    mood:'peaceful',     dreamSummary:'Ho Guom phang pha tren bau troi va toi boi trong may...' },
+  { id:'u255', name:'bela.phn',       avatar:'👩🏽', city:'Phnom Penh',   country:'KH', lat:11.57, lng:104.92, category:'mystical',  mood:'eerie',        dreamSummary:'Angkor Wat floated down the Mekong in complete silence at midnight...' },
+  // Ozeanien (u256–u260)
+  { id:'u256', name:'ruby.syd',       avatar:'👩🏻', city:'Sydney',       country:'AU', lat:-33.87,lng:151.21, category:'water',     mood:'bliss',        dreamSummary:'I swam through the Opera House and the sails became the ocean...' },
+  { id:'u257', name:'isla.mel',       avatar:'👩🏻', city:'Melbourne',    country:'AU', lat:-37.81,lng:144.96, category:'funny',     mood:'amused',       dreamSummary:'The trams flew off the tracks and orbited Federation Square...' },
+  { id:'u258', name:'kiri.akl',       avatar:'👩🏽', city:'Auckland',     country:'NZ', lat:-36.86,lng:174.77, category:'nature',    mood:'serene',       dreamSummary:'I heard the kakapo call my name from the forest on Codfish Island...' },
+  { id:'u259', name:'lani.sva',       avatar:'👩🏽', city:'Suva',         country:'FJ', lat:-18.14,lng:178.44, category:'spiritual', mood:'transcendent', dreamSummary:'The ancestors danced the meke on water and the stars watched...' },
+  { id:'u260', name:'mele.apia',      avatar:'👩🏽', city:'Apia',         country:'WS', lat:-13.83,lng:-171.77,category:'family',    mood:'nostalgic',    dreamSummary:'Grandma was weaving a fine mat and singing the old songs again...' },
+  // Nordamerika (u261–u280)
+  { id:'u261', name:'chloe.nyc',      avatar:'👩🏻', city:'New York',     country:'US', lat:40.71, lng:-74.01, category:'celebrity', mood:'star-struck',  dreamSummary:'I was on a Broadway stage and the audience was made of stars...' },
+  { id:'u262', name:'madison.la',     avatar:'👩🏻', city:'Los Angeles',  country:'US', lat:34.05, lng:-118.24,category:'love',      mood:'romantic',     dreamSummary:'We drove down Mulholland Drive at sunset and time stopped...' },
+  { id:'u263', name:'alex.chi',       avatar:'👩🏻', city:'Chicago',      country:'US', lat:41.88, lng:-87.63, category:'chase',     mood:'breathless',   dreamSummary:'I ran up the Sears Tower staircase and it had no end...' },
+  { id:'u264', name:'bri.hou',        avatar:'👩🏻', city:'Houston',      country:'US', lat:29.76, lng:-95.37, category:'ufo',       mood:'amazed',       dreamSummary:'A spacecraft landed in my backyard and the crew spoke Texan...' },
+  { id:'u265', name:'nadia.mia',      avatar:'👩🏽', city:'Miami',        country:'US', lat:25.77, lng:-80.19, category:'water',     mood:'bliss',        dreamSummary:'The Atlantic was warm as a bath and glowing turquoise blue...' },
+  { id:'u266', name:'zoey.sea',       avatar:'👩🏻', city:'Seattle',      country:'US', lat:47.61, lng:-122.33,category:'nature',    mood:'serene',       dreamSummary:'The Cascade Mountains walked into Puget Sound and lay down to rest...' },
+  { id:'u267', name:'ava.bos',        avatar:'👩🏻', city:'Boston',       country:'US', lat:42.36, lng:-71.06, category:'school',    mood:'anxious',      dreamSummary:'My Harvard thesis was due but the library kept moving rooms...' },
+  { id:'u268', name:'liv.por',        avatar:'👩🏻', city:'Portland',     country:'US', lat:45.52, lng:-122.68,category:'funny',     mood:'amused',       dreamSummary:'Every food cart served the same dream in a different bowl...' },
+  { id:'u269', name:'grace.den',      avatar:'👩🏻', city:'Denver',       country:'US', lat:39.74, lng:-104.98,category:'animals',   mood:'joyful',       dreamSummary:'A bear handed me a snowboard and we raced down the Rockies...' },
+  { id:'u270', name:'hailey.atl',     avatar:'👩🏽', city:'Atlanta',      country:'US', lat:33.75, lng:-84.39, category:'music',     mood:'moved',        dreamSummary:'Outkast played on my porch and the whole neighborhood danced...' },
+  { id:'u271', name:'emma.pho',       avatar:'👩🏻', city:'Phoenix',      country:'US', lat:33.45, lng:-112.07,category:'mystical',  mood:'eerie',        dreamSummary:'The Sonoran Desert at night spoke in coyote voices that were mine...' },
+  { id:'u272', name:'mia.van',        avatar:'👩🏼', city:'Vancouver',    country:'CA', lat:49.28, lng:-123.12,category:'nature',    mood:'peaceful',     dreamSummary:'I paddled a canoe through Stanley Park and the trees parted for me...' },
+  { id:'u273', name:'lily.tor',       avatar:'👩🏼', city:'Toronto',      country:'CA', lat:43.65, lng:-79.38, category:'flying',    mood:'free',         dreamSummary:'I flew above the CN Tower and the lake below was like liquid glass...' },
+  { id:'u274', name:'camille.mtl',    avatar:'👩🏼', city:'Montreal',     country:'CA', lat:45.51, lng:-73.55, category:'love',      mood:'romantic',     dreamSummary:'On se tenait sur le Mont Royal et la ville brillait pour nous...' },
+  { id:'u275', name:'jade.mex',       avatar:'👩🏽', city:'Mexico City',  country:'MX', lat:19.43, lng:-99.13, category:'history',   mood:'awestruck',    dreamSummary:'Tenochtitlan regresó por una noche y caminé entre los canales...' },
+  { id:'u276', name:'luna.gua',       avatar:'👩🏽', city:'Guadalajara',  country:'MX', lat:20.66, lng:-103.35,category:'music',     mood:'joyful',       dreamSummary:'Los mariachis tocaron hasta que el sol volvio a salir dos veces...' },
+  { id:'u277', name:'rose.pty',       avatar:'👩🏽', city:'Panama City',  country:'PA', lat:8.99,  lng:-79.52, category:'water',     mood:'serene',       dreamSummary:'The canal was full of light-blue dolphins who carried the ships...' },
+  { id:'u278', name:'mara.san',       avatar:'👩🏽', city:'San Jose',     country:'CR', lat:9.93,  lng:-84.08, category:'nature',    mood:'bliss',        dreamSummary:'La selva me abrio un camino solo para mi esta noche...' },
+  { id:'u279', name:'kim.hav',        avatar:'👩🏽', city:'Havana',       country:'CU', lat:23.14, lng:-82.36, category:'music',     mood:'moved',        dreamSummary:'La salsa sonaba en el Malecon y el mar bailaba con nosotros...' },
+  { id:'u280', name:'nico.m',         avatar:'🧑🏼', city:'Minneapolis',  country:'US', lat:44.98, lng:-93.27, category:'funny',     mood:'amused',       dreamSummary:'Prince showed up and we jammed in a purple snow fort all night...' },
+  // Suedamerika (u281–u295)
+  { id:'u281', name:'vale.bue',       avatar:'👩🏽', city:'Buenos Aires', country:'AR', lat:-34.61,lng:-58.38, category:'love',      mood:'passionate',   dreamSummary:'El tango duró toda la noche y los pies no me dolieron...' },
+  { id:'u282', name:'isa.sp',         avatar:'👩🏽', city:'Sao Paulo',    country:'BR', lat:-23.55,lng:-46.63, category:'work',      mood:'stressed',     dreamSummary:'O prazo era ontem e o escritorio era um labirinto de elevadores...' },
+  { id:'u283', name:'lua.rj',         avatar:'👩🏽', city:'Rio de Janeiro',country:'BR',lat:-22.91,lng:-43.17, category:'water',     mood:'bliss',        dreamSummary:'Copacabana era só minha naquela noite e o oceano cantou pra mim...' },
+  { id:'u284', name:'alma.scl',       avatar:'👩🏽', city:'Santiago',     country:'CL', lat:-33.46,lng:-70.65, category:'nature',    mood:'serene',       dreamSummary:'Los Andes me hablaron en el idioma de las piedras antiguas...' },
+  { id:'u285', name:'sofi.bog',       avatar:'👩🏽', city:'Bogota',       country:'CO', lat:4.71,  lng:-74.07, category:'flying',    mood:'free',         dreamSummary:'Sobrevolé la Sabana y los tunjos de oro brillaban bajo mis pies...' },
+  { id:'u286', name:'vero.lim',       avatar:'👩🏽', city:'Lima',         country:'PE', lat:-12.04,lng:-77.03, category:'history',   mood:'awestruck',    dreamSummary:'Los incas me llevaron a Machu Picchu de noche y la luna era naranja...' },
+  { id:'u287', name:'cami.qui',       avatar:'👩🏽', city:'Quito',        country:'EC', lat:-0.23, lng:-78.51, category:'mystical',  mood:'eerie',        dreamSummary:'El volcan Pichincha me susurro que todo el fuego era sueno...' },
+  { id:'u288', name:'paz.mon',        avatar:'👩🏽', city:'Montevideo',   country:'UY', lat:-34.90,lng:-56.19, category:'family',    mood:'nostalgic',    dreamSummary:'La rambla era de mi abuela otra vez y el rio no terminaba...' },
+  { id:'u289', name:'nadia.lpb',      avatar:'👩🏽', city:'La Paz',       country:'BO', lat:-16.49,lng:-68.12, category:'spiritual', mood:'transcendent', dreamSummary:'La Pachamama me tomo de la mano en el altiplano y vol amos juntas...' },
+  { id:'u290', name:'lara.asu',       avatar:'👩🏽', city:'Asuncion',     country:'PY', lat:-25.30,lng:-57.64, category:'animals',   mood:'joyful',       dreamSummary:'Jaguares blancos nadaban en el rio Paraguay y me cantaban canciones...' },
+  { id:'u291', name:'rita.gua',       avatar:'👩🏽', city:'Guayaquil',    country:'EC', lat:-2.20, lng:-79.90, category:'water',     mood:'serene',       dreamSummary:'El Guayas rio llevo mi canoa hasta el horizonte sin terminar...' },
+  { id:'u292', name:'feli.rbo',       avatar:'👩🏽', city:'Rosario',      country:'AR', lat:-32.89,lng:-60.70, category:'music',     mood:'joyful',       dreamSummary:'Spinetta tocaba en el Parana y el rio cantaba los acordes...' },
+  { id:'u293', name:'clara.cali',     avatar:'👩🏽', city:'Cali',         country:'CO', lat:3.44,  lng:-76.52, category:'dance',     mood:'euphoric',     dreamSummary:'La salsa caleña me enseño a volar sin mover los pies del suelo...' },
+  { id:'u294', name:'mar.man',        avatar:'👩🏽', city:'Manaus',       country:'BR', lat:-3.10, lng:-60.02, category:'nature',    mood:'amazed',       dreamSummary:'A Amazonia respirou e me chamou pelo nome mais antigo que existe...' },
+  { id:'u295', name:'tini.car',       avatar:'👩🏽', city:'Cartagena',    country:'CO', lat:10.39, lng:-75.51, category:'love',      mood:'romantic',     dreamSummary:'Las murallas de la ciudad vieja me contaron historias de amor...' },
+  // Zentralasien (u296–u300)
+  { id:'u296', name:'asel.bis',       avatar:'👩🏽', city:'Bishkek',      country:'KG', lat:42.87, lng:74.60,  category:'nature',    mood:'bliss',        dreamSummary:'Ala-Too mountains turned into a ocean of grass and I swam in it...' },
+  { id:'u297', name:'zulfiya.sam',    avatar:'👩🏽', city:'Samarkand',    country:'UZ', lat:39.65, lng:66.98,  category:'history',   mood:'awestruck',    dreamSummary:'Registon maydoni kechasi yulduzlarga to\'lib ketdi va men qoldim...' },
+  { id:'u298', name:'madi.nur',       avatar:'👩🏽', city:'Nur-Sultan',   country:'KZ', lat:51.18, lng:71.45,  category:'flying',    mood:'free',         dreamSummary:'Men Baiterek mungrasynyn bastinden koterilip ketip samaly boldym...' },
+  { id:'u299', name:'gulya.ash',      avatar:'👩🏽', city:'Ashgabat',     country:'TM', lat:37.97, lng:58.38,  category:'mystical',  mood:'eerie',        dreamSummary:'Ak mermer sheher tunda yarydy we men yeke ozum shagalayardym...' },
+  { id:'u300', name:'zar.dush',       avatar:'👩🏽', city:'Dushanbe',     country:'TJ', lat:38.56, lng:68.78,  category:'spiritual', mood:'transcendent', dreamSummary:'Kuh-i Bobo dar xob sukhban shud va man ba sitora suhbat kardam...' },
+];
+
+// ─── Profile Data ────────────────────────────────────────────────────────────
+const BIO_POOL: string[] = [
+  'Dream journaling changed my life. Looking for dream buddies!',
+  'Nachteule mit lebhaften Träumen seit der Kindheit.',
+  'Rüyalarımı çözümlemek benim tutkum.',
+  'Los sueños son el espejo del alma.',
+  'Je note tous mes rêves depuis 3 ans.',
+  'I believe dreams connect us across the world.',
+  'Meine Träume führen mich an Orte, die ich nie besucht habe.',
+  'Lucid dreaming practitioner for 5 years.',
+  'Sogni vividi ogni notte, cerco connessioni.',
+  'Exploring the unconscious mind one dream at a time.',
+  'Dreams are messages from the deeper self.',
+  'Hayallerim beni başka dünyalara götürüyor.',
+  'Fascinada por los sueños lúcidos y su significado.',
+  'Mes rêves sont plus réels que la réalité parfois.',
+  'Every night is an adventure in my mind.',
+  'Träume zeigen uns, wer wir wirklich sind.',
+  'I dream in colors most people have never seen.',
+  'Sonhar é a minha forma de viajar sem sair do lugar.',
+  'Мои сны открывают мне новые миры каждую ночь.',
+  'My dreams predicted three events in my life.',
+];
 
 const MONTH_NAMES: Record<string, string[]> = {
   en: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
@@ -1153,11 +861,55 @@ function getContinentForUser(id: string): string {
   return 'centralasia';
 }
 
+// Seeded pseudo-random number generator (stable per user id)
+function seededRandom(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
 function formatMemberSince(dateStr: string, lang: string): string {
   const [year, month] = dateStr.split('-');
   const monthIdx = parseInt(month, 10) - 1;
   const months = MONTH_NAMES[lang] ?? MONTH_NAMES['en'];
   return `${months[monthIdx]} ${year}`;
+}
+
+function generateUsers(dreams: Dream[]): SimUser[] {
+  const userCats = dreams.flatMap(d => d.tags ?? []);
+  const baseUsers: SimUser[] = BASE_USERS.map((u, i) => {
+    // Seeded pseudo-random based on index for stable distribution 35-98
+    let matchPct = 35 + ((i * 7 + 13) % 64); // 35-98 range, well distributed
+    if (userCats.length > 0) {
+      const catMatch = userCats.some(c =>
+        c.toLowerCase().includes(u.category.slice(0, 4))
+      );
+      if (catMatch) matchPct = Math.min(98, matchPct + 12);
+    }
+
+    // Seeded random for stable profile data
+    const rng = seededRandom(i * 31 + 7);
+    const privacyRoll = rng();
+    const privacy: 'public' | 'partial' | 'private' =
+      privacyRoll < 0.40 ? 'public' : privacyRoll < 0.75 ? 'partial' : 'private';
+
+    const age = privacy === 'public' ? 18 + Math.floor(rng() * 28) : undefined;
+    const memberYear = 2024 + Math.floor(rng() * 3); // 2024-2026
+    const memberMonth = 1 + Math.floor(rng() * 12);  // 1-12
+    const memberSince = `${memberYear}-${String(memberMonth).padStart(2, '0')}`;
+    const bio = privacy === 'public' ? BIO_POOL[Math.floor(rng() * BIO_POOL.length)] : undefined;
+    const dreamCount = 5 + Math.floor(rng() * 85); // 5-89
+    const matchCount = 2 + Math.floor(rng() * 33); // 2-34
+    const favCatIdx = Math.floor(rng() * DREAM_CATEGORIES.length);
+    const favCategory = DREAM_CATEGORIES[favCatIdx].id;
+
+    return { ...u, matchPct, privacy, age, memberSince, bio, dreamCount, matchCount, favCategory };
+  });
+
+  // Bot-Profile entfernt — nur echte Daten
+  return baseUsers;
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -1166,44 +918,16 @@ const DreamMap: React.FC<DreamMapProps> = ({
   language = 'en',
   onClose,
   isLight = false,
-  onSelectParticipant,
-  onNavigateToResearch,
 }) => {
   const lang = (typeof language === 'string' ? language : String(language)).toLowerCase();
   const t: Translations = TRANSLATIONS[lang] ?? TRANSLATIONS['en'];
   const tLang = (cat: DreamCategory) => cat.label[lang] ?? cat.label['en'];
 
-  const MAP_LABELS: Record<string, {dreams_total: string, words: string, dream_s: string, dream_p: string, words_label: string, research_map: string, tap_research_map: string}> = {
-    en: {dreams_total:'dreams total', words:'words', dream_s:'dream', dream_p:'dreams', words_label:'words', research_map:'Research Map', tap_research_map:'Tap for research map'},
-    de: {dreams_total:'Träume gesamt', words:'Wörter', dream_s:'Traum', dream_p:'Träume', words_label:'Wörter', research_map:'Forschungskarte', tap_research_map:'Tippen für Forschungskarte'},
-    tr: {dreams_total:'toplam rüya', words:'kelime', dream_s:'rüya', dream_p:'rüya', words_label:'kelime', research_map:'Araştırma Haritası', tap_research_map:'Araştırma haritası için dokun'},
-    es: {dreams_total:'sueños en total', words:'palabras', dream_s:'sueño', dream_p:'sueños', words_label:'palabras', research_map:'Mapa de Investigación', tap_research_map:'Toca para mapa de investigación'},
-    fr: {dreams_total:'rêves au total', words:'mots', dream_s:'rêve', dream_p:'rêves', words_label:'mots', research_map:'Carte de Recherche', tap_research_map:'Appuyez pour la carte de recherche'},
-    ar: {dreams_total:'أحلام إجمالاً', words:'كلمة', dream_s:'حلم', dream_p:'أحلام', words_label:'كلمة', research_map:'خريطة البحث', tap_research_map:'انقر لخريطة البحث'},
-    pt: {dreams_total:'sonhos no total', words:'palavras', dream_s:'sonho', dream_p:'sonhos', words_label:'palavras', research_map:'Mapa de Pesquisa', tap_research_map:'Toque para mapa de pesquisa'},
-    ru: {dreams_total:'снов всего', words:'слов', dream_s:'сон', dream_p:'снов', words_label:'слов', research_map:'Карта исследований', tap_research_map:'Нажмите для карты исследований'},
-    zh: {dreams_total:'个梦境', words:'字', dream_s:'个梦', dream_p:'个梦', words_label:'字', research_map:'研究地图', tap_research_map:'点击查看研究地图'},
-    hi: {dreams_total:'कुल सपने', words:'शब्द', dream_s:'सपना', dream_p:'सपने', words_label:'शब्द', research_map:'अनुसंधान मानचित्र', tap_research_map:'अनुसंधान मानचित्र के लिए टैप करें'},
-    ja: {dreams_total:'件の夢', words:'語', dream_s:'件の夢', dream_p:'件の夢', words_label:'語', research_map:'研究マップ', tap_research_map:'研究マップをタップ'},
-    ko: {dreams_total:'개의 꿈', words:'단어', dream_s:'개의 꿈', dream_p:'개의 꿈', words_label:'단어', research_map:'연구 지도', tap_research_map:'연구 지도를 탭하세요'},
-    id: {dreams_total:'mimpi total', words:'kata', dream_s:'mimpi', dream_p:'mimpi', words_label:'kata', research_map:'Peta Penelitian', tap_research_map:'Ketuk untuk peta penelitian'},
-    fa: {dreams_total:'رویا در کل', words:'کلمه', dream_s:'رویا', dream_p:'رویا', words_label:'کلمه', research_map:'نقشه تحقیقات', tap_research_map:'برای نقشه تحقیقات ضربه بزنید'},
-    it: {dreams_total:'sogni in totale', words:'parole', dream_s:'sogno', dream_p:'sogni', words_label:'parole', research_map:'Mappa di Ricerca', tap_research_map:'Tocca per la mappa di ricerca'},
-    pl: {dreams_total:'snów łącznie', words:'słów', dream_s:'sen', dream_p:'snów', words_label:'słów', research_map:'Mapa Badań', tap_research_map:'Dotknij mapy badań'},
-    bn: {dreams_total:'মোট স্বপ্ন', words:'শব্দ', dream_s:'স্বপ্ন', dream_p:'স্বপ্ন', words_label:'শব্দ', research_map:'গবেষণা মানচিত্র', tap_research_map:'গবেষণা মানচিত্রের জন্য ট্যাপ করুন'},
-    ur: {dreams_total:'کل خواب', words:'الفاظ', dream_s:'خواب', dream_p:'خواب', words_label:'الفاظ', research_map:'تحقیقی نقشہ', tap_research_map:'تحقیقی نقشے کے لیے ٹیپ کریں'},
-    vi: {dreams_total:'giấc mơ', words:'từ', dream_s:'giấc mơ', dream_p:'giấc mơ', words_label:'từ', research_map:'Bản đồ nghiên cứu', tap_research_map:'Nhấn để xem bản đồ nghiên cứu'},
-    th: {dreams_total:'ความฝันทั้งหมด', words:'คำ', dream_s:'ความฝัน', dream_p:'ความฝัน', words_label:'คำ', research_map:'แผนที่วิจัย', tap_research_map:'แตะเพื่อดูแผนที่วิจัย'},
-    sw: {dreams_total:'ndoto jumla', words:'maneno', dream_s:'ndoto', dream_p:'ndoto', words_label:'maneno', research_map:'Ramani ya Utafiti', tap_research_map:'Gonga kwa ramani ya utafiti'},
-    hu: {dreams_total:'álom összesen', words:'szó', dream_s:'álom', dream_p:'álom', words_label:'szó', research_map:'Kutatási térkép', tap_research_map:'Koppintson a kutatási térképhez'},
-  };
-  const ml = MAP_LABELS[lang.toLowerCase()] || MAP_LABELS.en;
-
   const [users, setUsers] = useState<SimUser[]>([]);
   const [isLiveData, setIsLiveData] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<SimUser | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [toast, setToast] = useState<{ name: string; country: string; pct: number } | null>(null);
+  const [toast, setToast] = useState<{ name: string; city: string; pct: number } | null>(null);
   const [toastVisible, setToastVisible] = useState(false);
   const [pulsingIds, setPulsingIds] = useState<string[]>([]);
   const [showTrends, setShowTrends] = useState(false);
@@ -1228,23 +952,6 @@ const DreamMap: React.FC<DreamMapProps> = ({
     setTimeout(() => setProfileUser(null), 350);
   }, []);
 
-  // ── Global stats ──
-  const [globalStats, setGlobalStats] = useState<{ dreams: number; words: string } | null>(null);
-  useEffect(() => {
-    (async () => {
-      const { count } = await supabase
-        .from('research_dreams')
-        .select('*', { count: 'exact', head: true });
-      if (count != null) {
-        const words = count * 80;
-        const wordStr = words >= 1_000_000
-          ? `${(words / 1_000_000).toFixed(1)} Mio`
-          : words.toLocaleString();
-        setGlobalStats({ dreams: count, words: wordStr });
-      }
-    })();
-  }, []);
-
   // ── New feature state ──
   const [searchQuery, setSearchQuery] = useState('');
   const [matchThreshold, setMatchThreshold] = useState(50);
@@ -1256,85 +963,101 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const lastTouchDist = useRef<number | null>(null);
 
-  // Init users: lade echte Teilnehmer aus Supabase
+  // Init users: lade echte Forschungsdaten aus Supabase
   useEffect(() => {
-    const loadRealUsers = async () => {
-      const { data } = await supabase
-        .from('research_participants')
-        .select('id, participant_id, country, lat, lng, dream_count, gender, age')
-        .not('lat', 'is', null)
-        .not('lng', 'is', null)
-        .order('dream_count', { ascending: false })
-        .limit(500);
+    let cancelled = false;
 
-      if (data && data.length > 0) {
-        // Lade Traeume + Deutungen pro Teilnehmer (Batch)
-        const pids = data.map((p: any) => p.participant_id);
-        const [dreamsRes, interpRes] = await Promise.all([
-          supabase
-            .from('research_dreams')
-            .select('participant_id, dream_text')
-            .in('participant_id', pids)
-            .limit(5000),
-          supabase
-            .from('research_interpretations')
-            .select('participant_id, content')
-            .in('participant_id', pids)
-            .limit(500),
-        ]);
+    async function loadResearchData(): Promise<SimUser[]> {
+      try {
+        const { data: markers } = await supabase
+          .from('study_map_markers')
+          .select('study_code, lat, lng, city, country, dream_count, map_color')
+          .limit(500);
 
-        const dreamMap = new Map<string, string>();
-        const wordCountMap = new Map<string, number>();
-        if (dreamsRes.data) {
-          for (const d of dreamsRes.data as any[]) {
-            if (!dreamMap.has(d.participant_id)) {
-              dreamMap.set(d.participant_id, d.dream_text || '');
-            }
-            const words = d.dream_text ? d.dream_text.trim().split(/\s+/).length : 0;
-            wordCountMap.set(d.participant_id, (wordCountMap.get(d.participant_id) || 0) + words);
-          }
+        const { data: studies } = await supabase
+          .from('research_studies')
+          .select('study_code, study_name, principal_investigator, total_dreams')
+          .limit(200);
+
+        const studyMap = new Map((studies || []).map((s: any) => [s.study_code, s]));
+
+        if (markers && markers.length > 0) {
+          return markers.map((m: any, i: number) => {
+            const study = studyMap.get(m.study_code) as any;
+            return {
+              id: `research-${m.study_code}-${i}`,
+              name: study?.study_name?.substring(0, 30) || m.study_code,
+              avatar: '🔬',
+              city: m.city || '',
+              country: m.country || '',
+              lat: m.lat,
+              lng: m.lng,
+              dreamSummary: `${m.dream_count || 0} Traumberichte — ${study?.principal_investigator || 'SDDb'}`,
+              category: 'spiritual',
+              mood: 'peaceful',
+              matchPct: Math.min(98, 40 + (m.dream_count || 0) / 100),
+              privacy: 'public' as const,
+              memberSince: '',
+              bio: study?.study_name || '',
+              dreamCount: m.dream_count || 0,
+              matchCount: 0,
+              favCategory: 'spiritual',
+            };
+          });
         }
-
-        const interpMap = new Map<string, string>();
-        if (interpRes.data) {
-          for (const i of interpRes.data as any[]) {
-            if (!interpMap.has(i.participant_id)) {
-              interpMap.set(i.participant_id, i.content || '');
-            }
-          }
-        }
-
-        const mapped: SimUser[] = data.map((p: any) => {
-          const rc = resolveCoords(p.lat, p.lng, p.country);
-          return {
-          id: p.id,
-          name: p.participant_id,
-          avatar: '🔬',
-          city: p.country || '',
-          country: p.country || '',
-          lat: rc.lat,
-          lng: rc.lng,
-          dreamSummary: dreamMap.get(p.participant_id) || '',
-          interpretation: interpMap.get(p.participant_id) || '',
-          category: 'nature',
-          mood: 'calm',
-          matchPct: Math.floor(Math.random() * 30) + 70,
-          privacy: 'public' as const,
-          memberSince: '2024-01',
-          dreamCount: p.dream_count || 0,
-          totalWords: wordCountMap.get(p.participant_id) || 0,
-          gender: p.gender || undefined,
-          age: p.age || undefined,
-          matchCount: 0,
-          favCategory: 'nature'
-        };});
-        setUsers(mapped);
-        setIsLiveData(true);
-        const top5 = [...mapped].sort((a, b) => b.matchPct - a.matchPct).slice(0, 5);
-        setPulsingIds(top5.slice(0, 3).map(u => u.id));
+      } catch (e) {
+        console.warn('DreamMap: Supabase nicht erreichbar', e);
       }
-    };
-    loadRealUsers();
+      return [];
+    }
+
+    Promise.all([fetchMapDreams(), loadResearchData()]).then(([liveUsers, researchUsers]) => {
+      if (cancelled) return;
+
+      let finalUsers: SimUser[];
+
+      // Kombiniere: erst echte Supabase-Daten, dann dreamMapService Daten
+      const allLive = [...researchUsers];
+      if (liveUsers && liveUsers.length > 0) {
+        const mapped: SimUser[] = liveUsers
+          .filter((u: MapDreamUser) => !u.id.startsWith('research-')) // Keine Duplikate
+          .map((u: MapDreamUser) => ({
+            id: u.id,
+            name: u.name,
+            avatar: u.avatar,
+            city: u.city,
+            country: u.country,
+            lat: u.lat,
+            lng: u.lng,
+            dreamSummary: u.dreamSummary,
+            category: u.category,
+            mood: u.mood,
+            matchPct: u.matchPct,
+            privacy: u.privacy,
+            memberSince: u.memberSince,
+            bio: u.bio,
+            dreamCount: u.dreamCount,
+            matchCount: u.matchCount,
+            favCategory: u.favCategory,
+          }));
+        allLive.push(...mapped);
+      }
+
+      if (allLive.length > 0) {
+        finalUsers = allLive;
+        setIsLiveData(true);
+      } else {
+        // Letzter Fallback: BASE_USERS (nur wenn gar nichts von Supabase kommt)
+        finalUsers = generateUsers(dreams);
+        setIsLiveData(false);
+      }
+
+      setUsers(finalUsers);
+      const top5 = [...finalUsers].sort((a, b) => b.matchPct - a.matchPct).slice(0, 5);
+      setPulsingIds(top5.slice(0, 3).map(u => u.id));
+    });
+
+    return () => { cancelled = true; };
   }, []);
 
   // Toast notifications every 12-18 seconds
@@ -1345,7 +1068,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
         const pool = users.filter(u => u.matchPct >= 70);
         if (pool.length === 0) return scheduleNext();
         const pick = pool[Math.floor(Math.random() * pool.length)];
-        setToast({ name: pick.name, country: pick.country, pct: pick.matchPct });
+        setToast({ name: pick.name, city: pick.city, pct: pick.matchPct });
         setToastVisible(true);
         setPulsingIds(prev => [...new Set([...prev, pick.id])]);
         if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
@@ -1379,7 +1102,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
       const q = searchQuery.trim().toLowerCase();
       list = list.filter(u =>
         u.name.toLowerCase().includes(q) ||
-        u.country.toLowerCase().includes(q) ||
+        u.city.toLowerCase().includes(q) ||
         u.country.toLowerCase().includes(q) ||
         u.dreamSummary.toLowerCase().includes(q)
       );
@@ -1387,9 +1110,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
     return list;
   }, [users, activeCategory, effectiveThreshold, searchQuery]);
 
-  // Sorted for result list (descending by dream count)
+  // Sorted for result list (descending by match%)
   const sortedFilteredUsers = useMemo(
-    () => [...filteredUsers].sort((a, b) => b.dreamCount - a.dreamCount),
+    () => [...filteredUsers].sort((a, b) => b.matchPct - a.matchPct),
     [filteredUsers]
   );
 
@@ -1458,14 +1181,10 @@ const DreamMap: React.FC<DreamMapProps> = ({
     lastTouchDist.current = null;
   }, []);
 
-  // Select user from result list → open ParticipantProfile
+  // Select user from result list → open profile
   const handleResultClick = useCallback((user: SimUser) => {
-    if (onSelectParticipant) {
-      onSelectParticipant(user.name);
-    } else {
-      openProfile(user);
-    }
-  }, [onSelectParticipant, openProfile]);
+    openProfile(user);
+  }, [openProfile]);
 
   // Stats
   const totalActive = users.length + 1847;
@@ -1571,7 +1290,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
         onTouchEnd={handleTouchEnd}
       >
         <div
-          className="relative overflow-hidden"
+          className="relative w-full h-full overflow-hidden"
           style={{
             background: isLight ? '#e8e0f0' : '#0a0318',
             transform: `scale(${mapScale}) translate(${mapOffset.x / mapScale}px, ${mapOffset.y / mapScale}px)`,
@@ -1579,13 +1298,6 @@ const DreamMap: React.FC<DreamMapProps> = ({
             transition: isDragging ? 'none' : 'transform 0.2s ease',
             cursor: mapScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
             touchAction: 'none',
-            borderRadius: '50%',
-            width: 'min(90vw, 400px)',
-            height: 'min(90vw, 400px)',
-            margin: '0 auto',
-            boxShadow: isLight
-              ? '0 0 40px rgba(139,92,246,0.2), inset 0 0 30px rgba(139,92,246,0.05)'
-              : '0 0 40px rgba(139,92,246,0.3), inset 0 0 30px rgba(139,92,246,0.1)',
           }}
         >
           {/* World map SVG background */}
@@ -1598,36 +1310,6 @@ const DreamMap: React.FC<DreamMapProps> = ({
                 : 'invert(1) hue-rotate(180deg) saturate(0.3) brightness(0.5) opacity(0.7)',
             }}
           />
-          {/* Globe 3D depth overlay — click opens research map */}
-          <div
-            className="absolute inset-0"
-            style={{
-              borderRadius: '50%',
-              background: 'radial-gradient(circle at 35% 35%, transparent 40%, rgba(0,0,0,0.3) 100%)',
-              zIndex: 5,
-              cursor: onNavigateToResearch ? 'pointer' : 'default',
-            }}
-            onClick={(e) => {
-              if (onNavigateToResearch && mapScale <= 1) {
-                e.stopPropagation();
-                onNavigateToResearch();
-              }
-            }}
-          />
-          {/* Hint: tap globe to open research map */}
-          {onNavigateToResearch && (
-            <div className="absolute pointer-events-none" style={{
-              bottom: 8,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              fontSize: 10,
-              color: 'rgba(196,181,253,0.5)',
-              zIndex: 6,
-              whiteSpace: 'nowrap',
-            }}>
-              {ml.tap_research_map}
-            </div>
-          )}
 
           {/* Marker layer */}
           <div className="absolute inset-0">
@@ -1702,7 +1384,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
                         textShadow: '0 0 3px rgba(0,0,0,0.9), 0 1px 2px rgba(0,0,0,0.7)',
                       }}
                     >
-                      {mapScale > 2.5 ? `${firstName} · ${u.country}` : firstName}
+                      {mapScale > 2.5 ? `${firstName}, ${u.city}` : firstName}
                     </div>
                   )}
                   {isSelected && (
@@ -1730,16 +1412,6 @@ const DreamMap: React.FC<DreamMapProps> = ({
               <h1 className="text-lg font-bold leading-tight text-white">{t.title}</h1>
               <p className="text-xs text-white/70">{t.subtitle}</p>
             </div>
-            <div className="flex items-center gap-2">
-              {onNavigateToResearch && (
-                <button
-                  onClick={onNavigateToResearch}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-medium bg-white/10 hover:bg-white/20 border border-white/20 text-white/90 backdrop-blur-sm transition-colors"
-                >
-                  <span className="material-icons text-sm">science</span>
-                  {ml.research_map}
-                </button>
-              )}
             {onClose && (
               <button
                 onClick={onClose}
@@ -1749,7 +1421,6 @@ const DreamMap: React.FC<DreamMapProps> = ({
                 <span className="material-icons text-xl">close</span>
               </button>
             )}
-            </div>
           </div>
         </div>
 
@@ -1819,19 +1490,6 @@ const DreamMap: React.FC<DreamMapProps> = ({
           {isLiveData ? '● Live' : '○ Demo'}
         </span>
       </div>
-
-      {/* ── Global Stats ── */}
-      {globalStats && (
-        <div className="flex items-center justify-center gap-5 px-4 py-2 mx-4 my-1 rounded-lg" style={{
-          background: 'rgba(139,92,246,0.1)',
-          fontSize: 13,
-          fontWeight: 500,
-          color: isLight ? '#7c3aed' : '#c4b5fd',
-        }}>
-          <span>🌙 {globalStats.dreams.toLocaleString()} {ml.dreams_total}</span>
-          <span>📝 {globalStats.words} {ml.words_label}</span>
-        </div>
-      )}
 
       {/* ── Category Chips ── */}
       <div className="flex gap-2 px-3 py-2.5 overflow-x-auto dm-chip-scroll">
@@ -1988,20 +1646,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
                       <span className={`text-sm font-semibold truncate ${textMain}`}>{u.name}</span>
                       {cat && <span className="text-xs leading-none">{cat.icon}</span>}
                     </div>
-                    <div className={`text-[11px] ${textSub}`}>
-                      {u.name} · {u.country}
-                      {u.gender && <> · {u.gender === 'Female' ? '♀' : u.gender === 'Male' ? '♂' : '⚧'} {u.gender}</>}
-                      {u.age && <> · 👤 {u.age}</>}
-                    </div>
-                    <div className={`text-[11px] ${textSub}`}>
-                      {u.dreamCount > 0 && (
-                        <span style={{ color: '#a78bfa' }}>🌙 {u.dreamCount} {u.dreamCount === 1 ? ml.dream_s : ml.dream_p}</span>
-                      )}
-                      {u.totalWords > 0 && (
-                        <span style={{ color: '#94a3b8' }}> · 📝 {u.totalWords.toLocaleString()} {ml.words_label}</span>
-                      )}
-                    </div>
-                    <p className={`text-xs italic mt-0.5 line-clamp-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
+                    <div className={`text-[11px] ${textSub}`}>{u.city}, {u.country}</div>
+                    <p className={`text-xs italic truncate mt-0.5 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
                       {u.dreamSummary}
                     </p>
                   </div>
@@ -2034,7 +1680,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
             <div className="text-4xl leading-none">{selectedUser.avatar}</div>
             <div className="flex-1 min-w-0">
               <div className={`font-bold text-base truncate ${textMain}`}>{selectedUser.name}</div>
-              <div className={`text-xs ${textSub}`}>{t.from} {selectedUser.country}</div>
+              <div className={`text-xs ${textSub}`}>{t.from} {selectedUser.city}, {selectedUser.country}</div>
               <div className="mt-1 flex items-center gap-1.5">
                 {(() => {
                   const cat = DREAM_CATEGORIES.find(c => c.id === selectedUser.category);
@@ -2064,31 +1710,10 @@ const DreamMap: React.FC<DreamMapProps> = ({
             </div>
           </div>
 
-          <div className={`rounded-2xl p-4 mb-4 border ${isLight ? 'bg-purple-50/80 border-purple-100' : 'bg-white/5 border-white/8'}`}>
-            <div className={`text-xs font-semibold mb-2 flex items-center gap-1.5 ${isLight ? 'text-purple-700' : 'text-purple-300'}`}>
-              <span className="material-icons text-sm">auto_stories</span>
-              {t.dreamSummary}
-            </div>
-            <div className={`text-[13px] leading-[1.75] whitespace-pre-wrap ${textMain}`}>
-              {selectedUser.dreamSummary.split(/\.\s+/).map((sentence, i, arr) => (
-                <span key={i}>{sentence}{i < arr.length - 1 ? '. ' : ''}{i > 0 && i % 3 === 0 && i < arr.length - 1 ? '\n\n' : ''}</span>
-              ))}
-            </div>
+          <div className={`rounded-xl p-3 mb-4 border ${isLight ? 'bg-purple-50/80 border-purple-100' : 'bg-white/5 border-white/8'}`}>
+            <div className={`text-xs font-semibold mb-1 ${isLight ? 'text-purple-700' : 'text-purple-300'}`}>{t.dreamSummary}</div>
+            <p className={`text-sm leading-relaxed ${textMain}`}>{selectedUser.dreamSummary}</p>
           </div>
-
-          {selectedUser.interpretation && (
-            <div className={`rounded-2xl p-4 mb-4 border ${isLight ? 'bg-amber-50/80 border-amber-200' : 'bg-amber-500/5 border-amber-500/15'}`}>
-              <div className={`text-xs font-semibold mb-2 flex items-center gap-1.5 ${isLight ? 'text-amber-700' : 'text-amber-300'}`}>
-                <span className="material-icons text-sm">psychology</span>
-                Deutung
-              </div>
-              <div className={`text-[13px] leading-[1.75] whitespace-pre-wrap ${textMain}`}>
-                {selectedUser.interpretation.split(/\.\s+/).map((sentence, i, arr) => (
-                  <span key={i}>{sentence}{i < arr.length - 1 ? '. ' : ''}{i > 0 && i % 2 === 0 && i < arr.length - 1 ? '\n\n' : ''}</span>
-                ))}
-              </div>
-            </div>
-          )}
 
           <div className="flex gap-3">
             <button
@@ -2098,7 +1723,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
               {t.close}
             </button>
             <button
-              onClick={() => { handleClosePanel(); if (onSelectParticipant && selectedUser) { onSelectParticipant(selectedUser.name); } else if (selectedUser) { openProfile(selectedUser); } }}
+              onClick={() => { handleClosePanel(); openProfile(selectedUser); }}
               className="flex-1 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
             >
               <span className="material-icons text-base align-middle mr-1">person</span>
@@ -2123,7 +1748,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
         const displayAvatar = pu.privacy === 'private' ? '🔮' : pu.avatar;
         const displayLocation = pu.privacy === 'private'
           ? continentLabel
-          : pu.country;
+          : pu.privacy === 'partial'
+            ? pu.city
+            : `${pu.city}, ${pu.country}`;
 
         return (
           <>
@@ -2256,15 +1883,11 @@ const DreamMap: React.FC<DreamMapProps> = ({
                     <div className={`text-xs font-semibold mb-2 ${isLight ? 'text-purple-700' : 'text-purple-300'}`}>
                       {t.profileLastDream}:
                     </div>
-                    <div className={`rounded-xl p-3.5 border ${
+                    <div className={`rounded-xl p-3 border ${
                       isLight ? 'bg-purple-50/80 border-purple-100' : 'bg-white/3 border-white/5'
                     }`}>
-                      <div className={`text-[13px] leading-[1.75] whitespace-pre-wrap ${textMain}`}>
-                        {pu.dreamSummary.split(/\.\s+/).map((sentence: string, i: number, arr: string[]) => (
-                          <span key={i}>{sentence}{i < arr.length - 1 ? '. ' : ''}{i > 0 && i % 3 === 0 && i < arr.length - 1 ? '\n\n' : ''}</span>
-                        ))}
-                      </div>
-                      <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/5">
+                      <p className={`text-sm leading-relaxed ${textMain}`}>{pu.dreamSummary}</p>
+                      <div className="flex items-center gap-2 mt-2">
                         {(() => {
                           const cat = DREAM_CATEGORIES.find(c => c.id === pu.category);
                           return cat ? (
@@ -2280,21 +1903,6 @@ const DreamMap: React.FC<DreamMapProps> = ({
                         </span>
                       </div>
                     </div>
-                    {pu.interpretation && (
-                      <div className={`rounded-xl p-3.5 mt-3 border ${
-                        isLight ? 'bg-amber-50/80 border-amber-200' : 'bg-amber-500/5 border-amber-500/15'
-                      }`}>
-                        <div className={`text-xs font-semibold mb-2 flex items-center gap-1.5 ${isLight ? 'text-amber-700' : 'text-amber-300'}`}>
-                          <span className="material-icons text-sm">psychology</span>
-                          Deutung
-                        </div>
-                        <div className={`text-[13px] leading-[1.75] whitespace-pre-wrap ${textMain}`}>
-                          {pu.interpretation.split(/\.\s+/).map((sentence: string, i: number, arr: string[]) => (
-                            <span key={i}>{sentence}{i < arr.length - 1 ? '. ' : ''}{i > 0 && i % 2 === 0 && i < arr.length - 1 ? '\n\n' : ''}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
                 ) : (
                   <div className={`mx-4 rounded-2xl border p-4 mb-4 text-center ${
@@ -2347,7 +1955,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
           <div className="flex-1 min-w-0">
             <div className={`font-bold text-sm ${textMain}`}>{t.newmatch}</div>
             <div className={`text-xs truncate ${textSub}`}>
-              {toast.name} {t.from} {toast.country} {t.similarDream} ({toast.pct}%)
+              {toast.name} {t.from} {toast.city} {t.similarDream} ({toast.pct}%)
             </div>
           </div>
           <div className="shrink-0 font-extrabold text-sm" style={{ color: matchColor(toast.pct) }}>

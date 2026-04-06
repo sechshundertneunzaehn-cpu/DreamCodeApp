@@ -55,12 +55,12 @@ async function fetchStats(): Promise<DreamStats> {
 
 const T = {
   de: {
-    back: 'Zurueck',
+    back: 'Zurück',
     title: 'Dream Census',
     subtitle: 'Live-Statistiken der Traumdatenbank',
     total_reports: 'Wissenschaftliche Traumprotokolle',
-    user_dreams: 'Nutzer-Traeume',
-    today: 'Traeume heute',
+    user_dreams: 'Nutzer-Träume',
+    today: 'Träume heute',
     embeddings: 'KI-Embeddings',
     pending: 'Ausstehend',
     done: 'Generiert',
