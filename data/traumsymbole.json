@@ -18,12 +18,40 @@
       }
     ],
     "statistik": {
-      "gesamt_symbole": 258,
+      "gesamt_symbole": 265,
       "symbole_mit_freud": 38,
       "symbole_mit_ibn_sirin": 226,
       "symbole_mit_beiden": 6,
       "kategorien_anzahl": 8,
-      "durchschnittliche_deutungen_pro_symbol": 2.445736434108527
+      "durchschnittliche_deutungen_pro_symbol": 2.445736434108527,
+      "verfuegbare_quellen": [
+        "church_fathers",
+        "freud",
+        "gestalt",
+        "ibn_sirin",
+        "jung",
+        "medieval",
+        "modern_theology",
+        "nabulsi",
+        "theravada",
+        "tibetan",
+        "western_zodiac",
+        "zen"
+      ],
+      "quellen_labels": {
+        "ibn_sirin": "Ibn Sirin",
+        "nabulsi": "Al-Nabulsi",
+        "freud": "Sigmund Freud",
+        "jung": "C.G. Jung",
+        "gestalt": "Gestalt (Perls)",
+        "medieval": "Mittelalter",
+        "church_fathers": "Kirchenväter",
+        "modern_theology": "Moderne Theologie",
+        "tibetan": "Tibet. Buddhismus",
+        "zen": "Zen-Buddhismus",
+        "theravada": "Theravada",
+        "western_zodiac": "Westl. Astrologie"
+      }
     },
     "letzte_aktualisierung": "2025-11-12 11:31:16"
   },
@@ -79,7 +107,21 @@
       "traumtyp_kategorien": [
         "Wunschtraum",
         "Sexualtraum"
-      ]
+      ],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Feuer ist das Symbol der Libido, Leidenschaft und Transformation. Es ist das alchemistische Element der Reinigung und der Wandlung des Unbewussten."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Feuer symbolisiert den Heiligen Geist (Pfingsten), göttliche Gegenwart (Brennender Dornbusch) und das Fegefeuer als Reinigungsort."
+        },
+        "tibetan": {
+          "label": "Tibet. Buddhismus",
+          "text": "Feuer ist eines der fünf Elemente und symbolisiert Weisheit, die Unwissenheit verbrennt. Unkontrolliertes Feuer steht für Gier und Begierde."
+        }
+      }
     },
     {
       "id": "natur_002",
@@ -420,7 +462,21 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Sexualtraum"
-      ]
+      ],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Fallen symbolisiert das Absinken ins Unbewusste – oft ein Aufruf zur Selbstreflexion und Integration von Schattenseiten."
+        },
+        "medieval": {
+          "label": "Mittelalter",
+          "text": "Der Fall im Traum erinnert an den Sündenfall Adams. Er kann eine Warnung vor moralischem Versagen sein."
+        },
+        "theravada": {
+          "label": "Theravada",
+          "text": "Fallen weist auf Anhaftung und das Festhalten an vergänglichen Dingen hin, das Leiden verursacht."
+        }
+      }
     },
     {
       "id": "person_002",
@@ -490,7 +546,21 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Fliegen symbolisiert den Wunsch, über persönliche Einschränkungen hinauszuwachsen und die höhere Ebene des Selbst zu erreichen."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Flugträume wurden als Zeichen göttlicher Erhöhung oder als Versuchung der Hybris durch Engel und Dämonen gedeutet."
+        },
+        "zen": {
+          "label": "Zen-Buddhismus",
+          "text": "Fliegen verkörpert die Loslösung vom Ego und das Durchbrechen karmischer Bindungen."
+        }
+      }
     },
     {
       "id": "natur_005",
@@ -646,7 +716,21 @@
         "Keller",
         "Treppe"
       ],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Das Haus ist das Selbst des Träumers. Verschiedene Etagen symbolisieren Bewusstseinsbereiche: Keller = Unbewusstes, Dachboden = höheres Bewusstsein, Schlafzimmer = Intimsphäre."
+        },
+        "medieval": {
+          "label": "Mittelalter",
+          "text": "Das Haus symbolisiert die Seele als Tempel Gottes. Ein gepflegtes Haus zeigt ein tugendhaftes Leben; ein verlassenes verweist auf spirituellen Verfall."
+        },
+        "zen": {
+          "label": "Zen-Buddhismus",
+          "text": "Das Haus steht für das Ego-Konstrukt. Das Verlassen des Hauses symbolisiert Loslösung und den Weg zur Erleuchtung."
+        }
+      }
     },
     {
       "id": "person_004",
@@ -941,7 +1025,21 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Wunschtraum"
-      ]
+      ],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Tod symbolisiert Transformation und das Ende eines Lebensabschnitts. Es ist ein Einweihungssymbol für inneres Wachstum und die Geburt eines neuen Selbst."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Träume vom Tod mahnen zur Besinnung auf das ewige Leben. Sie können ein Aufruf zur Buße oder ein göttlicher Hinweis auf die Vergänglichkeit alles Irdischen sein."
+        },
+        "tibetan": {
+          "label": "Tibet. Buddhismus",
+          "text": "Im Tibetischen Buch der Toten (Bardo Thodol) ist der Tod ein Übergang. Traumtod bedeutet Auflösung alter Konditionierungen und karma-reinigendes Erleben."
+        }
+      }
     },
     {
       "id": "objekt_013",
@@ -1052,7 +1150,21 @@
         "Schnee",
         "Tränen"
       ],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Wasser repräsentiert das kollektive Unbewusste. Ruhiges Wasser steht für inneren Frieden; stürmisches Wasser für emotionale Aufruhr und unverarbeitete Gefühle."
+        },
+        "medieval": {
+          "label": "Mittelalter",
+          "text": "Wasser steht für Taufe, Reinigung der Seele und göttliche Gnade. Sintflutartige Wasser mahnen zur Buße."
+        },
+        "tibetan": {
+          "label": "Tibet. Buddhismus",
+          "text": "Wasser symbolisiert Mitgefühl und Formlosigkeit. Das Spiegelbild im Wasser zeigt die Illusion des Selbst (Maya)."
+        }
+      }
     },
     {
       "id": "objekt_014",
@@ -2832,7 +2944,21 @@
         "Vogel",
         "Schlange",
         "Löwe"
-      ]
+      ],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Der Hund verkörpert Instinkt, Loyalität und das domestizierte Tier im Menschen. Ein aggressiver Hund steht für unterdrückte Wut oder unkontrollierte Triebe."
+        },
+        "medieval": {
+          "label": "Mittelalter",
+          "text": "In mittelalterlicher Symbolik war der Hund Wächter und treuer Begleiter. Schwarze Hunde wurden jedoch mit Dämonen assoziiert."
+        },
+        "zen": {
+          "label": "Zen-Buddhismus",
+          "text": "Ein ruhiger Hund symbolisiert die gezähmten Sinne. Ein wild bellender Hund steht für den unruhigen Geist (Monkey Mind), der Meditation stört."
+        }
+      }
     },
     {
       "id": "emotion_006",
@@ -4177,7 +4303,25 @@
           "Ein klarer, heller Mond: **Gutes Leben** und **Führung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Der Mond ist das Anima-Symbol (die weibliche Seele im Mann) und steht für Intuition, das Unbewusste, Zyklen und die dunkle, unbekannte Seite der Psyche."
+        },
+        "medieval": {
+          "label": "Mittelalter",
+          "text": "Der Mond steht für die Kirche, die das Licht Christi (Sonne) widerspiegelt. Mondphasen symbolisieren die Unbeständigkeit irdischer Dinge."
+        },
+        "western_zodiac": {
+          "label": "Westl. Astrologie",
+          "text": "Der Mond regiert das Gefühlsleben, Intuition, Mutter und Heimat. Mondträume spiegeln emotionale Zustände und unbewusste Bedürfnisse wider."
+        },
+        "zen": {
+          "label": "Zen-Buddhismus",
+          "text": "Der Finger zeigt auf den Mond, doch der Finger ist nicht der Mond. Der Vollmond steht für vollständige Erleuchtung."
+        }
+      }
     },
     {
       "id": "ort_009",
@@ -4687,7 +4831,21 @@
         "Eis",
         "Schnee",
         "Tränen"
-      ]
+      ],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Regen reinigt und befruchtet. Er symbolisiert das Durcharbeiten von Emotionen, Tränen der Seele oder eine emotionale Befreiung."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Regen steht für göttlichen Segen (Regen zur rechten Zeit) oder göttliches Gericht (Sintflut). Er nährt das Samenkorn des Glaubens."
+        },
+        "theravada": {
+          "label": "Theravada",
+          "text": "Regen symbolisiert den Dharma, der auf alle ohne Unterschied fällt. Er reinigt Karma und fördert geistiges Wachstum."
+        }
+      }
     },
     {
       "id": "objekt_090",
@@ -5049,7 +5207,21 @@
         "Pferd",
         "Vogel",
         "Löwe"
-      ]
+      ],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Die Schlange verkörpert die chthonische Energie des Unbewussten, Transformation und die Kraft der Heilung (Äskulapstab). Sie ist Archetyp des Schatten."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Die Schlange ist Symbol des Satans und der Versuchung seit dem Sündenfall. Sie mahnt zur Wachsamkeit vor Verführung."
+        },
+        "tibetan": {
+          "label": "Tibet. Buddhismus",
+          "text": "Im tibetischen Buddhismus steht die Schlange für Nāgas – Schutzgeister des Wassers. Gier ist einer der drei Gifte, symbolisiert durch die Schlange."
+        }
+      }
     },
     {
       "id": "objekt_095",
@@ -5366,7 +5538,25 @@
           "Eine verdunkelte Sonne: **Tod des Königs** oder **Verlust des Haushaltsvorstands**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Die Sonne ist das Bewusstsein und das Selbst. Sie repräsentiert das Animus-Symbol (männliche Kraft) und das Licht des Verstehens, das das Unbewusste erhellt."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Christus als Sol Invictus – die unbesiegbare Sonne. Sonne steht für Gerechtigkeit, Göttlichkeit, Auferstehung und Erleuchtung."
+        },
+        "western_zodiac": {
+          "label": "Westl. Astrologie",
+          "text": "Die Sonne regiert das Ego, die Identität und den Lebensauftrag. Sonnenträume zeigen Vitalität, Führungsstärke oder Zentrum des Lebens."
+        },
+        "tibetan": {
+          "label": "Tibet. Buddhismus",
+          "text": "Die Sonne symbolisiert den Dharmakaya – den reinen, erleuchteten Geist. Sonnenstrahlen sind Mitgefühl (Karuna), das alle Wesen erreicht."
+        }
+      }
     },
     {
       "id": "tier_022",
@@ -5412,7 +5602,8 @@
           "Ein Spinnennetz: **Schwäche** im Haus oder **geringer Unterhalt**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "additional_sources": {}
     },
     {
       "id": "objekt_100",
@@ -6264,6 +6455,268 @@
         ]
       },
       "verwandte_symbole": []
+    },
+    {
+      "id": "kb_zahn___zähne",
+      "name": "Zahn / Zähne",
+      "kategorie": "Koerper",
+      "synonyme": [],
+      "freud": {
+        "vorhanden": true,
+        "interpretation": "Zahnausfall ist nach Freud mit Kastrationsangst und dem Verlust männlicher Potenz verbunden. Auch Geburtsträume können dahinterstecken.",
+        "kontext_beispiele": [],
+        "original_zitat": ""
+      },
+      "ibn_sirin": {
+        "vorhanden": true,
+        "deutungen": [
+          "Zähne repräsentieren Familienmitglieder. Einen Zahn verlieren bedeutet den Verlust eines Angehörigen oder den Weggang aus der Familie. Schöne Zähne verheißen Stärke der Familie."
+        ]
+      },
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Zähne symbolisieren Durchsetzungskraft und Vitalität. Ihr Verlust zeigt Ohnmacht, Angst vor Kontrollverlust oder sozialer Entblößung."
+        },
+        "medieval": {
+          "label": "Mittelalter",
+          "text": "Zähne wurden als Symbol der Stärke des Glaubens gesehen. Ihr Verlust deutete auf Schwächung der spirituellen Widerstandskraft hin."
+        },
+        "theravada": {
+          "label": "Theravada",
+          "text": "Zahnverlust weist auf das Vergänglichkeitsprinzip (Anicca) hin – eine Erinnerung, dass körperliche Attribute nicht das wahre Selbst sind."
+        }
+      },
+      "verwandte_symbole": [],
+      "ost_west_vergleich": {
+        "gemeinsamkeiten": [],
+        "unterschiede": {}
+      },
+      "traumtyp_kategorien": []
+    },
+    {
+      "id": "kb_baby___kleinkind",
+      "name": "Baby / Kleinkind",
+      "kategorie": "Menschen",
+      "synonyme": [],
+      "freud": {
+        "vorhanden": true,
+        "interpretation": "Ein Baby repräsentiert den Wunsch nach einem Kind, narzisstische Selbstbezogenheit oder die Rückkehr zu infantilen Bedürfnissen.",
+        "kontext_beispiele": [],
+        "original_zitat": ""
+      },
+      "ibn_sirin": {
+        "vorhanden": true,
+        "deutungen": [
+          "Ein Baby im Traum verheißt oft Freude, neues Rizq oder einen neuen Beginn. Ein weinendes Baby kann Kummer ankündigen. Jungen wurden traditionell als Zeichen von mehr Rizq gedeutet."
+        ]
+      },
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Das Baby ist der Archetyp des Göttlichen Kindes – Symbol der Erneuerung, unbegrenzter Möglichkeiten und spirituellen Wachstums."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Das Jesuskind als Archetyp: Ein Baby symbolisiert göttlichen Segen, neue geistliche Geburt (Johannes 3:3) und Unschuld."
+        },
+        "tibetan": {
+          "label": "Tibet. Buddhismus",
+          "text": "Ein Baby steht für Wiedergeburt und das Fortführen des karmischen Weges. Es kann auch ein neues Leben nach dem Tod des Egos anzeigen."
+        }
+      },
+      "verwandte_symbole": [],
+      "ost_west_vergleich": {
+        "gemeinsamkeiten": [],
+        "unterschiede": {}
+      },
+      "traumtyp_kategorien": []
+    },
+    {
+      "id": "kb_auto___fahrzeug",
+      "name": "Auto / Fahrzeug",
+      "kategorie": "Objekte",
+      "synonyme": [],
+      "freud": {
+        "vorhanden": false
+      },
+      "ibn_sirin": {
+        "vorhanden": true,
+        "deutungen": [
+          "Ein Fahrzeug kann den Lebenspfad oder Status des Träumers symbolisieren. Ein Unfall warnt vor Rückschlägen. Selbst fahren zeigt Eigenverantwortung auf dem Lebensweg."
+        ]
+      },
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Das Auto repräsentiert das Ego und die Art, wie man das eigene Leben lenkt. Bremsenversagen = Kontrollverlust; falscher Weg = falsche Lebensentscheidungen."
+        },
+        "gestalt": {
+          "label": "Gestalt (Perls)",
+          "text": "Im Gestalt-Ansatz ist jedes Element des Autos ein Aspekt des Selbst. Das Steuer ist die Kontrolle; der Motor die innere Energie und Motivation."
+        },
+        "modern_theology": {
+          "label": "Moderne Theologie",
+          "text": "Moderne christliche Traumdeutung sieht das Auto als Symbol für Berufung und Lebensrichtung. Wer fährt, zeigt, wer das Leben kontrolliert – Gott oder das Ego."
+        },
+        "western_zodiac": {
+          "label": "Westl. Astrologie",
+          "text": "Astrolog. zeigt das Auto den Merkur-Einfluss (Reisen, Kommunikation). Mars-Transit kann Unfallträume begünstigen und Handlungsdruck signalisieren."
+        }
+      },
+      "verwandte_symbole": [],
+      "ost_west_vergleich": {
+        "gemeinsamkeiten": [],
+        "unterschiede": {}
+      },
+      "traumtyp_kategorien": []
+    },
+    {
+      "id": "kb_wald",
+      "name": "Wald",
+      "kategorie": "Natur",
+      "synonyme": [],
+      "freud": {
+        "vorhanden": false
+      },
+      "ibn_sirin": {
+        "vorhanden": false
+      },
+      "additional_sources": {
+        "nabulsi": {
+          "label": "Al-Nabulsi",
+          "text": "Ein dichter Wald symbolisiert Verwirrung oder eine schwierige Lebenssituation. Ein lichter Wald mit Früchten verheißt Segen und Wohlstand."
+        },
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Der Wald ist das kollektive Unbewusste – unkartiert, archaisch und voller Archetypen. Sich im Wald verirren bedeutet Verlust der Orientierung im Leben."
+        },
+        "medieval": {
+          "label": "Mittelalter",
+          "text": "Der dunkle Wald war in Dantes Inferno der Beginn der spirituellen Irrfahrt. Er steht für moralische Orientierungslosigkeit und die Notwendigkeit göttlicher Führung."
+        },
+        "theravada": {
+          "label": "Theravada",
+          "text": "Wald steht für Dschungel des Geistes – der Ort, an dem der Buddha Erleuchtung suchte. Gleichzeitig symbolisiert er die Wildheit unbezähmter Gedanken."
+        }
+      },
+      "verwandte_symbole": [],
+      "ost_west_vergleich": {
+        "gemeinsamkeiten": [],
+        "unterschiede": {}
+      },
+      "traumtyp_kategorien": []
+    },
+    {
+      "id": "kb_meer___ozean",
+      "name": "Meer / Ozean",
+      "kategorie": "Natur",
+      "synonyme": [],
+      "freud": {
+        "vorhanden": true,
+        "interpretation": "Das Meer steht für die ozeanische Empfindung – das Gefühl von Einheit mit dem Universum oder für pränatale Geborgenheit.",
+        "kontext_beispiele": [],
+        "original_zitat": ""
+      },
+      "ibn_sirin": {
+        "vorhanden": true,
+        "deutungen": [
+          "Das Meer symbolisiert einen mächtigen Herrscher oder König. Im Meer schwimmen und sicher ankommen verheißt Triumph. Ertrinken bedeutet Überwältigung durch Probleme."
+        ]
+      },
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Das Meer ist das tiefste Symbol des kollektiven Unbewussten. Die Tiefe birgt Schätze (Selbstverwirklichung) und Gefahren (psychische Überwältigung)."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Das Meer symbolisiert die Zeit, das Chaos vor der Schöpfung und die unberechenbare Welt. Christus über das Wasser gehend zeigt Beherrschung des Chaos."
+        },
+        "zen": {
+          "label": "Zen-Buddhismus",
+          "text": "Der Ozean ist ein Bild für den Buddha-Geist: unendlich tief, an der Oberfläche bewegt, im Kern absolut ruhig."
+        }
+      },
+      "verwandte_symbole": [],
+      "ost_west_vergleich": {
+        "gemeinsamkeiten": [],
+        "unterschiede": {}
+      },
+      "traumtyp_kategorien": []
+    },
+    {
+      "id": "kb_berg",
+      "name": "Berg",
+      "kategorie": "Natur",
+      "synonyme": [],
+      "freud": {
+        "vorhanden": false
+      },
+      "ibn_sirin": {
+        "vorhanden": true,
+        "deutungen": [
+          "Einen Berg besteigen verheißt Erfolg, Rang und hohe Ziele. Auf einem Berggipfel stehen bedeutet Ehre und Ansehen. Vom Berg fallen warnt vor dem Verlust dieser Stellung."
+        ]
+      },
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Der Berg ist das höchste Selbst-Symbol. Der Aufstieg steht für den Individuationsprozess; der Gipfel für Erleuchtung und Integration."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Berge sind Orte der Gottesnähe (Sinai, Golgatha, Tabor). Im Traum ist der Berg-Aufstieg die Suche nach spiritueller Höhe und Gottesbegegnung."
+        },
+        "tibetan": {
+          "label": "Tibet. Buddhismus",
+          "text": "Der heilige Berg (Kailash) ist Achse der Welt (Axis Mundi). Aufstieg symbolisiert Dharma-Praxis; der Gipfel ist Nirwana."
+        }
+      },
+      "verwandte_symbole": [],
+      "ost_west_vergleich": {
+        "gemeinsamkeiten": [],
+        "unterschiede": {}
+      },
+      "traumtyp_kategorien": []
+    },
+    {
+      "id": "kb_blut",
+      "name": "Blut",
+      "kategorie": "Koerper",
+      "synonyme": [],
+      "freud": {
+        "vorhanden": true,
+        "interpretation": "Blut steht für Lebensenergie, Vitalität und kann mit Kastrations- oder Geburtsängsten verknüpft sein. Menstruationsblut erscheint in Träumen als weibliche Zyklusverarbeitung.",
+        "kontext_beispiele": [],
+        "original_zitat": ""
+      },
+      "ibn_sirin": {
+        "vorhanden": true,
+        "deutungen": [
+          "Blut im Traum kann auf Sünde, Verbrechen oder unerlaubte Gewinne hinweisen. Fremdes Blut sehen kann bedeuten, dass man jemandem Unrecht getan hat. Eigenes Blut sehen mahnt zur Reue."
+        ]
+      },
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Blut symbolisiert die Quintessenz des Lebens und der Seele. Blutopfer zeigt Transformation; der Wandel verlangt Hingabe."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Blut ist das Zeichen des Bundes (Moses) und der Erlösung durch Christi Kreuzesopfer. Traumblut kann Aufruf zur Buße oder Zeichen des Märtyrertums sein."
+        },
+        "tibetan": {
+          "label": "Tibet. Buddhismus",
+          "text": "Blut ist das rote Element der Lebensenergie (Rlung). Blut trinken in Träumen gilt als Zeichen erhöhter tantristischer Energie oder als Warnung vor Aggression."
+        }
+      },
+      "verwandte_symbole": [],
+      "ost_west_vergleich": {
+        "gemeinsamkeiten": [],
+        "unterschiede": {}
+      },
+      "traumtyp_kategorien": []
     }
   ],
   "such_index": {
