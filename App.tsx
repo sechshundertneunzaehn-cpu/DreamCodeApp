@@ -207,7 +207,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Deutungen/Tag", "Groq-KI", "6 Traditionen", "Werbung"], bronze_price: "0 €",
             silver2_title: "Pro", silver2_features: ["Unbegrenzte Deutungen", "Gemini-KI", "Alle 9 Traditionen", "Keine Werbung", "100 Coins/Monat", "10% Coin-Rabatt"], silver2_price_monthly: "4,99 € / Monat", silver2_price_yearly: "49,99 € / Jahr",
             gold2_title: "Premium", gold2_features: ["Claude 6-Perspektiven", "500 Coins/Monat", "20% Coin-Rabatt", "HD-Bilder", "5 Videos/Monat", "Live Voice", "KI-Chat Premium"], gold2_price_monthly: "14,99 € / Monat", gold2_price_yearly: "149,99 € / Jahr",
-            vip_title: "VIP", vip_features: ["2.000 Coins/Monat", "30% Coin-Rabatt", "20 Videos/Monat", "Traumtagebuch", "Exklusive Quellen", "WhatsApp-Support"], vip_price_monthly: "299,99 SAR / Monat", vip_price_yearly: "2.999,99 SAR / Jahr",
+            
             pro_badge: "MEISTGEWÄHLT", vip_badge: "EXKLUSIV 👑",
         },
         earn: {
@@ -402,7 +402,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interpretations/Day", "Groq AI", "6 Traditions", "Ads"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Unlimited Interpretations", "Gemini AI", "All 9 Traditions", "Ad-Free", "100 Coins/Month", "10% Coin Discount"], silver2_price_monthly: "€4.99 / Month", silver2_price_yearly: "€49.99 / Year",
             gold2_title: "Premium", gold2_features: ["Claude 6-Perspectives", "500 Coins/Month", "20% Coin Discount", "HD Images", "5 Videos/Month", "Live Voice", "Premium AI Chat"], gold2_price_monthly: "€14.99 / Month", gold2_price_yearly: "€149.99 / Year",
-            vip_title: "VIP", vip_features: ["2,000 Coins/Month", "30% Coin Discount", "20 Videos/Month", "Dream Journal", "Exclusive Sources", "WhatsApp Support"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            
             pro_badge: "MOST POPULAR", vip_badge: "EXCLUSIVE 👑",
         },
         earn: {
@@ -597,7 +597,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Yorum/Gün", "Groq YZ", "6 Gelenek", "Reklamlar"], bronze_price: "0 ₺",
             silver2_title: "Pro", silver2_features: ["Sınırsız Yorum", "Gemini YZ", "Tüm 9 Gelenek", "Reklamsız", "100 Jeton/Ay", "%10 Jeton İndirimi"], silver2_price_monthly: "79,99 ₺ / Ay", silver2_price_yearly: "799 ₺ / Yıl",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspektif", "500 Jeton/Ay", "%20 Jeton İndirimi", "HD Görseller", "5 Video/Ay", "Canlı Ses", "Premium YZ Sohbet"], gold2_price_monthly: "229,99 ₺ / Ay", gold2_price_yearly: "2.299 ₺ / Yıl",
-            vip_title: "VIP", vip_features: ["2.000 Jeton/Ay", "%30 Jeton İndirimi", "20 Video/Ay", "Rüya Günlüğü", "Özel Kaynaklar", "WhatsApp Destek"], vip_price_monthly: "299,99 SAR / Ay", vip_price_yearly: "2.999,99 SAR / Yıl",
+            
             pro_badge: "EN POPÜLER", vip_badge: "ÖZEL 👑",
         },
         earn: {
@@ -776,7 +776,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interpretaciones/Día", "Groq IA", "6 Tradiciones", "Anuncios"], bronze_price: "0 €",
             silver2_title: "Pro", silver2_features: ["Interpretaciones Ilimitadas", "Gemini IA", "Las 9 Tradiciones", "Sin Anuncios", "100 Monedas/Mes", "10% Descuento"], silver2_price_monthly: "4,99 € / Mes", silver2_price_yearly: "49,99 € / Año",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspectivas", "500 Monedas/Mes", "20% Descuento", "Imágenes HD", "5 Videos/Mes", "Voz en Vivo", "Chat IA Premium"], gold2_price_monthly: "14,99 € / Mes", gold2_price_yearly: "149,99 € / Año",
-            vip_title: "VIP", vip_features: ["2.000 Monedas/Mes", "30% Descuento", "20 Videos/Mes", "Diario de Sueños", "Fuentes Exclusivas", "Soporte WhatsApp"], vip_price_monthly: "299,99 SAR / Mes", vip_price_yearly: "2.999,99 SAR / Año",
+            
             pro_badge: "MÁS POPULAR", vip_badge: "EXCLUSIVO 👑",
         },
         earn: {
@@ -955,7 +955,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interprétations/Jour", "Groq IA", "6 Traditions", "Publicités"], bronze_price: "0 €",
             silver2_title: "Pro", silver2_features: ["Interprétations Illimitées", "Gemini IA", "Les 9 Traditions", "Sans Pub", "100 Pièces/Mois", "10% Réduction"], silver2_price_monthly: "4,99 € / Mois", silver2_price_yearly: "49,99 € / An",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspectives", "500 Pièces/Mois", "20% Réduction", "Images HD", "5 Vidéos/Mois", "Voix en Direct", "Chat IA Premium"], gold2_price_monthly: "14,99 € / Mois", gold2_price_yearly: "149,99 € / An",
-            vip_title: "VIP", vip_features: ["2 000 Pièces/Mois", "30% Réduction", "20 Vidéos/Mois", "Journal de Rêves", "Sources Exclusives", "Support WhatsApp"], vip_price_monthly: "299,99 SAR / Mois", vip_price_yearly: "2 999,99 SAR / An",
+            
             pro_badge: "PLUS POPULAIRE", vip_badge: "EXCLUSIF 👑",
         },
         earn: {
@@ -1150,7 +1150,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "مجاني", bronze_features: ["3 تفسيرات/يوم", "Groq ذكاء", "6 تقاليد", "إعلانات"], bronze_price: "0 €",
             silver2_title: "برو", silver2_features: ["تفسيرات غير محدودة", "Gemini ذكاء", "جميع 9 تقاليد", "بدون إعلانات", "100 عملة/شهر", "خصم 10%"], silver2_price_monthly: "49,99 ر.س / شهر", silver2_price_yearly: "499,99 ر.س / سنة",
             gold2_title: "بريميوم", gold2_features: ["Claude 6 وجهات نظر", "500 عملة/شهر", "خصم 20%", "صور HD", "5 فيديو/شهر", "صوت مباشر", "دردشة ذكاء متقدمة"], gold2_price_monthly: "149,99 ر.س / شهر", gold2_price_yearly: "1.499,99 ر.س / سنة",
-            vip_title: "VIP", vip_features: ["2000 عملة/شهر", "خصم 30%", "20 فيديو/شهر", "مذكرة أحلام", "مصادر حصرية", "دعم واتساب"], vip_price_monthly: "299,99 ر.س / شهر", vip_price_yearly: "2.999,99 ر.س / سنة",
+            
             pro_badge: "الأكثر شعبية", vip_badge: "حصري 👑",
         },
         earn: {
@@ -1329,7 +1329,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Interpretações/Dia", "Groq IA", "6 Tradições", "Anúncios"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Interpretações Ilimitadas", "Gemini IA", "Todas 9 Tradições", "Sem Anúncios", "100 Moedas/Mês", "10% Desconto"], silver2_price_monthly: "€4,99 / Mês", silver2_price_yearly: "€49,99 / Ano",
             gold2_title: "Premium", gold2_features: ["Claude 6 Perspectivas", "500 Moedas/Mês", "20% Desconto", "Imagens HD", "5 Vídeos/Mês", "Voz ao Vivo", "Chat IA Premium"], gold2_price_monthly: "€14,99 / Mês", gold2_price_yearly: "€149,99 / Ano",
-            vip_title: "VIP", vip_features: ["2.000 Moedas/Mês", "30% Desconto", "20 Vídeos/Mês", "Diário de Sonhos", "Fontes Exclusivas", "Suporte WhatsApp"], vip_price_monthly: "299,99 SAR / Mês", vip_price_yearly: "2.999,99 SAR / Ano",
+            
             pro_badge: "MAIS POPULAR", vip_badge: "EXCLUSIVO 👑",
         },
         earn: {
@@ -1524,7 +1524,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Free", bronze_features: ["3 Толкования/День", "Groq ИИ", "6 Традиций", "Реклама"], bronze_price: "0 ₽",
             silver2_title: "Про", silver2_features: ["Безлимитные Толкования", "Gemini ИИ", "Все 9 Традиций", "Без Рекламы", "100 Монет/Месяц", "Скидка 10%"], silver2_price_monthly: "249 ₽ / Месяц", silver2_price_yearly: "2.499 ₽ / Год",
             gold2_title: "Премиум", gold2_features: ["Claude 6 Перспектив", "500 Монет/Месяц", "Скидка 20%", "HD Изображения", "5 Видео/Месяц", "Живой Голос", "Премиум ИИ Чат"], gold2_price_monthly: "749 ₽ / Месяц", gold2_price_yearly: "7.499 ₽ / Год",
-            vip_title: "VIP", vip_features: ["2.000 Монет/Месяц", "Скидка 30%", "20 Видео/Месяц", "Дневник Снов", "Эксклюзивные Источники", "Поддержка WhatsApp"], vip_price_monthly: "299,99 SAR / Месяц", vip_price_yearly: "2.999,99 SAR / Год",
+            
             pro_badge: "САМЫЙ ПОПУЛЯРНЫЙ", vip_badge: "ЭКСКЛЮЗИВ 👑",
         },
         earn: {
@@ -1719,7 +1719,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "免费", bronze_features: ["每天3次解读", "Groq AI", "6种传统", "含广告"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["无限解读", "Gemini AI", "全部9种传统", "无广告", "每月100金币", "金币9折"], silver2_price_monthly: "€4.99 / 月", silver2_price_yearly: "€49.99 / 年",
             gold2_title: "Premium", gold2_features: ["Claude 6视角", "每月500金币", "金币8折", "高清图片", "每月5个视频", "实时语音", "高级AI聊天"], gold2_price_monthly: "€14.99 / 月", gold2_price_yearly: "€149.99 / 年",
-            vip_title: "VIP", vip_features: ["每月2,000金币", "金币7折", "每月20个视频", "梦境日记", "独家来源", "WhatsApp支持"], vip_price_monthly: "299.99 SAR / 月", vip_price_yearly: "2,999.99 SAR / 年",
+            
             pro_badge: "最受欢迎", vip_badge: "独家 👑",
         },
         earn: {
@@ -1914,7 +1914,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "मुफ़्त", bronze_features: ["3 व्याख्याएं/दिन", "Groq AI", "6 परंपराएं", "विज्ञापन"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["असीमित व्याख्याएं", "Gemini AI", "सभी 9 परंपराएं", "विज्ञापन-मुक्त", "100 सिक्के/माह", "10% सिक्का छूट"], silver2_price_monthly: "€4.99 / माह", silver2_price_yearly: "€49.99 / वर्ष",
             gold2_title: "Premium", gold2_features: ["Claude 6-दृष्टिकोण", "500 सिक्के/माह", "20% सिक्का छूट", "HD छवियां", "5 वीडियो/माह", "लाइव वॉइस", "प्रीमियम AI चैट"], gold2_price_monthly: "€14.99 / माह", gold2_price_yearly: "€149.99 / वर्ष",
-            vip_title: "VIP", vip_features: ["2,000 सिक्के/माह", "30% सिक्का छूट", "20 वीडियो/माह", "स्वप्न डायरी", "विशेष स्रोत", "WhatsApp सहायता"], vip_price_monthly: "299.99 SAR / माह", vip_price_yearly: "2,999.99 SAR / वर्ष",
+            
             pro_badge: "सबसे लोकप्रिय", vip_badge: "विशेष 👑",
         },
         earn: {
@@ -2109,7 +2109,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "無料", bronze_features: ["1日3回の解釈", "Groq AI", "6つの伝統", "広告あり"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["無制限解釈", "Gemini AI", "全9つの伝統", "広告なし", "月100コイン", "コイン10%割引"], silver2_price_monthly: "€4.99 / 月", silver2_price_yearly: "€49.99 / 年",
             gold2_title: "Premium", gold2_features: ["Claude 6視点", "月500コイン", "コイン20%割引", "HD画像", "月5本の動画", "ライブボイス", "プレミアムAIチャット"], gold2_price_monthly: "€14.99 / 月", gold2_price_yearly: "€149.99 / 年",
-            vip_title: "VIP", vip_features: ["月2,000コイン", "コイン30%割引", "月20本の動画", "夢日記", "限定ソース", "WhatsAppサポート"], vip_price_monthly: "299.99 SAR / 月", vip_price_yearly: "2,999.99 SAR / 年",
+            
             pro_badge: "一番人気", vip_badge: "限定 👑",
         },
         earn: {
@@ -2304,7 +2304,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "무료", bronze_features: ["하루 3회 해석", "Groq AI", "6가지 전통", "광고"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["무제한 해석", "Gemini AI", "전체 9가지 전통", "광고 없음", "월 100코인", "코인 10% 할인"], silver2_price_monthly: "€4.99 / 월", silver2_price_yearly: "€49.99 / 년",
             gold2_title: "Premium", gold2_features: ["Claude 6관점", "월 500코인", "코인 20% 할인", "HD 이미지", "월 5개 동영상", "라이브 음성", "프리미엄 AI 채팅"], gold2_price_monthly: "€14.99 / 월", gold2_price_yearly: "€149.99 / 년",
-            vip_title: "VIP", vip_features: ["월 2,000코인", "코인 30% 할인", "월 20개 동영상", "꿈 일기", "독점 소스", "WhatsApp 지원"], vip_price_monthly: "299.99 SAR / 월", vip_price_yearly: "2,999.99 SAR / 년",
+            
             pro_badge: "가장 인기", vip_badge: "독점 👑",
         },
         earn: {
@@ -2499,7 +2499,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Gratis", bronze_features: ["3 Tafsir/Hari", "Groq AI", "6 Tradisi", "Iklan"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Tafsir Tanpa Batas", "Gemini AI", "Semua 9 Tradisi", "Tanpa Iklan", "100 Koin/Bulan", "Diskon Koin 10%"], silver2_price_monthly: "€4.99 / Bulan", silver2_price_yearly: "€49.99 / Tahun",
             gold2_title: "Premium", gold2_features: ["Claude 6-Perspektif", "500 Koin/Bulan", "Diskon Koin 20%", "Gambar HD", "5 Video/Bulan", "Suara Langsung", "Chat AI Premium"], gold2_price_monthly: "€14.99 / Bulan", gold2_price_yearly: "€149.99 / Tahun",
-            vip_title: "VIP", vip_features: ["2.000 Koin/Bulan", "Diskon Koin 30%", "20 Video/Bulan", "Jurnal Mimpi", "Sumber Eksklusif", "Dukungan WhatsApp"], vip_price_monthly: "299.99 SAR / Bulan", vip_price_yearly: "2,999.99 SAR / Tahun",
+            
             pro_badge: "TERPOPULER", vip_badge: "EKSKLUSIF 👑",
         },
         earn: {
@@ -2694,7 +2694,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "رایگان", bronze_features: ["۳ تعبیر/روز", "Groq AI", "۶ سنت", "تبلیغات"], bronze_price: "€0",
             silver2_title: "حرفه‌ای", silver2_features: ["تعبیر نامحدود", "Gemini AI", "تمام ۹ سنت", "بدون تبلیغ", "۱۰۰ سکه/ماه", "۱۰٪ تخفیف سکه"], silver2_price_monthly: "€4.99 / ماه", silver2_price_yearly: "€49.99 / سال",
             gold2_title: "پرمیوم", gold2_features: ["Claude ۶ دیدگاه", "۵۰۰ سکه/ماه", "۲۰٪ تخفیف سکه", "تصاویر HD", "۵ ویدیو/ماه", "صدای زنده", "چت AI پرمیوم"], gold2_price_monthly: "€14.99 / ماه", gold2_price_yearly: "€149.99 / سال",
-            vip_title: "VIP", vip_features: ["۲,۰۰۰ سکه/ماه", "۳۰٪ تخفیف سکه", "۲۰ ویدیو/ماه", "دفتر رویا", "منابع اختصاصی", "پشتیبانی واتساپ"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            
             pro_badge: "محبوب‌ترین", vip_badge: "انحصاری 👑",
         },
         earn: {
@@ -2889,7 +2889,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Gratuito", bronze_features: ["3 interpretazioni/giorno", "Groq AI", "6 tradizioni", "Pubblicità"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Interpretazioni illimitate", "Gemini AI", "Tutte le 9 tradizioni", "Senza pubblicità", "100 monete/mese", "10% sconto monete"], silver2_price_monthly: "€4.99 / mese", silver2_price_yearly: "€49.99 / anno",
             gold2_title: "Premium", gold2_features: ["Claude 6 prospettive", "500 monete/mese", "20% sconto monete", "Immagini HD", "5 video/mese", "Voce dal vivo", "Chat AI Premium"], gold2_price_monthly: "€14.99 / mese", gold2_price_yearly: "€149.99 / anno",
-            vip_title: "VIP", vip_features: ["2.000 monete/mese", "30% sconto monete", "20 video/mese", "Diario dei sogni", "Fonti esclusive", "Supporto WhatsApp"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            
             pro_badge: "PIÙ POPOLARE", vip_badge: "ESCLUSIVO 👑",
         },
         earn: {
@@ -3084,7 +3084,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Darmowy", bronze_features: ["3 interpretacje/dzień", "Groq AI", "6 tradycji", "Reklamy"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Nieograniczone interpretacje", "Gemini AI", "Wszystkie 9 tradycji", "Bez reklam", "100 monet/mies.", "10% rabat na monety"], silver2_price_monthly: "€4.99 / mies.", silver2_price_yearly: "€49.99 / rok",
             gold2_title: "Premium", gold2_features: ["Claude 6 perspektyw", "500 monet/mies.", "20% rabat na monety", "Obrazy HD", "5 filmów/mies.", "Głos na żywo", "Czat AI Premium"], gold2_price_monthly: "€14.99 / mies.", gold2_price_yearly: "€149.99 / rok",
-            vip_title: "VIP", vip_features: ["2000 monet/mies.", "30% rabat na monety", "20 filmów/mies.", "Dziennik snów", "Ekskluzywne źródła", "Wsparcie WhatsApp"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            
             pro_badge: "NAJPOPULARNIEJSZY", vip_badge: "EKSKLUZYWNY 👑",
         },
         earn: {
@@ -3279,7 +3279,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "বিনামূল্যে", bronze_features: ["৩ ব্যাখ্যা/দিন", "Groq AI", "৬ ঐতিহ্য", "বিজ্ঞাপন"], bronze_price: "€0",
             silver2_title: "প্রো", silver2_features: ["সীমাহীন ব্যাখ্যা", "Gemini AI", "সকল ৯ ঐতিহ্য", "বিজ্ঞাপন মুক্ত", "১০০ কয়েন/মাস", "১০% কয়েন ছাড়"], silver2_price_monthly: "€4.99 / মাস", silver2_price_yearly: "€49.99 / বছর",
             gold2_title: "প্রিমিয়াম", gold2_features: ["Claude ৬ দৃষ্টিকোণ", "৫০০ কয়েন/মাস", "২০% কয়েন ছাড়", "HD ছবি", "৫ ভিডিও/মাস", "লাইভ ভয়েস", "প্রিমিয়াম AI চ্যাট"], gold2_price_monthly: "€14.99 / মাস", gold2_price_yearly: "€149.99 / বছর",
-            vip_title: "VIP", vip_features: ["২,০০০ কয়েন/মাস", "৩০% কয়েন ছাড়", "২০ ভিডিও/মাস", "স্বপ্নের ডায়েরি", "একচেটিয়া উৎস", "হোয়াটসঅ্যাপ সাপোর্ট"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            
             pro_badge: "সবচেয়ে জনপ্রিয়", vip_badge: "এক্সক্লুসিভ 👑",
         },
         earn: {
@@ -3474,7 +3474,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "مفت", bronze_features: ["۳ تعبیرات/دن", "Groq AI", "۶ روایات", "اشتہارات"], bronze_price: "€0",
             silver2_title: "پرو", silver2_features: ["لامحدود تعبیرات", "Gemini AI", "تمام ۹ روایات", "اشتہارات سے پاک", "۱۰۰ سکے/ماہ", "۱۰٪ سکہ رعایت"], silver2_price_monthly: "€4.99 / ماہ", silver2_price_yearly: "€49.99 / سال",
             gold2_title: "پریمیم", gold2_features: ["Claude ۶ نقطہ نظر", "۵۰۰ سکے/ماہ", "۲۰٪ سکہ رعایت", "HD تصاویر", "۵ ویڈیوز/ماہ", "لائیو آواز", "پریمیم AI چیٹ"], gold2_price_monthly: "€14.99 / ماہ", gold2_price_yearly: "€149.99 / سال",
-            vip_title: "VIP", vip_features: ["۲,۰۰۰ سکے/ماہ", "۳۰٪ سکہ رعایت", "۲۰ ویڈیوز/ماہ", "خوابوں کی ڈائری", "خصوصی ذرائع", "واٹس ایپ سپورٹ"], vip_price_monthly: "299.99 SAR / Month", vip_price_yearly: "2,999.99 SAR / Year",
+            
             pro_badge: "سب سے مقبول", vip_badge: "خصوصی 👑",
         },
         earn: {
@@ -3669,7 +3669,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Miễn phí", bronze_features: ["3 lần giải mộng/ngày", "Groq AI", "6 truyền thống", "Quảng cáo"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Giải mộng không giới hạn", "Gemini AI", "Tất cả 9 truyền thống", "Không quảng cáo", "100 xu/tháng", "Giảm 10% xu"], silver2_price_monthly: "€4.99 / Tháng", silver2_price_yearly: "€49.99 / Năm",
             gold2_title: "Premium", gold2_features: ["Claude 6 góc nhìn", "500 xu/tháng", "Giảm 20% xu", "Ảnh HD", "5 video/tháng", "Giọng nói trực tiếp", "AI Chat Premium"], gold2_price_monthly: "€14.99 / Tháng", gold2_price_yearly: "€149.99 / Năm",
-            vip_title: "VIP", vip_features: ["2.000 xu/tháng", "Giảm 30% xu", "20 video/tháng", "Nhật ký giấc mơ", "Nguồn độc quyền", "Hỗ trợ WhatsApp"], vip_price_monthly: "299.99 SAR / Tháng", vip_price_yearly: "2,999.99 SAR / Năm",
+            
             pro_badge: "PHỔ BIẾN NHẤT", vip_badge: "ĐỘC QUYỀN 👑",
         },
         earn: {
@@ -3864,7 +3864,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "ฟรี", bronze_features: ["ตีความ 3 ครั้ง/วัน", "Groq AI", "6 ประเพณี", "โฆษณา"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["ตีความไม่จำกัด", "Gemini AI", "ทั้ง 9 ประเพณี", "ไม่มีโฆษณา", "100 เหรียญ/เดือน", "ส่วนลด 10%"], silver2_price_monthly: "€4.99 / เดือน", silver2_price_yearly: "€49.99 / ปี",
             gold2_title: "Premium", gold2_features: ["Claude 6 มุมมอง", "500 เหรียญ/เดือน", "ส่วนลด 20%", "ภาพ HD", "5 วิดีโอ/เดือน", "เสียงสด", "AI แชท Premium"], gold2_price_monthly: "€14.99 / เดือน", gold2_price_yearly: "€149.99 / ปี",
-            vip_title: "VIP", vip_features: ["2,000 เหรียญ/เดือน", "ส่วนลด 30%", "20 วิดีโอ/เดือน", "สมุดบันทึกฝัน", "แหล่งพิเศษ", "บริการ WhatsApp"], vip_price_monthly: "299.99 SAR / เดือน", vip_price_yearly: "2,999.99 SAR / ปี",
+            
             pro_badge: "ยอดนิยม", vip_badge: "พิเศษ 👑",
         },
         earn: {
@@ -4059,7 +4059,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Bure", bronze_features: ["Tafsiri 3/Siku", "Groq AI", "Mila 6", "Matangazo"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Tafsiri Zisizo na Kikomo", "Gemini AI", "Mila zote 9", "Bila Matangazo", "Sarafu 100/Mwezi", "Punguzo 10% la Sarafu"], silver2_price_monthly: "€4.99 / Mwezi", silver2_price_yearly: "€49.99 / Mwaka",
             gold2_title: "Premium", gold2_features: ["Claude Mitazamo 6", "Sarafu 500/Mwezi", "Punguzo 20% la Sarafu", "Picha HD", "Video 5/Mwezi", "Sauti ya Moja kwa Moja", "AI Chat Premium"], gold2_price_monthly: "€14.99 / Mwezi", gold2_price_yearly: "€149.99 / Mwaka",
-            vip_title: "VIP", vip_features: ["Sarafu 2,000/Mwezi", "Punguzo 30% la Sarafu", "Video 20/Mwezi", "Jarida la Ndoto", "Vyanzo Maalum", "Msaada wa WhatsApp"], vip_price_monthly: "299.99 SAR / Mwezi", vip_price_yearly: "2,999.99 SAR / Mwaka",
+            
             pro_badge: "MAARUFU ZAIDI", vip_badge: "KIPEKEE 👑",
         },
         earn: {
@@ -4254,7 +4254,7 @@ const TRANSLATIONS: Record<Language, { app_title: string, app_subtitle: string, 
             bronze_title: "Ingyenes", bronze_features: ["3 értelmezés/nap", "Groq AI", "6 hagyomány", "Hirdetések"], bronze_price: "€0",
             silver2_title: "Pro", silver2_features: ["Korlátlan értelmezés", "Gemini AI", "Mind a 9 hagyomány", "Hirdetésmentes", "100 érme/hó", "10% érme kedvezmény"], silver2_price_monthly: "€4.99 / Hó", silver2_price_yearly: "€49.99 / Év",
             gold2_title: "Premium", gold2_features: ["Claude 6 nézőpont", "500 érme/hó", "20% érme kedvezmény", "HD képek", "5 videó/hó", "Élő hang", "Prémium AI Chat"], gold2_price_monthly: "€14.99 / Hó", gold2_price_yearly: "€149.99 / Év",
-            vip_title: "VIP", vip_features: ["2000 érme/hó", "30% érme kedvezmény", "20 videó/hó", "Álomnapló", "Exkluzív források", "WhatsApp támogatás"], vip_price_monthly: "299.99 SAR / Hó", vip_price_yearly: "2,999.99 SAR / Év",
+            
             pro_badge: "LEGNÉPSZERŰBB", vip_badge: "EXKLUZÍV 👑",
         },
         earn: {
@@ -6366,7 +6366,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                     </div>
                 )}
 
-                {[SubscriptionTier.FREE, SubscriptionTier.PRO, SubscriptionTier.PREMIUM, SubscriptionTier.VIP].map(tier => {
+                {[SubscriptionTier.FREE, SubscriptionTier.PRO, SubscriptionTier.PREMIUM].map(tier => {
                     const isCurrent = userProfile?.subscriptionTier === tier;
                     let title = "", features: string[] = [], price = "";
                     let borderColor = "";
