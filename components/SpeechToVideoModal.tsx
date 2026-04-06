@@ -45,6 +45,9 @@ interface ModalTranslations {
     status_recording: string;
     status_paused: string;
     not_supported: string;
+    playback: string;
+    audio_saved: string;
+    voice_used: string;
 }
 
 const T: Record<Language, ModalTranslations> = {
@@ -59,9 +62,12 @@ const T: Record<Language, ModalTranslations> = {
         continue_btn: 'Weiter zum Video-Studio',
         close_btn: 'Abbrechen',
         status_ready: 'Bereit',
-        status_recording: 'Aufnahme laeuft',
+        status_recording: 'Aufnahme läuft',
         status_paused: 'Pausiert',
-        not_supported: 'Spracherkennung wird in diesem Browser nicht unterstuetzt. Bitte tippe den Text manuell ein.',
+        not_supported: 'Spracherkennung wird in diesem Browser nicht unterstützt. Bitte tippe den Text manuell ein.',
+        playback: '▶ Wiedergabe...',
+        audio_saved: '🎤 Aufnahme gespeichert',
+        voice_used: 'Eigene Stimme wird mit Video verwendet',
     },
     [Language.EN]: {
         title: 'Prepare Dream Video',
@@ -77,81 +83,99 @@ const T: Record<Language, ModalTranslations> = {
         status_recording: 'Recording',
         status_paused: 'Paused',
         not_supported: 'Speech recognition is not supported in this browser. Please type the text manually.',
+        playback: '▶ Playing...',
+        audio_saved: '🎤 Recording saved',
+        voice_used: 'Your voice will be used with video',
     },
     [Language.TR]: {
-        title: 'Ruya Videosu Hazirla',
-        subtitle: 'Ruyani anlat, metni duzelt, sonra Video Studyoya gec.',
-        placeholder: 'Ruyani anlat ya da buraya yaz.',
-        label: 'Ruya metni',
-        start_mic: 'Mikrofonu baslat',
-        pause: 'Duraklat',
+        title: 'Rüya Videosu Hazırla',
+        subtitle: 'Rüyanı anlat, metni düzelt, sonra Video Stüdyoya geç.',
+        placeholder: 'Rüyanı anlat ya da buraya yaz.',
+        label: 'Rüya metni',
+        start_mic: 'Mikrofonu başlat',
+        pause: 'Durakla',
         resume: 'Kayda devam et',
-        continue_btn: 'Video Studyoya devam',
-        close_btn: 'Iptal',
-        status_ready: 'Hazir',
-        status_recording: 'Kayit devam ediyor',
-        status_paused: 'Duraklatildi',
-        not_supported: 'Ses tanima bu tarayicida desteklenmiyor. Lutfen metni elle yazin.',
+        continue_btn: 'Video Stüdyoya devam',
+        close_btn: 'İptal',
+        status_ready: 'Hazır',
+        status_recording: 'Kayıt devam ediyor',
+        status_paused: 'Duraklatıldı',
+        not_supported: 'Ses tanıma bu tarayıcıda desteklenmiyor. Lütfen metni elle yazın.',
+        playback: '▶ Oynatılıyor...',
+        audio_saved: '🎤 Kayıt kaydedildi',
+        voice_used: 'Kendi sesiniz video ile kullanılacak',
     },
     [Language.ES]: {
-        title: 'Preparar Video de Sueno',
-        subtitle: 'Habla tu sueno, corrige el texto y continua al Estudio de Video.',
-        placeholder: 'Habla tu sueno o escribe aqui.',
-        label: 'Texto del sueno',
-        start_mic: 'Iniciar microfono',
+        title: 'Preparar Vídeo de Sueño',
+        subtitle: 'Habla tu sueño, corrige el texto y continúa al Estudio de Vídeo.',
+        placeholder: 'Habla tu sueño o escribe aquí.',
+        label: 'Texto del sueño',
+        start_mic: 'Iniciar micrófono',
         pause: 'Pausar',
-        resume: 'Continuar grabacion',
+        resume: 'Continuar grabación',
         continue_btn: 'Continuar al Estudio',
         close_btn: 'Cancelar',
         status_ready: 'Listo',
         status_recording: 'Grabando',
         status_paused: 'En pausa',
         not_supported: 'El reconocimiento de voz no es compatible con este navegador.',
+        playback: '▶ Reproduciendo...',
+        audio_saved: '🎤 Grabación guardada',
+        voice_used: 'Tu voz se usará con el vídeo',
     },
     [Language.FR]: {
-        title: 'Preparer la Video du Reve',
-        subtitle: 'Racontez votre reve, corrigez le texte, puis passez au Studio Video.',
-        placeholder: 'Racontez votre reve ou tapez-le ici.',
-        label: 'Texte du reve',
-        start_mic: 'Demarrer le micro',
+        title: 'Préparer la Vidéo du Rêve',
+        subtitle: 'Racontez votre rêve, corrigez le texte, puis passez au Studio Vidéo.',
+        placeholder: 'Racontez votre rêve ou tapez-le ici.',
+        label: 'Texte du rêve',
+        start_mic: 'Démarrer le micro',
         pause: 'Pause',
         resume: 'Reprendre',
         continue_btn: 'Continuer vers le Studio',
         close_btn: 'Annuler',
-        status_ready: 'Pret',
+        status_ready: 'Prêt',
         status_recording: 'Enregistrement',
         status_paused: 'En pause',
         not_supported: 'La reconnaissance vocale n\'est pas prise en charge dans ce navigateur.',
+        playback: '▶ Lecture...',
+        audio_saved: '🎤 Enregistrement sauvegardé',
+        voice_used: 'Votre voix sera utilisée avec la vidéo',
     },
     [Language.AR]: {
-        title: 'tahDiir fiidyuu al-Hulm',
-        subtitle: 'taHaddath Hulmuak, SaHHiH an-naSS, thumma intaqil ilaa al-istuudyuu.',
-        placeholder: 'taHaddath Hulmuak aw uktubhu hunaa.',
-        label: 'naSS al-Hulm',
-        start_mic: 'tasghiil al-maykruufuun',
-        pause: 'iiqaaf muaqqat',
-        resume: 'istinaaf at-tasjiil',
-        continue_btn: 'al-mutaaba\'a ilaa al-istuudyuu',
-        close_btn: 'ilghaa',
-        status_ready: 'jaahiz',
-        status_recording: 'jaariy at-tasjiil',
-        status_paused: 'mutawaqqif',
-        not_supported: 'at-ta\'arruf alaa al-kalaam ghayr mada\'uum fii haadha al-mutaSaffiH.',
+        title: 'تحضير فيديو الحلم',
+        subtitle: 'تحدّث عن حلمك، صحّح النص، ثم انتقل إلى الاستوديو.',
+        placeholder: 'تحدّث عن حلمك أو اكتبه هنا.',
+        label: 'نص الحلم',
+        start_mic: 'تشغيل الميكروفون',
+        pause: 'إيقاف مؤقت',
+        resume: 'استئناف التسجيل',
+        continue_btn: 'المتابعة إلى الاستوديو',
+        close_btn: 'إلغاء',
+        status_ready: 'جاهز',
+        status_recording: 'جارٍ التسجيل',
+        status_paused: 'متوقف',
+        not_supported: 'التعرف على الكلام غير مدعوم في هذا المتصفح.',
+        playback: '▶ جارٍ التشغيل...',
+        audio_saved: '🎤 تم حفظ التسجيل',
+        voice_used: 'سيتم استخدام صوتك مع الفيديو',
     },
     [Language.PT]: {
-        title: 'Preparar Video do Sonho',
-        subtitle: 'Fale seu sonho, corrija o texto e continue para o Estudio de Video.',
+        title: 'Preparar Vídeo do Sonho',
+        subtitle: 'Fale seu sonho, corrija o texto e continue para o Estúdio de Vídeo.',
         placeholder: 'Fale seu sonho ou digite aqui.',
         label: 'Texto do sonho',
         start_mic: 'Iniciar microfone',
         pause: 'Pausar',
-        resume: 'Retomar gravacao',
-        continue_btn: 'Continuar para o Estudio',
+        resume: 'Retomar gravação',
+        continue_btn: 'Continuar para o Estúdio',
         close_btn: 'Cancelar',
         status_ready: 'Pronto',
         status_recording: 'Gravando',
         status_paused: 'Pausado',
-        not_supported: 'Reconhecimento de voz nao e suportado neste navegador.',
+        not_supported: 'Reconhecimento de voz não é suportado neste navegador.',
+        playback: '▶ Reproduzindo...',
+        audio_saved: '🎤 Gravação salva',
+        voice_used: 'Sua voz será usada com o vídeo',
     },
     [Language.RU]: {
         title: 'Подготовить видео сна',
@@ -167,6 +191,9 @@ const T: Record<Language, ModalTranslations> = {
         status_recording: 'Запись',
         status_paused: 'На паузе',
         not_supported: 'Распознавание речи не поддерживается в этом браузере.',
+        playback: '▶ Воспроизведение...',
+        audio_saved: '🎤 Запись сохранена',
+        voice_used: 'Ваш голос будет использован в видео',
     },
     [Language.ZH]: {
         title: '准备梦境视频',
@@ -554,6 +581,8 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
             recorder.start(250); // collect chunks every 250ms
         } catch (e) {
             console.warn('[AUDIO] MediaRecorder not available:', e);
+            setStatus('idle');
+            statusRef.current = 'idle';
         }
     }, []);
 
@@ -597,13 +626,14 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
         recognitionRef.current = rec;
         try {
             rec.start();
+            startMediaRecorder();
             setStatus('recording');
             statusRef.current = 'recording';
         } catch {
             setStatus('idle');
             statusRef.current = 'idle';
         }
-    }, [buildRecognition, stopRecognition]);
+    }, [buildRecognition, stopRecognition, startMediaRecorder]);
 
     const handleContinue = useCallback(() => {
         setStatus('idle');
@@ -744,10 +774,10 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
                         </button>
                         <div className="flex-1">
                             <p className={`text-xs font-bold ${isLight ? 'text-violet-700' : 'text-violet-300'}`}>
-                                {isPlayingPreview ? '▶ Wiedergabe...' : '🎤 Aufnahme gespeichert'}
+                                {isPlayingPreview ? t.playback : t.audio_saved}
                             </p>
                             <p className={`text-[10px] ${isLight ? 'text-violet-500' : 'text-violet-400/60'}`}>
-                                Eigene Stimme wird mit Video verwendet
+                                {t.voice_used}
                             </p>
                         </div>
                         <button
