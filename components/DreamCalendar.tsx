@@ -472,7 +472,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                         </span>
                         {t.title}
                     </h2>
-                    <button onClick={onClose} className={`w-11 h-11 rounded-full ${th.closeBtn} flex items-center justify-center transition-colors`} aria-label="Close">
+                    <button onClick={onClose} className={`w-11 h-11 rounded-full ${th.closeBtn} flex items-center justify-center transition-colors`} aria-label={t.close}>
                         <span className="material-icons">close</span>
                     </button>
                 </div>
@@ -585,7 +585,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                      <div className={`${th.modalBg} border ${th.border} w-full max-w-lg h-[85vh] rounded-3xl overflow-y-auto relative flex flex-col shadow-2xl`} onClick={e => e.stopPropagation()}>
                          <div className={`h-64 ${th.isLight ? 'bg-violet-100' : 'bg-slate-900'} relative shrink-0`}>
                              {selectedDream.imageUrl ? <img src={selectedDream.imageUrl} className="w-full h-full object-cover" /> : <div className={`w-full h-full flex items-center justify-center ${th.textMuted}`}><span className="material-icons text-6xl">image</span></div>}
-                             <button onClick={() => setSelectedDream(null)} className="absolute top-3 end-3 w-11 h-11 bg-black/50 rounded-full text-white flex items-center justify-center hover:bg-black/70 transition-colors" aria-label="Close"><span className="material-icons">close</span></button>
+                             <button onClick={() => setSelectedDream(null)} className="absolute top-3 end-3 w-11 h-11 bg-black/50 rounded-full text-white flex items-center justify-center hover:bg-black/70 transition-colors" aria-label={t.close}><span className="material-icons">close</span></button>
                              <div className={`absolute bottom-4 left-4 px-3 py-1 rounded-lg text-xs font-bold border ${th.isLight ? 'bg-white/80 border-violet-200 text-violet-700' : 'bg-black/60 border-white/10 text-white'}`}>{selectedDream.date}</div>
                          </div>
                          <div className="p-8">
