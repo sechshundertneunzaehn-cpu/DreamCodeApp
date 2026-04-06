@@ -58,111 +58,51 @@ const optimizePromptForVideo = (
 };
 
 // ============================================
-// REPLICATE - WAN 2.7 (Text-to-Video mit Audio)
+// REPLICATE - WAN via /api/generate-video Proxy
 // ============================================
 const generateVideoWAN = async (
     options: VideoGenerationOptions
 ): Promise<VideoGenerationResult> => {
-    const apiKey = getReplicateKey();
-    if (!apiKey || apiKey.length < 5) {
-        throw new Error('Replicate API-Key fehlt');
-    }
-
-    const prompt = optimizePromptForVideo(options.prompt, options.style);
-    console.log('[WAN 2.7] Starte Video-Generierung...');
+    console.log('[WAN] Starte Video-Generierung via /api/generate-video...');
     const startTime = Date.now();
 
     try {
-        const createRes = await fetch('/api/replicate/v1/predictions', {
+        const createRes = await fetch('/api/generate-video', {
             method: 'POST',
-            headers: {
-                'Authorization': `Token ${apiKey}`,
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                version: '6c53841e185bd0cdd909e437f64040ab8a055bc30c527cd1588b55f347541c7a',
-                input: {
-                    prompt: prompt,
-                    negative_prompt: 'blurry, low quality, distorted, ugly, text, watermark',
-                    duration: 5,
-                    resolution: '720p',
-                    aspect_ratio: options.aspectRatio || '16:9',
-                    enable_prompt_expansion: true
-                }
+                prompt: options.prompt,
+                style: options.style || 'dreamlike',
+                aspectRatio: options.aspectRatio || '16:9',
             })
         });
 
         if (!createRes.ok) {
             const err = await createRes.text();
-            throw new Error(`Replicate API-Fehler: ${createRes.status} - ${err}`);
+            throw new Error(`generate-video Fehler: ${createRes.status} - ${err}`);
         }
 
         const createData = await createRes.json();
-        return await pollReplicateResult(createData, apiKey, startTime, 'replicate_wan');
+        return await pollViaProxy(createData, startTime, 'replicate_wan');
 
     } catch (error) {
-        console.error('[WAN 2.7] Fehler:', error);
+        console.error('[WAN] Fehler:', error);
         throw error;
     }
 };
 
 // ============================================
-// REPLICATE - Luma Ray Flash 2 (Premium, ~$0.24/5s)
+// POLLING via /api/generate-video?id=xxx
 // ============================================
-const generateVideoLuma = async (
-    options: VideoGenerationOptions
-): Promise<VideoGenerationResult> => {
-    const apiKey = getReplicateKey();
-    if (!apiKey || apiKey.length < 5) {
-        throw new Error('Replicate API-Key fehlt');
-    }
-
-    const prompt = optimizePromptForVideo(options.prompt, options.style);
-    console.log('[LUMA] Starte Premium Video-Generierung...');
-    const startTime = Date.now();
-
-    try {
-        const createRes = await fetch('/api/replicate/v1/predictions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Token ${apiKey}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                version: 'luma/ray',
-                input: {
-                    prompt: prompt,
-                    aspect_ratio: options.aspectRatio || '16:9',
-                    loop: false
-                }
-            })
-        });
-
-        if (!createRes.ok) {
-            const err = await createRes.text();
-            throw new Error(`Luma API-Fehler: ${createRes.status} - ${err}`);
-        }
-
-        const createData = await createRes.json();
-        return await pollReplicateResult(createData, apiKey, startTime, 'replicate_luma');
-
-    } catch (error) {
-        console.error('[LUMA] Fehler:', error);
-        throw error;
-    }
-};
-
-// ============================================
-// REPLICATE POLLING
-// ============================================
-const pollReplicateResult = async (
+const pollViaProxy = async (
     prediction: any,
-    apiKey: string,
     startTime: number,
     provider: VideoProvider
 ): Promise<VideoGenerationResult> => {
     const predictionId = prediction.id;
-    const getUrl = prediction.urls?.get || `https://api.replicate.com/v1/predictions/${predictionId}`;
+    if (!predictionId) {
+        throw new Error('Keine Prediction-ID in der Antwort');
+    }
 
     let attempts = 0;
     const maxAttempts = 120; // 10 Minuten max (5s * 120)
@@ -170,9 +110,7 @@ const pollReplicateResult = async (
     while (attempts < maxAttempts) {
         await new Promise(resolve => setTimeout(resolve, 5000));
 
-        const statusRes = await fetch(getUrl.replace('https://api.replicate.com', '/api/replicate'), {
-            headers: { 'Authorization': `Token ${apiKey}` }
-        });
+        const statusRes = await fetch(`/api/generate-video?id=${predictionId}`);
 
         if (!statusRes.ok) {
             attempts++;
@@ -184,7 +122,9 @@ const pollReplicateResult = async (
 
         if (statusData.status === 'succeeded') {
             const output = statusData.output;
-            const videoUrl = typeof output === 'string' ? output : (Array.isArray(output) ? output[0] : output?.url || output?.video);
+            const videoUrl = typeof output === 'string' ? output
+                : Array.isArray(output) ? output[0]
+                : output?.url || output?.video || null;
 
             if (!videoUrl) {
                 throw new Error('Kein Video-URL in der Antwort');
@@ -195,7 +135,7 @@ const pollReplicateResult = async (
                 provider,
                 duration: 5,
                 generationTime: Date.now() - startTime,
-                cost: provider === 'replicate_luma' ? 0.24 : 0.09
+                cost: 0.09
             };
         }
 
