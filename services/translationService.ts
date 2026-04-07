@@ -1,6 +1,12 @@
 import { supabase } from './supabaseClient';
 import { getGeminiKeys } from '../config/providerRouting';
 
+// ─── RTL Helper ──────────────────────────────────────────────────────────────
+
+export function isRTL(lang: string): boolean {
+  return ['ar', 'fa', 'ur', 'he', 'yi'].includes(lang);
+}
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface TranslationItem {

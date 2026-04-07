@@ -66,7 +66,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { type, tier, package: coinPackage, region, successUrl, cancelUrl } = req.body;
+    const { type, tier, package: coinPackage, region, successUrl, cancelUrl, affiliateCode } = req.body;
 
     if (!type || !successUrl || !cancelUrl) {
       return res.status(400).json({ error: 'Missing required fields: type, successUrl, cancelUrl' });
@@ -117,6 +117,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       };
     } else {
       return res.status(400).json({ error: 'Invalid type. Must be "subscription" or "coins".' });
+    }
+
+    // Affiliate tracking
+    if (affiliateCode) {
+      metadata.affiliate_code = affiliateCode;
     }
 
     const sessionParams: Stripe.Checkout.SessionCreateParams = {

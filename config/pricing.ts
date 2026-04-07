@@ -45,8 +45,8 @@ export const SUBSCRIPTION_TIERS = {
   PRO: {
     id: 'pro',
     name: 'Pro',
-    price_monthly: 4.99,
-    price_yearly: 49.99,
+    price_monthly: 5.99,
+    price_yearly: 59.99,
     names: { de: 'Pro', en: 'Pro', ar: '\u0628\u0631\u0648', tr: 'Pro', ru: '\u041F\u0440\u043E', zh: '\u4E13\u4E1A\u7248', hi: '\u092A\u094D\u0930\u094B', ja: '\u30D7\u30ED', ko: '\uD504\uB85C', id: 'Pro', fa: '\u062D\u0631\u0641\u0647\u200C\u0627\u06CC', it: 'Pro', pl: 'Pro', bn: '\u09AA\u09CD\u09B0\u09CB', ur: '\u067E\u0631\u0648', vi: 'Pro', th: '\u0E42\u0E1B\u0E23', sw: 'Pro', hu: 'Pro' },
     badge: { de: 'MEISTGEW\u00C4HLT', en: 'MOST POPULAR', ar: '\u0627\u0644\u0623\u0643\u062B\u0631 \u0634\u0639\u0628\u064A\u0629' },
     features: {
@@ -68,9 +68,9 @@ export const SUBSCRIPTION_TIERS = {
   PREMIUM: {
     id: 'premium',
     name: 'Premium',
-    price_monthly: 14.99,
-    price_yearly: 149.99,
-    strikethrough_monthly: 24.99,
+    price_monthly: 17.99,
+    price_yearly: 179.99,
+    strikethrough_monthly: 29.99,
     names: { de: 'Premium', en: 'Premium', ar: '\u0628\u0631\u064A\u0645\u064A\u0648\u0645', tr: 'Premium', ru: '\u041F\u0440\u0435\u043C\u0438\u0443\u043C', zh: '\u9AD8\u7EA7\u7248', hi: '\u092A\u094D\u0930\u0940\u092E\u093F\u092F\u092E', ja: '\u30D7\u30EC\u30DF\u30A2\u30E0', ko: '\uD504\uB9AC\uBBF8\uC5C4', id: 'Premium', fa: '\u0648\u06CC\u0698\u0647', it: 'Premium', pl: 'Premium', bn: '\u09AA\u09CD\u09B0\u09BF\u09AE\u09BF\u09AF\u09BC\u09BE\u09AE', ur: '\u067E\u0631\u06CC\u0645\u06CC\u0645', vi: 'Cao c\u1EA5p', th: '\u0E1E\u0E23\u0E35\u0E40\u0E21\u0E35\u0E22\u0E21', sw: 'Premium', hu: 'Prémium' },
     features: {
       daily_interpretations: -1,
@@ -92,7 +92,7 @@ export const SUBSCRIPTION_TIERS = {
     id: 'smart',
     name: 'Smart',
     price_monthly: null as number | null,
-    price_yearly: 49.99,
+    price_yearly: 59.99,
     names: { de: 'Smart', en: 'Smart', ar: '\u0630\u0643\u064A', tr: 'Ak\u0131ll\u0131', ru: '\u0421\u043C\u0430\u0440\u0442', zh: '\u667A\u80FD\u7248', hi: '\u0938\u094D\u092E\u093E\u0930\u094D\u091F', ja: '\u30B9\u30DE\u30FC\u30C8', ko: '\uC2A4\uB9C8\uD2B8', id: 'Cerdas', fa: '\u0647\u0648\u0634\u0645\u0646\u062F', it: 'Smart', pl: 'Smart', bn: '\u09B8\u09CD\u09AE\u09BE\u09B0\u09CD\u099F', ur: '\u0633\u0645\u0627\u0631\u0679', vi: 'Th\u00F4ng minh', th: '\u0E2A\u0E21\u0E32\u0E23\u0E4C\u0E17', sw: 'Smart', hu: 'Okos' },
     subtitle: { de: 'Eigene API-Keys nutzen', en: 'Bring Your Own Keys', ar: '\u0627\u0633\u062A\u062E\u062F\u0645 \u0645\u0641\u0627\u062A\u064A\u062D\u0643' },
     features: {
@@ -161,7 +161,7 @@ export const REWARDS = {
 
   // Werbung (nur Free-User)
   AD_15S: 1,
-  AD_30S: 2,
+  AD_30S: 5,
   AD_60S: 4,
   AD_SPONSOR_2MIN: 2,
 
@@ -178,6 +178,10 @@ export const REWARDS = {
   // Meilensteine
   DREAMS_SAVED_20: 1,
   FIRST_SHARE: 10,
+
+  // Viral / Affiliate
+  AFFILIATE_REFERRAL_BONUS: 10,
+  VIRAL_DREAM_MENTION: 5,
 
   // Tageslimits
   MAX_FREE_COINS_DAILY: 15,
@@ -198,9 +202,9 @@ export const REGIONAL_PRICES = {
     countries: ['DE', 'AT', 'CH'],
     tiers: {
       FREE:    { monthly: 0,     yearly: 0 },
-      PRO:     { monthly: 4.99,  yearly: 49.99 },
-      PREMIUM: { monthly: 14.99, yearly: 149.99, strikethrough: 24.99 },
-      SMART:   { monthly: null,  yearly: 49.99 },
+      PRO:     { monthly: 5.99,  yearly: 59.99 },
+      PREMIUM: { monthly: 17.99, yearly: 179.99, strikethrough: 29.99 },
+      SMART:   { monthly: null,  yearly: 59.99 },
     },
     coins: [
       { id: 'starter',  coins: 50,   price: 0.99,  label: 'Zum Testen' },
@@ -218,10 +222,9 @@ export const REGIONAL_PRICES = {
     countries: ['SA', 'AE', 'KW', 'BH', 'QA', 'OM'],
     tiers: {
       FREE:    { monthly: 0,       yearly: 0 },
-      PRO:     { monthly: 49.99,   yearly: 499.99,  badge: '\u0627\u0644\u0623\u0643\u062B\u0631 \u0634\u0639\u0628\u064A\u0629' },
-      PREMIUM: { monthly: 149.99,  yearly: 1499.99, strikethrough: 249.99 },
-      VIP:     { monthly: 299.99,  yearly: 2999.99, badge: '\u062D\u0635\u0631\u064A \uD83D\uDC51' },
-      SMART:   { monthly: null,    yearly: 199.99 },
+      PRO:     { monthly: 59.99,   yearly: 599.99,  badge: '\u0627\u0644\u0623\u0643\u062B\u0631 \u0634\u0639\u0628\u064A\u0629' },
+      PREMIUM: { monthly: 179.99,  yearly: 1799.99, strikethrough: 299.99 },
+      VIP:     { monthly: 359.99,  yearly: 3599.99, badge: '\u062D\u0635\u0631\u064A \uD83D\uDC51' },
     },
     vipFeatures: {
       daily_interpretations: -1,
@@ -256,9 +259,9 @@ export const REGIONAL_PRICES = {
     countries: ['EG', 'JO', 'MA', 'DZ', 'TN', 'IQ', 'LB', 'PS', 'LY', 'SY', 'SD'],
     tiers: {
       FREE:    { monthly: 0,    yearly: 0 },
-      PRO:     { monthly: 3.49, yearly: 34.99 },
-      PREMIUM: { monthly: 9.99, yearly: 99.99 },
-      SMART:   { monthly: null, yearly: 29.99 },
+      PRO:     { monthly: 4.19, yearly: 41.99 },
+      PREMIUM: { monthly: 11.99, yearly: 119.99 },
+      SMART:   { monthly: null, yearly: 35.99 },
     },
     coins: [
       { id: 'starter',  coins: 50,   price: 0.69,  label: 'Try it' },
@@ -276,9 +279,9 @@ export const REGIONAL_PRICES = {
     countries: ['TR'],
     tiers: {
       FREE:    { monthly: 0,       yearly: 0 },
-      PRO:     { monthly: 79.99,   yearly: 799 },
-      PREMIUM: { monthly: 229.99,  yearly: 2299 },
-      SMART:   { monthly: null,    yearly: 499 },
+      PRO:     { monthly: 119.99,  yearly: 1199 },
+      PREMIUM: { monthly: 349.99,  yearly: 3499 },
+      SMART:   { monthly: null,    yearly: 999 },
     },
     coins: [
       { id: 'starter',  coins: 50,   price: 14.99,  label: 'Denemek i\u00E7in' },
@@ -296,9 +299,9 @@ export const REGIONAL_PRICES = {
     countries: ['RU'],
     tiers: {
       FREE:    { monthly: 0,   yearly: 0 },
-      PRO:     { monthly: 249, yearly: 2499 },
-      PREMIUM: { monthly: 749, yearly: 7499 },
-      SMART:   { monthly: null, yearly: 1999 },
+      PRO:     { monthly: 299, yearly: 2999 },
+      PREMIUM: { monthly: 999, yearly: 9999 },
+      SMART:   { monthly: null, yearly: 2999 },
     },
     coins: [
       { id: 'starter',  coins: 50,   price: 49,   label: '\u041F\u043E\u043F\u0440\u043E\u0431\u043E\u0432\u0430\u0442\u044C' },
@@ -316,9 +319,9 @@ export const REGIONAL_PRICES = {
     countries: [] as string[],
     tiers: {
       FREE:    { monthly: 0,     yearly: 0 },
-      PRO:     { monthly: 4.99,  yearly: 49.99 },
-      PREMIUM: { monthly: 14.99, yearly: 149.99 },
-      SMART:   { monthly: null,  yearly: 49.99 },
+      PRO:     { monthly: 5.99,  yearly: 59.99 },
+      PREMIUM: { monthly: 17.99, yearly: 179.99 },
+      SMART:   { monthly: null,  yearly: 59.99 },
     },
     coins: [
       { id: 'starter',  coins: 50,   price: 0.99 },
@@ -348,34 +351,33 @@ export function getRegionalPricing(countryCode: string) {
 // Stripe Price Amounts (Kleineinheiten: Cents/Halalas/Kurus/Kopeken)
 export const STRIPE_AMOUNTS = {
   DE: {
-    PRO_MONTHLY: 499, PRO_YEARLY: 4999,
-    PREMIUM_MONTHLY: 1499, PREMIUM_YEARLY: 14999,
-    SMART_YEARLY: 4999,
+    PRO_MONTHLY: 599, PRO_YEARLY: 5999,
+    PREMIUM_MONTHLY: 1799, PREMIUM_YEARLY: 17999,
+    SMART_YEARLY: 5999,
     COINS_50: 99, COINS_150: 199, COINS_400: 499, COINS_900: 999, COINS_2500: 2499,
   },
   SA: {
-    PRO_MONTHLY: 4999, PRO_YEARLY: 49999,
-    PREMIUM_MONTHLY: 14999, PREMIUM_YEARLY: 149999,
-    VIP_MONTHLY: 29999, VIP_YEARLY: 299999,
-    SMART_YEARLY: 19999,
+    PRO_MONTHLY: 5999, PRO_YEARLY: 59999,
+    PREMIUM_MONTHLY: 17999, PREMIUM_YEARLY: 179999,
+    VIP_MONTHLY: 35999, VIP_YEARLY: 359999,
     COINS_50: 999, COINS_150: 1999, COINS_400: 4999, COINS_900: 9999, COINS_2500: 24999, COINS_7000: 49999,
   },
   EG: {
-    PRO_MONTHLY: 349, PRO_YEARLY: 3499,
-    PREMIUM_MONTHLY: 999, PREMIUM_YEARLY: 9999,
-    SMART_YEARLY: 2999,
+    PRO_MONTHLY: 419, PRO_YEARLY: 4199,
+    PREMIUM_MONTHLY: 1199, PREMIUM_YEARLY: 11999,
+    SMART_YEARLY: 3599,
     COINS_50: 69, COINS_150: 129, COINS_400: 299, COINS_900: 599, COINS_2500: 1499,
   },
   TR: {
-    PRO_MONTHLY: 7999, PRO_YEARLY: 79900,
-    PREMIUM_MONTHLY: 22999, PREMIUM_YEARLY: 229900,
-    SMART_YEARLY: 49900,
+    PRO_MONTHLY: 11999, PRO_YEARLY: 119900,
+    PREMIUM_MONTHLY: 34999, PREMIUM_YEARLY: 349900,
+    SMART_YEARLY: 99900,
     COINS_50: 1499, COINS_150: 2999, COINS_400: 7499, COINS_900: 14999, COINS_2500: 37999,
   },
   RU: {
-    PRO_MONTHLY: 24900, PRO_YEARLY: 249900,
-    PREMIUM_MONTHLY: 74900, PREMIUM_YEARLY: 749900,
-    SMART_YEARLY: 199900,
+    PRO_MONTHLY: 29900, PRO_YEARLY: 299900,
+    PREMIUM_MONTHLY: 99900, PREMIUM_YEARLY: 999900,
+    SMART_YEARLY: 299900,
     COINS_50: 4900, COINS_150: 9900, COINS_400: 24900, COINS_900: 49900, COINS_2500: 119900,
   },
 };
@@ -412,8 +414,20 @@ export const calculateMargin = (revenueCoins: number, apiCostEur: number): numbe
   return Math.round(((revenueEur - apiCostEur) / revenueEur) * 100);
 };
 
+// --- AFFILIATE KONFIGURATION ---
+export const AFFILIATE_CONFIG = {
+  COMMISSION_STANDARD: 0.20,
+  COMMISSION_SILVER: 0.22,
+  COMMISSION_GOLD: 0.25,
+  COMMISSION_PLATINUM: 0.30,
+  COOKIE_DAYS: 30,
+  MIN_PAYOUT_EUR: 50,
+};
+
 // --- VIDEO STRATEGIE ---
 export const VIDEO_STRATEGY = {
   DEFAULT: 'slideshow',
   PREMIUM_OPTION: 'replicate',
+  COINS_SLIDESHOW_30S: 15,
+  COINS_REPLICATE_30S: 80,
 };

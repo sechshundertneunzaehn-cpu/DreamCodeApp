@@ -1,4 +1,4 @@
-const CACHE_NAME = 'traumcode-v10';
+const CACHE_NAME = 'traumcode-v11';
 const STATIC_CACHE = 'traumcode-static-v10';
 const DYNAMIC_CACHE = 'traumcode-dynamic-v10';
 

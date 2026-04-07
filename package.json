@@ -17,6 +17,7 @@
     "jspdf": "^3.0.4",
     "mapbox-gl": "^3.21.0",
     "material-icons": "^1.13.14",
+    "pg": "^8.20.0",
     "playwright": "^1.58.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
