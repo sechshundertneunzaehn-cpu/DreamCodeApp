@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import * as cheerio from 'cheerio';
-import { getProxyAgent } from './proxy.js';
-import type { EmailResult, JobResult } from './types.js';
+import { getProxyAgent } from './proxy';
+import type { EmailResult, JobResult } from './types';
 
 // ---------------------------------------------------------------------------
 // Constants

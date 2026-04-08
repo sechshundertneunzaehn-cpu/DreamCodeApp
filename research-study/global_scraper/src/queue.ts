@@ -4,8 +4,8 @@ import IORedis from 'ioredis';
 import * as fs from 'fs';
 import * as path from 'path';
 import { stringify } from 'csv-stringify/sync';
-import { scrapeInstitution } from './scraper.js';
-import type { JobData, JobResult, EmailResult, ScraperStats } from './types.js';
+import { scrapeInstitution } from './scraper';
+import type { JobData, JobResult, EmailResult, ScraperStats } from './types';
 
 // ---------------------------------------------------------------------------
 // Config

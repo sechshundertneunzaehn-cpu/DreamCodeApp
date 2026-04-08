@@ -12,8 +12,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import IORedis from 'ioredis';
 import { Queue } from 'bullmq';
-import { createRedisConnection, QUEUE_NAME } from './queue.js';
-import type { ScraperStats } from './types.js';
+import { createRedisConnection, QUEUE_NAME } from './queue';
+import type { ScraperStats } from './types';
 
 // ---------------------------------------------------------------------------
 // Config

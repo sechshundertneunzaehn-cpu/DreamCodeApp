@@ -16,9 +16,9 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import * as fs from 'fs';
 import * as path from 'path';
-import { createQueue, createRedisConnection } from './queue.js';
-import { getProxyAgent } from './proxy.js';
-import type { Institution, JobData } from './types.js';
+import { createQueue, createRedisConnection } from './queue';
+import { getProxyAgent } from './proxy';
+import type { Institution, JobData } from './types';
 
 // ---------------------------------------------------------------------------
 // Target countries

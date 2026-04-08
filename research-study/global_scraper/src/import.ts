@@ -14,8 +14,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
 import { parse } from 'csv-parse/sync';
-import { createQueue, createRedisConnection } from './queue.js';
-import type { Institution, JobData } from './types.js';
+import { createQueue, createRedisConnection } from './queue';
+import type { Institution, JobData } from './types';
 
 // ---------------------------------------------------------------------------
 // Config
