@@ -1,0 +1,35 @@
+{
+  "name": "global-scraper",
+  "version": "1.0.0",
+  "description": "Regex-based email scraper for educational institutions — no LLM, no API costs",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node --transpile-only",
+    "import": "ts-node --transpile-only src/import.ts",
+    "scrape": "ts-node --transpile-only src/queue.ts",
+    "dashboard": "ts-node --transpile-only src/dashboard.ts",
+    "expand": "ts-node --transpile-only src/expand.ts",
+    "start": "ts-node --transpile-only src/queue.ts"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "bullmq": "^5.8.3",
+    "cheerio": "^1.0.0",
+    "csv-parse": "^5.5.6",
+    "csv-stringify": "^6.4.6",
+    "dotenv": "^16.4.5",
+    "https-proxy-agent": "^7.0.4",
+    "ioredis": "^5.3.2",
+    "p-limit": "^4.0.0",
+    "p-retry": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
