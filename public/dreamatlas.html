@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DreamAtlas — Globale Traumforschung</title>
+<meta name="description" content="DreamAtlas ist die weltweit erste offene Forschungsplattform für kollektive Traumanalyse. 64.500+ wissenschaftliche Berichte. Powered by Traumcode.">
+<meta property="og:title" content="DreamAtlas — Die Menschheit träumt. Wir kartieren es.">
+<meta property="og:description" content="64.500+ peer-reviewte Traumberichte. Echtzeit-Daten. Globale Traumforschung.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0a0612;
+  --ink2:#110e20;
+  --paper:#f5f0eb;
+  --gold:#b8972a;
+  --gold2:#d4af37;
+  --gold-light:#e8d080;
+  --violet:#4a1fa8;
+  --violet2:#6d35d9;
+  --violet-pale:#8b5cf6;
+  --smoke:#2a2040;
+  --text:#1a1530;
+  --text2:#4a4260;
+  --text3:#7a6fa0;
+  --border:rgba(184,151,42,0.2);
+  --border2:rgba(74,31,168,0.15);
+  --green:#1a7a5a;
+  --green-light:#22a878;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Outfit',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:crosshair;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:20px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(10,6,18,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(184,151,42,0.1);
+}
+
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:400;
+  letter-spacing:3px;
+  color:var(--paper);
+}
+.nav-logo em{color:var(--gold2);font-style:normal;}
+
+.nav-links{display:flex;gap:32px;align-items:center;}
+.nav-links a{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text3);text-decoration:none;
+  transition:color 0.3s;
+}
+.nav-links a:hover{color:var(--gold2);}
+
+.nav-cta{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  padding:8px 20px;border:1px solid var(--gold);
+  color:var(--gold2);background:transparent;
+  cursor:pointer;font-family:'Outfit',sans-serif;
+  transition:all 0.3s;text-decoration:none;
+}
+.nav-cta:hover{background:var(--gold);color:var(--ink);}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;
+  padding:120px 40px 80px;
+  text-align:center;
+  overflow:hidden;
+}
+
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(74,31,168,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(184,151,42,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 30% 30% at 20% 70%, rgba(74,31,168,0.1) 0%, transparent 50%);
+}
+
+.star-field{
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(1px 1px at 10% 12%, rgba(255,255,255,0.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 5%, rgba(255,255,255,0.4) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 18%, rgba(184,151,42,0.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 60% 8%, rgba(255,255,255,0.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.3) 0%,transparent 100%),
+    radial-gradient(1px 1px at 88% 6%, rgba(255,255,255,0.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 15% 35%, rgba(255,255,255,0.3) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 92% 40%, rgba(184,151,42,0.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 5% 55%, rgba(255,255,255,0.25) 0%,transparent 100%),
+    radial-gradient(1px 1px at 50% 3%, rgba(255,255,255,0.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.2) 0%,transparent 100%),
+    radial-gradient(2px 2px at 33% 45%, rgba(109,53,217,0.6) 0%,transparent 100%);
+  animation:drift 40s linear infinite;
+}
+
+@keyframes drift{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(-20px)}
+}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold2);
+  border:1px solid rgba(184,151,42,0.3);
+  padding:6px 18px;border-radius:0;
+  margin-bottom:36px;
+  position:relative;z-index:1;
+  background:rgba(10,6,18,0.5);
+}
+
+.pulse{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green-light);
+  animation:pulse-anim 2s infinite;
+}
+
+@keyframes pulse-anim{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.4;transform:scale(0.7)}
+}
+
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(40px,8vw,88px);
+  font-weight:300;
+  line-height:1.05;
+  letter-spacing:-1px;
+  color:var(--paper);
+  margin-bottom:10px;
+  position:relative;z-index:1;
+}
+
+.hero h1 em{
+  font-style:italic;
+  color:var(--gold2);
+}
+
+.hero-divider{
+  width:60px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold2),transparent);
+  margin:24px auto;
+  position:relative;z-index:1;
+}
+
+.hero-sub{
+  font-size:clamp(14px,2vw,17px);
+  font-weight:300;
+  color:rgba(245,240,235,0.6);
+  max-width:580px;
+  line-height:1.7;
+  margin-bottom:48px;
+  position:relative;z-index:1;
+}
+
+.hero-stats{
+  display:flex;justify-content:center;
+  gap:0;flex-wrap:wrap;
+  position:relative;z-index:1;
+  margin-bottom:48px;
+  border:1px solid rgba(184,151,42,0.15);
+}
+
+.stat{
+  padding:20px 32px;
+  border-right:1px solid rgba(184,151,42,0.15);
+  text-align:center;
+}
+.stat:last-child{border-right:none;}
+
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;font-weight:400;
+  color:var(--gold2);
+  display:block;line-height:1;
+  margin-bottom:4px;
+}
+
+.stat-label{
+  font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--text3);
+}
+
+.hero-btns{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  position:relative;z-index:1;
+}
+
+.btn-primary{
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
+  padding:14px 36px;
+  background:var(--gold2);color:var(--ink);
+  border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-weight:500;
+  transition:all 0.3s;text-decoration:none;display:inline-block;
+}
+.btn-primary:hover{background:var(--gold-light);}
+
+.btn-secondary{
+  font-size:10px;letter-spacing:2.5px;text-transform:uppercase;
+  padding:14px 36px;
+  background:transparent;color:var(--paper);
+  border:1px solid rgba(245,240,235,0.2);
+  cursor:pointer;font-family:'Outfit',sans-serif;font-weight:300;
+  transition:all 0.3s;text-decoration:none;display:inline-block;
+}
+.btn-secondary:hover{border-color:var(--paper);background:rgba(245,240,235,0.05);}
+
+/* SCROLL INDICATOR */
+.scroll-indicator{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  z-index:1;
+}
+.scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(180deg,transparent,var(--gold2),transparent);
+  animation:scroll-anim 2s infinite;
+}
+@keyframes scroll-anim{
+  0%{opacity:0;transform:scaleY(0);transform-origin:top}
+  50%{opacity:1;transform:scaleY(1)}
+  100%{opacity:0;transform:scaleY(0);transform-origin:bottom}
+}
+.scroll-text{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);}
+
+/* MARQUEE */
+.marquee-wrap{
+  overflow:hidden;
+  border-top:1px solid rgba(184,151,42,0.1);
+  border-bottom:1px solid rgba(184,151,42,0.1);
+  padding:14px 0;
+  background:rgba(74,31,168,0.06);
+}
+.marquee{
+  display:flex;gap:0;
+  animation:marquee 30s linear infinite;
+  white-space:nowrap;
+}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.marquee-item{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text3);padding:0 32px;
+  border-right:1px solid rgba(184,151,42,0.15);
+  flex-shrink:0;
+}
+.marquee-item.gold{color:var(--gold2);}
+
+/* SECTIONS */
+section{padding:100px 40px;}
+
+.section-eyebrow{
+  font-size:9px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:16px;
+  display:flex;align-items:center;gap:16px;
+}
+.section-eyebrow::before{
+  content:'';width:32px;height:1px;
+  background:var(--gold2);flex-shrink:0;
+}
+
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,48px);
+  font-weight:300;line-height:1.15;
+  color:var(--paper);
+  margin-bottom:20px;
+}
+.section-title em{font-style:italic;color:var(--gold2);}
+
+.section-body{
+  font-size:15px;font-weight:300;
+  color:rgba(245,240,235,0.55);
+  line-height:1.8;max-width:560px;
+}
+
+/* DATABASES */
+.db-section{
+  background:var(--ink2);
+  border-top:1px solid rgba(184,151,42,0.1);
+  border-bottom:1px solid rgba(184,151,42,0.1);
+}
+
+.db-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1px;
+  background:rgba(184,151,42,0.1);
+  margin-top:60px;
+}
+
+.db-item{
+  background:var(--ink2);
+  padding:36px 32px;
+  position:relative;
+  overflow:hidden;
+  transition:background 0.4s;
+}
+.db-item:hover{background:rgba(74,31,168,0.08);}
+
+.db-item::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold2),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.db-item:hover::before{opacity:1;}
+
+.db-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;font-weight:300;
+  color:rgba(184,151,42,0.2);
+  line-height:1;margin-bottom:16px;
+}
+
+.db-name-tag{
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:8px;
+}
+
+.db-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:400;
+  color:var(--paper);margin-bottom:8px;line-height:1.2;
+}
+
+.db-meta{font-size:11px;color:var(--text3);margin-bottom:16px;line-height:1.5;}
+
+.db-count{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;color:var(--violet-pale);
+  margin-bottom:4px;
+}
+.db-count-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);}
+
+.license-badge{
+  display:inline-block;
+  font-size:8px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 10px;
+  border:1px solid;margin-top:12px;
+}
+.license-cc0{border-color:rgba(26,122,90,0.4);color:var(--green-light);}
+.license-by{border-color:rgba(184,151,42,0.3);color:var(--gold2);}
+
+/* METHOD */
+.method-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:32px;margin-top:60px;
+}
+
+.method-card{
+  border-left:1px solid rgba(184,151,42,0.2);
+  padding-left:24px;
+  position:relative;
+}
+
+.method-card::before{
+  content:'';
+  position:absolute;left:-1px;top:0;
+  width:1px;height:0;
+  background:var(--gold2);
+  transition:height 0.6s;
+}
+.method-card:hover::before{height:100%;}
+
+.method-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:300;
+  color:rgba(184,151,42,0.15);
+  line-height:1;margin-bottom:12px;
+}
+
+.method-title{
+  font-size:14px;font-weight:400;
+  color:var(--paper);margin-bottom:8px;
+  letter-spacing:0.5px;
+}
+
+.method-text{font-size:12px;color:var(--text3);line-height:1.7;}
+
+/* PUBLICATIONS */
+.pub-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1px;
+  background:rgba(184,151,42,0.08);
+  margin-top:60px;
+}
+
+.pub-card{
+  background:var(--ink);
+  padding:28px;
+  transition:background 0.3s;
+}
+.pub-card:hover{background:rgba(74,31,168,0.08);}
+
+.pub-journal{
+  font-size:9px;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:10px;
+}
+
+.pub-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;font-weight:400;
+  color:var(--paper);margin-bottom:8px;line-height:1.35;
+}
+
+.pub-authors{font-size:11px;color:var(--text3);margin-bottom:4px;}
+.pub-year{font-size:10px;color:rgba(184,151,42,0.5);}
+
+/* UNIQUE CLAIM */
+.unique-section{
+  background:linear-gradient(135deg,rgba(74,31,168,0.15),rgba(10,6,18,0.9));
+  border-top:1px solid rgba(74,31,168,0.2);
+  border-bottom:1px solid rgba(74,31,168,0.2);
+  text-align:center;
+}
+
+.unique-big{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(20px,3.5vw,36px);
+  font-weight:300;font-style:italic;
+  color:var(--paper);line-height:1.3;
+  max-width:700px;margin:0 auto 24px;
+}
+
+.unique-big em{font-style:normal;color:var(--gold2);}
+
+.competitors-note{
+  font-size:12px;color:var(--text3);
+  line-height:1.6;max-width:500px;margin:0 auto;
+}
+
+/* RESEARCH API */
+.api-section{
+  background:var(--ink2);
+  border-top:1px solid rgba(184,151,42,0.1);
+}
+
+.api-card{
+  border:1px solid rgba(184,151,42,0.15);
+  padding:48px;
+  max-width:680px;
+  position:relative;
+}
+
+.api-card::before{
+  content:'RESEARCH API';
+  position:absolute;top:-1px;left:32px;
+  font-size:8px;letter-spacing:3px;
+  background:var(--gold2);color:var(--ink);
+  padding:2px 10px;font-weight:500;
+}
+
+.api-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;
+  color:var(--paper);margin-bottom:16px;line-height:1.2;
+}
+
+.api-features{list-style:none;margin:24px 0;}
+.api-features li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:13px;color:rgba(245,240,235,0.6);
+  padding:10px 0;
+  border-bottom:1px solid rgba(184,151,42,0.08);
+  line-height:1.5;
+}
+.api-features li::before{
+  content:'→';color:var(--gold2);
+  flex-shrink:0;font-size:12px;margin-top:1px;
+}
+
+/* EMAIL FORM */
+.email-wrap{
+  display:flex;gap:0;margin-top:28px;flex-wrap:wrap;
+}
+.email-input{
+  flex:1;min-width:200px;
+  padding:12px 16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(184,151,42,0.2);
+  border-right:none;
+  color:var(--paper);
+  font-family:'Outfit',sans-serif;font-size:13px;
+  outline:none;
+}
+.email-input::placeholder{color:var(--text3);}
+.email-input:focus{border-color:rgba(184,151,42,0.5);}
+.email-submit{
+  padding:12px 24px;
+  background:var(--gold2);color:var(--ink);
+  border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  font-weight:500;transition:background 0.3s;white-space:nowrap;
+}
+.email-submit:hover{background:var(--gold-light);}
+
+/* INVESTOR */
+.investor-section{padding:100px 40px;}
+
+.investor-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1px;background:rgba(184,151,42,0.08);
+  margin-top:60px;
+}
+
+.inv-card{
+  background:var(--ink);padding:32px;
+}
+
+.inv-icon{
+  font-size:24px;margin-bottom:16px;
+  filter:grayscale(0.3);
+}
+
+.inv-title{
+  font-size:13px;font-weight:400;
+  color:var(--paper);margin-bottom:8px;
+  letter-spacing:0.3px;
+}
+.inv-text{font-size:11px;color:var(--text3);line-height:1.7;}
+
+/* FOOTER */
+footer{
+  padding:60px 40px 40px;
+  border-top:1px solid rgba(184,151,42,0.1);
+  display:flex;
+  justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:32px;
+}
+
+.footer-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:300;
+  letter-spacing:4px;color:var(--paper);
+}
+.footer-logo em{color:var(--gold2);font-style:normal;}
+
+.footer-tagline{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text3);margin-top:4px;
+}
+
+.footer-links{display:flex;flex-direction:column;gap:8px;text-align:right;}
+.footer-links a{
+  font-size:11px;letter-spacing:1px;
+  color:var(--text3);text-decoration:none;
+  transition:color 0.3s;
+}
+.footer-links a:hover{color:var(--gold2);}
+
+.footer-powered{
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(184,151,42,0.4);margin-top:32px;width:100%;
+  text-align:center;padding-top:24px;
+  border-top:1px solid rgba(184,151,42,0.06);
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  nav{padding:16px 20px;}
+  .nav-links{display:none;}
+  section{padding:70px 24px;}
+  .hero{padding:100px 24px 60px;}
+  .stat{padding:16px 20px;}
+  .api-card{padding:28px 20px;}
+  footer{padding:40px 24px 32px;}
+  .footer-links{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Dream<em>Atlas</em></div>
+  <div class="nav-links">
+    <a href="#datenbanken">Datenbanken</a>
+    <a href="#methodik">Methodik</a>
+    <a href="#forschung">Forschung</a>
+    <a href="#api">Research API</a>
+    <a href="#investoren">Investoren</a>
+  </div>
+  <a href="https://dreamcodeapp.vercel.app" class="nav-cta">Traumcode öffnen →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="star-field"></div>
+
+  <div class="hero-tag">
+    <div class="pulse"></div>
+    Globale Traumforschung · Powered by Traumcode
+  </div>
+
+  <h1>Die Menschheit träumt.<br><em>Wir kartieren es.</em></h1>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-sub">
+    DreamAtlas ist die weltweit erste offene Forschungsplattform für kollektive Traumanalyse —
+    entstanden aus 60 Jahren akademischer Wissenschaft und Millionen moderner Traumberichte.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">64.500+</span>
+      <span class="stat-label">Forschungsberichte</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <span class="stat-label">Peer-reviewed DBs</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">20</span>
+      <span class="stat-label">Kulturelle Traditionen</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">60+</span>
+      <span class="stat-label">Jahre Forschung</span>
+    </div>
+  </div>
+
+  <div class="hero-btns">
+    <a href="#api" class="btn-primary">Research API anfragen</a>
+    <a href="https://dreamcodeapp.vercel.app" class="btn-secondary">Traumcode erleben →</a>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Entdecken</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span class="marquee-item gold">Sleep &amp; Dream Database</span>
+    <span class="marquee-item">44.500+ Berichte</span>
+    <span class="marquee-item gold">Dryad · Royal Society 2020</span>
+    <span class="marquee-item">CC0 Public Domain</span>
+    <span class="marquee-item gold">DREAM Database · Nature 2025</span>
+    <span class="marquee-item">EEG + Schlafforschung</span>
+    <span class="marquee-item gold">Hall-Van de Castle System</span>
+    <span class="marquee-item">Goldstandard seit 1966</span>
+    <span class="marquee-item gold">Ibn Sirin · 728 n.Chr.</span>
+    <span class="marquee-item">C.G. Jung · Freud · Adler</span>
+    <span class="marquee-item gold">Sleep &amp; Dream Database</span>
+    <span class="marquee-item">44.500+ Berichte</span>
+    <span class="marquee-item gold">Dryad · Royal Society 2020</span>
+    <span class="marquee-item">CC0 Public Domain</span>
+    <span class="marquee-item gold">DREAM Database · Nature 2025</span>
+    <span class="marquee-item">EEG + Schlafforschung</span>
+    <span class="marquee-item gold">Hall-Van de Castle System</span>
+    <span class="marquee-item">Goldstandard seit 1966</span>
+    <span class="marquee-item gold">Ibn Sirin · 728 n.Chr.</span>
+    <span class="marquee-item">C.G. Jung · Freud · Adler</span>
+  </div>
+</div>
+
+<!-- DATABASES -->
+<section class="db-section" id="datenbanken">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-eyebrow">Datenquellen</div>
+    <h2 class="section-title">Drei wissenschaftliche<br><em>Traumdatenbanken</em></h2>
+    <p class="section-body">
+      Alle Quellen sind peer-reviewed, lizenziert und vollständig transparent.
+      Kein anderer Anbieter weltweit kombiniert diese drei Datenbanken in einer einzigen KI-Plattform.
+    </p>
+
+    <div class="db-grid">
+      <div class="db-item">
+        <div class="db-num">01</div>
+        <div class="db-name-tag">Sleep &amp; Dream Database</div>
+        <div class="db-title">SDDb — Die umfangreichste Traumsammlung der Welt</div>
+        <div class="db-meta">Dr. Kelly Bulkeley · Portland, Oregon · seit 1995<br>Hall-Van de Castle Kodierungssystem · Demographische Metadaten</div>
+        <div class="db-count">44.500+</div>
+        <div class="db-count-label">Traumberichte · CSV-Export auf Zenodo</div>
+        <div class="license-badge license-by">CC-BY 4.0</div>
+      </div>
+
+      <div class="db-item">
+        <div class="db-num">02</div>
+        <div class="db-name-tag">Dryad · Royal Society Open Science</div>
+        <div class="db-title">Our Dreams, Our Selves — NLP-annotierte Berichte</div>
+        <div class="db-meta">Fogli, Aiello, Quercia · Nokia Bell Labs · 2020<br>Automatisches Hall-Van de Castle Scoring · KI-optimiert</div>
+        <div class="db-count">20.000+</div>
+        <div class="db-count-label">NLP-annotierte Berichte · TSV-Format</div>
+        <div class="license-badge license-cc0">CC0 Public Domain</div>
+      </div>
+
+      <div class="db-item">
+        <div class="db-num">03</div>
+        <div class="db-name-tag">DREAM Database · Nature Communications</div>
+        <div class="db-title">Dream EEG &amp; Mentation — Neurowissenschaftlich</div>
+        <div class="db-meta">Prof. Nao Tsuchiya · Monash University · 2025<br>37 Institutionen · 13 Länder · EEG/MEG + Traumberichte</div>
+        <div class="db-count">2.643</div>
+        <div class="db-count-label">EEG-Sessions · 505 Teilnehmer · Nature 2025</div>
+        <div class="license-badge license-by">CC-BY 4.0</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIQUE CLAIM -->
+<section class="unique-section" id="einzigartig">
+  <div style="max-width:900px;margin:0 auto;padding:0;">
+    <div class="section-eyebrow" style="justify-content:center;margin-bottom:32px;">Marktposition</div>
+    <p class="unique-big">
+      „Kein einziger Wettbewerber kombiniert heute wissenschaftliche Traumdaten,
+      KI-Deutung und kollektive Traumanalyse. <em>DreamAtlas schließt diese Lücke.</em>"
+    </p>
+    <p class="competitors-note">
+      Oniri, DreamApp, Elsewhere, Lucidity — alle liefern KI-Traumdeutung ohne wissenschaftliche Datenbasis.
+      DreamAtlas ist das Fundament von Traumcode — der erste und einzige Anbieter mit einem echten Data Moat in diesem Markt.
+    </p>
+  </div>
+</section>
+
+<!-- METHODIK -->
+<section id="methodik" style="max-width:1100px;margin:0 auto;padding:100px 40px;">
+  <div class="section-eyebrow">RAG-Architektur</div>
+  <h2 class="section-title">Wie die Wissenschaft in<br><em>jede Deutung</em> einfließt</h2>
+  <p class="section-body">
+    Retrieval Augmented Generation (RAG) verbindet KI mit echten Forschungsdaten —
+    statt aus dem Nichts zu generieren, zieht jede Deutung ihre Grundlage aus 64.500+ verifizierten Berichten.
+  </p>
+
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="method-num">01</div>
+      <div class="method-title">Semantisches Embedding</div>
+      <p class="method-text">Gemini embedding-001 transformiert jeden Traumtext in einen 768-dimensionalen Vektor — die mathematische Essenz des Erlebten, sprachunabhängig.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num">02</div>
+      <div class="method-title">Vektordatenbank-Suche</div>
+      <p class="method-text">pgvector mit HNSW-Index durchsucht 64.500+ Berichte in unter 50ms und findet die 15 wissenschaftlich ähnlichsten Träume — mit exaktem Übereinstimmungsgrad.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num">03</div>
+      <div class="method-title">Kontextualisierte Deutung</div>
+      <p class="method-text">Die KI generiert die Interpretation mit diesen 15 Berichten als wissenschaftlichem Kontext — und zitiert jede Quelle transparent mit Quellenlink.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num">04</div>
+      <div class="method-title">Hall-Van de Castle System</div>
+      <p class="method-text">Der akademische Goldstandard der quantitativen Traumanalyse seit 1966. DreamAtlas ist die erste kommerzielle Plattform die dieses System in KI-Deutungen integriert.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section style="background:var(--ink2);border-top:1px solid rgba(184,151,42,0.08);" id="forschung">
+  <div style="max-width:1100px;margin:0 auto;padding:100px 40px;">
+    <div class="section-eyebrow">Peer-Reviewed Grundlagen</div>
+    <h2 class="section-title">Wissenschaftliche<br><em>Referenzen</em></h2>
+    <p class="section-body">
+      DreamAtlas baut auf diesen Publikationen auf. Vollständige Transparenz über jede Wissensquelle.
+    </p>
+
+    <div class="pub-grid">
+      <div class="pub-card">
+        <div class="pub-journal">Nature Communications · 2025</div>
+        <div class="pub-title">A dream EEG and mentation database</div>
+        <div class="pub-authors">Tsuchiya et al. · Monash University · 37 Institutionen</div>
+        <div class="pub-year">DOI: 10.1038/s41467-025-61945-1</div>
+      </div>
+      <div class="pub-card">
+        <div class="pub-journal">Royal Society Open Science · 2020</div>
+        <div class="pub-title">Our dreams, our selves: automatic analysis of dream reports</div>
+        <div class="pub-authors">Fogli, Aiello, Quercia · Nokia Bell Labs</div>
+        <div class="pub-year">DOI: 10.1098/rsos.192080</div>
+      </div>
+      <div class="pub-card">
+        <div class="pub-journal">Consciousness &amp; Cognition · 2008</div>
+        <div class="pub-title">Studying dream content using the archive and search engine on DreamBank.net</div>
+        <div class="pub-authors">Domhoff &amp; Schneider · UC Santa Cruz</div>
+        <div class="pub-year">PMID: 18682331</div>
+      </div>
+      <div class="pub-card">
+        <div class="pub-journal">SLEEP Journal · Oxford · 2023</div>
+        <div class="pub-title">Open science practices and large-scale collaborations for dream research</div>
+        <div class="pub-authors">Schredl et al. · ZI Mannheim</div>
+        <div class="pub-year">DOI: 10.1093/sleep/zsad139</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH API -->
+<section class="api-section" id="api">
+  <div style="max-width:1100px;margin:0 auto;padding:100px 40px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;flex-wrap:wrap;">
+      <div>
+        <div class="section-eyebrow">Für Wissenschaftler</div>
+        <h2 class="section-title">Research API<br><em>— Coming Soon</em></h2>
+        <p class="section-body">
+          Anonymisierter Zugang zu den weltweit umfangreichsten kommerziell-erhobenen Traumdaten.
+          Für akademische Publikationen, klinische Forschung und psychologische Studien.
+        </p>
+        <div style="margin-top:32px;padding:20px 24px;border-left:2px solid var(--gold2);background:rgba(184,151,42,0.04);">
+          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;">Strategie</div>
+          <p style="font-size:13px;color:rgba(245,240,235,0.5);line-height:1.7;">
+            API-Zugang wird verfügbar sobald Traumcode 10.000+ aktive Nutzer erreicht.
+            Trage dich jetzt ein und erhalte Prioritätszugang.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <div class="api-card">
+          <div class="api-title">Was die Research API bieten wird</div>
+          <ul class="api-features">
+            <li>Anonymisierte Traumberichte im CSV/JSON-Format mit vollständigen Metadaten</li>
+            <li>Hall-Van de Castle Annotationen (Charaktere, Emotionen, Interaktionen)</li>
+            <li>Schlafphasen-Korrelationen via Wearable-Integration (Apple Watch, Oura)</li>
+            <li>Demographische Filter (Alter, Geschlecht, Herkunft, Sprache)</li>
+            <li>Echtzeit-Trend-Analyse: Welche Themen träumt die Menschheit gerade?</li>
+            <li>Publikationsfertige Exporte mit korrekter Zitation &amp; DOI</li>
+          </ul>
+          <div class="email-wrap">
+            <input type="email" class="email-input" placeholder="E-Mail für Prioritätszugang">
+            <button class="email-submit" onclick="this.textContent='✓ Eingetragen';this.style.background='#22a878'">Anmelden</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTORS -->
+<section class="investor-section" id="investoren" style="background:var(--ink);">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-eyebrow">Für Investoren</div>
+    <h2 class="section-title">Der Data Moat<br><em>wächst täglich</em></h2>
+    <p class="section-body">
+      Mit jedem Traumcode-Nutzer wird DreamAtlas wertvoller.
+      Ein selbstverstärkender Datensatz den kein Wettbewerber replizieren kann.
+    </p>
+
+    <div class="investor-grid">
+      <div class="inv-card">
+        <div class="inv-icon">◈</div>
+        <div class="inv-title">Proprietärer Datensatz</div>
+        <p class="inv-text">Traumcode sammelt täglich strukturierte, eingebettete Traumdaten — mit demographischen Metadaten und Schlafkorrelationen. Kein Wettbewerber verfügt über vergleichbare Daten.</p>
+      </div>
+      <div class="inv-card">
+        <div class="inv-icon">⟳</div>
+        <div class="inv-title">Netzwerkeffekte</div>
+        <p class="inv-text">Mehr Nutzer → mehr Traumdaten → bessere Ähnlichkeitssuche → mehr Matches → mehr virale Shares → mehr Nutzer. Ein Flywheel das sich selbst beschleunigt.</p>
+      </div>
+      <div class="inv-card">
+        <div class="inv-icon">◎</div>
+        <div class="inv-title">Marktgröße</div>
+        <p class="inv-text">Sleep-Tech-Markt: 23,35 Mrd. $ (2025), wachsend auf 65,69 Mrd. $ (2033, CAGR 13,8%). Mental-Wellness-Apps: 6,2 Mrd. $ (CAGR 16,8%). Traumcode bedient beide Märkte.</p>
+      </div>
+      <div class="inv-card">
+        <div class="inv-icon">▣</div>
+        <div class="inv-title">B2B Monetarisierung</div>
+        <p class="inv-text">Datenlizenzierung an Pharmaunternehmen, Schlaflabore, Universitäten und klinische Forschungseinrichtungen. Research API als wiederkehrender B2B-Umsatzstrom.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;padding:32px;border:1px solid rgba(184,151,42,0.15);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;">
+      <div>
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;">Investor Relations</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--paper);">Pitch Deck &amp; Finanzdaten anfragen</div>
+      </div>
+      <a href="mailto:invest@dreamatlas.org" class="btn-primary">Kontakt aufnehmen →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Dream<em>Atlas</em></div>
+    <div class="footer-tagline">Globale Traumforschung · Powered by Traumcode</div>
+  </div>
+  <div class="footer-links">
+    <a href="https://dreamcodeapp.vercel.app">Traumcode App →</a>
+    <a href="#api">Research API</a>
+    <a href="#datenbanken">Datenquellen</a>
+    <a href="mailto:hello@dreamatlas.org">hello@dreamatlas.org</a>
+  </div>
+  <div class="footer-powered">
+    © 2025 DreamAtlas — Powered by Traumcode · Alle Daten lizenziert · Transparenz als Prinzip
+  </div>
+</footer>
+
+</body>
+</html>

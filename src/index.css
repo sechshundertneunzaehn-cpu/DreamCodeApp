@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark Mode (Standard) */
+.dark body,
+:root.dark body {
+  background-color: #0a0a1a;
+  color: #e2e8f0;
+}
+
+/* Light Mode */
+:root:not(.dark) body {
+  background-color: #f8f7ff;
+  color: #1a1a2e;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background-color: #a855f7;
+  color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mystischer Glas-Effekt */
+.dark .glass {
+  background: rgba(17, 17, 40, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+:root:not(.dark) .glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Stern-Partikel Hintergrund (nur im Dark Mode sichtbar) */
+:root:not(.dark) .starfield {
+  background-image: none;
+}
+
+.dark .starfield,
+.starfield {
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(2px 2px at 50% 10%, rgba(168,85,247,0.4), transparent),
+    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 85% 75%, rgba(99,102,241,0.3), transparent),
+    radial-gradient(2px 2px at 15% 80%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 95% 15%, rgba(245,158,11,0.3), transparent),
+    radial-gradient(1px 1px at 45% 90%, rgba(255,255,255,0.4), transparent);
+}
+
+/* Violetter Glow */
+.dark .glow-violet {
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.3), 0 0 60px rgba(168, 85, 247, 0.1);
+}
+:root:not(.dark) .glow-violet {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.15), 0 0 40px rgba(168, 85, 247, 0.05);
+}
+
+/* Gold Glow */
+.dark .glow-gold {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+:root:not(.dark) .glow-gold {
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+}
+
+/* Indigo Glow */
+.dark .glow-indigo {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+:root:not(.dark) .glow-indigo {
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+}
+
+/* Gradient Text */
+.text-gradient-dream {
+  background: linear-gradient(135deg, #a855f7, #6366f1, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:root:not(.dark) .text-gradient-dream {
+  background: linear-gradient(135deg, #7c3aed, #4f46e5, #0891b2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:root:not(.dark) .text-gradient-gold {
+  background: linear-gradient(135deg, #d97706, #f59e0b, #d97706);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sterne Rating */
+.star-filled {
+  color: #f59e0b;
+}
+
+/* Custom Scrollbar - Dark */
+.dark ::-webkit-scrollbar,
+::-webkit-scrollbar { width: 6px; }
+.dark ::-webkit-scrollbar-track,
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+.dark ::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.3); border-radius: 3px; }
+.dark ::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,0.5); }
+
+/* Custom Scrollbar - Light */
+:root:not(.dark) ::-webkit-scrollbar-track { background: rgba(0,0,0,0.03); }
+:root:not(.dark) ::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.25); border-radius: 3px; }
+:root:not(.dark) ::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,0.4); }
+
+/* Divider mit Stern */
+.divider-star {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.divider-star::before,
+.divider-star::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(168,85,247,0.3), transparent);
+}
+
+/* ============================
+   Light Mode - Globale Overrides
+   ============================ */
+
+/* Selection */
+:root:not(.dark) ::selection {
+  background-color: #a855f7;
+  color: #fff;
+}
+
+/* Karten-Hintergruende (bg-dream-card, bg-dream-surface, bg-dream-bg) */
+:root:not(.dark) .bg-dream-bg {
+  background-color: #f8f7ff !important;
+}
+:root:not(.dark) .bg-dream-card {
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+}
+:root:not(.dark) .bg-dream-surface {
+  background-color: #f0eef8 !important;
+}
+
+/* Weisse / helle Texte im Light Mode abdunkeln */
+:root:not(.dark) .text-white {
+  color: #1a1a2e;
+}
+:root:not(.dark) .text-gray-300 {
+  color: #4b5563;
+}
+:root:not(.dark) .text-gray-400 {
+  color: #6b7280;
+}
+:root:not(.dark) .text-gray-500 {
+  color: #9ca3af;
+}
+
+/* Borders */
+:root:not(.dark) .border-white\/5,
+:root:not(.dark) .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* bg-white/5 und bg-white/10 -> sichtbarer im Light Mode */
+:root:not(.dark) .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+:root:not(.dark) .bg-white\/10 {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Gradient-Buttons behalten ihre Farben - text-white dort zuruecksetzen */
+:root:not(.dark) .bg-gradient-to-r .text-white,
+:root:not(.dark) [class*="bg-gradient"] .text-white,
+:root:not(.dark) .from-dream-primary .text-white {
+  color: #ffffff;
+}
+:root:not(.dark) a[class*="bg-gradient"] {
+  color: #ffffff;
+}
+:root:not(.dark) button[class*="bg-gradient"] {
+  color: #ffffff;
+}

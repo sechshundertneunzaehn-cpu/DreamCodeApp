@@ -1,0 +1,22 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/samedream", "destination": "/samedream.html" },
+    { "source": "/dreamatlas", "destination": "/dreamatlas.html" },
+    { "source": "/impressum", "destination": "/impressum.html" },
+    { "source": "/datenschutz", "destination": "/datenschutz.html" },
+    { "source": "/agb", "destination": "/agb.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}
