@@ -267,7 +267,6 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
       <option value="ru">🇷🇺 RU</option>
       <option value="zh">🇨🇳 ZH</option>
     </select>
-    <a href="https://dreamcodeapp.vercel.app" class="nav-app" id="nav-cta">App öffnen →</a>
   </div>
 </nav>
 
@@ -337,6 +336,12 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
           <div class="wave-bar" style="animation-delay:0.6s"></div>
           <div class="wave-bar" style="animation-delay:0.7s"></div>
           <div class="wave-bar" style="animation-delay:0.8s"></div>
+        </div>
+        <div id="transcript-box" style="display:none;margin-top:16px;background:rgba(109,40,217,0.1);border:1px solid rgba(109,40,217,0.3);border-radius:8px;padding:16px;text-align:left;min-height:80px;font-size:14px;line-height:1.6;color:var(--paper);white-space:pre-wrap"></div>
+        <div id="transcript-controls" style="display:none;margin-top:12px;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button onclick="pauseTranscript()" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:transparent;border:1px solid var(--border);color:var(--t2);cursor:pointer;border-radius:4px;font-family:Outfit,sans-serif">⏸ Pause zum Korrigieren</button>
+          <button onclick="continueTranscript()" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:rgba(109,40,217,0.2);border:1px solid var(--violet);color:var(--violet3);cursor:pointer;border-radius:4px;font-family:Outfit,sans-serif">▶ Weiter</button>
+          <button onclick="useTranscript()" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:var(--gold);border:none;color:#000;cursor:pointer;border-radius:4px;font-family:Outfit,sans-serif;font-weight:500">✓ Übernehmen</button>
         </div>
       </div>
     </div>
@@ -515,6 +520,28 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
         Alle gesammelten Daten werden anonymisiert in die globale Traumdatenbank DreamAtlas.org
         eingespeist und für wissenschaftliche Publikationen genutzt.
       </p>
+      <div style="margin:24px 0;display:grid;gap:12px">
+        <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">Hall &amp; Van de Castle (1966)</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.5">Standardisiertes Codiersystem für Trauminhalt — Basis aller modernen Traumforschung</div>
+        </div>
+        <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">SDDb — Sleep and Dream Database</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.5">Über 25.000 wissenschaftlich kodierte Traumberichte · UC Santa Cruz · Bulkeley 2009</div>
+        </div>
+        <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">DreamBank</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.5">Öffentliche Traum-Textdatenbank · über 20.000 Berichte · Schneider &amp; Domhoff 1995</div>
+        </div>
+        <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">Schredl (2018) · Zentralinstitut für Seelische Gesundheit</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.5">Longitudinale Traumtagebuch-Studien · Häufigkeit, Emotionen, Kontinuitätshypothese</div>
+        </div>
+        <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">Siclari et al. (2017) · Nature Neuroscience</div>
+          <div style="font-size:13px;color:var(--t2);line-height:1.5">Neuronale Korrelate des Träumens via High-Density EEG — Hot Zone im posterioren Kortex</div>
+        </div>
+      </div>
       <a href="https://dreamcodeapp.vercel.app/forschung" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);text-decoration:none;">
         Mehr über die Wissenschaft →
       </a>
@@ -543,7 +570,7 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
 <footer>
   <div>
     <div class="footer-logo">Same<em>Dream</em></div>
-    <div class="footer-tagline">Citizen Science · Powered by Traumcode · AssetsUN LLC</div>
+    <div class="footer-tagline">© 2026 DreamData Initiative · AssetsUN LLC</div>
   </div>
   <div class="footer-links">
     <a href="https://dreamcodeapp.vercel.app">Traumcode App →</a>
@@ -552,7 +579,7 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
     <a href="mailto:hello@dreamcodeapp.com">Kontakt</a>
   </div>
   <div class="footer-copy">
-    © 2025 SameDream · AssetsUN LLC · assetsun.us · Alle Traumberichte anonym & verschlüsselt
+    © 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Alle Traumberichte anonym & verschlüsselt
   </div>
 </footer>
 
@@ -601,29 +628,114 @@ function setMode(mode) {
   document.getElementById('btn-text').classList.toggle('active', mode === 'text');
 }
 
+let recognition = null;
+let transcriptText = '';
+let isPaused = false;
+
 function toggleRecord() {
   const btn = document.getElementById('record-btn');
   const status = document.getElementById('record-status');
   const bars = document.querySelectorAll('.wave-bar');
-  isRecording = !isRecording;
-  if (isRecording) {
+  const tbox = document.getElementById('transcript-box');
+  const tctrl = document.getElementById('transcript-controls');
+
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    status.textContent = '⚠️ Browser unterstützt kein Mikrofon — bitte Text-Modus nutzen';
+    return;
+  }
+
+  if (!isRecording) {
+    // START
+    isRecording = true;
+    isPaused = false;
+    transcriptText = '';
+    tbox.textContent = '';
+    tbox.style.display = 'block';
+    tctrl.style.display = 'flex';
     btn.classList.add('recording');
     btn.textContent = '⏹️';
-    status.textContent = 'Aufnahme läuft...';
+    status.textContent = '🔴 Live-Transkription läuft...';
     bars.forEach(b => b.classList.add('active'));
+
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.lang = document.getElementById('dream-lang')?.value || 'de-DE';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onresult = (e) => {
+      if (isPaused) return;
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) {
+          transcriptText += e.results[i][0].transcript + ' ';
+        } else {
+          interim = e.results[i][0].transcript;
+        }
+      }
+      tbox.textContent = transcriptText + interim;
+    };
+
+    recognition.onerror = (e) => {
+      status.textContent = '⚠️ Mikrofon-Fehler: ' + e.error;
+    };
+
+    recognition.onend = () => {
+      if (isRecording && !isPaused) recognition.start();
+    };
+
+    recognition.start();
+
     recordTimer = setInterval(() => {
       seconds++;
       const m = Math.floor(seconds/60);
       const s = seconds%60;
       document.getElementById('record-time').textContent = `${m}:${s.toString().padStart(2,'0')}`;
     }, 1000);
+
   } else {
-    btn.classList.remove('recording');
-    btn.textContent = '🎙️';
-    status.textContent = '✓ Aufnahme gespeichert — bereit zum Einreichen';
-    bars.forEach(b => b.classList.remove('active'));
-    clearInterval(recordTimer);
+    // STOP
+    stopRecording();
   }
+}
+
+function pauseTranscript() {
+  isPaused = true;
+  if (recognition) recognition.stop();
+  document.getElementById('record-status').textContent = '⏸ Pausiert — Text korrigieren, dann Weiter';
+  document.getElementById('transcript-box').contentEditable = 'true';
+  document.getElementById('transcript-box').style.border = '1px solid var(--gold2)';
+}
+
+function continueTranscript() {
+  isPaused = false;
+  transcriptText = document.getElementById('transcript-box').textContent;
+  document.getElementById('transcript-box').contentEditable = 'false';
+  document.getElementById('transcript-box').style.border = '1px solid rgba(109,40,217,0.3)';
+  document.getElementById('record-status').textContent = '🔴 Live-Transkription läuft...';
+  if (recognition) recognition.start();
+}
+
+function useTranscript() {
+  const text = document.getElementById('transcript-box').textContent.trim();
+  if (text) {
+    document.getElementById('dream-text').value = text;
+    updateCount();
+    setMode('text');
+    document.getElementById('record-status').textContent = '✓ Text übernommen';
+  }
+}
+
+function stopRecording() {
+  isRecording = false;
+  if (recognition) { recognition.stop(); recognition = null; }
+  clearInterval(recordTimer);
+  const btn = document.getElementById('record-btn');
+  const bars = document.querySelectorAll('.wave-bar');
+  btn.classList.remove('recording');
+  btn.textContent = '🎙️';
+  document.getElementById('record-status').textContent = '✓ Aufnahme beendet';
+  bars.forEach(b => b.classList.remove('active'));
 }
 
 function updateCount() {
