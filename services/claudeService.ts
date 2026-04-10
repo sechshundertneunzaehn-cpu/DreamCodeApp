@@ -1,7 +1,7 @@
 // claudeService.ts - Premium LLM mit Claude 3.5 Sonnet
 // Tiefgehende psychologische und spirituelle Traumanalyse
 
-import { Language, UserProfile, ReligiousCategory, ReligiousSource } from '../types';
+import { Language, UserProfile, ReligiousCategory, ReligiousSource, SubscriptionTier } from '../types';
 
 // ============================================
 // API KEY MANAGEMENT
@@ -254,7 +254,9 @@ export const analyzeFromMultiplePerspectives = async (
                 interests: [perspective],
                 religion: perspective,
                 age: undefined,
-                gender: undefined
+                gender: undefined,
+                subscriptionTier: SubscriptionTier.FREE,
+                credits: 0,
             };
 
             const analysis = await analyzeDreamWithClaude(dreamText, language, fakeProfile);

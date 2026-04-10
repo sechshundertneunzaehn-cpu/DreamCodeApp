@@ -16,12 +16,16 @@ export interface VideoGenerateOptions {
     contentMode: ContentMode;
     voiceId: string;
     voiceBlob: Blob | null;
+    style?: 'dreamlike' | 'cinematic' | 'surreal' | 'fantasy' | 'cartoon' | 'anime' | 'real' | 'watercolor';
 }
 
 export interface VideoStudioProps {
     language: Language;
     themeMode: ThemeMode;
     dreamText: string;
+    interpretationText?: string;
+    dreamId?: string | null;
+    initialMode?: string;
     onClose: () => void;
     onSave: (result: { videoUrl: string; type: 'ai' | 'slideshow' }) => void;
     onGenerate?: (dreamText: string, options: VideoGenerateOptions) => Promise<string | null>;
@@ -88,7 +92,7 @@ interface Translations {
     minutes_unit: string;
 }
 
-const T: Record<Language, Translations> = {
+const T: Partial<Record<Language, Translations>> = {
     [Language.DE]: {
         title: 'VIDEO STUDIO',
         tab_ai: 'KI-Video',
@@ -420,7 +424,7 @@ const T: Record<Language, Translations> = {
 };
 
 function getT(lang: Language): Translations {
-    return T[lang] ?? T[Language.EN];
+    return T[lang] ?? T[Language.EN]!;
 }
 
 // ---------------------------------------------------------------------------

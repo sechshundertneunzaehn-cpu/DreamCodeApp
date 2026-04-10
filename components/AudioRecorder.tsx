@@ -247,7 +247,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     const startRecording = async () => {
         try {
             setError(null);
-            await recorder.startRecording();
+            await recorder.start();
             setIsRecording(true);
         } catch (err) {
             setError(t.mic_denied);
@@ -260,7 +260,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
             setIsRecording(false);
             setIsProcessing(true);
 
-            const audioBlob = await recorder.stopRecording();
+            const audioBlob = await recorder.stop();
 
             // Convert to base64 for storage
             const audioBase64 = await audioBlobToBase64(audioBlob);

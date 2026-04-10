@@ -45,9 +45,9 @@ interface ModalTranslations {
     status_recording: string;
     status_paused: string;
     not_supported: string;
-    playback: string;
-    audio_saved: string;
-    voice_used: string;
+    playback?: string;
+    audio_saved?: string;
+    voice_used?: string;
 }
 
 const T: Record<Language, ModalTranslations> = {

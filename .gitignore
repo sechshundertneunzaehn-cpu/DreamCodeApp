@@ -12,6 +12,7 @@ data/raw/
 .env
 .playwright-mcp/
 *.png
+!public/icons/*.png
 supabase/.temp/
 
 # API Keys file

@@ -10,6 +10,7 @@ interface DreamCalendarProps {
     language: Language;
     onClose: () => void;
     onGenerateVideo: (quality: 'normal' | 'high', style: 'cartoon' | 'anime' | 'real' | 'fantasy', prompt: string) => void;
+    onGenerateImage?: (quality: 'normal' | 'high', style: 'cartoon' | 'anime' | 'real' | 'fantasy', prompt: string) => void;
     themeMode?: ThemeMode;
 }
 
@@ -609,7 +610,6 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                                 dream={selectedDream}
                                 language={language}
                                 userProfile={null}
-                                onGenerateVideo={(quality, style) => onGenerateVideo(quality, style, selectedDream.description)}
                             />
                          </div>
                      </div>

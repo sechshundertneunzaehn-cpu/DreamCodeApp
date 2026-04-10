@@ -199,11 +199,11 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
           .single();
         if (sData) foundStudy = sData as StudyRow;
       }
-      if (!foundStudy && p?.study_code) {
+      if (!foundStudy && p?.study_id) {
         const { data: sData } = await supabase
           .from('research_studies')
           .select('*')
-          .eq('study_code', p.study_code)
+          .eq('study_id', p.study_id)
           .single();
         if (sData) foundStudy = sData as StudyRow;
       }

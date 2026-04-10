@@ -18,20 +18,20 @@ interface ProfileProps {
 }
 
 const GLOBAL_CATEGORIES = [
-    { id: 'nightmare', en: 'Nightmare', de: 'Albtraum', tr: 'Kabus', es: 'Pesadilla', fr: 'Cauchemar', ar: 'كابوس', pt: 'Pesadelo', ru: 'Кошмар', zh: '噩梦', hi: 'बुरा सपना', ja: '悪夢', ko: '악몽', id: 'Mimpi Buruk', fa: 'کابوس', it: 'Incubo', pl: 'Koszmar', bn: 'দুঃস্বপ্ন', ur: 'ڈراؤنا خواب', vi: 'Ác mộng', th: 'ฝันร้าย', sw: 'Ndoto Mbaya', hu: 'Rémálom' },
-    { id: 'lucid', en: 'Lucid', de: 'Luzid', tr: 'Lüsid', es: 'Lúcido', fr: 'Lucide', ar: 'واضح', pt: 'Lúcido', ru: 'Осознанный', zh: '清醒梦', hi: 'स्पष्ट सपना', ja: '明晰夢', ko: '자각몽', id: 'Mimpi Sadar', fa: 'رویای آگاهانه', it: 'Sogno Lucido', pl: 'Świadomy Sen', bn: 'স্বচ্ছ স্বপ্ন', ur: 'واضح خواب', vi: 'Giấc mơ tỉnh', th: 'ฝันรู้ตัว', sw: 'Ndoto ya Fahamu', hu: 'Lucid Álom' },
-    { id: 'recurring', en: 'Recurring', de: 'Wiederkehrend', tr: 'Tekrarlayan', es: 'Recurrente', fr: 'Récurrent', ar: 'متكرر', pt: 'Recorrente', ru: 'Повторяющийся', zh: '反复出现', hi: 'बार-बार आने वाला', ja: '繰り返す', ko: '반복되는', id: 'Berulang', fa: 'تکراری', it: 'Ricorrente', pl: 'Powtarzający się', bn: 'পুনরাবৃত্তি', ur: 'بار بار آنے والا', vi: 'Tái diễn', th: 'ฝันซ้ำ', sw: 'Ndoto Inayorudiwa', hu: 'Visszatérő' },
-    { id: 'prophetic', en: 'Prophetic', de: 'Prophetisch', tr: 'Kehanet', es: 'Profético', fr: 'Prophétique', ar: 'نبوي', pt: 'Profético', ru: 'Вещий', zh: '预言梦', hi: 'भविष्यसूचक', ja: '予言的', ko: '예언적', id: 'Profetik', fa: 'نبوی', it: 'Profetico', pl: 'Proroczy', bn: 'ভবিষ্যদ্বাণীমূলক', ur: 'نبوی خواب', vi: 'Tiên tri', th: 'ฝันพยากรณ์', sw: 'Ndoto ya Unabii', hu: 'Prófétikus' },
-    { id: 'healing', en: 'Healing', de: 'Heilung', tr: 'Şifa', es: 'Sanador', fr: 'Guérison', ar: 'شفاء', pt: 'Cura', ru: 'Исцеляющий', zh: '治愈', hi: 'उपचार', ja: '癒し', ko: '치유', id: 'Penyembuhan', fa: 'شفابخش', it: 'Guarigione', pl: 'Uzdrowienie', bn: 'নিরাময়', ur: 'شفاء', vi: 'Chữa lành', th: 'การเยียวยา', sw: 'Uponyaji', hu: 'Gyógyító' },
-    { id: 'funny', en: 'Funny', de: 'Lustig', tr: 'Komik', es: 'Gracioso', fr: 'Drôle', ar: 'مضحك', pt: 'Engraçado', ru: 'Смешной', zh: '有趣', hi: 'मज़ेदार', ja: '面白い', ko: '재미있는', id: 'Lucu', fa: 'خنده‌دار', it: 'Divertente', pl: 'Śmieszny', bn: 'মজার', ur: 'مضحکہ خیز', vi: 'Vui nhộn', th: 'ตลก', sw: 'Ya Kuchekesha', hu: 'Vicces' },
-    { id: 'scary', en: 'Scary', de: 'Gruselig', tr: 'Korkunç', es: 'Aterrador', fr: 'Effrayant', ar: 'مخيف', pt: 'Assustador', ru: 'Страшный', zh: '恐怖', hi: 'डरावना', ja: '怖い', ko: '무서운', id: 'Menakutkan', fa: 'ترسناک', it: 'Spaventoso', pl: 'Straszny', bn: 'ভয়ঙ্কর', ur: 'ڈراؤنا', vi: 'Đáng sợ', th: 'น่ากลัว', sw: 'Ya Kutisha', hu: 'Ijesztő' },
-    { id: 'weird', en: 'Weird', de: 'Seltsam', tr: 'Garip', es: 'Extraño', fr: 'Étrange', ar: 'غريب', pt: 'Estranho', ru: 'Странный', zh: '奇怪', hi: 'अजीब', ja: '奇妙', ko: '이상한', id: 'Aneh', fa: 'عجیب', it: 'Strano', pl: 'Dziwny', bn: 'অদ্ভুত', ur: 'عجیب', vi: 'Kỳ lạ', th: 'แปลก', sw: 'Ya Ajabu', hu: 'Furcsa' },
-    { id: 'sexual', en: 'Erotic', de: 'Erotisch', tr: 'Erotik', es: 'Erótico', fr: 'Érotique', ar: 'إثارة', pt: 'Erótico', ru: 'Эротический', zh: '情色', hi: 'कामुक', ja: 'エロティック', ko: '에로틱', id: 'Erotis', fa: 'عاشقانه', it: 'Erotico', pl: 'Erotyczny', bn: 'কামোত্তেজক', ur: 'جنسی', vi: 'Gợi cảm', th: 'เร้าใจ', sw: 'Ya Ngono', hu: 'Erotikus' },
-    { id: 'spiritual', en: 'Spiritual', de: 'Spirituell', tr: 'Manevi', es: 'Espiritual', fr: 'Spirituel', ar: 'روحاني', pt: 'Espiritual', ru: 'Духовный', zh: '灵性', hi: 'आध्यात्मिक', ja: 'スピリチュアル', ko: '영적', id: 'Spiritual', fa: 'معنوی', it: 'Spirituale', pl: 'Duchowy', bn: 'আধ্যাত্মিক', ur: 'روحانی', vi: 'Tâm linh', th: 'จิตวิญญาณ', sw: 'Kiroho', hu: 'Spirituális' },
-    { id: 'shadow', en: 'Shadow Work', de: 'Schattenarbeit', tr: 'Gölge Çalışması', es: 'Trabajo de Sombra', fr: 'Travail d\'Ombre', ar: 'عمل الظل', pt: 'Trabalho de Sombra', ru: 'Теневая Работа', zh: '阴影工作', hi: 'छाया कार्य', ja: 'シャドーワーク', ko: '그림자 작업', id: 'Kerja Bayangan', fa: 'کار سایه', it: 'Lavoro sull\'Ombra', pl: 'Praca z Cieniem', bn: 'ছায়া কাজ', ur: 'سایہ کاری', vi: 'Công việc bóng tối', th: 'งานเงา', sw: 'Kazi ya Kivuli', hu: 'Árnyékmunka' },
-    { id: 'animals', en: 'Animals', de: 'Tiere', tr: 'Hayvanlar', es: 'Animales', fr: 'Animaux', ar: 'حيوانات', pt: 'Animais', ru: 'Животные', zh: '动物', hi: 'जानवर', ja: '動物', ko: '동물', id: 'Hewan', fa: 'حیوانات', it: 'Animali', pl: 'Zwierzęta', bn: 'প্রাণী', ur: 'جانور', vi: 'Động vật', th: 'สัตว์', sw: 'Wanyama', hu: 'Állatok' },
-    { id: 'flying', en: 'Flying', de: 'Fliegen', tr: 'Uçmak', es: 'Volar', fr: 'Voler', ar: 'طيران', pt: 'Voar', ru: 'Полёт', zh: '飞翔', hi: 'उड़ना', ja: '飛ぶ', ko: '나는', id: 'Terbang', fa: 'پرواز', it: 'Volare', pl: 'Latanie', bn: 'উড়া', ur: 'اڑنا', vi: 'Bay', th: 'บิน', sw: 'Kuruka', hu: 'Repülés' },
-    { id: 'falling', en: 'Falling', de: 'Fallen', tr: 'Düşmek', es: 'Caer', fr: 'Tomber', ar: 'سقوط', pt: 'Cair', ru: 'Падение', zh: '坠落', hi: 'गिरना', ja: '落ちる', ko: '떨어지는', id: 'Jatuh', fa: 'افتادن', it: 'Cadere', pl: 'Spadanie', bn: 'পড়া', ur: 'گرنا', vi: 'Rơi', th: 'ตก', sw: 'Kuanguka', hu: 'Esés' }
+    { catId: 'nightmare', en: 'Nightmare', de: 'Albtraum', tr: 'Kabus', es: 'Pesadilla', fr: 'Cauchemar', ar: 'كابوس', pt: 'Pesadelo', ru: 'Кошмар', zh: '噩梦', hi: 'बुरा सपना', ja: '悪夢', ko: '악몽', id: 'Mimpi Buruk', fa: 'کابوس', it: 'Incubo', pl: 'Koszmar', bn: 'দুঃস্বপ্ন', ur: 'ڈراؤنا خواب', vi: 'Ác mộng', th: 'ฝันร้าย', sw: 'Ndoto Mbaya', hu: 'Rémálom' },
+    { catId: 'lucid', en: 'Lucid', de: 'Luzid', tr: 'Lüsid', es: 'Lúcido', fr: 'Lucide', ar: 'واضح', pt: 'Lúcido', ru: 'Осознанный', zh: '清醒梦', hi: 'स्पष्ट सपना', ja: '明晰夢', ko: '자각몽', id: 'Mimpi Sadar', fa: 'رویای آگاهانه', it: 'Sogno Lucido', pl: 'Świadomy Sen', bn: 'স্বচ্ছ স্বপ্ন', ur: 'واضح خواب', vi: 'Giấc mơ tỉnh', th: 'ฝันรู้ตัว', sw: 'Ndoto ya Fahamu', hu: 'Lucid Álom' },
+    { catId: 'recurring', en: 'Recurring', de: 'Wiederkehrend', tr: 'Tekrarlayan', es: 'Recurrente', fr: 'Récurrent', ar: 'متكرر', pt: 'Recorrente', ru: 'Повторяющийся', zh: '反复出现', hi: 'बार-बार आने वाला', ja: '繰り返す', ko: '반복되는', id: 'Berulang', fa: 'تکراری', it: 'Ricorrente', pl: 'Powtarzający się', bn: 'পুনরাবৃত্তি', ur: 'بار بار آنے والا', vi: 'Tái diễn', th: 'ฝันซ้ำ', sw: 'Ndoto Inayorudiwa', hu: 'Visszatérő' },
+    { catId: 'prophetic', en: 'Prophetic', de: 'Prophetisch', tr: 'Kehanet', es: 'Profético', fr: 'Prophétique', ar: 'نبوي', pt: 'Profético', ru: 'Вещий', zh: '预言梦', hi: 'भविष्यसूचक', ja: '予言的', ko: '예언적', id: 'Profetik', fa: 'نبوی', it: 'Profetico', pl: 'Proroczy', bn: 'ভবিষ্যদ্বাণীমূলক', ur: 'نبوی خواب', vi: 'Tiên tri', th: 'ฝันพยากรณ์', sw: 'Ndoto ya Unabii', hu: 'Prófétikus' },
+    { catId: 'healing', en: 'Healing', de: 'Heilung', tr: 'Şifa', es: 'Sanador', fr: 'Guérison', ar: 'شفاء', pt: 'Cura', ru: 'Исцеляющий', zh: '治愈', hi: 'उपचार', ja: '癒し', ko: '치유', id: 'Penyembuhan', fa: 'شفابخش', it: 'Guarigione', pl: 'Uzdrowienie', bn: 'নিরাময়', ur: 'شفاء', vi: 'Chữa lành', th: 'การเยียวยา', sw: 'Uponyaji', hu: 'Gyógyító' },
+    { catId: 'funny', en: 'Funny', de: 'Lustig', tr: 'Komik', es: 'Gracioso', fr: 'Drôle', ar: 'مضحك', pt: 'Engraçado', ru: 'Смешной', zh: '有趣', hi: 'मज़ेदार', ja: '面白い', ko: '재미있는', id: 'Lucu', fa: 'خنده‌دار', it: 'Divertente', pl: 'Śmieszny', bn: 'মজার', ur: 'مضحکہ خیز', vi: 'Vui nhộn', th: 'ตลก', sw: 'Ya Kuchekesha', hu: 'Vicces' },
+    { catId: 'scary', en: 'Scary', de: 'Gruselig', tr: 'Korkunç', es: 'Aterrador', fr: 'Effrayant', ar: 'مخيف', pt: 'Assustador', ru: 'Страшный', zh: '恐怖', hi: 'डरावना', ja: '怖い', ko: '무서운', id: 'Menakutkan', fa: 'ترسناک', it: 'Spaventoso', pl: 'Straszny', bn: 'ভয়ঙ্কর', ur: 'ڈراؤنا', vi: 'Đáng sợ', th: 'น่ากลัว', sw: 'Ya Kutisha', hu: 'Ijesztő' },
+    { catId: 'weird', en: 'Weird', de: 'Seltsam', tr: 'Garip', es: 'Extraño', fr: 'Étrange', ar: 'غريب', pt: 'Estranho', ru: 'Странный', zh: '奇怪', hi: 'अजीब', ja: '奇妙', ko: '이상한', id: 'Aneh', fa: 'عجیب', it: 'Strano', pl: 'Dziwny', bn: 'অদ্ভুত', ur: 'عجیب', vi: 'Kỳ lạ', th: 'แปลก', sw: 'Ya Ajabu', hu: 'Furcsa' },
+    { catId: 'sexual', en: 'Erotic', de: 'Erotisch', tr: 'Erotik', es: 'Erótico', fr: 'Érotique', ar: 'إثارة', pt: 'Erótico', ru: 'Эротический', zh: '情色', hi: 'कामुक', ja: 'エロティック', ko: '에로틱', id: 'Erotis', fa: 'عاشقانه', it: 'Erotico', pl: 'Erotyczny', bn: 'কামোত্তেজক', ur: 'جنسی', vi: 'Gợi cảm', th: 'เร้าใจ', sw: 'Ya Ngono', hu: 'Erotikus' },
+    { catId: 'spiritual', en: 'Spiritual', de: 'Spirituell', tr: 'Manevi', es: 'Espiritual', fr: 'Spirituel', ar: 'روحاني', pt: 'Espiritual', ru: 'Духовный', zh: '灵性', hi: 'आध्यात्मिक', ja: 'スピリチュアル', ko: '영적', id: 'Spiritual', fa: 'معنوی', it: 'Spirituale', pl: 'Duchowy', bn: 'আধ্যাত্মিক', ur: 'روحانی', vi: 'Tâm linh', th: 'จิตวิญญาณ', sw: 'Kiroho', hu: 'Spirituális' },
+    { catId: 'shadow', en: 'Shadow Work', de: 'Schattenarbeit', tr: 'Gölge Çalışması', es: 'Trabajo de Sombra', fr: 'Travail d\'Ombre', ar: 'عمل الظل', pt: 'Trabalho de Sombra', ru: 'Теневая Работа', zh: '阴影工作', hi: 'छाया कार्य', ja: 'シャドーワーク', ko: '그림자 작업', id: 'Kerja Bayangan', fa: 'کار سایه', it: 'Lavoro sull\'Ombra', pl: 'Praca z Cieniem', bn: 'ছায়া কাজ', ur: 'سایہ کاری', vi: 'Công việc bóng tối', th: 'งานเงา', sw: 'Kazi ya Kivuli', hu: 'Árnyékmunka' },
+    { catId: 'animals', en: 'Animals', de: 'Tiere', tr: 'Hayvanlar', es: 'Animales', fr: 'Animaux', ar: 'حيوانات', pt: 'Animais', ru: 'Животные', zh: '动物', hi: 'जानवर', ja: '動物', ko: '동물', id: 'Hewan', fa: 'حیوانات', it: 'Animali', pl: 'Zwierzęta', bn: 'প্রাণী', ur: 'جانور', vi: 'Động vật', th: 'สัตว์', sw: 'Wanyama', hu: 'Állatok' },
+    { catId: 'flying', en: 'Flying', de: 'Fliegen', tr: 'Uçmak', es: 'Volar', fr: 'Voler', ar: 'طيران', pt: 'Voar', ru: 'Полёт', zh: '飞翔', hi: 'उड़ना', ja: '飛ぶ', ko: '나는', id: 'Terbang', fa: 'پرواز', it: 'Volare', pl: 'Latanie', bn: 'উড়া', ur: 'اڑنا', vi: 'Bay', th: 'บิน', sw: 'Kuruka', hu: 'Repülés' },
+    { catId: 'falling', en: 'Falling', de: 'Fallen', tr: 'Düşmek', es: 'Caer', fr: 'Tomber', ar: 'سقوط', pt: 'Cair', ru: 'Падение', zh: '坠落', hi: 'गिरना', ja: '落ちる', ko: '떨어지는', id: 'Jatuh', fa: 'افتادن', it: 'Cadere', pl: 'Spadanie', bn: 'পড়া', ur: 'گرنا', vi: 'Rơi', th: 'ตก', sw: 'Kuanguka', hu: 'Esés' }
 ];
 
 const profileTranslations = {
@@ -216,7 +216,7 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
     const followingCount = displayProfile.stats?.following || 12;
 
     const getCatLabel = (id: string) => {
-        const cat = GLOBAL_CATEGORIES.find(c => c.id === id);
+        const cat = GLOBAL_CATEGORIES.find(c => c.catId === id);
         if (!cat) return id;
         switch (language) {
             case Language.DE: return cat.de;
@@ -495,16 +495,16 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
                          </div>
                          <div className="grid grid-cols-2 gap-2 max-h-[60vh] overflow-y-auto custom-scrollbar pr-1">
                              {GLOBAL_CATEGORIES.map(cat => {
-                                 const isActive = (displayProfile.activeCategories || []).includes(cat.id);
+                                 const isActive = (displayProfile.activeCategories || []).includes(cat.catId);
                                  return (
-                                     <button 
-                                        key={cat.id} 
-                                        onClick={() => toggleCategory(cat.id)}
+                                     <button
+                                        key={cat.catId}
+                                        onClick={() => toggleCategory(cat.catId)}
                                         className={`p-3 rounded-xl border text-left transition-all flex items-center justify-between ${isActive ? 'bg-fuchsia-600 border-fuchsia-500 text-white' : (isLight ? 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100' : 'bg-slate-800/50 border-white/5 text-slate-400 hover:bg-slate-800')}`}
                                      >
                                          <span className="text-xs font-bold flex items-center gap-1">
-                                            {getCatLabel(cat.id)}
-                                            {cat.id === 'sexual' && <span className="text-[8px] bg-red-600 text-white px-1 py-0.5 rounded font-bold">+18</span>}
+                                            {getCatLabel(cat.catId)}
+                                            {cat.catId === 'sexual' && <span className="text-[8px] bg-red-600 text-white px-1 py-0.5 rounded font-bold">+18</span>}
                                         </span>
                                          {isActive && <span className="material-icons text-xs">check</span>}
                                      </button>

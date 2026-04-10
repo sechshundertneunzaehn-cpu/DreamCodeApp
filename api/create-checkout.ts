@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 function getStripe(): Stripe | null {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) return null;
-  return new Stripe(key, { apiVersion: '2026-02-25.clover' });
+  return new Stripe(key, { apiVersion: '2026-03-25.dahlia' });
 }
 
 // Mapping: tier name -> env var with Stripe Price ID

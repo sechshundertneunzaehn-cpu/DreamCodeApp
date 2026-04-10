@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 function getStripe(): Stripe | null {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) return null;
-  return new Stripe(key, { apiVersion: '2026-02-25.clover' });
+  return new Stripe(key, { apiVersion: '2026-03-25.dahlia' });
 }
 
 // Vercel serverless functions need raw body for signature verification.
@@ -58,13 +58,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const metadata = session.metadata || {};
 
         if (metadata.type === 'coins') {
-            `[webhook] Coin purchase completed. Package: ${metadata.package}, Coins: ${metadata.coins}, Session: ${session.id}`
-          );
           // Coin crediting happens client-side via verify-session after redirect.
           // For server-side processing (e.g., database), extend here.
         } else if (metadata.type === 'subscription') {
-            `[webhook] Subscription started. Tier: ${metadata.tier}, Interval: ${metadata.interval}, Session: ${session.id}`
-          );
           // Subscription activation happens client-side via verify-session.
           // For server-side processing (e.g., database), extend here.
         }
@@ -74,16 +70,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
-          `[webhook] Subscription updated. ID: ${subscription.id}, Status: ${subscription.status}`
-        );
+        void subscription;
         // Handle plan changes, payment failures, etc.
         break;
       }
 
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
-          `[webhook] Subscription cancelled. ID: ${subscription.id}`
-        );
+        void subscription;
         // TODO: Implementiere Downgrade-Logic wenn Backend existiert
         // Aktuell nur client-side localStorage — kein Server-State zum Downgraden
         break;

@@ -14,6 +14,8 @@ interface DreamMapProps {
   language?: Language | string;
   onClose?: () => void;
   isLight?: boolean;
+  onSelectParticipant?: (id: any) => void;
+  onNavigateToResearch?: () => void;
   // Legacy compat
   themeMode?: string;
 }

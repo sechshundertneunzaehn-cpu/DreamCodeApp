@@ -5793,7 +5793,7 @@ Rules:
 
                                 const cm = options.contentMode;
                                 const isUserVoice = options.voiceMode === 'user_voice' && !!options.voiceBlob;
-                                const videoStyle = options.style || 'dreamlike';
+                                const videoStyle = (options.style || 'dreamlike') as any;
 
                                 // Analyse einmal ausfuehren und cachen (Skip wenn bereits vorhanden)
                                 let interpretationText = '';
