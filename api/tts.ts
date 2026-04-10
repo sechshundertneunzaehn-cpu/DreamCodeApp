@@ -43,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const apiKey = (process.env.GOOGLE_CLOUD_TTS_KEY || process.env.VITE_GOOGLE_CLOUD_TTS_KEY || '').trim();
+  const apiKey = (process.env.GOOGLE_CLOUD_TTS_KEY || '').trim();
   if (!apiKey) {
     return res.status(500).json({ error: 'Google Cloud TTS API key not configured' });
   }
