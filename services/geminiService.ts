@@ -21,7 +21,7 @@ const RUNWARE_API_BASE = 'https://api.runware.ai/v1';
 const POLLINATIONS_API_BASE = 'https://image.pollinations.ai/prompt';
 const DEFAULT_DEEPGRAM_MODEL = 'aura-asteria-en';
 
-type ImageStyle = 'cartoon' | 'anime' | 'real' | 'fantasy' | 'surreal' | 'watercolor';
+type ImageStyle = 'cartoon' | 'anime' | 'real' | 'fantasy' | 'surreal' | 'watercolor' | 'dreamlike' | 'cinematic';
 type ImageQuality = 'normal' | 'high';
 
 type TextProvider = 'gemini' | 'deepseek' | 'ollama' | 'openrouter';
@@ -102,6 +102,16 @@ const STYLE_PROMPTS: Record<ImageStyle, { prefix: string; negative: string }> = 
     prefix:
       'delicate watercolor dream illustration, soft edges, flowing pigments, poetic atmosphere',
     negative: 'hard edges, 3d render, text, logo',
+  },
+  dreamlike: {
+    prefix:
+      'ethereal dreamlike vision, soft luminous glow, otherworldly mist, dream imagery, fluid transitions',
+    negative: 'sharp realistic photo, mundane, text, logo',
+  },
+  cinematic: {
+    prefix:
+      'cinematic dream scene, dramatic lighting, wide-angle composition, film grain, atmospheric depth',
+    negative: 'flat illustration, cartoon, amateur photo, text',
   },
 };
 
