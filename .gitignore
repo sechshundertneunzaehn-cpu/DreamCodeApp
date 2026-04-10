@@ -13,6 +13,7 @@ data/raw/
 .playwright-mcp/
 *.png
 !public/icons/*.png
+!android/app/src/main/res/**/*.png
 supabase/.temp/
 
 # API Keys file
