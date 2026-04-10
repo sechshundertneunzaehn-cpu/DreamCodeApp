@@ -429,14 +429,14 @@ ${CATEGORY_INFO}`;
             setSessionTranscript(prev => prev + `\n[Oracle]: ${reply}`);
             setStatus('speaking');
 
-            // TTS: via Vercel serverless /api/deepgram-tts (provider=google) — key stays server-side
+            // TTS: via Vercel serverless /api/tts — key stays server-side
             const voiceSuffix = selectedVoiceRef.current?.voiceSuffix || 'Achernar';
             let audioBuffer: ArrayBuffer | null = null;
 
-            const ttsRes = await fetch('/api/deepgram-tts', {
+            const ttsRes = await fetch('/api/tts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: reply, language: lang, voiceSuffix, provider: 'google' }),
+                body: JSON.stringify({ text: reply, language: lang, voiceSuffix }),
             });
             if (!ttsRes.ok) throw new Error(`TTS API error: ${ttsRes.status}`);
             const ct = ttsRes.headers.get('content-type') || '';
@@ -472,10 +472,10 @@ ${CATEGORY_INFO}`;
                 ctx = playbackContextRef.current;
                 await ctx.resume();
                 // arrayBuffer is consumed after first decode attempt, re-fetch TTS
-                const retryRes = await fetch('/api/deepgram-tts', {
+                const retryRes = await fetch('/api/tts', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text: reply, language: lang, voiceSuffix, provider: 'google' }),
+                    body: JSON.stringify({ text: reply, language: lang, voiceSuffix }),
                 });
                 if (!retryRes.ok) throw new Error('TTS retry failed');
                 const retryBuffer = await retryRes.arrayBuffer();
@@ -562,7 +562,7 @@ ${CATEGORY_INFO}`;
         // Fetch a short-lived Deepgram token from the server — key never touches the client bundle
         let deepgramKey = '';
         try {
-            const tokenRes = await fetch('/api/transcribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'get-token' }) });
+            const tokenRes = await fetch('/api/deepgram-token', { method: 'POST' });
             if (tokenRes.ok) {
                 const tokenData = await tokenRes.json() as { key?: string | null; fallback?: boolean };
                 deepgramKey = tokenData.key || '';
