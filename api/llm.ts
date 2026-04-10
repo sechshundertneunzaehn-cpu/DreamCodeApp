@@ -1,0 +1,88 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+/**
+ * Vercel Serverless Function: Generic LLM proxy
+ * Supports OpenRouter + DeepSeek — keys stay server-side.
+ */
+type Message = { role: string; content: string };
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const { provider, model, messages, temperature, maxTokens } = req.body as {
+    provider?: string;
+    model?: string;
+    messages?: Message[];
+    temperature?: number;
+    maxTokens?: number;
+  };
+
+  if (!messages || !Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Missing messages array' });
+  }
+
+  const body = JSON.stringify({
+    model: model || 'qwen/qwen3-coder:free',
+    messages,
+    temperature: temperature ?? 0.7,
+    max_tokens: maxTokens ?? 2000,
+  });
+
+  try {
+    if (!provider || provider === 'openrouter') {
+      const key = (process.env.OPENROUTER_API_KEY || '').trim();
+      if (!key) return res.status(500).json({ error: 'OPENROUTER_API_KEY not configured' });
+
+      const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${key}`,
+          'HTTP-Referer': 'https://dreamcodeapp.vercel.app',
+          'X-Title': 'DreamCode App',
+        },
+        body,
+      });
+      if (!r.ok) {
+        const err = await r.text();
+        console.error('[llm] OpenRouter error:', r.status, err);
+        return res.status(r.status).json({ error: `OpenRouter error: ${r.status}` });
+      }
+      const data = await r.json() as { choices?: Array<{ message?: { content?: string } }> };
+      const text = data.choices?.[0]?.message?.content?.trim() ?? '';
+      return res.status(200).json({ text, provider: 'openrouter' });
+    }
+
+    if (provider === 'deepseek') {
+      const key = (process.env.DEEPSEEK_API_KEY || '').trim();
+      if (!key) return res.status(500).json({ error: 'DEEPSEEK_API_KEY not configured' });
+
+      const r = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${key}`,
+        },
+        body,
+      });
+      if (!r.ok) {
+        const err = await r.text();
+        console.error('[llm] DeepSeek error:', r.status, err);
+        return res.status(r.status).json({ error: `DeepSeek error: ${r.status}` });
+      }
+      const data = await r.json() as { choices?: Array<{ message?: { content?: string } }> };
+      const text = data.choices?.[0]?.message?.content?.trim() ?? '';
+      return res.status(200).json({ text, provider: 'deepseek' });
+    }
+
+    return res.status(400).json({ error: `Unknown provider: ${provider}` });
+  } catch (error: unknown) {
+    console.error('[llm] Error:', error);
+    return res.status(500).json({ error: 'LLM proxy request failed' });
+  }
+}

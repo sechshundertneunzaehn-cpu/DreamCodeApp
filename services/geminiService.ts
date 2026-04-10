@@ -243,36 +243,21 @@ const callDeepSeekText = async (
   prompt: string,
   options?: { temperature?: number; maxTokens?: number },
 ): Promise<string> => {
-  const apiKey = getProviderSecret('deepseek');
-  if (!apiKey) {
-    throw new Error('DeepSeek API-Key fehlt');
-  }
-
-  const response = await fetch('https://api.deepseek.com/chat/completions', {
+  const r = await fetch('/api/llm', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      provider: 'deepseek',
       model,
       messages: [{ role: 'user', content: prompt }],
-      temperature: options?.temperature ?? 0.7,
-      max_tokens: options?.maxTokens ?? 2000,
+      temperature: options?.temperature,
+      maxTokens: options?.maxTokens,
     }),
   });
-
-  if (!response.ok) {
-    throw new Error(`DeepSeek API-Fehler: ${response.status}`);
-  }
-
-  const data = await response.json();
-  const text = data.choices?.[0]?.message?.content;
-  if (!text) {
-    throw new Error('DeepSeek lieferte keinen Text');
-  }
-
-  return text.trim();
+  if (!r.ok) throw new Error(`DeepSeek API-Fehler: ${r.status}`);
+  const data = await r.json() as { text?: string };
+  if (!data.text) throw new Error('DeepSeek lieferte keinen Text');
+  return data.text;
 };
 
 
@@ -309,33 +294,21 @@ const callOpenRouterText = async (
   prompt: string,
   options?: { temperature?: number; maxTokens?: number },
 ): Promise<string> => {
-  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
-  if (!apiKey) throw new Error('OpenRouter API-Key fehlt');
-
-  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+  const r = await fetch('/api/llm', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-      'HTTP-Referer': 'https://dreamcodeapp.vercel.app',
-      'X-Title': 'DreamCode App',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      provider: 'openrouter',
       model,
       messages: [{ role: 'user', content: prompt }],
-      temperature: options?.temperature ?? 0.7,
-      max_tokens: options?.maxTokens ?? 2000,
+      temperature: options?.temperature,
+      maxTokens: options?.maxTokens,
     }),
   });
-
-  if (!response.ok) {
-    throw new Error(`OpenRouter API-Fehler: ${response.status}`);
-  }
-
-  const data = await response.json();
-  const text = data.choices?.[0]?.message?.content;
-  if (!text) throw new Error('OpenRouter lieferte keinen Text');
-  return text.trim();
+  if (!r.ok) throw new Error(`OpenRouter API-Fehler: ${r.status}`);
+  const data = await r.json() as { text?: string };
+  if (!data.text) throw new Error('OpenRouter lieferte keinen Text');
+  return data.text;
 };
 
 // Groq direkt (Browser-safe via Key-Rotation, 3 Accounts)
