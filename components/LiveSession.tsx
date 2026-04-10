@@ -429,60 +429,19 @@ ${CATEGORY_INFO}`;
             setSessionTranscript(prev => prev + `\n[Oracle]: ${reply}`);
             setStatus('speaking');
 
-            // TTS: Direct Google Cloud from browser (fastest) → Vercel endpoint fallback
+            // TTS: via Vercel serverless /api/tts — key stays server-side
             const voiceSuffix = selectedVoiceRef.current?.voiceSuffix || 'Achernar';
             let audioBuffer: ArrayBuffer | null = null;
 
-            const LANG_CODES: Record<string, string> = {
-                de: 'de-DE', tr: 'tr-TR', ar: 'ar-XA', es: 'es-ES',
-                fr: 'fr-FR', pt: 'pt-BR', ru: 'ru-RU', en: 'en-US',
-            };
-            const langCode = LANG_CODES[lang] || 'de-DE';
-            const gcVoice = `${langCode}-Chirp3-HD-${voiceSuffix}`;
-            const gcKey = (import.meta.env.VITE_GOOGLE_CLOUD_TTS_KEY as string || '').trim();
-
-            let ttsOk = false;
-            if (gcKey) {
-                try {
-                    const t0 = Date.now();
-                    const directRes = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${gcKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            input: { text: reply },
-                            voice: { languageCode: langCode, name: gcVoice },
-                            audioConfig: { audioEncoding: 'LINEAR16', sampleRateHertz: 24000 },
-                        }),
-                    });
-                    if (directRes.ok) {
-                        const data = await directRes.json();
-                        if (data.audioContent) {
-                            const binaryStr = atob(data.audioContent);
-                            const bytes = new Uint8Array(binaryStr.length);
-                            for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
-                            audioBuffer = bytes.buffer;
-                            ttsOk = true;
-                        }
-                    } else {
-                        console.warn(`[LiveSession] Direct TTS failed (${directRes.status}), trying fallback...`);
-                    }
-                } catch (e) {
-                    console.warn('[LiveSession] Direct TTS error, trying fallback...', e);
-                }
-            }
-
-            // Fallback: Vercel serverless /api/tts
-            if (!ttsOk) {
-                const ttsRes = await fetch('/api/tts', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text: reply, language: lang, voiceSuffix }),
-                });
-                if (!ttsRes.ok) throw new Error(`TTS API error: ${ttsRes.status}`);
-                const ct = ttsRes.headers.get('content-type') || '';
-                if (!ct.includes('audio')) throw new Error(`TTS non-audio: ${ct}`);
-                audioBuffer = await ttsRes.arrayBuffer();
-            }
+            const ttsRes = await fetch('/api/tts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: reply, language: lang, voiceSuffix }),
+            });
+            if (!ttsRes.ok) throw new Error(`TTS API error: ${ttsRes.status}`);
+            const ct = ttsRes.headers.get('content-type') || '';
+            if (!ct.includes('audio')) throw new Error(`TTS non-audio: ${ct}`);
+            audioBuffer = await ttsRes.arrayBuffer();
 
             if (!audioBuffer || audioBuffer.byteLength < 100) {
                 throw new Error(`TTS empty audio: ${audioBuffer?.byteLength} bytes`);
@@ -600,11 +559,21 @@ ${CATEGORY_INFO}`;
         roundRef.current = 0;
         sessionLanguageRef.current = language;
 
-        const deepgramKey = (import.meta.env.VITE_DEEPGRAM_API_KEY as string || '').trim();
+        // Fetch a short-lived Deepgram token from the server — key never touches the client bundle
+        let deepgramKey = '';
+        try {
+            const tokenRes = await fetch('/api/deepgram-token', { method: 'POST' });
+            if (tokenRes.ok) {
+                const tokenData = await tokenRes.json() as { key?: string | null; fallback?: boolean };
+                deepgramKey = tokenData.key || '';
+            }
+        } catch {
+            // Token fetch failed — fall through to Web Speech API
+        }
         const useWebSpeechFallback = !deepgramKey;
 
         if (useWebSpeechFallback) {
-            console.warn('[LiveSession] Deepgram key missing — using Web Speech API fallback');
+            console.warn('[LiveSession] Deepgram key unavailable — using Web Speech API fallback');
         }
 
         try {

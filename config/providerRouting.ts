@@ -22,18 +22,6 @@ export type ProviderSecretKey =
   | 'kling'
   | 'openrouter';
 
-export const PROVIDER_ENV_KEYS: Record<ProviderSecretKey, string> = {
-  gemini: 'VITE_GEMINI_API_KEY',
-  deepseek: 'VITE_DEEPSEEK_API_KEY',
-  runware: 'VITE_RUNWARE_API_KEY',
-  deepgram: 'VITE_DEEPGRAM_API_KEY',
-  elevenlabs: 'VITE_ELEVENLABS_API_KEY',
-  runway: 'VITE_RUNWAY_API_KEY',
-  pika: 'VITE_PIKA_API_KEY',
-  kling: 'VITE_KLING_API_KEY',
-  openrouter: 'VITE_OPENROUTER_API_KEY',
-};
-
 export const readEnv = (name: string): string | undefined => {
   const env = import.meta.env as Record<string, string | boolean | undefined>;
   const value = env[name];
@@ -44,40 +32,8 @@ export const readEnv = (name: string): string | undefined => {
   return normalized.length > 0 ? normalized : undefined;
 };
 
-// Rotiert durch mehrere Gemini Keys – gibt ersten verfügbaren zurück
-export const getGeminiKey = (): string | undefined => {
-  const keys = [
-    readEnv('VITE_GEMINI_API_KEY'),
-    readEnv('VITE_GEMINI_API_KEY_2'),
-    readEnv('VITE_GEMINI_API_KEY_3'),
-    readEnv('VITE_GEMINI_API_KEY_4'),
-  ].filter(Boolean) as string[];
-  return keys[0];
-};
-
-export const getGeminiKeys = (): string[] => {
-  return [
-    readEnv('VITE_GEMINI_API_KEY'),
-    readEnv('VITE_GEMINI_API_KEY_2'),
-    readEnv('VITE_GEMINI_API_KEY_3'),
-    readEnv('VITE_GEMINI_API_KEY_4'),
-  ].filter(Boolean) as string[];
-};
-
-// deepseek + openrouter + elevenlabs laufen serverseitig über /api/llm bzw. /api/elevenlabs-tts
-const SERVER_SIDE_PROVIDERS: ReadonlySet<ProviderSecretKey> = new Set(['deepseek', 'openrouter', 'elevenlabs']);
-
-export const getProviderSecret = (provider: ProviderSecretKey): string | undefined => {
-  if (SERVER_SIDE_PROVIDERS.has(provider)) return 'server-side';
-  if (provider === 'gemini') return getGeminiKey();
-  return readEnv(PROVIDER_ENV_KEYS[provider]);
-};
-
-export const hasProviderSecret = (provider: ProviderSecretKey): boolean =>
-  Boolean(getProviderSecret(provider));
-
-export const maskSecret = (value?: string): string =>
-  value ? `${value.slice(0, 4)}...${value.slice(-2)}` : 'missing';
+// Alle AI-Provider laufen serverseitig — keine Client-Keys mehr
+export const hasProviderSecret = (_provider: ProviderSecretKey): boolean => true;
 
 export interface TextRoute {
   tier: 'cheap' | 'default' | 'fallback' | 'premium' | 'local';

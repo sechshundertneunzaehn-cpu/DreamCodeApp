@@ -1,10 +1,7 @@
 ﻿import { Language, UserProfile, SubscriptionTier } from '../types';
 import {
-  getProviderSecret,
   getTextRoutes,
   getImageRoutes,
-  getGeminiKeys,
-  maskSecret,
   isPremiumTextTier,
   isOllamaAvailable,
   getOpenRouterLocalRoutes,
@@ -16,8 +13,6 @@ import {
   type EmotionStyle,
 } from './elevenlabsService';
 
-const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
-const RUNWARE_API_BASE = 'https://api.runware.ai/v1';
 const POLLINATIONS_API_BASE = 'https://image.pollinations.ai/prompt';
 const DEFAULT_DEEPGRAM_MODEL = 'aura-asteria-en';
 
@@ -188,54 +183,15 @@ const callGeminiText = async (
   prompt: string,
   options?: { temperature?: number; maxOutputTokens?: number },
 ): Promise<string> => {
-  const keys = getGeminiKeys();
-  if (keys.length === 0) {
-    throw new Error('Kein Gemini API-Key konfiguriert');
-  }
-
-  let lastError: Error = new Error('Unbekannter Fehler');
-
-  for (const apiKey of keys) {
-    try {
-      const response = await fetch(`${GEMINI_API_BASE}/${model}:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: options?.temperature ?? 0.7,
-            maxOutputTokens: options?.maxOutputTokens ?? 1800,
-          },
-        }),
-      });
-
-      if (response.status === 429 || response.status === 403) {
-        console.warn(`[GEMINI] Key erschöpft (${response.status}), nächster Key...`);
-        lastError = new Error(`Gemini Key ${response.status}`);
-        continue;
-      }
-
-      if (!response.ok) {
-        throw new Error(`Gemini API-Fehler: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!text) {
-        throw new Error('Gemini lieferte keinen Text');
-      }
-
-      return text.trim();
-    } catch (err) {
-      if (err instanceof Error && (err.message.includes('429') || err.message.includes('403'))) {
-        lastError = err;
-        continue;
-      }
-      throw err;
-    }
-  }
-
-  throw lastError;
+  const r = await fetch('/api/generate-text', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ provider: 'gemini', model, prompt, options }),
+  });
+  if (!r.ok) throw new Error(`Gemini API-Fehler: ${r.status}`);
+  const data = await r.json() as { text?: string };
+  if (!data.text) throw new Error('Gemini lieferte keinen Text');
+  return data.text;
 };
 
 const callDeepSeekText = async (
@@ -311,52 +267,20 @@ const callOpenRouterText = async (
   return data.text;
 };
 
-// Groq direkt (Browser-safe via Key-Rotation, 3 Accounts)
-const getGroqKeys = (): string[] =>
-  [
-    import.meta.env.VITE_GROQ_API_KEY,
-    import.meta.env.VITE_GROQ_API_KEY_2,
-    import.meta.env.VITE_GROQ_API_KEY_3,
-  ].filter((k): k is string => typeof k === 'string' && k.trim().length > 0);
-
 const callGroqDirect = async (
   model: string,
   prompt: string,
   options?: { temperature?: number; maxTokens?: number },
 ): Promise<string> => {
-  const keys = getGroqKeys();
-  if (keys.length === 0) throw new Error('Kein Groq-Key konfiguriert');
-
-  for (const apiKey of keys) {
-    try {
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model,
-          messages: [{ role: 'user', content: prompt }],
-          temperature: options?.temperature ?? 0.75,
-          max_tokens: options?.maxTokens ?? 2200,
-        }),
-      });
-      if (res.status === 429 || res.status === 403) {
-        console.warn('[GROQ] Key erschoepft, naechster Key...');
-        continue;
-      }
-      if (!res.ok) throw new Error(`Groq API-Fehler: ${res.status}`);
-      const data = await res.json();
-      const text = data.choices?.[0]?.message?.content;
-      if (!text) throw new Error('Groq lieferte keinen Text');
-      return text.trim();
-    } catch (err) {
-      if (err instanceof Error && (err.message.includes('429') || err.message.includes('403'))) continue;
-      throw err;
-    }
-  }
-  throw new Error('Alle Groq-Keys erschoepft');
+  const r = await fetch('/api/generate-text', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ provider: 'groq', model, prompt, options }),
+  });
+  if (!r.ok) throw new Error(`Groq API-Fehler: ${r.status}`);
+  const data = await r.json() as { text?: string };
+  if (!data.text) throw new Error('Groq lieferte keinen Text');
+  return data.text;
 };
 
 const callGroqFallback = async (prompt: string, language: Language): Promise<string> => {
@@ -544,71 +468,35 @@ const generateRunwareImage = async (
   negativePrompt: string,
   quality: ImageQuality,
 ): Promise<string | null> => {
-  const apiKey = getProviderSecret('runware');
-  if (!apiKey) {
-    return null;
-  }
-
-  const standardModel = getImageRoutes().find(route => route.tier === 'standard')?.model || 'runware:100@1';
-
-  const response = await fetch(RUNWARE_API_BASE, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify([
-      {
-        taskType: 'imageInference',
-        taskUUID: crypto.randomUUID(),
-        model: standardModel,
-        positivePrompt: prompt,
-        negativePrompt,
-        width: quality === 'high' ? 1280 : 1024,
-        height: quality === 'high' ? 720 : 576,
-        numberResults: 1,
-        CFGScale: 7,
-        steps: quality === 'high' ? 28 : 20,
-      },
-    ]),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Runware API-Fehler: ${response.status}`);
-  }
-
-  const data = await response.json();
-  return data.data?.[0]?.imageURL || null;
-};
-
-const generateGeminiImage = async (prompt: string): Promise<string | null> => {
-  const apiKey = getProviderSecret('gemini');
-  if (!apiKey) {
-    return null;
-  }
-
-  const premiumModel = getImageRoutes().find(route => route.tier === 'premium')?.model || 'gemini-2.5-flash-image';
-  const response = await fetch(`${GEMINI_API_BASE}/${premiumModel}:generateContent?key=${apiKey}`, {
+  const model = getImageRoutes().find(route => route.tier === 'standard')?.model || 'runware:100@1';
+  const r = await fetch('/api/generate-image', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.9 },
+      provider: 'runware',
+      model,
+      prompt,
+      negativePrompt,
+      width: quality === 'high' ? 1280 : 1024,
+      height: quality === 'high' ? 720 : 576,
+      steps: quality === 'high' ? 28 : 20,
     }),
   });
+  if (!r.ok) throw new Error(`Runware API-Fehler: ${r.status}`);
+  const data = await r.json() as { imageURL?: string };
+  return data.imageURL || null;
+};
 
-  if (!response.ok) {
-    throw new Error(`Gemini Image API-Fehler: ${response.status}`);
-  }
-
-  const data = await response.json();
-  const parts = data.candidates?.[0]?.content?.parts || [];
-  const inlineImage = parts.find((part: { inlineData?: { data?: string; mimeType?: string } }) => part.inlineData?.data);
-  if (!inlineImage?.inlineData?.data) {
-    return null;
-  }
-
-  return `data:${inlineImage.inlineData.mimeType || 'image/png'};base64,${inlineImage.inlineData.data}`;
+const generateGeminiImage = async (prompt: string): Promise<string | null> => {
+  const model = getImageRoutes().find(route => route.tier === 'premium')?.model || 'gemini-2.5-flash-image';
+  const r = await fetch('/api/generate-image', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ provider: 'gemini', model, prompt }),
+  });
+  if (!r.ok) return null;
+  const data = await r.json() as { imageURL?: string };
+  return data.imageURL || null;
 };
 
 const generatePollinationsImage = (prompt: string, quality: ImageQuality, seed?: number): string => {
@@ -704,27 +592,15 @@ export const generateSpeechPreview = async (
   voice: string = DEFAULT_DEEPGRAM_MODEL,
   _userProfile: UserProfile | null = null,
 ): Promise<string | null> => {
-  const apiKey = getProviderSecret('deepgram');
-  if (!apiKey) {
-    console.warn('[TTS] Deepgram API-Key fehlt');
-    return null;
-  }
-
   try {
-    const response = await fetch(`https://api.deepgram.com/v1/speak?model=${encodeURIComponent(voice)}`, {
+    const r = await fetch('/api/deepgram-tts', {
       method: 'POST',
-      headers: {
-        Authorization: `Token ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ text }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, voice }),
     });
-
-    if (!response.ok) {
-      throw new Error(`Deepgram API-Fehler: ${response.status}`);
-    }
-
-    return await blobToBase64(await response.blob());
+    if (!r.ok) throw new Error(`Deepgram API-Fehler: ${r.status}`);
+    const data = await r.json() as { audioBase64?: string };
+    return data.audioBase64 || null;
   } catch (error) {
     console.error('[TTS] Deepgram fehlgeschlagen', error);
     return null;
@@ -1122,29 +998,25 @@ export const generateDreamVideo = async (
 };
 
 export const getActiveProviderSummary = () => {
+  // Keys are server-side — all providers are assumed configured via /api/* endpoints
   return {
     text: getTextRoutes().map(route => ({
       tier: route.tier,
       provider: route.provider,
       model: route.model,
-      configured: Boolean(getProviderSecret(route.provider === 'gemini' ? 'gemini' : 'deepseek')),
+      configured: true,
     })),
     image: getImageRoutes().map(route => ({
       tier: route.tier,
       provider: route.provider,
       model: route.model,
-      configured:
-        route.provider === 'runware'
-          ? Boolean(getProviderSecret('runware'))
-          : route.provider === 'gemini'
-            ? Boolean(getProviderSecret('gemini'))
-            : true,
+      configured: true,
     })),
     audio: {
-      deepgram: Boolean(getProviderSecret('deepgram')),
-      elevenlabs: Boolean(getProviderSecret('elevenlabs')),
-      deepgramMask: maskSecret(getProviderSecret('deepgram')),
-      elevenlabsMask: maskSecret(getProviderSecret('elevenlabs')),
+      deepgram: true,
+      elevenlabs: true,
+      deepgramMask: '***',
+      elevenlabsMask: '***',
     },
   };
 };

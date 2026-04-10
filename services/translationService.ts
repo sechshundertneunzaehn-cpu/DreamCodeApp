@@ -1,5 +1,4 @@
 import { supabase } from './supabaseClient';
-import { getGeminiKeys } from '../config/providerRouting';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -117,47 +116,23 @@ function buildPrompt(text: string, targetLang: string): string {
 // ─── Gemini (key rotation) ────────────────────────────────────────────────────
 
 async function translateWithGemini(text: string, targetLang: string): Promise<string | null> {
-  const keys = getGeminiKeys();
-  if (keys.length === 0) return null;
-
   const prompt = buildPrompt(text, targetLang);
-
-  for (const apiKey of keys) {
-    try {
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-          }),
-        }
-      );
-
-      if (res.status === 429 || res.status === 403) {
-        // Try next key
-        continue;
-      }
-
-      if (!res.ok) {
-        continue;
-      }
-
-      const data = await res.json();
-      const translated: string | undefined =
-        data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (translated && translated.trim().length > 0) {
-        return translated.trim();
-      }
-    } catch {
-      // Try next key
-      continue;
-    }
+  try {
+    const res = await fetch('/api/generate-text', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        provider: 'gemini',
+        model: 'gemini-2.0-flash-lite',
+        prompt,
+      }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json() as { text?: string };
+    return data.text?.trim() || null;
+  } catch {
+    return null;
   }
-
-  return null;
 }
 
 // ─── DeepSeek fallback ────────────────────────────────────────────────────────

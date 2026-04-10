@@ -54,23 +54,7 @@ export default defineConfig(({ mode }) => {
         }
       },
       plugins: [react()],
-      define: {
-        // VITE_ Keys werden von import.meta.env automatisch gelesen
-        // Hier nur process.env Kompatibilitaet fuer alte SDK-Aufrufe
-        'process.env.API_KEY':            JSON.stringify(env.VITE_GEMINI_API_KEY    || ''),
-        'process.env.GEMINI_API_KEY':     JSON.stringify(env.VITE_GEMINI_API_KEY    || ''),
-        'process.env.GEMINI_API_KEY_2':   JSON.stringify(env.VITE_GEMINI_API_KEY_2  || ''),
-        'process.env.GEMINI_API_KEY_3':   JSON.stringify(env.VITE_GEMINI_API_KEY_3  || ''),
-        'process.env.GEMINI_API_KEY_4':   JSON.stringify(env.VITE_GEMINI_API_KEY_4  || ''),
-        'process.env.GROQ_API_KEY':       JSON.stringify(env.VITE_GROQ_API_KEY      || ''),
-        'process.env.MISTRAL_API_KEY':    JSON.stringify(env.VITE_MISTRAL_API_KEY   || ''),
-        'process.env.RUNWARE_API_KEY':    JSON.stringify(env.VITE_RUNWARE_API_KEY   || ''),
-        'process.env.DEEPGRAM_API_KEY':   JSON.stringify(env.VITE_DEEPGRAM_API_KEY  || ''),
-        'process.env.REPLICATE_API_KEY':  JSON.stringify(env.VITE_REPLICATE_API_KEY || ''),
-        'process.env.GETIMG_API_KEY':     JSON.stringify(env.VITE_GETIMG_API_KEY    || ''),
-        'process.env.DEEPSEEK_API_KEY':   JSON.stringify(env.VITE_DEEPSEEK_API_KEY  || ''),
-        'process.env.OPENAI_API_KEY':     JSON.stringify(env.VITE_OPENAI_API_KEY    || ''),
-      },
+      // define: {} — alle API-Keys sind server-seitig in /api/* Endpoints
       build: {
         rollupOptions: {
           output: {
