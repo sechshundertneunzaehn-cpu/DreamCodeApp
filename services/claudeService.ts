@@ -154,8 +154,6 @@ export const analyzeDreamWithClaude = async (
         throw new Error('Claude API-Key nicht konfiguriert. Bitte in .env.local eintragen: VITE_ANTHROPIC_API_KEY=...');
     }
 
-    console.log(`[CLAUDE] Starte Premium-Analyse...`);
-    console.log(`[CLAUDE] Sprache: ${language}, Traum-Laenge: ${dreamText.length} Zeichen`);
 
     const systemPrompt = buildSystemPrompt(language, userProfile);
 
@@ -193,7 +191,6 @@ export const analyzeDreamWithClaude = async (
             throw new Error('Keine Interpretation von Claude erhalten');
         }
 
-        console.log(`[CLAUDE] Analyse erfolgreich, ${data.usage?.output_tokens || 0} Tokens verwendet`);
 
         return {
             interpretation,

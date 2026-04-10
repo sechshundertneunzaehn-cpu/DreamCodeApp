@@ -59,7 +59,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (groqRes.ok) {
           const data = await groqRes.json();
           const reply = data.choices?.[0]?.message?.content || '';
-          console.log(`[chat] Groq OK, lang=${effectiveLang}, reply="${reply.substring(0, 60)}..."`);
           return res.status(200).json({ reply, provider: 'groq' });
         }
         console.error('[chat] Groq failed:', groqRes.status);
@@ -87,7 +86,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (mistralRes.ok) {
         const data = await mistralRes.json();
         const reply = data.choices?.[0]?.message?.content || '';
-        console.log(`[chat] Mistral OK, lang=${effectiveLang}`);
         return res.status(200).json({ reply, provider: 'mistral' });
       }
       console.error('[chat] Mistral failed:', mistralRes.status);

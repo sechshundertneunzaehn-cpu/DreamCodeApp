@@ -1157,7 +1157,6 @@ const DreamShare: React.FC<DreamShareProps> = ({
                     url: shareUrl,
                 });
             } catch (error) {
-                console.log('Error sharing:', error);
             }
         } else {
             navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
@@ -1234,7 +1233,6 @@ const DreamShare: React.FC<DreamShareProps> = ({
                                 text: t.web_link
                             });
                         } catch (shareErr) {
-                            console.log("Share cancelled or failed", shareErr);
                         }
                     } else {
                         pdf.save(fileName);

@@ -82,7 +82,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const prefix = stylePrefix[style || 'dreamlike'] || stylePrefix.dreamlike;
       const optimizedPrompt = `${prefix} ${prompt}. Smooth camera movement, ambient lighting, atmospheric. High quality.`;
 
-      console.log('[generate-video] Starte WAN Prediction:', optimizedPrompt.substring(0, 80));
 
       const createRes = await fetch(`${REPLICATE_API}/predictions`, {
         method: 'POST',
@@ -110,7 +109,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       const data = await createRes.json();
-      console.log('[generate-video] Prediction gestartet:', data.id);
       return res.status(201).json(data);
     } catch (error: any) {
       console.error('[generate-video] Fehler:', error.message);

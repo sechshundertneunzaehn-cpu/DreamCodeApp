@@ -131,8 +131,6 @@ export const generateSpeechElevenLabs = async (
     const voice = ELEVENLABS_VOICES[language];
     const voiceSettings = getVoiceSettings(emotion);
 
-    console.log(`[ELEVENLABS] Generiere Sprache: ${voice.name} (${language}), Emotion: ${emotion}`);
-    console.log(`[ELEVENLABS] Text-Laenge: ${text.length} Zeichen`);
 
     try {
         const response = await fetch(
@@ -159,7 +157,6 @@ export const generateSpeechElevenLabs = async (
         }
 
         const audioBuffer = await response.arrayBuffer();
-        console.log(`[ELEVENLABS] Audio generiert: ${audioBuffer.byteLength} bytes`);
 
         return audioBuffer;
 

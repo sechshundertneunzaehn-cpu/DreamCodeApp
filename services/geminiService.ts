@@ -451,7 +451,6 @@ const analyzeDreamInternal = async (
 
   // Groq/Mistral server-side fallback via /api/chat
   try {
-    console.log('[TEXT] Alle Gemini-Keys fehlgeschlagen, nutze Groq-Fallback...');
     const interpretation = await callGroqFallback(prompt, language);
     return { interpretation, provider: 'gemini' as any, model: 'groq-fallback' };
   } catch (error) {
@@ -547,7 +546,6 @@ export const generateImagePrompt = async (
     if (res.ok) {
       const data = await res.json();
       if (data.reply) {
-        console.log('[IMAGE PROMPT] Groq-Fallback OK');
         return data.reply.replace(/^["']|["']$/g, '').trim();
       }
     }

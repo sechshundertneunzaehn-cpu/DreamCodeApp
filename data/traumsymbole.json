@@ -18,7 +18,7 @@
       }
     ],
     "statistik": {
-      "gesamt_symbole": 265,
+      "gesamt_symbole": 263,
       "symbole_mit_freud": 38,
       "symbole_mit_ibn_sirin": 226,
       "symbole_mit_beiden": 6,
@@ -121,7 +121,8 @@
           "label": "Tibet. Buddhismus",
           "text": "Feuer ist eines der fünf Elemente und symbolisiert Weisheit, die Unwissenheit verbrennt. Unkontrolliertes Feuer steht für Gier und Begierde."
         }
-      }
+      },
+      "emoji": "🔥"
     },
     {
       "id": "natur_002",
@@ -165,7 +166,8 @@
       },
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🏡"
     },
     {
       "id": "objekt_001",
@@ -207,7 +209,8 @@
       },
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🔪"
     },
     {
       "id": "person_001",
@@ -254,7 +257,8 @@
       },
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "👩"
     },
     {
       "id": "natur_003",
@@ -299,7 +303,8 @@
           "ibn_sirin": "Islamische Traumdeutung, kollektivistisch, religiöse Weltanschauung"
         }
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "❄️"
     },
     {
       "id": "objekt_002",
@@ -339,12 +344,13 @@
       },
       "traumtyp_kategorien": [
         "Wunschtraum"
-      ]
+      ],
+      "emoji": "🪞"
     },
     {
       "id": "objekt_003",
       "name": "Balkon",
-      "kategorie": "Objekte",
+      "kategorie": "Orte",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -364,7 +370,8 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🏗️"
     },
     {
       "id": "natur_004",
@@ -388,7 +395,8 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🌸"
     },
     {
       "id": "objekt_004",
@@ -412,12 +420,13 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Wunschtraum"
-      ]
+      ],
+      "emoji": "✉️"
     },
     {
       "id": "symbol_001",
       "name": "Essen",
-      "kategorie": "Emotionen",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -437,12 +446,13 @@
       "traumtyp_kategorien": [
         "Wunschtraum",
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🍽️"
     },
     {
       "id": "symbol_002",
       "name": "Fallen",
-      "kategorie": "Emotionen",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -476,7 +486,8 @@
           "label": "Theravada",
           "text": "Fallen weist auf Anhaftung und das Festhalten an vergänglichen Dingen hin, das Leiden verursacht."
         }
-      }
+      },
+      "emoji": "⬇️"
     },
     {
       "id": "person_002",
@@ -500,12 +511,13 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Angsttraum"
-      ]
+      ],
+      "emoji": "⚔️"
     },
     {
       "id": "symbol_003",
       "name": "Feuer (Haus Brennt)",
-      "kategorie": "Emotionen",
+      "kategorie": "Natur",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -522,12 +534,13 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "🔥"
     },
     {
       "id": "symbol_004",
       "name": "Fliegen",
-      "kategorie": "Emotionen",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -560,7 +573,8 @@
           "label": "Zen-Buddhismus",
           "text": "Fliegen verkörpert die Loslösung vom Ego und das Durchbrechen karmischer Bindungen."
         }
-      }
+      },
+      "emoji": "🦋"
     },
     {
       "id": "natur_005",
@@ -584,7 +598,8 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🌊"
     },
     {
       "id": "person_003",
@@ -608,12 +623,13 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Wunschtraum"
-      ]
+      ],
+      "emoji": "🤝"
     },
     {
       "id": "symbol_005",
       "name": "Geburt",
-      "kategorie": "Emotionen",
+      "kategorie": "Körper",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -630,11 +646,12 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "👶"
     },
     {
       "id": "objekt_005",
-      "name": "Gebã¤Ude (Allgemein)",
+      "name": "Gebäude (Allgemein)",
       "kategorie": "Objekte",
       "synonyme": [],
       "freud": {
@@ -655,7 +672,8 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🏢"
     },
     {
       "id": "objekt_006",
@@ -686,12 +704,13 @@
       ],
       "traumtyp_kategorien": [
         "Wunschtraum"
-      ]
+      ],
+      "emoji": "💰"
     },
     {
       "id": "objekt_007",
       "name": "Haus",
-      "kategorie": "Objekte",
+      "kategorie": "Orte",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -730,11 +749,12 @@
           "label": "Zen-Buddhismus",
           "text": "Das Haus steht für das Ego-Konstrukt. Das Verlassen des Hauses symbolisiert Loslösung und den Weg zur Erleuchtung."
         }
-      }
+      },
+      "emoji": "🏠"
     },
     {
       "id": "person_004",
-      "name": "Kaiser/Kã¶Nig",
+      "name": "Kaiser/König",
       "kategorie": "Personen",
       "synonyme": [],
       "freud": {
@@ -752,7 +772,8 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "👑"
     },
     {
       "id": "person_005",
@@ -780,7 +801,8 @@
         "Bruder",
         "Schwester"
       ],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "👶"
     },
     {
       "id": "objekt_008",
@@ -804,7 +826,8 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "👗"
     },
     {
       "id": "symbol_001",
@@ -829,12 +852,13 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Wunschtraum"
-      ]
+      ],
+      "emoji": "🫣"
     },
     {
       "id": "symbol_006",
-      "name": "Prã¼Fung",
-      "kategorie": "Emotionen",
+      "name": "Prüfung",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -853,12 +877,13 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Angsttraum"
-      ]
+      ],
+      "emoji": "📝"
     },
     {
       "id": "symbol_007",
       "name": "Reisen",
-      "kategorie": "Emotionen",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -875,7 +900,8 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "✈️"
     },
     {
       "id": "objekt_009",
@@ -897,7 +923,8 @@
         "deutungen": []
       },
       "verwandte_symbole": [],
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "📦"
     },
     {
       "id": "objekt_010",
@@ -921,11 +948,12 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "☂️"
     },
     {
       "id": "objekt_011",
-      "name": "Schlã¼Ssel",
+      "name": "Schlüssel",
       "kategorie": "Objekte",
       "synonyme": [],
       "freud": {
@@ -945,7 +973,8 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🔑"
     },
     {
       "id": "objekt_012",
@@ -969,7 +998,8 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "👞"
     },
     {
       "id": "tier_001",
@@ -993,12 +1023,13 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Angsttraum"
-      ]
+      ],
+      "emoji": "🐾"
     },
     {
       "id": "symbol_008",
       "name": "Tod",
-      "kategorie": "Emotionen",
+      "kategorie": "Körper",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -1039,7 +1070,8 @@
           "label": "Tibet. Buddhismus",
           "text": "Im Tibetischen Buch der Toten (Bardo Thodol) ist der Tod ein Übergang. Traumtod bedeutet Auflösung alter Konditionierungen und karma-reinigendes Erleben."
         }
-      }
+      },
+      "emoji": "💀"
     },
     {
       "id": "objekt_013",
@@ -1064,7 +1096,8 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🪜"
     },
     {
       "id": "person_006",
@@ -1094,12 +1127,13 @@
       ],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "👨"
     },
     {
       "id": "symbol_009",
       "name": "Verfolgung",
-      "kategorie": "Emotionen",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -1120,7 +1154,8 @@
         "Angsttraum",
         "Wunschtraum",
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🏃"
     },
     {
       "id": "natur_006",
@@ -1164,7 +1199,8 @@
           "label": "Tibet. Buddhismus",
           "text": "Wasser symbolisiert Mitgefühl und Formlosigkeit. Das Spiegelbild im Wasser zeigt die Illusion des Selbst (Maya)."
         }
-      }
+      },
+      "emoji": "💧"
     },
     {
       "id": "objekt_014",
@@ -1188,11 +1224,12 @@
       "verwandte_symbole": [],
       "traumtyp_kategorien": [
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🚂"
     },
     {
       "id": "symbol_002",
-      "name": "Zã¤Hne",
+      "name": "Zähne",
       "kategorie": "Körper",
       "synonyme": [],
       "freud": {
@@ -1213,12 +1250,13 @@
       "traumtyp_kategorien": [
         "Angsttraum",
         "Sexualtraum"
-      ]
+      ],
+      "emoji": "🦷"
     },
     {
       "id": "objekt_015",
       "name": "'Ashura",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [
         "10. Tag von Muharram",
         "Jahrestag des Märtyrertums von Husain in Kerbela"
@@ -1236,12 +1274,13 @@
           "Sieht es jemand anderes, bedeutet es das Gegenteil."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕌"
     },
     {
       "id": "objekt_016",
       "name": "Absehen Vom Übeltun",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": false,
@@ -1255,7 +1294,8 @@
           "Bedeutet **Vertrauen auf Gott** den Allmächtigen, Sich-Ihm-Zuwendung für die eigenen Bedürfnisse und **Sieg über den Feind**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🚫"
     },
     {
       "id": "aktivitaet_001",
@@ -1279,7 +1319,8 @@
           "Der Abstieg von einer alten Leiter bedeutet, in ein Geschäft zu investieren, aus dem man keinen Gewinn erzielt; bricht die Leiter auf halbem Weg, verliert man gegen den Gegner."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⬇️"
     },
     {
       "id": "emotion_001",
@@ -1301,7 +1342,8 @@
           "Wenn sie das Anvertraute im Traum zurückgibt, bedeutet dies, dass die Schwangerschaft nicht zur Vollendung kommt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤲"
     },
     {
       "id": "objekt_017",
@@ -1337,7 +1379,8 @@
         "Hitze",
         "Verbrennung",
         "Rauch"
-      ]
+      ],
+      "emoji": "🪹"
     },
     {
       "id": "ort_001",
@@ -1356,7 +1399,8 @@
           "Bezeichnet an sich viele Dinge."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🛁"
     },
     {
       "id": "ort_002",
@@ -1383,7 +1427,8 @@
           "Wenn das Badehaus und sein Wasser kalt sind, bedeutet dies, dass seine Familie ihn geächtet oder verbannt hat."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏛️"
     },
     {
       "id": "emotion_002",
@@ -1402,7 +1447,8 @@
           "Ein Segen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤲"
     },
     {
       "id": "emotion_003",
@@ -1421,7 +1467,8 @@
           "Frohe Botschaften."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤲"
     },
     {
       "id": "emotion_004",
@@ -1440,7 +1487,8 @@
           "Widrigkeiten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤲"
     },
     {
       "id": "aktivitaet_002",
@@ -1459,7 +1507,8 @@
           "Verrat, Täuschung, Irreführung anderer, oder es könnte Krieg bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎭"
     },
     {
       "id": "objekt_018",
@@ -1485,7 +1534,8 @@
           "Eine kranke Person, die im Bett aufsitzt: Sie wird von ihrer Krankheit genesen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🛏️"
     },
     {
       "id": "person_007",
@@ -1508,7 +1558,8 @@
           "Das Bett mit bösen Gefährten, Geistern, Satanen oder Dschinn teilen: Kampf gegen einen Verbrecherring."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👫"
     },
     {
       "id": "person_008",
@@ -1537,7 +1588,8 @@
           "Wenn Bettler in einer Gruppe in sein Haus oder seine Stadt kommen: Zerstreuung seiner Familie oder seines Haushalts."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧎"
     },
     {
       "id": "tier_002",
@@ -1557,7 +1609,8 @@
           "Bedeutet auch eine Burg oder Zitadelle. Die Bienen stellen ihre Bewohner dar, und die Honigwaben ihren Besitz."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐝"
     },
     {
       "id": "ort_003",
@@ -1586,12 +1639,13 @@
           "Sich selbst in eine Brücke verwandelt sehen: Er wird für ein Führungspostion gewählt, und die Menschen werden ihn, sein Ansehen und sein Angebot brauchen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌉"
     },
     {
       "id": "objekt_019",
       "name": "Darlehen Unterschreiben",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [
         "Kredit"
       ],
@@ -1607,7 +1661,8 @@
           "Bedeutet, unter gerichtliche Beschränkung gestellt zu werden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "✍️"
     },
     {
       "id": "natur_007",
@@ -1635,7 +1690,8 @@
           "**Einen Dattelbaum fällen:** Den Tod eines Gelehrten herbeiführen oder jemandem Unrecht zufügen, der Güte verdient hat."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌴"
     },
     {
       "id": "emotion_005",
@@ -1661,7 +1717,8 @@
           "Wenn man im Wachzustand leidet, kann dieser Traum Erleichterung bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "😔"
     },
     {
       "id": "natur_008",
@@ -1683,7 +1740,8 @@
           "Einen Bund Dill zu tragen, bedeutet, dass einem etwas **Unvorhergesehenes** zustoßen wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌿"
     },
     {
       "id": "natur_009",
@@ -1707,12 +1765,13 @@
           "Im Traum bedeutet Dunkelheit, **in die Irre zu gehen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌑"
     },
     {
       "id": "objekt_020",
       "name": "Einhüllen",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [
         "Einsargen"
       ],
@@ -1730,7 +1789,8 @@
           "Das Einhüllen der Toten nach dem Waschen bedeutet, sie von Unreinheiten reinzuwaschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧥"
     },
     {
       "id": "objekt_021",
@@ -1749,7 +1809,8 @@
           "Er ermahnt die Menschen, der göttlichen Führung zu folgen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⚖️"
     },
     {
       "id": "objekt_022",
@@ -1770,12 +1831,13 @@
           "Kann auch **Waisen** oder **Kinder der Sünde** darstellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧭"
     },
     {
       "id": "objekt_023",
       "name": "Enthüllung",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": false,
@@ -1790,7 +1852,8 @@
           "Wenn die Person bereits ein Mann des Wissens ist, werden ihr neue **spirituelle oder materielle Offenbarungen** zuteil."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🔍"
     },
     {
       "id": "tier_003",
@@ -1817,7 +1880,8 @@
           "**Esel verlieren:** Verlust von Reichtum und Status."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🫏"
     },
     {
       "id": "tier_004",
@@ -1837,7 +1901,8 @@
           "Er kann auch eine **Person mit hohem Wissen** sein, die viele Schüler führt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🫏"
     },
     {
       "id": "objekt_024",
@@ -1862,7 +1927,8 @@
           "**Fackel erlischt:** Der Tod eines Gelehrten oder ein Verlust an Wissen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🔦"
     },
     {
       "id": "objekt_025",
@@ -1886,7 +1952,8 @@
           "**Das Abwickeln eines Fadens:** Eine neue Reise antreten oder die **Wahrheit enthüllen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧵"
     },
     {
       "id": "tier_005",
@@ -1911,12 +1978,13 @@
           "**Falke jagen:** Geld oder **Einfluss** von einem mächtigen Mann erhalten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🦅"
     },
     {
       "id": "objekt_026",
       "name": "Falschheit",
-      "kategorie": "Objekte",
+      "kategorie": "Emotionen",
       "synonyme": [
         "Lüge",
         "Betrug"
@@ -1934,7 +2002,8 @@
           "**Zeuge der Falschheit sein:** Man wird in eine **Sünde** oder **korrupte Angelegenheit** verwickelt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎭"
     },
     {
       "id": "objekt_027",
@@ -1960,7 +2029,8 @@
           "**Weiße Farbe:** Reinheit, Glaube, Frömmigkeit und Glück."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎨"
     },
     {
       "id": "objekt_028",
@@ -1984,7 +2054,8 @@
           "**Handflächen mit Henna färben:** Glück, Freude und Überwindung von Stress."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎨"
     },
     {
       "id": "objekt_029",
@@ -2008,7 +2079,8 @@
           "**Auf einer Feder schreiben:** Man wird **hohes Wissen** erlangen oder **Befehle** von einer Autoritätsperson empfangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪶"
     },
     {
       "id": "natur_010",
@@ -2031,7 +2103,8 @@
           "**Feigen im Überfluss:** Reichtum, der **leicht** kommt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🫐"
     },
     {
       "id": "natur_011",
@@ -2056,7 +2129,8 @@
           "**Fels in ein Haus bringen:** **Reichtum** oder **Status** gewinnen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪨"
     },
     {
       "id": "natur_012",
@@ -2079,7 +2153,8 @@
           "**Fenchel riechen:** Guter **Ruf** und **Anerkennung** von Menschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌱"
     },
     {
       "id": "ort_004",
@@ -2110,7 +2185,8 @@
         "Dach",
         "Keller",
         "Treppe"
-      ]
+      ],
+      "emoji": "🪟"
     },
     {
       "id": "tier_006",
@@ -2132,7 +2208,8 @@
           "**Ferkel füttern:** Man wird mit **niederen oder ungerechten Menschen** Umgang pflegen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐷"
     },
     {
       "id": "objekt_030",
@@ -2157,7 +2234,8 @@
           "**Eine Fessel lösen:** **Freiheit** von Angst, Krankheit oder Schulden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⛓️"
     },
     {
       "id": "objekt_031",
@@ -2181,7 +2259,8 @@
           "**Kein Essen beim Fest:** **Enttäuschung** oder unerfüllte Hoffnung."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎉"
     },
     {
       "id": "koerper_001",
@@ -2206,7 +2285,8 @@
           "**Finger verrenkt:** Probleme in der **Familie** oder im **Geschäft**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👆"
     },
     {
       "id": "tier_007",
@@ -2232,7 +2312,8 @@
           "**Fisch aus dem Ozean:** Geld aus dem **Staatsschatz** oder von einem **mächtigen Führer**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐟"
     },
     {
       "id": "tier_008",
@@ -2256,7 +2337,8 @@
           "**Fliegen töten:** **Sieg** über schwache Feinde."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪰"
     },
     {
       "id": "natur_013",
@@ -2289,7 +2371,8 @@
         "Eis",
         "Schnee",
         "Tränen"
-      ]
+      ],
+      "emoji": "🏞️"
     },
     {
       "id": "natur_014",
@@ -2315,7 +2398,8 @@
           "**Saure Früchte:** **Traurigkeit** und **Kummer**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🍎"
     },
     {
       "id": "objekt_032",
@@ -2340,7 +2424,8 @@
           "Bedeuten auch böse Taten, Sünden und Verbrechen, die zur Bestrafung in der Hölle führen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "✨"
     },
     {
       "id": "objekt_033",
@@ -2365,7 +2450,8 @@
           "Ein Verstorbener in einem grünen Gewand bedeutet, dass er in einem **guten Zustand** lebt und die Früchte seiner Taten erntet (oder den Märtyrertod starb)."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👘"
     },
     {
       "id": "ort_005",
@@ -2389,7 +2475,8 @@
           "Ein geschlossenes oder zerbrochenes Tor deutet auf **Verlust** oder **Schwierigkeiten** hin."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🚪"
     },
     {
       "id": "aktivitaet_003",
@@ -2413,7 +2500,8 @@
           "Das Beenden des Gebets mit dem Friedensgruß bedeutet, den **richtigen Weg einzuschlagen** und seine **Aufgabe abzuschließen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕌"
     },
     {
       "id": "ort_006",
@@ -2436,7 +2524,8 @@
           "Repräsentiert auch die sichere Rückkehr eines Reisenden oder den Tod eines kranken Menschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🔒"
     },
     {
       "id": "objekt_034",
@@ -2461,12 +2550,13 @@
           "**Ein silbernes Gefäß:** Man wird die **Freuden des Jenseits** anstreben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏺"
     },
     {
       "id": "objekt_035",
       "name": "Geist/Gespenst",
-      "kategorie": "Objekte",
+      "kategorie": "Personen",
       "synonyme": [
         "Gespenst",
         "Dämon",
@@ -2485,7 +2575,8 @@
           "Die Anwesenheit eines Dämons im Haus bedeutet, dass dort **Schaden oder Magie** vorliegt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👻"
     },
     {
       "id": "objekt_036",
@@ -2508,7 +2599,8 @@
           "Ein Geschenk des Propheten (Friede sei auf ihm) bedeutet **Segen und Rechtleitung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎁"
     },
     {
       "id": "objekt_037",
@@ -2538,7 +2630,8 @@
         "Silber",
         "Armut",
         "Reichtum"
-      ]
+      ],
+      "emoji": "🥇"
     },
     {
       "id": "aktivitaet_004",
@@ -2560,7 +2653,8 @@
           "Das Graben der Erde bedeutet auch, sich in die **Falschheit** zu verstricken, um nichts als Zorn zu ernten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⛏️"
     },
     {
       "id": "natur_015",
@@ -2583,7 +2677,8 @@
           "**Trockenes Gras:** Mangel an Wissen, **Armut** oder **Krankheit**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌾"
     },
     {
       "id": "objekt_038",
@@ -2607,7 +2702,8 @@
           "Aus dem Grab steigen: **Buße** tun und **Rechtleitung** finden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪦"
     },
     {
       "id": "objekt_039",
@@ -2630,12 +2726,13 @@
           "Fett auf das Gesicht reiben: Ein Leben in **Enthaltung und religiösem Fasten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🫗"
     },
     {
       "id": "objekt_040",
       "name": "Griffin",
-      "kategorie": "Objekte",
+      "kategorie": "Tiere",
       "synonyme": [
         "Greif",
         "Fabelwesen"
@@ -2653,7 +2750,8 @@
           "Auf einem Greif reiten: **Aufstieg in Rang und Stellung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🦅"
     },
     {
       "id": "koerper_002",
@@ -2682,7 +2780,8 @@
           "Eine kleine Person sieht sich groß: Selbsttäuschung und Prahlerei, oder es könnte ihren Geiz darstellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "📏"
     },
     {
       "id": "koerper_003",
@@ -2707,7 +2806,8 @@
           "Weißes Haar: **Würde** und **Alter**, kann aber auch **Armut** bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "💇"
     },
     {
       "id": "objekt_041",
@@ -2726,7 +2826,8 @@
           "Repräsentiert einen Heuchler, der sich in die Angelegenheiten anderer einmischt und in ihren Streitigkeiten Partei ergreift."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪵"
     },
     {
       "id": "koerper_004",
@@ -2749,7 +2850,8 @@
           "Verlust einer Hand: **Tod eines nahen Verwandten** oder **finanzieller Ruin**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤚"
     },
     {
       "id": "koerper_005",
@@ -2772,7 +2874,8 @@
           "Handschlag und Umarmung: **Frohe Botschaften** oder der **Austausch von Wissen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤝"
     },
     {
       "id": "koerper_006",
@@ -2795,7 +2898,8 @@
           "Ein Taschentuch tragen: **Heirat mit einer schönen Frau**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧻"
     },
     {
       "id": "ort_007",
@@ -2816,7 +2920,8 @@
           "Korruption, Abweichung von Gottes Pfad, Leugnen der Wahrheit oder Weigerung, dem gesunden Menschenverstand zu folgen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🚷"
     },
     {
       "id": "objekt_042",
@@ -2840,12 +2945,13 @@
           "Ein Helm aus Eisen: Repräsentiert einen **Anführer**, der die Menschen verteidigt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⛑️"
     },
     {
       "id": "objekt_043",
       "name": "Hengst/Ross",
-      "kategorie": "Objekte",
+      "kategorie": "Tiere",
       "synonyme": [
         "Pferd",
         "Reittier"
@@ -2866,7 +2972,8 @@
           "**Der Schwanz des Pferdes:** Repräsentiert die **Nachkommen** oder **Anhänger** des Träumers."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐎"
     },
     {
       "id": "koerper_007",
@@ -2890,7 +2997,8 @@
           "Ein Herz essen: **Macht** über einen Feind erlangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "❤️"
     },
     {
       "id": "objekt_044",
@@ -2914,7 +3022,8 @@
           "Das Sammeln von Honig: **Reichtum** durch **ehrliche Arbeit** erhalten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🍯"
     },
     {
       "id": "tier_009",
@@ -2958,7 +3067,8 @@
           "label": "Zen-Buddhismus",
           "text": "Ein ruhiger Hund symbolisiert die gezähmten Sinne. Ein wild bellender Hund steht für den unruhigen Geist (Monkey Mind), der Meditation stört."
         }
-      }
+      },
+      "emoji": "🐕"
     },
     {
       "id": "emotion_006",
@@ -2981,12 +3091,13 @@
           "Hunger stillen: **Verlust** von Geld oder **Ende** einer schwierigen Zeit."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "😫"
     },
     {
       "id": "objekt_045",
       "name": "Händedruck",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": false,
@@ -3001,7 +3112,8 @@
           "Händedruck und Umarmung: Frohe Botschaften, gute Nachrichten, gute Worte, auf die mit Gleichem geantwortet wird, oder es könnte Wissen darstellen, das er anderen lehrt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤝"
     },
     {
       "id": "objekt_046",
@@ -3023,7 +3135,8 @@
           "Herabhängen, um gefährliche Tiere zu erreichen: **Umgang mit bösen Gefährten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪢"
     },
     {
       "id": "natur_016",
@@ -3047,7 +3160,8 @@
           "Die Hölle sehen, aber nicht betreten: **Angst** vor Gott und **Buße**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🔥"
     },
     {
       "id": "natur_017",
@@ -3071,7 +3185,8 @@
           "Auf einem Hügel stehen: **Hohen Status** und **Sicherheit** erlangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏔️"
     },
     {
       "id": "objekt_047",
@@ -3094,12 +3209,13 @@
           "Ein Idol zerbrechen: **Rückkehr zum Glauben** und **Buße**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🗿"
     },
     {
       "id": "objekt_048",
       "name": "Ignoranz",
-      "kategorie": "Objekte",
+      "kategorie": "Emotionen",
       "synonyme": [
         "Unwissenheit"
       ],
@@ -3116,7 +3232,8 @@
           "Aus der Ignoranz erwachen: **Rechtleitung** und **Sicherheit**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🙈"
     },
     {
       "id": "objekt_049",
@@ -3139,7 +3256,8 @@
           "Ein Bild aufhängen: **Verwirrung** und **Unsicherheit**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🖼️"
     },
     {
       "id": "objekt_050",
@@ -3161,7 +3279,8 @@
           "Das Verteilen eines Erbes: **Gerechtigkeit** walten lassen und **Segen** empfangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "📜"
     },
     {
       "id": "objekt_051",
@@ -3183,7 +3302,8 @@
           "Verschüttete Tinte: **Verlust von Geld** oder **unnützes Wissen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🖊️"
     },
     {
       "id": "objekt_052",
@@ -3206,7 +3326,8 @@
           "Eisenschmied: Ein **mächtiger Mann** oder ein **Diktator**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⚙️"
     },
     {
       "id": "objekt_053",
@@ -3228,12 +3349,13 @@
           "Ihn in seiner besten Form und strahlender Schönheit zu sehen, ist ein Zeichen für frohe Botschaften, rechtschaffene Nachkommen, Erleichterung von Bedrängnis, Wandel von Unachtsamkeit zu Führung, Armut zu Reichtum und von Ungehorsam zu Gehorsam gegenüber den Eltern."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "📿"
     },
     {
       "id": "objekt_054",
       "name": "Islam",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [
         "Religion",
         "Unterwerfung"
@@ -3251,7 +3373,8 @@
           "Den Islam erneuern: **Sicherheit** vor Plagen und **Krankheiten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "☪️"
     },
     {
       "id": "objekt_055",
@@ -3273,7 +3396,8 @@
           "Sich kratzen: **Geld** erlangen, das man **verlangt** hat."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤏"
     },
     {
       "id": "aktivitaet_005",
@@ -3297,7 +3421,8 @@
           "Jagd auf wilde, unbekannte Tiere: **Unerwarteter Reichtum** von einem Fremden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎯"
     },
     {
       "id": "objekt_056",
@@ -3322,7 +3447,8 @@
           "Juwelen verlieren: **Vergessen** des Korans oder **Verlust eines Sohnes**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "💎"
     },
     {
       "id": "tier_010",
@@ -3346,12 +3472,13 @@
           "Ein Kalb in der Wüste: **Reichtum** nach **Armut**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐂"
     },
     {
       "id": "objekt_057",
       "name": "Kaltes Wetter",
-      "kategorie": "Objekte",
+      "kategorie": "Natur",
       "synonyme": [
         "Schwein"
       ],
@@ -3368,12 +3495,13 @@
           "Heißes Wetter im Winter erleben: Das Gegenteil."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🥶"
     },
     {
       "id": "objekt_058",
       "name": "Kamelführer/Reiter",
-      "kategorie": "Objekte",
+      "kategorie": "Tiere",
       "synonyme": [
         "Kamel",
         "Reittier"
@@ -3392,7 +3520,8 @@
           "Kamel verlieren: **Verlust des Glaubens** oder **finanzielle Not**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐪"
     },
     {
       "id": "aktivitaet_006",
@@ -3416,7 +3545,8 @@
           "Im Kampf besiegt werden: **Verlust** im Leben oder **Schwäche** im Glauben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⚔️"
     },
     {
       "id": "ort_008",
@@ -3438,7 +3568,8 @@
           "In einer Kirche beten: **Sicherheit** und **Frieden** finden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⛪"
     },
     {
       "id": "objekt_059",
@@ -3462,7 +3593,8 @@
           "Kerze anzünden: **Heirat** für einen Unverheirateten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕯️"
     },
     {
       "id": "objekt_060",
@@ -3485,7 +3617,8 @@
           "Von Ketten befreit werden: **Genesung** oder **Freiheit** von Ungerechtigkeit."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⛓️"
     },
     {
       "id": "objekt_061",
@@ -3510,7 +3643,8 @@
           "**Ketten an Händen oder Füßen:** Stehen für die **Vernachlässigung religiöser Pflichten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⛓️"
     },
     {
       "id": "person_009",
@@ -3533,7 +3667,8 @@
           "Mit einem Kind sprechen: **Gute Nachrichten** oder **Erfüllung eines Wunsches**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👶"
     },
     {
       "id": "objekt_062",
@@ -3556,7 +3691,8 @@
           "Kissen verlieren: **Scheidung** oder **Verlust des Dieners**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🛋️"
     },
     {
       "id": "objekt_063",
@@ -3579,7 +3715,8 @@
           "Schwarze Kleidung: **Ehre** und **Würde**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👔"
     },
     {
       "id": "objekt_064",
@@ -3601,7 +3738,8 @@
           "Ein Kleidungsstück in der Sonne zum Trocknen aufhängen: Jemand wird bald von einer langen Reise zurückkehren."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👕"
     },
     {
       "id": "person_010",
@@ -3624,7 +3762,8 @@
           "Ein schlechter Koch: **Streit** und **Probleme** im Haushalt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👨‍🍳"
     },
     {
       "id": "objekt_065",
@@ -3648,7 +3787,8 @@
           "Ein Sack, der Wissen enthält: **Wahres Wissen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "💼"
     },
     {
       "id": "objekt_066",
@@ -3675,7 +3815,8 @@
           "Kann auch eine **Dienstmagd** oder **Hausangestellte** darstellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧳"
     },
     {
       "id": "objekt_067",
@@ -3694,12 +3835,13 @@
           "Die Geburt einer neuen Ideologie, Innovationen und Prüfungen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⚖️"
     },
     {
       "id": "objekt_068",
       "name": "Konformität",
-      "kategorie": "Objekte",
+      "kategorie": "Emotionen",
       "synonyme": [
         "Zustimmung"
       ],
@@ -3715,7 +3857,8 @@
           "Der Zustimmung zu Gottes Geboten/göttlichen Gesetzen: Liebe zu den Brüdern, Umgang mit den Gerechten und Verzicht auf die Gemeinschaft böser Gefährten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👥"
     },
     {
       "id": "koerper_008",
@@ -3738,12 +3881,13 @@
           "Einen großen Kopf haben: **Reichtum** und **große Ehre**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤕"
     },
     {
       "id": "objekt_069",
       "name": "Krankheit/Fieber",
-      "kategorie": "Objekte",
+      "kategorie": "Körper",
       "synonyme": [
         "Leiden",
         "Gebrechen"
@@ -3762,7 +3906,8 @@
           "Von Krankheit genesen: **Buße** und **Wiederherstellung des Glaubens**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤒"
     },
     {
       "id": "objekt_070",
@@ -3784,7 +3929,8 @@
           "Eine Krone verlieren: **Verlust von Ehre** oder **finanzieller Ruin**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👑"
     },
     {
       "id": "objekt_071",
@@ -3808,7 +3954,8 @@
           "Kuchen essen: **Freude** und **Feierlichkeiten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🍞"
     },
     {
       "id": "emotion_007",
@@ -3840,12 +3987,13 @@
           "Allgemein: Arbeit für einen Arbeitslosen, eine Ehefrau für einen Unverheirateten, und bei vielen Ornamenten: der zusätzliche Segen vieler Kinder."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎗️"
     },
     {
       "id": "objekt_072",
       "name": "Kuss",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [
         "Berührung"
       ],
@@ -3862,7 +4010,8 @@
           "Den Boden küssen: **Demut** und **Unterwerfung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "💋"
     },
     {
       "id": "tier_011",
@@ -3882,12 +4031,13 @@
           "Wenn ein Käfer sich in einen Skorpion verwandelt: Ein Feind, dessen wahre Absicht unbekannt ist."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪲"
     },
     {
       "id": "objekt_073",
       "name": "Kälte",
-      "kategorie": "Objekte",
+      "kategorie": "Natur",
       "synonyme": [
         "Atmosphärisch"
       ],
@@ -3906,7 +4056,8 @@
           "Zuflucht vor der Hitze der Sonne im Schatten suchen: Stress und Traurigkeit werden sich auflösen. Im Sommer bedeutet dies Wohlstand."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🥶"
     },
     {
       "id": "person_011",
@@ -3929,7 +4080,8 @@
           "Er könnte auch eine eigensinnige Person, einen Experten, einen Freund, einen Immobilienmakler, einen Wissenschaftler oder einen Kommandanten darstellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎨"
     },
     {
       "id": "objekt_074",
@@ -3953,7 +4105,8 @@
           "Lampe erlischt: **Tod** des Haushaltsvorstands oder **Verlust von Führung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "💡"
     },
     {
       "id": "natur_018",
@@ -3975,7 +4128,8 @@
           "Laub von einem Baum fallen sehen: **Verlust von Geld** oder **Ende des Glücks**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🍂"
     },
     {
       "id": "objekt_075",
@@ -3998,7 +4152,8 @@
           "Ein Lederbeutel: **Speicherung von Geld** und **Geheimnissen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧤"
     },
     {
       "id": "objekt_076",
@@ -4020,7 +4175,8 @@
           "Ein Leichentuch kann auch ein Gefängnis oder das Begehen einer schweren Sünde symbolisieren."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪦"
     },
     {
       "id": "objekt_077",
@@ -4044,7 +4200,8 @@
           "Eine zerbrochene Leiter: **Unglück** und **Enttäuschung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪜"
     },
     {
       "id": "person_012",
@@ -4065,7 +4222,8 @@
           "Repräsentiert Festlichkeiten, Freude, Glück, Tod, Krankheit, Führung, Wissen, Verlangen oder Weinen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕯️"
     },
     {
       "id": "objekt_078",
@@ -4087,7 +4245,8 @@
           "Locker hängen, um Vieh oder eine Schafherde zu erreichen: Wohltätigkeiten geben oder Geld auf gute Weise ausgeben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪢"
     },
     {
       "id": "natur_019",
@@ -4110,7 +4269,8 @@
           "In der Luft schweben: **Hohen Status** erlangen oder **reisen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "💨"
     },
     {
       "id": "emotion_008",
@@ -4133,7 +4293,8 @@
           "Jemanden auslachen: **Überlegenheit** über einen Feind."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "😄"
     },
     {
       "id": "objekt_079",
@@ -4155,7 +4316,8 @@
           "Viele Löffel: **Viele Töchter** oder **weibliche Nachkommen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🥄"
     },
     {
       "id": "tier_012",
@@ -4185,7 +4347,8 @@
         "Pferd",
         "Vogel",
         "Schlange"
-      ]
+      ],
+      "emoji": "🦁"
     },
     {
       "id": "tier_013",
@@ -4208,7 +4371,8 @@
           "Eine Maus töten: **Sieg** über eine ungerechte Frau."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐀"
     },
     {
       "id": "natur_020",
@@ -4218,8 +4382,8 @@
         "Wasser"
       ],
       "freud": {
-        "vorhanden": false,
-        "interpretation": "",
+        "vorhanden": true,
+        "interpretation": "Das Meer steht für die ozeanische Empfindung – das Gefühl von Einheit mit dem Universum oder für pränatale Geborgenheit.",
         "kontext_beispiele": [],
         "original_zitat": ""
       },
@@ -4231,7 +4395,22 @@
           "Trübes Meer: **Kummer, Sorgen** oder **ungerechter Herrscher**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌊",
+      "additional_sources": {
+        "jung": {
+          "label": "C.G. Jung",
+          "text": "Das Meer ist das tiefste Symbol des kollektiven Unbewussten. Die Tiefe birgt Schätze (Selbstverwirklichung) und Gefahren (psychische Überwältigung)."
+        },
+        "church_fathers": {
+          "label": "Kirchenväter",
+          "text": "Das Meer symbolisiert die Zeit, das Chaos vor der Schöpfung und die unberechenbare Welt. Christus über das Wasser gehend zeigt Beherrschung des Chaos."
+        },
+        "zen": {
+          "label": "Zen-Buddhismus",
+          "text": "Der Ozean ist ein Bild für den Buddha-Geist: unendlich tief, an der Oberfläche bewegt, im Kern absolut ruhig."
+        }
+      }
     },
     {
       "id": "person_013",
@@ -4257,7 +4436,8 @@
           "Repräsentiert auch eine ungerechte Person."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🔪"
     },
     {
       "id": "objekt_080",
@@ -4280,7 +4460,8 @@
           "Sauermilch: **Schwierigkeiten** bei der Erlangung von Unterhalt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🥛"
     },
     {
       "id": "natur_021",
@@ -4321,7 +4502,8 @@
           "label": "Zen-Buddhismus",
           "text": "Der Finger zeigt auf den Mond, doch der Finger ist nicht der Mond. Der Vollmond steht für vollständige Erleuchtung."
         }
-      }
+      },
+      "emoji": "🌙"
     },
     {
       "id": "ort_009",
@@ -4344,7 +4526,8 @@
           "In der Moschee schlafen: **Sicherheit** und **Frieden**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕌"
     },
     {
       "id": "koerper_009",
@@ -4368,12 +4551,13 @@
           "Ein geschlossener Mund: **Geheimnis** bewahren und **Zufriedenheit**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👄"
     },
     {
       "id": "objekt_081",
       "name": "Nacht",
-      "kategorie": "Objekte",
+      "kategorie": "Natur",
       "synonyme": [
         "Dunkelheit"
       ],
@@ -4391,7 +4575,8 @@
           "Eine dunkle Nacht: **Sorgen** und **Verwirrung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌙"
     },
     {
       "id": "objekt_082",
@@ -4414,12 +4599,13 @@
           "Nägel schneiden: **Einhaltung der Sunna** (Tradition) und **Überwindung von Schulden**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🔩"
     },
     {
       "id": "objekt_083",
       "name": "Nahrung/Essen",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [
         "Mahlzeit"
       ],
@@ -4437,7 +4623,8 @@
           "Essen teilen: **Gute Taten** und **Segen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🍲"
     },
     {
       "id": "koerper_010",
@@ -4460,7 +4647,8 @@
           "Blut aus der Nase: **Verlust von Geld** oder **Schwierigkeiten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👃"
     },
     {
       "id": "natur_022",
@@ -4482,7 +4670,8 @@
           "Der Nebel lichtet sich: **Klarheit** und **Lösung** der Probleme."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌫️"
     },
     {
       "id": "koerper_011",
@@ -4505,12 +4694,13 @@
           "Ohr verlieren: **Tod des Sohnes** oder **Verlust des Glaubens**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👂"
     },
     {
       "id": "objekt_084",
       "name": "Ort (Unbekannt)",
-      "kategorie": "Objekte",
+      "kategorie": "Orte",
       "synonyme": [
         "Fremdes Land"
       ],
@@ -4527,7 +4717,8 @@
           "An einem schönen unbekannten Ort: **Guter Ausgang** im Jenseits."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "❓"
     },
     {
       "id": "tier_014",
@@ -4552,7 +4743,8 @@
           "Alle Arten des Oryx-Geschlechts repräsentieren einen großen Führer, eine fromme und zurückgezogene Person, die jedoch nicht den prophetischen Traditionen folgt, oder er könnte ein Asket oder ein Innovator sein."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🦌"
     },
     {
       "id": "ort_010",
@@ -4575,7 +4767,8 @@
           "Einen Palast betreten: **Erfolg** und **große Ehre** erlangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏰"
     },
     {
       "id": "objekt_085",
@@ -4597,12 +4790,13 @@
           "Papier erhalten: **Gute Nachrichten** und **Erfolg**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "📄"
     },
     {
       "id": "objekt_086",
       "name": "Paradies (Jannah)",
-      "kategorie": "Objekte",
+      "kategorie": "Orte",
       "synonyme": [
         "Garten"
       ],
@@ -4619,7 +4813,8 @@
           "Aus dem Paradies vertrieben werden: **Verlust des Glaubens** oder **große Sünde**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌈"
     },
     {
       "id": "objekt_087",
@@ -4649,7 +4844,8 @@
           "Eine Perle gegen gefälschten Schmuck oder Glasscherben zu tauschen bedeutet, die Belohnung des Jenseits gegen die Freuden dieser Welt verkauft zu haben, oder es könnte eine Sünde oder Apostasie bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🦪"
     },
     {
       "id": "objekt_088",
@@ -4671,12 +4867,13 @@
           "Pfeffer essen: **Kummer** und **Sorgen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌶️"
     },
     {
       "id": "tier_015",
       "name": "Pfeile",
-      "kategorie": "Tiere",
+      "kategorie": "Objekte",
       "synonyme": [],
       "freud": {
         "vorhanden": false,
@@ -4690,12 +4887,13 @@
           "Bedeuten auch die Angst eines Gesandten um sein Leben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏹"
     },
     {
       "id": "tier_016",
       "name": "Pfeile Werfen",
-      "kategorie": "Tiere",
+      "kategorie": "Aktivitäten",
       "synonyme": [],
       "freud": {
         "vorhanden": false,
@@ -4709,12 +4907,13 @@
           "Bedeutet, über andere schlecht zu reden und sie zu verleumden."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏹"
     },
     {
       "id": "tier_017",
       "name": "Pfeilspitzen",
-      "kategorie": "Tiere",
+      "kategorie": "Objekte",
       "synonyme": [],
       "freud": {
         "vorhanden": false,
@@ -4731,7 +4930,8 @@
           "Die Pfeilspitze steht für Stärke, Macht oder Störung."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏹"
     },
     {
       "id": "aktivitaet_007",
@@ -4754,12 +4954,13 @@
           "Die Pilgerfahrt versäumen: **Verlust** oder **Schwierigkeiten** auf einer Reise."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕋"
     },
     {
       "id": "objekt_089",
       "name": "Pilgerrituale",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [
         "Haddsch"
       ],
@@ -4778,7 +4979,8 @@
           "Die Rückkehr von einer Pilgerfahrt bedeutet Gewinne und Erleichterung von Stress."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕋"
     },
     {
       "id": "natur_023",
@@ -4801,7 +5003,8 @@
           "Trübes Wasser trinken: **Kummer** und **Sorgen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⛲"
     },
     {
       "id": "natur_024",
@@ -4845,12 +5048,13 @@
           "label": "Theravada",
           "text": "Regen symbolisiert den Dharma, der auf alle ohne Unterschied fällt. Er reinigt Karma und fördert geistiges Wachstum."
         }
-      }
+      },
+      "emoji": "🌧️"
     },
     {
       "id": "objekt_090",
       "name": "Reichtum",
-      "kategorie": "Objekte",
+      "kategorie": "Emotionen",
       "synonyme": [
         "Geld"
       ],
@@ -4873,7 +5077,8 @@
         "Gold",
         "Silber",
         "Armut"
-      ]
+      ],
+      "emoji": "💰"
     },
     {
       "id": "objekt_091",
@@ -4895,7 +5100,8 @@
           "Reis kochen: **Geld** von einem **mächtigen Mann** erhalten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🍚"
     },
     {
       "id": "natur_025",
@@ -4917,12 +5123,13 @@
           "Eine Rose riechen: **Angenehme Worte** hören."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌹"
     },
     {
       "id": "objekt_092",
       "name": "Sable/Zobel",
-      "kategorie": "Objekte",
+      "kategorie": "Tiere",
       "synonyme": [
         "Fell",
         "Marder"
@@ -4939,7 +5146,8 @@
           "Der Zobel repräsentiert eine **undankbare, ungerechte Person** oder einen **Ungläubigen**, der Reichtum anhäuft, von dem niemand profitieren kann, bis er stirbt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🦫"
     },
     {
       "id": "natur_026",
@@ -4962,7 +5170,8 @@
           "Sand essen: **Schwierigkeiten** bei der Erlangung von Unterhalt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏜️"
     },
     {
       "id": "ort_011",
@@ -4985,7 +5194,8 @@
           "Die Hitze im Badhaus: **Sorgen** und **Kummer**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "♨️"
     },
     {
       "id": "tier_018",
@@ -5007,7 +5217,8 @@
           "Ein Lamm schlachten: **Opfer** bringen oder **Geburt eines Sohnes**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐑"
     },
     {
       "id": "natur_027",
@@ -5029,7 +5240,8 @@
           "Im Schatten sitzen: **Schutz** vor Sorgen und **Problemen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👤"
     },
     {
       "id": "objekt_093",
@@ -5053,7 +5265,8 @@
           "Das Halten einer Schere bedeutet, einen Bruder für den erstgeborenen Sohn zu gebären oder zwei sich gegenseitig stützende Geschäfte zu haben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "✂️"
     },
     {
       "id": "objekt_094",
@@ -5081,7 +5294,8 @@
         "Straße",
         "Auto",
         "Flugzeug"
-      ]
+      ],
+      "emoji": "🚢"
     },
     {
       "id": "tier_019",
@@ -5104,7 +5318,8 @@
           "Eine Schildkröte auf einem Müllhaufen: Eine wissende Person, die inmitten unwissender Menschen lebt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐢"
     },
     {
       "id": "aktivitaet_008",
@@ -5130,7 +5345,8 @@
           "Unter einem Baum: Eine große Nachkommenschaft haben."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "😴"
     },
     {
       "id": "aktivitaet_009",
@@ -5151,7 +5367,8 @@
           "Verlust eines Geliebten, der Tod eines Kindes, Trennung zwischen Liebenden oder Verlassen der Familie und Reisen in ein fremdes Land."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "😵"
     },
     {
       "id": "ort_012",
@@ -5177,7 +5394,8 @@
           "Ein schlecht aussehendes Schlafzimmer: Schlechter Charakter."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🛏️"
     },
     {
       "id": "tier_020",
@@ -5221,29 +5439,8 @@
           "label": "Tibet. Buddhismus",
           "text": "Im tibetischen Buddhismus steht die Schlange für Nāgas – Schutzgeister des Wassers. Gier ist einer der drei Gifte, symbolisiert durch die Schlange."
         }
-      }
-    },
-    {
-      "id": "objekt_095",
-      "name": "Schlüssel",
-      "kategorie": "Objekte",
-      "synonyme": [
-        "Öffner"
-      ],
-      "freud": {
-        "vorhanden": false,
-        "interpretation": "",
-        "kontext_beispiele": [],
-        "original_zitat": ""
       },
-      "ibn_sirin": {
-        "vorhanden": true,
-        "deutungen": [
-          "Ein Schlüssel: Steht für **Sieg, Wissen** und die **Erfüllung von Bedürfnissen**.",
-          "Eine Tür aufschließen: **Erfolg** und **Erleichterung**."
-        ]
-      },
-      "verwandte_symbole": []
+      "emoji": "🐍"
     },
     {
       "id": "person_014",
@@ -5269,12 +5466,13 @@
           "**Selbst Schreiber sein:** Man wird in seiner Arbeit erfolgreich sein und **großen Respekt** erlangen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "✍️"
     },
     {
       "id": "natur_028",
       "name": "Schuh/Sandalen",
-      "kategorie": "Natur",
+      "kategorie": "Objekte",
       "synonyme": [
         "Fußbekleidung"
       ],
@@ -5292,7 +5490,8 @@
           "Schuhe verlieren: **Scheidung** oder **Verlust** auf Reisen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👡"
     },
     {
       "id": "ort_013",
@@ -5317,7 +5516,8 @@
           "Bedeutet auch Rechtschaffenheit, die Etablierung göttlicher Gesetze, die Förderung eines Geschäfts oder die Einladung von Ärger."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏫"
     },
     {
       "id": "natur_029",
@@ -5342,7 +5542,8 @@
           "Sein Anblick ist möglicherweise ein Hinweis auf die bevorstehende Pilgerfahrt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕋"
     },
     {
       "id": "aktivitaet_010",
@@ -5364,7 +5565,8 @@
           "Im trüben Wasser schwimmen: **Verstrickung** in Sünden und **Probleme**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏊"
     },
     {
       "id": "objekt_096",
@@ -5386,7 +5588,8 @@
           "Seide tragen: **Aufstieg** in Rang und **Gunst**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧣"
     },
     {
       "id": "person_015",
@@ -5406,7 +5609,8 @@
           "Kann auch einen Sozialarbeiter, geistlichen Führer oder Psychologen darstellen, der Experte im Lösen von Problemen und Fördern des Friedens ist."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧵"
     },
     {
       "id": "emotion_009",
@@ -5426,7 +5630,8 @@
           "Zeigt im Allgemeinen eine Beteiligung an, die Leiden verursachen wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "😮‍💨"
     },
     {
       "id": "objekt_097",
@@ -5448,12 +5653,13 @@
           "Sieht er schrecklich aus, kann dies den Verlust des Augenlichts bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "📿"
     },
     {
       "id": "objekt_098",
       "name": "Sich Verstecken",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [
         "Sich verbergen",
         "Tarnen",
@@ -5473,7 +5679,8 @@
           "**Sich in der Moschee verstecken:** Schutz vor weltlichen Ablenkungen und **Segen im Glauben**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🫣"
     },
     {
       "id": "objekt_099",
@@ -5492,7 +5699,8 @@
           "Behält kein Wasser zurück: Der Hinterleger wird sein Versprechen nicht halten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕳️"
     },
     {
       "id": "tier_021",
@@ -5515,7 +5723,8 @@
           "Repräsentiert Niedertracht, eine verabscheuungswürdige Natur oder den Umgang mit niedrigen Menschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪲"
     },
     {
       "id": "natur_030",
@@ -5556,7 +5765,8 @@
           "label": "Tibet. Buddhismus",
           "text": "Die Sonne symbolisiert den Dharmakaya – den reinen, erleuchteten Geist. Sonnenstrahlen sind Mitgefühl (Karuna), das alle Wesen erreicht."
         }
-      }
+      },
+      "emoji": "☀️"
     },
     {
       "id": "tier_022",
@@ -5580,7 +5790,8 @@
           "Das Halten eines Spatzen bedeutet auch die Wahl einer Gemeinschaft von Ältesten und das Anbieten der eigenen Dienste."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐦"
     },
     {
       "id": "tier_023",
@@ -5603,7 +5814,8 @@
         ]
       },
       "verwandte_symbole": [],
-      "additional_sources": {}
+      "additional_sources": {},
+      "emoji": "🕷️"
     },
     {
       "id": "objekt_100",
@@ -5625,7 +5837,8 @@
           "Sich auf einen Stock stützen: **Unterstützung** von einem **starken Mann** erhalten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🦯"
     },
     {
       "id": "ort_014",
@@ -5654,7 +5867,8 @@
         "Auto",
         "Schiff",
         "Flugzeug"
-      ]
+      ],
+      "emoji": "🛤️"
     },
     {
       "id": "objekt_101",
@@ -5677,7 +5891,8 @@
           "Ein zerbrochener Säbel: **Verlust** eines nahen Verwandten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⚔️"
     },
     {
       "id": "objekt_102",
@@ -5699,7 +5914,8 @@
           "Sie steht auch für **Stärke, Gewinn** und einen **weisen Richter**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪚"
     },
     {
       "id": "objekt_103",
@@ -5721,12 +5937,13 @@
           "Viele Süßigkeiten: **Überfluss** an guten Taten und **Reichtum**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🍬"
     },
     {
       "id": "objekt_104",
       "name": "Tamariske",
-      "kategorie": "Objekte",
+      "kategorie": "Natur",
       "synonyme": [
         "bot."
       ],
@@ -5742,7 +5959,8 @@
           "Repräsentiert jemanden, der die Reichen verletzt und den Armen nützt."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌳"
     },
     {
       "id": "tier_024",
@@ -5764,7 +5982,8 @@
           "Eine Taube fangen: **Heirat** oder **gute Nachrichten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🕊️"
     },
     {
       "id": "objekt_105",
@@ -5786,7 +6005,8 @@
           "Auf einem Teppich sitzen: **Wohlstand** und **Stabilität**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🧶"
     },
     {
       "id": "objekt_106",
@@ -5810,7 +6030,8 @@
           "**Tinte kaufen:** Wissen suchen oder in eine neue Geschäftsbeziehung eintreten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🖊️"
     },
     {
       "id": "objekt_107",
@@ -5832,7 +6053,8 @@
           "Ein voller Tisch: **Reichtum** und **Überfluss**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪑"
     },
     {
       "id": "natur_031",
@@ -5855,7 +6077,8 @@
           "Schwarze Trauben: **Reichtum** von **Männern**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🍇"
     },
     {
       "id": "emotion_010",
@@ -5883,7 +6106,8 @@
         "Grab",
         "Beerdigung",
         "Sarg"
-      ]
+      ],
+      "emoji": "😢"
     },
     {
       "id": "objekt_108",
@@ -5908,7 +6132,8 @@
           "Stufen aus Ton sind positive Zeichen, aus gebrannten Ziegeln ungünstig und aus Steinen bedeuten Geschäftserfolg."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🪜"
     },
     {
       "id": "objekt_109",
@@ -5933,7 +6158,8 @@
           "**Eine zerrissene Trommel:** Ende der Heuchelei oder Verleumdung."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🥁"
     },
     {
       "id": "objekt_110",
@@ -5952,7 +6178,8 @@
           "Steht für eine **verleumderische Person** oder einen **Heuchler**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🥁"
     },
     {
       "id": "objekt_111",
@@ -5977,7 +6204,8 @@
           "**Töpfern:** Ein **neues Unternehmen** gründen oder eine **Familie gründen**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏺"
     },
     {
       "id": "ort_015",
@@ -6007,12 +6235,13 @@
         "Dach",
         "Keller",
         "Treppe"
-      ]
+      ],
+      "emoji": "🚪"
     },
     {
       "id": "ort_016",
       "name": "Türkis",
-      "kategorie": "Orte",
+      "kategorie": "Objekte",
       "synonyme": [
         "Edelstein"
       ],
@@ -6029,7 +6258,8 @@
           "Eine schwangere Frau hält einen Dolch/ein Messer mit Türkisgriff: Sie wird einen Sohn zur Welt bringen, der ein hohes Alter erreichen wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "💎"
     },
     {
       "id": "objekt_112",
@@ -6051,7 +6281,8 @@
           "Eine Uhr sehen: **Erinnerung** an die **religiösen Pflichten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⏰"
     },
     {
       "id": "emotion_011",
@@ -6077,7 +6308,8 @@
           "Im Allgemeinen bedeutet Verlangen im Traum **Böses**, wenn es von Weinen oder Klage begleitet wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "💫"
     },
     {
       "id": "emotion_012",
@@ -6101,7 +6333,8 @@
           "Ein leerer Ort kann auch Kummer und Ärger bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🚶"
     },
     {
       "id": "emotion_013",
@@ -6120,7 +6353,8 @@
           "Feindschaft zwischen Menschen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤝"
     },
     {
       "id": "emotion_014",
@@ -6141,12 +6375,13 @@
           "Jemandem ein Geheimnis anvertrauen: Der Tod der zweiten Person."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🤝"
     },
     {
       "id": "objekt_113",
       "name": "Vertreibung",
-      "kategorie": "Objekte",
+      "kategorie": "Aktivitäten",
       "synonyme": [
         "Verbannung",
         "Verjagen",
@@ -6166,7 +6401,8 @@
           "Aus der Heimat verbannt zu werden, bedeutet, dass man ins **Gefängnis** kommen könnte."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🚷"
     },
     {
       "id": "tier_025",
@@ -6185,7 +6421,8 @@
           "Ein Regierungsangestellter, der ungerecht wird."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐺"
     },
     {
       "id": "tier_026",
@@ -6204,7 +6441,8 @@
           "Wohlstand, umgeben von Abwesenheit menschlicher Würde."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐷"
     },
     {
       "id": "tier_027",
@@ -6223,7 +6461,8 @@
           "Er wird von seinem Sexualleben besessen oder geistig verwirrt bis hin zur Ausübung bisexueller Praktiken."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🦌"
     },
     {
       "id": "objekt_114",
@@ -6246,12 +6485,13 @@
           "Mit der Waage betrügen: **Ungerechtigkeit** im Geschäft oder **schlechte Absichten**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "⚖️"
     },
     {
       "id": "objekt_115",
       "name": "Waghalsigkeit",
-      "kategorie": "Objekte",
+      "kategorie": "Emotionen",
       "synonyme": [
         "Leistung",
         "Mut"
@@ -6270,12 +6510,13 @@
           "Stellt das Streben dar, von Menschen akzeptiert zu werden, entweder durch ihre Verteidigung oder durch den Mut, sich ihrem Feind zu stellen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🎲"
     },
     {
       "id": "objekt_116",
       "name": "Welt",
-      "kategorie": "Objekte",
+      "kategorie": "Natur",
       "synonyme": [
         "Diesseitiges",
         "Materie"
@@ -6296,7 +6537,8 @@
           "Das Weggehen von der Welt bedeutet, dass man ein ... [Satzende abgeschnitten]."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🌍"
     },
     {
       "id": "tier_028",
@@ -6323,7 +6565,8 @@
           "Wolfsmilch bedeutet Angst, Stress oder den Verfall eines Projekts."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🐺"
     },
     {
       "id": "emotion_015",
@@ -6342,7 +6585,8 @@
           "Würdevoll zu sein bedeutet im Traum **Demütigung**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👑"
     },
     {
       "id": "natur_032",
@@ -6364,7 +6608,8 @@
           "Kann Reue für eine Sünde, die Umkehr des Geschäftsverlaufs von Verlust zu Gewinn oder die Genesung von einer Krankheit bedeuten."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🏜️"
     },
     {
       "id": "objekt_117",
@@ -6388,7 +6633,8 @@
           "Das Spielen mit einem Zepter bedeutet, die Hilfe einer solchen Person zu nutzen, um Rivalen zu besiegen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👑"
     },
     {
       "id": "koerper_012",
@@ -6413,7 +6659,8 @@
           "Eine schwangere Frau sieht ein Erdbeben: Repräsentiert Wehen."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "😰"
     },
     {
       "id": "objekt_118",
@@ -6432,7 +6679,8 @@
           "Repräsentieren Geld."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "👔"
     },
     {
       "id": "objekt_119",
@@ -6454,12 +6702,13 @@
           "Öl auf den Körper reiben: **Heilung** von Krankheit und **Guter Ruf**."
         ]
       },
-      "verwandte_symbole": []
+      "verwandte_symbole": [],
+      "emoji": "🫒"
     },
     {
       "id": "kb_zahn___zähne",
       "name": "Zahn / Zähne",
-      "kategorie": "Koerper",
+      "kategorie": "Körper",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -6492,12 +6741,13 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "🦷"
     },
     {
       "id": "kb_baby___kleinkind",
       "name": "Baby / Kleinkind",
-      "kategorie": "Menschen",
+      "kategorie": "Personen",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -6530,7 +6780,8 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "👶"
     },
     {
       "id": "kb_auto___fahrzeug",
@@ -6569,7 +6820,8 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "🚗"
     },
     {
       "id": "kb_wald",
@@ -6605,45 +6857,8 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
-    },
-    {
-      "id": "kb_meer___ozean",
-      "name": "Meer / Ozean",
-      "kategorie": "Natur",
-      "synonyme": [],
-      "freud": {
-        "vorhanden": true,
-        "interpretation": "Das Meer steht für die ozeanische Empfindung – das Gefühl von Einheit mit dem Universum oder für pränatale Geborgenheit.",
-        "kontext_beispiele": [],
-        "original_zitat": ""
-      },
-      "ibn_sirin": {
-        "vorhanden": true,
-        "deutungen": [
-          "Das Meer symbolisiert einen mächtigen Herrscher oder König. Im Meer schwimmen und sicher ankommen verheißt Triumph. Ertrinken bedeutet Überwältigung durch Probleme."
-        ]
-      },
-      "additional_sources": {
-        "jung": {
-          "label": "C.G. Jung",
-          "text": "Das Meer ist das tiefste Symbol des kollektiven Unbewussten. Die Tiefe birgt Schätze (Selbstverwirklichung) und Gefahren (psychische Überwältigung)."
-        },
-        "church_fathers": {
-          "label": "Kirchenväter",
-          "text": "Das Meer symbolisiert die Zeit, das Chaos vor der Schöpfung und die unberechenbare Welt. Christus über das Wasser gehend zeigt Beherrschung des Chaos."
-        },
-        "zen": {
-          "label": "Zen-Buddhismus",
-          "text": "Der Ozean ist ein Bild für den Buddha-Geist: unendlich tief, an der Oberfläche bewegt, im Kern absolut ruhig."
-        }
-      },
-      "verwandte_symbole": [],
-      "ost_west_vergleich": {
-        "gemeinsamkeiten": [],
-        "unterschiede": {}
-      },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "🌲"
     },
     {
       "id": "kb_berg",
@@ -6678,12 +6893,13 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "⛰️"
     },
     {
       "id": "kb_blut",
       "name": "Blut",
-      "kategorie": "Koerper",
+      "kategorie": "Körper",
       "synonyme": [],
       "freud": {
         "vorhanden": true,
@@ -6716,7 +6932,8 @@
         "gemeinsamkeiten": [],
         "unterschiede": {}
       },
-      "traumtyp_kategorien": []
+      "traumtyp_kategorien": [],
+      "emoji": "🩸"
     }
   ],
   "such_index": {

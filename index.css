@@ -284,3 +284,28 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     transition-duration: 0.01ms !important;
   }
 }
+
+/* === ARABISCH / RTL FONT === */
+:lang(ar),
+[dir="rtl"] {
+  font-family: 'Cairo', 'Noto Naskh Arabic', 'Lato', sans-serif;
+}
+
+:lang(ar) h1,
+:lang(ar) h2,
+:lang(ar) h3,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  font-family: 'Cairo', 'Noto Naskh Arabic', serif;
+  font-weight: 700;
+}
+
+/* Material Icons müssen im RTL-Modus die Icon-Font behalten */
+[dir="rtl"] .material-icons,
+:lang(ar) .material-icons {
+  font-family: 'Material Icons' !important;
+  font-style: normal;
+  direction: ltr;
+  display: inline-block;
+}

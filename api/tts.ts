@@ -58,7 +58,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const voiceName = `${langCode}-Chirp3-HD-${suffix}`;
     const ttsUrl = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
 
-    console.log(`[tts] Google Cloud: lang=${lang}, voice=${voiceName}, text="${text.substring(0, 60)}..."`);
 
     let response = await synthesize(apiKey, ttsUrl, text, langCode, voiceName);
 

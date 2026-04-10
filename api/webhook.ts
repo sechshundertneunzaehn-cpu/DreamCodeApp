@@ -58,13 +58,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const metadata = session.metadata || {};
 
         if (metadata.type === 'coins') {
-          console.log(
             `[webhook] Coin purchase completed. Package: ${metadata.package}, Coins: ${metadata.coins}, Session: ${session.id}`
           );
           // Coin crediting happens client-side via verify-session after redirect.
           // For server-side processing (e.g., database), extend here.
         } else if (metadata.type === 'subscription') {
-          console.log(
             `[webhook] Subscription started. Tier: ${metadata.tier}, Interval: ${metadata.interval}, Session: ${session.id}`
           );
           // Subscription activation happens client-side via verify-session.
@@ -76,7 +74,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
-        console.log(
           `[webhook] Subscription updated. ID: ${subscription.id}, Status: ${subscription.status}`
         );
         // Handle plan changes, payment failures, etc.
@@ -85,7 +82,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
-        console.log(
           `[webhook] Subscription cancelled. ID: ${subscription.id}`
         );
         // TODO: Implementiere Downgrade-Logic wenn Backend existiert
@@ -94,7 +90,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       default:
-        console.log(`[webhook] Unhandled event type: ${event.type}`);
     }
 
     return res.status(200).json({ received: true });

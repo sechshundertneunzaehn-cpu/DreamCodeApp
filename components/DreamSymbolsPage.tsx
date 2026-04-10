@@ -274,7 +274,7 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
               className={`px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${!selectedSource ? 'bg-indigo-600 text-white shadow-lg' : `border ${card}`}`}>
               {t.all_categories} ({meta.statistik.gesamt_symbole})
             </button>
-            {SOURCE_DEFS.filter(s => sourceCounts[s.key]).map(src => (
+            {SOURCE_DEFS.filter(s => sourceCounts[s.key]).sort((a, b) => (sourceCounts[b.key] || 0) - (sourceCounts[a.key] || 0)).map(src => (
               <button key={src.key} onClick={() => setSelectedSource(selectedSource === src.key ? null : src.key)}
                 className={`px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${selectedSource === src.key ? 'bg-indigo-600 text-white shadow-lg' : `border ${card}`}`}>
                 <span>{src.icon}</span> {src.label} <span className="opacity-60">({sourceCounts[src.key]})</span>
@@ -326,7 +326,7 @@ const DreamSymbolsPage: React.FC<DreamSymbolsPageProps> = ({ language, onClose, 
                   <button onClick={() => setExpandedSymbol(isExpanded ? null : sym.id)}
                     className="w-full flex items-center justify-between p-4 text-left">
                     <div className="flex items-center gap-3">
-                      <span className="text-lg">{CATEGORY_ICONS[sym.kategorie] || '✨'}</span>
+                      <span className="text-lg">{sym.emoji || CATEGORY_ICONS[sym.kategorie] || '✨'}</span>
                       <div>
                         <span className="font-bold text-sm">{sym.name}</span>
                         {sym.synonyme?.length > 0 && (

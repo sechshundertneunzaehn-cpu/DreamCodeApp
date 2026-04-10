@@ -63,7 +63,6 @@ const optimizePromptForVideo = (
 const generateVideoWAN = async (
     options: VideoGenerationOptions
 ): Promise<VideoGenerationResult> => {
-    console.log('[WAN] Starte Video-Generierung via /api/generate-video...');
     const startTime = Date.now();
 
     try {
@@ -118,7 +117,6 @@ const pollViaProxy = async (
         }
 
         const statusData = await statusRes.json();
-        console.log(`[${provider}] Status: ${statusData.status}, Versuch ${attempts + 1}/${maxAttempts}`);
 
         if (statusData.status === 'succeeded') {
             const output = statusData.output;
@@ -203,7 +201,6 @@ export const generateDreamVideo = async (
     const apiKey = getReplicateKey();
     const hasKey = apiKey && apiKey.length > 5;
 
-    console.log(`[VIDEO] Starte Generierung fuer Tier: ${subscriptionTier}, Key vorhanden: ${hasKey}`);
 
     // WAN 2.7 (alle Tiers)
     if (hasKey) {
@@ -216,7 +213,6 @@ export const generateDreamVideo = async (
 
     // Fallback: Slideshow
     if (slideshowFallback) {
-        console.log('[VIDEO] Verwende Slideshow-Fallback');
         return await slideshowFallback();
     }
 

@@ -324,7 +324,6 @@ const LiveSession: React.FC<LiveSessionProps> = ({
     // ── Interrupt oracle (fallback for manual tap on orb) ────────────────
     const interruptOracle = useCallback(() => {
         if (!isPlayingRef.current && !currentSourceRef.current) return;
-        console.log('[LiveSession] Manual interrupt (tap)');
         wasInterruptedRef.current = true;
         if (currentSourceRef.current) {
             try { currentSourceRef.current.stop(); } catch (_) {}
@@ -342,7 +341,6 @@ const LiveSession: React.FC<LiveSessionProps> = ({
     // ── Process user input → LLM → TTS → Playback ──────────────────────
     const processUserInput = useCallback(async (userText: string) => {
         if (!userText.trim() || isProcessingRef.current) {
-            console.log('[LiveSession] Skipped:', !userText.trim() ? 'empty' : 'already processing');
             return;
         }
         isProcessingRef.current = true;
@@ -350,7 +348,6 @@ const LiveSession: React.FC<LiveSessionProps> = ({
         const lang = sessionLanguageRef.current;
         roundRef.current += 1;
         const round = roundRef.current;
-        console.log(`[LiveSession] Round ${round}: "${userText.substring(0, 60)}"`);
 
         // Mute mic (boolean flag – processor stays connected!)
         isMutedRef.current = true;
@@ -465,7 +462,6 @@ ${CATEGORY_INFO}`;
                             for (let i = 0; i < binaryStr.length; i++) bytes[i] = binaryStr.charCodeAt(i);
                             audioBuffer = bytes.buffer;
                             ttsOk = true;
-                            console.log(`[LiveSession] Direct TTS: ${Date.now() - t0}ms, voice=${gcVoice}`);
                         }
                     } else {
                         console.warn(`[LiveSession] Direct TTS failed (${directRes.status}), trying fallback...`);
@@ -538,16 +534,13 @@ ${CATEGORY_INFO}`;
             (source as any)._sourceId = sourceId;
 
             source.start();
-            console.log(`[LiveSession] Audio playing (source ${sourceId}), duration: ${decoded.duration.toFixed(1)}s`);
 
             source.onended = () => {
                 // Skip if this source was interrupted (old source stopped for new one)
                 if (wasInterruptedRef.current) {
                     wasInterruptedRef.current = false;
-                    console.log(`[LiveSession] onended skipped (interrupted, source ${(source as any)._sourceId})`);
                     return;
                 }
-                console.log(`[LiveSession] onended firing (source ${(source as any)._sourceId})`);
                 currentSourceRef.current = null;
                 isPlayingRef.current = false;
                 isProcessingRef.current = false;
@@ -559,7 +552,6 @@ ${CATEGORY_INFO}`;
                 const queued = queuedSpeechRef.current.trim();
                 queuedSpeechRef.current = '';
                 if (queued.length > 3) {
-                    console.log('[LiveSession] Queued speech found:', queued.substring(0, 60));
                     currentTranscriptRef.current = queued;
                     setCurrentUserText(queued);
                     silenceTimerRef.current = setTimeout(() => {
@@ -573,7 +565,6 @@ ${CATEGORY_INFO}`;
                     setCurrentUserText('');
                     currentTranscriptRef.current = '';
                 }
-                console.log('[LiveSession] Listening. WS:', wsRef.current?.readyState);
             };
 
             // Safety timeout: if onended doesn't fire within expected time + 5s, force reset
@@ -672,7 +663,6 @@ ${CATEGORY_INFO}`;
                     const lastIdx = event.results.length - 1;
                     const transcript = event.results[lastIdx][0].transcript.trim();
                     if (transcript) {
-                        console.log('[LiveSession] Web Speech result:', transcript);
                         processUserInput(transcript);
                     }
                 };
@@ -701,12 +691,10 @@ ${CATEGORY_INFO}`;
             const dgLang = DEEPGRAM_LANG[language] || 'de';
             const sampleRate = inputCtx.sampleRate; // actual context sample rate
             const wsUrl = `wss://api.deepgram.com/v1/listen?model=nova-2&language=${dgLang}&encoding=linear16&sample_rate=${sampleRate}&channels=1&smart_format=true&interim_results=true&endpointing=300&utterance_end_ms=3000&vad_events=true`;
-            console.log(`[LiveSession] Connecting Deepgram: lang=${dgLang}, sampleRate=${sampleRate}`);
             const ws = new WebSocket(wsUrl, ['token', deepgramKey]);
             wsRef.current = ws;
 
             ws.onopen = () => {
-                console.log('[LiveSession] Deepgram STT connected, sampleRate:', sampleRate);
                 setDebugInfo(`DG open | SR:${sampleRate}`);
                 setStatus('connected');
                 isConnectingRef.current = false;
@@ -775,13 +763,11 @@ ${CATEGORY_INFO}`;
                             if (round <= 3 && !isQuickTurn && !patienceUsedRef.current) {
                                 patienceUsedRef.current = true;
                                 setDebugInfo(`UttEnd patience r${round} w${wordCount} 4s...`);
-                                console.log(`[LiveSession] UtteranceEnd (patience, round ${round}) waiting 4s...`);
                                 silenceTimerRef.current = setTimeout(() => {
                                     const text = currentTranscriptRef.current.trim();
                                     if (text && !isMutedRef.current && !isPlayingRef.current) {
                                         currentTranscriptRef.current = '';
                                         patienceUsedRef.current = false;
-                                        console.log(`[LiveSession] Patience expired → process: "${text.substring(0, 60)}"`);
                                         processUserInput(text);
                                     }
                                 }, 4000);
@@ -789,7 +775,6 @@ ${CATEGORY_INFO}`;
                                 currentTranscriptRef.current = '';
                                 patienceUsedRef.current = false;
                                 setDebugInfo(`UttEnd → process r${round} w${wordCount}`);
-                                console.log(`[LiveSession] UtteranceEnd → process: "${finalText.substring(0, 60)}"`);
                                 processUserInput(finalText);
                             }
                         }
@@ -806,7 +791,6 @@ ${CATEGORY_INFO}`;
                         if (isFinal) {
                             queuedSpeechRef.current += ' ' + transcript;
                             if (transcript.trim().length > 5) {
-                                console.log('[LiveSession] Voice interrupt:', transcript.substring(0, 40));
                                 wasInterruptedRef.current = true;
                                 if (currentSourceRef.current) {
                                     try { currentSourceRef.current.stop(); } catch (_) {}
@@ -843,7 +827,6 @@ ${CATEGORY_INFO}`;
                             const finalText = currentTranscriptRef.current.trim();
                             if (finalText && !isMutedRef.current && !isPlayingRef.current) {
                                 currentTranscriptRef.current = '';
-                                console.log('[LiveSession] Fallback timer → process:', finalText.substring(0, 60));
                                 processUserInput(finalText);
                             }
                         }, fallbackMs);

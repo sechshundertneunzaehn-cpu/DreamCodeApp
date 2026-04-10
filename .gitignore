@@ -17,3 +17,4 @@ supabase/.temp/
 # API Keys file
 api.txt
 alpi.txt
+deploy.sh

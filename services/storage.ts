@@ -186,7 +186,6 @@ export const syncStorageOnStartup = async (): Promise<{ dreams: Dream[]; profile
   // Dreams: nimm den neueren (mehr Einträge)
   let finalDreams: Dream[];
   if (idbDreams.length > lsDreams.length) {
-    console.log(`[STORAGE] IDB hat ${idbDreams.length} Dreams, LS nur ${lsDreams.length} → IDB gewinnt`);
     finalDreams = idbDreams;
     // LS nachziehen
     try { localStorage.setItem(DREAMS_KEY, JSON.stringify(idbDreams)); } catch { /* full */ }
@@ -201,7 +200,6 @@ export const syncStorageOnStartup = async (): Promise<{ dreams: Dream[]; profile
   // Profile: LS gewinnt, IDB als Fallback
   let finalProfile: UserProfile;
   if (!lsProfile && idbProfile) {
-    console.log('[STORAGE] Profile nur in IDB gefunden → IDB gewinnt');
     finalProfile = idbProfile;
     try { localStorage.setItem(PROFILE_KEY, JSON.stringify(idbProfile)); } catch { /* full */ }
   } else if (lsProfile) {

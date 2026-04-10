@@ -4454,7 +4454,6 @@ const App: React.FC = () => {
     // !!! CRITICAL FIX: ASYNC LOADING TO PREVENT DATA OVERWRITE !!!
     useEffect(() => {
         const init = async () => {
-            console.log("Initializing Data Vault...");
             try {
                 // Sync-Check: Vergleicht localStorage und IndexedDB — nimmt neueren Stand
                 const { dreams: syncedDreams, profile: syncedProfile } = await syncStorageOnStartup();
@@ -4464,7 +4463,6 @@ const App: React.FC = () => {
                 let loadedProfile = syncedProfile;
 
                 if (!loadedProfile || !loadedProfile.name) {
-                     console.log("No profile found in vault. Creating fresh default.");
                      loadedProfile = {
                          name: 'Dreamer',
                          interests: [],
@@ -4475,7 +4473,6 @@ const App: React.FC = () => {
                      } as UserProfile;
                      await saveProfileSecurely(loadedProfile);
                 } else {
-                    console.log("Profile restored from vault:", loadedProfile.name);
                 }
                 
                 // Restore Theme Prefs
@@ -4486,6 +4483,7 @@ const App: React.FC = () => {
                 // via the useState initializer — no need to override here
 
                 // DEV: Immer hoechste Stufe setzen damit nichts blockiert wird
+                if (import.meta.env.DEV) {
                 if (loadedProfile.subscriptionTier !== SubscriptionTier.SMART) {
                     loadedProfile = { ...loadedProfile, subscriptionTier: SubscriptionTier.SMART, credits: Math.max(loadedProfile.credits ?? 0, 9999) };
                     await saveProfileSecurely(loadedProfile);
@@ -4495,6 +4493,7 @@ const App: React.FC = () => {
                      loadedProfile = { ...loadedProfile, credits: 9999 };
                      await saveProfileSecurely(loadedProfile);
                 }
+                } // end DEV-only
 
                 // Load saved categories from localStorage
                 try {
@@ -4507,7 +4506,6 @@ const App: React.FC = () => {
                         setSelectedSources(JSON.parse(savedSources));
                     }
                 } catch (e) {
-                    console.log('Could not load saved categories', e);
                 }
 
                 setUserProfile(loadedProfile);
@@ -4746,7 +4744,7 @@ const App: React.FC = () => {
         if (selectedSources.includes(source)) {
             setSelectedSources(prev => prev.filter(s => s !== source));
         } else {
-            setSelectedSources(prev => [...prev, source]);
+            setSelectedSources([source]);
         }
     };
 
@@ -4931,7 +4929,6 @@ Rules:
                     'fantasy',
                     language,
                     (message, percent) => {
-                        console.log(`[VIDEO-USER-VOICE] ${message} - ${percent}%`);
                     }
                 );
                 // Coin reward for using own voice
@@ -4941,7 +4938,6 @@ Rules:
                     const updated = { ...currentProfile, credits: newCredits };
                     setUserProfile(updated);
                     await saveProfileSecurely(updated);
-                    console.log('[COINS] +5 Münzen für User-Voice Video');
                 }
             } else {
                 // AI voice video: analyze dream first, then TTS
@@ -4955,7 +4951,6 @@ Rules:
                     'fantasy',
                     language,
                     (message, percent) => {
-                        console.log(`[VIDEO] ${message} - ${percent}%`);
                     }
                 );
             }
@@ -4989,7 +4984,6 @@ Rules:
                 'fantasy',
                 language,
                 (message, percent) => {
-                    console.log(`[VIDEO-NARRATION] ${message} - ${percent}%`);
                 }
             );
             if (result) {
@@ -5022,7 +5016,6 @@ Rules:
                 'fantasy',
                 language,
                 (message, percent) => {
-                    console.log(`[VIDEO-USER-VOICE] ${message} - ${percent}%`);
                 }
             );
             if (result) {
@@ -5044,7 +5037,6 @@ Rules:
                     const updated = { ...currentProfile, credits: newCredits };
                     setUserProfile(updated);
                     await saveProfileSecurely(updated);
-                    console.log(`[COINS] +${VOICE_VIDEO_REWARD} Münzen für User-Voice Video`);
                 }
             }
         } catch (e) {
@@ -5159,15 +5151,6 @@ Rules:
                 })
             };
 
-            console.log('💾 Saving dream with audio:', {
-                hasAudio: !!currentAudioData,
-                audioLength: currentAudioData?.length || 0,
-                transcriptLength: inputText.length,
-                dreamObject: {
-                    hasAudioUrl: !!newDream.audioUrl,
-                    hasAudioTranscript: !!newDream.audioTranscript
-                }
-            });
 
             await handleSaveDream(newDream);
             setLastInterpretation(result.interpretation || '');
@@ -5234,7 +5217,6 @@ Rules:
                     const base64String = reader.result as string;
                     setCurrentAudioData(base64String);
                     setAudioIsFromLiveChat(false);
-                    console.log('🎤 Diktat-Audio gespeichert:', base64String.length, 'chars');
                 };
                 reader.readAsDataURL(audioBlob);
 
@@ -5377,7 +5359,7 @@ Rules:
              {/* HEADER */}
              <div className="flex items-start justify-between mb-6 gap-3">
                  <div className="flex-1 min-w-0">
-                     <h1 className={`text-3xl sm:text-4xl font-heading font-bold text-transparent bg-clip-text bg-gradient-to-r ${isLight ? 'from-[#1e1035] via-[#4c1d95] to-[#7c3aed]' : 'from-violet-200 via-fuchsia-200 to-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]'}`} style={{ lineHeight: '1.15' }}>
+                     <h1 className={`text-3xl sm:text-4xl font-heading font-bold text-transparent bg-clip-text bg-gradient-to-r ${isLight ? 'from-[#1e1035] via-[#4c1d95] to-[#7c3aed]' : 'from-violet-200 via-fuchsia-200 to-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]'}`} style={{ lineHeight: '1.15', ...(isLight ? { color: '#1a1a2e', WebkitTextFillColor: 'transparent' } : {}) }}>
                          {(() => {
                              const parts = t.app_title.split(' | ');
                              if (parts.length === 2) {
@@ -5795,7 +5777,7 @@ Rules:
                         initialMode={videoStudioInterpretation ? 'choose' : undefined}
                         onClose={() => { setVideoStudioDreamId(null); setVideoStudioInterpretation(''); setView(View.HOME); }}
                         onGenerate={async (text, options) => {
-                            const log = (msg: string, pct: number) => console.log(`[VIDEO-STUDIO] ${msg} - ${pct}%`);
+                            const log = (_msg: string, _pct: number) => {};
                             try {
                                 let result;
                                 let audioBase64ForSave: string | undefined;

@@ -99,7 +99,6 @@ async function applySubscription(
 
   await saveProfileSecurely(updatedProfile);
 
-  console.log(`[paymentHandler] Subscription upgraded to ${newTier}`);
 
   return {
     success: true,
@@ -124,7 +123,6 @@ async function applyCoins(
 
   await saveProfileSecurely(updatedProfile);
 
-  console.log(`[paymentHandler] Added ${coins} coins. Total: ${updatedProfile.coins}`);
 
   return {
     success: true,
