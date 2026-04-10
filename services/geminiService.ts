@@ -716,13 +716,13 @@ Example: ["A person standing in front of an old house at night","Walking through
 
   onProgress?.(vt.audio, 30);
 
-  // Google Cloud TTS via /api/tts (multilingual Chirp3-HD)
+  // Google Cloud TTS via /api/deepgram-tts?provider=google (multilingual Chirp3-HD)
   let speech: string | null = null;
   try {
-    const ttsRes = await fetch(apiUrl('/api/tts'), {
+    const ttsRes = await fetch(apiUrl('/api/deepgram-tts'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: cleanText.slice(0, 4500), language }),
+      body: JSON.stringify({ text: cleanText.slice(0, 4500), language, provider: 'google' }),
     });
     if (ttsRes.ok) {
       const blob = await ttsRes.blob();
@@ -827,10 +827,10 @@ export const generateDreamNarrationVideo = async (
 
   let speech: string | null = null;
   try {
-    const ttsRes = await fetch(apiUrl('/api/tts'), {
+    const ttsRes = await fetch(apiUrl('/api/deepgram-tts'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: cleanText.slice(0, 4500), language }),
+      body: JSON.stringify({ text: cleanText.slice(0, 4500), language, provider: 'google' }),
     });
     if (ttsRes.ok) {
       const blob = await ttsRes.blob();

@@ -107,26 +107,10 @@ export function detectRegion(): RegionInfo {
   return buildRegionInfo(region, countryCode);
 }
 
-// Async Version mit Server-seitigem Geo-Lookup
+// Async Version — Browser-Locale-Fallback
 export async function detectRegionAsync(): Promise<RegionInfo> {
-  // 1. Cache pruefen
   const cached = getCachedRegion();
   if (cached) return buildRegionInfo(cached.region, cached.countryCode);
-
-  // 2. Server-Endpoint (Vercel x-vercel-ip-country)
-  try {
-    const res = await fetch(apiUrl('/api/detect-region');
-    if (res.ok) {
-      const data = await res.json();
-      if (data.countryCode) {
-        const region = countryToRegion(data.countryCode);
-        cacheRegion(region, data.countryCode);
-        return buildRegionInfo(region, data.countryCode);
-      }
-    }
-  } catch { /* Netzwerkfehler, fallback */ }
-
-  // 3. Fallback: Browser-Locale
   return detectRegion();
 }
 
