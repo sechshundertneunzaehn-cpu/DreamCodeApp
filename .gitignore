@@ -18,4 +18,9 @@ supabase/.temp/
 # API Keys file
 api.txt
 alpi.txt
+
+# Android signing — niemals committen
+android/keystore.properties
+android/*.keystore
+android/*.jks
 deploy.sh
