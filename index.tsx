@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import 'material-icons/iconfont/material-icons.css';
+import 'material-icons/iconfont/filled.css';
 import './index.css';
 
 const container = document.getElementById('root');
