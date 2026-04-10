@@ -58,7 +58,7 @@ export const transcribeAudio = async (
                 reader.readAsDataURL(audioBlob);
             });
 
-            const languageNames = {
+            const languageNames: Partial<Record<Language, string>> = {
                 [Language.EN]: 'English',
                 [Language.DE]: 'German (Deutsch)',
                 [Language.TR]: 'Turkish (Turkce)',

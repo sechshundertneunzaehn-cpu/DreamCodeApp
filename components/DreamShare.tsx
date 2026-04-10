@@ -1103,11 +1103,11 @@ const DreamShare: React.FC<DreamShareProps> = ({
         });
     };
 
-    const formatDreamText = (text: string | { interpretation: string } | any) => {
+    const formatDreamText = (text: string | { interpretation: string } | Record<string, unknown>) => {
         // Handle both string and object formats
-        const textStr = typeof text === 'string' ? text : (text?.interpretation || String(text));
+        const textStr = typeof text === 'string' ? text : ((text as { interpretation?: string })?.interpretation || String(text));
         const lines = textStr.split('\n');
-        return lines.map((line, index) => {
+        return lines.map((line: string, index: number) => {
             const cleanLine = line.trim();
             if (!cleanLine) return <div key={index} className="h-3"></div>;
 
