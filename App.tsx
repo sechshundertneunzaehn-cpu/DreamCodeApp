@@ -36,8 +36,7 @@ import { analyzeDreamText, generateDreamImage, generateImagePrompt, generateSpee
 import { generateDreamVideo as generateReplicateVideo, isReplicateConfigured } from './services/videoGenerationService';
 import StoryVideoPlayer from './components/StoryVideoPlayer';
 import { loadDreamsSecurely, loadProfileSecurely, saveDreamsSecurely, saveProfileSecurely, exportDataToFile, importDataFromFile, syncStorageOnStartup } from './services/storage';
-// Knowledge Base wird direkt importiert (wird für Analyse benötigt)
-import { KNOWLEDGE_BASE } from './data/knowledgeBase';
+// Knowledge Base lazy-loaded on demand (only used in handleInfoClick)
 import { FEATURE_PRICES, SUBSCRIPTION_TIERS, COIN_PACKAGES, REWARDS, coinToEur } from './config/pricing';
 import { CATEGORY_ICONS, CATEGORY_ORDER, CATEGORY_SOURCE_MAP, CATEGORY_COLOR_SCHEME, CATEGORY_TIER_REQUIREMENT, getSourcesForCategories } from './config/traditions';
 
@@ -4749,11 +4748,10 @@ const App: React.FC = () => {
     };
 
     // INFO HANDLER
-    const handleInfoClick = (itemKey: string) => {
-        // Find data in current language or fallback to DE/EN
+    const handleInfoClick = async (itemKey: string) => {
+        const { KNOWLEDGE_BASE } = await import('./data/knowledgeBase');
         const langData = KNOWLEDGE_BASE[language] || KNOWLEDGE_BASE[Language.DE];
         const data = (langData as any)[itemKey];
-        
         if (data) {
             setInfoModalData(data);
             setShowInfoModal(true);
@@ -5117,7 +5115,7 @@ Rules:
 
         try {
             // IMAGE GENERATION
-            let imageUrl = undefined;
+            let imageUrl: string | undefined = undefined;
 
             // Skip image generation if style is null
             if (style !== null) {

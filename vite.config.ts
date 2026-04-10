@@ -79,7 +79,6 @@ export default defineConfig(({ mode }) => {
               'vendor-pdf': ['html2canvas', 'jspdf'],
               'vendor-mapbox': ['mapbox-gl'],
               'knowledge': ['./data/knowledgeBase'],
-              'bot-profiles': ['./data/botProfiles'],
               'services': [
                 './services/geminiService',
                 './services/videoGenerationService',

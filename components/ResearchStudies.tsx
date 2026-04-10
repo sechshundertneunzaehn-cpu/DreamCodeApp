@@ -1125,7 +1125,8 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
       let offset = 0;
       let hasMore = true;
       while (hasMore) {
-        const batch = [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const batch: any[] = [];
         for (let i = 0; i < 5 && hasMore; i++) {
           batch.push(
             supabase.from('research_dreams')
