@@ -163,19 +163,14 @@ async function translateWithGemini(text: string, targetLang: string): Promise<st
 // ─── DeepSeek fallback ────────────────────────────────────────────────────────
 
 async function translateWithDeepSeek(text: string, targetLang: string): Promise<string | null> {
-  const apiKey = import.meta.env.VITE_DEEPSEEK_API_KEY as string | undefined;
-  if (!apiKey) return null;
-
   const prompt = buildPrompt(text, targetLang);
 
   try {
-    const res = await fetch('/api/deepseek/chat/completions', {
+    const res = await fetch('/api/llm', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        provider: 'deepseek',
         model: 'deepseek-chat',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.3,
@@ -183,55 +178,34 @@ async function translateWithDeepSeek(text: string, targetLang: string): Promise<
     });
 
     if (!res.ok) return null;
-
-    const data = await res.json();
-    const translated: string | undefined = data?.choices?.[0]?.message?.content;
-
-    if (translated && translated.trim().length > 0) {
-      return translated.trim();
-    }
+    const data = await res.json() as { text?: string };
+    return data.text?.trim() || null;
   } catch {
-    // fall through
+    return null;
   }
-
-  return null;
 }
 
 // ─── GROQ fallback ────────────────────────────────────────────────────────────
 
 async function translateWithGroq(text: string, targetLang: string): Promise<string | null> {
-  const apiKey = import.meta.env.VITE_GROQ_API_KEY as string | undefined;
-  if (!apiKey) return null;
-
   const prompt = buildPrompt(text, targetLang);
 
   try {
-    const res = await fetch('/api/groq/openai/v1/chat/completions', {
+    const res = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.3,
+        language: targetLang,
       }),
     });
 
     if (!res.ok) return null;
-
-    const data = await res.json();
-    const translated: string | undefined = data?.choices?.[0]?.message?.content;
-
-    if (translated && translated.trim().length > 0) {
-      return translated.trim();
-    }
+    const data = await res.json() as { reply?: string };
+    return data.reply?.trim() || null;
   } catch {
-    // fall through
+    return null;
   }
-
-  return null;
 }
 
 // ─── Cache helpers ────────────────────────────────────────────────────────────
