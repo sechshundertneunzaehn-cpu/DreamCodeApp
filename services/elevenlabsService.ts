@@ -3,14 +3,7 @@
 
 import { Language } from '../types';
 
-// ============================================
-// API KEY MANAGEMENT
-// ============================================
-const getElevenLabsKey = () => {
-    const envKey = import.meta.env.VITE_ELEVENLABS_API_KEY;
-    // TODO: Spaeter ins Backend verschieben!
-    return (envKey && envKey.length > 5) ? envKey : 'ELEVENLABS_API_KEY_HIER_EINFUEGEN';
-};
+// API key is kept server-side — calls go through /api/elevenlabs-tts
 
 // ============================================
 // VOICE MAPPING - Optimale Stimmen pro Sprache
@@ -122,48 +115,21 @@ export const generateSpeechElevenLabs = async (
     language: Language,
     emotion: EmotionStyle = 'mystical'
 ): Promise<ArrayBuffer> => {
-    const apiKey = getElevenLabsKey();
-
-    if (apiKey === 'ELEVENLABS_API_KEY_HIER_EINFUEGEN') {
-        throw new Error('ElevenLabs API-Key nicht konfiguriert. Bitte in .env.local eintragen: VITE_ELEVENLABS_API_KEY=...');
-    }
-
     const voice = ELEVENLABS_VOICES[language];
     const voiceSettings = getVoiceSettings(emotion);
 
+    const response = await fetch('/api/elevenlabs-tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ voiceId: voice.id, text, voiceSettings }),
+    });
 
-    try {
-        const response = await fetch(
-            `https://api.elevenlabs.io/v1/text-to-speech/${voice.id}`,
-            {
-                method: 'POST',
-                headers: {
-                    'xi-api-key': apiKey,
-                    'Content-Type': 'application/json',
-                    'Accept': 'audio/mpeg'
-                },
-                body: JSON.stringify({
-                    text: text,
-                    model_id: 'eleven_multilingual_v2',  // Bestes Modell fuer mehrsprachig
-                    voice_settings: voiceSettings
-                })
-            }
-        );
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('[ELEVENLABS] API-Fehler:', response.status, errorText);
-            throw new Error(`ElevenLabs API-Fehler: ${response.status} - ${errorText}`);
-        }
-
-        const audioBuffer = await response.arrayBuffer();
-
-        return audioBuffer;
-
-    } catch (error) {
-        console.error('[ELEVENLABS] Fehler bei der Sprachgenerierung:', error);
-        throw error;
+    if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`ElevenLabs API-Fehler: ${response.status} - ${errText}`);
     }
+
+    return response.arrayBuffer();
 };
 
 // ============================================
@@ -184,11 +150,8 @@ export const createAudioUrl = (buffer: ArrayBuffer): string => {
     return URL.createObjectURL(blob);
 };
 
-// Prueft ob ElevenLabs konfiguriert ist
-export const isElevenLabsConfigured = (): boolean => {
-    const key = getElevenLabsKey();
-    return key !== 'ELEVENLABS_API_KEY_HIER_EINFUEGEN' && key.length > 10;
-};
+// ElevenLabs laeuft serverseitig — immer verfuegbar wenn /api/elevenlabs-tts erreichbar
+export const isElevenLabsConfigured = (): boolean => true;
 
 // Schaetzt Kosten fuer Text (ca. 0.30 USD pro 1000 Zeichen bei Starter)
 export const estimateCost = (text: string): { characters: number; estimatedCostUSD: number } => {
