@@ -3,14 +3,7 @@
 
 import { Language, UserProfile, ReligiousCategory, ReligiousSource, SubscriptionTier } from '../types';
 
-// ============================================
-// API KEY MANAGEMENT
-// ============================================
-const getClaudeKey = () => {
-    const envKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
-    // TODO: Spaeter ins Backend verschieben!
-    return (envKey && envKey.length > 5) ? envKey : 'ANTHROPIC_API_KEY_HIER_EINFUEGEN';
-};
+// API key is kept server-side — calls go through /api/dream-analysis
 
 // ============================================
 // SPRACH-KONFIGURATION
@@ -148,72 +141,28 @@ export const analyzeDreamWithClaude = async (
     userProfile?: UserProfile | null,
     preferredSource?: ReligiousSource
 ): Promise<ClaudeDreamAnalysis> => {
-    const apiKey = getClaudeKey();
-
-    if (apiKey === 'ANTHROPIC_API_KEY_HIER_EINFUEGEN') {
-        throw new Error('Claude API-Key nicht konfiguriert. Bitte in .env.local eintragen: VITE_ANTHROPIC_API_KEY=...');
-    }
-
-
     const systemPrompt = buildSystemPrompt(language, userProfile);
 
-    try {
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: {
-                'x-api-key': apiKey,
-                'anthropic-version': '2024-01-01',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                model: 'claude-3-5-sonnet-20241022',
-                max_tokens: 2500,
-                system: systemPrompt,
-                messages: [
-                    {
-                        role: 'user',
-                        content: `Bitte analysiere diesen Traum tiefgehend und einfuehlsam:\n\n"${dreamText}"`
-                    }
-                ]
-            })
-        });
+    const response = await fetch('/api/dream-analysis', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dreamText, systemPrompt }),
+    });
 
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            console.error('[CLAUDE] API-Fehler:', response.status, errorData);
-            throw new Error(`Claude API-Fehler: ${response.status} - ${errorData.error?.message || 'Unbekannter Fehler'}`);
-        }
-
-        const data = await response.json();
-        const interpretation = data.content?.[0]?.text;
-
-        if (!interpretation) {
-            throw new Error('Keine Interpretation von Claude erhalten');
-        }
-
-
-        return {
-            interpretation,
-            provider: 'claude',
-            model: 'claude-3-5-sonnet-20241022',
-            tokensUsed: (data.usage?.input_tokens || 0) + (data.usage?.output_tokens || 0)
-        };
-
-    } catch (error) {
-        console.error('[CLAUDE] Fehler bei der Traumanalyse:', error);
-        throw error;
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({})) as { error?: string };
+        throw new Error(`Claude API-Fehler: ${response.status} - ${err.error || 'Unbekannter Fehler'}`);
     }
+
+    return response.json() as Promise<ClaudeDreamAnalysis>;
 };
 
 // ============================================
 // HILFSFUNKTIONEN
 // ============================================
 
-// Prueft ob Claude konfiguriert ist
-export const isClaudeConfigured = (): boolean => {
-    const key = getClaudeKey();
-    return key !== 'ANTHROPIC_API_KEY_HIER_EINFUEGEN' && key.length > 10;
-};
+// Claude laeuft serverseitig — immer verfuegbar wenn /api/dream-analysis erreichbar
+export const isClaudeConfigured = (): boolean => true;
 
 // Schaetzt Kosten fuer Analyse (ca. $0.003 pro 1K Input + $0.015 pro 1K Output)
 export const estimateClaudeCost = (dreamTextLength: number): {
