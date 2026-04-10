@@ -64,7 +64,11 @@ export const getGeminiKeys = (): string[] => {
   ].filter(Boolean) as string[];
 };
 
+// deepseek + openrouter + elevenlabs laufen serverseitig über /api/llm bzw. /api/elevenlabs-tts
+const SERVER_SIDE_PROVIDERS: ReadonlySet<ProviderSecretKey> = new Set(['deepseek', 'openrouter', 'elevenlabs']);
+
 export const getProviderSecret = (provider: ProviderSecretKey): string | undefined => {
+  if (SERVER_SIDE_PROVIDERS.has(provider)) return 'server-side';
   if (provider === 'gemini') return getGeminiKey();
   return readEnv(PROVIDER_ENV_KEYS[provider]);
 };
