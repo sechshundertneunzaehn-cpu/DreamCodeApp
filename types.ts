@@ -18,6 +18,7 @@ export enum View {
     RESEARCH_MAP = 'RESEARCH_MAP',
     RESEARCH_PARTICIPANT = 'RESEARCH_PARTICIPANT',
     DREAM_SYMBOLS = 'DREAM_SYMBOLS',
+    STUDY = 'STUDY',
 }
 
 export enum Language {
@@ -156,6 +157,8 @@ export interface UserProfile {
     coins?: number;
     saveCount?: number;
     shareCount?: number;
+    study_participation_level?: 'none' | 'basic' | 'active';
+    study_discount?: number;
 
     // Smart Tier Features
     customApiKeys?: string[]; // Array of user provided keys

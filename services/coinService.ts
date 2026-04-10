@@ -139,3 +139,8 @@ export function getProgressToNextCoin(profile: UserProfile): {
         sharesRemaining: MILESTONE_COUNT - shareCount,
     };
 }
+
+export function applyStudyDiscount(priceEur: number, profile: UserProfile): number {
+    const disc = profile.study_discount ?? 0;
+    return Math.round(priceEur * (1 - disc) * 100) / 100;
+}

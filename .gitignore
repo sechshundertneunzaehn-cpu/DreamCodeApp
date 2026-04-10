@@ -25,3 +25,5 @@ android/keystore.properties
 android/*.keystore
 android/*.jks
 deploy.sh
+.vercel
+.env.backup*

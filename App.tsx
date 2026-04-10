@@ -31,6 +31,7 @@ const ScientificDreamMap = React.lazy(() => import('./components/ScientificDream
 const ResearchStudies = React.lazy(() => import('./components/ResearchStudies'));
 const ParticipantProfile = React.lazy(() => import('./components/ParticipantProfile'));
 const DreamSymbolsPage = React.lazy(() => import('./components/DreamSymbolsPage'));
+const StudyPage = React.lazy(() => import('./components/StudyPage'));
 import { View, ReligiousSource, Dream, Language, ReligiousCategory, UserProfile, FontSize, SubscriptionTier, ThemeMode, DesignTheme, AudioVisibility } from './types';
 import { analyzeDreamText, generateDreamImage, generateImagePrompt, generateSpeechPreview, generateStoryVideo, generateDreamVideo, generateDreamNarrationVideo, generateDreamUserVoiceVideo } from './services/geminiService';
 import { generateDreamVideo as generateReplicateVideo, isReplicateConfigured } from './services/videoGenerationService';
@@ -5424,6 +5425,17 @@ Rules:
 
              <TrustBanner language={language} onNavigateToScience={() => setView(View.SCIENCE)} />
 
+             {/* Scientific Study Button */}
+             <button onClick={() => setView(View.STUDY)}
+                 className={`w-full mb-3 p-4 rounded-2xl border flex items-center gap-4 transition-all ${isLight ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border-violet-200 hover:shadow-md hover:border-violet-300' : 'bg-gradient-to-r from-violet-900/20 to-fuchsia-900/15 border-white/10 hover:border-violet-500/40 hover:bg-violet-900/30'}`}>
+                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${isLight ? 'bg-violet-100' : 'bg-violet-900/40'}`}>📊</div>
+                 <div className="text-left flex-1">
+                     <div className={`text-sm font-bold ${isLight ? 'text-violet-900' : 'text-white'}`}>{'Wissenschaftliche Studie' || 'Scientific Study'}</div>
+                     <div className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{userProfile.study_participation_level && userProfile.study_participation_level !== 'none' ? `📊 ${(userProfile.study_discount ?? 0) * 100}% Studienrabatt aktiv` : 'Anonym · Forschung · 10–20% Rabatt'}</div>
+                 </div>
+                 <span className={`material-icons text-lg ${isLight ? 'text-violet-400' : 'text-violet-500'}`}>chevron_right</span>
+             </button>
+
              {/* Dream Symbol Library Button */}
              <button onClick={() => setView(View.DREAM_SYMBOLS)}
                  className={`w-full mb-5 p-4 rounded-2xl border flex items-center gap-4 transition-all ${isLight ? 'bg-gradient-to-r from-indigo-50 to-fuchsia-50 border-indigo-200 hover:shadow-md hover:border-indigo-300' : 'bg-gradient-to-r from-indigo-900/20 to-fuchsia-900/15 border-white/10 hover:border-indigo-500/40 hover:bg-indigo-900/30'}`}>
@@ -5939,6 +5951,7 @@ Rules:
             {view === View.FORSCHUNG && <ForschungPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
             {view === View.CENSUS && <CensusPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} />}
             {view === View.DREAM_SYMBOLS && <DreamSymbolsPage language={language} onClose={() => setView(View.HOME)} onNavigateHome={() => setView(View.HOME)} themeMode={themeMode} />}
+            {view === View.STUDY && <StudyPage language={language} onClose={() => setView(View.HOME)} themeMode={themeMode} userProfile={userProfile} onUpdateProfile={handleSaveProfile} />}
 
             {view === View.RESEARCH_MAP && (
                 <ScientificDreamMap
