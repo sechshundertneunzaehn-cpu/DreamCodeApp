@@ -12,14 +12,16 @@ interface Scholar {
   contribution: string;
   bioKey: string;
   contributionKey: string;
+  yearsKey?: string;
+  locationKey?: string;
 }
 
 const SCHOLARS: Record<string, Scholar[]> = {
   islamic: [
     {
       name: 'Ibn Sirin',
-      years: '653 – 729 n. Chr.',
-      location: 'Basra, Irak',
+      years: '653–729 AD',
+      location: 'Basra, Iraq',
       bio: 'Muhammad ibn Sirin war einer der bedeutendsten islamischen Gelehrten und gilt als Begründer der islamischen Traumdeutung. Er lebte in Basra während der Umayyaden-Zeit und war bekannt für seine Frömmigkeit und sein enzyklopädisches Wissen.',
       contribution: 'Sein Werk "Muntakhab al-Kalam fi Tafsir al-Ahlam" ist das älteste systematische Traumdeutungsbuch der islamischen Welt und wird bis heute als Referenzwerk genutzt.',
       bioKey: 'scholars.islamic.0.bio',
@@ -27,8 +29,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Al-Nabulsi',
-      years: '1641 – 1731 n. Chr.',
-      location: 'Damaskus, Syrien',
+      years: '1641–1731 AD',
+      location: 'Damascus, Syria',
       bio: 'Abd al-Ghani al-Nabulsi war ein syrischer Sufi-Gelehrter, Dichter und Mystiker. Er bereiste die gesamte islamische Welt und verfasste über 500 Werke zu Theologie, Philosophie und Traumdeutung.',
       contribution: 'Sein Traumdeutungsbuch "Ta\'tir al-Anam fi Ta\'bir al-Manam" ist eines der umfassendsten Werke der islamischen Traumdeutung mit über 10.000 Traumsymbolen.',
       bioKey: 'scholars.islamic.1.bio',
@@ -36,8 +38,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Al-Iskhafi',
-      years: '9. Jahrhundert n. Chr.',
-      location: 'Bagdad, Irak',
+      years: '9th century AD',
+      location: 'Baghdad, Iraq',
       bio: 'Al-Iskhafi war ein Gelehrter am Hof der Abbasiden in Bagdad während des goldenen Zeitalters des Islam. Er war Experte für Traumdeutung und Linguistik.',
       contribution: 'Er verband linguistische Analyse mit Traumdeutung -- seine Methode, Traumsymbole über ihre sprachlichen Wurzeln zu deuten, war revolutionär und beeinflusst DreamCode\'s KI-Analyse bis heute.',
       bioKey: 'scholars.islamic.2.bio',
@@ -47,8 +49,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
   christian: [
     {
       name: 'Kirchenväter',
-      years: '2. – 5. Jahrhundert',
-      location: 'Rom & Byzanz',
+      years: '2nd–5th century',
+      location: 'Rome & Byzantium',
       bio: 'Die Kirchenväter (Patres) waren frühchristliche Theologen wie Origenes, Augustinus und Gregor von Nyssa, die die christliche Lehre systematisierten.',
       contribution: 'Sie unterschieden drei Arten von Träumen: göttliche Offenbarungen (wie Josefs Traum), dämonische Versuchungen und natürliche Träume. Diese Klassifikation prägt die christliche Traumdeutung bis heute.',
       bioKey: 'scholars.christian.0.bio',
@@ -56,8 +58,9 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Hildegard von Bingen',
-      years: '1098 – 1179',
-      location: 'Rheinland, Deutschland',
+      years: '1098–1179',
+      location: 'Rhineland, Germany',
+      locationKey: 'scholar.loc.rhineland',
       bio: 'Hildegard von Bingen war eine deutsche Benediktinerin, Äbtissin, Mystikerin, Heilkundige und Universalgelehrte. Sie ist eine der bedeutendsten Frauen des Mittelalters.',
       contribution: 'Ihre visionären Schriften verbinden Traumbilder mit kosmischer Ordnung und Heilkunst. Sie sah Träume als göttliche Kommunikation und Spiegel der Seele.',
       bioKey: 'scholars.christian.1.bio',
@@ -65,8 +68,9 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Moderne Theologie',
-      years: '20. – 21. Jahrhundert',
-      location: 'Weltweit',
+      years: '20th–21st century',
+      location: 'Worldwide',
+      locationKey: 'scholar.loc.worldwide',
       bio: 'Die moderne christliche Theologie integriert psychologische Erkenntnisse mit biblischer Symbolik. Theologen wie Paul Tillich und Eugen Drewermann haben die Traumdeutung in den zeitgenössischen christlichen Diskurs zurückgebracht.',
       contribution: 'Sie verbindet tiefenpsychologische Methoden mit spiritueller Tradition und bietet eine zeitgemäße Deutung, die sowohl Glauben als auch Wissenschaft respektiert.',
       bioKey: 'scholars.christian.2.bio',
@@ -76,7 +80,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
   buddhist: [
     {
       name: 'Zen-Tradition',
-      years: 'Seit dem 6. Jahrhundert',
+      years: 'Since the 6th century',
+      yearsKey: 'scholar.since6c',
       location: 'China & Japan',
       bio: 'Die Zen-Tradition betont direkte Erfahrung und Meditation. Meister wie Bodhidharma und Dōgen lehrten, dass Träume die Natur des Geistes offenbaren -- weder festzuhalten noch abzulehnen.',
       contribution: 'Im Zen wird der Traum als Spiegel des wachen Bewusstseins betrachtet. Die Klarheit des Augenblicks -- ob im Traum oder im Wachen -- ist der Schlüssel zur Erkenntnis.',
@@ -85,7 +90,7 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Milarepa',
-      years: '1052 – 1135',
+      years: '1052–1135',
       location: 'Tibet, Himalaya',
       bio: 'Milarepa ist einer der berühmtesten tibetischen Yogis und Dichter. Nach einem früheren Leben voller Vergehen erreichte er durch Meditation die Erleuchtung in einem einzigen Leben.',
       contribution: 'Die tibetische Tradition des "Traumyoga" geht auf seine Lehren zurück. Träume werden als Übungsfeld für luzides Bewusstsein und als Vorstufe zur Erleuchtung betrachtet.',
@@ -94,8 +99,9 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Theravada & Vedisch',
-      years: 'Seit dem 3. Jahrhundert v. Chr.',
-      location: 'Indien & Südostasien',
+      years: 'Since the 3rd century BCE',
+      yearsKey: 'scholar.since3cBce',
+      location: 'India & Southeast Asia',
       bio: 'Die Theravada-Tradition ist die älteste erhaltene buddhistische Schule. Zusammen mit den vedischen Lehren bildet sie ein tiefes Verständnis von Karma, Wiedergeburt und der Natur des Selbst.',
       contribution: 'Träume werden als Ausdruck von Karma und vergangenen Leben gedeutet. Sie offenbaren das wahre Selbst jenseits der Illusion und weisen den Weg zur Befreiung.',
       bioKey: 'scholars.buddhist.2.bio',
@@ -105,8 +111,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
   astrology: [
     {
       name: 'Claudius Ptolemäus',
-      years: 'ca. 100 – 170 n. Chr.',
-      location: 'Alexandria, Ägypten',
+      years: 'ca. 100–170 AD',
+      location: 'Alexandria, Egypt',
       bio: 'Ptolemäus war ein griechisch-römischer Mathematiker, Astronom und Astrologe. Sein "Tetrabiblos" ist das einflussreichste Werk der westlichen Astrologie.',
       contribution: 'Er systematisierte die Verbindung zwischen Himmelskörpern und menschlichem Schicksal. Die 12 Tierkreiszeichen, Häuser und Aspekte gehen auf sein System zurück.',
       bioKey: 'scholars.astrology.0.bio',
@@ -114,8 +120,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Abu Ma\'shar',
-      years: '787 – 886 n. Chr.',
-      location: 'Bagdad, Irak',
+      years: '787–886 AD',
+      location: 'Baghdad, Iraq',
       bio: 'Abu Ma\'shar al-Balkhi war der bedeutendste Astrologe der islamischen Welt. Er verband griechische, persische und indische Astrologie zu einem Gesamtsystem.',
       contribution: 'Er verknüpfte als erster Traumdeutung systematisch mit Astrologie -- die Konstellation zum Zeitpunkt des Traums beeinflusst dessen Bedeutung. DreamCode nutzt dieses Prinzip.',
       bioKey: 'scholars.astrology.1.bio',
@@ -123,8 +129,10 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Häuser & Transite',
-      years: 'Antike bis Gegenwart',
-      location: 'Weltweit',
+      years: 'Antiquity to Present',
+      yearsKey: 'scholar.antiquityPresent',
+      location: 'Worldwide',
+      locationKey: 'scholar.loc.worldwide',
       bio: 'Das System der astrologischen Häuser, Transite und Mondknoten bildet das Gerüst der horoskopartigen Traumanalyse. Jedes der 12 Häuser repräsentiert einen Lebensbereich, Transite zeigen aktuelle kosmische Einflüsse.',
       contribution: 'DreamCode berechnet den kosmischen Kontext deines Traums: Welche Planeten standen in welchen Häusern? Welche Transite waren aktiv? Die Mondknoten offenbaren karmische Lektionen.',
       bioKey: 'scholars.astrology.2.bio',
@@ -134,8 +142,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
   psychology: [
     {
       name: 'Sigmund Freud',
-      years: '1856 – 1939',
-      location: 'Wien, Österreich',
+      years: '1856–1939',
+      location: 'Vienna, Austria',
       bio: 'Sigmund Freud war ein österreichischer Neurologe und der Begründer der Psychoanalyse. Er revolutionierte das Verständnis des menschlichen Geistes und gilt als einer der einflussreichsten Denker des 20. Jahrhunderts.',
       contribution: 'Sein Hauptwerk "Die Traumdeutung" (1900) legte den Grundstein für die moderne Traumanalyse. Freud sah Träume als "Königsweg zum Unbewussten" -- als verschlüsselte Wunscherfüllungen, die verborgene Triebe und Konflikte offenbaren.',
       bioKey: 'scholars.psychology.0.bio',
@@ -143,8 +151,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'C.G. Jung',
-      years: '1875 – 1961',
-      location: 'Zürich, Schweiz',
+      years: '1875–1961',
+      location: 'Zurich, Switzerland',
       bio: 'Carl Gustav Jung war ein Schweizer Psychiater und der Begründer der Analytischen Psychologie. Zunächst Schüler Freuds, entwickelte er eigenständige Theorien über das Unbewusste.',
       contribution: 'Jung entdeckte das "kollektive Unbewusste" und die Archetypen -- universelle Ursymbole, die in den Träumen aller Menschen weltweit auftauchen. Seine Methode der Amplifikation erweitert Traumsymbole über Mythen, Märchen und Kulturgeschichte.',
       bioKey: 'scholars.psychology.1.bio',
@@ -152,8 +160,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Fritz Perls',
-      years: '1893 – 1970',
-      location: 'Berlin / Kalifornien',
+      years: '1893–1970',
+      location: 'Berlin / California',
       bio: 'Friedrich "Fritz" Perls war ein deutsch-amerikanischer Psychiater und Psychotherapeut, der zusammen mit seiner Frau Laura die Gestalttherapie begründete.',
       contribution: 'In der Gestalttherapie wird jeder Teil des Traums als Aspekt des Träumers selbst betrachtet. Der Träumer "spielt" verschiedene Traumelemente, um verdrängte Persönlichkeitsanteile zu integrieren. DreamCode nutzt diesen Ansatz für ganzheitliche Analysen.',
       bioKey: 'scholars.psychology.2.bio',
@@ -163,8 +171,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
   jewish: [
     {
       name: 'Talmud Berakhot',
-      years: 'ca. 200 -- 500 n. Chr.',
-      location: 'Babylonien / Israel',
+      years: 'ca. 200–500 AD',
+      location: 'Babylon / Israel',
       bio: 'Der Traktat Berakhot im Babylonischen Talmud enthaelt die aeltesten juedischen Traumdeutungen. Traeume gelten als 1/60 der Prophetie. Rabbi Hisda lehrte: Ein ungedeuteter Traum ist wie ein ungelesener Brief.',
       contribution: 'Die talmudische Traumdeutung unterscheidet wahre (goettliche) und falsche Traeume. Die 24 Traumdeuter von Jerusalem konnten den gleichen Traum 24 verschiedene Weisen deuten -- alle gueltig.',
       bioKey: 'scholars.jewish.0.bio',
@@ -172,8 +180,9 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Kabbalah / Zohar',
-      years: '13. Jahrhundert',
-      location: 'Suedfrankreich / Spanien',
+      years: '13th century',
+      location: 'Southern France / Spain',
+      locationKey: 'scholar.loc.southFranceSpain',
       bio: 'Der Zohar deutet Traeume als Botschaften der Seele (Neschama). Die Seele verlaesst im Schlaf den Koerper und empfaengt himmlische Botschaften. Kabbalistische Traumdeutung verbindet Symbole mit den 10 Sefirot.',
       contribution: 'Die kabbalistischen Sefirot (Lebensbaum) bilden eine Landkarte der Seele. Traumsymbole werden den einzelnen Sefirot zugeordnet -- von Keter (Krone, goettlicher Wille) bis Malkhut (irdische Manifestation).',
       bioKey: 'scholars.jewish.1.bio',
@@ -181,8 +190,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Joseph-Deutung',
-      years: 'ca. 1700 v. Chr. (Tradition)',
-      location: 'Kanaan / Aegypten',
+      years: 'ca. 1700 BCE (tradition)',
+      location: 'Canaan / Egypt',
       bio: 'Die biblische Traumdeutung Josephs (Genesis 37-41) ist Grundlage aller abrahamitischen Traumtradition. Josephs Faehigkeit Traeume zu deuten rettete Aegypten vor der Hungersnot -- 7 fette, 7 magere Jahre.',
       contribution: 'Joseph zeigte, dass Traumdeutung eine goettliche Gabe ist. Seine Methode: Symbole haben eine direkte, praktische Bedeutung fuer die Zukunft. Diese Tradition beeinflusste Islam, Christentum und Judentum gleichermassen.',
       bioKey: 'scholars.jewish.2.bio',
@@ -190,8 +199,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Philo von Alexandria',
-      years: '20 v.Chr. -- 50 n.Chr.',
-      location: 'Alexandria, Aegypten',
+      years: '20 BCE–50 AD',
+      location: 'Alexandria, Egypt',
       bio: 'Juedisch-hellenistischer Philosoph. Unterschied 3 Traumtypen: goettlich gesandte, von der Seele erzeugte, und gemischte Traeume. Verband griechische Philosophie mit juedischer Traumdeutung.',
       contribution: 'Philo war der erste, der systematisch griechische Philosophie mit juedischer Traumtradition verband. Seine Drei-Typen-Lehre beeinflusste sowohl christliche als auch islamische Traumgelehrte.',
       bioKey: 'scholars.jewish.3.bio',
@@ -199,8 +208,9 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Sefer Hasidim',
-      years: '12. -- 13. Jahrhundert',
-      location: 'Rheinland, Deutschland',
+      years: '12th–13th century',
+      location: 'Rhineland, Germany',
+      locationKey: 'scholar.loc.rhineland',
       bio: 'Das "Buch der Frommen" der deutschen Chassidim. Enthaelt detaillierte Traumregeln: Traeume kurz nach Mitternacht gelten als wahrer. Warnung vor Traumdeutung durch Nichtjuden.',
       contribution: 'Praktische Traumregeln fuer den Alltag: Wann man traeumen soll, wie man schlechte Traeume abwenden kann (Hatavat Chalom), und welche Traeume man ernst nehmen muss.',
       bioKey: 'scholars.jewish.4.bio',
@@ -210,8 +220,9 @@ const SCHOLARS: Record<string, Scholar[]> = {
   sonniks: [
     {
       name: 'Russisches Sonnik',
-      years: 'Seit dem 18. Jahrhundert',
-      location: 'Russland',
+      years: 'Since the 18th century',
+      yearsKey: 'scholar.since18c',
+      location: 'Russia',
       bio: 'Traditionelle russische Traumdeutungsbuecher (Sonniki) existieren seit dem 18. Jahrhundert. Basieren auf slawischer Volksueberlieferung, byzantinisch-orthodoxen Elementen und westeuropaeischen Einfluessen.',
       contribution: 'Das Sonnik ist das meistgelesene Nachschlagewerk in russischen Haushalten. Alphabetisch geordnete Traumsymbole mit kurzen, praegnanten Deutungen -- von Adler bis Zwilling.',
       bioKey: 'scholars.sonniks.0.bio',
@@ -219,8 +230,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Vanga (Wanga)',
-      years: '1911 -- 1996',
-      location: 'Bulgarien',
+      years: '1911–1996',
+      location: 'Bulgaria',
       bio: 'Baba Vanga, bulgarische Seherin. Ihre Traumdeutungen basieren auf slawischer Mystik und eigener prophetischer Erfahrung. Ueber 1 Million Menschen suchten sie auf.',
       contribution: 'Ihre Trauminterpretationen verbinden Symbole mit Zukunftsvoraussagen. Besonders populaer: Wassertraeume (Veraenderung), Verstorbene im Traum (Warnung), und Tiertraeume.',
       bioKey: 'scholars.sonniks.1.bio',
@@ -228,8 +239,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Miller Sonnik',
-      years: '1857 -- 1919',
-      location: 'USA / Osteuropa',
+      years: '1857–1919',
+      location: 'USA / Eastern Europe',
       bio: 'Gustavus Hindman Miller, "10.000 Dreams Interpreted". Das meistgelesene Traumdeutungsbuch der Welt in slawischen Laendern.',
       contribution: 'Sachliche, symbolbasierte Deutungen ohne religioesen Hintergrund. Millers Lexikon ist die Basis vieler moderner Sonniki und Online-Traumdeutungsseiten in Russland.',
       bioKey: 'scholars.sonniks.2.bio',
@@ -237,8 +248,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Nostradamus Adaptation',
-      years: '1503 -- 1566 (Adaptationen)',
-      location: 'Frankreich / Osteuropa',
+      years: '1503–1566 (adaptations)',
+      location: 'France / Eastern Europe',
       bio: 'Adaptationen der prophetischen Werke von Michel de Nostredame fuer die Traumdeutung. In slawischen Sonniki werden seine Quatrains als Traumsymbol-Lexikon genutzt.',
       contribution: 'Besonders fuer apokalyptische oder politische Traumbilder: Krieg, Naturkatastrophen, Herrscherwechsel. Nostradamus-Sonniks sind die dramatischsten aller russischen Traumbuecher.',
       bioKey: 'scholars.sonniks.3.bio',
@@ -246,8 +257,9 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Freudianisches Sonnik',
-      years: 'Seit ca. 1920',
-      location: 'Osteuropa',
+      years: 'Since ca. 1920',
+      yearsKey: 'scholar.since1920',
+      location: 'Eastern Europe',
       bio: 'Osteuropaeische Adaptationen von Freuds "Traumdeutung" (1899) fuer das Volksformat. Vereinfachte psychoanalytische Deutungen.',
       contribution: 'Bringt Freuds Symbolik (Wasser=Geburt, Fliegen=Freiheitswunsch) in zugaengliche Sonnik-Form. Populaer bei juengeren Lesern, die psychologische Erklaerungen bevorzugen.',
       bioKey: 'scholars.sonniks.4.bio',
@@ -257,8 +269,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
   ancient: [
     {
       name: 'Artemidoros (Oneirocritica)',
-      years: '2. Jh. n. Chr.',
-      location: 'Daldis / Ephesus, Kleinasien',
+      years: '2nd century AD',
+      location: 'Daldis / Ephesus, Asia Minor',
       bio: 'Artemidoros von Daldis schrieb das bedeutendste Traumdeutungsbuch der Antike: die Oneirocritica (5 Baende). Unterschied theorematische (prophetische) von enypnion (alltaegliche) Traeume.',
       contribution: 'Seine Methodik beeinflusste Ibn Sirin direkt. Artemidoros befragte ueber 1000 Menschen zu ihren Traeumen -- die erste empirische Traumforschung der Geschichte.',
       bioKey: 'scholars.ancient.0.bio',
@@ -266,8 +278,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Aegyptische Papyri',
-      years: 'ca. 1275 v. Chr.',
-      location: 'Theben, Aegypten',
+      years: 'ca. 1275 BCE',
+      location: 'Thebes, Egypt',
       bio: 'Der Chester Beatty Papyrus III ist das aelteste erhaltene Traumdeutungsbuch der Welt. Enthaelt 108 Traumdeutungen. Tempel-Inkubation: Im Tempel schlafen um prophetische Traeume zu empfangen.',
       contribution: 'Die aegyptische Traumdeutung unterschied "gute" und "boese" Traeume. Priester des Serapis waren professionelle Traumdeuter. Ihr System beeinflusste Griechenland und Rom direkt.',
       bioKey: 'scholars.ancient.1.bio',
@@ -275,8 +287,9 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Somniale Danielis',
-      years: 'Seit dem 5. Jh. n. Chr.',
-      location: 'Europa',
+      years: 'Since the 5th century AD',
+      yearsKey: 'scholar.since5cAd',
+      location: 'Europe',
       bio: 'Mittelalterliches Traumdeutungsbuch, faelschlicherweise dem Propheten Daniel zugeschrieben. Ueber 100 lateinische Manuskripte erhalten.',
       contribution: 'Alphabetisches Lexikon von Traumsymbolen. Basis der europaeischen Volksueberlieferung. Das am weitesten verbreitete Traumbuch des Mittelalters -- von Moenchen bis Bauern.',
       bioKey: 'scholars.ancient.2.bio',
@@ -284,8 +297,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Assyrische Traumtexte',
-      years: '7. Jh. v. Chr.',
-      location: 'Ninive, Assyrien',
+      years: '7th century BCE',
+      location: 'Nineveh, Assyria',
       bio: 'Keilschrifttafeln aus der Bibliothek Assurbanipals. Systematische Sammlung von Traumdeutungen: "Wenn ein Mann im Traum fliegt -- Zeichen fuer..."',
       contribution: 'Traeume waren Botschaften der Goetter. Professionelle Traumdeuter (sha\'ilu) deuteten sie am Koenigshof. Die aelteste bekannte systematische Traumdeutung der Menschheit.',
       bioKey: 'scholars.ancient.3.bio',
@@ -293,8 +306,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Macrobius Kommentar',
-      years: 'um 400 n. Chr.',
-      location: 'Rom / Nordafrika',
+      years: 'ca. 400 AD',
+      location: 'Rome / North Africa',
       bio: 'Ambrosius Macrobius kommentierte Ciceros Somnium Scipionis. Entwickelte das einflussreichste antike Traumklassifikationssystem: 5 Typen.',
       contribution: 'Somnium, visio, oraculum, insomnium, visum -- diese 5 Traumtypen praegte das gesamte mittelalterliche Europa und beeinflusst die Traumforschung bis heute.',
       bioKey: 'scholars.ancient.4.bio',
@@ -304,8 +317,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
   numerology: [
     {
       name: 'Pythagoras',
-      years: 'ca. 570 – 495 v. Chr.',
-      location: 'Samos / Kroton, Griechenland',
+      years: 'ca. 570–495 BCE',
+      location: 'Samos / Croton, Greece',
       bio: 'Pythagoras von Samos war ein antiker griechischer Philosoph und Mathematiker. Er gründete die pythagoreische Schule, die Mathematik, Philosophie und Mystik verband.',
       contribution: 'Er lehrte, dass Zahlen das Wesen aller Dinge sind. Die Lebenspfadzahl-Berechnung und die mystische Bedeutung der Zahlen 1-9 gehen auf seine Lehren zurück.',
       bioKey: 'scholars.numerology.0.bio',
@@ -313,8 +326,10 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Ebjed / Abjad-System',
-      years: 'Seit dem 7. Jahrhundert',
-      location: 'Arabisch-islamische Welt',
+      years: 'Since the 7th century',
+      yearsKey: 'scholar.since7c',
+      location: 'Arab-Islamic World',
+      locationKey: 'scholar.loc.arabicWorld',
       bio: 'Das Ebjed-System (Abjad-Zahlensystem) ist eine der ältesten Methoden der Zahlenmystik im Islam. Jeder arabische Buchstabe hat einen numerischen Wert. Es wird seit Jahrhunderten in der islamischen Traumdeutung, Koranexegese und Mystik verwendet.',
       contribution: 'Im Ebjed-System wird der Name des Träumers und die Schlüsselwörter des Traums in Zahlenwerte umgerechnet. Diese Werte offenbaren verborgene Bedeutungsschichten, die nur durch numerische Analyse sichtbar werden. DreamCode beherrscht sowohl das westliche als auch das Ebjed-System.',
       bioKey: 'scholars.numerology.1.bio',
@@ -322,8 +337,10 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Kabbalah',
-      years: 'Seit dem 12. Jahrhundert',
-      location: 'Südfrankreich / Spanien',
+      years: 'Since the 12th century',
+      yearsKey: 'scholar.since12c',
+      location: 'Southern France / Spain',
+      locationKey: 'scholar.loc.southFranceSpain',
       bio: 'Die Kabbalah ist die mystische Tradition des Judentums. Die Gematria -- die Zuordnung von Zahlenwerten zu hebräischen Buchstaben -- ist ein Kernstück der kabbalistischen Praxis.',
       contribution: 'Die Gematria enthüllt verborgene Verbindungen zwischen Wörtern gleichen Zahlenwerts. In der Traumdeutung verbindet sie Traumsymbole über ihre numerischen Werte mit tieferen kosmischen Bedeutungen.',
       bioKey: 'scholars.numerology.2.bio',
@@ -331,7 +348,8 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Chinesische Numerologie',
-      years: 'Seit der Zhou-Dynastie (ca. 1000 v. Chr.)',
+      years: 'Since the Zhou Dynasty (ca. 1000 BCE)',
+      yearsKey: 'scholar.zhouDynasty',
       location: 'China',
       bio: 'Die chinesische Zahlenmystik ist tief in der Kultur verwurzelt. Zahlen wie 8 (Glück) und 4 (Unglück) prägen den Alltag. Das System verbindet sich mit dem I Ging, den fünf Elementen und der Yin-Yang-Philosophie.',
       contribution: 'In der Traumdeutung werden Zahlen nach ihrer phonetischen Ähnlichkeit und kosmischen Bedeutung analysiert. DreamCode integriert dieses System, um Glücks- und Schicksalszahlen im Traumkontext zu entschlüsseln.',
@@ -340,8 +358,10 @@ const SCHOLARS: Record<string, Scholar[]> = {
     },
     {
       name: 'Traumzahlen-Analyse',
-      years: 'Interdisziplinär',
-      location: 'Alle Traditionen',
+      years: 'Interdisciplinary',
+      yearsKey: 'scholar.interdisciplinary',
+      location: 'All Traditions',
+      locationKey: 'scholar.loc.allTraditions',
       bio: 'Die Traumzahlen-Analyse ist ein moderner, traditionsübergreifender Ansatz. Sie kombiniert pythagoreische, kabbalistische, Ebjed- und chinesische Zahlensymbolik mit psychologischen Erkenntnissen.',
       contribution: 'Was bedeuten Zahlen in deinem Traum? DreamCode analysiert jede Zahl über alle Traditionen hinweg und liefert eine vielschichtige Deutung -- von der Lebenspfadzahl bis zur karmischen Botschaft.',
       bioKey: 'scholars.numerology.4.bio',
@@ -571,7 +591,7 @@ const ScholarModal: React.FC<{ scholar: Scholar; onClose: () => void; color: str
         <div className={`w-3 h-10 rounded-sm ${color === 'text-emerald-400' ? 'bg-emerald-400' : color === 'text-dream-primary' ? 'bg-dream-primary' : color === 'text-sky-400' ? 'bg-sky-400' : color === 'text-orange-400' ? 'bg-orange-400' : color === 'text-dream-secondary' ? 'bg-dream-secondary' : 'bg-dream-cyan'}`} />
         <div>
           <h3 className="text-white font-display text-xl font-bold">{scholar.name}</h3>
-          <p className="text-gray-400 text-sm">{scholar.years} -- {scholar.location}</p>
+          <p className="text-gray-400 text-sm">{scholar.yearsKey ? t(scholar.yearsKey) : scholar.years} — {scholar.locationKey ? t(scholar.locationKey) : scholar.location}</p>
         </div>
       </div>
 

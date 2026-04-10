@@ -27,12 +27,12 @@ const ARABIC_DIALECTS_DATA = [
 
 // ========== WEITERE SPRACHEN VIA KI ==========
 const AI_LANGUAGES = [
-  { flag: '🇮🇳', name: 'Hindi' },
-  { flag: '🇵🇰', name: 'Urdu' },
-  { flag: '🇮🇩', name: 'Indonesisch / Bahasa' },
-  { flag: '🇮🇷', name: 'Persisch / Farsi' },
-  { flag: '🇰🇪', name: 'Swahili' },
-  { flag: '🇯🇵', name: 'Japanisch' },
+  { flag: '🇮🇳', nameKey: 'lang.ai1' },
+  { flag: '🇵🇰', nameKey: 'lang.ai2' },
+  { flag: '🇮🇩', nameKey: 'lang.ai3' },
+  { flag: '🇮🇷', nameKey: 'lang.ai4' },
+  { flag: '🇰🇪', nameKey: 'lang.ai5' },
+  { flag: '🇯🇵', nameKey: 'lang.ai6' },
 ];
 
 // ========== SPRACHMODELL-FEATURES ==========
@@ -184,7 +184,7 @@ const ArabicDialects: React.FC = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             {AI_LANGUAGES.map((lang, idx) => (
               <motion.div
-                key={lang.name}
+                key={lang.nameKey}
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -192,7 +192,7 @@ const ArabicDialects: React.FC = () => {
                 className="glass rounded-xl p-4 border border-white/5 hover:border-dream-secondary/20 transition-all text-center group"
               >
                 <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">{lang.flag}</span>
-                <span className="text-white text-sm font-medium">{lang.name}</span>
+                <span className="text-white text-sm font-medium">{t(lang.nameKey)}</span>
               </motion.div>
             ))}
           </div>

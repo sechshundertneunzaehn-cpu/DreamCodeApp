@@ -31,21 +31,21 @@ const Downloads: React.FC = () => {
       color: 'text-dream-primary',
       border: 'border-dream-primary/30',
       badge: t('dl.tierPopular'),
-      features: ['Unbegrenzte Deutungen', 'Alle 9 Traditionen', 'Gemini AI-Modell', '100 Coins/Monat', 'Dream Alerts'],
+      features: [t('dl.pro1'), t('dl.pro2'), t('dl.pro3'), t('dl.pro4'), t('dl.pro5')],
     },
     {
       name: 'Premium',
       icon: Crown,
       color: 'text-dream-secondary',
       border: 'border-dream-secondary/40',
-      features: ['Alles aus Pro', 'Claude AI (6-Perspektiven)', '500 Coins/Monat', 'HD-Bilder + 5 Videos', 'Live Voice Chat'],
+      features: [t('dl.premium1'), t('dl.premium2'), t('dl.premium3'), t('dl.premium4'), t('dl.premium5')],
     },
     {
       name: 'Smart',
       icon: Brain,
       color: 'text-dream-cyan',
       border: 'border-dream-cyan/30',
-      features: ['Eigene API-Keys (BYOK)', 'Alle 9 Traditionen', '50 Coins/Monat', 'HD-Bilder + 3 Videos', 'Nur Jahresabo \u2014 -90% API-Kosten'],
+      features: [t('dl.smart1'), t('dl.smart2'), t('dl.smart3'), t('dl.smart4'), t('dl.smart5')],
     },
   ];
 
