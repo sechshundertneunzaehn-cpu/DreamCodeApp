@@ -13,11 +13,7 @@ const WAN_MODEL = 'wavespeedai/wan-2.1-t2v-480p';
 const WAN_VERSION = '7677a619127ea34d1ed873fb5b77448e4b9889fbd83809b44a2c459ace99192a';
 
 function getApiKey(): string {
-  return (
-    process.env.REPLICATE_API_KEY ||
-    process.env.VITE_REPLICATE_API_KEY ||
-    ''
-  ).trim();
+  return (process.env.REPLICATE_API_KEY || '').trim();
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
