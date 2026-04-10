@@ -2,8 +2,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
+  "redirects": [
+    { "source": "/", "destination": "/samedream", "permanent": false }
+  ],
   "rewrites": [
-    { "source": "/", "destination": "/samedream.html" },
     { "source": "/samedream", "destination": "/samedream.html" },
     { "source": "/dreamatlas", "destination": "/dreamatlas.html" },
     { "source": "/impressum", "destination": "/impressum.html" },
