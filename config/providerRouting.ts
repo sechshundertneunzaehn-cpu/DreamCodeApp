@@ -35,6 +35,16 @@ export const readEnv = (name: string): string | undefined => {
 // Alle AI-Provider laufen serverseitig — keine Client-Keys mehr
 export const hasProviderSecret = (_provider: ProviderSecretKey): boolean => true;
 
+// Nur noch als Metadata-Labels — echte Keys liegen server-seitig in Vercel Env Vars
+const PROVIDER_ENV_KEYS: Record<string, string> = {
+  gemini: 'GEMINI_API_KEY',
+  deepseek: 'DEEPSEEK_API_KEY',
+  runware: 'RUNWARE_API_KEY',
+  deepgram: 'DEEPGRAM_API_KEY',
+  elevenlabs: 'ELEVENLABS_API_KEY',
+  openrouter: 'OPENROUTER_API_KEY',
+};
+
 export interface TextRoute {
   tier: 'cheap' | 'default' | 'fallback' | 'premium' | 'local';
   provider: Extract<ProviderName, 'gemini' | 'deepseek' | 'ollama' | 'openrouter'>;
