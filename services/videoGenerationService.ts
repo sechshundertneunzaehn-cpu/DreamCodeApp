@@ -3,16 +3,7 @@
 
 import { Language, SubscriptionTier } from '../types';
 
-// ============================================
-// API KEY
-// ============================================
-const getReplicateKey = (): string => {
-    const envKey = (import.meta as any).env?.VITE_REPLICATE_API_KEY
-        || (import.meta as any).env?.REPLICATE_API_KEY
-        || (typeof process !== 'undefined' && process.env?.REPLICATE_API_KEY)
-        || '';
-    return envKey;
-};
+// API keys are server-side only — video generation goes through /api/generate-video
 
 // ============================================
 // TYPES
@@ -198,42 +189,30 @@ export const generateDreamVideo = async (
     subscriptionTier: SubscriptionTier,
     slideshowFallback?: () => Promise<VideoGenerationResult>
 ): Promise<VideoGenerationResult> => {
-    const apiKey = getReplicateKey();
-    const hasKey = apiKey && apiKey.length > 5;
-
-
-    // WAN 2.7 (alle Tiers)
-    if (hasKey) {
-        try {
-            return await generateVideoWAN(options);
-        } catch (error) {
-            console.warn('[VIDEO] WAN fehlgeschlagen, Fallback auf Slideshow...', error);
-        }
+    // WAN via server-side proxy (key lives in Vercel env)
+    try {
+        return await generateVideoWAN(options);
+    } catch (error) {
+        console.warn('[VIDEO] WAN fehlgeschlagen, Fallback auf Slideshow...', error);
     }
 
-    // Fallback: Slideshow
     if (slideshowFallback) {
         return await slideshowFallback();
     }
 
-    throw new Error('Video-Generierung nicht verfuegbar. Replicate API-Key fehlt.');
+    throw new Error('Video-Generierung nicht verfuegbar.');
 };
 
 // ============================================
 // HILFSFUNKTIONEN
 // ============================================
-export const isReplicateConfigured = (): boolean => {
-    const key = getReplicateKey();
-    return key.length > 5;
-};
+// Server-side keys — assume configured in production
+export const isReplicateConfigured = (): boolean => true;
 
 export const getAvailableProviders = (tier: SubscriptionTier): VideoProvider[] => {
-    const providers: VideoProvider[] = ['slideshow'];
-    if (isReplicateConfigured()) {
-        providers.push('replicate_wan');
-        if (tier === SubscriptionTier.PRO || tier === SubscriptionTier.SMART) {
-            providers.push('replicate_luma');
-        }
+    const providers: VideoProvider[] = ['slideshow', 'replicate_wan'];
+    if (tier === SubscriptionTier.PRO || tier === SubscriptionTier.SMART) {
+        providers.push('replicate_luma');
     }
     return providers;
 };
