@@ -196,11 +196,12 @@ interface CoinDisplayProps {
 
 const CoinDisplay: React.FC<CoinDisplayProps> = ({ profile, language, showDetails = false }) => {
     const t = coinTranslations[language];
+    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
     const coins = (profile as any).coins ?? 0;
     const progress = getProgressToNextCoin(profile);
 
     return (
-        <div className="coin-display">
+        <div dir={isRtl ? 'rtl' : 'ltr'} className="coin-display">
             {/* Main Coin Counter */}
             <div className="coin-counter">
                 <span className="coin-icon">🪙</span>

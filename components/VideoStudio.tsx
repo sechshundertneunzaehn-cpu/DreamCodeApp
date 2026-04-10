@@ -533,7 +533,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
 }) => {
     const t = getT(language);
     const isLight = themeMode === ThemeMode.LIGHT;
-    const isRtl = language === Language.AR;
+    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
 
     // --- Tab & quality ---
     const [activeTab, setActiveTab] = useState<Tab>('slideshow');

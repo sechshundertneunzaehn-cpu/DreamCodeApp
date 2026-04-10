@@ -2,6 +2,7 @@
 // Provider: Replicate (WAN 2.2 + Luma Ray) + Slideshow-Fallback
 
 import { Language, SubscriptionTier } from '../types';
+import { apiUrl } from './apiConfig';
 
 // API keys are server-side only — video generation goes through /api/generate-video
 
@@ -57,7 +58,7 @@ const generateVideoWAN = async (
     const startTime = Date.now();
 
     try {
-        const createRes = await fetch('/api/generate-video', {
+        const createRes = await fetch(apiUrl('/api/generate-video'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -100,7 +101,7 @@ const pollViaProxy = async (
     while (attempts < maxAttempts) {
         await new Promise(resolve => setTimeout(resolve, 5000));
 
-        const statusRes = await fetch(`/api/generate-video?id=${predictionId}`);
+        const statusRes = await fetch(apiUrl(`/api/generate-video?id=${predictionId}`));
 
         if (!statusRes.ok) {
             attempts++;

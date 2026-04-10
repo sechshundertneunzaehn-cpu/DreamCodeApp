@@ -2,6 +2,7 @@
 // Emotionale, natuerliche Stimmen fuer alle 8 Sprachen
 
 import { Language } from '../types';
+import { apiUrl } from './apiConfig';
 
 // API key is kept server-side — calls go through /api/elevenlabs-tts
 
@@ -118,7 +119,7 @@ export const generateSpeechElevenLabs = async (
     const voice = ELEVENLABS_VOICES[language];
     const voiceSettings = getVoiceSettings(emotion);
 
-    const response = await fetch('/api/elevenlabs-tts', {
+    const response = await fetch(apiUrl('/api/elevenlabs-tts'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ voiceId: voice.id, text, voiceSettings }),

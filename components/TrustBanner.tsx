@@ -99,6 +99,7 @@ const TRUST_TRANSLATIONS: Record<Language, { text: string; sources: string[] }> 
 
 const TrustBanner: React.FC<TrustBannerProps> = ({ language, onNavigateToScience }) => {
   const t = TRUST_TRANSLATIONS[language] || TRUST_TRANSLATIONS[Language.DE];
+  const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
   const ref = useRef<HTMLButtonElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -114,6 +115,7 @@ const TrustBanner: React.FC<TrustBannerProps> = ({ language, onNavigateToScience
   return (
     <button
       ref={ref}
+      dir={isRtl ? 'rtl' : 'ltr'}
       onClick={onNavigateToScience}
       className={`w-full text-left rounded-xl border border-purple-500/20 bg-purple-950/30 backdrop-blur-sm px-4 py-3 mb-5 transition-all duration-700 hover:border-purple-400/40 hover:bg-purple-950/40 group ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
     >

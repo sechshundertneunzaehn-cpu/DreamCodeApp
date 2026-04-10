@@ -1,4 +1,5 @@
 import { supabase } from './supabaseClient';
+import { apiUrl } from './apiConfig';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -118,7 +119,7 @@ function buildPrompt(text: string, targetLang: string): string {
 async function translateWithGemini(text: string, targetLang: string): Promise<string | null> {
   const prompt = buildPrompt(text, targetLang);
   try {
-    const res = await fetch('/api/generate-text', {
+    const res = await fetch(apiUrl('/api/generate-text'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -141,7 +142,7 @@ async function translateWithDeepSeek(text: string, targetLang: string): Promise<
   const prompt = buildPrompt(text, targetLang);
 
   try {
-    const res = await fetch('/api/llm', {
+    const res = await fetch(apiUrl('/api/llm'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -166,7 +167,7 @@ async function translateWithGroq(text: string, targetLang: string): Promise<stri
   const prompt = buildPrompt(text, targetLang);
 
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch(apiUrl('/api/chat'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

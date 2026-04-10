@@ -951,6 +951,7 @@ const FadeSection: React.FC<{ children: React.ReactNode; className?: string }> =
 const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigateHome, themeMode }) => {
   const th = getTheme((themeMode as ThemeMode) || ThemeMode.DARK);
   const isLight = th.isLight;
+  const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
   const t = SCIENCE_TRANSLATIONS[language] || SCIENCE_TRANSLATIONS[Language.DE];
   const [counterStarted, setCounterStarted] = useState(false);
   const counterRef = useRef<HTMLDivElement>(null);
@@ -966,7 +967,7 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
   }, []);
 
   return (
-    <div className={`fixed inset-0 z-50 overflow-y-auto ${isLight ? 'bg-[#f0eefc]' : 'bg-black'}`}>
+    <div dir={isRtl ? 'rtl' : 'ltr'} className={`fixed inset-0 z-50 overflow-y-auto ${isLight ? 'bg-[#f0eefc]' : 'bg-black'}`}>
       {/* Header */}
       <div className={`sticky top-0 z-10 backdrop-blur-xl border-b px-4 py-3 flex items-center gap-3 ${isLight ? 'bg-white/80 border-[#c4bce6]/40' : 'bg-black/80 border-white/10'}`}>
         <button

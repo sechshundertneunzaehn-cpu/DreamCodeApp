@@ -2,6 +2,7 @@
 // Tiefgehende psychologische und spirituelle Traumanalyse
 
 import { Language, UserProfile, ReligiousCategory, ReligiousSource, SubscriptionTier } from '../types';
+import { apiUrl } from './apiConfig';
 
 // API key is kept server-side — calls go through /api/dream-analysis
 
@@ -143,7 +144,7 @@ export const analyzeDreamWithClaude = async (
 ): Promise<ClaudeDreamAnalysis> => {
     const systemPrompt = buildSystemPrompt(language, userProfile);
 
-    const response = await fetch('/api/dream-analysis', {
+    const response = await fetch(apiUrl('/api/dream-analysis'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dreamText, systemPrompt }),

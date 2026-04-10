@@ -12,6 +12,7 @@ import {
   ELEVENLABS_VOICES,
   type EmotionStyle,
 } from './elevenlabsService';
+import { apiUrl } from './apiConfig';
 
 const POLLINATIONS_API_BASE = 'https://image.pollinations.ai/prompt';
 const DEFAULT_DEEPGRAM_MODEL = 'aura-asteria-en';
@@ -183,7 +184,7 @@ const callGeminiText = async (
   prompt: string,
   options?: { temperature?: number; maxOutputTokens?: number },
 ): Promise<string> => {
-  const r = await fetch('/api/generate-text', {
+  const r = await fetch(apiUrl('/api/generate-text'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ provider: 'gemini', model, prompt, options }),
@@ -199,7 +200,7 @@ const callDeepSeekText = async (
   prompt: string,
   options?: { temperature?: number; maxTokens?: number },
 ): Promise<string> => {
-  const r = await fetch('/api/llm', {
+  const r = await fetch(apiUrl('/api/llm'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -250,7 +251,7 @@ const callOpenRouterText = async (
   prompt: string,
   options?: { temperature?: number; maxTokens?: number },
 ): Promise<string> => {
-  const r = await fetch('/api/llm', {
+  const r = await fetch(apiUrl('/api/llm'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -272,7 +273,7 @@ const callGroqDirect = async (
   prompt: string,
   options?: { temperature?: number; maxTokens?: number },
 ): Promise<string> => {
-  const r = await fetch('/api/generate-text', {
+  const r = await fetch(apiUrl('/api/generate-text'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ provider: 'groq', model, prompt, options }),
@@ -307,7 +308,7 @@ const callGroqFallback = async (prompt: string, language: Language): Promise<str
     sw: 'Swahili',
   };
   const langName = LANG_NAMES[language] || 'Deutsch';
-  const res = await fetch('/api/chat', {
+  const res = await fetch(apiUrl('/api/chat'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -441,7 +442,7 @@ export const generateImagePrompt = async (
 
   // Groq fallback for image prompt
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch(apiUrl('/api/chat'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -469,7 +470,7 @@ const generateRunwareImage = async (
   quality: ImageQuality,
 ): Promise<string | null> => {
   const model = getImageRoutes().find(route => route.tier === 'standard')?.model || 'runware:100@1';
-  const r = await fetch('/api/generate-image', {
+  const r = await fetch(apiUrl('/api/generate-image'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -489,7 +490,7 @@ const generateRunwareImage = async (
 
 const generateGeminiImage = async (prompt: string): Promise<string | null> => {
   const model = getImageRoutes().find(route => route.tier === 'premium')?.model || 'gemini-2.5-flash-image';
-  const r = await fetch('/api/generate-image', {
+  const r = await fetch(apiUrl('/api/generate-image'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ provider: 'gemini', model, prompt }),
@@ -593,7 +594,7 @@ export const generateSpeechPreview = async (
   _userProfile: UserProfile | null = null,
 ): Promise<string | null> => {
   try {
-    const r = await fetch('/api/deepgram-tts', {
+    const r = await fetch(apiUrl('/api/deepgram-tts'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, voice }),
@@ -718,7 +719,7 @@ Example: ["A person standing in front of an old house at night","Walking through
   // Google Cloud TTS via /api/tts (multilingual Chirp3-HD)
   let speech: string | null = null;
   try {
-    const ttsRes = await fetch('/api/tts', {
+    const ttsRes = await fetch(apiUrl('/api/tts'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: cleanText.slice(0, 4500), language }),
@@ -826,7 +827,7 @@ export const generateDreamNarrationVideo = async (
 
   let speech: string | null = null;
   try {
-    const ttsRes = await fetch('/api/tts', {
+    const ttsRes = await fetch(apiUrl('/api/tts'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: cleanText.slice(0, 4500), language }),

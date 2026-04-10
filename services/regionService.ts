@@ -2,6 +2,7 @@
 // Erkennt die Region des Users fuer regionales Pricing
 
 import { REGIONAL_PRICES, getRegionalPricing } from '../config/pricing';
+import { apiUrl } from './apiConfig';
 
 export type PricingRegion = 'SA' | 'EG' | 'TR' | 'RU' | 'DE' | 'DEFAULT';
 
@@ -114,7 +115,7 @@ export async function detectRegionAsync(): Promise<RegionInfo> {
 
   // 2. Server-Endpoint (Vercel x-vercel-ip-country)
   try {
-    const res = await fetch('/api/detect-region');
+    const res = await fetch(apiUrl('/api/detect-region');
     if (res.ok) {
       const data = await res.json();
       if (data.countryCode) {

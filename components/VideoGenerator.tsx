@@ -236,8 +236,9 @@ const VideoGenerator: React.FC<VideoGeneratorProps> = ({ dreamDescription, langu
         }
     };
 
+    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
     return (
-        <div className="mt-8 bg-slate-900/50 border border-white/10 rounded-xl p-6">
+        <div dir={isRtl ? 'rtl' : 'ltr'} className="mt-8 bg-slate-900/50 border border-white/10 rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-mystic text-white">
                     {t.title}

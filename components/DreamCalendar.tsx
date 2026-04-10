@@ -461,8 +461,10 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
         return { sortedTags, isAnomaly, total: dreams.length };
     }, [dreams]);
 
+    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
+
     return (
-        <div className={`fixed inset-0 z-[60] ${th.modalOverlay} flex flex-col items-center justify-center p-4 animate-in zoom-in-95 duration-300`}>
+        <div dir={isRtl ? 'rtl' : 'ltr'} className={`fixed inset-0 z-[60] ${th.modalOverlay} flex flex-col items-center justify-center p-4 animate-in zoom-in-95 duration-300`}>
             <div className={`w-full max-w-4xl ${th.modalBg} border ${th.borderAccent} rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[85vh]`}>
 
                 {/* Header */}

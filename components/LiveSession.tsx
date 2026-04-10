@@ -884,8 +884,10 @@ ${CATEGORY_INFO}`;
     }
 
     // ── Main UI ──────────────────────────────────────────────────────────
+    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
     return (
         <div
+            dir={isRtl ? 'rtl' : 'ltr'}
             className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-4 animate-in fade-in duration-500"
             translate="no"
         >

@@ -999,6 +999,7 @@ const DreamShare: React.FC<DreamShareProps> = ({
 }) => {
     const th = getTheme(themeMode || ThemeMode.DARK);
     const t = translations[language] || translations[Language.EN];
+    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
 
     const [mediaType, setMediaType] = useState<MediaType>(null);
     const [selectionStep, setSelectionStep] = useState<SelectionStep>('main');
@@ -1253,7 +1254,7 @@ const DreamShare: React.FC<DreamShareProps> = ({
     };
 
     return (
-        <div className="space-y-3">
+        <div dir={isRtl ? 'rtl' : 'ltr'} className="space-y-3">
             {/* Main Menu */}
             {selectionStep === 'main' && (
                 <>

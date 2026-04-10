@@ -226,6 +226,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     isVisible
 }) => {
     const t = recorderTranslations[language];
+    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
     const [recorder] = useState(() => new Recorder());
     const [isRecording, setIsRecording] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -288,7 +289,7 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     if (!isVisible) return null;
 
     return (
-        <div className="audio-recorder">
+        <div dir={isRtl ? 'rtl' : 'ltr'} className="audio-recorder">
             <div className="recorder-controls">
                 {!isRecording && !isProcessing && (
                     <button

@@ -1,6 +1,8 @@
 // Stripe Checkout Service
 // Handles frontend interaction with Stripe via Vercel API routes
 
+import { apiUrl } from './apiConfig';
+
 type CheckoutType = 'subscription' | 'coins';
 
 interface CheckoutResponse {
@@ -48,7 +50,7 @@ export async function createCheckoutSession(
     body.region = region;
   }
 
-  const response = await fetch('/api/create-checkout', {
+  const response = await fetch(apiUrl('/api/create-checkout'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -76,7 +78,7 @@ export async function createCheckoutSession(
  * @param sessionId - The Stripe session ID from the URL query params
  */
 export async function verifyPayment(sessionId: string): Promise<VerifyResponse> {
-  const response = await fetch('/api/verify-session', {
+  const response = await fetch(apiUrl('/api/verify-session'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ sessionId }),

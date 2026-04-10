@@ -274,9 +274,10 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
     const tier = displayProfile.subscriptionTier || SubscriptionTier.FREE;
     const tierLabel = tier === SubscriptionTier.VIP ? t.tier_vip : tier === SubscriptionTier.PREMIUM ? t.tier_gold : tier === SubscriptionTier.PRO ? t.tier_silver : t.tier_free;
     const tierColor = tier === SubscriptionTier.PREMIUM ? 'text-yellow-400 border-yellow-500/30 bg-yellow-900/20' : tier === SubscriptionTier.PRO ? 'text-slate-300 border-slate-400/30 bg-slate-800/40' : 'text-amber-700 border-amber-800/30 bg-amber-900/10';
+    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
 
     return (
-        <div className={`max-w-2xl mx-auto pb-24 animate-in fade-in duration-500 bg-transparent min-h-screen ${textMain}`}>
+        <div dir={isRtl ? 'rtl' : 'ltr'} className={`max-w-2xl mx-auto pb-24 animate-in fade-in duration-500 bg-transparent min-h-screen ${textMain}`}>
             
             <div className={`${bgCard} backdrop-blur-xl rounded-[2rem] border overflow-hidden mb-6`}>
                 
