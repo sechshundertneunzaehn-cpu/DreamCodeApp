@@ -606,6 +606,19 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
   const [filterOpen, setFilterOpen] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(true);
 
+  // ── Snap water-based markers to land ─────────────────────────────────────
+
+  // Some SDDb study coordinates fall in San Francisco Bay (water).
+  // Snap them to UC Berkeley campus (land) so no dot appears in the ocean.
+  const snapMarkersToLand = (rawMarkers: StudyMapMarker[]): StudyMapMarker[] =>
+    rawMarkers.map((m) => {
+      // SF Bay water zone: lat 37.72–38.05, lng -122.52 to -122.28
+      if (m.lat > 37.72 && m.lat < 38.05 && m.lng < -122.28 && m.lng > -122.55) {
+        return { ...m, lat: 37.8716, lng: -122.2594 }; // UC Berkeley campus
+      }
+      return m;
+    });
+
   // ── Fetch data ───────────────────────────────────────────────────────────
 
   useEffect(() => {
@@ -619,7 +632,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
         ]);
         if (cancelled) return;
         if (studyRes.data) setStudies(studyRes.data as ResearchStudy[]);
-        if (markerRes.data) setMarkers(markerRes.data as StudyMapMarker[]);
+        if (markerRes.data) setMarkers(snapMarkersToLand(markerRes.data as StudyMapMarker[]));
 
         // Paginate participants — bypass 1000-row Supabase limit
         const BATCH = 1000;
