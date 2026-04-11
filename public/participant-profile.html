@@ -115,6 +115,8 @@ details[open] .dc-interp-sum::before{transform:rotate(90deg)}
 .dc-tag{font-size:9px;padding:3px 8px;letter-spacing:0.5px;text-transform:uppercase}
 .dc-tag-theme{background:rgba(99,102,241,0.1);color:var(--accent);border:1px solid rgba(99,102,241,0.2)}
 .dc-tag-emotion{background:rgba(245,158,11,0.08);color:var(--gold);border:1px solid rgba(245,158,11,0.18)}
+.dc-tag-char{background:rgba(16,185,129,0.08);color:#6EE7B7;border:1px solid rgba(16,185,129,0.18)}
+.dc-tag-setting{background:rgba(56,189,248,0.08);color:#7DD3FC;border:1px solid rgba(56,189,248,0.18)}
 
 /* SENTINEL */
 .sentinel{height:80px}
@@ -135,6 +137,7 @@ details[open] .dc-interp-sum::before{transform:rotate(90deg)}
   <a href="/" class="nav-logo">Dream<span>Data</span>.world</a>
   <div class="nav-links">
     <a href="/">Home</a>
+    <a href="/dreams">Träume</a>
     <a href="/participants" class="active">Teilnehmer</a>
     <a href="/dreamatlas">Weltkarte</a>
     <a href="/samedream">Mitmachen</a>
@@ -206,7 +209,7 @@ async function init(){
   setStatus('Lade Träume...');
 
   var dr=await sb.from('research_dreams')
-    .select('dream_id,dream_text,original_language,dream_date,hall_van_de_castle_codes,scientific_interpretation,interpretation_by,emotions,themes')
+    .select('dream_id,dream_text,original_language,dream_date,hall_van_de_castle_codes,scientific_interpretation,interpretation_by,emotions,themes,characters,settings')
     .eq('participant_id',p.participant_id)
     .order('dream_date',{ascending:true});
 
@@ -351,13 +354,17 @@ function makeCard(d,idx){
     card.appendChild(det);
   }
 
-  // Themes + Emotions tags
+  // Themes + Emotions + Characters + Settings tags
   var themes=tagList(d.themes);
   var emotions=tagList(d.emotions);
-  if(themes.length||emotions.length){
+  var chars=tagList(d.characters).filter(function(s){return !s.match(/^\d+$/);});
+  var settings=tagList(d.settings).filter(function(s){return !s.match(/^\d+$/);});
+  if(themes.length||emotions.length||chars.length||settings.length){
     var tags=mk('div','dc-tags');
     themes.forEach(function(t){tags.appendChild(mk('span','dc-tag dc-tag-theme',t));});
     emotions.forEach(function(e){tags.appendChild(mk('span','dc-tag dc-tag-emotion',e));});
+    chars.forEach(function(c){tags.appendChild(mk('span','dc-tag dc-tag-char',c.replace(/_/g,' ')));});
+    settings.forEach(function(s){tags.appendChild(mk('span','dc-tag dc-tag-setting',s.replace(/_/g,' ')));});
     card.appendChild(tags);
   }
 

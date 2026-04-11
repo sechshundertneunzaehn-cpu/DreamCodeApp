@@ -7,6 +7,7 @@
   ],
   "rewrites": [
     { "source": "/samedream", "destination": "/samedream.html" },
+    { "source": "/dreams", "destination": "/dreams.html" },
     { "source": "/dreamatlas", "destination": "/dreamatlas.html" },
     { "source": "/participants", "destination": "/participants.html" },
     { "source": "/participant-profile", "destination": "/participant-profile.html" },
