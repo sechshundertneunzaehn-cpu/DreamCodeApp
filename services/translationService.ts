@@ -260,18 +260,13 @@ export async function translateText(
     const cached = await getCached(sourceTable, sourceId, sourceField, targetLang);
     if (cached) return cached;
 
-    // 2. Gemini with key rotation
-    let result = await translateWithGemini(text, targetLang);
-
-    // 3. DeepSeek fallback
-    if (!result) {
-      result = await translateWithDeepSeek(text, targetLang);
-    }
-
-    // 4. GROQ fallback
-    if (!result) {
-      result = await translateWithGroq(text, targetLang);
-    }
+    // 2–4. AI-Provider parallel (each has 5s timeout) — fastest wins
+    const [gemini, deepseek, groq] = await Promise.all([
+      translateWithGemini(text, targetLang),
+      translateWithDeepSeek(text, targetLang),
+      translateWithGroq(text, targetLang),
+    ]);
+    let result = gemini || deepseek || groq || null;
 
     // 5. Google Translate (unofficial API, kein Key nötig) — greift wenn alle AI-Provider versagen
     if (!result) {
