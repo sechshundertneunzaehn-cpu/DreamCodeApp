@@ -95,7 +95,7 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
     <>
       <Tag className={textClasses}>
         {renderContent ? renderContent(displayText) : displayText}
-        {!isOriginal && mode === 'ai' && (
+        {!isOriginal && !isTranslating && mode === 'ai' && (
           <span
             className="ml-1 text-xs opacity-40 select-none"
             title={labels.badge}
@@ -105,7 +105,7 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
           </span>
         )}
       </Tag>
-      {showOriginalToggle && !isOriginal && (
+      {showOriginalToggle && (
         <div className="flex gap-1 mt-1.5">
           <button
             type="button"
