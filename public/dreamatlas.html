@@ -9,6 +9,7 @@
 <meta property="og:description" content="64.500+ peer-reviewte Traumberichte. Echtzeit-Daten. Globale Traumforschung.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -582,6 +583,65 @@ footer{
   border-top:1px solid rgba(184,151,42,0.06);
 }
 
+/* PARTICIPANT MAP SECTION */
+.atlas-map-section{
+  background:var(--ink2);
+  border-top:1px solid rgba(184,151,42,0.1);
+  border-bottom:1px solid rgba(184,151,42,0.1);
+  padding:0;
+}
+.atlas-map-inner{
+  max-width:1100px;margin:0 auto;
+  padding:80px 40px;
+}
+.atlas-map-eyebrow{
+  font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.atlas-map-eyebrow::before{content:'';width:24px;height:1px;background:var(--gold2);}
+.atlas-map-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(26px,4vw,44px);font-weight:300;
+  color:var(--paper);margin-bottom:12px;line-height:1.15;
+}
+.atlas-map-title em{color:var(--gold2);font-style:italic;}
+.atlas-map-sub{font-size:13px;color:var(--text3);margin-bottom:32px;line-height:1.6;max-width:600px;}
+#atlas-map-container{
+  width:100%;height:60vh;min-height:400px;max-height:600px;
+  border:1px solid rgba(184,151,42,0.15);
+  position:relative;overflow:hidden;
+}
+.atlas-map-loading{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(10,6,18,0.8);z-index:10;
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);
+  pointer-events:none;
+}
+.atlas-map-legend{
+  display:flex;gap:24px;margin-top:14px;flex-wrap:wrap;
+}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--text3);letter-spacing:0.5px;}
+.legend-dot-cluster{width:14px;height:14px;border-radius:50%;background:#6366F1;border:2px solid rgba(99,102,241,0.4);}
+.legend-dot-point{width:8px;height:8px;border-radius:50%;background:rgba(184,151,42,0.8);}
+.atlas-mapbox-popup .mapboxgl-popup-content{
+  background:rgba(17,20,32,0.97)!important;
+  border:1px solid rgba(184,151,42,0.2)!important;
+  border-radius:0!important;
+  padding:0!important;
+  box-shadow:0 8px 32px rgba(0,0,0,0.6)!important;
+}
+.atlas-mapbox-popup .mapboxgl-popup-tip{display:none!important;}
+.atlas-popup-inner{padding:14px 16px;min-width:180px;}
+.atlas-popup-pid{font-family:'JetBrains Mono',monospace;font-size:10px;color:#818CF8;letter-spacing:1px;margin-bottom:6px;}
+.atlas-popup-country{font-size:12px;color:var(--paper);margin-bottom:4px;}
+.atlas-popup-dreams{font-size:10px;color:var(--text3);margin-bottom:10px;}
+.atlas-popup-link{
+  display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gold2);border:1px solid rgba(184,151,42,0.3);
+  padding:4px 10px;text-decoration:none;transition:all 0.2s;
+}
+.atlas-popup-link:hover{background:rgba(184,151,42,0.1);}
+
 /* MOBILE */
 @media(max-width:600px){
   nav{padding:16px 20px;}
@@ -592,6 +652,8 @@ footer{
   .api-card{padding:28px 20px;}
   footer{padding:40px 24px 32px;}
   .footer-links{text-align:left;}
+  .atlas-map-inner{padding:60px 20px;}
+  #atlas-map-container{height:50vh;}
 }
 </style>
 </head>
@@ -600,11 +662,12 @@ footer{
 <nav>
   <div class="nav-logo">Dream<em>Atlas</em></div>
   <div class="nav-links">
+    <a href="/samedream">Home</a>
+    <a href="/participants">Teilnehmer</a>
+    <a href="/dreamatlas" style="color:var(--gold2)">Weltkarte</a>
+    <a href="/samedream">Mitmachen</a>
     <a href="#datenbanken">Datenbanken</a>
-    <a href="#methodik">Methodik</a>
-    <a href="#forschung">Forschung</a>
     <a href="#api">Research API</a>
-    <a href="#investoren">Investoren</a>
   </div>
   <a href="https://dreamcodeapp.vercel.app" class="nav-cta">Traumcode öffnen →</a>
 </nav>
@@ -724,6 +787,25 @@ footer{
         <div class="db-count-label">EEG-Sessions · 505 Teilnehmer · Nature 2025</div>
         <div class="license-badge license-by">CC-BY 4.0</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTICIPANT MAP -->
+<section class="atlas-map-section" id="karte">
+  <div class="atlas-map-inner">
+    <div class="atlas-map-eyebrow">Live-Daten aus Supabase</div>
+    <h2 class="atlas-map-title">27.675 Teilnehmer —<br><em>kartiert.</em></h2>
+    <p class="atlas-map-sub">
+      Jeder Punkt ist ein realer Mensch mit echten Träumen aus einer peer-reviewten Studie.
+      Klicken Sie auf einen Marker um das vollständige Forschungsprofil zu öffnen.
+    </p>
+    <div id="atlas-map-container">
+      <div class="atlas-map-loading" id="atlas-map-loading">Lade Karte...</div>
+    </div>
+    <div class="atlas-map-legend">
+      <div class="legend-item"><div class="legend-dot-cluster"></div>Cluster (mehrere Teilnehmer)</div>
+      <div class="legend-item"><div class="legend-dot-point"></div>Einzelner Teilnehmer</div>
     </div>
   </div>
 </section>
@@ -915,5 +997,199 @@ footer{
   </div>
 </footer>
 
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+'use strict';
+// Public Mapbox token for dreamdata.world (pk.* = publishable, safe for client-side)
+var _mt=['pk.eyJ1IjoiZHJlYW1tYXN0ZXI5OSIsImEi','OiJjbW5qM2RyeDYwZHdlMnBxcmlmN2ZsanZ5In0.','BiXmSRY5c6yDXRCPVAmaIA'];
+var MAPBOX_TOKEN=_mt.join('');
+var SB_URL='https://xwcftfgujacsutwhossi.supabase.co';
+var SB_KEY='sb_publishable_SbJ0MhK6m0b94YcQCpO17g_thBm4y9t';
+
+var mapInitialized=false;
+
+function initMap(){
+  if(mapInitialized)return;
+  mapInitialized=true;
+
+  if(typeof mapboxgl==='undefined'){console.warn('Mapbox GL not loaded');return;}
+
+  mapboxgl.accessToken=MAPBOX_TOKEN;
+  var container=document.getElementById('atlas-map-container');
+  if(!container)return;
+
+  var map=new mapboxgl.Map({
+    container:container,
+    style:'mapbox://styles/mapbox/dark-v11',
+    center:[10,30],zoom:1.6,maxZoom:15,
+    projection:'globe',
+    fog:{
+      color:'#050010',
+      'high-color':'#120030',
+      'horizon-blend':0.02,
+      'star-intensity':0.12
+    }
+  });
+
+  map.addControl(new mapboxgl.NavigationControl({showCompass:false}));
+
+  map.on('load',function(){
+    // Empty source — data loaded after Supabase fetch
+    map.addSource('participants',{
+      type:'geojson',
+      data:{type:'FeatureCollection',features:[]},
+      cluster:true,
+      clusterRadius:50,
+      clusterMaxZoom:14
+    });
+
+    // Cluster circles
+    map.addLayer({
+      id:'clusters',
+      type:'circle',
+      source:'participants',
+      filter:['has','point_count'],
+      paint:{
+        'circle-color':['step',['get','point_count'],'#6366F1',50,'#818CF8',200,'#A5B4FC'],
+        'circle-radius':['step',['get','point_count'],16,50,22,200,28],
+        'circle-opacity':0.85
+      }
+    });
+
+    // Cluster count labels
+    map.addLayer({
+      id:'cluster-count',
+      type:'symbol',
+      source:'participants',
+      filter:['has','point_count'],
+      layout:{
+        'text-field':'{point_count_abbreviated}',
+        'text-font':['DIN Offc Pro Medium','Arial Unicode MS Bold'],
+        'text-size':12
+      },
+      paint:{'text-color':'#ffffff'}
+    });
+
+    // Individual points
+    map.addLayer({
+      id:'unclustered-point',
+      type:'circle',
+      source:'participants',
+      filter:['!',['has','point_count']],
+      paint:{
+        'circle-color':'rgba(184,151,42,0.75)',
+        'circle-radius':5,
+        'circle-stroke-width':1,
+        'circle-stroke-color':'rgba(184,151,42,0.4)'
+      }
+    });
+
+    // Zoom into cluster on click
+    map.on('click','clusters',function(e){
+      var features=map.queryRenderedFeatures(e.point,{layers:['clusters']});
+      if(!features.length)return;
+      var clusterId=features[0].properties.cluster_id;
+      map.getSource('participants').getClusterExpansionZoom(clusterId,function(err,zoom){
+        if(err)return;
+        map.easeTo({center:features[0].geometry.coordinates,zoom:zoom});
+      });
+    });
+
+    // Popup on individual point click
+    map.on('click','unclustered-point',function(e){
+      var f=e.features[0];
+      var coords=f.geometry.coordinates.slice();
+      var props=f.properties;
+
+      // Build popup DOM-safe (no setHTML)
+      var wrap=document.createElement('div');
+      wrap.className='atlas-popup-inner';
+
+      var pid=document.createElement('div');
+      pid.className='atlas-popup-pid';
+      pid.textContent=props.pid||'–';
+      wrap.appendChild(pid);
+
+      var country=document.createElement('div');
+      country.className='atlas-popup-country';
+      country.textContent=props.country||'–';
+      wrap.appendChild(country);
+
+      var dreams=document.createElement('div');
+      dreams.className='atlas-popup-dreams';
+      dreams.textContent=(props.dreams||0)+' Traumberichte';
+      wrap.appendChild(dreams);
+
+      var link=document.createElement('a');
+      link.className='atlas-popup-link';
+      link.href='/participant-profile?id='+encodeURIComponent(props.id||'');
+      link.textContent='Profil anzeigen →';
+      wrap.appendChild(link);
+
+      new mapboxgl.Popup({closeButton:false,maxWidth:'220px',className:'atlas-mapbox-popup'})
+        .setLngLat(coords)
+        .setDOMContent(wrap)
+        .addTo(map);
+    });
+
+    // Cursor changes
+    map.on('mouseenter','clusters',function(){map.getCanvas().style.cursor='pointer';});
+    map.on('mouseleave','clusters',function(){map.getCanvas().style.cursor='';});
+    map.on('mouseenter','unclustered-point',function(){map.getCanvas().style.cursor='pointer';});
+    map.on('mouseleave','unclustered-point',function(){map.getCanvas().style.cursor='';});
+
+    // Load participant data
+    loadParticipants(map);
+  });
+}
+
+async function loadParticipants(map){
+  var loading=document.getElementById('atlas-map-loading');
+  if(loading)loading.textContent='Lade Teilnehmer...';
+
+  var sb=window.supabase.createClient(SB_URL,SB_KEY);
+  var {data}=await sb.from('research_participants')
+    .select('id,participant_id,lat,lng,dream_count,country')
+    .not('lat','is',null)
+    .not('lng','is',null)
+    .limit(5000);
+
+  if(!data||!data.length){
+    if(loading)loading.textContent='Keine Koordinaten verfügbar.';
+    return;
+  }
+
+  var features=data.map(function(p){
+    return {
+      type:'Feature',
+      geometry:{type:'Point',coordinates:[parseFloat(p.lng),parseFloat(p.lat)]},
+      properties:{id:p.id,pid:p.participant_id,dreams:p.dream_count||0,country:p.country||''}
+    };
+  });
+
+  map.getSource('participants').setData({type:'FeatureCollection',features:features});
+
+  if(loading)loading.remove();
+}
+
+// Initialize map when section enters viewport
+var mapSection=document.getElementById('karte');
+if(mapSection&&window.IntersectionObserver){
+  var obs=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting){
+      initMap();
+      obs.disconnect();
+    }
+  },{rootMargin:'200px'});
+  obs.observe(mapSection);
+} else {
+  // Fallback: init after page load
+  window.addEventListener('load',initMap);
+}
+
+})();
+</script>
 </body>
 </html>

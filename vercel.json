@@ -8,6 +8,8 @@
   "rewrites": [
     { "source": "/samedream", "destination": "/samedream.html" },
     { "source": "/dreamatlas", "destination": "/dreamatlas.html" },
+    { "source": "/participants", "destination": "/participants.html" },
+    { "source": "/participant-profile", "destination": "/participant-profile.html" },
     { "source": "/impressum", "destination": "/impressum.html" },
     { "source": "/datenschutz", "destination": "/datenschutz.html" },
     { "source": "/agb", "destination": "/agb.html" }

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forschungsprofil — DreamData World</title>
+<meta name="description" content="Individuelles Forschungsprofil eines Studienteilnehmers. Alle Traumberichte im Original.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0A0C14;
+  --card:#111420;
+  --accent:#818CF8;
+  --accent2:#6366F1;
+  --text:#E2E8F0;
+  --text2:#94A3B8;
+  --text3:#475569;
+  --border:rgba(129,140,248,0.12);
+  --gold:#F59E0B;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden;min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:14px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(10,12,20,0.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:2px;color:var(--text);font-weight:500}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+
+/* MAIN */
+main{max-width:900px;margin:0 auto;padding:96px 24px 80px}
+
+/* STATUS */
+.status-msg{text-align:center;padding:80px 0;color:var(--text3);font-size:13px;letter-spacing:1px;font-family:'JetBrains Mono',monospace}
+
+/* ERROR */
+.error-msg{text-align:center;padding:80px 0;color:#F87171;font-size:14px}
+
+/* PROFILE HEADER */
+.profile-header{margin-bottom:48px;padding:32px;background:var(--card);border:1px solid var(--border)}
+.profile-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--accent);
+  text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.profile-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.profile-meta{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:20px 16px;margin-bottom:16px}
+.meta-item{display:flex;flex-direction:column;gap:4px}
+.meta-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
+.meta-val{font-size:14px;color:var(--text);font-weight:400}
+.profile-notes{margin-top:16px;padding:12px 16px;background:rgba(129,140,248,0.05);border-left:2px solid var(--accent);font-size:12px;color:var(--text2);line-height:1.7}
+
+/* BACK LINK */
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:1px;
+  text-transform:uppercase;color:var(--text3);margin-bottom:24px;transition:color 0.2s}
+.back-link:hover{color:var(--accent)}
+
+/* DREAMS SECTION */
+.dreams-section{margin-top:0}
+.dreams-heading{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);
+  margin-bottom:24px;font-weight:400;font-family:'JetBrains Mono',monospace;
+  padding-bottom:12px;border-bottom:1px solid var(--border)}
+.dreams-list{display:flex;flex-direction:column;gap:16px}
+.dreams-count{font-size:11px;color:var(--text3);margin-bottom:16px;font-family:'JetBrains Mono',monospace;letter-spacing:0.5px}
+
+/* DREAM CARD */
+.dream-card{background:var(--card);border:1px solid var(--border);padding:24px;position:relative;
+  transition:border-color 0.2s}
+.dream-card:hover{border-color:rgba(129,140,248,0.25)}
+.dc-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.dc-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:1px;font-weight:500}
+.dc-date{font-size:10px;color:var(--text3);letter-spacing:0.5px}
+.dc-lang{font-size:9px;color:var(--text3);padding:2px 8px;border:1px solid var(--border);letter-spacing:1px;text-transform:uppercase}
+.dc-id{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3)}
+
+/* DREAM TEXT */
+.dc-text-wrap{position:relative}
+.dc-collapsible{max-height:240px;overflow:hidden}
+.dc-collapsible::after{
+  position:absolute;bottom:0;left:0;right:0;height:64px;
+  background:linear-gradient(rgba(17,20,32,0),var(--card));
+  pointer-events:none;content:''}
+.dc-expanded{max-height:none;overflow:visible}
+.dc-expanded::after{display:none}
+.dc-text{font-size:13px;line-height:1.8;color:var(--text2);white-space:pre-wrap;word-break:break-word;font-family:'Inter',sans-serif;font-weight:300}
+.dc-expand-btn{margin-top:10px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--accent);background:transparent;border:1px solid var(--border);
+  padding:5px 14px;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
+.dc-expand-btn:hover{background:rgba(129,140,248,0.08);border-color:var(--accent)}
+
+/* HVDC CODES */
+.dc-codes{margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);
+  padding:8px 12px;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.04);word-break:break-all;line-height:1.5}
+.dc-codes-label{color:var(--accent);font-weight:500;margin-right:4px}
+
+/* INTERPRETATION */
+.dc-interp{margin-top:12px;border-top:1px solid var(--border);padding-top:12px}
+.dc-interp-sum{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);
+  cursor:pointer;list-style:none;user-select:none;display:flex;align-items:center;gap:6px;
+  padding:4px 0}
+.dc-interp-sum:hover{color:var(--accent)}
+.dc-interp-sum::before{content:'▶';font-size:7px;transition:transform 0.2s}
+details[open] .dc-interp-sum::before{transform:rotate(90deg)}
+.dc-interp-body{margin-top:12px;font-size:12px;line-height:1.75;color:var(--text2);
+  padding-left:12px;border-left:2px solid var(--border)}
+.dc-interp-by{margin-top:8px;font-size:10px;color:var(--text3);font-style:italic}
+
+/* TAGS */
+.dc-tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.dc-tag{font-size:9px;padding:3px 8px;letter-spacing:0.5px;text-transform:uppercase}
+.dc-tag-theme{background:rgba(99,102,241,0.1);color:var(--accent);border:1px solid rgba(99,102,241,0.2)}
+.dc-tag-emotion{background:rgba(245,158,11,0.08);color:var(--gold);border:1px solid rgba(245,158,11,0.18)}
+
+/* SENTINEL */
+.sentinel{height:80px}
+.load-more-note{text-align:center;padding:20px;font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;letter-spacing:0.5px}
+
+@media(max-width:640px){
+  nav{padding:12px 16px}
+  .nav-links{display:none}
+  main{padding:76px 16px 40px}
+  .profile-header{padding:20px}
+  .profile-meta{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Dream<span>Data</span>.world</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/participants" class="active">Teilnehmer</a>
+    <a href="/dreamatlas">Weltkarte</a>
+    <a href="/samedream">Mitmachen</a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="status-msg" id="status-msg">Lade Forschungsprofil...</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+'use strict';
+var SB_URL='https://xwcftfgujacsutwhossi.supabase.co';
+var SB_KEY='sb_publishable_SbJ0MhK6m0b94YcQCpO17g_thBm4y9t';
+var sb=window.supabase.createClient(SB_URL,SB_KEY);
+var ALL_DREAMS=[],RENDERED=0,BATCH=10;
+
+function mk(tag,cls,txt){
+  var e=document.createElement(tag);
+  if(cls)e.className=cls;
+  if(txt!=null)e.textContent=txt;
+  return e;
+}
+
+function tagList(v){
+  if(!v)return[];
+  if(Array.isArray(v))return v.map(function(s){return String(s).trim();}).filter(Boolean);
+  return String(v).split(',').map(function(s){return s.trim();}).filter(Boolean);
+}
+
+function clearMain(){
+  var m=document.getElementById('main');
+  while(m.firstChild)m.removeChild(m.firstChild);
+  return m;
+}
+
+function setStatus(msg){
+  var s=document.getElementById('status-msg');
+  if(s)s.textContent=msg;
+}
+
+function showErr(msg){
+  var m=clearMain();
+  m.appendChild(mk('div','error-msg',msg));
+}
+
+async function init(){
+  var urlId=new URLSearchParams(location.search).get('id');
+  if(!urlId){showErr('Kein Teilnehmer angegeben. Bitte URL mit ?id=... aufrufen.');return;}
+
+  var r=await sb.from('research_participants')
+    .select('*,study:research_studies(*)')
+    .eq('id',urlId).maybeSingle();
+  var p=r.data;
+
+  if(!p){
+    var r2=await sb.from('research_participants')
+      .select('*,study:research_studies(*)')
+      .eq('participant_id',urlId).maybeSingle();
+    p=r2.data;
+  }
+
+  if(!p){showErr('Teilnehmer nicht gefunden: '+urlId);return;}
+
+  document.title='Profil '+p.participant_id+' — DreamData World';
+  buildLayout(p);
+  setStatus('Lade Träume...');
+
+  var dr=await sb.from('research_dreams')
+    .select('dream_id,dream_text,original_language,dream_date,hall_van_de_castle_codes,scientific_interpretation,interpretation_by,emotions,themes')
+    .eq('participant_id',p.participant_id)
+    .order('dream_date',{ascending:true});
+
+  ALL_DREAMS=dr.data||[];
+
+  var sm=document.getElementById('status-msg');
+  if(sm)sm.remove();
+
+  var cnt=document.getElementById('dreams-count');
+  if(cnt)cnt.textContent=ALL_DREAMS.length+' Traumbericht'+(ALL_DREAMS.length!==1?'e':'');
+
+  renderBatch();
+  setupObs();
+}
+
+function buildLayout(p){
+  var m=clearMain();
+
+  // Back link
+  var back=mk('a','back-link','← Alle Teilnehmer');
+  back.href='/participants';
+  m.appendChild(back);
+
+  // Profile header card
+  var hdr=mk('section','profile-header');
+
+  var tagWrap=mk('div','profile-tag');
+  tagWrap.appendChild(mk('span','profile-tag-dot'));
+  var tagText=document.createTextNode(p.participant_id||p.id||'–');
+  tagWrap.appendChild(tagText);
+  hdr.appendChild(tagWrap);
+
+  var meta=mk('div','profile-meta');
+  var studyName=p.study&&(p.study.study_name||p.study.study_code)||p.study_code||'–';
+  var fields=[
+    ['Studie',studyName],
+    ['Alter',p.age!=null?String(p.age):'–'],
+    ['Geschlecht',p.gender||'–'],
+    ['Ethnizität',p.ethnicity||'–'],
+    ['Land',p.country||'–'],
+    ['Stadt',p.city||'–'],
+    ['Koordinaten',p.lat&&p.lng?(parseFloat(p.lat).toFixed(2)+', '+parseFloat(p.lng).toFixed(2)):'–'],
+    ['Traumanzahl',p.dream_count!=null?String(p.dream_count):'–']
+  ];
+  fields.forEach(function(pair){
+    var item=mk('div','meta-item');
+    item.appendChild(mk('span','meta-label',pair[0]));
+    item.appendChild(mk('span','meta-val',pair[1]));
+    meta.appendChild(item);
+  });
+  hdr.appendChild(meta);
+
+  if(p.notes){
+    hdr.appendChild(mk('div','profile-notes',p.notes));
+  }
+
+  m.appendChild(hdr);
+
+  // Dreams section
+  var sec=mk('section','dreams-section');
+  sec.appendChild(mk('h2','dreams-heading','Traumberichte'));
+  var cnt=mk('div','dreams-count','Lade...');
+  cnt.id='dreams-count';
+  sec.appendChild(cnt);
+  var list=mk('div','dreams-list');
+  list.id='dreams-list';
+  sec.appendChild(list);
+  var sentinel=mk('div','sentinel');
+  sentinel.id='sentinel';
+  sec.appendChild(sentinel);
+  m.appendChild(sec);
+}
+
+function renderBatch(){
+  var list=document.getElementById('dreams-list');
+  if(!list)return;
+  var end=Math.min(RENDERED+BATCH,ALL_DREAMS.length);
+  for(var i=RENDERED;i<end;i++){
+    list.appendChild(makeCard(ALL_DREAMS[i],i+1));
+  }
+  RENDERED=end;
+  if(RENDERED>=ALL_DREAMS.length){
+    var note=document.getElementById('load-more-note');
+    if(!note){
+      note=mk('div','load-more-note','Alle '+ALL_DREAMS.length+' Berichte geladen.');
+      note.id='load-more-note';
+      var s=document.getElementById('sentinel');
+      if(s&&s.parentNode)s.parentNode.insertBefore(note,s);
+    }
+  }
+}
+
+function makeCard(d,idx){
+  var card=mk('article','dream-card');
+
+  // Header row
+  var hdr=mk('div','dc-header');
+  hdr.appendChild(mk('span','dc-num','#'+idx));
+  if(d.dream_date)hdr.appendChild(mk('span','dc-date',d.dream_date));
+  if(d.original_language)hdr.appendChild(mk('span','dc-lang',d.original_language));
+  if(d.dream_id)hdr.appendChild(mk('span','dc-id',d.dream_id));
+  card.appendChild(hdr);
+
+  // Dream text — EXAKT wie im Original, vollständig im DOM
+  var wrap=mk('div','dc-text-wrap');
+  var txt=mk('p','dc-text',d.dream_text||'(kein Text)');
+  wrap.appendChild(txt);
+  var isLong=d.dream_text&&d.dream_text.length>800;
+  if(isLong)wrap.classList.add('dc-collapsible');
+  card.appendChild(wrap);
+
+  if(isLong){
+    var btn=mk('button','dc-expand-btn','Vollständig anzeigen');
+    btn.addEventListener('click',function(){
+      var expanded=wrap.classList.toggle('dc-expanded');
+      btn.textContent=expanded?'Einklappen':'Vollständig anzeigen';
+    });
+    card.appendChild(btn);
+  }
+
+  // Hall-Van de Castle codes
+  if(d.hall_van_de_castle_codes){
+    var codes=mk('div','dc-codes');
+    var lbl=mk('span','dc-codes-label','HvdC:');
+    codes.appendChild(lbl);
+    var cv=typeof d.hall_van_de_castle_codes==='string'
+      ?d.hall_van_de_castle_codes
+      :JSON.stringify(d.hall_van_de_castle_codes);
+    codes.appendChild(document.createTextNode(' '+cv));
+    card.appendChild(codes);
+  }
+
+  // Scientific interpretation (details element = native collapsible)
+  if(d.scientific_interpretation){
+    var det=mk('details','dc-interp');
+    det.appendChild(mk('summary','dc-interp-sum','Wissenschaftliche Interpretation'));
+    var body=mk('div','dc-interp-body',d.scientific_interpretation);
+    if(d.interpretation_by){
+      body.appendChild(mk('div','dc-interp-by','Quelle: '+d.interpretation_by));
+    }
+    det.appendChild(body);
+    card.appendChild(det);
+  }
+
+  // Themes + Emotions tags
+  var themes=tagList(d.themes);
+  var emotions=tagList(d.emotions);
+  if(themes.length||emotions.length){
+    var tags=mk('div','dc-tags');
+    themes.forEach(function(t){tags.appendChild(mk('span','dc-tag dc-tag-theme',t));});
+    emotions.forEach(function(e){tags.appendChild(mk('span','dc-tag dc-tag-emotion',e));});
+    card.appendChild(tags);
+  }
+
+  return card;
+}
+
+function setupObs(){
+  var sentinel=document.getElementById('sentinel');
+  if(!sentinel||!window.IntersectionObserver)return;
+  var obs=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting&&RENDERED<ALL_DREAMS.length)renderBatch();
+  },{rootMargin:'400px'});
+  obs.observe(sentinel);
+}
+
+init();
+})();
+</script>
+</body>
+</html>

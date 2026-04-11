@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forschungsteilnehmer — DreamData World</title>
+<meta name="description" content="27.675 Forschungsteilnehmer aus wissenschaftlichen Traumstudien. Durchsuchen, filtern, Profile anzeigen.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0A0C14;
+  --card:#111420;
+  --accent:#818CF8;
+  --accent2:#6366F1;
+  --text:#E2E8F0;
+  --text2:#94A3B8;
+  --text3:#475569;
+  --border:rgba(129,140,248,0.12);
+  --border2:rgba(129,140,248,0.22);
+  --hover:rgba(129,140,248,0.06);
+  --gold:#F59E0B;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden;min-height:100vh}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:14px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(10,12,20,0.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:2px;color:var(--text);font-weight:500}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+
+/* PAGE */
+main{max-width:1200px;margin:0 auto;padding:96px 24px 80px}
+
+/* PAGE HEADER */
+.page-header{margin-bottom:36px}
+.page-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.page-title{font-size:28px;font-weight:300;color:var(--text);letter-spacing:-0.5px;margin-bottom:6px}
+.page-sub{font-size:13px;color:var(--text3);line-height:1.6}
+.page-stats{display:flex;gap:32px;margin-top:20px;flex-wrap:wrap}
+.pstat{display:flex;flex-direction:column;gap:2px}
+.pstat-num{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--accent);font-weight:500}
+.pstat-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
+
+/* CONTROLS */
+.controls{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:flex-end}
+.ctrl-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px}
+.ctrl-label{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.ctrl-input{
+  width:100%;padding:9px 12px;
+  background:var(--card);
+  border:1px solid var(--border);
+  color:var(--text);font-family:'Inter',sans-serif;font-size:12px;
+  outline:none;transition:border-color 0.2s}
+.ctrl-input:focus{border-color:var(--accent2)}
+.ctrl-input::placeholder{color:var(--text3)}
+select.ctrl-input{cursor:pointer}
+select.ctrl-input option{background:var(--card)}
+.ctrl-btn{
+  padding:9px 20px;
+  background:var(--accent2);color:white;
+  border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  font-weight:500;transition:background 0.2s;white-space:nowrap;align-self:flex-end;
+  height:36px}
+.ctrl-btn:hover{background:var(--accent)}
+.ctrl-reset{
+  padding:9px 14px;
+  background:transparent;color:var(--text3);
+  border:1px solid var(--border);cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;
+  transition:all 0.2s;align-self:flex-end;height:36px}
+.ctrl-reset:hover{border-color:var(--accent);color:var(--accent)}
+
+/* STATUS BAR */
+.status-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;min-height:28px;flex-wrap:wrap;gap:8px}
+.result-count{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;letter-spacing:0.5px}
+.loading-txt{font-size:11px;color:var(--accent);font-family:'JetBrains Mono',monospace;animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:rgba(129,140,248,0.06);border-bottom:1px solid var(--border)}
+th{padding:10px 14px;text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text3);font-weight:500;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:var(--accent)}
+th .sort-arrow{margin-left:4px;opacity:0.4;font-size:8px}
+th.sorted .sort-arrow{opacity:1;color:var(--accent)}
+tbody tr{border-bottom:1px solid rgba(129,140,248,0.06);cursor:pointer;transition:background 0.15s}
+tbody tr:hover{background:var(--hover)}
+tbody tr:last-child{border-bottom:none}
+td{padding:10px 14px;color:var(--text2);vertical-align:top;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.td-id{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.5px;white-space:nowrap;max-width:none}
+td.td-study{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;max-width:120px}
+td.td-dreams{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);text-align:right}
+.empty-row{text-align:center;padding:48px;color:var(--text3);font-size:13px}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:16px;flex-wrap:wrap;gap:10px}
+.page-info{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.page-btns{display:flex;gap:4px;flex-wrap:wrap}
+.page-btn{
+  padding:5px 12px;
+  background:var(--card);border:1px solid var(--border);
+  color:var(--text3);cursor:pointer;font-size:11px;font-family:'JetBrains Mono',monospace;
+  transition:all 0.15s}
+.page-btn:hover{border-color:var(--accent);color:var(--accent)}
+.page-btn.active{background:var(--accent2);border-color:var(--accent2);color:white;cursor:default}
+.page-btn:disabled{opacity:0.3;cursor:default;pointer-events:none}
+
+@media(max-width:640px){
+  nav{padding:12px 16px}
+  .nav-links{display:none}
+  main{padding:76px 12px 40px}
+  .controls{flex-direction:column}
+  .ctrl-group{min-width:100%}
+  td{max-width:120px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Dream<span>Data</span>.world</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/participants" class="active">Teilnehmer</a>
+    <a href="/dreamatlas">Weltkarte</a>
+    <a href="/samedream">Mitmachen</a>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <div class="page-eyebrow">Forschungsdaten</div>
+    <h1 class="page-title">Studienteilnehmer</h1>
+    <p class="page-sub">Alle Teilnehmer aus peer-reviewten Traumstudien. Klicken Sie auf einen Eintrag, um alle Traumberichte im Original zu sehen.</p>
+    <div class="page-stats">
+      <div class="pstat">
+        <span class="pstat-num" id="total-count">–</span>
+        <span class="pstat-label">Teilnehmer gesamt</span>
+      </div>
+      <div class="pstat">
+        <span class="pstat-num" id="filtered-count">–</span>
+        <span class="pstat-label">Ergebnisse gefunden</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl-group" style="flex:2;min-width:220px">
+      <label class="ctrl-label" for="search-input">Suche</label>
+      <input type="text" id="search-input" class="ctrl-input" placeholder="Teilnehmer-ID oder Land...">
+    </div>
+    <div class="ctrl-group">
+      <label class="ctrl-label" for="filter-gender">Geschlecht</label>
+      <select id="filter-gender" class="ctrl-input">
+        <option value="">Alle</option>
+        <option value="Male">Männlich</option>
+        <option value="Female">Weiblich</option>
+        <option value="Non-binary">Non-binary</option>
+        <option value="Other">Sonstige</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <label class="ctrl-label" for="filter-study">Studie</label>
+      <select id="filter-study" class="ctrl-input">
+        <option value="">Alle Studien</option>
+      </select>
+    </div>
+    <button class="ctrl-btn" id="search-btn">Suchen</button>
+    <button class="ctrl-reset" id="reset-btn">Reset</button>
+  </div>
+
+  <div class="status-bar">
+    <div class="result-count" id="result-count"></div>
+    <div class="loading-txt" id="loading-txt" style="display:none">Lade...</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr id="table-head">
+          <th data-col="participant_id">ID <span class="sort-arrow">↕</span></th>
+          <th data-col="study_code">Studie <span class="sort-arrow">↕</span></th>
+          <th data-col="age">Alter <span class="sort-arrow">↕</span></th>
+          <th data-col="gender">Geschlecht <span class="sort-arrow">↕</span></th>
+          <th data-col="country">Land <span class="sort-arrow">↕</span></th>
+          <th data-col="city">Stadt <span class="sort-arrow">↕</span></th>
+          <th data-col="dream_count" style="text-align:right">Träume <span class="sort-arrow">↕</span></th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+  <div class="pagination" id="pagination"></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+'use strict';
+var SB_URL='https://xwcftfgujacsutwhossi.supabase.co';
+var SB_KEY='sb_publishable_SbJ0MhK6m0b94YcQCpO17g_thBm4y9t';
+var sb=window.supabase.createClient(SB_URL,SB_KEY);
+
+var PAGE_SIZE=50;
+var currentPage=0;
+var totalCount=0;
+var globalTotal=0;
+var sortCol='participant_id';
+var sortAsc=true;
+var searchVal='';
+var genderVal='';
+var studyVal='';
+
+function mk(tag,cls,txt){
+  var e=document.createElement(tag);
+  if(cls)e.className=cls;
+  if(txt!=null)e.textContent=txt;
+  return e;
+}
+
+function setLoading(on){
+  document.getElementById('loading-txt').style.display=on?'block':'none';
+}
+
+async function fetchTotal(){
+  var r=await sb.from('research_participants').select('id',{count:'exact',head:true});
+  globalTotal=r.count||0;
+  var el=document.getElementById('total-count');
+  if(el)el.textContent=globalTotal.toLocaleString('de-DE');
+}
+
+async function fetchStudies(){
+  var r=await sb.from('research_participants').select('study_code').order('study_code');
+  if(!r.data)return;
+  var seen={};
+  var sel=document.getElementById('filter-study');
+  r.data.forEach(function(p){
+    if(p.study_code&&!seen[p.study_code]){
+      seen[p.study_code]=true;
+      var opt=document.createElement('option');
+      opt.value=p.study_code;
+      opt.textContent=p.study_code;
+      sel.appendChild(opt);
+    }
+  });
+}
+
+async function loadPage(page){
+  setLoading(true);
+  currentPage=page;
+
+  var q=sb.from('research_participants')
+    .select('id,participant_id,study_code,age,gender,country,city,dream_count',{count:'exact'});
+
+  if(searchVal){
+    q=q.or('participant_id.ilike.%'+searchVal+'%,country.ilike.%'+searchVal+'%,city.ilike.%'+searchVal+'%');
+  }
+  if(genderVal){q=q.eq('gender',genderVal);}
+  if(studyVal){q=q.eq('study_code',studyVal);}
+
+  q=q.order(sortCol,{ascending:sortAsc}).range(page*PAGE_SIZE,(page+1)*PAGE_SIZE-1);
+
+  var r=await q;
+  setLoading(false);
+
+  totalCount=r.count||0;
+  renderTable(r.data||[]);
+  renderPagination();
+
+  var fc=document.getElementById('filtered-count');
+  if(fc)fc.textContent=totalCount.toLocaleString('de-DE');
+
+  var rc=document.getElementById('result-count');
+  if(rc){
+    var from=page*PAGE_SIZE+1;
+    var to=Math.min((page+1)*PAGE_SIZE,totalCount);
+    rc.textContent=totalCount>0?(from+'–'+to+' von '+totalCount.toLocaleString('de-DE')+' Einträgen'):'Keine Einträge gefunden';
+  }
+}
+
+function renderTable(rows){
+  var tbody=document.getElementById('table-body');
+  while(tbody.firstChild)tbody.removeChild(tbody.firstChild);
+
+  if(!rows.length){
+    var tr=document.createElement('tr');
+    var td=document.createElement('td');
+    td.colSpan=7;
+    td.className='empty-row';
+    td.textContent='Keine Teilnehmer gefunden.';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    return;
+  }
+
+  rows.forEach(function(p){
+    var tr=document.createElement('tr');
+    var pid=p.id;
+    tr.addEventListener('click',function(){
+      location.href='/participant-profile?id='+encodeURIComponent(pid);
+    });
+
+    var cols=[
+      {cls:'td-id',val:p.participant_id||'–'},
+      {cls:'td-study',val:p.study_code||'–'},
+      {cls:'',val:p.age!=null?String(p.age):'–'},
+      {cls:'',val:p.gender||'–'},
+      {cls:'',val:p.country||'–'},
+      {cls:'',val:p.city||'–'},
+      {cls:'td-dreams',val:p.dream_count!=null?String(p.dream_count):'–'}
+    ];
+
+    cols.forEach(function(c){
+      var td=document.createElement('td');
+      if(c.cls)td.className=c.cls;
+      td.textContent=c.val;
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+}
+
+function renderPagination(){
+  var pag=document.getElementById('pagination');
+  while(pag.firstChild)pag.removeChild(pag.firstChild);
+
+  var totalPages=Math.ceil(totalCount/PAGE_SIZE);
+  if(totalPages<=1)return;
+
+  var info=mk('div','page-info','Seite '+(currentPage+1)+' von '+totalPages);
+  pag.appendChild(info);
+
+  var btns=mk('div','page-btns');
+
+  // Prev
+  var prev=mk('button','page-btn','← Zurück');
+  if(currentPage===0)prev.disabled=true;
+  prev.addEventListener('click',function(){if(currentPage>0)loadPage(currentPage-1);});
+  btns.appendChild(prev);
+
+  // Page numbers (show max 7 buttons)
+  var start=Math.max(0,currentPage-3);
+  var end=Math.min(totalPages-1,start+6);
+  if(end-start<6)start=Math.max(0,end-6);
+
+  if(start>0){
+    var b=mk('button','page-btn','1');
+    b.addEventListener('click',function(){loadPage(0);});
+    btns.appendChild(b);
+    if(start>1)btns.appendChild(mk('span','page-btn','…'));
+  }
+
+  for(var i=start;i<=end;i++){
+    (function(pg){
+      var b=mk('button',pg===currentPage?'page-btn active':'page-btn',String(pg+1));
+      if(pg!==currentPage)b.addEventListener('click',function(){loadPage(pg);});
+      btns.appendChild(b);
+    })(i);
+  }
+
+  if(end<totalPages-1){
+    if(end<totalPages-2)btns.appendChild(mk('span','page-btn','…'));
+    var last=mk('button','page-btn',String(totalPages));
+    last.addEventListener('click',function(){loadPage(totalPages-1);});
+    btns.appendChild(last);
+  }
+
+  // Next
+  var next=mk('button','page-btn','Weiter →');
+  if(currentPage>=totalPages-1)next.disabled=true;
+  next.addEventListener('click',function(){if(currentPage<totalPages-1)loadPage(currentPage+1);});
+  btns.appendChild(next);
+
+  pag.appendChild(btns);
+}
+
+function setupSort(){
+  var ths=document.querySelectorAll('#table-head th[data-col]');
+  ths.forEach(function(th){
+    th.addEventListener('click',function(){
+      var col=th.getAttribute('data-col');
+      if(sortCol===col){sortAsc=!sortAsc;}else{sortCol=col;sortAsc=true;}
+      ths.forEach(function(t){t.classList.remove('sorted');});
+      th.classList.add('sorted');
+      var arrow=th.querySelector('.sort-arrow');
+      if(arrow)arrow.textContent=sortAsc?'↑':'↓';
+      loadPage(0);
+    });
+  });
+}
+
+function setupSearch(){
+  document.getElementById('search-btn').addEventListener('click',function(){
+    searchVal=document.getElementById('search-input').value.trim();
+    genderVal=document.getElementById('filter-gender').value;
+    studyVal=document.getElementById('filter-study').value;
+    loadPage(0);
+  });
+
+  document.getElementById('reset-btn').addEventListener('click',function(){
+    document.getElementById('search-input').value='';
+    document.getElementById('filter-gender').value='';
+    document.getElementById('filter-study').value='';
+    searchVal='';genderVal='';studyVal='';
+    loadPage(0);
+  });
+
+  document.getElementById('search-input').addEventListener('keydown',function(e){
+    if(e.key==='Enter'){document.getElementById('search-btn').click();}
+  });
+}
+
+async function init(){
+  setupSort();
+  setupSearch();
+  await Promise.all([fetchTotal(),fetchStudies()]);
+  loadPage(0);
+}
+
+init();
+})();
+</script>
+</body>
+</html>
