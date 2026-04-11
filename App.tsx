@@ -4329,6 +4329,7 @@ const App: React.FC = () => {
     const [view, setView] = useState<View>(View.HOME);
     const [selectedParticipantId, setSelectedParticipantId] = useState<string>('');
     const [selectedStudyCode, setSelectedStudyCode] = useState<string>('');
+    const [prevParticipantView, setPrevParticipantView] = useState<View>(View.RESEARCH_STUDIES);
     const [language, setLanguageState] = useState<Language>(() => {
         const saved = localStorage.getItem('dreamcode_language');
         if (saved && Object.values(Language).includes(saved as Language)) return saved as Language;
@@ -5959,7 +5960,7 @@ Rules:
                     language={language}
                     isLight={isLight}
                     onClose={() => setView(View.HOME)}
-                    onSelectParticipant={(id) => { setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }}
+                    onSelectParticipant={(id) => { setPrevParticipantView(View.RESEARCH_MAP); setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }}
                     onSelectStudy={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_STUDIES); }}
                 />
             )}
@@ -5972,7 +5973,7 @@ Rules:
                     initialStudyCode={selectedStudyCode || undefined}
                     onSelectStudy={(code) => setSelectedStudyCode(code)}
                     onShowOnMap={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_MAP); }}
-                    onSelectParticipant={(id) => { setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }}
+                    onSelectParticipant={(id) => { setPrevParticipantView(View.RESEARCH_STUDIES); setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }}
                 />
             )}
 
@@ -5981,7 +5982,7 @@ Rules:
                     participantId={selectedParticipantId}
                     language={language}
                     isLight={isLight}
-                    onClose={() => setView(View.RESEARCH_STUDIES)}
+                    onClose={() => setView(prevParticipantView)}
                     onShowOnMap={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_MAP); }}
                 />
             )}

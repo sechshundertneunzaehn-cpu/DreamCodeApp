@@ -64,7 +64,7 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
   showOriginalToggle = false,
   renderContent,
 }) => {
-  const [showingOriginal, setShowingOriginal] = useState(false);
+  const [mode, setMode] = useState<'ai' | 'original'>('ai');
   const { language } = useUserLanguage();
   const labels = getToggleLabels(language);
 
@@ -76,24 +76,26 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
     sourceLang
   );
 
-  const displayText = showingOriginal ? text : translatedText;
+  const displayText = mode === 'original' ? text : translatedText;
 
   const clampClass = maxLines && lineClampClass[maxLines] ? lineClampClass[maxLines] : '';
 
   const textClasses = [
     'transition-opacity duration-300',
-    isTranslating ? 'animate-pulse opacity-60' : 'opacity-100',
+    isTranslating ? 'opacity-60' : 'opacity-100',
     clampClass,
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
+  const googleUrl = `https://translate.google.com/?text=${encodeURIComponent(text)}&sl=auto&tl=${language}`;
+
   return (
     <>
       <Tag className={textClasses}>
         {renderContent ? renderContent(displayText) : displayText}
-        {!isOriginal && !showingOriginal && (
+        {!isOriginal && mode === 'ai' && (
           <span
             className="ml-1 text-xs opacity-40 select-none"
             title={labels.badge}
@@ -104,13 +106,38 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
         )}
       </Tag>
       {showOriginalToggle && !isOriginal && (
-        <button
-          type="button"
-          onClick={() => setShowingOriginal((prev) => !prev)}
-          className="mt-1 text-xs text-slate-400 hover:text-slate-200 underline underline-offset-2 transition-colors duration-150 block"
-        >
-          {showingOriginal ? labels.translated : labels.original}
-        </button>
+        <div className="flex gap-1 mt-1.5">
+          <button
+            type="button"
+            onClick={() => setMode('original')}
+            className={`text-xs px-2 py-0.5 rounded border transition-colors duration-150 ${
+              mode === 'original'
+                ? 'bg-slate-600 border-slate-400 text-white'
+                : 'text-slate-400 border-slate-700 hover:text-slate-200'
+            }`}
+          >
+            Original
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode('ai')}
+            className={`text-xs px-2 py-0.5 rounded border transition-colors duration-150 ${
+              mode === 'ai'
+                ? 'bg-indigo-600 border-indigo-400 text-white'
+                : 'text-slate-400 border-slate-700 hover:text-slate-200'
+            }`}
+          >
+            🤖 KI
+          </button>
+          <a
+            href={googleUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs px-2 py-0.5 rounded border text-slate-400 border-slate-700 hover:text-slate-200 hover:border-slate-500 transition-colors duration-150"
+          >
+            🔗 Google
+          </a>
+        </div>
       )}
     </>
   );

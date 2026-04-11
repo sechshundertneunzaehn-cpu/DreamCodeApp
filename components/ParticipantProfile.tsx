@@ -173,6 +173,16 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
   const [dreams, setDreams] = useState<DreamRow[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Intercept browser back-button and swipe-back gesture → navigate within app
+  useEffect(() => {
+    window.history.pushState({ ppBack: true }, '');
+    const handlePop = () => onClose();
+    window.addEventListener('popstate', handlePop);
+    return () => {
+      window.removeEventListener('popstate', handlePop);
+    };
+  }, [onClose]);
+
   useEffect(() => {
     const load = async () => {
       setLoading(true);
@@ -307,17 +317,17 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
               </span>
             </div>
 
-            {/* Participant Info Card — compact horizontal layout */}
-            <div className={`rounded-xl border p-4 mb-6 ${cardBg}`}>
-              {/* Top row: ID + badge + map button */}
-              <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="text-lg font-bold font-mono">
+            {/* Participant Info Card — ultra-compact */}
+            <div className={`rounded-xl border p-3 mb-3 ${cardBg}`}>
+              {/* Row 1: ID + badge + map button */}
+              <div className="flex items-center justify-between gap-2 mb-1">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <h2 className="text-base font-bold font-mono truncate">
                     {participant.participant_id || `P-${participant.id?.slice(0,8)}`}
                   </h2>
                   {study?.study_code && (
                     <span
-                      className="inline-block rounded-full px-2 py-0.5 text-xs font-bold text-white"
+                      className="inline-block shrink-0 rounded-full px-2 py-0.5 text-xs font-bold text-white"
                       style={{ backgroundColor: study.map_color || '#6366f1' }}
                     >
                       {study.study_code}
@@ -327,67 +337,49 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                 {onShowOnMap && study && (
                   <button
                     onClick={() => onShowOnMap(study.study_code)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium ${btnPrimary} shrink-0`}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium ${btnPrimary} shrink-0`}
                   >
                     {t.showOnMap}
                   </button>
                 )}
               </div>
 
-              {/* Info grid: 2 columns */}
+              {/* Row 2: All study meta in one compact line */}
               {study && (
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs opacity-80">
-                  <div className="col-span-2">
-                    <span className="font-semibold">{t.study}:</span>{' '}
-                    <span>{study.study_name}</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold">{t.researcher}:</span>{' '}
-                    {study.principal_investigator}
-                  </div>
-                  <div>
-                    <span className="font-semibold">{t.institution}:</span>{' '}
-                    {study.institution}
-                  </div>
+                <p className="text-xs opacity-70 leading-snug">
+                  <span className="font-medium">{study.study_name}</span>
+                  {study.principal_investigator && <> · {study.principal_investigator}</>}
+                  {study.institution && <> · {study.institution}</>}
                   {(study.year_start || study.year_end) && (
-                    <div>
-                      <span className="font-semibold">{t.period}:</span>{' '}
-                      {study.year_start ?? '?'}–{study.year_end ?? '?'}
-                    </div>
+                    <> · {study.year_start ?? '?'}–{study.year_end ?? '?'}</>
                   )}
                   {study.doi && (
-                    <div>
-                      <span className="font-semibold">{t.doi}:</span>{' '}
-                      <a
-                        href={study.doi.startsWith('http') ? study.doi : `https://doi.org/${study.doi}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-indigo-400 hover:underline"
-                      >
-                        {study.doi}
-                      </a>
-                    </div>
+                    <> · <a
+                      href={study.doi.startsWith('http') ? study.doi : `https://doi.org/${study.doi}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-400 hover:underline"
+                    >DOI</a></>
                   )}
-                </div>
+                </p>
               )}
 
-              {/* Demographics inline chips */}
+              {/* Row 3: Demographics chips — only if present */}
               {(participant.age || participant.gender || participant.ethnicity) && (
-                <div className="flex flex-wrap gap-2 mt-3 pt-2 border-t border-white/10">
-                  <span className="text-xs opacity-50">{t.demographics}:</span>
+                <div className="flex flex-wrap gap-1 mt-1.5">
                   {participant.age && (
-                    <span className={`text-xs px-2 py-0.5 rounded-full border ${isLight ? 'bg-gray-100 border-gray-200 text-gray-600' : 'bg-gray-700/50 border-white/10 text-gray-300'}`}>
-                      {t.age}: {participant.age}
+                    <span className={`text-xs px-1.5 py-0.5 rounded-full border ${isLight ? 'bg-gray-100 border-gray-200 text-gray-600' : 'bg-gray-700/50 border-white/10 text-gray-300'}`}>
+                      {t.age} {participant.age}
                     </span>
                   )}
                   {participant.gender && (
-                    <span className={`text-xs px-2 py-0.5 rounded-full border ${isLight ? 'bg-gray-100 border-gray-200 text-gray-600' : 'bg-gray-700/50 border-white/10 text-gray-300'}`}>
-                      {t.gender}: {participant.gender}
+                    <span className={`text-xs px-1.5 py-0.5 rounded-full border ${isLight ? 'bg-gray-100 border-gray-200 text-gray-600' : 'bg-gray-700/50 border-white/10 text-gray-300'}`}>
+                      {participant.gender}
                     </span>
                   )}
                   {participant.ethnicity && (
-                    <span className={`text-xs px-2 py-0.5 rounded-full border ${isLight ? 'bg-gray-100 border-gray-200 text-gray-600' : 'bg-gray-700/50 border-white/10 text-gray-300'}`}>
-                      {t.ethnicity}: {participant.ethnicity}
+                    <span className={`text-xs px-1.5 py-0.5 rounded-full border ${isLight ? 'bg-gray-100 border-gray-200 text-gray-600' : 'bg-gray-700/50 border-white/10 text-gray-300'}`}>
+                      {participant.ethnicity}
                     </span>
                   )}
                 </div>
