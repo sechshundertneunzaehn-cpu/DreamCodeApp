@@ -116,10 +116,17 @@ function buildPrompt(text: string, targetLang: string): string {
 
 // ─── Gemini (key rotation) ────────────────────────────────────────────────────
 
+// 5-second timeout for all AI provider calls — if backend is down, don't wait for TCP timeout
+function fetchWithTimeout(url: string, options: RequestInit, ms = 5000): Promise<Response> {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(id));
+}
+
 async function translateWithGemini(text: string, targetLang: string): Promise<string | null> {
   const prompt = buildPrompt(text, targetLang);
   try {
-    const res = await fetch(apiUrl('/api/generate-text'), {
+    const res = await fetchWithTimeout(apiUrl('/api/generate-text'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -142,7 +149,7 @@ async function translateWithDeepSeek(text: string, targetLang: string): Promise<
   const prompt = buildPrompt(text, targetLang);
 
   try {
-    const res = await fetch(apiUrl('/api/llm'), {
+    const res = await fetchWithTimeout(apiUrl('/api/llm'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -167,7 +174,7 @@ async function translateWithGroq(text: string, targetLang: string): Promise<stri
   const prompt = buildPrompt(text, targetLang);
 
   try {
-    const res = await fetch(apiUrl('/api/chat'), {
+    const res = await fetchWithTimeout(apiUrl('/api/chat'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
