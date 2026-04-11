@@ -1225,8 +1225,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
             ? (start > 0 ? '…' : '') + snippet.slice(start, idx + q.length + 50) + '…'
             : snippet.slice(0, 80);
           return {
-            id: `rp_${p.id}`,
-            name: p.participant_id || p.id,
+            id: `rp_${p.participant_id}`,
+            name: p.participant_id,
             avatar: '🔬',
             city: '',
             country: p.country || '',
