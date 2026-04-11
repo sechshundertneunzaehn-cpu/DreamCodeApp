@@ -43,8 +43,10 @@ interface DreamRow {
   dream_date: string | null;
   dream_night: string | null;
   dream_text: string;
+  interpretation: string | null;
   hall_van_de_castle_codes: Record<string, string> | null;
   emotions: string[] | null;
+  original_language: string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -467,12 +469,32 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                       </div>
                     )}
 
-                    {/* No interpretation notice */}
-                    <div className="mt-2 text-xs opacity-40 italic">
-                      {language === 'de'
-                        ? 'Keine Deutung in der Originalstudie vorhanden'
-                        : 'No interpretation available in the original study'}
-                    </div>
+                    {/* original_language badge */}
+                    {dream.original_language && (
+                      <div className="mt-2 text-xs opacity-50">
+                        {language === 'de' ? 'Originalsprache' : 'Original language'}: <span className="font-mono">{dream.original_language}</span>
+                      </div>
+                    )}
+
+                    {/* Interpretation — 1:1 original, only when present */}
+                    {dream.interpretation ? (
+                      <div className={`mt-3 p-3 rounded-lg border text-sm leading-relaxed whitespace-pre-wrap ${
+                        isLight
+                          ? 'bg-indigo-50 border-indigo-200 text-indigo-900'
+                          : 'bg-indigo-900/20 border-indigo-700/30 text-indigo-200'
+                      }`}>
+                        <div className="text-xs font-semibold mb-1 opacity-60">
+                          {language === 'de' ? 'Deutung (Original)' : 'Interpretation (Original)'}
+                        </div>
+                        {dream.interpretation}
+                      </div>
+                    ) : (
+                      <div className="mt-2 text-xs opacity-40 italic">
+                        {language === 'de'
+                          ? 'Keine Deutung in der Originalstudie vorhanden'
+                          : 'No interpretation available in the original study'}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

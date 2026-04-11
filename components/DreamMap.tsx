@@ -8,6 +8,17 @@ import { FEATURE_FLAGS } from '../config/featureFlags';
 import { fetchMapDreams, type MapDreamUser } from '../services/dreamMapService';
 import { supabase } from '../services/supabaseClient';
 
+// ─── Research Participant (individual) ────────────────────────────────────────
+interface IndividualParticipant {
+  id: string;
+  participant_id: string;
+  country: string | null;
+  lat: number;
+  lng: number;
+  dream_count: number;
+  study_title?: string;
+}
+
 // ─── Props ────────────────────────────────────────────────────────────────────
 interface DreamMapProps {
   dreams?: Dream[];
@@ -16,6 +27,7 @@ interface DreamMapProps {
   isLight?: boolean;
   onSelectParticipant?: (id: any) => void;
   onNavigateToResearch?: () => void;
+  onNavigateToStudy?: (studyCode: string) => void;
   // Legacy compat
   themeMode?: string;
 }
@@ -920,6 +932,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
   language = 'en',
   onClose,
   isLight = false,
+  onNavigateToStudy,
+  onNavigateToResearch,
 }) => {
   const lang = (typeof language === 'string' ? language : String(language)).toLowerCase();
   const t: Translations = TRANSLATIONS[lang] ?? TRANSLATIONS['en'];
@@ -964,6 +978,25 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const dragStart = useRef({ x: 0, y: 0, ox: 0, oy: 0 });
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const lastTouchDist = useRef<number | null>(null);
+  const [mapContainerSize, setMapContainerSize] = useState({ w: 375, h: 200 });
+  const [individualParticipants, setIndividualParticipants] = useState<IndividualParticipant[]>([]);
+  const [showResearchLayer, setShowResearchLayer] = useState(false);
+  const [selectedResearchParticipant, setSelectedResearchParticipant] = useState<IndividualParticipant | null>(null);
+
+  // Measure map container so dots align with SVG (bg-contain letterboxes 2:1 SVG)
+  useEffect(() => {
+    const measure = () => {
+      if (mapContainerRef.current) {
+        const { clientWidth, clientHeight } = mapContainerRef.current;
+        if (clientWidth > 0 && clientHeight > 0) {
+          setMapContainerSize({ w: clientWidth, h: clientHeight });
+        }
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
 
   // Init users: lade echte Forschungsdaten aus Supabase
   useEffect(() => {
@@ -1059,6 +1092,42 @@ const DreamMap: React.FC<DreamMapProps> = ({
       setPulsingIds(top5.slice(0, 3).map(u => u.id));
     });
 
+    return () => { cancelled = true; };
+  }, []);
+
+  // Load individual research participants for the toggle layer
+  useEffect(() => {
+    let cancelled = false;
+    async function loadIndividualParticipants() {
+      try {
+        const { data: studies } = await supabase
+          .from('research_studies')
+          .select('id, study_name');
+        const studyTitleMap = new Map<string, string>(
+          (studies || []).map((s: any) => [s.id, s.study_name])
+        );
+
+        const { data } = await supabase
+          .from('research_participants')
+          .select('id, participant_id, country, lat, lng, dream_count, study_id')
+          .gt('dream_count', 0)
+          .not('lat', 'is', null);
+        if (cancelled || !data) return;
+        const mapped: IndividualParticipant[] = (data as any[]).map((p) => ({
+          id: p.id,
+          participant_id: p.participant_id,
+          country: p.country,
+          lat: p.lat,
+          lng: p.lng,
+          dream_count: p.dream_count,
+          study_title: studyTitleMap.get(p.study_id),
+        }));
+        setIndividualParticipants(mapped);
+      } catch (e) {
+        console.warn('DreamMap: Could not load individual participants', e);
+      }
+    }
+    loadIndividualParticipants();
     return () => { cancelled = true; };
   }, []);
 
@@ -1185,8 +1254,17 @@ const DreamMap: React.FC<DreamMapProps> = ({
 
   // Select user from result list → open profile
   const handleResultClick = useCallback((user: SimUser) => {
-    openProfile(user);
-  }, [openProfile]);
+    // Research markers (study_map_markers) → navigate to specific study's participant list
+    if (user.id.startsWith('research-') && onNavigateToStudy) {
+      const studyCode = user.id.replace(/^research-/, '').replace(/-\d+$/, '');
+      onNavigateToStudy(studyCode);
+    } else if (user.avatar === '🔬' && onNavigateToStudy) {
+      // dream_reports entries (dr_ prefix) → go to all studies / participant profiles
+      onNavigateToStudy('');
+    } else {
+      openProfile(user);
+    }
+  }, [openProfile, onNavigateToStudy]);
 
   // Stats
   const totalActive = users.length + 1847;
@@ -1228,8 +1306,27 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const chipBg = isLight ? 'bg-white/80 border-purple-200' : 'bg-white/8 border-white/10';
   const chipActive = 'bg-purple-600 border-purple-500 text-white';
 
+  // Letterbox-corrected coordinate mapper: bg-contain with a 2:1 SVG adds padding
+  // when the container ratio ≠ 2:1 (always true on mobile portrait screens).
+  const getMapCoords = (lat: number, lng: number) => {
+    const w = mapContainerSize.w;
+    const h = mapContainerSize.h;
+    const sx = (lng + 180) / 360;
+    const sy = (90 - lat) / 180;
+    if (h > 0 && w / h < 2) {
+      // Container narrower than 2:1 → SVG letterboxed top+bottom
+      const svgH = w / 2;
+      const topPad = (h - svgH) / 2;
+      return { x: sx * 100, y: (topPad + sy * svgH) / h * 100 };
+    }
+    // Container wider than 2:1 → SVG letterboxed left+right
+    const svgW = h * 2;
+    const leftPad = (w - svgW) / 2;
+    return { x: (leftPad + sx * svgW) / w * 100, y: sy * 100 };
+  };
+
   // "You" marker position (center of map, roughly Berlin area)
-  const youCoords = getCoordinates(50, 10);
+  const youCoords = getMapCoords(50, 10);
 
   // Search active = collapse map
   const isSearchActive = searchQuery.trim().length > 0;
@@ -1265,6 +1362,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
         .dm-slide-up   { animation: dmSlideUp 0.35s ease both; }
         .dm-fade-out   { animation: dmFadeOut 0.4s ease forwards; }
         .dm-chip-scroll::-webkit-scrollbar { display: none; }
+        @keyframes dmLivePulse { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
         @keyframes dmProfileSlideUp {
           from { transform: translateY(100%); }
           to   { transform: translateY(0); }
@@ -1313,6 +1411,19 @@ const DreamMap: React.FC<DreamMapProps> = ({
             }}
           />
 
+          {/* Fullscreen research map button */}
+          {onNavigateToResearch && (
+            <button
+              onClick={onNavigateToResearch}
+              className="absolute bottom-0 inset-x-0 z-30 flex items-center justify-center gap-2 py-2 text-xs font-bold backdrop-blur-sm"
+              style={{ background: 'linear-gradient(to top, rgba(79,70,229,0.95) 0%, rgba(79,70,229,0.7) 100%)', color: '#fff', letterSpacing: '0.05em' }}
+            >
+              <span className="material-icons" style={{ fontSize: 15 }}>science</span>
+              {lang === 'de' ? '🔬 Wissenschaftliche Karte öffnen' : '🔬 Open Research Map'}
+              <span className="material-icons" style={{ fontSize: 15 }}>open_in_full</span>
+            </button>
+          )}
+
           {/* Marker layer */}
           <div className="absolute inset-0">
             {/* "You" center marker */}
@@ -1331,9 +1442,38 @@ const DreamMap: React.FC<DreamMapProps> = ({
               />
             </div>
 
+            {/* Research Participant markers (cyan layer) */}
+            {showResearchLayer && individualParticipants.map((p) => {
+              const coords = getMapCoords(p.lat, p.lng);
+              const isSelected = selectedResearchParticipant?.id === p.id;
+              return (
+                <div
+                  key={`rp-${p.id}`}
+                  className="absolute"
+                  style={{ left: `${coords.x}%`, top: `${coords.y}%`, zIndex: isSelected ? 50 : 15 }}
+                >
+                  <div
+                    className="rounded-full cursor-pointer transition-transform hover:scale-[2.5] hover:z-50"
+                    style={{
+                      width: isSelected ? '10px' : '4px',
+                      height: isSelected ? '10px' : '4px',
+                      backgroundColor: isSelected ? '#22d3ee' : '#06b6d4',
+                      boxShadow: isSelected ? '0 0 8px #22d3ee80' : '0 0 3px #06b6d440',
+                      transform: 'translate(-50%, -50%)',
+                      borderWidth: isSelected ? '2px' : '0.5px',
+                      borderStyle: 'solid',
+                      borderColor: isSelected ? 'white' : 'rgba(255,255,255,0.3)',
+                      borderRadius: '9999px',
+                    }}
+                    onClick={() => setSelectedResearchParticipant(prev => prev?.id === p.id ? null : p)}
+                  />
+                </div>
+              );
+            })}
+
             {/* User markers */}
             {filteredUsers.map((u, idx) => {
-              const coords = getCoordinates(u.lat, u.lng);
+              const coords = getMapCoords(u.lat, u.lng);
               const isPulsing = pulsingIds.includes(u.id);
               const isSelected = selectedUser?.id === u.id;
               const color = matchColor(u.matchPct);
@@ -1533,6 +1673,23 @@ const DreamMap: React.FC<DreamMapProps> = ({
         />
       </div>
 
+      {/* ── Research Participants Toggle ── */}
+      <button
+        onClick={() => { setShowResearchLayer(prev => !prev); setSelectedResearchParticipant(null); }}
+        className={`mx-3 mb-2 flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border transition-all ${
+          showResearchLayer
+            ? 'bg-cyan-600 border-cyan-500 text-white'
+            : `${cardBg} ${textSub} backdrop-blur-sm`
+        }`}
+      >
+        <span className="text-sm">🔬</span>
+        {showResearchLayer
+          ? (lang === 'de' ? `Forschungsteilnehmer ausblenden (${individualParticipants.length.toLocaleString()})` : `Hide Research Participants (${individualParticipants.length.toLocaleString()})`)
+          : (lang === 'de' ? `Forschungsteilnehmer anzeigen (${individualParticipants.length.toLocaleString()})` : `Show Research Participants (${individualParticipants.length.toLocaleString()})`)
+        }
+        <span className="material-icons text-sm">{showResearchLayer ? 'visibility_off' : 'visibility'}</span>
+      </button>
+
       {/* ── Trend Rankings Toggle ── */}
       <button
         onClick={() => setShowTrends(prev => !prev)}
@@ -1670,6 +1827,51 @@ const DreamMap: React.FC<DreamMapProps> = ({
         </div>
       </div>
 
+      {/* ── Research Participant Mini-Popup ── */}
+      {selectedResearchParticipant && !selectedUser && (
+        <div className={`fixed bottom-0 inset-x-0 z-50 rounded-t-3xl border-t backdrop-blur-xl p-5 dm-slide-up ${isLight ? 'bg-white/85 border-cyan-200/60' : 'bg-dream-surface/90 border-cyan-700/20'}`}
+          style={{ maxHeight: '40vh', overflowY: 'auto' }}>
+          <div className={`w-10 h-1 rounded-full mx-auto mb-4 ${isLight ? 'bg-cyan-300' : 'bg-white/20'}`} />
+          <div className="flex items-start gap-3 mb-4">
+            <div className="text-3xl leading-none">🔬</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className={`font-bold text-base ${textMain}`}>{selectedResearchParticipant.participant_id}</div>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+                  {lang === 'de' ? 'Forschungsteilnehmer' : 'Research Participant'}
+                </span>
+              </div>
+              {selectedResearchParticipant.country && (
+                <div className={`text-xs mt-0.5 ${textSub}`}>{selectedResearchParticipant.country}</div>
+              )}
+              {selectedResearchParticipant.study_title && (
+                <div className={`text-xs mt-1 opacity-70 ${textMain}`}>{selectedResearchParticipant.study_title}</div>
+              )}
+              <div className={`text-xs mt-1 ${textSub}`}>
+                {lang === 'de' ? 'Träume' : 'Dreams'}: <span className="font-bold text-cyan-400">{selectedResearchParticipant.dream_count}</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setSelectedResearchParticipant(null)}
+              className={`flex-1 py-3 rounded-xl font-semibold text-sm border transition-colors ${isLight ? 'bg-white border-cyan-200 text-cyan-700 hover:bg-cyan-50' : 'bg-white/8 border-white/10 text-white hover:bg-white/15'}`}
+            >
+              {lang === 'de' ? 'Schließen' : 'Close'}
+            </button>
+            {onSelectParticipant && (
+              <button
+                onClick={() => { setSelectedResearchParticipant(null); onSelectParticipant(selectedResearchParticipant.id); }}
+                className="flex-1 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:opacity-90 transition-opacity"
+              >
+                <span className="material-icons text-base align-middle mr-1">person</span>
+                {lang === 'de' ? 'Profil ansehen' : 'View Profile'}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* ── Match Detail Panel (Slide-Up) ── */}
       {selectedUser && (
         <div className={`fixed bottom-0 inset-x-0 z-50 rounded-t-3xl border-t backdrop-blur-xl p-5 dm-slide-up ${isLight ? 'bg-white/85 border-purple-200/60' : 'bg-dream-surface/90 border-white/10'}`}
@@ -1725,11 +1927,21 @@ const DreamMap: React.FC<DreamMapProps> = ({
               {t.close}
             </button>
             <button
-              onClick={() => { handleClosePanel(); openProfile(selectedUser); }}
+              onClick={() => {
+                handleClosePanel();
+                if (selectedUser.id.startsWith('research-') && onNavigateToStudy) {
+                  const studyCode = selectedUser.id.replace(/^research-/, '').replace(/-\d+$/, '');
+                  onNavigateToStudy(studyCode);
+                } else if (selectedUser.avatar === '🔬' && onNavigateToStudy) {
+                  onNavigateToStudy('');
+                } else {
+                  openProfile(selectedUser);
+                }
+              }}
               className="flex-1 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
             >
-              <span className="material-icons text-base align-middle mr-1">person</span>
-              {t.profileShowProfile}
+              <span className="material-icons text-base align-middle mr-1">{(selectedUser.id.startsWith('research-') || selectedUser.avatar === '🔬') ? 'science' : 'person'}</span>
+              {(selectedUser.id.startsWith('research-') || selectedUser.avatar === '🔬') ? (language === 'de' ? 'Studie öffnen' : 'Open Study') : t.profileShowProfile}
             </button>
           </div>
         </div>
