@@ -1208,16 +1208,17 @@ const DreamMap: React.FC<DreamMapProps> = ({
 
         if (!dreams || dreams.length === 0) { setLiveSearchResults([]); return; }
 
-        const uuids = [...new Set(dreams.map((d: any) => d.participant_id as string))].slice(0, 8);
+        // research_dreams.participant_id is a string ID (e.g. "SDDB-022-P0053"), not a UUID
+        const pIds = [...new Set(dreams.map((d: any) => d.participant_id as string))].slice(0, 8);
         const { data: participants } = await supabase
           .from('research_participants')
           .select('id, participant_id, country, lat, lng, dream_count')
-          .in('id', uuids);
+          .in('participant_id', pIds);
 
         if (!participants || participants.length === 0) { setLiveSearchResults([]); return; }
 
         const results: SimUser[] = participants.map((p: any) => {
-          const snippet = dreams.find((d: any) => d.participant_id === p.id)?.dream_text || '';
+          const snippet = dreams.find((d: any) => d.participant_id === p.participant_id)?.dream_text || '';
           const idx = snippet.toLowerCase().indexOf(q.toLowerCase());
           const start = Math.max(0, idx - 30);
           const excerpt = idx >= 0
