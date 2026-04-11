@@ -5935,7 +5935,7 @@ Rules:
                 {showOnboarding && <Onboarding language={language} initialData={userProfile} onComplete={handleSaveProfile} onClose={() => setShowOnboarding(false)} themeMode={themeMode} />}
                 {showCalendar && <DreamCalendar dreams={dreams} language={language} onClose={() => setShowCalendar(false)} onGenerateVideo={handleGenerateVideoWithStyle} onGenerateImage={handleGenerateImageWithStyle} themeMode={themeMode} />}
 
-            {view === View.DREAM_MAP && <DreamMap dreams={dreams} language={language} isLight={isLight} onClose={() => setView(View.HOME)} onSelectParticipant={(id) => { setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }} onNavigateToResearch={() => setView(View.RESEARCH_MAP)} onNavigateToStudy={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_STUDIES); }} />}
+            {view === View.DREAM_MAP && <DreamMap dreams={dreams} language={language} isLight={isLight} onClose={() => setView(View.HOME)} onSelectParticipant={(id) => { setPrevParticipantView(View.DREAM_MAP); setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }} onNavigateToResearch={() => setView(View.RESEARCH_MAP)} onNavigateToStudy={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_STUDIES); }} />}
 
             {view === View.SCIENCE && (
                 <SciencePage

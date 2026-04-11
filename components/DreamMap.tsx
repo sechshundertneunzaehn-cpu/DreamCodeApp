@@ -989,6 +989,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
   // ── New feature state ──
   const [searchQuery, setSearchQuery] = useState('');
   const [matchThreshold, setMatchThreshold] = useState(50);
+  const [liveSearchResults, setLiveSearchResults] = useState<SimUser[]>([]);
+  const [isLiveSearching, setIsLiveSearching] = useState(false);
   // Zoom & Pan
   const [mapScale, setMapScale] = useState(1);
   const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
@@ -1043,8 +1045,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
               avatar: '🔬',
               city: m.city || '',
               country: m.country || '',
-              lat: m.lat,
-              lng: m.lng,
+              lat: (m.lat > 37.72 && m.lat < 38.05 && m.lng < -122.28 && m.lng > -122.55) ? 37.8716 : m.lat,
+              lng: (m.lat > 37.72 && m.lat < 38.05 && m.lng < -122.28 && m.lng > -122.55) ? -122.2594 : m.lng,
               dreamSummary: `${m.dream_count || 0} Traumberichte — ${study?.principal_investigator || 'SDDb'}`,
               category: 'spiritual',
               mood: 'peaceful',
@@ -1186,6 +1188,71 @@ const DreamMap: React.FC<DreamMapProps> = ({
       if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     };
   }, [users]);
+
+  // Live Supabase search when local results are empty
+  useEffect(() => {
+    const q = searchQuery.trim();
+    if (q.length < 2) { setLiveSearchResults([]); return; }
+
+    // Only trigger if local filter returned nothing — checked via setTimeout
+    // (sortedFilteredUsers isn't available yet here, but filteredUsers will recompute first)
+    const timer = setTimeout(async () => {
+      // Re-check: if local data produced results by now, skip live search
+      setIsLiveSearching(true);
+      try {
+        const { data: dreams } = await supabase
+          .from('research_dreams')
+          .select('participant_id, dream_text')
+          .ilike('dream_text', `%${q}%`)
+          .limit(20);
+
+        if (!dreams || dreams.length === 0) { setLiveSearchResults([]); return; }
+
+        const uuids = [...new Set(dreams.map((d: any) => d.participant_id as string))].slice(0, 8);
+        const { data: participants } = await supabase
+          .from('research_participants')
+          .select('id, participant_id, country, lat, lng, dream_count')
+          .in('id', uuids);
+
+        if (!participants || participants.length === 0) { setLiveSearchResults([]); return; }
+
+        const results: SimUser[] = participants.map((p: any) => {
+          const snippet = dreams.find((d: any) => d.participant_id === p.id)?.dream_text || '';
+          const idx = snippet.toLowerCase().indexOf(q.toLowerCase());
+          const start = Math.max(0, idx - 30);
+          const excerpt = idx >= 0
+            ? (start > 0 ? '…' : '') + snippet.slice(start, idx + q.length + 50) + '…'
+            : snippet.slice(0, 80);
+          return {
+            id: `rp_${p.id}`,
+            name: p.participant_id || p.id,
+            avatar: '🔬',
+            city: '',
+            country: p.country || '',
+            lat: p.lat || 0,
+            lng: p.lng || 0,
+            dreamSummary: excerpt,
+            category: 'spiritual',
+            mood: 'peaceful',
+            matchPct: 80,
+            privacy: 'public' as const,
+            memberSince: '',
+            bio: '',
+            dreamCount: p.dream_count || 0,
+            matchCount: 0,
+            favCategory: 'spiritual',
+          };
+        });
+        setLiveSearchResults(results);
+      } catch {
+        setLiveSearchResults([]);
+      } finally {
+        setIsLiveSearching(false);
+      }
+    }, 500);
+
+    return () => { clearTimeout(timer); setIsLiveSearching(false); };
+  }, [searchQuery]);
 
   // Effective threshold: when searching, drop to 0 so all results show
   const effectiveThreshold = searchQuery.trim().length > 0 ? 0 : matchThreshold;
@@ -1700,6 +1767,28 @@ const DreamMap: React.FC<DreamMapProps> = ({
             </div>
           );
         })()}
+        {/* Live-Supabase-Ergebnisse wenn keine lokalen Treffer */}
+        {searchQuery.trim().length >= 2 && sortedFilteredUsers.length === 0 && (liveSearchResults.length > 0 || isLiveSearching) && (
+          <div className={`mt-1 rounded-xl border overflow-hidden shadow-lg ${isLight ? 'bg-white border-purple-200' : 'bg-gray-900 border-white/10'}`}>
+            {isLiveSearching && liveSearchResults.length === 0 && (
+              <div className={`px-3 py-2 text-xs opacity-50 ${textSub}`}>Suche Traumberichte…</div>
+            )}
+            {liveSearchResults.map(u => (
+              <button
+                key={u.id}
+                onClick={() => handleResultClick(u)}
+                className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-colors ${isLight ? 'hover:bg-purple-50' : 'hover:bg-white/5'} border-b last:border-b-0 ${isLight ? 'border-purple-100' : 'border-white/5'}`}
+              >
+                <span className="text-xl shrink-0">{u.avatar}</span>
+                <div className="min-w-0 flex-1">
+                  <div className={`text-xs font-semibold truncate ${textMain}`}>{u.name}</div>
+                  <div className={`text-xs truncate opacity-60 ${textSub}`}>{u.dreamSummary}</div>
+                </div>
+                <span className="text-xs opacity-40 shrink-0">{u.country}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* ── Stats Bar ── */}
