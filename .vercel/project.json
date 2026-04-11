@@ -1,16 +1,1 @@
-{
-  "projectId": "prj_cjcr9U5fF0VxkiC3jtCb1eWkK2Yk",
-  "orgId": "team_43z1coKyF132K6AVCcSyH6bE",
-  "projectName": "dreamcodeapp",
-  "settings": {
-    "createdAt": 1765383497900,
-    "framework": "vite",
-    "devCommand": null,
-    "installCommand": null,
-    "buildCommand": null,
-    "outputDirectory": null,
-    "rootDirectory": null,
-    "directoryListing": false,
-    "nodeVersion": "24.x"
-  }
-}
+{"projectId":"prj_cjcr9U5fF0VxkiC3jtCb1eWkK2Yk","orgId":"team_43z1coKyF132K6AVCcSyH6bE","projectName":"dreamcodeapp"}

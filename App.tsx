@@ -5934,13 +5934,14 @@ Rules:
                 {showOnboarding && <Onboarding language={language} initialData={userProfile} onComplete={handleSaveProfile} onClose={() => setShowOnboarding(false)} themeMode={themeMode} />}
                 {showCalendar && <DreamCalendar dreams={dreams} language={language} onClose={() => setShowCalendar(false)} onGenerateVideo={handleGenerateVideoWithStyle} onGenerateImage={handleGenerateImageWithStyle} themeMode={themeMode} />}
 
-            {view === View.DREAM_MAP && <DreamMap dreams={dreams} language={language} isLight={isLight} onClose={() => setView(View.HOME)} onSelectParticipant={(id) => { setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }} onNavigateToResearch={() => setView(View.RESEARCH_MAP)} />}
+            {view === View.DREAM_MAP && <DreamMap dreams={dreams} language={language} isLight={isLight} onClose={() => setView(View.HOME)} onSelectParticipant={(id) => { setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }} onNavigateToResearch={() => setView(View.RESEARCH_MAP)} onNavigateToStudy={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_STUDIES); }} />}
 
             {view === View.SCIENCE && (
                 <SciencePage
                     language={language}
                     onClose={() => setView(View.HOME)}
                     onNavigateHome={() => setView(View.HOME)}
+                    onNavigateToStudies={() => setView(View.RESEARCH_STUDIES)}
                     themeMode={themeMode}
                 />
             )}
@@ -5968,6 +5969,7 @@ Rules:
                     language={language}
                     isLight={isLight}
                     onClose={() => setView(View.HOME)}
+                    initialStudyCode={selectedStudyCode || undefined}
                     onSelectStudy={(code) => setSelectedStudyCode(code)}
                     onShowOnMap={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_MAP); }}
                     onSelectParticipant={(id) => { setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }}
@@ -6066,8 +6068,8 @@ Rules:
             {/* Live Chat icon - kein Lock mehr */}
                         </button>
                     </div>
-                    {/* WISSENSCHAFT */}
-                    <NavBtn icon="biotech" label={t.ui.science_label} active={view === View.SCIENCE} onClick={() => setView(View.SCIENCE)} isLight={isLight} />
+                    {/* WISSENSCHAFT → direkt zu Studien & Profilen */}
+                    <NavBtn icon="biotech" label={t.ui.science_label} active={view === View.RESEARCH_STUDIES || view === View.SCIENCE} onClick={() => setView(View.RESEARCH_STUDIES)} isLight={isLight} />
                     {/* DREAM MAP */}
                     <NavBtn icon="public" label={t.ui.dream_network} active={view === View.DREAM_MAP} onClick={() => setView(View.DREAM_MAP)} isLight={isLight} />
                     <NavBtn icon="person" label={t.ui.profile_btn} active={view === View.PROFILE} onClick={() => setView(View.PROFILE)} isLight={isLight} />

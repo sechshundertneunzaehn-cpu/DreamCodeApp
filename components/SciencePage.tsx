@@ -6,6 +6,7 @@ interface SciencePageProps {
   language: Language;
   onClose: () => void;
   onNavigateHome: () => void;
+  onNavigateToStudies?: () => void;
   themeMode?: string;
 }
 
@@ -948,7 +949,7 @@ const FadeSection: React.FC<{ children: React.ReactNode; className?: string }> =
   );
 };
 
-const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigateHome, themeMode }) => {
+const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigateHome, onNavigateToStudies, themeMode }) => {
   const th = getTheme((themeMode as ThemeMode) || ThemeMode.DARK);
   const isLight = th.isLight;
   const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
@@ -1165,6 +1166,29 @@ const SciencePage: React.FC<SciencePageProps> = ({ language, onClose, onNavigate
             ))}
           </div>
         </FadeSection>
+
+        {/* Studies + Profiles CTA */}
+        {onNavigateToStudies && (
+          <FadeSection className="mb-4">
+            <button
+              onClick={onNavigateToStudies}
+              className="w-full rounded-2xl bg-gradient-to-br from-indigo-900/60 to-purple-900/50 border border-indigo-500/40 p-6 text-center flex flex-col items-center gap-3 hover:border-indigo-400/60 transition-all active:scale-95"
+            >
+              <span className="text-3xl">🔬</span>
+              <p className={`font-bold text-lg ${isLight ? 'text-[#2a1a3a]' : 'text-white'}`}>
+                {language === 'de' ? 'Studien & Teilnehmer-Profile öffnen' : 'Open Studies & Participant Profiles'}
+              </p>
+              <p className={`text-sm opacity-70 ${isLight ? 'text-[#4a3a5d]' : 'text-slate-300'}`}>
+                {language === 'de'
+                  ? '27.675 Teilnehmer · Einzelprofile · READ ONLY'
+                  : '27,675 participants · Individual profiles · READ ONLY'}
+              </p>
+              <span className={`px-4 py-1.5 rounded-full text-xs font-bold ${isLight ? 'bg-indigo-100 text-indigo-700' : 'bg-indigo-900/50 text-indigo-300'} border border-indigo-500/30`}>
+                {language === 'de' ? 'Zu den Profilen →' : 'View Profiles →'}
+              </span>
+            </button>
+          </FadeSection>
+        )}
 
         {/* CTA */}
         <FadeSection className="mb-6">

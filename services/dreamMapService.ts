@@ -244,7 +244,7 @@ function dreamReportToMap(r: RawDreamReport): MapDreamUser {
     mood: 'mysterious',
     dreamSummary: r.text.slice(0, 150),
     matchPct: randomMatchPct(r.id),
-    privacy: 'private',
+    privacy: 'partial',
     memberSince: formatMemberSince(r.created_at),
     bio: 'Historischer Traumbericht aus einer Traumstudie.',
     dreamCount: 1,

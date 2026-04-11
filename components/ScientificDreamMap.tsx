@@ -557,6 +557,21 @@ function buildGeoJSON(
   };
 }
 
+// ─── Heatmap GeoJSON builder ─────────────────────────────────────────────────
+
+function buildHeatmapGeoJSON(participants: ResearchParticipant[]): GeoJSON.FeatureCollection {
+  return {
+    type: 'FeatureCollection',
+    features: participants
+      .filter((p) => p.lat && p.lng)
+      .map((p) => ({
+        type: 'Feature' as const,
+        geometry: { type: 'Point' as const, coordinates: [p.lng, p.lat] },
+        properties: { weight: Math.min(p.dream_count || 1, 50) },
+      })),
+  };
+}
+
 // ─── Component ───────────────────────────────────────────────────────────────
 
 const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
@@ -589,6 +604,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
   const [selectedCountry, setSelectedCountry] = useState('');
   const [yearRange, setYearRange] = useState<[number, number]>([2015, 2026]);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [showHeatmap, setShowHeatmap] = useState(true);
 
   // ── Fetch data ───────────────────────────────────────────────────────────
 
@@ -597,17 +613,31 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
     async function fetchData() {
       setLoading(true);
       try {
-        const [studyRes, markerRes, participantRes] = await Promise.all([
+        const [studyRes, markerRes] = await Promise.all([
           supabase.from('research_studies').select('*'),
           supabase.from('study_map_markers').select('*'),
-          supabase.from('research_participants').select(
-            'participant_id, study_code, country, lat, lng, dream_count',
-          ),
         ]);
         if (cancelled) return;
         if (studyRes.data) setStudies(studyRes.data as ResearchStudy[]);
         if (markerRes.data) setMarkers(markerRes.data as StudyMapMarker[]);
-        if (participantRes.data) setParticipants(participantRes.data as ResearchParticipant[]);
+
+        // Paginate participants — bypass 1000-row Supabase limit
+        const BATCH = 1000;
+        let allParticipants: any[] = [];
+        let from = 0;
+        while (true) {
+          if (cancelled) return;
+          const { data: pBatch, error } = await supabase
+            .from('research_participants')
+            .select('participant_id, study_code, country, lat, lng, dream_count')
+            .not('lat', 'is', null)
+            .range(from, from + BATCH - 1);
+          if (error || !pBatch || pBatch.length === 0) break;
+          allParticipants.push(...pBatch);
+          if (pBatch.length < BATCH) break;
+          from += BATCH;
+        }
+        if (!cancelled) setParticipants(allParticipants as ResearchParticipant[]);
       } catch (err) {
         console.error('ScientificDreamMap: fetch error', err);
       } finally {
@@ -666,6 +696,17 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
       zoom: 2,
       maxZoom: 15,
       projection: 'globe' as any,
+      fog: (isLight ? {
+        color: '#f0eaff',
+        'high-color': '#c8b4ff',
+        'horizon-blend': 0.05,
+        'star-intensity': 0,
+      } : {
+        color: '#050010',
+        'high-color': '#120030',
+        'horizon-blend': 0.02,
+        'star-intensity': 0.15,
+      }) as any,
     });
 
     mapRef.current = map;
@@ -680,6 +721,32 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
         clusterMaxZoom: 12,
         clusterRadius: 50,
       });
+
+      // Heatmap source + layer (rendered below clusters)
+      map.addSource('heatmap-data', {
+        type: 'geojson',
+        data: buildHeatmapGeoJSON(latestParticipantsRef.current),
+      });
+      map.addLayer({
+        id: 'heatmap-layer',
+        type: 'heatmap',
+        source: 'heatmap-data',
+        paint: {
+          'heatmap-weight': ['interpolate', ['linear'], ['get', 'weight'], 0, 0, 50, 1],
+          'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 9, 3],
+          'heatmap-color': [
+            'interpolate', ['linear'], ['heatmap-density'],
+            0, 'rgba(0,0,0,0)',
+            0.2, 'rgba(99,102,241,0.3)',
+            0.4, 'rgba(139,92,246,0.55)',
+            0.6, 'rgba(168,85,247,0.7)',
+            0.8, 'rgba(217,70,239,0.8)',
+            1, 'rgba(251,191,36,0.95)',
+          ] as any,
+          'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 6, 9, 30] as any,
+          'heatmap-opacity': 0.75,
+        },
+      }, 'clusters');
 
       sourceReady.current = true;
 
@@ -830,15 +897,13 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
       map.on('mouseenter', 'unclustered-point', setCursor('pointer'));
       map.on('mouseleave', 'unclustered-point', setCursor(''));
 
-      // Race-condition fix: refresh data after map is loaded using refs (not stale closure)
-      setTimeout(() => {
+      // Race-condition fix: refresh data once map is truly idle (avoids stale closure)
+      map.once('idle', () => {
         const src = map.getSource('dream-markers') as mapboxgl.GeoJSONSource | undefined;
         if (src) src.setData(buildGeoJSON(latestMarkersRef.current, latestStudyLookupRef.current));
-      }, 500);
-      setTimeout(() => {
-        const src = map.getSource('dream-markers') as mapboxgl.GeoJSONSource | undefined;
-        if (src) src.setData(buildGeoJSON(latestMarkersRef.current, latestStudyLookupRef.current));
-      }, 2000);
+        const heatSrc = map.getSource('heatmap-data') as mapboxgl.GeoJSONSource | undefined;
+        if (heatSrc) heatSrc.setData(buildHeatmapGeoJSON(latestParticipantsRef.current));
+      });
     });
 
     return () => {
@@ -864,6 +929,33 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
     if (map.isStyleLoaded()) update();
     else map.once('idle', update);
   }, [filteredMarkers, studyLookup]);
+
+  // ── Update heatmap source when participants change ───────────────────────
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !sourceReady.current) return;
+    const update = () => {
+      const src = map.getSource('heatmap-data') as mapboxgl.GeoJSONSource | undefined;
+      if (src) src.setData(buildHeatmapGeoJSON(participants));
+    };
+    if (map.isStyleLoaded()) update();
+    else map.once('idle', update);
+  }, [participants]);
+
+  // ── Toggle heatmap layer visibility ─────────────────────────────────────
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !sourceReady.current) return;
+    const setVis = () => {
+      if (map.getLayer('heatmap-layer')) {
+        map.setLayoutProperty('heatmap-layer', 'visibility', showHeatmap ? 'visible' : 'none');
+      }
+    };
+    if (map.isStyleLoaded()) setVis();
+    else map.once('idle', setVis);
+  }, [showHeatmap]);
 
   // ── Fly to filtered bounds ───────────────────────────────────────────────
 
@@ -988,6 +1080,27 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
                 {selectedStudies.size + (selectedCountry ? 1 : 0)}
               </span>
             )}
+          </button>
+
+          {/* Heatmap toggle */}
+          <button
+            onClick={() => setShowHeatmap((p) => !p)}
+            title={showHeatmap ? 'Hide heatmap' : 'Show heatmap'}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition backdrop-blur-md border ${
+              showHeatmap
+                ? isLight
+                  ? 'bg-purple-100/90 text-purple-700 border-purple-300'
+                  : 'bg-purple-900/60 text-purple-300 border-purple-500/40'
+                : isLight
+                  ? 'bg-white/80 text-gray-400 border-gray-200'
+                  : 'bg-black/60 text-white/30 border-white/10'
+            }`}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+              />
+            </svg>
           </button>
         </div>
 

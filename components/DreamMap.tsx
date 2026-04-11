@@ -1095,7 +1095,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
     return () => { cancelled = true; };
   }, []);
 
-  // Load individual research participants for the toggle layer
+  // Load individual research participants for the toggle layer (paginated — all 27k+)
   useEffect(() => {
     let cancelled = false;
     async function loadIndividualParticipants() {
@@ -1107,13 +1107,25 @@ const DreamMap: React.FC<DreamMapProps> = ({
           (studies || []).map((s: any) => [s.id, s.study_name])
         );
 
-        const { data } = await supabase
-          .from('research_participants')
-          .select('id, participant_id, country, lat, lng, dream_count, study_id')
-          .gt('dream_count', 0)
-          .not('lat', 'is', null);
-        if (cancelled || !data) return;
-        const mapped: IndividualParticipant[] = (data as any[]).map((p) => ({
+        // Paginate to bypass Supabase 1000-row default limit
+        const BATCH = 1000;
+        let allRows: any[] = [];
+        let from = 0;
+        while (true) {
+          if (cancelled) return;
+          const { data, error } = await supabase
+            .from('research_participants')
+            .select('id, participant_id, country, lat, lng, dream_count, study_id')
+            .gt('dream_count', 0)
+            .not('lat', 'is', null)
+            .range(from, from + BATCH - 1);
+          if (error || !data || data.length === 0) break;
+          allRows.push(...data);
+          if (data.length < BATCH) break;
+          from += BATCH;
+        }
+        if (cancelled) return;
+        const mapped: IndividualParticipant[] = allRows.map((p) => ({
           id: p.id,
           participant_id: p.participant_id,
           country: p.country,

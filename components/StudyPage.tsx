@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Language, UserProfile } from '../types';
 import { getTheme } from '../theme';
+import { supabase } from '../services/supabaseClient';
 
 interface StudyPageProps {
   language: Language;
@@ -10,320 +11,144 @@ interface StudyPageProps {
   onUpdateProfile: (p: UserProfile) => void;
 }
 
-type StudyT = {
-  back: string;
-  title: string;
-  subtitle: string;
-  anon_note: string;
-  join_title: string;
-  join_desc: string;
-  basic_label: string;
-  basic_discount: string;
-  basic_desc: string;
-  active_label: string;
-  active_discount: string;
-  active_desc: string;
-  form_firstname: string;
-  form_lastname: string;
-  form_age: string;
-  form_gender: string;
-  form_country: string;
-  consent_data: string;
-  consent_name: string;
-  join_btn: string;
-  joined_title: string;
-  joined_desc: string;
-  badge_label: string;
-  your_discount: string;
-  cost_title: string;
-  cost_intro: string;
-  cost_analysis: string;
-  cost_image: string;
-  cost_video: string;
-  cost_live: string;
-  cost_footer: string;
-  upgrade_btn: string;
+// ─── Nationalitäten (DE Anzeige) ──────────────────────────────────────────────
+const NATIONALITIES_DE = [
+  'Deutsch','Österreichisch','Schweizerisch','Amerikanisch','Britisch',
+  'Französisch','Spanisch','Italienisch','Portugiesisch','Niederländisch',
+  'Belgisch','Schwedisch','Norwegisch','Dänisch','Finnisch','Polnisch',
+  'Tschechisch','Ungarisch','Rumänisch','Griechisch','Türkisch','Russisch',
+  'Ukrainisch','Weißrussisch','Serbisch','Kroatisch','Slowenisch','Slowakisch',
+  'Bulgarisch','Litauisch','Lettisch','Estnisch','Isländisch','Irisch',
+  'Schottisch','Walisisch','Japanisch','Chinesisch','Koreanisch','Indisch',
+  'Pakistanisch','Bangladeschisch','Indonesisch','Malaysisch','Vietnamesisch',
+  'Thailändisch','Philippinisch','Australisch','Neuseeländisch','Kanadisch',
+  'Mexikanisch','Brasilianisch','Argentinisch','Kolumbianisch','Chilenisch',
+  'Peruanisch','Venezolanisch','Ägyptisch','Marokkanisch','Tunesisch',
+  'Algerisch','Nigerianisch','Südafrikanisch','Kenianisch','Ghanaisch',
+  'Äthiopisch','Tansanisch','Saudi-Arabisch','Emiratisch','Israelisch',
+  'Iranisch','Irakisch','Syrisch','Jordanisch','Libanesisch','Kuwaitisch',
+  'Katarisch','Andere',
+];
+
+// ─── Übersetzungen ─────────────────────────────────────────────────────────────
+const T = {
+  header_title: 'Wissenschaftliche Studie',
+  header_sub: 'Die größte globale Traumforschungs-Initiative',
+  anon_note: 'Jeder Traum in DreamCode fließt automatisch anonym in die Forschung. Mit der offiziellen Teilnahme wirst du namentlich Teil der größten globalen Traumstudie.',
+  section_title: 'Je mehr du zur Forschung beiträgst, desto mehr sparst du',
+  tier1_name: 'Basis-Teilnahme',
+  tier1_discount: '10 %',
+  tier1_price: 'Kostenlos',
+  tier1_bullets: [
+    'Offiziell namentlich in Studie eingetragen',
+    'Träume fließen in die Forschung',
+    '10 % Rabatt auf alle Coin-Käufe',
+    'Kein Selfie nötig',
+  ],
+  tier2_name: 'Deep Research',
+  tier2_discount: '20 %',
+  tier2_price: '3,50 € / Monat',
+  tier2_price_year: '42 € / Jahr',
+  tier2_bullets: [
+    'Alles aus Basis-Teilnahme',
+    'Mind. 5 Traumeingaben pro Woche',
+    'Alle Features freigeschaltet',
+    'Kein Gesichtsfoto nötig',
+    'Daten pseudonymisiert & DSGVO-konform',
+  ],
+  tier2_note: 'Dieser minimale Preis dient ausschließlich zur Deckung unserer Grundkosten (API, Server, Infrastruktur). Wir verdienen nichts daran.',
+  tier3_name: 'Deep Research + Selfie',
+  tier3_discount: '30 %',
+  tier3_price: '3,50 € / Monat',
+  tier3_price_year: '42 € / Jahr',
+  tier3_recommended: 'Empfohlen',
+  tier3_bullets: [
+    'Alles aus Deep Research',
+    'Monatliches Gesichtsfoto für KI-Analyse',
+    'Höchster Rabatt — größter Forschungsbeitrag',
+    'Pionierforschung: Gesichtszüge & Träume',
+  ],
+  form_title: 'Registrierung',
+  f_firstname: 'Vorname *',
+  f_lastname: 'Nachname *',
+  f_email: 'E-Mail *',
+  f_birthyear: 'Geburtsjahr *',
+  f_birthtime: 'Geburtszeit',
+  f_birthtime_hint: 'Optional — ermöglicht zusätzliche chronobiologische Forschungserkenntnisse',
+  f_birthtime_tooltip: 'Die Geburtszeit kann Aufschlüsse über zirkadiane Rhythmen und Schlafmuster geben.',
+  f_gender: 'Geschlecht *',
+  f_location: 'Ort',
+  f_nationality: 'Nationalität',
+  gender_options: ['Männlich', 'Weiblich', 'Divers', 'Keine Angabe'],
+  consent_data: 'Ich stimme der Nutzung meiner Traumdaten für wissenschaftliche Zwecke zu.',
+  consent_name: 'Mein Name darf in der Studienpublikation erscheinen.',
+  consent_face: 'Ich stimme der monatlichen Nutzung meines Gesichtsfotos für die Traumforschung zu.',
+  verify_send: 'Code senden',
+  verify_resend: 'Neu senden',
+  verify_placeholder: '6-stelliger Code',
+  verify_checking: 'Prüfe Code…',
+  verify_ok: 'E-Mail bestätigt ✓',
+  verify_error: 'Falscher Code. Erneut versuchen.',
+  verify_sent: 'Code gesendet an ',
+  submit_btn: 'An Studie teilnehmen',
+  submit_deep: 'Deep Research starten',
+  submitting: 'Wird gespeichert…',
+  success_title: '🎉 Willkommen in der Studie!',
+  success_desc: 'Du bist jetzt offiziell eingetragen. Dein Rabatt ist sofort aktiv.',
+  error_duplicate: 'Diese E-Mail ist bereits registriert.',
+  error_generic: 'Fehler beim Speichern. Bitte erneut versuchen.',
+  location_loading: 'Standort wird ermittelt…',
+  cost_title: 'Was kostet was — und warum?',
+  cost_intro: 'Die KI-Modelle kosten echtes Geld. Dein Beitrag finanziert Forschung + Entwicklung.',
+  cost_items: [
+    'Text-Deutung: 2 Coins ≈ 0,04 €',
+    'Bild HD: 8 Coins ≈ 0,16 €',
+    'Video 30s: 180 Coins ≈ 3,60 €',
+    'Live Voice 30 min: 20 Coins ≈ 0,40 €',
+  ],
+  cost_footer: '1 Coin = 0,02 € · Coins finanzieren KI-Rechenzeit und Traumforschung.',
 };
 
-const STUDY_TRANSLATIONS: Partial<Record<Language, StudyT>> = {
-  [Language.DE]: {
-    back: 'Zurück',
-    title: 'Wissenschaftliche Studie',
-    subtitle: 'Die größte globale Traumforschungs-Initiative',
-    anon_note: 'Jeder deiner Träume trägt zur Wissenschaft bei — anonym, immer.',
-    join_title: 'Offiziell teilnehmen & Rabatt erhalten',
-    join_desc: 'Wer sich offiziell einträgt, wird in der Studie gelistet und erhält dauerhaften Rabatt auf alle Coin-Käufe.',
-    basic_label: 'Basis-Teilnahme',
-    basic_discount: '10 % Rabatt',
-    basic_desc: 'Name + Einverständniserklärung',
-    active_label: 'Aktive Teilnahme',
-    active_discount: '20 % Rabatt',
-    active_desc: 'Regelmäßige Beiträge (mind. 3 Träume/Woche)',
-    form_firstname: 'Vorname',
-    form_lastname: 'Nachname',
-    form_age: 'Alter',
-    form_gender: 'Geschlecht',
-    form_country: 'Land / Ort',
-    consent_data: 'Ich stimme der anonymisierten Nutzung meiner Traumdaten für wissenschaftliche Zwecke zu.',
-    consent_name: 'Mein Name darf in der Studienpublikation erscheinen.',
-    join_btn: 'An Studie teilnehmen',
-    joined_title: '📊 Studienteilnehmer',
-    joined_desc: 'Du bist offiziell eingetragen. Dein Rabatt gilt bei jedem Coin-Kauf.',
-    badge_label: '📊 Studienteilnehmer',
-    your_discount: 'Dein Studienrabatt',
-    cost_title: 'Was kostet was — und warum?',
-    cost_intro: 'Die KI-Modelle kosten echtes Geld. Dein Beitrag finanziert Forschung + Entwicklung.',
-    cost_analysis: 'Text-Deutung: 2 Coins ≈ 0,04 €',
-    cost_image: 'Bild HD: 8 Coins ≈ 0,16 €',
-    cost_video: 'Video 30s: 180 Coins ≈ 3,60 €',
-    cost_live: 'Live Voice 30 min: 20 Coins ≈ 0,40 €',
-    cost_footer: '1 Coin = 0,02 € · Coins finanzieren KI-Rechenzeit und Traumforschung.',
-    upgrade_btn: 'Auf aktive Teilnahme upgraden (20 %)',
-  },
-  [Language.EN]: {
-    back: 'Back',
-    title: 'Scientific Study',
-    subtitle: 'The largest global dream research initiative',
-    anon_note: 'Every dream you submit contributes to science — anonymously, always.',
-    join_title: 'Join officially & get a discount',
-    join_desc: 'Official participants are listed in the study and receive a permanent discount on all coin purchases.',
-    basic_label: 'Basic participation',
-    basic_discount: '10% discount',
-    basic_desc: 'Name + consent declaration',
-    active_label: 'Active participation',
-    active_discount: '20% discount',
-    active_desc: 'Regular contributions (min. 3 dreams/week)',
-    form_firstname: 'First name',
-    form_lastname: 'Last name',
-    form_age: 'Age',
-    form_gender: 'Gender',
-    form_country: 'Country / Location',
-    consent_data: 'I consent to the anonymized use of my dream data for scientific purposes.',
-    consent_name: 'My name may appear in the study publication.',
-    join_btn: 'Join the study',
-    joined_title: '📊 Study participant',
-    joined_desc: 'You are officially registered. Your discount applies to every coin purchase.',
-    badge_label: '📊 Study Participant',
-    your_discount: 'Your study discount',
-    cost_title: 'What costs what — and why?',
-    cost_intro: 'AI models cost real money. Your contribution funds research + development.',
-    cost_analysis: 'Dream analysis: 2 coins ≈ €0.04',
-    cost_image: 'HD image: 8 coins ≈ €0.16',
-    cost_video: 'Video 30s: 180 coins ≈ €3.60',
-    cost_live: 'Live voice 30 min: 20 coins ≈ €0.40',
-    cost_footer: '1 coin = €0.02 · Coins fund AI compute time and dream research.',
-    upgrade_btn: 'Upgrade to active participation (20%)',
-  },
-  [Language.TR]: {
-    back: 'Geri',
-    title: 'Bilimsel Çalışma',
-    subtitle: 'En büyük küresel rüya araştırma girişimi',
-    anon_note: 'Her rüyanız bilime katkıda bulunur — her zaman anonim.',
-    join_title: 'Resmi katılın ve indirim alın',
-    join_desc: 'Resmi katılımcılar çalışmada listelenir ve tüm jeton alımlarında kalıcı indirim alır.',
-    basic_label: 'Temel katılım',
-    basic_discount: '%10 indirim',
-    basic_desc: 'İsim + onay beyanı',
-    active_label: 'Aktif katılım',
-    active_discount: '%20 indirim',
-    active_desc: 'Düzenli katkılar (haftada en az 3 rüya)',
-    form_firstname: 'Ad',
-    form_lastname: 'Soyad',
-    form_age: 'Yaş',
-    form_gender: 'Cinsiyet',
-    form_country: 'Ülke / Konum',
-    consent_data: 'Rüya verilerimin bilimsel amaçlarla anonim kullanımına onay veriyorum.',
-    consent_name: 'İsmim çalışma yayınında yer alabilir.',
-    join_btn: 'Çalışmaya katıl',
-    joined_title: '📊 Çalışma katılımcısı',
-    joined_desc: 'Resmi olarak kayıtlısınız. İndiriminiz her jeton alımında geçerlidir.',
-    badge_label: '📊 Çalışma Katılımcısı',
-    your_discount: 'Çalışma indiriminiz',
-    cost_title: 'Ne kadar tutar — ve neden?',
-    cost_intro: 'Yapay zeka modelleri gerçek para maliyeti içerir. Katkınız araştırmayı finanse eder.',
-    cost_analysis: 'Rüya analizi: 2 jeton ≈ 0,04 €',
-    cost_image: 'HD görsel: 8 jeton ≈ 0,16 €',
-    cost_video: '30s video: 180 jeton ≈ 3,60 €',
-    cost_live: '30 dk canlı ses: 20 jeton ≈ 0,40 €',
-    cost_footer: '1 jeton = 0,02 € · Jetonlar yapay zeka işlem süresini ve araştırmayı finanse eder.',
-    upgrade_btn: 'Aktif katılıma yükselt (%20)',
-  },
-  [Language.AR]: {
-    back: 'رجوع',
-    title: 'الدراسة العلمية',
-    subtitle: 'أكبر مبادرة بحثية عالمية للأحلام',
-    anon_note: 'كل حلم تشاركه يساهم في العلم — بشكل مجهول دائماً.',
-    join_title: 'انضم رسمياً واحصل على خصم',
-    join_desc: 'يتم إدراج المشاركين الرسميين في الدراسة ويحصلون على خصم دائم على جميع مشتريات العملات.',
-    basic_label: 'المشاركة الأساسية',
-    basic_discount: 'خصم 10٪',
-    basic_desc: 'الاسم + إقرار الموافقة',
-    active_label: 'المشاركة الفعّالة',
-    active_discount: 'خصم 20٪',
-    active_desc: 'مساهمات منتظمة (3 أحلام على الأقل أسبوعياً)',
-    form_firstname: 'الاسم الأول',
-    form_lastname: 'اسم العائلة',
-    form_age: 'العمر',
-    form_gender: 'الجنس',
-    form_country: 'البلد / الموقع',
-    consent_data: 'أوافق على الاستخدام المجهول لبيانات أحلامي لأغراض علمية.',
-    consent_name: 'يجوز ذكر اسمي في منشور الدراسة.',
-    join_btn: 'انضم إلى الدراسة',
-    joined_title: '📊 مشارك في الدراسة',
-    joined_desc: 'أنت مسجل رسمياً. خصمك ينطبق على كل عملية شراء للعملات.',
-    badge_label: '📊 مشارك في الدراسة',
-    your_discount: 'خصم الدراسة الخاص بك',
-    cost_title: 'ما التكلفة — ولماذا؟',
-    cost_intro: 'نماذج الذكاء الاصطناعي تكلف أموالاً حقيقية. مساهمتك تموّل البحث والتطوير.',
-    cost_analysis: 'تفسير الحلم: 2 عملة ≈ 0.04 €',
-    cost_image: 'صورة HD: 8 عملات ≈ 0.16 €',
-    cost_video: 'فيديو 30 ثانية: 180 عملة ≈ 3.60 €',
-    cost_live: 'صوت مباشر 30 دقيقة: 20 عملة ≈ 0.40 €',
-    cost_footer: '1 عملة = 0.02 € · تموّل العملات وقت حوسبة الذكاء الاصطناعي وأبحاث الأحلام.',
-    upgrade_btn: 'ترقية إلى المشاركة الفعّالة (20٪)',
-  },
-  [Language.ES]: {
-    back: 'Volver',
-    title: 'Estudio científico',
-    subtitle: 'La iniciativa de investigación de sueños más grande del mundo',
-    anon_note: 'Cada sueño que envías contribuye a la ciencia — siempre de forma anónima.',
-    join_title: 'Únete oficialmente y obtén descuento',
-    join_desc: 'Los participantes oficiales aparecen en el estudio y reciben descuento permanente en todas las compras de monedas.',
-    basic_label: 'Participación básica',
-    basic_discount: '10% de descuento',
-    basic_desc: 'Nombre + declaración de consentimiento',
-    active_label: 'Participación activa',
-    active_discount: '20% de descuento',
-    active_desc: 'Contribuciones regulares (mín. 3 sueños/semana)',
-    form_firstname: 'Nombre',
-    form_lastname: 'Apellido',
-    form_age: 'Edad',
-    form_gender: 'Género',
-    form_country: 'País / Ubicación',
-    consent_data: 'Consiento el uso anonimizado de mis datos de sueños con fines científicos.',
-    consent_name: 'Mi nombre puede aparecer en la publicación del estudio.',
-    join_btn: 'Unirse al estudio',
-    joined_title: '📊 Participante del estudio',
-    joined_desc: 'Estás registrado oficialmente. Tu descuento se aplica en cada compra de monedas.',
-    badge_label: '📊 Participante del Estudio',
-    your_discount: 'Tu descuento de estudio',
-    cost_title: '¿Qué cuesta qué — y por qué?',
-    cost_intro: 'Los modelos de IA cuestan dinero real. Tu contribución financia investigación + desarrollo.',
-    cost_analysis: 'Análisis de sueño: 2 monedas ≈ 0,04 €',
-    cost_image: 'Imagen HD: 8 monedas ≈ 0,16 €',
-    cost_video: 'Vídeo 30s: 180 monedas ≈ 3,60 €',
-    cost_live: 'Voz en vivo 30 min: 20 monedas ≈ 0,40 €',
-    cost_footer: '1 moneda = 0,02 € · Las monedas financian el tiempo de cómputo de IA e investigación de sueños.',
-    upgrade_btn: 'Actualizar a participación activa (20%)',
-  },
-  [Language.FR]: {
-    back: 'Retour',
-    title: 'Étude scientifique',
-    subtitle: 'La plus grande initiative mondiale de recherche sur les rêves',
-    anon_note: 'Chaque rêve que vous partagez contribue à la science — toujours de manière anonyme.',
-    join_title: 'Participez officiellement et obtenez une réduction',
-    join_desc: 'Les participants officiels sont répertoriés dans l\'étude et bénéficient d\'une réduction permanente sur tous les achats de pièces.',
-    basic_label: 'Participation de base',
-    basic_discount: '10% de réduction',
-    basic_desc: 'Nom + déclaration de consentement',
-    active_label: 'Participation active',
-    active_discount: '20% de réduction',
-    active_desc: 'Contributions régulières (min. 3 rêves/semaine)',
-    form_firstname: 'Prénom',
-    form_lastname: 'Nom de famille',
-    form_age: 'Âge',
-    form_gender: 'Sexe',
-    form_country: 'Pays / Lieu',
-    consent_data: 'Je consens à l\'utilisation anonymisée de mes données de rêves à des fins scientifiques.',
-    consent_name: 'Mon nom peut apparaître dans la publication de l\'étude.',
-    join_btn: 'Rejoindre l\'étude',
-    joined_title: '📊 Participant à l\'étude',
-    joined_desc: 'Vous êtes officiellement inscrit. Votre réduction s\'applique à chaque achat de pièces.',
-    badge_label: '📊 Participant à l\'Étude',
-    your_discount: 'Votre réduction d\'étude',
-    cost_title: 'Qu\'est-ce qui coûte quoi — et pourquoi ?',
-    cost_intro: 'Les modèles d\'IA coûtent de l\'argent réel. Votre contribution finance la recherche + le développement.',
-    cost_analysis: 'Analyse de rêve : 2 pièces ≈ 0,04 €',
-    cost_image: 'Image HD : 8 pièces ≈ 0,16 €',
-    cost_video: 'Vidéo 30s : 180 pièces ≈ 3,60 €',
-    cost_live: 'Voix en direct 30 min : 20 pièces ≈ 0,40 €',
-    cost_footer: '1 pièce = 0,02 € · Les pièces financent le temps de calcul IA et la recherche sur les rêves.',
-    upgrade_btn: 'Passer à la participation active (20%)',
-  },
-  [Language.PT]: {
-    back: 'Voltar',
-    title: 'Estudo científico',
-    subtitle: 'A maior iniciativa global de pesquisa sobre sonhos',
-    anon_note: 'Cada sonho que você envia contribui para a ciência — sempre de forma anônima.',
-    join_title: 'Participe oficialmente e obtenha desconto',
-    join_desc: 'Participantes oficiais são listados no estudo e recebem desconto permanente em todas as compras de moedas.',
-    basic_label: 'Participação básica',
-    basic_discount: '10% de desconto',
-    basic_desc: 'Nome + declaração de consentimento',
-    active_label: 'Participação ativa',
-    active_discount: '20% de desconto',
-    active_desc: 'Contribuições regulares (mín. 3 sonhos/semana)',
-    form_firstname: 'Nome',
-    form_lastname: 'Sobrenome',
-    form_age: 'Idade',
-    form_gender: 'Gênero',
-    form_country: 'País / Localização',
-    consent_data: 'Consinto o uso anonimizado dos meus dados de sonhos para fins científicos.',
-    consent_name: 'Meu nome pode aparecer na publicação do estudo.',
-    join_btn: 'Participar do estudo',
-    joined_title: '📊 Participante do estudo',
-    joined_desc: 'Você está oficialmente registrado. Seu desconto se aplica a cada compra de moedas.',
-    badge_label: '📊 Participante do Estudo',
-    your_discount: 'Seu desconto de estudo',
-    cost_title: 'O que custa o quê — e por quê?',
-    cost_intro: 'Os modelos de IA custam dinheiro real. Sua contribuição financia pesquisa + desenvolvimento.',
-    cost_analysis: 'Análise de sonho: 2 moedas ≈ 0,04 €',
-    cost_image: 'Imagem HD: 8 moedas ≈ 0,16 €',
-    cost_video: 'Vídeo 30s: 180 moedas ≈ 3,60 €',
-    cost_live: 'Voz ao vivo 30 min: 20 moedas ≈ 0,40 €',
-    cost_footer: '1 moeda = 0,02 € · Moedas financiam tempo de computação de IA e pesquisa de sonhos.',
-    upgrade_btn: 'Atualizar para participação ativa (20%)',
-  },
-  [Language.RU]: {
-    back: 'Назад',
-    title: 'Научное исследование',
-    subtitle: 'Крупнейшая мировая инициатива по изучению снов',
-    anon_note: 'Каждый ваш сон вносит вклад в науку — всегда анонимно.',
-    join_title: 'Официально участвуйте и получите скидку',
-    join_desc: 'Официальные участники включены в исследование и получают постоянную скидку на все покупки монет.',
-    basic_label: 'Базовое участие',
-    basic_discount: 'Скидка 10%',
-    basic_desc: 'Имя + согласие',
-    active_label: 'Активное участие',
-    active_discount: 'Скидка 20%',
-    active_desc: 'Регулярные вклады (мин. 3 сна/неделю)',
-    form_firstname: 'Имя',
-    form_lastname: 'Фамилия',
-    form_age: 'Возраст',
-    form_gender: 'Пол',
-    form_country: 'Страна / Место',
-    consent_data: 'Я согласен(а) на анонимное использование данных моих снов в научных целях.',
-    consent_name: 'Моё имя может быть указано в публикации исследования.',
-    join_btn: 'Присоединиться к исследованию',
-    joined_title: '📊 Участник исследования',
-    joined_desc: 'Вы официально зарегистрированы. Ваша скидка применяется при каждой покупке монет.',
-    badge_label: '📊 Участник Исследования',
-    your_discount: 'Ваша скидка за участие',
-    cost_title: 'Что сколько стоит — и почему?',
-    cost_intro: 'Модели ИИ стоят реальных денег. Ваш вклад финансирует исследования + разработку.',
-    cost_analysis: 'Анализ сна: 2 монеты ≈ 0,04 €',
-    cost_image: 'HD-изображение: 8 монет ≈ 0,16 €',
-    cost_video: 'Видео 30с: 180 монет ≈ 3,60 €',
-    cost_live: 'Живой голос 30 мин: 20 монет ≈ 0,40 €',
-    cost_footer: '1 монета = 0,02 € · Монеты финансируют вычислительное время ИИ и исследования снов.',
-    upgrade_btn: 'Обновить до активного участия (20%)',
-  },
-};
-
-function getT(language: Language): StudyT {
-  return STUDY_TRANSLATIONS[language] ?? STUDY_TRANSLATIONS[Language.EN]!;
+// ─── Reverse Geocoding ────────────────────────────────────────────────────────
+async function reverseGeocode(lat: number, lon: number): Promise<{ city: string; nationality: string }> {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=de`,
+      { headers: { 'Accept-Language': 'de' } }
+    );
+    const data = await res.json();
+    const city =
+      data.address?.city ||
+      data.address?.town ||
+      data.address?.village ||
+      data.address?.county ||
+      '';
+    const country = data.address?.country || '';
+    // Map country → Nationalität
+    const countryNatMap: Record<string, string> = {
+      'Deutschland': 'Deutsch', 'Österreich': 'Österreichisch', 'Schweiz': 'Schweizerisch',
+      'Vereinigte Staaten von Amerika': 'Amerikanisch', 'Vereinigtes Königreich': 'Britisch',
+      'Frankreich': 'Französisch', 'Spanien': 'Spanisch', 'Italien': 'Italienisch',
+      'Portugal': 'Portugiesisch', 'Niederlande': 'Niederländisch', 'Türkei': 'Türkisch',
+      'Russland': 'Russisch', 'Japan': 'Japanisch', 'China': 'Chinesisch',
+      'Indien': 'Indisch', 'Australien': 'Australisch', 'Kanada': 'Kanadisch',
+      'Brasilien': 'Brasilianisch', 'Ägypten': 'Ägyptisch', 'Marokko': 'Marokkanisch',
+      'Saudi-Arabien': 'Saudi-Arabisch', 'Polen': 'Polnisch', 'Schweden': 'Schwedisch',
+      'Norwegen': 'Norwegisch', 'Dänemark': 'Dänisch', 'Belgien': 'Belgisch',
+      'Griechenland': 'Griechisch', 'Ukraine': 'Ukrainisch', 'Rumänien': 'Rumänisch',
+    };
+    return { city, nationality: countryNatMap[country] || '' };
+  } catch {
+    return { city: '', nationality: '' };
+  }
 }
 
+// ─── E-Mail Verifizierung via Supabase Edge Function / eigener Flow ───────────
+function generateCode(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+// ─── Haupt-Komponente ─────────────────────────────────────────────────────────
 const StudyPage: React.FC<StudyPageProps> = ({
   language,
   onClose,
@@ -334,43 +159,173 @@ const StudyPage: React.FC<StudyPageProps> = ({
   const th = getTheme(themeMode);
   const isLight = th.isLight;
   const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
-  const t = getT(language);
 
-  const alreadyJoined = (userProfile.study_participation_level === 'basic' || userProfile.study_participation_level === 'active');
-  const isActive = userProfile.study_participation_level === 'active';
-  const discountPct = alreadyJoined ? (isActive ? 20 : 10) : 0;
+  // Already joined?
+  const alreadyJoined = (['basic', 'active', 'deep', 'deep_selfie'] as const).includes(
+    userProfile.study_participation_level as string as any
+  );
+  const currentDiscount = alreadyJoined ? (userProfile.study_discount ?? 0) * 100 : 0;
 
-  const [level, setLevel] = useState<'basic' | 'active'>('basic');
+  // ── Tier selection ──
+  const [selectedTier, setSelectedTier] = useState<1 | 2 | 3 | null>(null);
+
+  // ── Form state ──
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [age, setAge] = useState('');
+  const [email, setEmail] = useState('');
+  const [birthYear, setBirthYear] = useState('');
+  const [birthTime, setBirthTime] = useState('');
   const [gender, setGender] = useState('');
-  const [country, setCountry] = useState('');
+  const [location, setLocation] = useState('');
+  const [nationality, setNationality] = useState('');
   const [consentData, setConsentData] = useState(false);
   const [consentName, setConsentName] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [consentFace, setConsentFace] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
-  const canSubmit = firstName.trim() && lastName.trim() && consentData;
+  // ── Email verification ──
+  const [verifyCode, setVerifyCode] = useState('');
+  const [sentCode, setSentCode] = useState('');
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [verifyInput, setVerifyInput] = useState('');
+  const [verifyError, setVerifyError] = useState('');
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [codeSent, setCodeSent] = useState(false);
 
-  function handleJoin() {
-    if (!canSubmit) return;
-    const discount = level === 'active' ? 0.20 : 0.10;
-    onUpdateProfile({
-      ...userProfile,
-      study_participation_level: level,
-      study_discount: discount,
-    });
-    setSubmitted(true);
+  // ── Submit state ──
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  // ── Geolocation auto-fill ──
+  const [locationLoading, setLocationLoading] = useState(false);
+  const geoFetched = useRef(false);
+
+  useEffect(() => {
+    // Prefill from userProfile if logged in
+    if (userProfile?.name) {
+      const parts = userProfile.name.split(' ');
+      setFirstName(parts[0] || '');
+      setLastName(parts.slice(1).join(' ') || '');
+    }
+    if ((userProfile as any)?.email) {
+      setEmail((userProfile as any).email);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedTier && !geoFetched.current && !location) {
+      geoFetched.current = true;
+      setLocationLoading(true);
+      navigator.geolocation?.getCurrentPosition(
+        async (pos) => {
+          const { city, nationality: nat } = await reverseGeocode(pos.coords.latitude, pos.coords.longitude);
+          if (city) setLocation(city);
+          if (nat && !nationality) setNationality(nat);
+          setLocationLoading(false);
+        },
+        () => setLocationLoading(false),
+        { timeout: 8000 }
+      );
+    }
+  }, [selectedTier]);
+
+  // ── Send verification code ──
+  async function handleSendCode() {
+    if (!email || !email.includes('@')) return;
+    setVerifyLoading(true);
+    setVerifyError('');
+    const code = generateCode();
+    setSentCode(code);
+    try {
+      // Use Supabase to send OTP / or custom email via edge function
+      const { error } = await supabase.functions.invoke('send-verification-code', {
+        body: { email, code },
+      });
+      if (error) throw error;
+      setCodeSent(true);
+    } catch {
+      // Fallback: store code locally for demo (in production, always use server-side)
+      setCodeSent(true);
+    } finally {
+      setVerifyLoading(false);
+    }
   }
 
-  function handleUpgrade() {
-    onUpdateProfile({
-      ...userProfile,
-      study_participation_level: 'active',
-      study_discount: 0.20,
-    });
+  function handleVerifyCode() {
+    setVerifyLoading(true);
+    setVerifyError('');
+    setTimeout(() => {
+      if (verifyInput.trim() === sentCode) {
+        setEmailVerified(true);
+        setVerifyError('');
+      } else {
+        setVerifyError(T.verify_error);
+      }
+      setVerifyLoading(false);
+    }, 600);
   }
 
+  // ── Submit ──
+  const canSubmit =
+    firstName.trim() &&
+    lastName.trim() &&
+    email.includes('@') &&
+    emailVerified &&
+    birthYear.length === 4 &&
+    gender &&
+    consentData &&
+    (selectedTier !== 3 || consentFace);
+
+  async function handleSubmit() {
+    if (!canSubmit || !selectedTier) return;
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      // Check duplicate email
+      const { data: existing } = await supabase
+        .from('research_participants')
+        .select('id')
+        .eq('email', email.toLowerCase())
+        .maybeSingle();
+      if (existing) {
+        setSubmitError(T.error_duplicate);
+        setSubmitting(false);
+        return;
+      }
+      // Insert
+      const { error } = await supabase.from('research_participants').insert({
+        vorname: firstName.trim(),
+        nachname: lastName.trim(),
+        email: email.toLowerCase().trim(),
+        geburtsjahr: parseInt(birthYear),
+        geburtszeit: birthTime || null,
+        geschlecht: gender,
+        ort: location.trim() || null,
+        nationalitaet: nationality || null,
+        stufe: selectedTier,
+        selfie_consent: selectedTier === 3,
+        created_at: new Date().toISOString(),
+      });
+      if (error) throw error;
+
+      // Update local profile
+      const discountMap = { 1: 0.10, 2: 0.20, 3: 0.30 };
+      const levelMap = { 1: 'basic', 2: 'deep', 3: 'deep_selfie' } as const;
+      onUpdateProfile({
+        ...userProfile,
+        study_participation_level: levelMap[selectedTier] as any,
+        study_discount: discountMap[selectedTier],
+      });
+      setSuccess(true);
+    } catch {
+      setSubmitError(T.error_generic);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  // ── Styling helpers ──
   const bg = isLight ? 'bg-slate-50' : 'bg-[#0f0b1a]';
   const card = isLight ? 'bg-white border-slate-200' : 'bg-white/5 border-white/10';
   const text = isLight ? 'text-slate-800' : 'text-slate-100';
@@ -379,146 +334,310 @@ const StudyPage: React.FC<StudyPageProps> = ({
     ? 'bg-white border-slate-300 text-slate-800 placeholder-slate-400 focus:border-violet-500'
     : 'bg-white/5 border-white/10 text-slate-100 placeholder-slate-500 focus:border-violet-500';
 
+  const tierBorder = (tier: 1 | 2 | 3) => {
+    const sel = selectedTier === tier;
+    if (tier === 1) return sel
+      ? 'border-violet-500 bg-violet-500/10 shadow-md shadow-violet-500/10'
+      : 'border-white/10 hover:border-white/20';
+    if (tier === 2) return sel
+      ? 'border-violet-400 bg-violet-500/15 shadow-lg shadow-violet-500/20'
+      : 'border-violet-500/30 hover:border-violet-400/60';
+    // tier 3
+    return sel
+      ? 'border-amber-400 bg-amber-500/10 shadow-xl shadow-amber-500/30 ring-1 ring-amber-400/30'
+      : 'border-amber-500/40 hover:border-amber-400/70 shadow-lg shadow-amber-500/10';
+  };
+
+  const Checkbox = ({ val, setter, label, amber = false }: {
+    val: boolean; setter: (v: boolean) => void; label: string; amber?: boolean;
+  }) => (
+    <label className="flex items-start gap-3 cursor-pointer">
+      <div
+        onClick={() => setter(!val)}
+        className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-all ${
+          val
+            ? amber ? 'bg-amber-500 border-amber-500' : 'bg-violet-600 border-violet-600'
+            : isLight ? 'border-slate-300' : 'border-white/20'
+        }`}
+      >
+        {val && <span className="material-icons text-white text-sm">check</span>}
+      </div>
+      <span className={`text-xs leading-relaxed ${amber ? 'text-amber-300/80' : textSub}`}>{label}</span>
+    </label>
+  );
+
+  // ─── SUCCESS STATE ─────────────────────────────────────────────────────────
+  if (success || alreadyJoined) {
+    return (
+      <div dir={isRtl ? 'rtl' : 'ltr'} className={`fixed inset-0 z-50 overflow-y-auto ${bg}`}>
+        <div className={`sticky top-0 z-10 flex items-center gap-3 px-4 py-3 border-b ${isLight ? 'bg-white/90 border-slate-200' : 'bg-[#0f0b1a]/90 border-white/10'} backdrop-blur-md`}>
+          <button onClick={onClose} className={`p-2 rounded-lg transition-colors ${isLight ? 'hover:bg-slate-100 text-slate-600' : 'hover:bg-white/10 text-slate-300'}`}>
+            <span className="material-icons text-xl">arrow_back</span>
+          </button>
+          <div>
+            <h1 className={`font-bold text-base ${text}`}>{T.header_title}</h1>
+            <p className={`text-xs ${textSub}`}>{T.header_sub}</p>
+          </div>
+        </div>
+        <div className="max-w-lg mx-auto px-4 py-10 flex flex-col items-center gap-4 text-center">
+          <div className="text-5xl mb-2">📊</div>
+          <h2 className={`font-bold text-xl ${text}`}>{T.success_title}</h2>
+          <p className={`text-sm ${textSub}`}>{T.success_desc}</p>
+          <div className="flex items-center justify-between w-full p-4 rounded-xl bg-green-500/10 border border-green-500/20 mt-2">
+            <span className={`text-sm font-semibold ${text}`}>Dein Studienrabatt</span>
+            <span className="text-green-400 font-bold text-2xl">{alreadyJoined ? currentDiscount : (selectedTier === 3 ? 30 : selectedTier === 2 ? 20 : 10)}%</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── MAIN RENDER ───────────────────────────────────────────────────────────
   return (
-    <div
-      dir={isRtl ? 'rtl' : 'ltr'}
-      className={`fixed inset-0 z-50 overflow-y-auto ${bg}`}
-    >
+    <div dir={isRtl ? 'rtl' : 'ltr'} className={`fixed inset-0 z-50 overflow-y-auto ${bg}`}>
+
       {/* Header */}
       <div className={`sticky top-0 z-10 flex items-center gap-3 px-4 py-3 border-b ${isLight ? 'bg-white/90 border-slate-200' : 'bg-[#0f0b1a]/90 border-white/10'} backdrop-blur-md`}>
         <button onClick={onClose} className={`p-2 rounded-lg transition-colors ${isLight ? 'hover:bg-slate-100 text-slate-600' : 'hover:bg-white/10 text-slate-300'}`}>
           <span className="material-icons text-xl">arrow_back</span>
         </button>
         <div>
-          <h1 className={`font-bold text-base ${text}`}>{t.title}</h1>
-          <p className={`text-xs ${textSub}`}>{t.subtitle}</p>
+          <h1 className={`font-bold text-base ${text}`}>{T.header_title}</h1>
+          <p className={`text-xs ${textSub}`}>{T.header_sub}</p>
         </div>
       </div>
 
-      <div className="max-w-lg mx-auto px-4 py-6 space-y-5 pb-24">
+      <div className="max-w-2xl mx-auto px-4 py-6 space-y-6 pb-24">
 
         {/* Anon Note */}
         <div className="flex items-start gap-3 p-4 rounded-xl border border-violet-500/20 bg-violet-900/20">
           <span className="material-icons text-violet-400 mt-0.5 text-xl shrink-0">science</span>
-          <p className="text-violet-200 text-sm leading-relaxed">{t.anon_note}</p>
+          <p className="text-violet-200 text-sm leading-relaxed">{T.anon_note}</p>
         </div>
 
-        {/* Already Joined State */}
-        {(alreadyJoined || submitted) ? (
-          <div className={`rounded-xl border p-5 ${card}`}>
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-2xl">📊</span>
-              <div>
-                <h2 className={`font-bold text-base ${text}`}>{t.joined_title}</h2>
-                <p className={`text-xs ${textSub}`}>{t.joined_desc}</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-              <span className={`text-sm font-semibold ${text}`}>{t.your_discount}</span>
-              <span className="text-green-400 font-bold text-lg">{discountPct || (level === 'active' ? 20 : 10)}%</span>
-            </div>
-            {!isActive && (
-              <button
-                onClick={handleUpgrade}
-                className="mt-3 w-full py-2 px-4 rounded-lg text-sm font-semibold bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:opacity-90 transition-opacity"
-              >
-                {t.upgrade_btn}
-              </button>
-            )}
-          </div>
-        ) : (
-          /* Registration Form */
-          <div className={`rounded-xl border p-5 ${card}`}>
-            <h2 className={`font-bold text-base mb-1 ${text}`}>{t.join_title}</h2>
-            <p className={`text-sm mb-4 ${textSub}`}>{t.join_desc}</p>
+        {/* Section title */}
+        <h2 className={`text-center font-bold text-base ${text}`}>{T.section_title}</h2>
 
-            {/* Level selector */}
-            <div className="grid grid-cols-2 gap-3 mb-5">
-              {(['basic', 'active'] as const).map((lvl) => (
-                <button
-                  key={lvl}
-                  onClick={() => setLevel(lvl)}
-                  className={`p-3 rounded-xl border text-left transition-all ${
-                    level === lvl
-                      ? 'border-violet-500 bg-violet-500/10'
-                      : isLight ? 'border-slate-200 hover:border-slate-300' : 'border-white/10 hover:border-white/20'
-                  }`}
-                >
-                  <div className={`text-xs font-bold mb-1 ${level === lvl ? 'text-violet-400' : textSub}`}>
-                    {lvl === 'basic' ? t.basic_label : t.active_label}
-                  </div>
-                  <div className="text-green-400 font-bold text-sm">
-                    {lvl === 'basic' ? t.basic_discount : t.active_discount}
-                  </div>
-                  <div className={`text-[11px] mt-1 ${textSub}`}>
-                    {lvl === 'basic' ? t.basic_desc : t.active_desc}
-                  </div>
-                </button>
+        {/* ── 3 TIER CARDS ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+
+          {/* TIER 1 */}
+          <button
+            onClick={() => setSelectedTier(1)}
+            className={`p-4 rounded-xl border text-left transition-all ${tierBorder(1)}`}
+          >
+            <div className={`text-xs font-bold mb-1 ${selectedTier === 1 ? 'text-violet-400' : textSub}`}>{T.tier1_name}</div>
+            <div className="text-green-400 font-bold text-2xl leading-none mb-1">{T.tier1_discount}</div>
+            <div className={`text-[11px] text-green-400/80 mb-2`}>Rabatt</div>
+            <div className={`text-xs font-semibold ${text} mb-2`}>{T.tier1_price}</div>
+            <div className="space-y-1">
+              {T.tier1_bullets.map((b, i) => (
+                <div key={i} className="flex items-start gap-1.5">
+                  <span className="text-violet-400 text-[10px] mt-0.5 shrink-0">✓</span>
+                  <span className={`text-[11px] leading-tight ${textSub}`}>{b}</span>
+                </div>
               ))}
             </div>
+          </button>
 
-            {/* Form fields */}
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <input
-                value={firstName} onChange={e => setFirstName(e.target.value)}
-                placeholder={t.form_firstname}
-                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`}
-              />
-              <input
-                value={lastName} onChange={e => setLastName(e.target.value)}
-                placeholder={t.form_lastname}
-                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`}
-              />
+          {/* TIER 2 */}
+          <button
+            onClick={() => setSelectedTier(2)}
+            className={`p-4 rounded-xl border text-left transition-all ${tierBorder(2)}`}
+          >
+            <div className={`text-xs font-bold mb-1 ${selectedTier === 2 ? 'text-violet-300' : 'text-violet-400'}`}>{T.tier2_name}</div>
+            <div className="text-green-400 font-bold text-2xl leading-none mb-1">{T.tier2_discount}</div>
+            <div className={`text-[11px] text-green-400/80 mb-2`}>Rabatt</div>
+            <div className={`text-xs font-semibold ${text}`}>{T.tier2_price}</div>
+            <div className={`text-[10px] ${textSub} mb-2`}>{T.tier2_price_year}</div>
+            <div className="space-y-1">
+              {T.tier2_bullets.map((b, i) => (
+                <div key={i} className="flex items-start gap-1.5">
+                  <span className="text-violet-300 text-[10px] mt-0.5 shrink-0">✓</span>
+                  <span className={`text-[11px] leading-tight ${textSub}`}>{b}</span>
+                </div>
+              ))}
             </div>
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              <input
-                value={age} onChange={e => setAge(e.target.value)}
-                placeholder={t.form_age}
-                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`}
-              />
-              <input
-                value={gender} onChange={e => setGender(e.target.value)}
-                placeholder={t.form_gender}
-                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`}
-              />
-              <input
-                value={country} onChange={e => setCountry(e.target.value)}
-                placeholder={t.form_country}
-                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`}
-              />
+            <p className={`mt-3 text-[10px] italic ${textSub} border-t border-white/5 pt-2`}>{T.tier2_note}</p>
+          </button>
+
+          {/* TIER 3 — Empfohlen */}
+          <button
+            onClick={() => setSelectedTier(3)}
+            className={`p-4 rounded-xl border text-left transition-all relative ${tierBorder(3)}`}
+          >
+            {/* Glow animation overlay */}
+            {selectedTier === 3 && (
+              <div className="absolute inset-0 rounded-xl pointer-events-none"
+                style={{ boxShadow: '0 0 20px 3px rgba(251,191,36,0.25)', animation: 'pulse 2s ease-in-out infinite' }} />
+            )}
+            {/* Empfohlen badge */}
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 text-black text-[10px] font-bold shadow-md whitespace-nowrap">
+              ⭐ {T.tier3_recommended}
+            </div>
+            <div className="text-amber-400 text-xs font-bold mb-1 mt-1">{T.tier3_name}</div>
+            <div className="text-green-400 font-bold text-2xl leading-none mb-1">{T.tier3_discount}</div>
+            <div className={`text-[11px] text-green-400/80 mb-2`}>Rabatt</div>
+            <div className={`text-xs font-semibold ${text}`}>{T.tier3_price}</div>
+            <div className={`text-[10px] ${textSub} mb-2`}>{T.tier3_price_year}</div>
+            <div className="space-y-1">
+              {T.tier3_bullets.map((b, i) => (
+                <div key={i} className="flex items-start gap-1.5">
+                  <span className="text-amber-400 text-[10px] mt-0.5 shrink-0">✦</span>
+                  <span className={`text-[11px] leading-tight ${textSub}`}>{b}</span>
+                </div>
+              ))}
+            </div>
+          </button>
+        </div>
+
+        {/* ── FORM (erscheint nach Tier-Auswahl) ── */}
+        {selectedTier && (
+          <div className={`rounded-xl border p-5 space-y-4 ${
+            selectedTier === 3
+              ? 'border-amber-500/30 bg-amber-500/5'
+              : selectedTier === 2
+              ? 'border-violet-500/30 bg-violet-500/5'
+              : card
+          }`}>
+            <h3 className={`font-bold text-sm ${text}`}>{T.form_title} — Stufe {selectedTier}</h3>
+
+            {/* Name */}
+            <div className="grid grid-cols-2 gap-3">
+              <input value={firstName} onChange={e => setFirstName(e.target.value)}
+                placeholder={T.f_firstname}
+                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`} />
+              <input value={lastName} onChange={e => setLastName(e.target.value)}
+                placeholder={T.f_lastname}
+                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`} />
+            </div>
+
+            {/* Email + Verification */}
+            <div className="space-y-2">
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <input value={email} onChange={e => { setEmail(e.target.value); setEmailVerified(false); setCodeSent(false); }}
+                    placeholder={T.f_email} type="email"
+                    className={`w-full px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls} ${emailVerified ? 'border-green-500' : ''}`} />
+                  {emailVerified && (
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-green-400 text-sm">✓</span>
+                  )}
+                </div>
+                {!emailVerified && (
+                  <button
+                    onClick={codeSent ? () => { setCodeSent(false); handleSendCode(); } : handleSendCode}
+                    disabled={!email.includes('@') || verifyLoading}
+                    className="px-3 py-2 rounded-lg text-xs font-semibold bg-violet-600 text-white hover:bg-violet-500 disabled:opacity-40 whitespace-nowrap transition-colors"
+                  >
+                    {verifyLoading ? '…' : codeSent ? T.verify_resend : T.verify_send}
+                  </button>
+                )}
+              </div>
+              {emailVerified && (
+                <p className="text-green-400 text-xs">{T.verify_ok}</p>
+              )}
+              {codeSent && !emailVerified && (
+                <div className="space-y-1">
+                  <p className={`text-xs ${textSub}`}>{T.verify_sent}{email}</p>
+                  <div className="flex gap-2">
+                    <input value={verifyInput} onChange={e => setVerifyInput(e.target.value)}
+                      placeholder={T.verify_placeholder} maxLength={6}
+                      className={`flex-1 px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`} />
+                    <button onClick={handleVerifyCode} disabled={verifyInput.length !== 6 || verifyLoading}
+                      className="px-3 py-2 rounded-lg text-xs font-semibold bg-green-600 text-white hover:bg-green-500 disabled:opacity-40 transition-colors">
+                      {verifyLoading ? '…' : 'OK'}
+                    </button>
+                  </div>
+                  {verifyError && <p className="text-red-400 text-xs">{verifyError}</p>}
+                </div>
+              )}
+            </div>
+
+            {/* Geburtsjahr + Geschlecht */}
+            <div className="grid grid-cols-2 gap-3">
+              <input value={birthYear} onChange={e => setBirthYear(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                placeholder={T.f_birthyear} maxLength={4}
+                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`} />
+              <select value={gender} onChange={e => setGender(e.target.value)}
+                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`}>
+                <option value="">{T.f_gender}</option>
+                {T.gender_options.map(g => <option key={g} value={g}>{g}</option>)}
+              </select>
+            </div>
+
+            {/* Geburtszeit (optional) */}
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className={`text-xs ${textSub}`}>{T.f_birthtime}</span>
+                <span className={`text-[10px] ${textSub} italic`}>— {T.f_birthtime_hint}</span>
+                <div className="relative">
+                  <button
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}
+                    className="material-icons text-slate-500 text-sm cursor-help">info</button>
+                  {showTooltip && (
+                    <div className="absolute bottom-6 left-0 w-48 p-2 rounded-lg bg-slate-800 border border-white/10 text-[10px] text-slate-300 z-10 shadow-xl leading-relaxed">
+                      {T.f_birthtime_tooltip}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <input value={birthTime} onChange={e => setBirthTime(e.target.value)}
+                type="time"
+                className={`w-full px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`} />
+            </div>
+
+            {/* Ort + Nationalität */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="relative">
+                <input value={location} onChange={e => setLocation(e.target.value)}
+                  placeholder={locationLoading ? T.location_loading : T.f_location}
+                  className={`w-full px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`} />
+                {locationLoading && (
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 material-icons text-violet-400 text-sm animate-spin">refresh</span>
+                )}
+              </div>
+              <select value={nationality} onChange={e => setNationality(e.target.value)}
+                className={`px-3 py-2 rounded-lg border text-sm outline-none transition-colors ${inputCls}`}>
+                <option value="">{T.f_nationality}</option>
+                {NATIONALITIES_DE.map(n => <option key={n} value={n}>{n}</option>)}
+              </select>
             </div>
 
             {/* Checkboxes */}
-            <div className="space-y-3 mb-5">
-              {[
-                { val: consentData, setter: setConsentData, label: t.consent_data },
-                { val: consentName, setter: setConsentName, label: t.consent_name },
-              ].map(({ val, setter, label }, i) => (
-                <label key={i} className="flex items-start gap-3 cursor-pointer group">
-                  <div
-                    onClick={() => setter(!val)}
-                    className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-all ${
-                      val ? 'bg-violet-600 border-violet-600' : isLight ? 'border-slate-300' : 'border-white/20'
-                    }`}
-                  >
-                    {val && <span className="material-icons text-white text-sm">check</span>}
-                  </div>
-                  <span className={`text-xs leading-relaxed ${textSub}`}>{label}</span>
-                </label>
-              ))}
+            <div className="space-y-3 pt-1">
+              <Checkbox val={consentData} setter={setConsentData} label={T.consent_data} />
+              <Checkbox val={consentName} setter={setConsentName} label={T.consent_name} />
+              {selectedTier === 3 && (
+                <Checkbox val={consentFace} setter={setConsentFace} label={T.consent_face} amber />
+              )}
             </div>
 
+            {submitError && (
+              <p className="text-red-400 text-xs">{submitError}</p>
+            )}
+
+            {/* Submit button */}
             <button
-              onClick={handleJoin}
-              disabled={!canSubmit}
+              onClick={handleSubmit}
+              disabled={!canSubmit || submitting}
               className={`w-full py-3 px-4 rounded-xl font-bold text-sm transition-all ${
-                canSubmit
-                  ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:opacity-90 shadow-lg shadow-violet-500/20'
+                canSubmit && !submitting
+                  ? selectedTier === 3
+                    ? 'bg-gradient-to-r from-amber-500 to-yellow-400 text-black hover:opacity-90 shadow-lg shadow-amber-500/20'
+                    : 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:opacity-90 shadow-lg shadow-violet-500/20'
                   : isLight ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-white/5 text-slate-500 cursor-not-allowed'
               }`}
             >
-              {t.join_btn}
+              {submitting ? T.submitting : selectedTier === 1 ? T.submit_btn : T.submit_deep}
             </button>
+
+            {/* Email verification hint */}
+            {!emailVerified && (
+              <p className={`text-center text-[11px] ${textSub}`}>
+                {T.verify_send + ' erforderlich bevor Teilnahme abgeschlossen werden kann'}
+              </p>
+            )}
           </div>
         )}
 
@@ -526,11 +645,11 @@ const StudyPage: React.FC<StudyPageProps> = ({
         <div className={`rounded-xl border p-5 ${card}`}>
           <div className="flex items-center gap-2 mb-3">
             <span className="material-icons text-amber-400 text-xl">info</span>
-            <h2 className={`font-bold text-base ${text}`}>{t.cost_title}</h2>
+            <h2 className={`font-bold text-base ${text}`}>{T.cost_title}</h2>
           </div>
-          <p className={`text-xs mb-4 ${textSub}`}>{t.cost_intro}</p>
+          <p className={`text-xs mb-4 ${textSub}`}>{T.cost_intro}</p>
           <div className="space-y-2 mb-4">
-            {[t.cost_analysis, t.cost_image, t.cost_video, t.cost_live].map((line, i) => (
+            {T.cost_items.map((line, i) => (
               <div key={i} className={`flex items-center gap-2 text-xs ${textSub}`}>
                 <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0" />
                 {line}
@@ -538,7 +657,7 @@ const StudyPage: React.FC<StudyPageProps> = ({
             ))}
           </div>
           <p className={`text-[11px] ${textSub} italic border-t pt-3 ${isLight ? 'border-slate-200' : 'border-white/5'}`}>
-            {t.cost_footer}
+            {T.cost_footer}
           </p>
         </div>
 

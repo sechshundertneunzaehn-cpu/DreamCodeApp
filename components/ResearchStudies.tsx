@@ -12,6 +12,7 @@ interface ResearchStudiesProps {
   onSelectStudy?: (studyCode: string) => void;
   onShowOnMap?: (studyCode: string) => void;
   onSelectParticipant?: (participantId: string) => void;
+  initialStudyCode?: string;
 }
 
 interface Study {
@@ -1062,6 +1063,7 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
   onSelectStudy,
   onShowOnMap,
   onSelectParticipant,
+  initialStudyCode,
 }) => {
   const t = (T as Record<string, Record<string, string>>)[language] ?? T.en;
   const r = RST[language] ?? RST.en;
@@ -1070,7 +1072,7 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('year');
-  const [expandedStudy, setExpandedStudy] = useState<string | null>(null);
+  const [expandedStudy, setExpandedStudy] = useState<string | null>(initialStudyCode ?? null);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [loadingParticipants, setLoadingParticipants] = useState(false);
   const [dbCounts, setDbCounts] = useState<{
@@ -1081,6 +1083,7 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
   const [filterDreamsPerPart, setFilterDreamsPerPart] = useState<number>(0);
   const [filterStudyType, setFilterStudyType] = useState<string>('all');
   const [studyAvgWordCounts, setStudyAvgWordCounts] = useState<Record<string, number> | null>(null);
+  const [participantPage, setParticipantPage] = useState(0);
 
   // Fetch studies
   useEffect(() => {
@@ -1158,23 +1161,35 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
     run();
   }, []);
 
-  // Fetch participants when a study is expanded
+  // Fetch ALL participants when a study is expanded (paginate DB in batches of 1000)
   useEffect(() => {
     if (!expandedStudy) {
       setParticipants([]);
+      setParticipantPage(0);
       return;
     }
     const study = studies.find((s) => s.study_code === expandedStudy);
     if (!study) return;
+    setParticipantPage(0);
 
     const fetchParticipants = async () => {
       setLoadingParticipants(true);
-      const { data, error } = await supabase
-        .from('research_participants')
-        .select('participant_id, study_id, age, gender')
-        .eq('study_id', study.id);
-      if (error) console.error('Error fetching participants:', error);
-      setParticipants((data as Participant[]) || []);
+      let all: Participant[] = [];
+      let offset = 0;
+      const PAGE = 1000;
+      while (true) {
+        const { data, error } = await supabase
+          .from('research_participants')
+          .select('participant_id, study_id, age, gender')
+          .eq('study_id', study.id)
+          .range(offset, offset + PAGE - 1);
+        if (error) { console.error('Error fetching participants:', error); break; }
+        if (!data || data.length === 0) break;
+        all = [...all, ...(data as Participant[])];
+        if (data.length < PAGE) break;
+        offset += PAGE;
+      }
+      setParticipants(all);
       setLoadingParticipants(false);
     };
     fetchParticipants();
@@ -1578,25 +1593,64 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
                       <p style={{ fontSize: 13, opacity: 0.5, padding: '8px 0', margin: 0 }}>
                         {r.noDataYet}
                       </p>
-                    ) : (
-                      <div className="flex flex-wrap gap-2">
-                        {participants.map((p) => (
-                          <button
-                            key={p.participant_id}
-                            onClick={() =>
-                              onSelectParticipant?.(p.participant_id)
-                            }
-                            className={`rounded-full px-2 py-0.5 text-xs font-medium transition-colors ${
-                              isLight
-                                ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
-                                : 'bg-indigo-900/40 text-indigo-300 hover:bg-indigo-800/60'
-                            }`}
-                          >
-                            {p.participant_id}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                    ) : (() => {
+                        const studyObj = studies.find(s => s.study_code === expandedStudy);
+                        const studyColor = studyObj?.map_color || '#6366f1';
+                        const PPAGE = 50;
+                        const visible = participants.slice(0, (participantPage + 1) * PPAGE);
+                        return (
+                          <>
+                            {/* Participant count header */}
+                            <div className="flex items-center gap-2 mb-2 px-1">
+                              <span
+                                className="inline-block w-3 h-3 rounded-full flex-shrink-0"
+                                style={{ backgroundColor: studyColor }}
+                              />
+                              <span className="text-xs font-semibold opacity-80">
+                                {language === 'de'
+                                  ? `${participants.length} Teilnehmer — je Profil alle Träume`
+                                  : `${participants.length} participants — each profile shows all dreams`}
+                              </span>
+                            </div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {visible.map((p) => (
+                                <button
+                                  key={p.participant_id}
+                                  onClick={() => onSelectParticipant?.(p.participant_id)}
+                                  className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium transition-colors border"
+                                  style={{
+                                    background: `${studyColor}15`,
+                                    borderColor: `${studyColor}35`,
+                                    color: isLight ? '#1f2937' : '#f0eeff',
+                                  }}
+                                >
+                                  <span
+                                    className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0"
+                                    style={{ backgroundColor: studyColor }}
+                                  />
+                                  <span className="font-mono tracking-tight">{p.participant_id}</span>
+                                  {(p.gender || p.age) && (
+                                    <span className="opacity-50 ml-0.5">
+                                      {[p.gender, p.age != null ? p.age : null].filter(Boolean).join(', ')}
+                                    </span>
+                                  )}
+                                </button>
+                              ))}
+                            </div>
+                            {participants.length > visible.length && (
+                              <button
+                                onClick={() => setParticipantPage(prev => prev + 1)}
+                                className={`mt-3 w-full py-1.5 rounded-lg text-xs font-medium border ${btnSecondary}`}
+                                style={{ borderColor: `${studyColor}30` }}
+                              >
+                                {visible.length} / {participants.length} —{' '}
+                                {language === 'de' ? 'weitere laden' : 'load more'}
+                              </button>
+                            )}
+                          </>
+                        );
+                      })()
+                    }
                   </div>
                 )}
               </div>

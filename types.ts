@@ -157,7 +157,7 @@ export interface UserProfile {
     coins?: number;
     saveCount?: number;
     shareCount?: number;
-    study_participation_level?: 'none' | 'basic' | 'active';
+    study_participation_level?: 'none' | 'basic' | 'active' | 'deep';
     study_discount?: number;
 
     // Smart Tier Features
