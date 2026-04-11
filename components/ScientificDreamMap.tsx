@@ -712,7 +712,11 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
     mapRef.current = map;
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
+    // Force correct size after mount
+    requestAnimationFrame(() => { map.resize(); });
+
     map.on('load', () => {
+      map.resize();
       // GeoJSON source with clustering
       map.addSource('dream-markers', {
         type: 'geojson',
@@ -746,7 +750,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 6, 9, 30] as any,
           'heatmap-opacity': 0.75,
         },
-      }, 'clusters');
+      }); // heatmap added first → renders below cluster layers naturally
 
       sourceReady.current = true;
 
@@ -1033,7 +1037,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex flex-col">
       {/* Map */}
-      <div ref={mapContainerRef} className="absolute inset-0" />
+      <div ref={mapContainerRef} className="absolute inset-0" style={{ width: '100%', height: '100%' }} />
 
       {/* ── Top bar ────────────────────────────────────────────────────────── */}
       <div className="relative z-10 flex items-center justify-between px-3 py-3 sm:px-4">
