@@ -4,157 +4,142 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Traumdatenbank — DreamData World</title>
-<meta name="description" content="64.500+ wissenschaftliche Traumberichte mit Hall-Van de Castle Kodierung, Charakteren, Themen und Emotionen. Vollständige Forschungsdaten.">
+<meta name="description" content="Wissenschaftliche Traumdatenbank: 64.500+ Traumberichte mit Hall-Van de Castle Kodierungen, Charakteren, Themen und Emotionen.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0A0C14;
-  --card:#111420;
-  --card2:#0d1019;
-  --accent:#818CF8;
-  --accent2:#6366F1;
-  --text:#E2E8F0;
-  --text2:#94A3B8;
-  --text3:#475569;
-  --border:rgba(129,140,248,0.12);
-  --border2:rgba(129,140,248,0.22);
-  --hover:rgba(129,140,248,0.05);
-  --gold:#F59E0B;
-  --green:#10B981;
-  --rose:#F43F5E;
-  --sky:#38BDF8;
-  --purple:#A78BFA;
+  --bg:#0A0C14;--card:#111420;--accent:#818CF8;--accent2:#6366F1;
+  --text:#E2E8F0;--text2:#94A3B8;--text3:#475569;
+  --border:rgba(129,140,248,0.12);--hover:rgba(129,140,248,0.05);
+  --gold:#F59E0B;--green:#10B981;--sky:#38BDF8;--purple:#A78BFA;
 }
+*{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:300;overflow-x:hidden;min-height:100vh}
 a{text-decoration:none;color:inherit}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:14px 32px;
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;
   display:flex;align-items:center;justify-content:space-between;
-  background:rgba(10,12,20,0.92);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border)}
+  background:rgba(10,12,20,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
 .nav-logo{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:2px;color:var(--text);font-weight:500}
 .nav-logo span{color:var(--accent)}
-.nav-links{display:flex;gap:24px;align-items:center}
-.nav-links a{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);transition:color 0.2s}
+.nav-links{display:flex;gap:24px}
+.nav-links a{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);transition:color .2s}
 .nav-links a:hover,.nav-links a.active{color:var(--accent)}
 
-/* PAGE LAYOUT */
-.page-wrap{max-width:1100px;margin:0 auto;padding:96px 24px 80px;display:grid;grid-template-columns:260px 1fr;gap:32px;align-items:start}
-@media(max-width:900px){.page-wrap{grid-template-columns:1fr}}
+/* LAYOUT */
+.wrap{max-width:1100px;margin:0 auto;padding:96px 24px 80px;display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start}
 
-/* SIDEBAR FILTERS */
-.sidebar{position:sticky;top:84px}
-.sidebar-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
-.filter-block{margin-bottom:24px}
-.filter-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;display:block}
-.filter-input{
-  width:100%;padding:8px 12px;
-  background:var(--card);border:1px solid var(--border);
-  color:var(--text);font-family:'Inter',sans-serif;font-size:12px;
-  outline:none;transition:border-color 0.2s}
-.filter-input:focus{border-color:var(--accent2)}
-.filter-input::placeholder{color:var(--text3)}
-select.filter-input{cursor:pointer}
-select.filter-input option{background:var(--card)}
-.filter-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.filter-chip{
-  font-size:9px;padding:3px 10px;cursor:pointer;
-  border:1px solid var(--border);color:var(--text3);
-  background:transparent;letter-spacing:0.5px;text-transform:uppercase;
-  transition:all 0.15s;font-family:'Inter',sans-serif}
-.filter-chip:hover{border-color:var(--accent);color:var(--accent)}
-.filter-chip.on{background:rgba(99,102,241,0.15);border-color:var(--accent);color:var(--accent)}
-.filter-btn{
-  width:100%;padding:9px;margin-top:8px;
-  background:var(--accent2);color:white;border:none;cursor:pointer;
-  font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.5px;
-  text-transform:uppercase;font-weight:500;transition:background 0.2s}
-.filter-btn:hover{background:var(--accent)}
-.reset-btn{
-  width:100%;padding:7px;margin-top:6px;
-  background:transparent;color:var(--text3);
-  border:1px solid var(--border);cursor:pointer;
-  font-family:'Inter',sans-serif;font-size:9px;letter-spacing:1px;
-  text-transform:uppercase;transition:all 0.2s}
-.reset-btn:hover{border-color:var(--accent);color:var(--accent)}
-.stats-box{padding:14px;background:var(--card);border:1px solid var(--border);margin-bottom:20px}
-.stat-row{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid rgba(129,140,248,0.06)}
+/* SIDEBAR */
+.sidebar{position:sticky;top:80px}
+.sb-box{background:var(--card);border:1px solid var(--border);padding:16px;margin-bottom:16px}
+.sb-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.stat-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid rgba(129,140,248,0.05)}
 .stat-row:last-child{border-bottom:none}
-.stat-key{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
-.stat-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent)}
+.sk{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.sv{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent)}
 
-/* MAIN CONTENT */
-.main-col{}
-.results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
-.results-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
-.loading-anim{font-size:11px;color:var(--accent);font-family:'JetBrains Mono',monospace;animation:blink 1s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.fl{margin-bottom:12px}
+.fl label{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:5px}
+.fi{width:100%;padding:8px 10px;background:rgba(0,0,0,0.3);border:1px solid var(--border);
+  color:var(--text);font-family:'Inter',sans-serif;font-size:12px;outline:none;transition:border-color .2s}
+.fi:focus{border-color:var(--accent2)}
+.fi::placeholder{color:var(--text3)}
+select.fi{cursor:pointer}
+select.fi option{background:#111420}
+
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.chip{font-size:9px;padding:3px 9px;border:1px solid var(--border);color:var(--text3);
+  background:transparent;cursor:pointer;letter-spacing:.3px;text-transform:capitalize;
+  font-family:'Inter',sans-serif;transition:all .15s}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.on{background:rgba(99,102,241,0.15);border-color:var(--accent);color:var(--accent)}
+
+.apply-btn{width:100%;padding:9px;background:var(--accent2);color:#fff;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  font-weight:500;transition:background .2s;margin-top:4px}
+.apply-btn:hover{background:var(--accent)}
+.reset-btn{width:100%;padding:7px;background:transparent;color:var(--text3);
+  border:1px solid var(--border);cursor:pointer;font-family:'Inter',sans-serif;
+  font-size:9px;letter-spacing:1px;text-transform:uppercase;margin-top:4px;transition:all .2s}
+.reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+.notice{padding:8px 10px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);
+  font-size:10px;color:rgba(245,158,11,0.8);line-height:1.5;margin-bottom:12px}
+
+/* MAIN */
+.results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:6px}
+.rc{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
+.loading{font-size:11px;color:var(--accent);font-family:'JetBrains Mono',monospace;display:none}
+.loading.on{display:inline;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
 /* DREAM CARD */
-.dreams-list{display:flex;flex-direction:column;gap:12px}
-.dream-card{background:var(--card);border:1px solid var(--border);padding:20px 22px;transition:border-color 0.15s}
-.dream-card:hover{border-color:rgba(129,140,248,0.28)}
+.dream-list{display:flex;flex-direction:column;gap:14px}
+.dc{background:var(--card);border:1px solid var(--border);padding:20px 22px;transition:border-color .15s}
+.dc:hover{border-color:rgba(129,140,248,.28)}
 
-.dc-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.dc-id{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:0.5px}
-.dc-study{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);padding:2px 7px;border:1px solid rgba(129,140,248,0.15)}
+/* META */
+.dc-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.dc-id{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:.5px}
+.dc-study{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);
+  padding:2px 7px;border:1px solid rgba(129,140,248,.15)}
 .dc-date{font-size:10px;color:var(--text3)}
-.dc-lang{font-size:9px;color:var(--text3);padding:2px 7px;border:1px solid var(--border);text-transform:uppercase;letter-spacing:0.5px}
-.dc-profile-link{margin-left:auto;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);transition:color 0.2s}
-.dc-profile-link:hover{color:var(--accent)}
+.dc-lang{font-size:9px;color:var(--text3);padding:2px 6px;border:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px}
+.dc-plink{margin-left:auto;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);transition:color .2s}
+.dc-plink:hover{color:var(--accent)}
+
+/* ANNOTATIONS — prominent at top */
+.dc-annot{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;
+  margin-bottom:14px;padding:14px;background:rgba(0,0,0,.2);border:1px solid rgba(129,140,248,.08)}
+.annot-block{display:flex;flex-direction:column;gap:4px}
+.annot-lbl{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
+.annot-tags{display:flex;flex-wrap:wrap;gap:4px}
+.at{font-size:9px;padding:2px 7px;border-radius:2px;letter-spacing:.2px;text-transform:capitalize}
+.at-theme{background:rgba(99,102,241,.1);color:#A5B4FC;border:1px solid rgba(99,102,241,.2)}
+.at-emotion{background:rgba(245,158,11,.08);color:#FCD34D;border:1px solid rgba(245,158,11,.18)}
+.at-char{background:rgba(16,185,129,.08);color:#6EE7B7;border:1px solid rgba(16,185,129,.18)}
+.at-setting{background:rgba(56,189,248,.08);color:#7DD3FC;border:1px solid rgba(56,189,248,.18)}
+.at-hvdc{background:rgba(167,139,250,.08);color:#C4B5FD;border:1px solid rgba(167,139,250,.18);font-family:'JetBrains Mono',monospace;font-size:8px}
 
 /* DREAM TEXT */
-.dc-text-wrap{position:relative;margin-bottom:12px}
-.dc-collapsible{max-height:120px;overflow:hidden}
-.dc-collapsible::after{position:absolute;bottom:0;left:0;right:0;height:48px;
+.dc-txt-wrap{position:relative}
+.dc-collapsible{max-height:110px;overflow:hidden}
+.dc-collapsible::after{position:absolute;bottom:0;left:0;right:0;height:40px;
   background:linear-gradient(rgba(17,20,32,0),var(--card));pointer-events:none;content:''}
 .dc-expanded{max-height:none;overflow:visible}
 .dc-expanded::after{display:none}
-.dc-text{font-size:13px;line-height:1.78;color:var(--text2);white-space:pre-wrap;word-break:break-word;font-family:'Inter',sans-serif;font-weight:300}
-.dc-expand-btn{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);
-  background:transparent;border:none;cursor:pointer;padding:0;font-family:'Inter',sans-serif;margin-bottom:10px}
+.dc-txt{font-size:13px;line-height:1.78;color:var(--text2);white-space:pre-wrap;word-break:break-word;font-weight:300}
+.dc-exp-btn{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);
+  background:transparent;border:none;cursor:pointer;padding:6px 0 0;font-family:'Inter',sans-serif}
 
-/* ANNOTATION GRID */
-.dc-annotations{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
-.anno-block{display:flex;flex-direction:column;gap:4px}
-.anno-label{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
-.anno-tags{display:flex;flex-wrap:wrap;gap:4px}
-.anno-tag{font-size:9px;padding:2px 7px;border-radius:2px;letter-spacing:0.3px}
-.tag-theme{background:rgba(99,102,241,0.1);color:#A5B4FC;border:1px solid rgba(99,102,241,0.2)}
-.tag-emotion{background:rgba(245,158,11,0.08);color:#FCD34D;border:1px solid rgba(245,158,11,0.18)}
-.tag-char{background:rgba(16,185,129,0.08);color:#6EE7B7;border:1px solid rgba(16,185,129,0.18)}
-.tag-setting{background:rgba(56,189,248,0.08);color:#7DD3FC;border:1px solid rgba(56,189,248,0.18)}
-.tag-hvdc{background:rgba(167,139,250,0.08);color:#C4B5FD;border:1px solid rgba(167,139,250,0.18)}
-.anno-empty{font-size:10px;color:var(--text3);font-style:italic}
+/* NO-ANNOT BADGE */
+.no-annot{font-size:10px;color:var(--text3);padding:8px 10px;background:rgba(0,0,0,.15);
+  border:1px solid rgba(255,255,255,.04);margin-bottom:10px;font-style:italic}
 
 /* PAGINATION */
-.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:10px}
-.page-info{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
-.page-btns{display:flex;gap:4px;flex-wrap:wrap}
-.page-btn{padding:5px 10px;background:var(--card);border:1px solid var(--border);
-  color:var(--text3);cursor:pointer;font-size:10px;font-family:'JetBrains Mono',monospace;transition:all 0.15s}
-.page-btn:hover{border-color:var(--accent);color:var(--accent)}
-.page-btn.active{background:var(--accent2);border-color:var(--accent2);color:white;cursor:default}
-.page-btn:disabled{opacity:0.3;cursor:default;pointer-events:none}
+.pag{display:flex;align-items:center;justify-content:space-between;margin-top:18px;flex-wrap:wrap;gap:8px}
+.pag-info{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.pag-btns{display:flex;gap:3px;flex-wrap:wrap}
+.pb{padding:4px 9px;background:var(--card);border:1px solid var(--border);
+  color:var(--text3);cursor:pointer;font-size:10px;font-family:'JetBrains Mono',monospace;transition:all .15s}
+.pb:hover{border-color:var(--accent);color:var(--accent)}
+.pb.active{background:var(--accent2);border-color:var(--accent2);color:#fff;cursor:default}
+.pb:disabled{opacity:.3;cursor:default;pointer-events:none}
 
-/* EMPTY / ERROR */
-.empty-state{text-align:center;padding:60px 0;color:var(--text3);font-size:13px}
+.empty{text-align:center;padding:60px 0;color:var(--text3);font-size:13px}
 
-@media(max-width:640px){
+@media(max-width:860px){
+  .wrap{grid-template-columns:1fr}
+  .sidebar{position:static}
   nav{padding:12px 16px}
   .nav-links{display:none}
-  .page-wrap{padding:76px 12px 40px}
-  .dream-card{padding:16px}
-  .dc-annotations{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
-
 <nav>
   <a href="/" class="nav-logo">Dream<span>Data</span>.world</a>
   <div class="nav-links">
@@ -166,80 +151,65 @@ select.filter-input option{background:var(--card)}
   </div>
 </nav>
 
-<div class="page-wrap">
-
-  <!-- SIDEBAR -->
+<div class="wrap">
   <aside class="sidebar">
-    <div class="stats-box" id="stats-box">
-      <div class="stat-row"><span class="stat-key">Träume gesamt</span><span class="stat-val" id="total-dreams">–</span></div>
-      <div class="stat-row"><span class="stat-key">Gefunden</span><span class="stat-val" id="found-dreams">–</span></div>
-      <div class="stat-row"><span class="stat-key">Mit HvdC</span><span class="stat-val" id="hvdc-count">–</span></div>
+    <div class="sb-box">
+      <div class="sb-title">Datenbank-Status</div>
+      <div class="stat-row"><span class="sk">Träume gesamt</span><span class="sv" id="s-total">–</span></div>
+      <div class="stat-row"><span class="sk">Ergebnisse</span><span class="sv" id="s-found">–</span></div>
+      <div class="stat-row"><span class="sk">Mit HvdC-Codes</span><span class="sv" id="s-hvdc">–</span></div>
+      <div class="stat-row"><span class="sk">Mit Themen/Chars</span><span class="sv" id="s-annot">–</span></div>
     </div>
 
-    <div class="sidebar-title">Filter</div>
-
-    <div class="filter-block">
-      <label class="filter-label" for="f-search">Suche im Traumtext</label>
-      <input type="text" id="f-search" class="filter-input" placeholder="Stichwort...">
+    <div class="notice">
+      Die Datenbank ist auf Englisch. Suche auf Englisch: z.B. "flying", "water", "chase", "teeth".
     </div>
 
-    <div class="filter-block">
-      <label class="filter-label" for="f-study">Studie</label>
-      <select id="f-study" class="filter-input">
-        <option value="">Alle Studien</option>
-      </select>
-    </div>
+    <div class="sb-box">
+      <div class="sb-title">Filter</div>
 
-    <div class="filter-block">
-      <label class="filter-label" for="f-lang">Sprache</label>
-      <select id="f-lang" class="filter-input">
-        <option value="">Alle</option>
-        <option value="EN">Englisch</option>
-        <option value="DE">Deutsch</option>
-        <option value="FR">Französisch</option>
-        <option value="ES">Spanisch</option>
-        <option value="IT">Italienisch</option>
-        <option value="PT">Portugiesisch</option>
-        <option value="NL">Niederländisch</option>
-        <option value="JA">Japanisch</option>
-        <option value="ZH">Chinesisch</option>
-        <option value="AR">Arabisch</option>
-      </select>
-    </div>
-
-    <div class="filter-block">
-      <label class="filter-label">Themen</label>
-      <div class="filter-chips" id="theme-chips"></div>
-    </div>
-
-    <div class="filter-block">
-      <label class="filter-label">Emotionen</label>
-      <div class="filter-chips" id="emotion-chips"></div>
-    </div>
-
-    <div class="filter-block">
-      <label class="filter-label">Nur mit Annotation</label>
-      <div class="filter-chips">
-        <button class="filter-chip" id="chip-hvdc" data-key="hvdc">HvdC-Codes</button>
-        <button class="filter-chip" id="chip-chars" data-key="chars">Charaktere</button>
-        <button class="filter-chip" id="chip-themes" data-key="themes">Themen</button>
+      <div class="fl">
+        <label for="f-q">Suche (Englisch)</label>
+        <input type="text" id="f-q" class="fi" placeholder="z.B. flying, water, chase...">
       </div>
-    </div>
 
-    <button class="filter-btn" id="apply-btn">Anwenden</button>
-    <button class="reset-btn" id="reset-btn">Zurücksetzen</button>
+      <div class="fl">
+        <label for="f-study">Studie</label>
+        <select id="f-study" class="fi"><option value="">Alle Studien</option></select>
+      </div>
+
+      <div class="fl">
+        <label>Themen</label>
+        <div class="chips" id="theme-chips"></div>
+      </div>
+
+      <div class="fl">
+        <label>Emotionen</label>
+        <div class="chips" id="emo-chips"></div>
+      </div>
+
+      <div class="fl">
+        <label>Nur zeigen</label>
+        <div class="chips">
+          <button class="chip on" id="chip-annot">Mit Deutungen</button>
+          <button class="chip" id="chip-hvdc">Nur HvdC</button>
+          <button class="chip" id="chip-all">Alle Träume</button>
+        </div>
+      </div>
+
+      <button class="apply-btn" id="btn-apply">Suchen</button>
+      <button class="reset-btn" id="btn-reset">Zurücksetzen</button>
+    </div>
   </aside>
 
-  <!-- MAIN -->
   <main>
     <div class="results-bar">
-      <div class="results-count" id="results-count"></div>
-      <div class="loading-anim" id="loading-txt" style="display:none">Lade...</div>
+      <span class="rc" id="rc"></span>
+      <span class="loading" id="loading">Lade...</span>
     </div>
-    <div class="dreams-list" id="dreams-list"></div>
-    <div class="pagination" id="pagination"></div>
+    <div class="dream-list" id="dream-list"></div>
+    <div class="pag" id="pag"></div>
   </main>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -250,18 +220,13 @@ var SB_URL='https://xwcftfgujacsutwhossi.supabase.co';
 var SB_KEY='sb_publishable_SbJ0MhK6m0b94YcQCpO17g_thBm4y9t';
 var sb=window.supabase.createClient(SB_URL,SB_KEY);
 
-var PAGE=20;
-var page=0;
-var total=0;
-var globalTotal=0;
-var activeThemes=[];
-var activeEmotions=[];
-var onlyHvdc=false;
-var onlyChars=false;
-var onlyThemes=false;
+var PAGE=20,page=0,total=0;
+var activeThemes=[],activeEmotions=[];
+var filterMode='annot'; // 'annot' | 'hvdc' | 'all'
+var debTimer=null;
 
-var THEMES=['happiness','aggression','sexuality','failure','friendliness','misfortune','striving','success'];
-var EMOTIONS=['happiness','sadness','anger','fear','confusion','excitement','anxiety','grief','joy','surprise'];
+var THEMES=['happiness','aggression','sexuality','failure','friendliness','misfortune','striving','success','confusion','social'];
+var EMOTIONS=['happiness','sadness','anger','fear','anxiety','confusion','excitement','grief','joy','surprise','guilt'];
 
 function mk(tag,cls,txt){
   var e=document.createElement(tag);
@@ -269,45 +234,70 @@ function mk(tag,cls,txt){
   if(txt!=null)e.textContent=txt;
   return e;
 }
-function tagArr(v){
+function arr(v){
   if(!v)return[];
-  if(Array.isArray(v))return v.map(function(s){return String(s).trim();}).filter(function(s){return s&&!s.match(/^\d+$/);});
+  if(Array.isArray(v))return v.map(function(s){return String(s).trim();}).filter(function(s){return s&&!/^\d+$/.test(s);});
   return String(v).split(',').map(function(s){return s.trim();}).filter(Boolean);
 }
+function setLoading(on){
+  var l=document.getElementById('loading');
+  if(l){if(on)l.classList.add('on');else l.classList.remove('on');}
+}
 
-function setLoading(on){document.getElementById('loading-txt').style.display=on?'inline':'none';}
-
-// Build theme/emotion chips
+// Build filter chips
 function buildChips(){
   var tc=document.getElementById('theme-chips');
   THEMES.forEach(function(t){
-    var b=mk('button','filter-chip',t);
+    var b=mk('button','chip',t);
     b.addEventListener('click',function(){
       b.classList.toggle('on');
       if(b.classList.contains('on')){if(!activeThemes.includes(t))activeThemes.push(t);}
-      else{activeThemes=activeThemes.filter(function(x){return x!==t;});}
+      else activeThemes=activeThemes.filter(function(x){return x!==t;});
+      triggerSearch();
     });
     tc.appendChild(b);
   });
-  var ec=document.getElementById('emotion-chips');
+  var ec=document.getElementById('emo-chips');
   EMOTIONS.forEach(function(e){
-    var b=mk('button','filter-chip',e);
+    var b=mk('button','chip',e);
     b.addEventListener('click',function(){
       b.classList.toggle('on');
       if(b.classList.contains('on')){if(!activeEmotions.includes(e))activeEmotions.push(e);}
-      else{activeEmotions=activeEmotions.filter(function(x){return x!==e;});}
+      else activeEmotions=activeEmotions.filter(function(x){return x!==e;});
+      triggerSearch();
     });
     ec.appendChild(b);
   });
-  // annotation toggles
-  ['hvdc','chars','themes'].forEach(function(key){
-    document.getElementById('chip-'+key).addEventListener('click',function(){
-      this.classList.toggle('on');
-      if(key==='hvdc')onlyHvdc=this.classList.contains('on');
-      if(key==='chars')onlyChars=this.classList.contains('on');
-      if(key==='themes')onlyThemes=this.classList.contains('on');
+
+  // Mode buttons
+  ['annot','hvdc','all'].forEach(function(mode){
+    var btn=document.getElementById('chip-'+mode);
+    btn.addEventListener('click',function(){
+      filterMode=mode;
+      document.querySelectorAll('#chip-annot,#chip-hvdc,#chip-all').forEach(function(b){b.classList.remove('on');});
+      btn.classList.add('on');
+      triggerSearch();
     });
   });
+}
+
+function triggerSearch(){
+  clearTimeout(debTimer);
+  debTimer=setTimeout(function(){load(0);},400);
+}
+
+async function fetchStats(){
+  var r1=await sb.from('research_dreams').select('id',{count:'exact',head:true});
+  var el=document.getElementById('s-total');
+  if(el)el.textContent=(r1.count||0).toLocaleString('de-DE');
+
+  var r2=await sb.from('research_dreams').select('id',{count:'exact',head:true}).not('hall_van_de_castle_codes','is',null);
+  var e2=document.getElementById('s-hvdc');
+  if(e2)e2.textContent=(r2.count||0).toLocaleString('de-DE');
+
+  var r3=await sb.from('research_dreams').select('id',{count:'exact',head:true}).not('themes','is',null);
+  var e3=document.getElementById('s-annot');
+  if(e3)e3.textContent=(r3.count||0).toLocaleString('de-DE');
 }
 
 async function fetchStudies(){
@@ -319,43 +309,31 @@ async function fetchStudies(){
     if(d.study_code&&!seen[d.study_code]){
       seen[d.study_code]=true;
       var opt=document.createElement('option');
-      opt.value=d.study_code;
-      opt.textContent=d.study_code;
+      opt.value=d.study_code;opt.textContent=d.study_code;
       sel.appendChild(opt);
     }
   });
-}
-
-async function fetchGlobalStats(){
-  var r1=await sb.from('research_dreams').select('id',{count:'exact',head:true});
-  globalTotal=(r1.count||0);
-  var el=document.getElementById('total-dreams');
-  if(el)el.textContent=globalTotal.toLocaleString('de-DE');
-
-  var r2=await sb.from('research_dreams').select('id',{count:'exact',head:true}).not('hall_van_de_castle_codes','is',null);
-  var el2=document.getElementById('hvdc-count');
-  if(el2)el2.textContent=(r2.count||0).toLocaleString('de-DE');
 }
 
 async function load(pg){
   setLoading(true);
   page=pg;
 
-  var search=document.getElementById('f-search').value.trim();
+  var search=document.getElementById('f-q').value.trim();
   var study=document.getElementById('f-study').value;
-  var lang=document.getElementById('f-lang').value;
 
   var q=sb.from('research_dreams')
     .select('dream_id,participant_id,study_code,dream_text,original_language,dream_date,hall_van_de_castle_codes,characters,settings,themes,emotions',{count:'exact'});
 
-  if(search)q=q.ilike('dream_text','%'+search+'%');
-  if(study)q=q.eq('study_code',study);
-  if(lang)q=q.eq('original_language',lang);
-  if(activeThemes.length)q=q.overlaps('themes',activeThemes);
-  if(activeEmotions.length)q=q.overlaps('emotions',activeEmotions);
-  if(onlyHvdc)q=q.not('hall_van_de_castle_codes','is',null);
-  if(onlyChars)q=q.not('characters','is',null);
-  if(onlyThemes)q=q.not('themes','is',null);
+  // Filter mode
+  if(filterMode==='hvdc') q=q.not('hall_van_de_castle_codes','is',null);
+  else if(filterMode==='annot') q=q.not('themes','is',null);
+  // 'all' = no annotation filter
+
+  if(search) q=q.ilike('dream_text','%'+search+'%');
+  if(study) q=q.eq('study_code',study);
+  if(activeThemes.length) q=q.overlaps('themes',activeThemes);
+  if(activeEmotions.length) q=q.overlaps('emotions',activeEmotions);
 
   q=q.order('dream_id').range(pg*PAGE,(pg+1)*PAGE-1);
 
@@ -363,38 +341,36 @@ async function load(pg){
   setLoading(false);
   total=r.count||0;
 
-  var fc=document.getElementById('found-dreams');
-  if(fc)fc.textContent=total.toLocaleString('de-DE');
+  var sf=document.getElementById('s-found');
+  if(sf)sf.textContent=total.toLocaleString('de-DE');
 
-  var rc=document.getElementById('results-count');
-  if(rc&&total>0){
-    var from=pg*PAGE+1;
-    var to=Math.min((pg+1)*PAGE,total);
-    rc.textContent=from+'–'+to+' von '+total.toLocaleString('de-DE')+' Träumen';
-  } else if(rc){
-    rc.textContent='Keine Träume gefunden';
+  var rc=document.getElementById('rc');
+  if(rc){
+    if(total>0){
+      var from=pg*PAGE+1;
+      var to=Math.min((pg+1)*PAGE,total);
+      rc.textContent=from+'–'+to+' von '+total.toLocaleString('de-DE')+' Träumen';
+    } else {
+      rc.textContent='Keine Träume gefunden';
+    }
   }
 
   renderList(r.data||[]);
-  renderPagination();
+  renderPag();
 }
 
 function renderList(rows){
-  var list=document.getElementById('dreams-list');
+  var list=document.getElementById('dream-list');
   while(list.firstChild)list.removeChild(list.firstChild);
-
   if(!rows.length){
-    list.appendChild(mk('div','empty-state','Keine Träume gefunden. Filter anpassen.'));
+    list.appendChild(mk('div','empty','Keine Träume gefunden. Suchbegriff oder Filter anpassen.'));
     return;
   }
-
-  rows.forEach(function(d){
-    list.appendChild(makeCard(d));
-  });
+  rows.forEach(function(d){list.appendChild(makeCard(d));});
 }
 
 function makeCard(d){
-  var card=mk('article','dream-card');
+  var card=mk('article','dc');
 
   // Meta row
   var meta=mk('div','dc-meta');
@@ -402,25 +378,75 @@ function makeCard(d){
   if(d.study_code)meta.appendChild(mk('span','dc-study',d.study_code));
   if(d.dream_date)meta.appendChild(mk('span','dc-date',d.dream_date));
   if(d.original_language)meta.appendChild(mk('span','dc-lang',d.original_language));
-
   if(d.participant_id){
-    // Find participant UUID via participant_id text
-    var link=mk('a','dc-profile-link','Profil →');
-    link.href='/participant-profile?id='+encodeURIComponent(d.participant_id);
-    meta.appendChild(link);
+    var pl=mk('a','dc-plink','→ Profil');
+    pl.href='/participant-profile?id='+encodeURIComponent(d.participant_id);
+    meta.appendChild(pl);
   }
   card.appendChild(meta);
 
+  // Annotations (Deutungen) — shown BEFORE the dream text
+  var themes=arr(d.themes);
+  var emotions=arr(d.emotions);
+  var chars=arr(d.characters);
+  var settings=arr(d.settings);
+  var hvdc=d.hall_van_de_castle_codes&&typeof d.hall_van_de_castle_codes==='object'?d.hall_van_de_castle_codes:null;
+
+  if(themes.length||emotions.length||chars.length||settings.length||hvdc){
+    var annot=mk('div','dc-annot');
+
+    if(themes.length){
+      var ab=mk('div','annot-block');
+      ab.appendChild(mk('div','annot-lbl','Themen'));
+      var tg=mk('div','annot-tags');
+      themes.forEach(function(t){tg.appendChild(mk('span','at at-theme',t));});
+      ab.appendChild(tg);annot.appendChild(ab);
+    }
+    if(emotions.length){
+      var ab2=mk('div','annot-block');
+      ab2.appendChild(mk('div','annot-lbl','Emotionen'));
+      var tg2=mk('div','annot-tags');
+      emotions.forEach(function(e){tg2.appendChild(mk('span','at at-emotion',e));});
+      ab2.appendChild(tg2);annot.appendChild(ab2);
+    }
+    if(chars.length){
+      var ab3=mk('div','annot-block');
+      ab3.appendChild(mk('div','annot-lbl','Charaktere'));
+      var tg3=mk('div','annot-tags');
+      chars.forEach(function(c){tg3.appendChild(mk('span','at at-char',c.replace(/_/g,' ')));});
+      ab3.appendChild(tg3);annot.appendChild(ab3);
+    }
+    if(settings.length){
+      var ab4=mk('div','annot-block');
+      ab4.appendChild(mk('div','annot-lbl','Schauplätze'));
+      var tg4=mk('div','annot-tags');
+      settings.forEach(function(s){tg4.appendChild(mk('span','at at-setting',s.replace(/_/g,' ')));});
+      ab4.appendChild(tg4);annot.appendChild(ab4);
+    }
+    if(hvdc){
+      var ab5=mk('div','annot-block');
+      ab5.appendChild(mk('div','annot-lbl','Hall-Van de Castle'));
+      var tg5=mk('div','annot-tags');
+      Object.keys(hvdc).slice(0,8).forEach(function(k){
+        tg5.appendChild(mk('span','at at-hvdc',k+': '+hvdc[k]));
+      });
+      ab5.appendChild(tg5);annot.appendChild(ab5);
+    }
+    card.appendChild(annot);
+  } else if(filterMode==='all'){
+    card.appendChild(mk('div','no-annot','Keine Kodierung vorhanden für diesen Traum.'));
+  }
+
   // Dream text — vollständig im DOM
-  var wrap=mk('div','dc-text-wrap');
-  var txt=mk('p','dc-text',d.dream_text||'(kein Text)');
+  var wrap=mk('div','dc-txt-wrap');
+  var txt=mk('p','dc-txt',d.dream_text||'(kein Text)');
   wrap.appendChild(txt);
-  var isLong=d.dream_text&&d.dream_text.length>300;
+  var isLong=d.dream_text&&d.dream_text.length>280;
   if(isLong)wrap.classList.add('dc-collapsible');
   card.appendChild(wrap);
 
   if(isLong){
-    var btn=mk('button','dc-expand-btn','mehr anzeigen ↓');
+    var btn=mk('button','dc-exp-btn','mehr anzeigen ↓');
     btn.addEventListener('click',function(){
       var exp=wrap.classList.toggle('dc-expanded');
       btn.textContent=exp?'weniger ↑':'mehr anzeigen ↓';
@@ -428,136 +454,64 @@ function makeCard(d){
     card.appendChild(btn);
   }
 
-  // Annotations
-  var chars=tagArr(d.characters);
-  var settings=tagArr(d.settings);
-  var themes=tagArr(d.themes);
-  var emotions=tagArr(d.emotions);
-  var hvdc=d.hall_van_de_castle_codes;
-
-  var hasAnnotations=chars.length||settings.length||themes.length||emotions.length||hvdc;
-  if(hasAnnotations){
-    var grid=mk('div','dc-annotations');
-
-    if(themes.length){
-      var ab=mk('div','anno-block');
-      ab.appendChild(mk('div','anno-label','Themen'));
-      var tags=mk('div','anno-tags');
-      themes.forEach(function(t){tags.appendChild(mk('span','anno-tag tag-theme',t));});
-      ab.appendChild(tags);
-      grid.appendChild(ab);
-    }
-    if(emotions.length){
-      var ab2=mk('div','anno-block');
-      ab2.appendChild(mk('div','anno-label','Emotionen'));
-      var tags2=mk('div','anno-tags');
-      emotions.forEach(function(e){tags2.appendChild(mk('span','anno-tag tag-emotion',e));});
-      ab2.appendChild(tags2);
-      grid.appendChild(ab2);
-    }
-    if(chars.length){
-      var ab3=mk('div','anno-block');
-      ab3.appendChild(mk('div','anno-label','Charaktere'));
-      var tags3=mk('div','anno-tags');
-      chars.forEach(function(c){tags3.appendChild(mk('span','anno-tag tag-char',c.replace(/_/g,' ')));});
-      ab3.appendChild(tags3);
-      grid.appendChild(ab3);
-    }
-    if(settings.length){
-      var ab4=mk('div','anno-block');
-      ab4.appendChild(mk('div','anno-label','Settings'));
-      var tags4=mk('div','anno-tags');
-      settings.forEach(function(s){tags4.appendChild(mk('span','anno-tag tag-setting',s.replace(/_/g,' ')));});
-      ab4.appendChild(tags4);
-      grid.appendChild(ab4);
-    }
-    if(hvdc&&typeof hvdc==='object'){
-      var ab5=mk('div','anno-block');
-      ab5.appendChild(mk('div','anno-label','Hall-Van de Castle'));
-      var tags5=mk('div','anno-tags');
-      Object.keys(hvdc).forEach(function(k){
-        var chip=mk('span','anno-tag tag-hvdc',k+': '+hvdc[k]);
-        tags5.appendChild(chip);
-      });
-      ab5.appendChild(tags5);
-      grid.appendChild(ab5);
-    }
-
-    card.appendChild(grid);
-  }
-
   return card;
 }
 
-function renderPagination(){
-  var pag=document.getElementById('pagination');
+function renderPag(){
+  var pag=document.getElementById('pag');
   while(pag.firstChild)pag.removeChild(pag.firstChild);
-  var totalPages=Math.ceil(total/PAGE);
-  if(totalPages<=1)return;
+  var tp=Math.ceil(total/PAGE);
+  if(tp<=1)return;
 
-  var info=mk('div','page-info','Seite '+(page+1)+' / '+totalPages);
-  pag.appendChild(info);
+  pag.appendChild(mk('div','pag-info','Seite '+(page+1)+' / '+tp));
+  var btns=mk('div','pag-btns');
 
-  var btns=mk('div','page-btns');
-  var prev=mk('button','page-btn','← Zurück');
+  var prev=mk('button','pb','← Zurück');
   if(page===0)prev.disabled=true;
   prev.addEventListener('click',function(){if(page>0)load(page-1);});
   btns.appendChild(prev);
 
-  var start=Math.max(0,page-3);
-  var end=Math.min(totalPages-1,start+6);
-  if(end-start<6)start=Math.max(0,end-6);
+  var s=Math.max(0,page-3);
+  var e=Math.min(tp-1,s+6);
+  if(e-s<6)s=Math.max(0,e-6);
 
-  if(start>0){
-    var b0=mk('button','page-btn','1');
-    b0.addEventListener('click',function(){load(0);});
-    btns.appendChild(b0);
-    if(start>1)btns.appendChild(mk('span','page-btn','…'));
-  }
-  for(var i=start;i<=end;i++){
+  if(s>0){var b0=mk('button','pb','1');b0.addEventListener('click',function(){load(0);});btns.appendChild(b0);if(s>1)btns.appendChild(mk('span','pb','…'));}
+  for(var i=s;i<=e;i++){
     (function(pg){
-      var b=mk('button',pg===page?'page-btn active':'page-btn',String(pg+1));
+      var b=mk('button',pg===page?'pb active':'pb',String(pg+1));
       if(pg!==page)b.addEventListener('click',function(){load(pg);});
       btns.appendChild(b);
     })(i);
   }
-  if(end<totalPages-1){
-    if(end<totalPages-2)btns.appendChild(mk('span','page-btn','…'));
-    var bl=mk('button','page-btn',String(totalPages));
-    bl.addEventListener('click',function(){load(totalPages-1);});
-    btns.appendChild(bl);
-  }
+  if(e<tp-1){if(e<tp-2)btns.appendChild(mk('span','pb','…'));var bl=mk('button','pb',String(tp));bl.addEventListener('click',function(){load(tp-1);});btns.appendChild(bl);}
 
-  var next=mk('button','page-btn','Weiter →');
-  if(page>=totalPages-1)next.disabled=true;
-  next.addEventListener('click',function(){if(page<totalPages-1)load(page+1);});
+  var next=mk('button','pb','Weiter →');
+  if(page>=tp-1)next.disabled=true;
+  next.addEventListener('click',function(){if(page<tp-1)load(page+1);});
   btns.appendChild(next);
   pag.appendChild(btns);
 }
 
-function setupControls(){
-  document.getElementById('apply-btn').addEventListener('click',function(){load(0);});
-  document.getElementById('reset-btn').addEventListener('click',function(){
-    document.getElementById('f-search').value='';
+function setup(){
+  buildChips();
+  document.getElementById('f-q').addEventListener('input',triggerSearch);
+  document.getElementById('f-study').addEventListener('change',triggerSearch);
+  document.getElementById('btn-apply').addEventListener('click',function(){load(0);});
+  document.getElementById('btn-reset').addEventListener('click',function(){
+    document.getElementById('f-q').value='';
     document.getElementById('f-study').value='';
-    document.getElementById('f-lang').value='';
-    activeThemes=[];activeEmotions=[];
-    onlyHvdc=false;onlyChars=false;onlyThemes=false;
-    document.querySelectorAll('.filter-chip.on').forEach(function(c){c.classList.remove('on');});
+    activeThemes=[];activeEmotions=[];filterMode='annot';
+    document.querySelectorAll('.chip.on').forEach(function(c){c.classList.remove('on');});
+    document.getElementById('chip-annot').classList.add('on');
     load(0);
-  });
-  document.getElementById('f-search').addEventListener('keydown',function(e){
-    if(e.key==='Enter')load(0);
   });
 }
 
 async function init(){
-  buildChips();
-  setupControls();
-  await Promise.all([fetchGlobalStats(),fetchStudies()]);
+  setup();
+  await Promise.all([fetchStats(),fetchStudies()]);
   load(0);
 }
-
 init();
 })();
 </script>

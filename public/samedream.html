@@ -249,7 +249,19 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
   footer{flex-direction:column;align-items:flex-start}
   .footer-links{text-align:left}
 }
+
+/* === DREAM GLOBE === */
+.dream-globe-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:56px;position:relative;}
+.dg-live{background:#10b981;color:#000;font-size:9px;font-weight:700;letter-spacing:0.12em;padding:3px 10px;border-radius:99px;display:inline-flex;align-items:center;gap:5px;align-self:flex-start;}
+.dg-live::before{content:'';width:6px;height:6px;background:#000;border-radius:50%;animation:dg-pulse 1.5s ease-in-out infinite;}
+@keyframes dg-pulse{0%,100%{opacity:1;}50%{opacity:0.2;}}
+#sd-globe{width:500px;height:500px;max-width:min(100%,90vw);cursor:grab;border-radius:50%;display:block;}
+#sd-globe:active{cursor:grabbing;}
+.dg-stats{display:flex;gap:20px;font-size:11px;color:var(--t3);letter-spacing:0.05em;flex-wrap:wrap;justify-content:center;}
+.dg-stats strong{color:var(--t1);font-weight:700;}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 </head>
 <body>
 <div class="stars"></div>
@@ -266,7 +278,22 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
       <option value="fr">🇫🇷 FR</option>
       <option value="ru">🇷🇺 RU</option>
       <option value="zh">🇨🇳 ZH</option>
+      <option value="pt">🇧🇷 PT</option>
+      <option value="hi">🇮🇳 HI</option>
+      <option value="ja">🇯🇵 JA</option>
+      <option value="ko">🇰🇷 KO</option>
+      <option value="id">🇮🇩 ID</option>
+      <option value="fa">🇮🇷 FA</option>
+      <option value="it">🇮🇹 IT</option>
+      <option value="pl">🇵🇱 PL</option>
+      <option value="bn">🇧🇩 BN</option>
+      <option value="ur">🇵🇰 UR</option>
+      <option value="vi">🇻🇳 VI</option>
+      <option value="th">🇹🇭 TH</option>
+      <option value="sw">🇰🇪 SW</option>
+      <option value="hu">🇭🇺 HU</option>
     </select>
+    <a href="https://dreamcodeapp.vercel.app" class="nav-app" id="nav-cta">App öffnen →</a>
   </div>
 </nav>
 
@@ -278,7 +305,7 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
     <span id="badge-text">Citizen Science Projekt · Globale Traumforschung</span>
   </div>
 
-  <h1 id="hero-title">Hast du das<br>auch <em>geträumt?</em></h1>
+  <h1 id="hero-title"><span id="h1a">Hast du das</span><br><em id="h1b">auch geträumt?</em></h1>
 
   <div class="hero-divider"></div>
 
@@ -298,7 +325,7 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
       <span class="stat-label" id="stat2-l">Länder</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num" id="stat3">8</span>
+      <span class="stat-num" id="stat3">22</span>
       <span class="stat-label" id="stat3-l">Sprachen</span>
     </div>
     <div class="stat-item">
@@ -339,9 +366,9 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
         </div>
         <div id="transcript-box" style="display:none;margin-top:16px;background:rgba(109,40,217,0.1);border:1px solid rgba(109,40,217,0.3);border-radius:8px;padding:16px;text-align:left;min-height:80px;font-size:14px;line-height:1.6;color:var(--paper);white-space:pre-wrap"></div>
         <div id="transcript-controls" style="display:none;margin-top:12px;gap:10px;justify-content:center;flex-wrap:wrap">
-          <button onclick="pauseTranscript()" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:transparent;border:1px solid var(--border);color:var(--t2);cursor:pointer;border-radius:4px;font-family:Outfit,sans-serif">⏸ Pause zum Korrigieren</button>
-          <button onclick="continueTranscript()" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:rgba(109,40,217,0.2);border:1px solid var(--violet);color:var(--violet3);cursor:pointer;border-radius:4px;font-family:Outfit,sans-serif">▶ Weiter</button>
-          <button onclick="useTranscript()" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:var(--gold);border:none;color:#000;cursor:pointer;border-radius:4px;font-family:Outfit,sans-serif;font-weight:500">✓ Übernehmen</button>
+          <button id="pause-btn" onclick="pauseTranscript()" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:transparent;border:1px solid var(--border);color:var(--t2);cursor:pointer;border-radius:4px;font-family:Outfit,sans-serif">⏸ Pause zum Korrigieren</button>
+          <button id="resume-btn" onclick="continueTranscript()" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:rgba(109,40,217,0.2);border:1px solid var(--violet);color:var(--violet3);cursor:pointer;border-radius:4px;font-family:Outfit,sans-serif">▶ Weiter</button>
+          <button id="use-btn" onclick="useTranscript()" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:var(--gold);border:none;color:#000;cursor:pointer;border-radius:4px;font-family:Outfit,sans-serif;font-weight:500">✓ Übernehmen</button>
         </div>
       </div>
     </div>
@@ -351,7 +378,7 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
       <textarea class="dream-textarea" id="dream-text"
         placeholder="Beschreibe deinen Traum so detailliert wie möglich — Gefühle, Orte, Personen, Symbole..." 
         oninput="updateCount()"></textarea>
-      <div class="char-count"><span id="char-count">0</span> / 2000 Zeichen</div>
+      <div class="char-count"><span id="char-count">0</span> / 2000 <span id="char-label">Zeichen</span></div>
     </div>
 
     <div class="meta-row">
@@ -364,6 +391,20 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
         <option value="fr">🇫🇷 Français</option>
         <option value="ru">🇷🇺 Русский</option>
         <option value="zh">🇨🇳 中文</option>
+        <option value="pt">🇧🇷 Português</option>
+        <option value="hi">🇮🇳 हिन्दी</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="ko">🇰🇷 한국어</option>
+        <option value="id">🇮🇩 Bahasa Indonesia</option>
+        <option value="fa">🇮🇷 فارسی</option>
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="pl">🇵🇱 Polski</option>
+        <option value="bn">🇧🇩 বাংলা</option>
+        <option value="ur">🇵🇰 اردو</option>
+        <option value="vi">🇻🇳 Tiếng Việt</option>
+        <option value="th">🇹🇭 ภาษาไทย</option>
+        <option value="sw">🇰🇪 Kiswahili</option>
+        <option value="hu">🇭🇺 Magyar</option>
       </select>
       <div class="anon-note">
         🔒 <span id="anon-text">100% anonym · Kein Account nötig · Wissenschaftlich genutzt</span>
@@ -427,7 +468,7 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
 <!-- HOW IT WORKS -->
 <section class="how-section" id="how">
   <div class="section-eye" id="how-eye">Wie es funktioniert</div>
-  <h2 class="section-title" id="how-title">Dein Traum.<br><em>Weltweite Verbindung.</em></h2>
+  <h2 class="section-title" id="how-title"><span id="how-title-a">Dein Traum.</span><br><em id="how-title-em">Weltweite Verbindung.</em></h2>
   <p class="section-sub" id="how-sub">In 4 Schritten vom Traum zur wissenschaftlichen Erkenntnis.</p>
   <div class="how-grid">
     <div class="how-card">
@@ -456,50 +497,63 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
 <!-- RECENT DREAMS -->
 <section class="global-section">
   <div class="global-inner">
-    <div class="section-eye">Kürzlich eingereichte Träume</div>
-    <h2 class="section-title">Die Welt <em>träumt.</em></h2>
+    <div class="section-eye" id="recent-eye">Kürzlich eingereichte Träume</div>
+    <h2 class="section-title" id="recent-title"><span id="recent-title-pre">Die Welt </span><em id="recent-title-em">träumt.</em></h2>
     <div class="dreams-grid">
       <div class="dream-card">
         <div class="dream-quote">"Ich fiel endlos — ohne Boden, ohne Angst. Nur Stille."</div>
         <div class="dream-meta">
-          <span class="dream-lang">🇩🇪 Deutsch · vor 3 Min</span>
-          <span class="dream-matches">47.382 Matches</span>
+          <span class="dream-lang">🇩🇪 Deutsch · <span id="card-time-1">vor 3 Min</span></span>
+          <span class="dream-matches" id="card-match-1">47.382 Matches</span>
         </div>
       </div>
       <div class="dream-card">
         <div class="dream-quote">"I was flying over a city made of gold. Everyone I loved was there."</div>
         <div class="dream-meta">
-          <span class="dream-lang">🇬🇧 English · vor 7 Min</span>
-          <span class="dream-matches">52.107 Matches</span>
+          <span class="dream-lang">🇬🇧 English · <span id="card-time-2">vor 7 Min</span></span>
+          <span class="dream-matches" id="card-match-2">52.107 Matches</span>
         </div>
       </div>
       <div class="dream-card">
         <div class="dream-quote">"Dişlerim dökülüyordu ve kimse duymuyordu bağırdığımı."</div>
         <div class="dream-meta">
-          <span class="dream-lang">🇹🇷 Türkçe · vor 12 Min</span>
-          <span class="dream-matches">38.914 Matches</span>
+          <span class="dream-lang">🇹🇷 Türkçe · <span id="card-time-3">vor 12 Min</span></span>
+          <span class="dream-matches" id="card-match-3">38.914 Matches</span>
         </div>
       </div>
       <div class="dream-card">
         <div class="dream-quote">"رأيت نوراً يملأ الغرفة وصوتاً يناديني باسمي."</div>
         <div class="dream-meta">
-          <span class="dream-lang">🇸🇦 العربية · vor 18 Min</span>
-          <span class="dream-matches">29.441 Matches</span>
+          <span class="dream-lang">🇸🇦 العربية · <span id="card-time-4">vor 18 Min</span></span>
+          <span class="dream-matches" id="card-match-4">29.441 Matches</span>
         </div>
       </div>
       <div class="dream-card">
         <div class="dream-quote">"Estaba en una casa infinita con puertas que llevaban a otros mundos."</div>
         <div class="dream-meta">
-          <span class="dream-lang">🇪🇸 Español · vor 24 Min</span>
-          <span class="dream-matches">33.108 Matches</span>
+          <span class="dream-lang">🇪🇸 Español · <span id="card-time-5">vor 24 Min</span></span>
+          <span class="dream-matches" id="card-match-5">33.108 Matches</span>
         </div>
       </div>
       <div class="dream-card">
         <div class="dream-quote">"Je courais mais mes jambes ne bougeaient plus. Le temps s'arrêtait."</div>
         <div class="dream-meta">
-          <span class="dream-lang">🇫🇷 Français · vor 31 Min</span>
-          <span class="dream-matches">41.556 Matches</span>
+          <span class="dream-lang">🇫🇷 Français · <span id="card-time-6">vor 31 Min</span></span>
+          <span class="dream-matches" id="card-match-6">41.556 Matches</span>
         </div>
+      </div>
+    </div>
+
+    <!-- DREAM GLOBE -->
+    <div class="dream-globe-wrap">
+      <div class="dg-live">LIVE</div>
+      <svg id="sd-globe"></svg>
+      <div class="dg-stats">
+        <span><strong>39.075</strong> Träume</span>
+        <span>·</span>
+        <span><strong>15.776</strong> Teilnehmer</span>
+        <span>·</span>
+        <span><strong>99</strong> Studien</span>
       </div>
     </div>
   </div>
@@ -509,59 +563,52 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
 <section class="science-section">
   <div class="science-card">
     <div>
-      <div class="section-eye">Citizen Science</div>
-      <h2 class="science-title">Du bist Teil der<br><em>Traumforschung.</em></h2>
+      <div class="section-eye" id="sci-eye">Citizen Science</div>
+      <h2 class="science-title" id="sci-title"><span id="sci-title-a">Du bist Teil der</span><br><em id="sci-title-em">Traumforschung.</em></h2>
       <p class="science-text">
-        SameDream ist ein offenes Citizen-Science-Projekt — wie große Universitätsstudien,
-        aber für jeden zugänglich. Deine anonymen Traumberichte helfen Forschern weltweit,
-        universelle Muster des menschlichen Unterbewusstseins zu verstehen.
+        <span id="sci-p1">SameDream ist ein offenes Citizen-Science-Projekt — wie große Universitätsstudien, aber für jeden zugänglich. Deine anonymen Traumberichte helfen Forschern weltweit, universelle Muster des menschlichen Unterbewusstseins zu verstehen.</span>
       </p>
-      <p class="science-text">
-        Alle gesammelten Daten werden anonymisiert in die globale Traumdatenbank DreamAtlas.org
-        eingespeist und für wissenschaftliche Publikationen genutzt.
-      </p>
+      <p class="science-text" id="sci-p2">Alle gesammelten Daten werden anonymisiert in die globale Traumdatenbank DreamAtlas.org eingespeist und für wissenschaftliche Publikationen genutzt.</p>
       <div style="margin:24px 0;display:grid;gap:12px">
         <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
           <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">Hall &amp; Van de Castle (1966)</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5">Standardisiertes Codiersystem für Trauminhalt — Basis aller modernen Traumforschung</div>
+          <div id="hvdc-desc" style="font-size:13px;color:var(--t2);line-height:1.5">Standardisiertes Codiersystem für Trauminhalt — Basis aller modernen Traumforschung</div>
         </div>
         <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
           <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">SDDb — Sleep and Dream Database</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5">Über 25.000 wissenschaftlich kodierte Traumberichte · UC Santa Cruz · Bulkeley 2009</div>
+          <div id="sddb-desc" style="font-size:13px;color:var(--t2);line-height:1.5">Über 25.000 wissenschaftlich kodierte Traumberichte · UC Santa Cruz · Bulkeley 2009</div>
         </div>
         <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
           <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">DreamBank</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5">Öffentliche Traum-Textdatenbank · über 20.000 Berichte · Schneider &amp; Domhoff 1995</div>
+          <div id="dreambank-desc" style="font-size:13px;color:var(--t2);line-height:1.5">Öffentliche Traum-Textdatenbank · über 20.000 Berichte · Schneider &amp; Domhoff 1995</div>
         </div>
         <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
           <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">Schredl (2018) · Zentralinstitut für Seelische Gesundheit</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5">Longitudinale Traumtagebuch-Studien · Häufigkeit, Emotionen, Kontinuitätshypothese</div>
+          <div id="schredl-desc" style="font-size:13px;color:var(--t2);line-height:1.5">Longitudinale Traumtagebuch-Studien · Häufigkeit, Emotionen, Kontinuitätshypothese</div>
         </div>
         <div style="background:rgba(201,162,39,0.06);border:1px solid rgba(201,162,39,0.2);border-left:3px solid var(--gold2);padding:14px 18px;border-radius:4px">
           <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin-bottom:4px">Siclari et al. (2017) · Nature Neuroscience</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5">Neuronale Korrelate des Träumens via High-Density EEG — Hot Zone im posterioren Kortex</div>
+          <div id="siclari-desc" style="font-size:13px;color:var(--t2);line-height:1.5">Neuronale Korrelate des Träumens via High-Density EEG — Hot Zone im posterioren Kortex</div>
         </div>
       </div>
-      <a href="https://dreamcodeapp.vercel.app/forschung" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);text-decoration:none;">
-        Mehr über die Wissenschaft →
-      </a>
+      <a href="https://dreamcodeapp.vercel.app/forschung" id="sci-link" style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);text-decoration:none;">Mehr über die Wissenschaft →</a>
     </div>
     <div class="science-stats">
       <div class="sci-stat">
         <div class="sci-num">64.5K</div>
-        <div class="sci-label">Wissenschaftliche Forschungsberichte als Basis (SDDb, Dryad, DREAM Database)</div>
+        <div class="sci-label" id="stat-label-1">Wissenschaftliche Forschungsberichte als Basis (SDDb, Dryad, DREAM Database)</div>
       </div>
       <div class="sci-stat">
         <div class="sci-num">3</div>
-        <div class="sci-label">Peer-reviewed Datenbanken (Nature 2025, Royal Society 2020, CC-BY 4.0)</div>
+        <div class="sci-label" id="stat-label-2">Peer-reviewed Datenbanken (Nature 2025, Royal Society 2020, CC-BY 4.0)</div>
       </div>
       <div class="sci-stat">
         <div class="sci-num">60+</div>
-        <div class="sci-label">Jahre akademische Traumforschung als Grundlage</div>
+        <div class="sci-label" id="stat-label-3">Jahre akademische Traumforschung als Grundlage</div>
       </div>
       <div class="sci-stat">
         <div class="sci-num">∞</div>
-        <div class="sci-label">Deine Daten wachsen die Datenbank täglich — für alle Forscher zugänglich</div>
+        <div class="sci-label" id="stat-label-4">Deine Daten wachsen die Datenbank täglich — für alle Forscher zugänglich</div>
       </div>
     </div>
   </div>
@@ -573,52 +620,153 @@ footer{padding:48px 32px 32px;border-top:1px solid var(--border);
     <div class="footer-tagline">© 2026 DreamData Initiative · AssetsUN LLC</div>
   </div>
   <div class="footer-links">
-    <a href="https://dreamcodeapp.vercel.app">Traumcode App →</a>
-    <a href="https://dreamcodeapp.vercel.app/forschung">Wissenschaft</a>
-    <a href="https://dreamcodeapp.vercel.app/datenschutz">Datenschutz</a>
-    <a href="mailto:hello@dreamcodeapp.com">Kontakt</a>
+    <a href="https://dreamcodeapp.vercel.app" id="footer-app">Traumcode App →</a>
+    <a href="https://dreamcodeapp.vercel.app/forschung" id="footer-sci">Wissenschaft</a>
+    <a href="https://dreamcodeapp.vercel.app/datenschutz" id="footer-priv">Datenschutz</a>
+    <a href="mailto:hello@dreamcodeapp.com" id="footer-contact">Kontakt</a>
   </div>
-  <div class="footer-copy">
+  <div class="footer-copy" id="footer-copy">
     © 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Alle Traumberichte anonym & verschlüsselt
   </div>
 </footer>
 
 <script>
-// TRANSLATIONS
+// TRANSLATIONS — 22 languages
 const T = {
-  de:{badge:"Citizen Science Projekt · Globale Traumforschung",h1a:"Hast du das",h1b:"auch geträumt?",sub:"Erzähl uns deinen Traum — per Audio oder Text. Kostenlos. Anonym. Finde heraus wie viele Menschen weltweit dasselbe erlebt haben.",modeAudio:"Audio aufnehmen",modeText:"Text eingeben",recStatus:"Tippe um aufzunehmen",anon:"100% anonym · Kein Account nötig · Wissenschaftlich genutzt",submit:"Traum einreichen",successT:"Dein Traum wurde gespeichert",successS:"Vielen Dank für deinen Beitrag zur Traumforschung. Ähnliche Träume gefunden:",matchL:"Menschen hatten ähnliche Träume",ctaFull:"Vollständige Deutung →",ctaAnother:"Weiteren Traum einreichen",navCta:"App öffnen →"},
-  en:{badge:"Citizen Science Project · Global Dream Research",h1a:"Did you dream",h1b:"this too?",sub:"Tell us your dream — audio or text. Free. Anonymous. Discover how many people worldwide experienced the same.",modeAudio:"Record audio",modeText:"Type your dream",recStatus:"Tap to record",anon:"100% anonymous · No account needed · Used for science",submit:"Submit dream",successT:"Your dream was saved",successS:"Thank you for contributing to dream research. Similar dreams found:",matchL:"people had similar dreams",ctaFull:"Get full interpretation →",ctaAnother:"Submit another dream",navCta:"Open App →"},
-  tr:{badge:"Vatandaş Bilimi Projesi · Küresel Rüya Araştırması",h1a:"Sen de bunu",h1b:"rüyanda gördün mü?",sub:"Bize rüyanı anlat — sesli veya yazılı. Ücretsiz. Anonim. Dünyada kaç kişinin aynı şeyi gördüğünü öğren.",modeAudio:"Ses kaydı",modeText:"Metin yaz",recStatus:"Kaydetmek için dokun",anon:"Tamamen anonim · Hesap gerekmez · Bilimsel amaçlı",submit:"Rüyayı gönder",successT:"Rüyan kaydedildi",successS:"Rüya araştırmasına katkın için teşekkürler. Benzer rüyalar bulundu:",matchL:"kişi benzer rüyalar gördü",ctaFull:"Tam yorumu al →",ctaAnother:"Başka rüya gönder",navCta:"Uygulamayı aç →"},
-  ar:{badge:"مشروع علوم المواطن · أبحاث الأحلام العالمية",h1a:"هل حلمت",h1b:"بهذا أيضاً؟",sub:"أخبرنا بحلمك — بالصوت أو النص. مجاناً. بشكل مجهول. اكتشف كم شخصاً في العالم رأى نفس الشيء.",modeAudio:"تسجيل صوتي",modeText:"اكتب حلمك",recStatus:"انقر للتسجيل",anon:"مجهول الهوية تماماً · لا حساب مطلوب · للأغراض العلمية",submit:"إرسال الحلم",successT:"تم حفظ حلمك",successS:"شكراً لمساهمتك في أبحاث الأحلام. تم العثور على أحلام مشابهة:",matchL:"شخص رأى أحلاماً مشابهة",ctaFull:"احصل على التفسير الكامل ←",ctaAnother:"إرسال حلم آخر",navCta:"فتح التطبيق →"},
-  es:{badge:"Proyecto Ciencia Ciudadana · Investigación Global de Sueños",h1a:"¿Tú también",h1b:"soñaste esto?",sub:"Cuéntanos tu sueño — audio o texto. Gratis. Anónimo. Descubre cuántas personas en el mundo vivieron lo mismo.",modeAudio:"Grabar audio",modeText:"Escribir sueño",recStatus:"Toca para grabar",anon:"100% anónimo · Sin cuenta · Uso científico",submit:"Enviar sueño",successT:"Tu sueño fue guardado",successS:"Gracias por contribuir a la investigación. Sueños similares encontrados:",matchL:"personas tuvieron sueños similares",ctaFull:"Interpretación completa →",ctaAnother:"Enviar otro sueño",navCta:"Abrir App →"},
-  fr:{badge:"Science Citoyenne · Recherche Mondiale sur les Rêves",h1a:"Avez-vous aussi",h1b:"rêvé de ça?",sub:"Racontez-nous votre rêve — audio ou texte. Gratuit. Anonyme. Découvrez combien de personnes ont vécu la même chose.",modeAudio:"Enregistrer audio",modeText:"Écrire le rêve",recStatus:"Appuyez pour enregistrer",anon:"100% anonyme · Sans compte · Usage scientifique",submit:"Soumettre le rêve",successT:"Votre rêve a été sauvegardé",successS:"Merci pour votre contribution. Rêves similaires trouvés:",matchL:"personnes ont eu des rêves similaires",ctaFull:"Interprétation complète →",ctaAnother:"Soumettre un autre rêve",navCta:"Ouvrir l'App →"},
-  ru:{badge:"Гражданская наука · Глобальные исследования снов",h1a:"Тебе тоже",h1b:"приснилось это?",sub:"Расскажи нам свой сон — аудио или текст. Бесплатно. Анонимно. Узнай сколько людей в мире видели то же самое.",modeAudio:"Записать аудио",modeText:"Написать сон",recStatus:"Нажмите для записи",anon:"100% анонимно · Без аккаунта · Для науки",submit:"Отправить сон",successT:"Твой сон сохранён",successS:"Спасибо за вклад в исследование снов. Похожие сны найдены:",matchL:"человек видели похожие сны",ctaFull:"Полная интерпретация →",ctaAnother:"Отправить ещё сон",navCta:"Открыть приложение →"},
-  zh:{badge:"公民科学项目 · 全球梦境研究",h1a:"你也梦到",h1b:"这个了吗？",sub:"告诉我们你的梦——语音或文字。免费。匿名。发现全世界有多少人做了同样的梦。",modeAudio:"录制音频",modeText:"输入梦境",recStatus:"点击开始录音",anon:"100%匿名 · 无需账号 · 用于科学研究",submit:"提交梦境",successT:"你的梦已保存",successS:"感谢你对梦境研究的贡献。找到相似梦境：",matchL:"人有过相似的梦",ctaFull:"获取完整解析 →",ctaAnother:"提交另一个梦",navCta:"打开应用 →"}
+  de:{badge:"Citizen Science Projekt · Globale Traumforschung",h1a:"Hast du das",h1b:"auch geträumt?",sub:"Erzähl uns deinen Traum — per Audio oder Text. Kostenlos. Anonym. Finde heraus wie viele Menschen weltweit dasselbe erlebt haben.",modeAudio:"Audio aufnehmen",modeText:"Text eingeben",recStatus:"Tippe um aufzunehmen",recLive:"🔴 Live-Transkription läuft...",recPaused:"⏸ Pausiert — Text korrigieren, dann Weiter",recDone:"✓ Aufnahme beendet",recUseD:"✓ Text übernommen",recErr:"⚠️ Browser unterstützt kein Mikrofon — bitte Text-Modus nutzen",pauseBtn:"⏸ Pause zum Korrigieren",resumeBtn:"▶ Weiter",useBtn:"✓ Übernehmen",anon:"100% anonym · Kein Account nötig · Wissenschaftlich genutzt",submit:"Traum einreichen",navCta:"App öffnen →",stat1l:"Träume erfasst",stat2l:"Länder",stat3l:"Sprachen",stat4l:"Forschungs-DBs",howEye:"Wie es funktioniert",howTitleA:"Dein Traum.",howTitleEm:"Weltweite Verbindung.",howSub:"In 4 Schritten vom Traum zur wissenschaftlichen Erkenntnis.",how1t:"Du erzählst",how1b:"Audio oder Text — in deiner Sprache. Kein Account. Keine E-Mail. Anonym.",how2t:"KI analysiert",how2b:"Unsere KI erkennt Symbole, Emotionen und narrative Muster in deinem Traum.",how3t:"Globaler Abgleich",how3b:"Dein Traum wird mit 64.500+ Forschungsberichten verglichen.",how4t:"Verbindung",how4b:"Du siehst wie viele Menschen weltweit dasselbe geträumt haben.",sciEye:"Citizen Science",sciTitleA:"Du bist Teil der",sciTitleEm:"Traumforschung.",sciP1:"SameDream ist ein offenes Citizen-Science-Projekt. Deine anonymen Traumberichte helfen Forschern weltweit, universelle Muster des menschlichen Unterbewusstseins zu verstehen.",sciLink:"Mehr über die Wissenschaft →",recentEye:"Kürzlich eingereichte Träume",recentTitlePre:"Die Welt ",recentTitleEm:"träumt.",placeholder:"Beschreibe deinen Traum so detailliert wie möglich — Gefühle, Orte, Personen, Symbole...",charLabel:"Zeichen",successT:"Dein Traum wurde gespeichert",successS:"Vielen Dank für deinen Beitrag zur Traumforschung. Ähnliche Träume gefunden:",matchL:"Menschen hatten ähnliche Träume",successIn:"— in 34 Ländern",ctaFull:"Vollständige Deutung →",ctaAnother:"Weiteren Traum einreichen",footerApp:"Traumcode App →",footerSci:"Wissenschaft",footerPriv:"Datenschutz",footerContact:"Kontakt",metaTitle:"SameDream — Hast du das auch geträumt?",metaDesc:"Teile deinen Traum. Finde Menschen weltweit die dasselbe geträumt haben.",sciP2:"Alle gesammelten Daten werden anonymisiert in die globale Traumdatenbank DreamAtlas.org eingespeist und für wissenschaftliche Publikationen genutzt.",hvdcDesc:"Standardisiertes Codiersystem für Trauminhalt — Basis aller modernen Traumforschung",sddbDesc:"Über 25.000 wissenschaftlich kodierte Traumberichte · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Öffentliche Traum-Textdatenbank · über 20.000 Berichte · Schneider & Domhoff 1995",schredlDesc:"Longitudinale Traumtagebuch-Studien · Häufigkeit, Emotionen, Kontinuitätshypothese",siclariDesc:"Neuronale Korrelate des Träumens via High-Density EEG — Hot Zone im posterioren Kortex",statReports:"Wissenschaftliche Forschungsberichte als Basis (SDDb, Dryad, DREAM Database)",statPeer:"Peer-reviewed Datenbanken (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Jahre akademische Traumforschung als Grundlage",statGrowing:"Deine Daten wachsen die Datenbank täglich — für alle Forscher zugänglich",timeAgoMin:"vor %d Min",matchesWord:"Matches",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Alle Traumberichte anonym & verschlüsselt"},
+  en:{badge:"Citizen Science Project · Global Dream Research",h1a:"Did you dream",h1b:"this too?",sub:"Tell us your dream — audio or text. Free. Anonymous. Discover how many people worldwide experienced the same.",modeAudio:"Record audio",modeText:"Type your dream",recStatus:"Tap to record",recLive:"🔴 Live transcription running...",recPaused:"⏸ Paused — edit text, then Resume",recDone:"✓ Recording ended",recUseD:"✓ Text transferred",recErr:"⚠️ Browser does not support microphone — please use text mode",pauseBtn:"⏸ Pause to edit",resumeBtn:"▶ Resume",useBtn:"✓ Use text",anon:"100% anonymous · No account needed · Used for science",submit:"Submit dream",navCta:"Open App →",stat1l:"Dreams recorded",stat2l:"Countries",stat3l:"Languages",stat4l:"Research DBs",howEye:"How it works",howTitleA:"Your Dream.",howTitleEm:"Global Connection.",howSub:"4 steps from dream to scientific discovery.",how1t:"You share",how1b:"Audio or text — in your language. No account. No email. Anonymous.",how2t:"AI analyzes",how2b:"Our AI detects symbols, emotions and narrative patterns in your dream.",how3t:"Global match",how3b:"Your dream is compared with 64,500+ research reports.",how4t:"Connection",how4b:"See how many people worldwide dreamed the same thing.",sciEye:"Citizen Science",sciTitleA:"You are part of",sciTitleEm:"dream research.",sciP1:"SameDream is an open citizen science project. Your anonymous dream reports help researchers worldwide understand universal patterns of the human subconscious.",sciLink:"Learn more about the science →",recentEye:"Recently submitted dreams",recentTitlePre:"The World ",recentTitleEm:"dreams.",placeholder:"Describe your dream in as much detail as possible — feelings, places, people, symbols...",charLabel:"characters",successT:"Your dream was saved",successS:"Thank you for contributing to dream research. Similar dreams found:",matchL:"people had similar dreams",successIn:"— in 34 countries",ctaFull:"Get full interpretation →",ctaAnother:"Submit another dream",footerApp:"Dreamcode App →",footerSci:"Science",footerPriv:"Privacy",footerContact:"Contact",metaTitle:"SameDream — Did you dream this too?",metaDesc:"Share your dream. Find people worldwide who dreamed the same. Citizen science dream research project.",sciP2:"All collected data is anonymized and fed into the global dream database DreamAtlas.org and used for scientific publications.",hvdcDesc:"Standardized coding system for dream content — the foundation of all modern dream research",sddbDesc:"Over 25,000 scientifically coded dream reports · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Public dream text database · over 20,000 reports · Schneider & Domhoff 1995",schredlDesc:"Longitudinal dream diary studies · frequency, emotions, continuity hypothesis",siclariDesc:"Neural correlates of dreaming via high-density EEG — hot zone in posterior cortex",statReports:"Scientific research reports as the basis (SDDb, Dryad, DREAM Database)",statPeer:"Peer-reviewed databases (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Years of academic dream research as the foundation",statGrowing:"Your data grows the database daily — accessible to all researchers",timeAgoMin:"%d min ago",matchesWord:"Matches",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · All dream reports anonymous & encrypted"},
+  tr:{badge:"Vatandaş Bilimi Projesi · Küresel Rüya Araştırması",h1a:"Sen de bunu",h1b:"rüyanda gördün mü?",sub:"Bize rüyanı anlat — sesli veya yazılı. Ücretsiz. Anonim. Dünyada kaç kişinin aynı şeyi gördüğünü öğren.",modeAudio:"Ses kaydı",modeText:"Metin yaz",recStatus:"Kaydetmek için dokun",recLive:"🔴 Canlı transkripsiyon devam ediyor...",recPaused:"⏸ Duraklatıldı — metni düzenle, sonra Devam",recDone:"✓ Kayıt tamamlandı",recUseD:"✓ Metin aktarıldı",recErr:"⚠️ Tarayıcı mikrofonu desteklemiyor — metin modunu kullan",pauseBtn:"⏸ Düzenlemek için durdur",resumeBtn:"▶ Devam",useBtn:"✓ Metni kullan",anon:"Tamamen anonim · Hesap gerekmez · Bilimsel amaçlı",submit:"Rüyayı gönder",navCta:"Uygulamayı aç →",stat1l:"Kaydedilen rüya",stat2l:"Ülke",stat3l:"Dil",stat4l:"Araştırma DBs",howEye:"Nasıl çalışır",howTitleA:"Senin Rüyan.",howTitleEm:"Küresel Bağlantı.",howSub:"Rüyadan bilimsel keşfe 4 adımda.",how1t:"Sen anlatırsın",how1b:"Sesli veya yazılı — kendi dilinde. Hesap yok. E-posta yok. Anonim.",how2t:"YZ analiz eder",how2b:"YZ'miz rüyadaki sembolleri, duyguları ve anlatı örüntülerini tanır.",how3t:"Küresel eşleşme",how3b:"Rüyan 64.500+ araştırma raporuyla karşılaştırılır.",how4t:"Bağlantı",how4b:"Dünyada kaç kişinin aynı şeyi rüyasında gördüğünü görürsün.",sciEye:"Vatandaş Bilimi",sciTitleA:"Rüya araştırmasının",sciTitleEm:"bir parçasısın.",sciP1:"SameDream açık bir vatandaş bilimi projesidir. Anonim rüya raporların, dünya çapındaki araştırmacıların insan bilinçaltının evrensel örüntülerini anlamasına yardımcı olur.",sciLink:"Bilim hakkında daha fazla →",recentEye:"Son gönderilen rüyalar",recentTitlePre:"Dünya ",recentTitleEm:"rüya görüyor.",placeholder:"Rüyanı mümkün olduğunca ayrıntılı anlat — duygular, yerler, kişiler, semboller...",charLabel:"karakter",successT:"Rüyan kaydedildi",successS:"Rüya araştırmasına katkın için teşekkürler. Benzer rüyalar bulundu:",matchL:"kişi benzer rüyalar gördü",successIn:"— 34 ülkede",ctaFull:"Tam yorumu al →",ctaAnother:"Başka rüya gönder",footerApp:"Traumcode Uygulaması →",footerSci:"Bilim",footerPriv:"Gizlilik",footerContact:"İletişim",metaTitle:"SameDream — Sen de bunu rüyanda gördün mü?",metaDesc:"Rüyanı paylaş. Aynı şeyi rüyasında gören insanları dünya genelinde bul.",sciP2:"Toplanan tüm veriler anonimleştirilerek küresel rüya veri tabanı DreamAtlas.org'a aktarılır ve bilimsel yayınlarda kullanılır.",hvdcDesc:"Rüya içeriği için standardize kodlama sistemi — tüm modern rüya araştırmasının temeli",sddbDesc:"25.000'den fazla bilimsel olarak kodlanmış rüya raporu · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Kamuya açık rüya metin veri tabanı · 20.000'den fazla rapor · Schneider & Domhoff 1995",schredlDesc:"Boylamsal rüya günlüğü çalışmaları · sıklık, duygular, süreklilik hipotezi",siclariDesc:"Yüksek yoğunluklu EEG ile rüyanın nöral korelatları — arka korteksteki sıcak bölge",statReports:"Bilimsel araştırma raporları temel olarak (SDDb, Dryad, DREAM Database)",statPeer:"Hakemli veri tabanları (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Temel olarak akademik rüya araştırması yılları",statGrowing:"Verileriniz veri tabanını her gün büyütüyor — tüm araştırmacılara açık",timeAgoMin:"%d dk önce",matchesWord:"Eşleşme",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Tüm rüya raporları anonim & şifreli"},
+  ar:{badge:"مشروع علوم المواطن · أبحاث الأحلام العالمية",h1a:"هل حلمت",h1b:"بهذا أيضاً؟",sub:"أخبرنا بحلمك — بالصوت أو النص. مجاناً. بشكل مجهول. اكتشف كم شخصاً في العالم رأى نفس الشيء.",modeAudio:"تسجيل صوتي",modeText:"اكتب حلمك",recStatus:"انقر للتسجيل",recLive:"🔴 النسخ المباشر يعمل...",recPaused:"⏸ متوقف — عدّل النص ثم تابع",recDone:"✓ انتهى التسجيل",recUseD:"✓ تم نقل النص",recErr:"⚠️ المتصفح لا يدعم الميكروفون — استخدم وضع النص",pauseBtn:"⏸ إيقاف مؤقت للتعديل",resumeBtn:"▶ متابعة",useBtn:"✓ استخدم النص",anon:"مجهول الهوية تماماً · لا حساب مطلوب · للأغراض العلمية",submit:"إرسال الحلم",navCta:"فتح التطبيق ←",stat1l:"أحلام مسجلة",stat2l:"دولة",stat3l:"لغة",stat4l:"قواعد بحثية",howEye:"كيف يعمل",howTitleA:"حلمك.",howTitleEm:"اتصال عالمي.",howSub:"٤ خطوات من الحلم إلى الاكتشاف العلمي.",how1t:"تحكي",how1b:"صوت أو نص — بلغتك. بدون حساب. بدون بريد إلكتروني. مجهول.",how2t:"الذكاء الاصطناعي يحلل",how2b:"يتعرف ذكاؤنا الاصطناعي على الرموز والمشاعر والأنماط في حلمك.",how3t:"مطابقة عالمية",how3b:"يُقارن حلمك مع أكثر من 64.500 تقرير بحثي.",how4t:"التواصل",how4b:"ترى كم شخصاً في العالم رأى نفس الحلم.",sciEye:"علوم المواطن",sciTitleA:"أنت جزء من",sciTitleEm:"أبحاث الأحلام.",sciP1:"SameDream مشروع علوم مواطن مفتوح. تساعد تقارير أحلامك المجهولة الباحثين في العالم على فهم الأنماط الكونية للعقل الباطن.",sciLink:"اعرف أكثر عن العلم ←",recentEye:"أحلام مقدمة مؤخراً",recentTitlePre:"العالم ",recentTitleEm:"يحلم.",placeholder:"صف حلمك بأكبر قدر من التفاصيل — المشاعر، الأماكن، الأشخاص، الرموز...",charLabel:"حرف",successT:"تم حفظ حلمك",successS:"شكراً لمساهمتك في أبحاث الأحلام. تم العثور على أحلام مشابهة:",matchL:"شخص رأى أحلاماً مشابهة",successIn:"— في 34 دولة",ctaFull:"احصل على التفسير الكامل ←",ctaAnother:"إرسال حلم آخر",footerApp:"تطبيق Traumcode ←",footerSci:"العلوم",footerPriv:"الخصوصية",footerContact:"تواصل",metaTitle:"SameDream — هل حلمت بهذا أيضاً؟",metaDesc:"شارك حلمك. ابحث عن أشخاص في جميع أنحاء العالم رأوا نفس الحلم.",sciP2:"يتم تجميع جميع البيانات المجمعة بشكل مجهول في قاعدة البيانات العالمية للأحلام DreamAtlas.org واستخدامها في المنشورات العلمية.",hvdcDesc:"نظام تشفير موحد لمحتوى الأحلام — أساس كل أبحاث الأحلام الحديثة",sddbDesc:"أكثر من 25.000 تقرير حلم مشفر علمياً · جامعة كاليفورنيا سانتا كروز · بولكلي 2009",dreambankDesc:"قاعدة بيانات نصية للأحلام متاحة للجمهور · أكثر من 20.000 تقرير · شنايدر ودومهوف 1995",schredlDesc:"دراسات مجلات الأحلام الطولية · التكرار والمشاعر وفرضية الاستمرارية",siclariDesc:"الارتباطات العصبية للأحلام عبر EEG عالي الكثافة — المنطقة الساخنة في القشرة الخلفية",statReports:"تقارير البحث العلمي كأساس (SDDb, Dryad, DREAM Database)",statPeer:"قواعد بيانات محكّمة (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"سنوات من البحث الأكاديمي في الأحلام كأساس",statGrowing:"بياناتك تنمي قاعدة البيانات يومياً — متاحة لجميع الباحثين",timeAgoMin:"منذ %d دقيقة",matchesWord:"تطابق",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · جميع تقارير الأحلام مجهولة & مشفرة"},
+  es:{badge:"Proyecto Ciencia Ciudadana · Investigación Global de Sueños",h1a:"¿Tú también",h1b:"soñaste esto?",sub:"Cuéntanos tu sueño — audio o texto. Gratis. Anónimo. Descubre cuántas personas en el mundo vivieron lo mismo.",modeAudio:"Grabar audio",modeText:"Escribir sueño",recStatus:"Toca para grabar",recLive:"🔴 Transcripción en vivo...",recPaused:"⏸ Pausado — edita el texto, luego Continuar",recDone:"✓ Grabación finalizada",recUseD:"✓ Texto transferido",recErr:"⚠️ El navegador no soporta micrófono — usa el modo de texto",pauseBtn:"⏸ Pausar para editar",resumeBtn:"▶ Continuar",useBtn:"✓ Usar texto",anon:"100% anónimo · Sin cuenta · Uso científico",submit:"Enviar sueño",navCta:"Abrir App →",stat1l:"Sueños registrados",stat2l:"Países",stat3l:"Idiomas",stat4l:"DBs de investigación",howEye:"Cómo funciona",howTitleA:"Tu sueño.",howTitleEm:"Conexión mundial.",howSub:"4 pasos del sueño al descubrimiento científico.",how1t:"Tú cuentas",how1b:"Audio o texto — en tu idioma. Sin cuenta. Sin email. Anónimo.",how2t:"La IA analiza",how2b:"Nuestra IA detecta símbolos, emociones y patrones narrativos en tu sueño.",how3t:"Comparación global",how3b:"Tu sueño se compara con más de 64.500 informes de investigación.",how4t:"Conexión",how4b:"Ves cuántas personas en el mundo soñaron lo mismo.",sciEye:"Ciencia Ciudadana",sciTitleA:"Eres parte de la",sciTitleEm:"investigación onírica.",sciP1:"SameDream es un proyecto abierto de ciencia ciudadana. Tus informes de sueños anónimos ayudan a investigadores de todo el mundo a comprender patrones universales del subconsciente humano.",sciLink:"Más sobre la ciencia →",recentEye:"Sueños enviados recientemente",recentTitlePre:"El mundo ",recentTitleEm:"sueña.",placeholder:"Describe tu sueño con el mayor detalle posible — sentimientos, lugares, personas, símbolos...",charLabel:"caracteres",successT:"Tu sueño fue guardado",successS:"Gracias por contribuir a la investigación. Sueños similares encontrados:",matchL:"personas tuvieron sueños similares",successIn:"— en 34 países",ctaFull:"Interpretación completa →",ctaAnother:"Enviar otro sueño",footerApp:"App Traumcode →",footerSci:"Ciencia",footerPriv:"Privacidad",footerContact:"Contacto",metaTitle:"SameDream — ¿Tú también soñaste esto?",metaDesc:"Comparte tu sueño. Encuentra personas en todo el mundo que soñaron lo mismo.",sciP2:"Todos los datos recopilados son anonimizados y se incorporan a la base de datos global de sueños DreamAtlas.org para su uso en publicaciones científicas.",hvdcDesc:"Sistema de codificación estandarizado para el contenido onírico — base de toda la investigación moderna sobre sueños",sddbDesc:"Más de 25.000 informes de sueños codificados científicamente · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Base de datos pública de textos de sueños · más de 20.000 informes · Schneider & Domhoff 1995",schredlDesc:"Estudios longitudinales de diario de sueños · frecuencia, emociones, hipótesis de continuidad",siclariDesc:"Correlatos neurales del sueño mediante EEG de alta densidad — zona caliente en córtex posterior",statReports:"Informes científicos como base (SDDb, Dryad, DREAM Database)",statPeer:"Bases de datos revisadas por pares (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Años de investigación académica sobre sueños como base",statGrowing:"Tus datos hacen crecer la base de datos diariamente — accesible a todos los investigadores",timeAgoMin:"hace %d min",matchesWord:"Coincidencias",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Todos los informes de sueños anónimos & cifrados"},
+  fr:{badge:"Science Citoyenne · Recherche Mondiale sur les Rêves",h1a:"Avez-vous aussi",h1b:"rêvé de ça?",sub:"Racontez-nous votre rêve — audio ou texte. Gratuit. Anonyme. Découvrez combien de personnes ont vécu la même chose.",modeAudio:"Enregistrer audio",modeText:"Écrire le rêve",recStatus:"Appuyez pour enregistrer",recLive:"🔴 Transcription en direct...",recPaused:"⏸ En pause — modifier le texte, puis Reprendre",recDone:"✓ Enregistrement terminé",recUseD:"✓ Texte transféré",recErr:"⚠️ Le navigateur ne supporte pas le microphone — utiliser le mode texte",pauseBtn:"⏸ Pause pour modifier",resumeBtn:"▶ Reprendre",useBtn:"✓ Utiliser le texte",anon:"100% anonyme · Sans compte · Usage scientifique",submit:"Soumettre le rêve",navCta:"Ouvrir l'App →",stat1l:"Rêves enregistrés",stat2l:"Pays",stat3l:"Langues",stat4l:"BDs de recherche",howEye:"Comment ça marche",howTitleA:"Ton rêve.",howTitleEm:"Connexion mondiale.",howSub:"4 étapes du rêve à la découverte scientifique.",how1t:"Tu racontes",how1b:"Audio ou texte — dans ta langue. Sans compte. Sans email. Anonyme.",how2t:"L'IA analyse",how2b:"Notre IA détecte symboles, émotions et schémas narratifs dans ton rêve.",how3t:"Comparaison globale",how3b:"Ton rêve est comparé à plus de 64 500 rapports de recherche.",how4t:"Connexion",how4b:"Tu vois combien de personnes dans le monde ont rêvé la même chose.",sciEye:"Science Citoyenne",sciTitleA:"Tu fais partie de la",sciTitleEm:"recherche sur les rêves.",sciP1:"SameDream est un projet de science citoyenne ouvert. Tes rapports de rêves anonymes aident les chercheurs du monde entier à comprendre les schémas universels de l'inconscient humain.",sciLink:"En savoir plus sur la science →",recentEye:"Rêves soumis récemment",recentTitlePre:"Le monde ",recentTitleEm:"rêve.",placeholder:"Décris ton rêve avec autant de détails que possible — émotions, lieux, personnes, symboles...",charLabel:"caractères",successT:"Votre rêve a été sauvegardé",successS:"Merci pour votre contribution. Rêves similaires trouvés:",matchL:"personnes ont eu des rêves similaires",successIn:"— dans 34 pays",ctaFull:"Interprétation complète →",ctaAnother:"Soumettre un autre rêve",footerApp:"App Traumcode →",footerSci:"Science",footerPriv:"Confidentialité",footerContact:"Contact",metaTitle:"SameDream — Avez-vous aussi rêvé de ça?",metaDesc:"Partagez votre rêve. Trouvez des personnes dans le monde entier qui ont rêvé la même chose.",sciP2:"Toutes les données collectées sont anonymisées et intégrées dans la base de données mondiale des rêves DreamAtlas.org pour être utilisées dans des publications scientifiques.",hvdcDesc:"Système de codage standardisé du contenu des rêves — fondement de toute recherche moderne sur les rêves",sddbDesc:"Plus de 25 000 rapports de rêves codés scientifiquement · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Base de données publique de textes de rêves · plus de 20 000 rapports · Schneider & Domhoff 1995",schredlDesc:"Études longitudinales de journaux de rêves · fréquence, émotions, hypothèse de continuité",siclariDesc:"Corrélats neuronaux du rêve via EEG haute densité — zone chaude dans le cortex postérieur",statReports:"Rapports de recherche scientifique comme base (SDDb, Dryad, DREAM Database)",statPeer:"Bases de données évaluées par les pairs (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Années de recherche académique sur les rêves comme fondement",statGrowing:"Vos données font croître la base de données quotidiennement — accessible à tous les chercheurs",timeAgoMin:"il y a %d min",matchesWord:"Correspondances",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Tous les rapports de rêves anonymes & chiffrés"},
+  ru:{badge:"Гражданская наука · Глобальные исследования снов",h1a:"Тебе тоже",h1b:"приснилось это?",sub:"Расскажи нам свой сон — аудио или текст. Бесплатно. Анонимно. Узнай сколько людей в мире видели то же самое.",modeAudio:"Записать аудио",modeText:"Написать сон",recStatus:"Нажмите для записи",recLive:"🔴 Живая транскрипция...",recPaused:"⏸ Пауза — редактируйте текст, затем Продолжить",recDone:"✓ Запись завершена",recUseD:"✓ Текст перенесён",recErr:"⚠️ Браузер не поддерживает микрофон — используйте текстовый режим",pauseBtn:"⏸ Пауза для редактирования",resumeBtn:"▶ Продолжить",useBtn:"✓ Использовать текст",anon:"100% анонимно · Без аккаунта · Для науки",submit:"Отправить сон",navCta:"Открыть приложение →",stat1l:"Снов записано",stat2l:"Стран",stat3l:"Языков",stat4l:"Исслед. БД",howEye:"Как это работает",howTitleA:"Твой сон.",howTitleEm:"Мировая связь.",howSub:"4 шага от сна к научному открытию.",how1t:"Ты рассказываешь",how1b:"Аудио или текст — на твоём языке. Без аккаунта. Без email. Анонимно.",how2t:"ИИ анализирует",how2b:"Наш ИИ распознаёт символы, эмоции и нарративные паттерны в твоём сне.",how3t:"Глобальное сравнение",how3b:"Твой сон сравнивается с 64 500+ исследовательскими отчётами.",how4t:"Связь",how4b:"Ты видишь, сколько людей в мире видели тот же сон.",sciEye:"Гражданская наука",sciTitleA:"Ты часть",sciTitleEm:"исследования снов.",sciP1:"SameDream — открытый проект гражданской науки. Твои анонимные записи снов помогают учёным по всему миру понять универсальные паттерны человеческого подсознания.",sciLink:"Подробнее о науке →",recentEye:"Недавно отправленные сны",recentTitlePre:"Мир ",recentTitleEm:"видит сны.",placeholder:"Опиши свой сон максимально подробно — чувства, места, люди, символы...",charLabel:"символов",successT:"Твой сон сохранён",successS:"Спасибо за вклад в исследование снов. Похожие сны найдены:",matchL:"человек видели похожие сны",successIn:"— в 34 странах",ctaFull:"Полная интерпретация →",ctaAnother:"Отправить ещё сон",footerApp:"Приложение Traumcode →",footerSci:"Наука",footerPriv:"Конфиденциальность",footerContact:"Контакт",metaTitle:"SameDream — Тебе тоже приснилось это?",metaDesc:"Поделись своим сном. Найди людей по всему миру, которым приснилось то же самое.",sciP2:"Все собранные данные анонимизируются и передаются в глобальную базу данных снов DreamAtlas.org для использования в научных публикациях.",hvdcDesc:"Стандартизированная система кодирования содержания снов — основа всех современных исследований сновидений",sddbDesc:"Более 25 000 научно закодированных отчётов о снах · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Публичная текстовая база данных снов · более 20 000 отчётов · Schneider & Domhoff 1995",schredlDesc:"Лонгитюдные исследования дневников снов · частота, эмоции, гипотеза непрерывности",siclariDesc:"Нейронные корреляты сновидений через высокоплотную ЭЭГ — горячая зона в задней коре",statReports:"Научные исследовательские отчёты как основа (SDDb, Dryad, DREAM Database)",statPeer:"Рецензируемые базы данных (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Лет академических исследований снов в качестве основы",statGrowing:"Ваши данные пополняют базу данных ежедневно — доступна всем исследователям",timeAgoMin:"%d мин назад",matchesWord:"Совпадений",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Все отчёты о снах анонимны & зашифрованы"},
+  zh:{badge:"公民科学项目 · 全球梦境研究",h1a:"你也梦到",h1b:"这个了吗？",sub:"告诉我们你的梦——语音或文字。免费。匿名。发现全世界有多少人做了同样的梦。",modeAudio:"录制音频",modeText:"输入梦境",recStatus:"点击开始录音",recLive:"🔴 实时转录中...",recPaused:"⏸ 已暂停 — 编辑文字后继续",recDone:"✓ 录音结束",recUseD:"✓ 文字已转移",recErr:"⚠️ 浏览器不支持麦克风 — 请使用文字模式",pauseBtn:"⏸ 暂停编辑",resumeBtn:"▶ 继续",useBtn:"✓ 使用文字",anon:"100%匿名 · 无需账号 · 用于科学研究",submit:"提交梦境",navCta:"打开应用 →",stat1l:"梦境记录数",stat2l:"国家",stat3l:"语言",stat4l:"研究数据库",howEye:"工作原理",howTitleA:"你的梦。",howTitleEm:"全球联结。",howSub:"4步从梦境到科学发现。",how1t:"你讲述",how1b:"语音或文字——用你的语言。无需账号。无需邮箱。匿名。",how2t:"AI分析",how2b:"我们的AI识别梦境中的符号、情感和叙事模式。",how3t:"全球匹配",how3b:"你的梦与64,500+份研究报告进行比对。",how4t:"联结",how4b:"你会看到全世界有多少人做了同样的梦。",sciEye:"公民科学",sciTitleA:"你是",sciTitleEm:"梦境研究的一部分。",sciP1:"SameDream是一个开放的公民科学项目。你的匿名梦境报告帮助全球研究人员了解人类潜意识的普遍规律。",sciLink:"了解更多科学内容 →",recentEye:"最近提交的梦境",recentTitlePre:"世界在",recentTitleEm:"做梦。",placeholder:"尽可能详细描述你的梦——感受、地点、人物、符号……",charLabel:"字",successT:"你的梦已保存",successS:"感谢你对梦境研究的贡献。找到相似梦境：",matchL:"人有过相似的梦",successIn:"— 来自34个国家",ctaFull:"获取完整解析 →",ctaAnother:"提交另一个梦",footerApp:"Traumcode应用 →",footerSci:"科学",footerPriv:"隐私",footerContact:"联系",metaTitle:"SameDream — 你也梦到这个了吗？",metaDesc:"分享你的梦境。找到全世界做了同样梦的人。",sciP2:"所有收集的数据将被匿名化，输入全球梦境数据库DreamAtlas.org，用于科学出版物。",hvdcDesc:"标准化梦境内容编码系统——所有现代梦境研究的基础",sddbDesc:"超过25,000份科学编码的梦境报告 · 加州大学圣克鲁斯分校 · Bulkeley 2009",dreambankDesc:"公开梦境文本数据库 · 超过20,000份报告 · Schneider & Domhoff 1995",schredlDesc:"纵向梦境日记研究 · 频率、情绪、连续性假说",siclariDesc:"通过高密度EEG研究梦境的神经相关 — 后皮层热区",statReports:"作为基础的科学研究报告 (SDDb, Dryad, DREAM Database)",statPeer:"同行评审数据库 (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"学术梦境研究年份作为基础",statGrowing:"您的数据每天使数据库增长——对所有研究人员开放",timeAgoMin:"%d 分钟前",matchesWord:"匹配",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · 所有梦境报告匿名且加密"},
+  pt:{badge:"Projeto de Ciência Cidadã · Pesquisa Global de Sonhos",h1a:"Você também",h1b:"sonhou com isso?",sub:"Conte-nos seu sonho — áudio ou texto. Grátis. Anônimo. Descubra quantas pessoas no mundo tiveram a mesma experiência.",modeAudio:"Gravar áudio",modeText:"Escrever sonho",recStatus:"Toque para gravar",recLive:"🔴 Transcrição ao vivo...",recPaused:"⏸ Pausado — edite o texto, depois Continuar",recDone:"✓ Gravação encerrada",recUseD:"✓ Texto transferido",recErr:"⚠️ Navegador não suporta microfone — use o modo de texto",pauseBtn:"⏸ Pausar para editar",resumeBtn:"▶ Continuar",useBtn:"✓ Usar texto",anon:"100% anônimo · Sem conta · Uso científico",submit:"Enviar sonho",navCta:"Abrir App →",stat1l:"Sonhos registrados",stat2l:"Países",stat3l:"Idiomas",stat4l:"DBs de pesquisa",howEye:"Como funciona",howTitleA:"Seu sonho.",howTitleEm:"Conexão global.",howSub:"4 passos do sonho à descoberta científica.",how1t:"Você conta",how1b:"Áudio ou texto — no seu idioma. Sem conta. Sem email. Anônimo.",how2t:"A IA analisa",how2b:"Nossa IA detecta símbolos, emoções e padrões narrativos no seu sonho.",how3t:"Comparação global",how3b:"Seu sonho é comparado com mais de 64.500 relatórios de pesquisa.",how4t:"Conexão",how4b:"Você vê quantas pessoas no mundo sonharam a mesma coisa.",sciEye:"Ciência Cidadã",sciTitleA:"Você faz parte da",sciTitleEm:"pesquisa de sonhos.",sciP1:"SameDream é um projeto aberto de ciência cidadã. Seus relatórios de sonhos anônimos ajudam pesquisadores em todo o mundo a entender padrões universais do subconsciente humano.",sciLink:"Mais sobre a ciência →",recentEye:"Sonhos enviados recentemente",recentTitlePre:"O mundo ",recentTitleEm:"sonha.",placeholder:"Descreva seu sonho com o máximo de detalhes — sentimentos, lugares, pessoas, símbolos...",charLabel:"caracteres",successT:"Seu sonho foi salvo",successS:"Obrigado pela contribuição à pesquisa. Sonhos semelhantes encontrados:",matchL:"pessoas tiveram sonhos semelhantes",successIn:"— em 34 países",ctaFull:"Interpretação completa →",ctaAnother:"Enviar outro sonho",footerApp:"App Traumcode →",footerSci:"Ciência",footerPriv:"Privacidade",footerContact:"Contato",metaTitle:"SameDream — Você também sonhou com isso?",metaDesc:"Compartilhe seu sonho. Encontre pessoas em todo o mundo que sonharam a mesma coisa.",sciP2:"Todos os dados coletados são anonimizados e inseridos na base de dados global de sonhos DreamAtlas.org para uso em publicações científicas.",hvdcDesc:"Sistema de codificação padronizado para conteúdo onírico — base de toda a pesquisa moderna sobre sonhos",sddbDesc:"Mais de 25.000 relatórios de sonhos codificados cientificamente · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Base de dados pública de textos de sonhos · mais de 20.000 relatórios · Schneider & Domhoff 1995",schredlDesc:"Estudos longitudinais de diário de sonhos · frequência, emoções, hipótese de continuidade",siclariDesc:"Correlatos neurais do sonhar via EEG de alta densidade — zona quente no córtex posterior",statReports:"Relatórios científicos como base (SDDb, Dryad, DREAM Database)",statPeer:"Bases de dados revisadas por pares (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Anos de pesquisa académica sobre sonhos como base",statGrowing:"Os seus dados fazem a base de dados crescer diariamente — acessível a todos os investigadores",timeAgoMin:"há %d min",matchesWord:"Correspondências",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Todos os relatórios de sonhos anónimos & encriptados"},
+  hi:{badge:"नागरिक विज्ञान परियोजना · वैश्विक स्वप्न अनुसंधान",h1a:"क्या आपने भी",h1b:"यही सपना देखा?",sub:"हमें अपना सपना बताएं — ऑडियो या टेक्स्ट। निःशुल्क। गुमनाम। जानें कि दुनिया भर में कितने लोगों ने वही अनुभव किया।",modeAudio:"ऑडियो रिकॉर्ड करें",modeText:"सपना टाइप करें",recStatus:"रिकॉर्ड करने के लिए टैप करें",recLive:"🔴 लाइव ट्रांसक्रिप्शन चल रहा है...",recPaused:"⏸ रुका हुआ — टेक्स्ट संपादित करें, फिर जारी रखें",recDone:"✓ रिकॉर्डिंग समाप्त",recUseD:"✓ टेक्स्ट स्थानांतरित",recErr:"⚠️ ब्राउज़र माइक्रोफ़ोन का समर्थन नहीं करता — टेक्स्ट मोड का उपयोग करें",pauseBtn:"⏸ संपादन के लिए रोकें",resumeBtn:"▶ जारी रखें",useBtn:"✓ टेक्स्ट उपयोग करें",anon:"100% गुमनाम · कोई खाता नहीं · वैज्ञानिक उपयोग",submit:"सपना सबमिट करें",navCta:"ऐप खोलें →",stat1l:"सपने दर्ज किए",stat2l:"देश",stat3l:"भाषाएं",stat4l:"अनुसंधान DBs",howEye:"यह कैसे काम करता है",howTitleA:"तुम्हारा सपना।",howTitleEm:"वैश्विक संबंध।",howSub:"सपने से वैज्ञानिक खोज तक 4 चरण।",how1t:"आप बताते हैं",how1b:"ऑडियो या टेक्स्ट — अपनी भाषा में। कोई खाता नहीं। कोई ईमेल नहीं। गुमनाम।",how2t:"AI विश्लेषण करता है",how2b:"हमारा AI आपके सपने में प्रतीकों, भावनाओं और कथात्मक पैटर्न की पहचान करता है।",how3t:"वैश्विक मिलान",how3b:"आपके सपने की तुलना 64,500+ अनुसंधान रिपोर्टों से की जाती है।",how4t:"संबंध",how4b:"आप देखते हैं कि दुनिया भर में कितने लोगों ने वही सपना देखा।",sciEye:"नागरिक विज्ञान",sciTitleA:"आप",sciTitleEm:"स्वप्न अनुसंधान का हिस्सा हैं।",sciP1:"SameDream एक खुली नागरिक विज्ञान परियोजना है। आपकी गुमनाम सपने की रिपोर्ट दुनिया भर के शोधकर्ताओं को मानव अवचेतन के सार्वभौमिक पैटर्न को समझने में मदद करती है।",sciLink:"विज्ञान के बारे में अधिक →",recentEye:"हाल ही में सबमिट किए सपने",recentTitlePre:"दुनिया ",recentTitleEm:"सपने देखती है।",placeholder:"अपने सपने को जितना संभव हो उतने विस्तार से बताएं — भावनाएं, स्थान, लोग, प्रतीक...",charLabel:"अक्षर",successT:"आपका सपना सहेजा गया",successS:"स्वप्न अनुसंधान में योगदान के लिए धन्यवाद। समान सपने मिले:",matchL:"लोगों ने समान सपने देखे",successIn:"— 34 देशों में",ctaFull:"पूरी व्याख्या पाएं →",ctaAnother:"एक और सपना सबमिट करें",footerApp:"Traumcode ऐप →",footerSci:"विज्ञान",footerPriv:"गोपनीयता",footerContact:"संपर्क",metaTitle:"SameDream — क्या आपने भी यही सपना देखा?",metaDesc:"अपना सपना साझा करें। दुनिया भर में उन लोगों को खोजें जिन्होंने वही सपना देखा।",sciP2:"सभी एकत्रित डेटा को अनामित किया जाता है और वैश्विक स्वप्न डेटाबेस DreamAtlas.org में फीड किया जाता है और वैज्ञानिक प्रकाशनों के लिए उपयोग किया जाता है।",hvdcDesc:"स्वप्न सामग्री के लिए मानकीकृत कोडिंग प्रणाली — सभी आधुनिक स्वप्न अनुसंधान की नींव",sddbDesc:"25,000 से अधिक वैज्ञानिक रूप से कोडित स्वप्न रिपोर्ट · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"सार्वजनिक स्वप्न पाठ डेटाबेस · 20,000 से अधिक रिपोर्ट · Schneider & Domhoff 1995",schredlDesc:"अनुदैर्ध्य स्वप्न डायरी अध्ययन · आवृत्ति, भावनाएं, निरंतरता परिकल्पना",siclariDesc:"हाई-डेंसिटी EEG के माध्यम से सपने देखने के तंत्रिका सहसंबंध — पश्च कॉर्टेक्स में हॉट ज़ोन",statReports:"वैज्ञानिक अनुसंधान रिपोर्ट आधार के रूप में (SDDb, Dryad, DREAM Database)",statPeer:"सहकर्मी-समीक्षित डेटाबेस (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"शैक्षणिक स्वप्न अनुसंधान के वर्ष आधार के रूप में",statGrowing:"आपका डेटा डेटाबेस को दैनिक रूप से बढ़ाता है — सभी शोधकर्ताओं के लिए सुलभ",timeAgoMin:"%d मिनट पहले",matchesWord:"मिलान",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · सभी स्वप्न रिपोर्ट अनामित & एन्क्रिप्टेड"},
+  ja:{badge:"市民科学プロジェクト · グローバル夢研究",h1a:"あなたも",h1b:"この夢を見ましたか？",sub:"あなたの夢を教えてください — 音声またはテキストで。無料。匿名。世界中で何人が同じ夢を見たか確認しましょう。",modeAudio:"音声録音",modeText:"テキスト入力",recStatus:"タップして録音",recLive:"🔴 ライブ文字起こし中...",recPaused:"⏸ 一時停止 — テキストを編集して再開",recDone:"✓ 録音終了",recUseD:"✓ テキスト転送済み",recErr:"⚠️ ブラウザがマイクをサポートしていません — テキストモードを使用してください",pauseBtn:"⏸ 編集のために一時停止",resumeBtn:"▶ 再開",useBtn:"✓ テキストを使用",anon:"完全匿名 · アカウント不要 · 科学的利用",submit:"夢を送信",navCta:"アプリを開く →",stat1l:"記録された夢",stat2l:"国",stat3l:"言語",stat4l:"研究DB",howEye:"仕組み",howTitleA:"あなたの夢。",howTitleEm:"世界とのつながり。",howSub:"夢から科学的発見まで4ステップ。",how1t:"あなたが語る",how1b:"音声またはテキスト — あなたの言語で。アカウント不要。メール不要。匿名。",how2t:"AIが分析",how2b:"私たちのAIはあなたの夢のシンボル、感情、物語パターンを認識します。",how3t:"グローバルマッチング",how3b:"あなたの夢は64,500以上の研究レポートと比較されます。",how4t:"つながり",how4b:"世界中で何人が同じ夢を見たかがわかります。",sciEye:"市民科学",sciTitleA:"あなたは",sciTitleEm:"夢研究の一部です。",sciP1:"SameDreamはオープンな市民科学プロジェクトです。あなたの匿名の夢レポートは、世界中の研究者が人間の潜在意識の普遍的なパターンを理解するのに役立ちます。",sciLink:"科学についてもっと →",recentEye:"最近投稿された夢",recentTitlePre:"世界は",recentTitleEm:"夢を見ています。",placeholder:"できるだけ詳しく夢を説明してください — 感情、場所、人物、シンボル…",charLabel:"文字",successT:"あなたの夢が保存されました",successS:"夢研究への貢献ありがとうございます。似た夢が見つかりました：",matchL:"人が同様の夢を見ました",successIn:"— 34カ国で",ctaFull:"完全な解釈を見る →",ctaAnother:"別の夢を送信",footerApp:"Traumcodeアプリ →",footerSci:"科学",footerPriv:"プライバシー",footerContact:"お問い合わせ",metaTitle:"SameDream — あなたも同じ夢を見ましたか？",metaDesc:"夢をシェアしてください。世界中で同じ夢を見た人を見つけましょう。",sciP2:"収集されたすべてのデータは匿名化され、グローバルな夢データベースDreamAtlas.orgに登録され、科学的な出版物に使用されます。",hvdcDesc:"夢の内容のための標準化されたコーディングシステム — すべての現代的な夢研究の基盤",sddbDesc:"科学的にコーディングされた夢のレポート25,000件以上 · UCサンタクルーズ · Bulkeley 2009",dreambankDesc:"公開夢テキストデータベース · 20,000件以上のレポート · Schneider & Domhoff 1995",schredlDesc:"縦断的夢日記研究 · 頻度、感情、連続性仮説",siclariDesc:"高密度EEGによる夢見の神経相関 — 後頭皮質のホットゾーン",statReports:"科学研究レポートをベースとして (SDDb, Dryad, DREAM Database)",statPeer:"査読済みデータベース (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"学術的な夢研究の年数を基盤として",statGrowing:"あなたのデータが毎日データベースを成長させます — すべての研究者がアクセス可能",timeAgoMin:"%d 分前",matchesWord:"マッチ",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · すべての夢の報告は匿名＆暗号化"},
+  ko:{badge:"시민 과학 프로젝트 · 글로벌 꿈 연구",h1a:"당신도",h1b:"이 꿈을 꾸었나요?",sub:"꿈을 알려주세요 — 오디오 또는 텍스트로. 무료. 익명. 전 세계에서 얼마나 많은 사람들이 같은 꿈을 꾸었는지 알아보세요.",modeAudio:"오디오 녹음",modeText:"꿈 입력",recStatus:"탭하여 녹음",recLive:"🔴 실시간 전사 중...",recPaused:"⏸ 일시 정지 — 텍스트 편집 후 재개",recDone:"✓ 녹음 완료",recUseD:"✓ 텍스트 전송됨",recErr:"⚠️ 브라우저가 마이크를 지원하지 않습니다 — 텍스트 모드를 사용하세요",pauseBtn:"⏸ 편집을 위해 일시 정지",resumeBtn:"▶ 재개",useBtn:"✓ 텍스트 사용",anon:"100% 익명 · 계정 불필요 · 과학적 이용",submit:"꿈 제출",navCta:"앱 열기 →",stat1l:"기록된 꿈",stat2l:"국가",stat3l:"언어",stat4l:"연구 DB",howEye:"작동 방식",howTitleA:"당신의 꿈.",howTitleEm:"세계적 연결.",howSub:"꿈에서 과학적 발견까지 4단계.",how1t:"당신이 말합니다",how1b:"오디오 또는 텍스트 — 당신의 언어로. 계정 없음. 이메일 없음. 익명.",how2t:"AI가 분석",how2b:"우리 AI가 꿈 속 상징, 감정 및 서사 패턴을 인식합니다.",how3t:"글로벌 매칭",how3b:"당신의 꿈은 64,500개 이상의 연구 보고서와 비교됩니다.",how4t:"연결",how4b:"전 세계에서 얼마나 많은 사람들이 같은 꿈을 꾸었는지 확인하세요.",sciEye:"시민 과학",sciTitleA:"당신은",sciTitleEm:"꿈 연구의 일부입니다.",sciP1:"SameDream은 개방형 시민 과학 프로젝트입니다. 익명의 꿈 보고서는 전 세계 연구자들이 인간 잠재의식의 보편적 패턴을 이해하는 데 도움이 됩니다.",sciLink:"과학에 대해 더 알아보기 →",recentEye:"최근 제출된 꿈",recentTitlePre:"세계는 ",recentTitleEm:"꿈을 꿉니다.",placeholder:"꿈을 최대한 자세히 설명하세요 — 감정, 장소, 사람, 상징...",charLabel:"자",successT:"당신의 꿈이 저장되었습니다",successS:"꿈 연구에 기여해 주셔서 감사합니다. 유사한 꿈 발견:",matchL:"명이 유사한 꿈을 꾸었습니다",successIn:"— 34개국에서",ctaFull:"전체 해몽 보기 →",ctaAnother:"다른 꿈 제출",footerApp:"Traumcode 앱 →",footerSci:"과학",footerPriv:"개인정보",footerContact:"연락처",metaTitle:"SameDream — 당신도 이 꿈을 꾸었나요?",metaDesc:"꿈을 공유하세요. 전 세계에서 같은 꿈을 꾼 사람들을 찾아보세요.",sciP2:"수집된 모든 데이터는 익명화되어 글로벌 꿈 데이터베이스 DreamAtlas.org에 입력되고 과학 출판물에 사용됩니다.",hvdcDesc:"꿈 내용에 대한 표준화된 코딩 시스템 — 모든 현대 꿈 연구의 기초",sddbDesc:"과학적으로 코딩된 꿈 보고서 25,000건 이상 · UC 산타크루즈 · Bulkeley 2009",dreambankDesc:"공개 꿈 텍스트 데이터베이스 · 20,000건 이상 보고서 · Schneider & Domhoff 1995",schredlDesc:"종단적 꿈 일기 연구 · 빈도, 감정, 연속성 가설",siclariDesc:"고밀도 EEG를 통한 꿈꾸기의 신경 상관관계 — 후두 피질의 핫 존",statReports:"과학 연구 보고서를 기반으로 (SDDb, Dryad, DREAM Database)",statPeer:"동료 심사 데이터베이스 (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"학술적 꿈 연구 기반 연도",statGrowing:"당신의 데이터가 매일 데이터베이스를 성장시킵니다 — 모든 연구자가 접근 가능",timeAgoMin:"%d분 전",matchesWord:"일치",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · 모든 꿈 보고서는 익명 & 암호화됨"},
+  id:{badge:"Proyek Sains Warga · Penelitian Mimpi Global",h1a:"Apakah kamu juga",h1b:"bermimpi ini?",sub:"Ceritakan mimpimu — audio atau teks. Gratis. Anonim. Temukan berapa banyak orang di seluruh dunia mengalami hal yang sama.",modeAudio:"Rekam audio",modeText:"Ketik mimpi",recStatus:"Ketuk untuk merekam",recLive:"🔴 Transkripsi langsung berjalan...",recPaused:"⏸ Dijeda — edit teks, lalu Lanjutkan",recDone:"✓ Rekaman selesai",recUseD:"✓ Teks ditransfer",recErr:"⚠️ Browser tidak mendukung mikrofon — gunakan mode teks",pauseBtn:"⏸ Jeda untuk mengedit",resumeBtn:"▶ Lanjutkan",useBtn:"✓ Gunakan teks",anon:"100% anonim · Tanpa akun · Untuk ilmu pengetahuan",submit:"Kirim mimpi",navCta:"Buka Aplikasi →",stat1l:"Mimpi tercatat",stat2l:"Negara",stat3l:"Bahasa",stat4l:"DB Penelitian",howEye:"Cara kerja",howTitleA:"Mimpimu.",howTitleEm:"Koneksi global.",howSub:"4 langkah dari mimpi ke penemuan ilmiah.",how1t:"Kamu bercerita",how1b:"Audio atau teks — dalam bahasamu. Tanpa akun. Tanpa email. Anonim.",how2t:"AI menganalisis",how2b:"AI kami mengenali simbol, emosi, dan pola narasi dalam mimpimu.",how3t:"Pencocokan global",how3b:"Mimpimu dibandingkan dengan 64.500+ laporan penelitian.",how4t:"Koneksi",how4b:"Kamu melihat berapa banyak orang di seluruh dunia yang bermimpi hal yang sama.",sciEye:"Sains Warga",sciTitleA:"Kamu bagian dari",sciTitleEm:"penelitian mimpi.",sciP1:"SameDream adalah proyek sains warga terbuka. Laporan mimpi anonimmu membantu peneliti di seluruh dunia memahami pola universal alam bawah sadar manusia.",sciLink:"Pelajari lebih lanjut tentang sains →",recentEye:"Mimpi yang baru dikirim",recentTitlePre:"Dunia ",recentTitleEm:"bermimpi.",placeholder:"Ceritakan mimpimu sedetail mungkin — perasaan, tempat, orang, simbol...",charLabel:"karakter",successT:"Mimpimu telah disimpan",successS:"Terima kasih atas kontribusimu pada penelitian mimpi. Mimpi serupa ditemukan:",matchL:"orang memiliki mimpi serupa",successIn:"— di 34 negara",ctaFull:"Dapatkan tafsir lengkap →",ctaAnother:"Kirim mimpi lain",footerApp:"App Traumcode →",footerSci:"Sains",footerPriv:"Privasi",footerContact:"Kontak",metaTitle:"SameDream — Apakah kamu juga bermimpi ini?",metaDesc:"Bagikan mimpimu. Temukan orang-orang di seluruh dunia yang bermimpi hal yang sama.",sciP2:"Semua data yang dikumpulkan dianonimkan dan dimasukkan ke dalam basis data mimpi global DreamAtlas.org untuk digunakan dalam publikasi ilmiah.",hvdcDesc:"Sistem pengkodean standar untuk konten mimpi — dasar semua penelitian mimpi modern",sddbDesc:"Lebih dari 25.000 laporan mimpi yang dikodekan secara ilmiah · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Basis data teks mimpi publik · lebih dari 20.000 laporan · Schneider & Domhoff 1995",schredlDesc:"Studi longitudinal jurnal mimpi · frekuensi, emosi, hipotesis kesinambungan",siclariDesc:"Korelat neural bermimpi melalui EEG densitas tinggi — zona panas di korteks posterior",statReports:"Laporan penelitian ilmiah sebagai dasar (SDDb, Dryad, DREAM Database)",statPeer:"Basis data yang ditinjau sejawat (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Tahun penelitian mimpi akademis sebagai fondasi",statGrowing:"Data Anda mengembangkan basis data setiap hari — dapat diakses semua peneliti",timeAgoMin:"%d mnt lalu",matchesWord:"Kecocokan",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Semua laporan mimpi anonim & terenkripsi"},
+  fa:{badge:"پروژه علوم شهروندی · تحقیق جهانی رویا",h1a:"آیا شما هم",h1b:"این را خواب دیدید؟",sub:"رویای خود را برای ما تعریف کنید — صوتی یا متنی. رایگان. ناشناس. بیابید چند نفر در سراسر جهان همین تجربه را داشته‌اند.",modeAudio:"ضبط صدا",modeText:"تایپ رویا",recStatus:"برای ضبط لمس کنید",recLive:"🔴 رونویسی زنده در حال اجرا...",recPaused:"⏸ متوقف — متن را ویرایش کنید، سپس ادامه دهید",recDone:"✓ ضبط پایان یافت",recUseD:"✓ متن منتقل شد",recErr:"⚠️ مرورگر از میکروفون پشتیبانی نمی‌کند — از حالت متن استفاده کنید",pauseBtn:"⏸ توقف برای ویرایش",resumeBtn:"▶ ادامه",useBtn:"✓ استفاده از متن",anon:"کاملاً ناشناس · بدون حساب کاربری · برای علم",submit:"ارسال رویا",navCta:"باز کردن برنامه ←",stat1l:"رویاهای ثبت شده",stat2l:"کشور",stat3l:"زبان",stat4l:"پایگاه‌های تحقیقاتی",howEye:"چگونه کار می‌کند",howTitleA:"رویای شما.",howTitleEm:"ارتباط جهانی.",howSub:"۴ گام از رویا تا کشف علمی.",how1t:"شما تعریف می‌کنید",how1b:"صوت یا متن — به زبان خودتان. بدون حساب. بدون ایمیل. ناشناس.",how2t:"هوش مصنوعی تحلیل می‌کند",how2b:"هوش مصنوعی ما نمادها، احساسات و الگوهای روایی رویا را تشخیص می‌دهد.",how3t:"تطابق جهانی",how3b:"رویای شما با بیش از ۶۴٫۵۰۰ گزارش تحقیقاتی مقایسه می‌شود.",how4t:"ارتباط",how4b:"می‌بینید چند نفر در سراسر جهان همین رویا را دیده‌اند.",sciEye:"علوم شهروندی",sciTitleA:"شما بخشی از",sciTitleEm:"تحقیق رویا هستید.",sciP1:"SameDream یک پروژه باز علوم شهروندی است. گزارش‌های ناشناس رویای شما به محققان در سراسر جهان کمک می‌کند تا الگوهای جهانی ضمیر ناخودآگاه انسان را درک کنند.",sciLink:"بیشتر درباره علم ←",recentEye:"رویاهای اخیراً ارسال شده",recentTitlePre:"جهان ",recentTitleEm:"خواب می‌بیند.",placeholder:"رویای خود را با تمام جزئیات توصیف کنید — احساسات، مکان‌ها، افراد، نمادها...",charLabel:"حرف",successT:"رویای شما ذخیره شد",successS:"با تشکر از مشارکت در تحقیق رویا. رویاهای مشابه یافت شد:",matchL:"نفر رویاهای مشابهی داشتند",successIn:"— در ۳۴ کشور",ctaFull:"دریافت تفسیر کامل ←",ctaAnother:"ارسال رویای دیگر",footerApp:"برنامه Traumcode ←",footerSci:"علم",footerPriv:"حریم خصوصی",footerContact:"تماس",metaTitle:"SameDream — آیا شما هم این را خواب دیدید؟",metaDesc:"رویایتان را به اشتراک بگذارید. افرادی را در سراسر جهان بیابید که همین رویا را دیده‌اند.",sciP2:"تمام داده‌های جمع‌آوری‌شده ناشناس می‌شوند و به پایگاه داده جهانی رویاها DreamAtlas.org وارد می‌شوند و برای انتشارات علمی استفاده می‌شوند.",hvdcDesc:"سیستم کدگذاری استاندارد برای محتوای رویا — پایه همه تحقیقات مدرن رویا",sddbDesc:"بیش از ۲۵,۰۰۰ گزارش رویای کدگذاری‌شده علمی · UC سانتا کروز · Bulkeley 2009",dreambankDesc:"پایگاه داده متنی عمومی رویا · بیش از ۲۰,۰۰۰ گزارش · Schneider & Domhoff 1995",schredlDesc:"مطالعات طولی دفترچه رویا · فراوانی، احساسات، فرضیه تداوم",siclariDesc:"همبستگی‌های عصبی رویا از طریق EEG با چگالی بالا — منطقه داغ در قشر پس‌سری",statReports:"گزارش‌های تحقیقاتی علمی به عنوان پایه (SDDb, Dryad, DREAM Database)",statPeer:"پایگاه‌های داده بررسی شده توسط همتایان (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"سال‌های تحقیق علمی دانشگاهی رویا به عنوان پایه",statGrowing:"داده‌های شما هر روز پایگاه داده را رشد می‌دهند — برای همه محققان قابل دسترسی",timeAgoMin:"%d دقیقه پیش",matchesWord:"تطابق",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · تمام گزارش‌های رویا ناشناس & رمزنگاری‌شده"},
+  it:{badge:"Scienza Cittadina · Ricerca Globale sui Sogni",h1a:"Hai sognato",h1b:"anche tu questo?",sub:"Raccontaci il tuo sogno — audio o testo. Gratis. Anonimo. Scopri quante persone nel mondo hanno vissuto la stessa cosa.",modeAudio:"Registra audio",modeText:"Scrivi il sogno",recStatus:"Tocca per registrare",recLive:"🔴 Trascrizione in diretta...",recPaused:"⏸ In pausa — modifica il testo, poi Continua",recDone:"✓ Registrazione terminata",recUseD:"✓ Testo trasferito",recErr:"⚠️ Il browser non supporta il microfono — usa la modalità testo",pauseBtn:"⏸ Pausa per modificare",resumeBtn:"▶ Continua",useBtn:"✓ Usa il testo",anon:"100% anonimo · Senza account · Uso scientifico",submit:"Invia il sogno",navCta:"Apri l'App →",stat1l:"Sogni registrati",stat2l:"Paesi",stat3l:"Lingue",stat4l:"DB di ricerca",howEye:"Come funziona",howTitleA:"Il tuo sogno.",howTitleEm:"Connessione globale.",howSub:"4 passi dal sogno alla scoperta scientifica.",how1t:"Tu racconti",how1b:"Audio o testo — nella tua lingua. Senza account. Senza email. Anonimo.",how2t:"L'IA analizza",how2b:"La nostra IA riconosce simboli, emozioni e schemi narrativi nel tuo sogno.",how3t:"Confronto globale",how3b:"Il tuo sogno viene confrontato con oltre 64.500 rapporti di ricerca.",how4t:"Connessione",how4b:"Vedi quante persone nel mondo hanno sognato la stessa cosa.",sciEye:"Scienza Cittadina",sciTitleA:"Sei parte della",sciTitleEm:"ricerca sui sogni.",sciP1:"SameDream è un progetto aperto di scienza cittadina. I tuoi rapporti di sogni anonimi aiutano ricercatori in tutto il mondo a comprendere i pattern universali del subconscio umano.",sciLink:"Scopri di più sulla scienza →",recentEye:"Sogni inviati di recente",recentTitlePre:"Il mondo ",recentTitleEm:"sogna.",placeholder:"Descrivi il tuo sogno con quanti più dettagli possibile — sentimenti, luoghi, persone, simboli...",charLabel:"caratteri",successT:"Il tuo sogno è stato salvato",successS:"Grazie per il contributo alla ricerca. Sogni simili trovati:",matchL:"persone hanno avuto sogni simili",successIn:"— in 34 paesi",ctaFull:"Interpretazione completa →",ctaAnother:"Invia un altro sogno",footerApp:"App Traumcode →",footerSci:"Scienza",footerPriv:"Privacy",footerContact:"Contatto",metaTitle:"SameDream — Hai sognato anche tu questo?",metaDesc:"Condividi il tuo sogno. Trova persone in tutto il mondo che hanno sognato la stessa cosa.",sciP2:"Tutti i dati raccolti vengono anonimizzati e inseriti nel database globale dei sogni DreamAtlas.org per essere utilizzati in pubblicazioni scientifiche.",hvdcDesc:"Sistema di codifica standardizzato per il contenuto dei sogni — base di tutta la ricerca moderna sui sogni",sddbDesc:"Oltre 25.000 rapporti di sogni codificati scientificamente · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Database pubblico di testi di sogni · oltre 20.000 rapporti · Schneider & Domhoff 1995",schredlDesc:"Studi longitudinali del diario dei sogni · frequenza, emozioni, ipotesi di continuità",siclariDesc:"Correlati neurali del sognare tramite EEG ad alta densità — zona calda nella corteccia posteriore",statReports:"Rapporti di ricerca scientifica come base (SDDb, Dryad, DREAM Database)",statPeer:"Banche dati sottoposte a revisione paritaria (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Anni di ricerca accademica sui sogni come base",statGrowing:"I tuoi dati fanno crescere il database ogni giorno — accessibile a tutti i ricercatori",timeAgoMin:"%d min fa",matchesWord:"Corrispondenze",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Tutti i rapporti di sogni anonimi & crittografati"},
+  pl:{badge:"Projekt Nauki Obywatelskiej · Globalne Badania Snów",h1a:"Czy śniłeś",h1b:"o tym też?",sub:"Opowiedz nam swój sen — audio lub tekst. Bezpłatnie. Anonimowo. Sprawdź ile osób na świecie miało ten sam sen.",modeAudio:"Nagraj dźwięk",modeText:"Wpisz sen",recStatus:"Dotknij aby nagrać",recLive:"🔴 Transkrypcja na żywo...",recPaused:"⏸ Wstrzymano — edytuj tekst, potem Wznów",recDone:"✓ Nagrywanie zakończone",recUseD:"✓ Tekst przeniesiony",recErr:"⚠️ Przeglądarka nie obsługuje mikrofonu — użyj trybu tekstowego",pauseBtn:"⏸ Pauza do edycji",resumeBtn:"▶ Wznów",useBtn:"✓ Użyj tekstu",anon:"100% anonimowo · Bez konta · Cel naukowy",submit:"Wyślij sen",navCta:"Otwórz aplikację →",stat1l:"Zapisanych snów",stat2l:"Kraje",stat3l:"Języki",stat4l:"Bazy badawcze",howEye:"Jak to działa",howTitleA:"Twój sen.",howTitleEm:"Globalne połączenie.",howSub:"4 kroki od snu do odkrycia naukowego.",how1t:"Ty opowiadasz",how1b:"Audio lub tekst — w swoim języku. Bez konta. Bez emaila. Anonimowo.",how2t:"AI analizuje",how2b:"Nasza AI rozpoznaje symbole, emocje i wzorce narracyjne w twoim śnie.",how3t:"Globalne dopasowanie",how3b:"Twój sen jest porównywany z ponad 64 500 raportami badawczymi.",how4t:"Połączenie",how4b:"Widzisz ile osób na świecie śniło to samo.",sciEye:"Nauka Obywatelska",sciTitleA:"Jesteś częścią",sciTitleEm:"badań snów.",sciP1:"SameDream to otwarty projekt nauki obywatelskiej. Twoje anonimowe raporty snów pomagają badaczom na całym świecie rozumieć uniwersalne wzorce ludzkiej podświadomości.",sciLink:"Więcej o nauce →",recentEye:"Ostatnio przesłane sny",recentTitlePre:"Świat ",recentTitleEm:"śni.",placeholder:"Opisz swój sen jak najdokładniej — uczucia, miejsca, osoby, symbole...",charLabel:"znaków",successT:"Twój sen został zapisany",successS:"Dziękujemy za wkład w badania snów. Znaleziono podobne sny:",matchL:"osoby miały podobne sny",successIn:"— w 34 krajach",ctaFull:"Pełna interpretacja →",ctaAnother:"Wyślij kolejny sen",footerApp:"App Traumcode →",footerSci:"Nauka",footerPriv:"Prywatność",footerContact:"Kontakt",metaTitle:"SameDream — Czy śniłeś o tym też?",metaDesc:"Podziel się swoim snem. Znajdź ludzi na całym świecie, którzy mieli ten sam sen.",sciP2:"Wszystkie zebrane dane są anonimizowane i przekazywane do globalnej bazy danych snów DreamAtlas.org, gdzie są wykorzystywane do publikacji naukowych.",hvdcDesc:"Standaryzowany system kodowania treści snów — podstawa całych nowoczesnych badań nad snami",sddbDesc:"Ponad 25 000 naukowo zakodowanych raportów o snach · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Publiczna baza danych tekstów o snach · ponad 20 000 raportów · Schneider & Domhoff 1995",schredlDesc:"Podłużne badania dzienników snów · częstotliwość, emocje, hipoteza ciągłości",siclariDesc:"Korelaty neuronowe snów przez gęste EEG — strefa gorąca w tylnej korze mózgowej",statReports:"Naukowe raporty badawcze jako podstawa (SDDb, Dryad, DREAM Database)",statPeer:"Recenzowane bazy danych (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Lata akademickich badań nad snami jako podstawa",statGrowing:"Twoje dane powiększają bazę danych każdego dnia — dostępna dla wszystkich badaczy",timeAgoMin:"%d min temu",matchesWord:"Dopasowań",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Wszystkie raporty o snach anonimowe & zaszyfrowane"},
+  bn:{badge:"নাগরিক বিজ্ঞান প্রকল্প · বৈশ্বিক স্বপ্ন গবেষণা",h1a:"আপনিও কি",h1b:"এই স্বপ্ন দেখেছেন?",sub:"আমাদের আপনার স্বপ্ন বলুন — অডিও বা টেক্সটে। বিনামূল্যে। বেনামী। জানুন বিশ্বজুড়ে কতজন একই অভিজ্ঞতা পেয়েছেন।",modeAudio:"অডিও রেকর্ড করুন",modeText:"স্বপ্ন লিখুন",recStatus:"রেকর্ড করতে ট্যাপ করুন",recLive:"🔴 লাইভ ট্রান্সক্রিপশন চলছে...",recPaused:"⏸ বিরতি — টেক্সট সম্পাদনা করুন, তারপর চালিয়ে যান",recDone:"✓ রেকর্ডিং শেষ",recUseD:"✓ টেক্সট স্থানান্তরিত",recErr:"⚠️ ব্রাউজার মাইক্রোফোন সমর্থন করে না — টেক্সট মোড ব্যবহার করুন",pauseBtn:"⏸ সম্পাদনার জন্য বিরতি",resumeBtn:"▶ চালিয়ে যান",useBtn:"✓ টেক্সট ব্যবহার করুন",anon:"১০০% বেনামী · কোনো অ্যাকাউন্ট নেই · বৈজ্ঞানিক ব্যবহার",submit:"স্বপ্ন জমা দিন",navCta:"অ্যাপ খুলুন →",stat1l:"স্বপ্ন রেকর্ড করা হয়েছে",stat2l:"দেশ",stat3l:"ভাষা",stat4l:"গবেষণা DB",howEye:"এটি কীভাবে কাজ করে",howTitleA:"তোমার স্বপ্ন।",howTitleEm:"বৈশ্বিক সংযোগ।",howSub:"স্বপ্ন থেকে বৈজ্ঞানিক আবিষ্কার পর্যন্ত ৪ ধাপ।",how1t:"আপনি বলুন",how1b:"অডিও বা টেক্সট — আপনার ভাষায়। কোনো অ্যাকাউন্ট নেই। কোনো ইমেইল নেই। বেনামী।",how2t:"AI বিশ্লেষণ করে",how2b:"আমাদের AI স্বপ্নে প্রতীক, আবেগ এবং বর্ণনামূলক নিদর্শন সনাক্ত করে।",how3t:"বৈশ্বিক মিলান",how3b:"আপনার স্বপ্ন ৬৪,৫০০+ গবেষণা প্রতিবেদনের সাথে তুলনা করা হয়।",how4t:"সংযোগ",how4b:"আপনি দেখতে পান বিশ্বজুড়ে কতজন একই স্বপ্ন দেখেছেন।",sciEye:"নাগরিক বিজ্ঞান",sciTitleA:"আপনি",sciTitleEm:"স্বপ্ন গবেষণার অংশ।",sciP1:"SameDream একটি উন্মুক্ত নাগরিক বিজ্ঞান প্রকল্প। আপনার বেনামী স্বপ্নের প্রতিবেদন বিশ্বজুড়ে গবেষকদের মানুষের অবচেতনের সর্বজনীন নিদর্শন বুঝতে সাহায্য করে।",sciLink:"বিজ্ঞান সম্পর্কে আরও জানুন →",recentEye:"সম্প্রতি জমা দেওয়া স্বপ্ন",recentTitlePre:"বিশ্ব ",recentTitleEm:"স্বপ্ন দেখে।",placeholder:"আপনার স্বপ্ন যতটা সম্ভব বিস্তারিত বর্ণনা করুন — অনুভূতি, স্থান, মানুষ, প্রতীক...",charLabel:"অক্ষর",successT:"আপনার স্বপ্ন সংরক্ষিত হয়েছে",successS:"স্বপ্ন গবেষণায় অবদানের জন্য ধন্যবাদ। একই রকম স্বপ্ন পাওয়া গেছে:",matchL:"জন একই রকম স্বপ্ন দেখেছেন",successIn:"— ৩৪টি দেশে",ctaFull:"সম্পূর্ণ ব্যাখ্যা পান →",ctaAnother:"আরো একটি স্বপ্ন জমা দিন",footerApp:"Traumcode অ্যাপ →",footerSci:"বিজ্ঞান",footerPriv:"গোপনীয়তা",footerContact:"যোগাযোগ",metaTitle:"SameDream — আপনিও কি এই স্বপ্ন দেখেছেন?",metaDesc:"আপনার স্বপ্ন শেয়ার করুন। বিশ্বজুড়ে যারা একই স্বপ্ন দেখেছেন তাদের খুঁজুন।",sciP2:"সকল সংগৃহীত তথ্য বেনামী করে বৈশ্বিক স্বপ্ন ডেটাবেস DreamAtlas.org-এ প্রবেশ করানো হয় এবং বৈজ্ঞানিক প্রকাশনায় ব্যবহার করা হয়।",hvdcDesc:"স্বপ্নের বিষয়বস্তুর জন্য মানসম্মত কোডিং সিস্টেম — সমস্ত আধুনিক স্বপ্ন গবেষণার ভিত্তি",sddbDesc:"২৫,০০০-এরও বেশি বৈজ্ঞানিকভাবে কোডকৃত স্বপ্নের প্রতিবেদন · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"সর্বজনীন স্বপ্ন পাঠ ডেটাবেস · ২০,০০০-এরও বেশি প্রতিবেদন · Schneider & Domhoff 1995",schredlDesc:"দীর্ঘমেয়াদী স্বপ্ন ডায়েরি অধ্যয়ন · ফ্রিকোয়েন্সি, আবেগ, ধারাবাহিকতা অনুমান",siclariDesc:"হাই-ডেন্সিটি EEG-এর মাধ্যমে স্বপ্নের স্নায়বিক সম্পর্ক — পশ্চাৎ কর্টেক্সে হট জোন",statReports:"বৈজ্ঞানিক গবেষণা প্রতিবেদন ভিত্তি হিসেবে (SDDb, Dryad, DREAM Database)",statPeer:"সমকক্ষ-পর্যালোচিত ডেটাবেস (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"ভিত্তি হিসেবে শিক্ষাগত স্বপ্ন গবেষণার বছর",statGrowing:"আপনার ডেটা প্রতিদিন ডেটাবেস বৃদ্ধি করে — সমস্ত গবেষকদের কাছে অ্যাক্সেসযোগ্য",timeAgoMin:"%d মিনিট আগে",matchesWord:"মিল",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · সমস্ত স্বপ্নের রিপোর্ট বেনামী & এনক্রিপ্টেড"},
+  ur:{badge:"شہری سائنس منصوبہ · عالمی خواب تحقیق",h1a:"کیا آپ نے بھی",h1b:"یہی خواب دیکھا؟",sub:"ہمیں اپنا خواب بتائیں — آڈیو یا ٹیکسٹ میں۔ مفت۔ گمنام۔ جانیں کہ دنیا بھر میں کتنے لوگوں نے یہی تجربہ کیا۔",modeAudio:"آڈیو ریکارڈ کریں",modeText:"خواب ٹائپ کریں",recStatus:"ریکارڈ کرنے کے لیے ٹیپ کریں",recLive:"🔴 لائیو ٹرانسکرپشن جاری ہے...",recPaused:"⏸ رکا ہوا — متن ترمیم کریں، پھر جاری رکھیں",recDone:"✓ ریکارڈنگ ختم",recUseD:"✓ متن منتقل ہو گیا",recErr:"⚠️ براؤزر مائیکروفون کی حمایت نہیں کرتا — ٹیکسٹ موڈ استعمال کریں",pauseBtn:"⏸ ترمیم کے لیے رکیں",resumeBtn:"▶ جاری رکھیں",useBtn:"✓ متن استعمال کریں",anon:"مکمل گمنام · کوئی اکاؤنٹ نہیں · سائنسی مقاصد",submit:"خواب جمع کریں",navCta:"ایپ کھولیں ←",stat1l:"خواب ریکارڈ کیے گئے",stat2l:"ممالک",stat3l:"زبانیں",stat4l:"تحقیقی DBs",howEye:"یہ کیسے کام کرتا ہے",howTitleA:"تمہارا خواب۔",howTitleEm:"عالمی رابطہ۔",howSub:"خواب سے سائنسی دریافت تک ۴ مراحل۔",how1t:"آپ بتاتے ہیں",how1b:"آڈیو یا ٹیکسٹ — اپنی زبان میں۔ کوئی اکاؤنٹ نہیں۔ کوئی ای میل نہیں۔ گمنام۔",how2t:"AI تجزیہ کرتا ہے",how2b:"ہمارا AI آپ کے خواب میں علامات، جذبات اور روایی نمونوں کو پہچانتا ہے۔",how3t:"عالمی مطابقت",how3b:"آپ کے خواب کا موازنہ ۶۴،۵۰۰ سے زیادہ تحقیقی رپورٹوں سے کیا جاتا ہے۔",how4t:"رابطہ",how4b:"آپ دیکھتے ہیں کہ دنیا بھر میں کتنے لوگوں نے وہی خواب دیکھا۔",sciEye:"شہری سائنس",sciTitleA:"آپ",sciTitleEm:"خواب تحقیق کا حصہ ہیں۔",sciP1:"SameDream ایک کھلا شہری سائنس منصوبہ ہے۔ آپ کی گمنام خواب رپورٹیں دنیا بھر کے محققین کو انسانی لاشعور کے عالمی نمونے سمجھنے میں مدد کرتی ہیں۔",sciLink:"سائنس کے بارے میں مزید ←",recentEye:"حال ہی میں جمع کیے گئے خواب",recentTitlePre:"دنیا ",recentTitleEm:"خواب دیکھتی ہے۔",placeholder:"اپنے خواب کو جتنا ممکن ہو تفصیل سے بیان کریں — جذبات، مقامات، لوگ، علامات...",charLabel:"حروف",successT:"آپ کا خواب محفوظ ہو گیا",successS:"خواب تحقیق میں حصہ ڈالنے کا شکریہ۔ ملتے جلتے خواب ملے:",matchL:"لوگوں نے ملتے جلتے خواب دیکھے",successIn:"— ۳۴ ممالک میں",ctaFull:"مکمل تعبیر حاصل کریں ←",ctaAnother:"ایک اور خواب جمع کریں",footerApp:"Traumcode ایپ ←",footerSci:"سائنس",footerPriv:"رازداری",footerContact:"رابطہ",metaTitle:"SameDream — کیا آپ نے بھی یہی خواب دیکھا؟",metaDesc:"اپنا خواب شیئر کریں۔ دنیا بھر میں ان لوگوں کو تلاش کریں جنہوں نے وہی خواب دیکھا۔",sciP2:"تمام جمع کردہ ڈیٹا کو گمنام کر کے عالمی خوابوں کے ڈیٹا بیس DreamAtlas.org میں شامل کیا جاتا ہے اور سائنسی اشاعتوں کے لیے استعمال کیا جاتا ہے۔",hvdcDesc:"خوابوں کے مواد کے لیے معیاری کوڈنگ سسٹم — تمام جدید خواب تحقیق کی بنیاد",sddbDesc:"25,000 سے زیادہ سائنسی طور پر کوڈ شدہ خواب رپورٹس · UC سانتا کروز · Bulkeley 2009",dreambankDesc:"عوامی خواب متن ڈیٹا بیس · 20,000 سے زیادہ رپورٹس · Schneider & Domhoff 1995",schredlDesc:"طولی خواب ڈائری مطالعات · تعدد، جذبات، تسلسل مفروضہ",siclariDesc:"ہائی ڈینسٹی EEG کے ذریعے خوابوں کے اعصابی تعلقات — خلفی کورٹیکس میں ہاٹ زون",statReports:"بنیاد کے طور پر سائنسی تحقیقی رپورٹس (SDDb, Dryad, DREAM Database)",statPeer:"ہم مرتبہ جائزہ شدہ ڈیٹا بیسز (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"بنیاد کے طور پر علمی خواب تحقیق کے سال",statGrowing:"آپ کا ڈیٹا روزانہ ڈیٹا بیس کو بڑھاتا ہے — تمام محققین کے لیے قابل رسائی",timeAgoMin:"%d منٹ پہلے",matchesWord:"مطابقت",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · تمام خواب رپورٹس گمنام & انکرپٹڈ"},
+  vi:{badge:"Dự án Khoa học Công dân · Nghiên cứu Giấc mơ Toàn cầu",h1a:"Bạn cũng đã",h1b:"mơ thấy điều này?",sub:"Kể cho chúng tôi giấc mơ của bạn — bằng âm thanh hoặc văn bản. Miễn phí. Ẩn danh. Khám phá có bao nhiêu người trên thế giới có cùng trải nghiệm.",modeAudio:"Ghi âm",modeText:"Nhập giấc mơ",recStatus:"Nhấn để ghi âm",recLive:"🔴 Phiên âm trực tiếp đang chạy...",recPaused:"⏸ Đã dừng — chỉnh sửa văn bản rồi Tiếp tục",recDone:"✓ Ghi âm kết thúc",recUseD:"✓ Văn bản đã chuyển",recErr:"⚠️ Trình duyệt không hỗ trợ microphone — dùng chế độ văn bản",pauseBtn:"⏸ Dừng để chỉnh sửa",resumeBtn:"▶ Tiếp tục",useBtn:"✓ Dùng văn bản",anon:"100% ẩn danh · Không cần tài khoản · Mục đích khoa học",submit:"Gửi giấc mơ",navCta:"Mở Ứng dụng →",stat1l:"Giấc mơ được ghi",stat2l:"Quốc gia",stat3l:"Ngôn ngữ",stat4l:"Cơ sở dữ liệu nghiên cứu",howEye:"Cách hoạt động",howTitleA:"Giấc mơ của bạn.",howTitleEm:"Kết nối toàn cầu.",howSub:"4 bước từ giấc mơ đến khám phá khoa học.",how1t:"Bạn chia sẻ",how1b:"Âm thanh hoặc văn bản — bằng ngôn ngữ của bạn. Không cần tài khoản. Không email. Ẩn danh.",how2t:"AI phân tích",how2b:"AI của chúng tôi nhận ra các biểu tượng, cảm xúc và mô hình tường thuật trong giấc mơ.",how3t:"So sánh toàn cầu",how3b:"Giấc mơ của bạn được so sánh với hơn 64.500 báo cáo nghiên cứu.",how4t:"Kết nối",how4b:"Bạn thấy bao nhiêu người trên thế giới đã mơ điều tương tự.",sciEye:"Khoa học Công dân",sciTitleA:"Bạn là một phần của",sciTitleEm:"nghiên cứu giấc mơ.",sciP1:"SameDream là một dự án khoa học công dân mở. Các báo cáo giấc mơ ẩn danh của bạn giúp các nhà nghiên cứu trên toàn thế giới hiểu các mô hình phổ quát của tiềm thức con người.",sciLink:"Tìm hiểu thêm về khoa học →",recentEye:"Giấc mơ được gửi gần đây",recentTitlePre:"Thế giới ",recentTitleEm:"đang mơ.",placeholder:"Mô tả giấc mơ của bạn chi tiết nhất có thể — cảm xúc, địa điểm, con người, biểu tượng...",charLabel:"ký tự",successT:"Giấc mơ của bạn đã được lưu",successS:"Cảm ơn bạn đã đóng góp cho nghiên cứu. Tìm thấy giấc mơ tương tự:",matchL:"người đã có những giấc mơ tương tự",successIn:"— ở 34 quốc gia",ctaFull:"Xem giải thích đầy đủ →",ctaAnother:"Gửi giấc mơ khác",footerApp:"App Traumcode →",footerSci:"Khoa học",footerPriv:"Quyền riêng tư",footerContact:"Liên hệ",metaTitle:"SameDream — Bạn cũng đã mơ thấy điều này?",metaDesc:"Chia sẻ giấc mơ của bạn. Tìm người trên toàn thế giới đã mơ điều tương tự.",sciP2:"Tất cả dữ liệu thu thập được ẩn danh hóa và đưa vào cơ sở dữ liệu giấc mơ toàn cầu DreamAtlas.org để sử dụng trong các ấn phẩm khoa học.",hvdcDesc:"Hệ thống mã hóa tiêu chuẩn cho nội dung giấc mơ — nền tảng của mọi nghiên cứu giấc mơ hiện đại",sddbDesc:"Hơn 25.000 báo cáo giấc mơ được mã hóa khoa học · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Cơ sở dữ liệu văn bản giấc mơ công khai · hơn 20.000 báo cáo · Schneider & Domhoff 1995",schredlDesc:"Nghiên cứu nhật ký giấc mơ theo chiều dọc · tần suất, cảm xúc, giả thuyết liên tục",siclariDesc:"Tương quan thần kinh của việc mơ qua EEG mật độ cao — vùng nóng ở vỏ não sau",statReports:"Báo cáo nghiên cứu khoa học làm cơ sở (SDDb, Dryad, DREAM Database)",statPeer:"Cơ sở dữ liệu được bình duyệt (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Năm nghiên cứu giấc mơ học thuật làm nền tảng",statGrowing:"Dữ liệu của bạn làm cơ sở dữ liệu tăng trưởng hàng ngày — có thể truy cập cho tất cả các nhà nghiên cứu",timeAgoMin:"%d phút trước",matchesWord:"Khớp",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Tất cả báo cáo giấc mơ ẩn danh & được mã hóa"},
+  th:{badge:"โครงการวิทยาศาสตร์พลเมือง · การวิจัยความฝันทั่วโลก",h1a:"คุณก็",h1b:"ฝันแบบนี้ด้วยไหม?",sub:"เล่าความฝันให้เราฟัง — ด้วยเสียงหรือข้อความ ฟรี ไม่เปิดเผยตัวตน ค้นพบว่ามีคนทั่วโลกกี่คนที่มีประสบการณ์เดียวกัน",modeAudio:"บันทึกเสียง",modeText:"พิมพ์ความฝัน",recStatus:"แตะเพื่อบันทึก",recLive:"🔴 การถอดเสียงสด...",recPaused:"⏸ หยุดชั่วคราว — แก้ไขข้อความ แล้วดำเนินการต่อ",recDone:"✓ สิ้นสุดการบันทึก",recUseD:"✓ โอนข้อความแล้ว",recErr:"⚠️ เบราว์เซอร์ไม่รองรับไมโครโฟน — ใช้โหมดข้อความ",pauseBtn:"⏸ หยุดเพื่อแก้ไข",resumeBtn:"▶ ดำเนินการต่อ",useBtn:"✓ ใช้ข้อความ",anon:"ไม่เปิดเผยตัวตน 100% · ไม่ต้องมีบัญชี · เพื่อวิทยาศาสตร์",submit:"ส่งความฝัน",navCta:"เปิดแอป →",stat1l:"ความฝันที่บันทึก",stat2l:"ประเทศ",stat3l:"ภาษา",stat4l:"ฐานข้อมูลวิจัย",howEye:"วิธีการทำงาน",howTitleA:"ความฝันของคุณ",howTitleEm:"การเชื่อมต่อทั่วโลก",howSub:"4 ขั้นตอนจากความฝันสู่การค้นพบทางวิทยาศาสตร์",how1t:"คุณเล่า",how1b:"เสียงหรือข้อความ — ในภาษาของคุณ ไม่ต้องมีบัญชี ไม่มีอีเมล ไม่เปิดเผย",how2t:"AI วิเคราะห์",how2b:"AI ของเราจดจำสัญลักษณ์ อารมณ์ และรูปแบบเรื่องราวในความฝัน",how3t:"การจับคู่ทั่วโลก",how3b:"ความฝันของคุณถูกเปรียบเทียบกับรายงานการวิจัยกว่า 64,500 รายการ",how4t:"การเชื่อมต่อ",how4b:"คุณเห็นว่ามีคนทั่วโลกกี่คนที่ฝันสิ่งเดียวกัน",sciEye:"วิทยาศาสตร์พลเมือง",sciTitleA:"คุณเป็นส่วนหนึ่งของ",sciTitleEm:"การวิจัยความฝัน",sciP1:"SameDream เป็นโครงการวิทยาศาสตร์พลเมืองแบบเปิด รายงานความฝันที่ไม่เปิดเผยตัวตนของคุณช่วยนักวิจัยทั่วโลกในการทำความเข้าใจรูปแบบสากลของจิตใต้สำนึกมนุษย์",sciLink:"เรียนรู้เพิ่มเติมเกี่ยวกับวิทยาศาสตร์ →",recentEye:"ความฝันที่ส่งล่าสุด",recentTitlePre:"โลก ",recentTitleEm:"กำลังฝัน",placeholder:"อธิบายความฝันของคุณให้ละเอียดที่สุด — ความรู้สึก สถานที่ บุคคล สัญลักษณ์...",charLabel:"อักขระ",successT:"บันทึกความฝันของคุณแล้ว",successS:"ขอบคุณสำหรับการมีส่วนร่วม พบความฝันที่คล้ายกัน:",matchL:"คนมีความฝันที่คล้ายกัน",successIn:"— ใน 34 ประเทศ",ctaFull:"รับการตีความฉบับเต็ม →",ctaAnother:"ส่งความฝันอื่น",footerApp:"แอป Traumcode →",footerSci:"วิทยาศาสตร์",footerPriv:"ความเป็นส่วนตัว",footerContact:"ติดต่อ",metaTitle:"SameDream — คุณก็ฝันแบบนี้ด้วยไหม?",metaDesc:"แบ่งปันความฝันของคุณ ค้นหาผู้คนทั่วโลกที่ฝันสิ่งเดียวกัน",sciP2:"ข้อมูลทั้งหมดที่รวบรวมจะถูกทำให้ไม่ระบุตัวตนและป้อนเข้าสู่ฐานข้อมูลความฝันระดับโลก DreamAtlas.org เพื่อใช้ในสิ่งพิมพ์ทางวิทยาศาสตร์",hvdcDesc:"ระบบการเข้ารหัสมาตรฐานสำหรับเนื้อหาความฝัน — รากฐานของการวิจัยความฝันสมัยใหม่ทั้งหมด",sddbDesc:"รายงานความฝันที่เข้ารหัสทางวิทยาศาสตร์กว่า 25,000 ฉบับ · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"ฐานข้อมูลข้อความความฝันสาธารณะ · รายงานกว่า 20,000 ฉบับ · Schneider & Domhoff 1995",schredlDesc:"การศึกษาบันทึกความฝันแบบตามยาว · ความถี่ อารมณ์ สมมติฐานความต่อเนื่อง",siclariDesc:"สหสัมพันธ์ทางประสาทของการฝันผ่าน EEG ความหนาแน่นสูง — จุดร้อนในเปลือกสมองส่วนหลัง",statReports:"รายงานวิจัยทางวิทยาศาสตร์เป็นพื้นฐาน (SDDb, Dryad, DREAM Database)",statPeer:"ฐานข้อมูลที่ผ่านการตรวจสอบโดยเพื่อน (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"ปีแห่งการวิจัยความฝันทางวิชาการเป็นรากฐาน",statGrowing:"ข้อมูลของคุณทำให้ฐานข้อมูลเติบโตขึ้นทุกวัน — เข้าถึงได้สำหรับนักวิจัยทุกคน",timeAgoMin:"%d นาทีที่แล้ว",matchesWord:"ตรงกัน",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · รายงานความฝันทั้งหมดไม่ระบุตัวตน & เข้ารหัส"},
+  sw:{badge:"Mradi wa Sayansi ya Raia · Utafiti wa Ndoto Ulimwenguni",h1a:"Je, wewe pia",h1b:"uliota hivi?",sub:"Tuambie ndoto yako — sauti au maandishi. Bila malipo. Bila kujulikana. Gundua watu wangapi duniani kote walipitia kitu hicho hicho.",modeAudio:"Rekodi sauti",modeText:"Andika ndoto",recStatus:"Gusa kurekodi",recLive:"🔴 Unakiliaji wa moja kwa moja...",recPaused:"⏸ Ilisimamishwa — hariri maandishi, kisha Endelea",recDone:"✓ Urekodi umeisha",recUseD:"✓ Maandishi yamehamishwa",recErr:"⚠️ Kivinjari hakisaidii maikrofoni — tumia hali ya maandishi",pauseBtn:"⏸ Simama kuhariri",resumeBtn:"▶ Endelea",useBtn:"✓ Tumia maandishi",anon:"100% bila kujulikana · Hakuna akaunti · Matumizi ya kisayansi",submit:"Wasilisha ndoto",navCta:"Fungua Programu →",stat1l:"Ndoto zilizorekodiwa",stat2l:"Nchi",stat3l:"Lugha",stat4l:"Hifadhidata za utafiti",howEye:"Jinsi inavyofanya kazi",howTitleA:"Ndoto yako.",howTitleEm:"Muunganiko wa kimataifa.",howSub:"Hatua 4 kutoka ndoto hadi ugunduzi wa kisayansi.",how1t:"Unashiriki",how1b:"Sauti au maandishi — kwa lugha yako. Bila akaunti. Bila barua pepe. Bila kujulikana.",how2t:"AI inachambua",how2b:"AI yetu inatambua alama, hisia na mifumo ya hadithi katika ndoto yako.",how3t:"Ulinganifu wa kimataifa",how3b:"Ndoto yako inalinganishwa na ripoti zaidi ya 64,500 za utafiti.",how4t:"Muunganiko",how4b:"Unaona ni watu wangapi duniani waliota kitu hicho hicho.",sciEye:"Sayansi ya Raia",sciTitleA:"Wewe ni sehemu ya",sciTitleEm:"utafiti wa ndoto.",sciP1:"SameDream ni mradi wazi wa sayansi ya raia. Ripoti zako za ndoto zisizojulikana zinasaidia watafiti duniani kote kuelewa mifumo ya ulimwengu ya fahamu ya chini ya binadamu.",sciLink:"Jifunza zaidi kuhusu sayansi →",recentEye:"Ndoto zilizowasilishwa hivi karibuni",recentTitlePre:"Ulimwengu ",recentTitleEm:"unakuota.",placeholder:"Eleza ndoto yako kwa undani iwezekanavyo — hisia, maeneo, watu, alama...",charLabel:"herufi",successT:"Ndoto yako imehifadhiwa",successS:"Asante kwa mchango wako. Ndoto zinazofanana zimepatikana:",matchL:"watu walikuwa na ndoto zinazofanana",successIn:"— katika nchi 34",ctaFull:"Pata tafsiri kamili →",ctaAnother:"Wasilisha ndoto nyingine",footerApp:"App ya Traumcode →",footerSci:"Sayansi",footerPriv:"Faragha",footerContact:"Wasiliana",metaTitle:"SameDream — Je, wewe pia uliota hivi?",metaDesc:"Shiriki ndoto yako. Pata watu duniani kote waliokuota kitu hicho hicho.",sciP2:"Data zote zilizokusanywa zinafanywa za siri na kuingizwa kwenye hifadhidata ya ndoto ya kimataifa DreamAtlas.org na kutumika kwa machapisho ya kisayansi.",hvdcDesc:"Mfumo wa kusimba uliowekwa viwango kwa maudhui ya ndoto — msingi wa utafiti wote wa kisasa wa ndoto",sddbDesc:"Zaidi ya ripoti 25,000 za ndoto zilizosimbwa kisayansi · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Hifadhidata ya maandishi ya ndoto ya umma · zaidi ya ripoti 20,000 · Schneider & Domhoff 1995",schredlDesc:"Masomo ya muda mrefu ya shajara ya ndoto · marudio, hisia, nadharia ya mwendelezo",siclariDesc:"Vihusishi vya neva vya kuota kupitia EEG ya msongamano wa juu — eneo moto katika gamba la nyuma",statReports:"Ripoti za utafiti wa kisayansi kama msingi (SDDb, Dryad, DREAM Database)",statPeer:"Hifadhidata zilizopitishwa na wenzao (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Miaka ya utafiti wa kitaaluma wa ndoto kama msingi",statGrowing:"Data yako inakuza hifadhidata kila siku — inapatikana kwa watafiti wote",timeAgoMin:"dakika %d zilizopita",matchesWord:"Mechi",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Ripoti zote za ndoto hazijulikani & zimesimbwa"},
+  hu:{badge:"Polgári Tudományos Projekt · Globális Álomkutatás",h1a:"Te is",h1b:"ezt álmodtad?",sub:"Mesélj nekünk az álmodról — hangban vagy szövegben. Ingyenes. Névtelen. Fedezd fel, hány ember tapasztalta ugyanezt a világon.",modeAudio:"Hang rögzítése",modeText:"Álom beírása",recStatus:"Érintsd a felvételhez",recLive:"🔴 Élő átirat fut...",recPaused:"⏸ Szünet — szerkeszd a szöveget, majd Folytatás",recDone:"✓ Felvétel véget ért",recUseD:"✓ Szöveg átvéve",recErr:"⚠️ A böngésző nem támogatja a mikrofont — használd a szöveg módot",pauseBtn:"⏸ Szünet szerkesztéshez",resumeBtn:"▶ Folytatás",useBtn:"✓ Szöveg használata",anon:"100% névtelen · Nincs szükség fiókra · Tudományos felhasználás",submit:"Álom beküldése",navCta:"App megnyitása →",stat1l:"Rögzített álom",stat2l:"Ország",stat3l:"Nyelv",stat4l:"Kutatási adatbázis",howEye:"Hogyan működik",howTitleA:"Az álmod.",howTitleEm:"Globális kapcsolat.",howSub:"4 lépés az álomtól a tudományos felfedezésig.",how1t:"Te mesélsz",how1b:"Hang vagy szöveg — a saját nyelveden. Nincs fiók. Nincs email. Névtelen.",how2t:"Az AI elemez",how2b:"AI-unk felismeri az álmodban lévő szimbólumokat, érzelmeket és narratív mintákat.",how3t:"Globális egyeztetés",how3b:"Az álmod több mint 64 500 kutatási jelentéssel kerül összehasonlításra.",how4t:"Kapcsolat",how4b:"Meglátod, hány ember álmodta ugyanezt a világon.",sciEye:"Polgári Tudomány",sciTitleA:"Te az",sciTitleEm:"álomkutatás része vagy.",sciP1:"A SameDream egy nyílt polgári tudományos projekt. Névtelen álomjelentéseid segítenek kutatóknak világszerte megérteni az emberi tudatalatti univerzális mintáit.",sciLink:"Tudj meg többet a tudományról →",recentEye:"Nemrég beküldött álmok",recentTitlePre:"A világ ",recentTitleEm:"álmodik.",placeholder:"Írd le az álmodat a lehető legrészletesebben — érzések, helyek, személyek, szimbólumok...",charLabel:"karakter",successT:"Az álmod el lett mentve",successS:"Köszönjük hozzájárulásodat. Hasonló álmok találtattak:",matchL:"ember álmodott hasonlót",successIn:"— 34 országban",ctaFull:"Teljes értelmezés →",ctaAnother:"Másik álom beküldése",footerApp:"Traumcode App →",footerSci:"Tudomány",footerPriv:"Adatvédelem",footerContact:"Kapcsolat",metaTitle:"SameDream — Te is ezt álmodtad?",metaDesc:"Oszd meg az álmodat. Találj embereket szerte a világon, akik ugyanezt álmodták.",sciP2:"Minden összegyűjtött adat anonimizálva kerül a globális álomadatbázisba, a DreamAtlas.org-ra, és tudományos kiadványokban hasznosítják.",hvdcDesc:"Szabványosított kódolási rendszer az álomtartalomhoz — az összes modern álomkutatás alapja",sddbDesc:"Több mint 25 000 tudományosan kódolt álomjelentés · UC Santa Cruz · Bulkeley 2009",dreambankDesc:"Nyilvános álomszöveg-adatbázis · több mint 20 000 jelentés · Schneider & Domhoff 1995",schredlDesc:"Longitudinális álomnapló-tanulmányok · gyakorisági, érzelmi, kontinuitási hipotézis",siclariDesc:"Az álmodás neurális korrelátjai nagy sűrűségű EEG segítségével — forró zóna a hátsó kéregben",statReports:"Tudományos kutatási jelentések alapján (SDDb, Dryad, DREAM Database)",statPeer:"Egyenrangú felülvizsgálatú adatbázisok (Nature 2025, Royal Society 2020, CC-BY 4.0)",statYears:"Év tudományos álomkutatás alapjaként",statGrowing:"Az adataid naponta növelik az adatbázist — minden kutató számára elérhető",timeAgoMin:"%d perce",matchesWord:"Egyezés",footerCopy:"© 2026 DreamData Initiative · AssetsUN LLC · assetsun.us · Minden álomjelentés anonim & titkosított"}
 };
+
+// BCP-47 mapping für Web Speech API
+const BCP47 = {
+  de:'de-DE',en:'en-US',tr:'tr-TR',ar:'ar-SA',es:'es-ES',fr:'fr-FR',
+  ru:'ru-RU',zh:'zh-CN',pt:'pt-BR',hi:'hi-IN',ja:'ja-JP',ko:'ko-KR',
+  id:'id-ID',fa:'fa-IR',it:'it-IT',pl:'pl-PL',bn:'bn-BD',ur:'ur-PK',
+  vi:'vi-VN',th:'th-TH',sw:'sw-KE',hu:'hu-HU'
+};
+const RTL_LANGS = new Set(['ar','fa','ur']);
 
 let currentLang = 'de';
 let isRecording = false;
 let recordTimer = null;
 let seconds = 0;
 
+function st(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
 function changeLang(lang) {
   currentLang = lang;
-  const t = T[lang] || T['de'];
-  document.getElementById('badge-text').textContent = t.badge;
-  document.getElementById('hero-sub').textContent = t.sub;
-  document.getElementById('mode-audio-label').textContent = t.modeAudio;
-  document.getElementById('mode-text-label').textContent = t.modeText;
-  document.getElementById('record-status').textContent = t.recStatus;
-  document.getElementById('anon-text').textContent = t.anon;
-  document.getElementById('submit-label').textContent = t.submit;
-  document.getElementById('nav-cta').textContent = t.navCta;
-  document.getElementById('success-title').textContent = t.successT;
-  document.getElementById('success-sub').textContent = t.successS;
-  document.getElementById('match-label').textContent = t.matchL + ' — in 34 Ländern';
-  document.getElementById('cta-full').textContent = t.ctaFull;
-  document.getElementById('cta-another').textContent = t.ctaAnother;
-  // RTL für Arabisch
-  document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+  const t = T[lang] || T['en'];
+  const isRTL = RTL_LANGS.has(lang);
+
+  document.body.style.direction = isRTL ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+  document.title = t.metaTitle;
+  const md = document.querySelector('meta[name="description"]');
+  if (md) md.content = t.metaDesc;
+
+  // Nav
+  st('nav-cta', t.navCta);
+
+  // Hero
+  st('badge-text', t.badge);
+  st('h1a', t.h1a); st('h1b', t.h1b);
+  st('hero-sub', t.sub);
+
+  // Stats
+  st('stat1-l', t.stat1l); st('stat2-l', t.stat2l);
+  st('stat3-l', t.stat3l); st('stat4-l', t.stat4l);
+
+  // Mode + record
+  st('mode-audio-label', t.modeAudio);
+  st('mode-text-label', t.modeText);
+  if (!isRecording) st('record-status', t.recStatus);
+  st('pause-btn', t.pauseBtn);
+  st('resume-btn', t.resumeBtn);
+  st('use-btn', t.useBtn);
+
+  // Textarea
+  const ta = document.getElementById('dream-text');
+  if (ta) ta.placeholder = t.placeholder;
+  st('char-label', t.charLabel);
+  st('anon-text', t.anon);
+  st('submit-label', t.submit);
+
+  // How section
+  st('how-eye', t.howEye);
+  st('how-title-a', t.howTitleA); st('how-title-em', t.howTitleEm);
+  st('how-sub', t.howSub);
+  st('how1-t', t.how1t); st('how1-b', t.how1b);
+  st('how2-t', t.how2t); st('how2-b', t.how2b);
+  st('how3-t', t.how3t); st('how3-b', t.how3b);
+  st('how4-t', t.how4t); st('how4-b', t.how4b);
+
+  // Recent dreams
+  st('recent-eye', t.recentEye);
+  st('recent-title-pre', t.recentTitlePre);
+  st('recent-title-em', t.recentTitleEm);
+
+  // Science
+  st('sci-eye', t.sciEye);
+  st('sci-title-a', t.sciTitleA); st('sci-title-em', t.sciTitleEm);
+  st('sci-p1', t.sciP1); st('sci-p2', t.sciP2); st('sci-link', t.sciLink);
+  st('hvdc-desc', t.hvdcDesc); st('sddb-desc', t.sddbDesc);
+  st('dreambank-desc', t.dreambankDesc); st('schredl-desc', t.schredlDesc);
+  st('siclari-desc', t.siclariDesc);
+  st('stat-label-1', t.statReports); st('stat-label-2', t.statPeer);
+  st('stat-label-3', t.statYears); st('stat-label-4', t.statGrowing);
+
+  // Footer
+  st('footer-app', t.footerApp); st('footer-sci', t.footerSci);
+  st('footer-priv', t.footerPriv); st('footer-contact', t.footerContact);
+  st('footer-copy', t.footerCopy);
+
+  // Dream card times
+  const cardTimes = [3, 7, 12, 18, 24, 31];
+  cardTimes.forEach((min, i) => {
+    const el = document.getElementById('card-time-' + (i+1));
+    if (el) el.textContent = t.timeAgoMin.replace('%d', min);
+  });
+  // Dream card matches
+  const matchNums = ['47.382','52.107','38.914','29.441','33.108','41.556'];
+  matchNums.forEach((num, i) => {
+    const el = document.getElementById('card-match-' + (i+1));
+    if (el) el.textContent = num + ' ' + t.matchesWord;
+  });
+
+  // Success
+  st('success-title', t.successT); st('success-sub', t.successS);
+  st('match-label', t.matchL + ' ' + t.successIn);
+  st('cta-full', t.ctaFull); st('cta-another', t.ctaAnother);
+
+  // Sync dream-lang selector
+  const dl = document.getElementById('dream-lang');
+  if (dl && T[lang]) {
+    const opt = dl.querySelector('option[value="' + lang + '"]');
+    if (opt) dl.value = lang;
+  }
 }
 
 function setMode(mode) {
@@ -640,7 +788,7 @@ function toggleRecord() {
   const tctrl = document.getElementById('transcript-controls');
 
   if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    status.textContent = '⚠️ Browser unterstützt kein Mikrofon — bitte Text-Modus nutzen';
+    status.textContent = (T[currentLang] || T['en']).recErr;
     return;
   }
 
@@ -654,12 +802,12 @@ function toggleRecord() {
     tctrl.style.display = 'flex';
     btn.classList.add('recording');
     btn.textContent = '⏹️';
-    status.textContent = '🔴 Live-Transkription läuft...';
+    status.textContent = (T[currentLang] || T['en']).recLive;
     bars.forEach(b => b.classList.add('active'));
 
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition = new SR();
-    recognition.lang = document.getElementById('dream-lang')?.value || 'de-DE';
+    recognition.lang = BCP47[currentLang] || 'en-US';
     recognition.continuous = true;
     recognition.interimResults = true;
 
@@ -677,7 +825,7 @@ function toggleRecord() {
     };
 
     recognition.onerror = (e) => {
-      status.textContent = '⚠️ Mikrofon-Fehler: ' + e.error;
+      status.textContent = (T[currentLang] || T['en']).recErr + ' (' + e.error + ')';
     };
 
     recognition.onend = () => {
@@ -702,7 +850,8 @@ function toggleRecord() {
 function pauseTranscript() {
   isPaused = true;
   if (recognition) recognition.stop();
-  document.getElementById('record-status').textContent = '⏸ Pausiert — Text korrigieren, dann Weiter';
+  const t = T[currentLang] || T['en'];
+  document.getElementById('record-status').textContent = t.recPaused;
   document.getElementById('transcript-box').contentEditable = 'true';
   document.getElementById('transcript-box').style.border = '1px solid var(--gold2)';
 }
@@ -712,8 +861,11 @@ function continueTranscript() {
   transcriptText = document.getElementById('transcript-box').textContent;
   document.getElementById('transcript-box').contentEditable = 'false';
   document.getElementById('transcript-box').style.border = '1px solid rgba(109,40,217,0.3)';
-  document.getElementById('record-status').textContent = '🔴 Live-Transkription läuft...';
-  if (recognition) recognition.start();
+  document.getElementById('record-status').textContent = (T[currentLang] || T['en']).recLive;
+  if (recognition) {
+    recognition.lang = BCP47[currentLang] || 'en-US';
+    recognition.start();
+  }
 }
 
 function useTranscript() {
@@ -722,7 +874,7 @@ function useTranscript() {
     document.getElementById('dream-text').value = text;
     updateCount();
     setMode('text');
-    document.getElementById('record-status').textContent = '✓ Text übernommen';
+    document.getElementById('record-status').textContent = (T[currentLang] || T['en']).recUseD;
   }
 }
 
@@ -734,7 +886,7 @@ function stopRecording() {
   const bars = document.querySelectorAll('.wave-bar');
   btn.classList.remove('recording');
   btn.textContent = '🎙️';
-  document.getElementById('record-status').textContent = '✓ Aufnahme beendet';
+  document.getElementById('record-status').textContent = (T[currentLang] || T['en']).recDone;
   bars.forEach(b => b.classList.remove('active'));
 }
 
@@ -762,7 +914,14 @@ function resetForm() {
   document.getElementById('success-panel').classList.remove('visible');
   document.getElementById('submit-btn').style.display = 'block';
   document.getElementById('submit-btn').disabled = false;
-  document.getElementById('submit-btn').innerHTML = '✦ <span id="submit-label">' + (T[currentLang]||T['de']).submit + '</span>';
+  const sbtn = document.getElementById('submit-btn');
+  sbtn.textContent = '';
+  const star = document.createTextNode('✦ ');
+  const lbl = document.createElement('span');
+  lbl.id = 'submit-label';
+  lbl.textContent = (T[currentLang]||T['en']).submit;
+  sbtn.appendChild(star);
+  sbtn.appendChild(lbl);
   document.getElementById('dream-text').value = '';
   document.getElementById('char-count').textContent = '0';
   seconds = 0;
@@ -772,12 +931,156 @@ function resetForm() {
   document.getElementById('record-btn').textContent = '🎙️';
 }
 
-// Auto-detect Browser-Sprache
+// Auto-detect Browser-Sprache (22 Sprachen)
 const browserLang = navigator.language.slice(0,2);
-if (T[browserLang]) {
-  document.querySelector('.nav-lang').value = browserLang;
+const navLangSel = document.querySelector('.nav-lang');
+if (T[browserLang] && navLangSel) {
+  navLangSel.value = browserLang;
   changeLang(browserLang);
+} else {
+  changeLang('de');
 }
+</script>
+
+<script>
+/* === SAMEDREAM GLOBE === */
+(function() {
+  var W = 500, H = 500;
+  var svg = d3.select('#sd-globe')
+    .attr('viewBox', '0 0 ' + W + ' ' + H);
+
+  var projection = d3.geoOrthographic()
+    .scale(230)
+    .translate([W/2, H/2])
+    .clipAngle(90);
+
+  var path = d3.geoPath().projection(projection);
+  var graticule = d3.geoGraticule();
+
+  svg.append('circle')
+    .attr('cx', W/2).attr('cy', H/2).attr('r', 230)
+    .attr('fill', '#0a0e2a');
+
+  var gratPath = svg.append('path')
+    .datum(graticule())
+    .attr('fill', 'none')
+    .attr('stroke', '#1c2a5e')
+    .attr('stroke-width', 0.7);
+
+  var landPath = svg.append('path')
+    .attr('fill', '#1e3d78')
+    .attr('stroke', '#3358aa')
+    .attr('stroke-width', 0.6);
+
+  var defs = svg.append('defs');
+  var filt = defs.append('filter').attr('id', 'sd-glow').attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+  filt.append('feGaussianBlur').attr('stdDeviation','3').attr('result','blur');
+  var merge = filt.append('feMerge');
+  merge.append('feMergeNode').attr('in','blur');
+  merge.append('feMergeNode').attr('in','SourceGraphic');
+
+  // Research + dream origin locations [lon, lat]
+  var locations = [
+    [-95, 37],   // USA
+    [10, 51],    // DE
+    [14, 47],    // AT
+    [8, 46],     // CH
+    [-0.1, 51],  // GB
+    [2, 46],     // FR
+    [139, 35],   // JP
+    [133, -25],  // AU
+    [45, 24],    // SA
+    [30, 26],    // EG
+    [-106, 56],  // CA
+    [5, 52]      // NL
+  ];
+
+  var dots = svg.selectAll('.sd-dot').data(locations).enter()
+    .append('circle').attr('class','sd-dot')
+    .attr('r', 5).attr('fill', '#34d399')
+    .attr('filter', 'url(#sd-glow)');
+
+  var pulses = svg.selectAll('.sd-pulse').data(locations).enter()
+    .append('circle').attr('class','sd-pulse')
+    .attr('r', 5).attr('fill', 'none')
+    .attr('stroke', '#6ee7b7').attr('stroke-width', 1.5)
+    .attr('opacity', 0);
+
+  var rotation = [0, -20];
+  var isDragging = false;
+  var dragStart = null;
+
+  function isVisible(lonlat) {
+    var r = projection.rotate();
+    return d3.geoDistance(lonlat, [-r[0], -r[1]]) < Math.PI / 2;
+  }
+
+  function updateDots() {
+    dots.each(function(d) {
+      var p = projection(d);
+      d3.select(this)
+        .attr('cx', p ? p[0] : -999)
+        .attr('cy', p ? p[1] : -999)
+        .attr('opacity', p && isVisible(d) ? 0.95 : 0);
+    });
+    pulses.each(function(d) {
+      var p = projection(d);
+      d3.select(this)
+        .attr('cx', p ? p[0] : -999)
+        .attr('cy', p ? p[1] : -999);
+    });
+  }
+
+  function render() {
+    gratPath.attr('d', path(graticule()));
+    if (landPath.datum()) landPath.attr('d', path);
+    updateDots();
+  }
+
+  function pulsate() {
+    pulses
+      .attr('r', 5)
+      .attr('opacity', function(d) { return isVisible(d) ? 0.8 : 0; })
+      .transition().duration(1800).ease(d3.easeCubicOut)
+      .attr('r', 22).attr('opacity', 0)
+      .on('end', pulsate);
+  }
+  pulsate();
+
+  function animate() {
+    if (!isDragging) {
+      rotation[0] += 0.15;
+      projection.rotate(rotation);
+      render();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  svg.call(
+    d3.drag()
+      .on('start', function(event) {
+        isDragging = true;
+        dragStart = { x: event.x, y: event.y, r: rotation.slice() };
+      })
+      .on('drag', function(event) {
+        rotation[0] = dragStart.r[0] + (event.x - dragStart.x) * 0.4;
+        rotation[1] = Math.max(-60, Math.min(60, dragStart.r[1] - (event.y - dragStart.y) * 0.4));
+        projection.rotate(rotation);
+        render();
+      })
+      .on('end', function() { isDragging = false; })
+  );
+
+  fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+    .then(function(r) { return r.json(); })
+    .then(function(world) {
+      landPath.datum(topojson.feature(world, world.objects.countries));
+      render();
+    })
+    .catch(function() {});
+
+  animate();
+})();
 </script>
 </body>
 </html>
