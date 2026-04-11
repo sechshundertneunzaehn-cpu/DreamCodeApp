@@ -266,7 +266,23 @@ export async function translateText(
       result = await translateWithGroq(text, targetLang);
     }
 
-    // 5. Original text as last resort
+    // 5. Google Translate (unofficial API, kein Key nötig) — greift wenn alle AI-Provider versagen
+    if (!result) {
+      try {
+        const chunk = text.slice(0, 4800);
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(chunk)}`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json() as any[][];
+          const translated = data[0]?.map((item: any[]) => item[0]).filter(Boolean).join('') ?? '';
+          if (translated) result = translated + (text.length > 4800 ? ' …' : '');
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    // 6. Originaltext als letzter Ausweg
     if (!result) return text;
 
     // Persist to cache (fire-and-forget)

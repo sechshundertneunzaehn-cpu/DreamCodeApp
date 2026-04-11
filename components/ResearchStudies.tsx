@@ -1176,7 +1176,7 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
         const { data } = await supabase
           .from('research_dreams')
           .select('participant_id')
-          .not('interpretation', 'is', null)
+          .not('scientific_interpretation', 'is', null)
           .limit(5000);
         if (data) {
           const codes = new Set<string>();
