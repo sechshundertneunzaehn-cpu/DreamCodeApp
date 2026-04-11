@@ -223,20 +223,18 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
       } else {
         let loadedDreams = (dData as DreamRow[]) || [];
         // If all dreams share the same date (common in bulk-imported studies),
-        // generate sequential dates using dream_night as offset (Night 1 = base, Night 2 = base+1, …)
+        // generate sequential dates: dream_night as offset, fallback to array index
         const dated = loadedDreams.filter(d => d.dream_date);
         if (dated.length > 1) {
           const uniqueDates = new Set(dated.map(d => d.dream_date));
           if (uniqueDates.size === 1) {
             const baseDate = dated[0].dream_date!;
-            loadedDreams = loadedDreams.map(d => {
+            loadedDreams = loadedDreams.map((d, idx) => {
               const nightNum = d.dream_night ? Number(d.dream_night) : null;
-              if (nightNum !== null && !isNaN(nightNum)) {
-                const dt = new Date(baseDate);
-                dt.setDate(dt.getDate() + (nightNum - 1));
-                return { ...d, dream_date: dt.toISOString().split('T')[0] };
-              }
-              return d;
+              const offset = (nightNum !== null && !isNaN(nightNum)) ? (nightNum - 1) : idx;
+              const dt = new Date(baseDate);
+              dt.setDate(dt.getDate() + offset);
+              return { ...d, dream_date: dt.toISOString().split('T')[0] };
             });
           }
         }
