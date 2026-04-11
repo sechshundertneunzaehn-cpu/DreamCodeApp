@@ -218,8 +218,30 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
         .eq('participant_id', participantId)
         .order('dream_date', { ascending: true })
         .order('dream_id', { ascending: true });
-      if (dErr) console.error('Error fetching dreams:', dErr);
-      else setDreams((dData as DreamRow[]) || []);
+      if (dErr) {
+        console.error('Error fetching dreams:', dErr);
+      } else {
+        let loadedDreams = (dData as DreamRow[]) || [];
+        // If all dreams share the same date (common in bulk-imported studies),
+        // generate sequential dates using dream_night as offset (Night 1 = base, Night 2 = base+1, …)
+        const dated = loadedDreams.filter(d => d.dream_date);
+        if (dated.length > 1) {
+          const uniqueDates = new Set(dated.map(d => d.dream_date));
+          if (uniqueDates.size === 1) {
+            const baseDate = dated[0].dream_date!;
+            loadedDreams = loadedDreams.map(d => {
+              const nightNum = d.dream_night ? Number(d.dream_night) : null;
+              if (nightNum !== null && !isNaN(nightNum)) {
+                const dt = new Date(baseDate);
+                dt.setDate(dt.getDate() + (nightNum - 1));
+                return { ...d, dream_date: dt.toISOString().split('T')[0] };
+              }
+              return d;
+            });
+          }
+        }
+        setDreams(loadedDreams);
+      }
 
       setLoading(false);
     };
@@ -287,102 +309,91 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
               </span>
             </div>
 
-            {/* Participant Info Card */}
-            <div className={`rounded-xl border p-6 mb-6 ${cardBg}`}>
-              <div className="flex items-start justify-between flex-wrap gap-4">
-                <div className="space-y-2 flex-1">
-                  <h2 className="text-xl font-bold">
+            {/* Participant Info Card — compact horizontal layout */}
+            <div className={`rounded-xl border p-4 mb-6 ${cardBg}`}>
+              {/* Top row: ID + badge + map button */}
+              <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 className="text-lg font-bold font-mono">
                     {participant.participant_id || `P-${participant.id?.slice(0,8)}`}
                   </h2>
-
-                  {study && (
-                    <div className="space-y-1 text-sm opacity-80">
-                      <div>
-                        <span className="font-medium">{t.study}:</span>{' '}
-                        {study.study_name}
-                        {study.study_code && (
-                          <span
-                            className="ml-2 inline-block rounded-full px-2 py-0.5 text-xs font-bold text-white"
-                            style={{
-                              backgroundColor: study.map_color || '#6366f1',
-                            }}
-                          >
-                            {study.study_code}
-                          </span>
-                        )}
-                      </div>
-                      <div>
-                        <span className="font-medium">{t.researcher}:</span>{' '}
-                        {study.principal_investigator}
-                      </div>
-                      <div>
-                        <span className="font-medium">{t.institution}:</span>{' '}
-                        {study.institution}
-                      </div>
-                      {(study.year_start || study.year_end) && (
-                        <div>
-                          <span className="font-medium">{t.period}:</span>{' '}
-                          {study.year_start ?? '?'} &ndash;{' '}
-                          {study.year_end ?? '?'}
-                        </div>
-                      )}
-                      {study.doi && (
-                        <div>
-                          <span className="font-medium">{t.doi}:</span>{' '}
-                          <a
-                            href={
-                              study.doi.startsWith('http')
-                                ? study.doi
-                                : `https://doi.org/${study.doi}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-indigo-400 hover:underline"
-                          >
-                            {study.doi}
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Demographics (only if data exists) */}
-                  {(participant.age || participant.gender || participant.ethnicity) && (
-                    <div className="mt-3 pt-3 border-t border-white/10">
-                      <div className="text-xs font-medium opacity-60 mb-1">
-                        {t.demographics}
-                      </div>
-                      <div className="flex flex-wrap gap-3 text-sm">
-                        {participant.age && (
-                          <span>
-                            {t.age}: {participant.age}
-                          </span>
-                        )}
-                        {participant.gender && (
-                          <span>
-                            {t.gender}: {participant.gender}
-                          </span>
-                        )}
-                        {participant.ethnicity && (
-                          <span>
-                            {t.ethnicity}: {participant.ethnicity}
-                          </span>
-                        )}
-                      </div>
-                    </div>
+                  {study?.study_code && (
+                    <span
+                      className="inline-block rounded-full px-2 py-0.5 text-xs font-bold text-white"
+                      style={{ backgroundColor: study.map_color || '#6366f1' }}
+                    >
+                      {study.study_code}
+                    </span>
                   )}
                 </div>
-
-                {/* Map Button */}
                 {onShowOnMap && study && (
                   <button
                     onClick={() => onShowOnMap(study.study_code)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium ${btnPrimary}`}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium ${btnPrimary} shrink-0`}
                   >
                     {t.showOnMap}
                   </button>
                 )}
               </div>
+
+              {/* Info grid: 2 columns */}
+              {study && (
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs opacity-80">
+                  <div className="col-span-2">
+                    <span className="font-semibold">{t.study}:</span>{' '}
+                    <span>{study.study_name}</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold">{t.researcher}:</span>{' '}
+                    {study.principal_investigator}
+                  </div>
+                  <div>
+                    <span className="font-semibold">{t.institution}:</span>{' '}
+                    {study.institution}
+                  </div>
+                  {(study.year_start || study.year_end) && (
+                    <div>
+                      <span className="font-semibold">{t.period}:</span>{' '}
+                      {study.year_start ?? '?'}–{study.year_end ?? '?'}
+                    </div>
+                  )}
+                  {study.doi && (
+                    <div>
+                      <span className="font-semibold">{t.doi}:</span>{' '}
+                      <a
+                        href={study.doi.startsWith('http') ? study.doi : `https://doi.org/${study.doi}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-indigo-400 hover:underline"
+                      >
+                        {study.doi}
+                      </a>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Demographics inline chips */}
+              {(participant.age || participant.gender || participant.ethnicity) && (
+                <div className="flex flex-wrap gap-2 mt-3 pt-2 border-t border-white/10">
+                  <span className="text-xs opacity-50">{t.demographics}:</span>
+                  {participant.age && (
+                    <span className={`text-xs px-2 py-0.5 rounded-full border ${isLight ? 'bg-gray-100 border-gray-200 text-gray-600' : 'bg-gray-700/50 border-white/10 text-gray-300'}`}>
+                      {t.age}: {participant.age}
+                    </span>
+                  )}
+                  {participant.gender && (
+                    <span className={`text-xs px-2 py-0.5 rounded-full border ${isLight ? 'bg-gray-100 border-gray-200 text-gray-600' : 'bg-gray-700/50 border-white/10 text-gray-300'}`}>
+                      {t.gender}: {participant.gender}
+                    </span>
+                  )}
+                  {participant.ethnicity && (
+                    <span className={`text-xs px-2 py-0.5 rounded-full border ${isLight ? 'bg-gray-100 border-gray-200 text-gray-600' : 'bg-gray-700/50 border-white/10 text-gray-300'}`}>
+                      {t.ethnicity}: {participant.ethnicity}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Dreams List */}

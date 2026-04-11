@@ -932,6 +932,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
   language = 'en',
   onClose,
   isLight = false,
+  onSelectParticipant,
   onNavigateToStudy,
   onNavigateToResearch,
 }) => {
@@ -1266,8 +1267,11 @@ const DreamMap: React.FC<DreamMapProps> = ({
 
   // Select user from result list → open profile
   const handleResultClick = useCallback((user: SimUser) => {
+    // Individuelle Forschungsteilnehmer → ParticipantProfile
+    if (user.id.startsWith('rp_') && onSelectParticipant) {
+      onSelectParticipant(user.id.slice(3));
     // Research markers (study_map_markers) → navigate to specific study's participant list
-    if (user.id.startsWith('research-') && onNavigateToStudy) {
+    } else if (user.id.startsWith('research-') && onNavigateToStudy) {
       const studyCode = user.id.replace(/^research-/, '').replace(/-\d+$/, '');
       onNavigateToStudy(studyCode);
     } else if (user.avatar === '🔬' && onNavigateToStudy) {
@@ -1276,7 +1280,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
     } else {
       openProfile(user);
     }
-  }, [openProfile, onNavigateToStudy]);
+  }, [openProfile, onSelectParticipant, onNavigateToStudy]);
 
   // Stats
   const totalActive = users.length + 1847;
@@ -1626,6 +1630,37 @@ const DreamMap: React.FC<DreamMapProps> = ({
             </button>
           )}
         </div>
+        {/* Live autocomplete suggestions */}
+        {searchQuery.trim().length >= 2 && sortedFilteredUsers.length > 0 && (
+          <div className={`mt-1 rounded-xl border overflow-hidden shadow-lg ${isLight ? 'bg-white border-purple-200' : 'bg-gray-900 border-white/10'}`}>
+            {sortedFilteredUsers.slice(0, 5).map(u => {
+              const q = searchQuery.trim().toLowerCase();
+              const snippet = u.dreamSummary
+                ? u.dreamSummary.toLowerCase().includes(q)
+                  ? (() => {
+                      const idx = u.dreamSummary.toLowerCase().indexOf(q);
+                      const start = Math.max(0, idx - 30);
+                      return (start > 0 ? '…' : '') + u.dreamSummary.slice(start, idx + q.length + 40) + (idx + q.length + 40 < u.dreamSummary.length ? '…' : '');
+                    })()
+                  : u.dreamSummary.slice(0, 70)
+                : '';
+              return (
+                <button
+                  key={u.id}
+                  onClick={() => handleResultClick(u)}
+                  className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-colors ${isLight ? 'hover:bg-purple-50' : 'hover:bg-white/5'} border-b last:border-b-0 ${isLight ? 'border-purple-100' : 'border-white/5'}`}
+                >
+                  <span className="text-xl shrink-0">{u.avatar}</span>
+                  <div className="min-w-0 flex-1">
+                    <div className={`text-xs font-semibold truncate ${textMain}`}>{u.name}</div>
+                    {snippet && <div className={`text-xs truncate opacity-60 ${textSub}`}>{snippet}</div>}
+                  </div>
+                  <span className="text-xs opacity-40 shrink-0">{u.city}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* ── Stats Bar ── */}
@@ -1941,7 +1976,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
             <button
               onClick={() => {
                 handleClosePanel();
-                if (selectedUser.id.startsWith('research-') && onNavigateToStudy) {
+                if (selectedUser.id.startsWith('rp_') && onSelectParticipant) {
+                  onSelectParticipant(selectedUser.id.slice(3));
+                } else if (selectedUser.id.startsWith('research-') && onNavigateToStudy) {
                   const studyCode = selectedUser.id.replace(/^research-/, '').replace(/-\d+$/, '');
                   onNavigateToStudy(studyCode);
                 } else if (selectedUser.avatar === '🔬' && onNavigateToStudy) {
@@ -1952,8 +1989,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
               }}
               className="flex-1 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 transition-opacity"
             >
-              <span className="material-icons text-base align-middle mr-1">{(selectedUser.id.startsWith('research-') || selectedUser.avatar === '🔬') ? 'science' : 'person'}</span>
-              {(selectedUser.id.startsWith('research-') || selectedUser.avatar === '🔬') ? (language === 'de' ? 'Studie öffnen' : 'Open Study') : t.profileShowProfile}
+              <span className="material-icons text-base align-middle mr-1">{selectedUser.id.startsWith('rp_') ? 'person' : (selectedUser.id.startsWith('research-') || selectedUser.avatar === '🔬') ? 'science' : 'person'}</span>
+              {selectedUser.id.startsWith('rp_') ? (language === 'de' ? 'Profil öffnen' : 'Open Profile') : (selectedUser.id.startsWith('research-') || selectedUser.avatar === '🔬') ? (language === 'de' ? 'Studie öffnen' : 'Open Study') : t.profileShowProfile}
             </button>
           </div>
         </div>

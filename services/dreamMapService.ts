@@ -218,7 +218,7 @@ function userDreamToMap(d: RawUserDream): MapDreamUser {
     lng,
     category,
     mood: normalizeMood(d.mood),
-    dreamSummary: d.text.slice(0, 150),
+    dreamSummary: d.text.slice(0, 500),
     matchPct: randomMatchPct(d.id),
     privacy: 'partial',
     memberSince: formatMemberSince(d.created_at),
@@ -242,7 +242,7 @@ function dreamReportToMap(r: RawDreamReport): MapDreamUser {
     lng,
     category,
     mood: 'mysterious',
-    dreamSummary: r.text.slice(0, 150),
+    dreamSummary: r.text.slice(0, 500),
     matchPct: randomMatchPct(r.id),
     privacy: 'partial',
     memberSince: formatMemberSince(r.created_at),
@@ -266,7 +266,7 @@ export async function fetchMapDreams(): Promise<MapDreamUser[] | null> {
 
   try {
     // Lade wissenschaftliche Teilnehmer + echte dream_reports
-    const [userDreams, dreamReports, researchParticipants] = await Promise.all([
+    const [userDreams, dreamReports, studyMarkers, individualParticipants] = await Promise.all([
       fetchFromSupabase<RawUserDream>(
         'user_dreams',
         new URLSearchParams({
@@ -284,17 +284,28 @@ export async function fetchMapDreams(): Promise<MapDreamUser[] | null> {
           limit: '200',
         }),
       ),
-      fetchFromSupabase<{participant_id:string,study_code:string,country:string,dream_count:number}>(
+      fetchFromSupabase<any>(
         'study_map_markers',
         new URLSearchParams({
           select: 'study_code,lat,lng,city,country,dream_count,map_color',
           limit: '500',
         }),
       ).catch(() => [] as any[]),
+      // Individual research participants — verlinkt zu ParticipantProfile
+      fetchFromSupabase<any>(
+        'research_participants',
+        new URLSearchParams({
+          select: 'id,participant_id,country,lat,lng,dream_count,study_id',
+          'dream_count': 'gt.0',
+          'lat': 'not.is.null',
+          order: 'dream_count.desc',
+          limit: '500',
+        }),
+      ).catch(() => [] as any[]),
     ])
 
-    // Wissenschaftliche Marker als MapDreamUser
-    const researchUsers: MapDreamUser[] = (researchParticipants || []).map((rp: any, i: number) => ({
+    // Studie-Aggregat-Marker (für Cluster-Übersicht)
+    const researchUsers: MapDreamUser[] = (studyMarkers || []).map((rp: any, i: number) => ({
       id: `research-${rp.study_code}-${i}`,
       name: `🔬 ${rp.study_code}`,
       avatar: '🔬',
@@ -314,6 +325,29 @@ export async function fetchMapDreams(): Promise<MapDreamUser[] | null> {
       favCategory: 'spiritual',
     }))
 
+    // Individuelle Forschungsteilnehmer → verlinkt zu ParticipantProfile via rp_ prefix
+    const individualUsers: MapDreamUser[] = (individualParticipants || [])
+      .filter((p: any) => p.lat && p.lng)
+      .map((p: any) => ({
+        id: `rp_${p.participant_id || p.id}`,  // rp_ prefix → DreamMap routet zu onSelectParticipant; participant_id für ParticipantProfile-Query
+        name: p.participant_id || `Teilnehmer`,
+        avatar: '🔬',
+        city: '',
+        country: p.country || '?',
+        lat: p.lat,
+        lng: p.lng,
+        category: 'spiritual',
+        mood: 'peaceful',
+        dreamSummary: `${p.dream_count || 0} Träume in der Studie`,
+        matchPct: 98,
+        privacy: 'partial' as const,
+        memberSince: '',
+        bio: 'Forschungsteilnehmer — Profil mit Originaldaten ansehen',
+        dreamCount: p.dream_count || 0,
+        matchCount: 0,
+        favCategory: 'spiritual',
+      }))
+
     // Mindestens ein Datensatz vorhanden?
     if (userDreams.length === 0 && dreamReports.length === 0 && researchUsers.length === 0) {
       return null
@@ -325,7 +359,8 @@ export async function fetchMapDreams(): Promise<MapDreamUser[] | null> {
       .slice(0, 150)
 
     const result: MapDreamUser[] = [
-      ...researchUsers,
+      ...individualUsers,      // Einzelprofile zuerst — mit Profil-Link
+      ...researchUsers,        // Studie-Aggregate
       ...userDreams.map(userDreamToMap),
       ...shuffledReports.map(dreamReportToMap),
     ]

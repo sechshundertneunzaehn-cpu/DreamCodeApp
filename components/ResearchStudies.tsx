@@ -1197,6 +1197,11 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
 
   // Filter + sort
   const filtered = useMemo(() => {
+    // When navigated from map with a specific study code → show only that study
+    if (initialStudyCode) {
+      return studies.filter(s => s.study_code === initialStudyCode);
+    }
+
     const q = search.toLowerCase();
     let list = studies.filter(
       (s) =>
@@ -1237,7 +1242,7 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
         break;
     }
     return list;
-  }, [studies, search, sortKey, filterStudyType, filterDreamsPerPart, filterWordCount, studyAvgWordCounts]);
+  }, [studies, search, sortKey, filterStudyType, filterDreamsPerPart, filterWordCount, studyAvgWordCounts, initialStudyCode]);
 
   // Stats – use real DB counts when available, fall back to metadata sums
   const stats = useMemo(() => {

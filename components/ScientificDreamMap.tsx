@@ -859,11 +859,11 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
               </button>
               ${studyHasParticipants
                 ? `<button id="sdm-btn-participant" style="padding:4px 10px;border-radius:6px;border:none;background:#8b5cf6;color:#fff;font-size:12px;cursor:pointer;">
-                    ${tr.participants}
+                    👤 ${tr.participants}
                   </button>`
-                : `<span style="padding:4px 10px;border-radius:6px;background:rgba(107,114,128,0.3);color:rgba(255,255,255,0.4);font-size:12px;cursor:default;">
+                : `<button id="sdm-btn-dreams" style="padding:4px 10px;border-radius:6px;border:none;background:#7c3aed;color:#fff;font-size:12px;cursor:pointer;">
                     📊 ${props.dream_count} ${tr.dreams}
-                  </span>`
+                  </button>`
               }
             </div>
           </div>
@@ -883,12 +883,20 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
         // Attach handlers after DOM paint
         requestAnimationFrame(() => {
           document.getElementById('sdm-btn-study')?.addEventListener('click', () => {
+            popup.remove();
             onSelectStudy?.(props.study_code);
           });
           if (studyHasParticipants) {
             document.getElementById('sdm-btn-participant')?.addEventListener('click', () => {
               const p = latestParticipantsRef.current.find((px) => px.study_code === props.study_code);
+              popup.remove();
               if (p) onSelectParticipant?.(p.participant_id);
+              else onSelectStudy?.(props.study_code);
+            });
+          } else {
+            document.getElementById('sdm-btn-dreams')?.addEventListener('click', () => {
+              popup.remove();
+              onSelectStudy?.(props.study_code);
             });
           }
         });
