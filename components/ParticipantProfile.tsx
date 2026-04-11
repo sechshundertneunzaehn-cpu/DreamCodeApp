@@ -227,7 +227,8 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
         .select('*')
         .eq('participant_id', participantId)
         .order('dream_date', { ascending: true })
-        .order('dream_id', { ascending: true });
+        .order('dream_id', { ascending: true })
+        .range(0, 9999);
       if (dErr) {
         console.error('Error fetching dreams:', dErr);
       } else {

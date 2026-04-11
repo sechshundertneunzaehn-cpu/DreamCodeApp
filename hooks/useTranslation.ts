@@ -95,10 +95,26 @@ export function useAutoTranslate(
                 lastTranslatedRef.current = { text: cacheKey, lang: currentLang };
                 setTranslatedText(result);
             })
-            .catch(() => {
+            .catch(async () => {
                 if (cancelled || !mountedRef.current) return;
-                // On error fall back to original text silently.
-                setTranslatedText(text);
+                // Fallback: Google Translate (kein API-Key nötig)
+                try {
+                    const chunk = text.slice(0, 4800);
+                    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(currentLang)}&dt=t&q=${encodeURIComponent(chunk)}`;
+                    const res = await fetch(url);
+                    if (res.ok && !cancelled && mountedRef.current) {
+                        const data = await res.json();
+                        const translated = (data[0] as any[][]).map((item: any[]) => item[0]).filter(Boolean).join('');
+                        if (translated) {
+                            lastTranslatedRef.current = { text: cacheKey, lang: currentLang };
+                            setTranslatedText(translated + (text.length > 4800 ? ' …' : ''));
+                            return;
+                        }
+                    }
+                } catch {
+                    // ignore Google fallback error
+                }
+                if (!cancelled && mountedRef.current) setTranslatedText(text);
             })
             .finally(() => {
                 if (!cancelled && mountedRef.current) {

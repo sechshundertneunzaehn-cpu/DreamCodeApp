@@ -926,6 +926,23 @@ function generateUsers(dreams: Dream[]): SimUser[] {
   return baseUsers;
 }
 
+// ─── Dream Keywords für Autocomplete-Vorschläge ──────────────────────────────
+const DREAM_KEYWORDS = [
+  'flight', 'flying', 'falling', 'chasing', 'running', 'swimming',
+  'water', 'ocean', 'river', 'flood', 'fire', 'earthquake', 'storm',
+  'death', 'dying', 'birth', 'baby', 'child', 'family', 'friend',
+  'teeth', 'naked', 'school', 'exam', 'test', 'car', 'driving',
+  'house', 'home', 'door', 'window', 'stairs', 'bridge', 'forest',
+  'monster', 'shadow', 'ghost', 'demon', 'angel', 'god', 'religion',
+  'animal', 'snake', 'spider', 'dog', 'cat', 'horse', 'bird', 'wolf',
+  'dream', 'nightmare', 'lucid', 'sleep', 'darkness', 'light', 'sun',
+  'moon', 'stars', 'mountain', 'cave', 'city', 'street', 'crowd',
+  'violence', 'war', 'attack', 'escape', 'lost', 'searching', 'finding',
+  'love', 'sex', 'kiss', 'wedding', 'marriage', 'divorce', 'mother',
+  'father', 'brother', 'sister', 'dead', 'cemetery', 'hospital',
+  'treasure', 'money', 'work', 'late', 'missing', 'plane', 'train',
+];
+
 // ─── Component ────────────────────────────────────────────────────────────────
 const DreamMap: React.FC<DreamMapProps> = ({
   dreams = [],
@@ -1630,7 +1647,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
             </button>
           )}
         </div>
-        {/* Live autocomplete suggestions */}
+        {/* Live autocomplete suggestions — Benutzer-/Studientreffer */}
         {searchQuery.trim().length >= 2 && sortedFilteredUsers.length > 0 && (
           <div className={`mt-1 rounded-xl border overflow-hidden shadow-lg ${isLight ? 'bg-white border-purple-200' : 'bg-gray-900 border-white/10'}`}>
             {sortedFilteredUsers.slice(0, 5).map(u => {
@@ -1661,6 +1678,28 @@ const DreamMap: React.FC<DreamMapProps> = ({
             })}
           </div>
         )}
+        {/* Keyword-Vorschläge wenn 0 Ergebnisse */}
+        {searchQuery.trim().length >= 2 && sortedFilteredUsers.length === 0 && (() => {
+          const q = searchQuery.trim().toLowerCase();
+          const suggestions = DREAM_KEYWORDS.filter(k => k.startsWith(q) || k.includes(q));
+          if (suggestions.length === 0) return null;
+          return (
+            <div className={`mt-1 rounded-xl border p-2 shadow-lg ${isLight ? 'bg-white border-purple-200' : 'bg-gray-900 border-white/10'}`}>
+              <p className={`text-[11px] opacity-50 mb-1.5 px-1 ${textSub}`}>Traumthemen:</p>
+              <div className="flex flex-wrap gap-1.5">
+                {suggestions.slice(0, 8).map(kw => (
+                  <button
+                    key={kw}
+                    onClick={() => setSearchQuery(kw)}
+                    className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${isLight ? 'border-purple-200 text-purple-700 hover:bg-purple-50' : 'border-white/20 text-purple-300 hover:bg-white/10'}`}
+                  >
+                    {kw}
+                  </button>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       {/* ── Stats Bar ── */}

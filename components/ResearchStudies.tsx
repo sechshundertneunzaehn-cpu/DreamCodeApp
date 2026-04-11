@@ -587,6 +587,8 @@ const RST: Record<string, {
   typeSingle: string;
   typeJournal: string;
   typeSurvey: string;
+  contentLabel?: string;
+  withInterpretations?: string;
 }> = {
   de: {
     dreamLength: 'Trauml\u00e4nge:',
@@ -608,6 +610,8 @@ const RST: Record<string, {
     typeSingle: 'Einzelperson',
     typeJournal: 'Tageb\u00fccher',
     typeSurvey: 'Umfragen',
+    contentLabel: 'Inhalt:',
+    withInterpretations: 'Mit Deutungen',
   },
   en: {
     dreamLength: 'Dream length:',
@@ -629,6 +633,8 @@ const RST: Record<string, {
     typeSingle: 'Single person',
     typeJournal: 'Diaries',
     typeSurvey: 'Surveys',
+    contentLabel: 'Content:',
+    withInterpretations: 'With interpretations',
   },
   tr: {
     dreamLength: 'Ruya uzunlugu:',
@@ -1082,6 +1088,8 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
   const [filterWordCount, setFilterWordCount] = useState<number>(0);
   const [filterDreamsPerPart, setFilterDreamsPerPart] = useState<number>(0);
   const [filterStudyType, setFilterStudyType] = useState<string>('all');
+  const [filterHasInterpretations, setFilterHasInterpretations] = useState<boolean>(false);
+  const [studiesWithInterpretations, setStudiesWithInterpretations] = useState<Set<string>>(new Set());
   const [studyAvgWordCounts, setStudyAvgWordCounts] = useState<Record<string, number> | null>(null);
   const [participantPage, setParticipantPage] = useState(0);
 
@@ -1161,6 +1169,28 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
     run();
   }, []);
 
+  // Fetch welche Studien Deutungen (interpretations) haben
+  useEffect(() => {
+    const fetchInterpretationStudies = async () => {
+      try {
+        const { data } = await supabase
+          .from('research_dreams')
+          .select('participant_id')
+          .not('interpretation', 'is', null)
+          .limit(5000);
+        if (data) {
+          const codes = new Set<string>();
+          for (const d of data) {
+            const code = (d.participant_id as string)?.match(/^(SDDB-\d+)/)?.[1];
+            if (code) codes.add(code);
+          }
+          setStudiesWithInterpretations(codes);
+        }
+      } catch { /* ignore */ }
+    };
+    fetchInterpretationStudies();
+  }, []);
+
   // Fetch ALL participants when a study is expanded (paginate DB in batches of 1000)
   useEffect(() => {
     if (!expandedStudy) {
@@ -1223,6 +1253,9 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
     if (filterWordCount > 0 && studyAvgWordCounts) {
       list = list.filter(s => (studyAvgWordCounts[s.study_code] ?? 0) >= filterWordCount);
     }
+    if (filterHasInterpretations && studiesWithInterpretations.size > 0) {
+      list = list.filter(s => studiesWithInterpretations.has(s.study_code));
+    }
 
     switch (sortKey) {
       case 'year':
@@ -1242,7 +1275,7 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
         break;
     }
     return list;
-  }, [studies, search, sortKey, filterStudyType, filterDreamsPerPart, filterWordCount, studyAvgWordCounts, initialStudyCode]);
+  }, [studies, search, sortKey, filterStudyType, filterDreamsPerPart, filterWordCount, studyAvgWordCounts, filterHasInterpretations, studiesWithInterpretations, initialStudyCode]);
 
   // Stats – use real DB counts when available, fall back to metadata sums
   const stats = useMemo(() => {
@@ -1407,7 +1440,29 @@ const ResearchStudies: React.FC<ResearchStudiesProps> = ({
                 }}>{f.l}</button>
               ))}
             </div>
-            {(filterWordCount > 0 || filterDreamsPerPart > 0 || filterStudyType !== 'all') && (
+            {/* Filter Row 4: Inhalt / Deutungen */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              <span className="text-xs opacity-50 whitespace-nowrap" style={{ minWidth: 80 }}>
+                {r.contentLabel ?? 'Inhalt:'}
+              </span>
+              <button onClick={() => setFilterHasInterpretations(false)} style={{
+                padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 500,
+                border: !filterHasInterpretations ? '1px solid #8B5CF6' : '1px solid rgba(139,92,246,0.3)',
+                background: !filterHasInterpretations ? 'rgba(139,92,246,0.2)' : 'transparent',
+                color: !filterHasInterpretations ? '#c4b5fd' : '#94a3b8',
+                cursor: 'pointer', whiteSpace: 'nowrap',
+              }}>{r.all}</button>
+              <button onClick={() => setFilterHasInterpretations(true)} style={{
+                padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 500,
+                border: filterHasInterpretations ? '1px solid #8B5CF6' : '1px solid rgba(139,92,246,0.3)',
+                background: filterHasInterpretations ? 'rgba(139,92,246,0.2)' : 'transparent',
+                color: filterHasInterpretations ? '#c4b5fd' : '#94a3b8',
+                cursor: studiesWithInterpretations.size === 0 ? 'wait' : 'pointer',
+                whiteSpace: 'nowrap',
+                opacity: studiesWithInterpretations.size === 0 ? 0.5 : 1,
+              }}>📖 {r.withInterpretations ?? 'Mit Deutungen'}{studiesWithInterpretations.size === 0 ? ' ...' : ''}</button>
+            </div>
+            {(filterWordCount > 0 || filterDreamsPerPart > 0 || filterStudyType !== 'all' || filterHasInterpretations) && (
               <div className="text-xs opacity-50">
                 {filtered.length} {r.of} {studies.length} {r.studies2}
               </div>

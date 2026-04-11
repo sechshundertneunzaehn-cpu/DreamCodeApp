@@ -1003,8 +1003,11 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
     const marker = markers.find((m) => m.study_code === study.study_code);
     if (marker && mapRef.current) {
       mapRef.current.flyTo({ center: [marker.lng, marker.lat], zoom: 5, duration: 1500 });
+    } else {
+      // Kein Kartenmarker vorhanden → direkt zur Studiendetailseite navigieren
+      onSelectStudy?.(study.study_code);
     }
-  }, [markers]);
+  }, [markers, onSelectStudy]);
 
   const resetFilters = useCallback(() => {
     setSelectedStudies(new Set());
