@@ -22,6 +22,7 @@ const VideoStudio = React.lazy(() => import('./components/VideoStudio'));
 const SpeechToVideoModal = React.lazy(() => import('./components/SpeechToVideoModal'));
 const DreamNetwork = React.lazy(() => import('./components/DreamNetwork'));
 const SciencePage = React.lazy(() => import('./components/SciencePage'));
+import CosmicDnaModal from './components/CosmicDnaModal';
 const AGBPage = React.lazy(() => import('./components/AGBPage'));
 const DatenschutzPage = React.lazy(() => import('./components/DatenschutzPage'));
 const ImpressumPage = React.lazy(() => import('./components/ImpressumPage'));
@@ -39,7 +40,7 @@ import StoryVideoPlayer from './components/StoryVideoPlayer';
 import { loadDreamsSecurely, loadProfileSecurely, saveDreamsSecurely, saveProfileSecurely, exportDataToFile, importDataFromFile, syncStorageOnStartup } from './services/storage';
 // Knowledge Base lazy-loaded on demand (only used in handleInfoClick)
 import { FEATURE_PRICES, SUBSCRIPTION_TIERS, COIN_PACKAGES, REWARDS, coinToEur } from './config/pricing';
-import { CATEGORY_ICONS, CATEGORY_ORDER, CATEGORY_SOURCE_MAP, CATEGORY_COLOR_SCHEME, CATEGORY_TIER_REQUIREMENT, getSourcesForCategories } from './config/traditions';
+import { CATEGORY_ICONS, CATEGORY_ORDER, CATEGORY_SOURCE_MAP, CATEGORY_COLOR_SCHEME, CATEGORY_TIER_REQUIREMENT, CATEGORY_ACCENT, getSourcesForCategories } from './config/traditions';
 import { REWARD_CONFIG } from './config/rewards';
 import { detectRegion, RegionInfo } from './services/regionService';
 
@@ -1237,12 +1238,19 @@ Rules:
                      } else {
                          if (isSelected) { buttonClass += "bg-fuchsia-900/60 border-fuchsia-400 shadow-[0_0_25px_rgba(192,38,211,0.5)] scale-[1.02] z-10"; } else { buttonClass += isLight ? "bg-fuchsia-50 border-fuchsia-200 shadow-sm shadow-fuchsia-100 hover:border-fuchsia-300 hover:bg-fuchsia-100 hover:shadow-md" : "bg-slate-800/40 border-white/5 hover:bg-slate-800 hover:border-white/20"; }
                      }
+                     // Subtle accent overrides for bottom-row categories (bronze/burgundy/gold border+glow)
+                     const accent = CATEGORY_ACCENT[cat];
+                     if (accent) {
+                         if (isSelected) {
+                             buttonClass = buttonClass.replace(/border-indigo-400/, isLight ? accent.borderLight : accent.borderDark).replace(/shadow-\[0_0_25px_rgba\(99,102,241,0\.5\)\]/, accent.glowSelected);
+                         } else {
+                             buttonClass = buttonClass.replace(/border-indigo-500\/40/, accent.borderDark).replace(/hover:border-indigo-400\/60/, accent.glowHoverDark);
+                             if (isLight) { buttonClass = buttonClass.replace(/border-indigo-200/, accent.borderLight).replace(/hover:border-indigo-300/, accent.glowHoverLight); }
+                         }
+                     }
                      let textClass = "";
                      if (colorScheme === 'emerald') { textClass = isSelected ? 'text-emerald-100' : (isLight ? 'text-emerald-700' : 'text-emerald-400'); }
                      else if (colorScheme === 'indigo') { textClass = isSelected ? 'text-indigo-100' : (isLight ? 'text-indigo-700' : 'text-indigo-400'); }
-                     else if (colorScheme === 'amber') { textClass = isSelected ? 'text-amber-100' : (isLight ? 'text-amber-700' : 'text-amber-400'); }
-                     else if (colorScheme === 'rose') { textClass = isSelected ? 'text-rose-100' : (isLight ? 'text-rose-700' : 'text-rose-400'); }
-                     else if (colorScheme === 'stone') { textClass = isSelected ? 'text-stone-100' : (isLight ? 'text-stone-700' : 'text-stone-400'); }
                      else { textClass = isSelected ? 'text-white' : (isLight ? 'text-fuchsia-900' : 'text-slate-500'); }
                      return (
                          <button key={cat} onClick={() => isLocked ? undefined : toggleCategory(cat)} className={buttonClass + (isLocked ? ' opacity-60' : '')}>
@@ -1308,26 +1316,27 @@ Rules:
                       onChange={(e) => setDreamInput(e.target.value)}
                       placeholder={t.ui.placeholder}
                       className={`w-full bg-transparent p-4 text-base resize-none outline-none font-serif leading-relaxed transition-all ${isLight ? 'text-[#2a1a3a] placeholder-[#8b7aa0]' : 'text-white placeholder-slate-600'}`}
-                      style={{ minHeight: '112px', maxHeight: '168px', overflowY: dreamInput.length > 200 ? 'auto' : 'hidden' }}
+                      style={{ minHeight: '80px', maxHeight: '200px', overflowY: dreamInput.length > 200 ? 'auto' : 'hidden' }}
                       onInput={(e) => {
                           const el = e.currentTarget;
-                          el.style.height = '112px';
-                          el.style.height = Math.min(el.scrollHeight, 168) + 'px';
+                          el.style.height = '80px';
+                          el.style.height = Math.min(el.scrollHeight, 200) + 'px';
                       }}
                   />
-                  <div className="flex justify-between items-center px-3 pb-3">
-                      <button onClick={() => setShowSpeechModal(true)} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all ${isLight ? 'text-violet-600 hover:bg-violet-100 border border-violet-200' : 'text-violet-400 hover:bg-violet-900/30 border border-violet-500/20'}`}>
-                          <span className="material-icons text-sm">movie_creation</span>
-                          {t.ui.create_dream_video}
-                      </button>
+                  <div className="flex justify-end items-center px-3 pb-3">
                       <div className={`text-[10px] font-mono ${isLight ? 'text-[#6b5a80]' : 'text-slate-600'}`}>{dreamInput.length}</div>
                   </div>
              </div>
 
-             {/* PRIMARY CTA */}
-             <button onClick={() => handleAnalyze()} disabled={loading || !dreamInput} className={`relative w-full py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all mb-4 ${loading || !dreamInput ? (isLight ? 'bg-[#c4bce6]/50 text-[#6b5a80] cursor-not-allowed' : 'bg-slate-800/40 text-slate-600 cursor-not-allowed') : noCredits ? 'bg-slate-800/60 backdrop-blur-md border border-slate-600/40 text-slate-400' : (isLight ? 'bg-gradient-to-r from-[#4c1d95] to-[#7c3aed] text-white shadow-lg shadow-violet-500/40 hover:shadow-xl hover:shadow-violet-500/50 hover:scale-[1.02] active:scale-[0.98]' : 'bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 text-white shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]')}`}>
-                 {loading ? (<span className="flex items-center justify-center gap-3">{t.processing.title}</span>) : noCredits ? (<span className="flex items-center justify-center gap-2"><span className="material-icons">lock</span> {t.ui.interpret} (0 {t.ui.coins || 'Credits'})</span>) : (<span className="flex items-center justify-center gap-2"><span className="material-icons">auto_awesome</span> {t.ui.interpret}</span>)}
-             </button>
+             {/* ACTION BUTTONS — side by side */}
+             <div className="flex gap-2 mb-4">
+                 <button onClick={() => handleAnalyze()} disabled={loading || !dreamInput} className={`relative flex-[2] py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all ${loading || !dreamInput ? (isLight ? 'bg-[#c4bce6]/50 text-[#6b5a80] cursor-not-allowed' : 'bg-slate-800/40 text-slate-600 cursor-not-allowed') : noCredits ? 'bg-slate-800/60 backdrop-blur-md border border-slate-600/40 text-slate-400' : (isLight ? 'bg-gradient-to-r from-[#4c1d95] to-[#7c3aed] text-white shadow-lg shadow-violet-500/40 hover:shadow-xl hover:shadow-violet-500/50 hover:scale-[1.02] active:scale-[0.98]' : 'bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 text-white shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]')}`}>
+                     {loading ? (<span className="flex items-center justify-center gap-3">{t.processing.title}</span>) : noCredits ? (<span className="flex items-center justify-center gap-2"><span className="material-icons">lock</span> {t.ui.interpret} (0 {t.ui.coins || 'Credits'})</span>) : (<span className="flex items-center justify-center gap-2"><span className="material-icons">auto_awesome</span> {t.ui.interpret}</span>)}
+                 </button>
+                 <button onClick={() => setShowSpeechModal(true)} className={`flex-1 py-4 rounded-2xl font-bold text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 border ${isLight ? 'bg-violet-50 border-violet-300 text-violet-700 hover:bg-violet-100 hover:scale-[1.02] active:scale-[0.98]' : 'bg-violet-900/20 border-violet-500/30 text-violet-300 hover:bg-violet-900/40 hover:scale-[1.02] active:scale-[0.98]'}`}>
+                     <span className="material-icons text-base">movie_creation</span> {t.ui.create_dream_video}
+                 </button>
+             </div>
 
              {lastInterpretation && lastSavedDreamId && (
                   <button onClick={() => handleOpenVideoStudio(dreams.find(d => d.id === lastSavedDreamId)?.description || '', lastInterpretation, lastSavedDreamId)} className={`w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 border mb-4 ${isLight ? 'bg-gradient-to-r from-violet-100 to-fuchsia-100 border-violet-300 text-violet-700 hover:from-violet-200 hover:to-fuchsia-200' : 'bg-gradient-to-r from-violet-900/30 to-fuchsia-900/30 border-violet-500/30 text-violet-200 hover:bg-violet-800/40'}`}>
@@ -1415,32 +1424,7 @@ Rules:
             {showInfoModal && <InfoModal onClose={() => setShowInfoModal(false)} data={infoModalData} t={t} isLight={isLight} />}
 
             {/* COSMIC DNA MODAL */}
-            {showCosmicDna && (
-                <div className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowCosmicDna(false)}>
-                    <div className={`w-[95%] max-w-md ${isLight ? 'bg-white/95 border-indigo-100/60' : 'bg-dream-surface/95 border-fuchsia-500/20'} backdrop-blur-md border rounded-2xl shadow-2xl overflow-hidden`} onClick={e => e.stopPropagation()}>
-                        <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-fuchsia-900 p-6 text-center">
-                            <span className="text-4xl">🧬</span>
-                            <h2 className="text-xl font-bold text-white mt-2">{t.ui.cosmic_dna}</h2>
-                        </div>
-                        <div className="p-6 space-y-4">
-                            <p className={`text-sm leading-relaxed ${isLight ? 'text-slate-700' : 'text-slate-300'}`}>
-                                {t.ui.cosmic_dna_body}
-                            </p>
-                            <div className={`p-4 rounded-xl border ${isLight ? 'bg-indigo-50 border-indigo-200' : 'bg-indigo-900/20 border-indigo-500/30'}`}>
-                                <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${isLight ? 'text-indigo-600' : 'text-indigo-400'}`}>
-                                    {t.ui.cosmic_dna_coming}
-                                </p>
-                                <p className={`text-xs ${isLight ? 'text-indigo-700' : 'text-indigo-300'}`}>
-                                    {t.ui.cosmic_dna_enter}
-                                </p>
-                            </div>
-                        </div>
-                        <div className="p-4 pt-0">
-                            <button onClick={() => setShowCosmicDna(false)} className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-white font-bold text-sm shadow-lg">{t.ui.close}</button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {showCosmicDna && <CosmicDnaModal isLight={isLight} onClose={() => setShowCosmicDna(false)} t={t} />}
 
             {/* MOON SYNC MODAL */}
             {showMoonSync && (() => {
@@ -1834,10 +1818,6 @@ Rules:
             {/* Live Chat icon - kein Lock mehr */}
                         </button>
                     </div>
-                    {/* WISSENSCHAFT → direkt zu Studien & Profilen */}
-                    <NavBtn icon="biotech" label={t.ui.science_label} active={view === View.RESEARCH_STUDIES || view === View.SCIENCE} onClick={() => setView(View.RESEARCH_STUDIES)} isLight={isLight} />
-                    {/* DREAM MAP */}
-                    <NavBtn icon="public" label={t.ui.dream_network} active={view === View.DREAM_MAP} onClick={() => setView(View.DREAM_MAP)} isLight={isLight} />
                     <NavBtn icon="person" label={t.ui.profile_btn} active={view === View.PROFILE} onClick={() => setView(View.PROFILE)} isLight={isLight} />
                 </div>
             </nav>

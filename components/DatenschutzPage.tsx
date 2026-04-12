@@ -13,7 +13,7 @@ const Datenschutz_DE = () => (
     <p><strong>Stand:</strong> April 2026</p>
 
     <h2 className="text-xl font-bold mt-6 mb-2">1. Verantwortlicher</h2>
-    <p>Verantwortlich fuer die Datenverarbeitung ist Thalamus Innovation Technology. Kontaktdaten finden Sie im Impressum.</p>
+    <p>Verantwortlich fuer die Datenverarbeitung ist AssetsUN LLC. Kontaktdaten finden Sie im Impressum.</p>
 
     <h2 className="text-xl font-bold mt-6 mb-2">2. Erhobene Daten</h2>
     <p>Bei der Nutzung der App werden folgende Daten verarbeitet:</p>
@@ -61,7 +61,7 @@ const Datenschutz_EN = () => (
     <p><strong>Last updated:</strong> April 2026</p>
 
     <h2 className="text-xl font-bold mt-6 mb-2">1. Data Controller</h2>
-    <p>The data controller is Thalamus Innovation Technology. Contact details can be found in the Imprint.</p>
+    <p>The data controller is AssetsUN LLC. Contact details can be found in the Imprint.</p>
 
     <h2 className="text-xl font-bold mt-6 mb-2">2. Data Collected</h2>
     <ul className="list-disc pl-6 space-y-1">

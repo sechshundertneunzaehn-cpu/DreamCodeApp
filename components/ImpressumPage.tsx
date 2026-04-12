@@ -20,7 +20,7 @@ const ImpressumPage: React.FC<ImpressumPageProps> = ({ language, onClose, themeM
     </h2>
 
     <div className="space-y-1">
-      <p className="font-bold">Thalamus Innovation Technology</p>
+      <p className="font-bold">AssetsUN LLC</p>
       <p>[Strasse und Hausnummer]</p>
       <p>[PLZ Ort]</p>
       <p>Deutschland / Germany</p>

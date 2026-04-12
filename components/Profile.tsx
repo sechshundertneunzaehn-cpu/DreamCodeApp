@@ -525,7 +525,7 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
                              <button onClick={() => setSelectedDream(null)} className="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full text-white flex items-center justify-center hover:bg-black/70"><span className="material-icons">close</span></button>
                              <div className="absolute bottom-4 left-4 bg-black/60 px-3 py-1 rounded-lg text-xs font-bold border border-white/10 text-white">{selectedDream.date}</div>
                          </div>
-                         <div className="p-8">
+                         <div className="p-8 pb-32">
                              {/* User Description Block */}
                              <div className="mb-6 p-4 rounded-xl bg-white/5 border border-white/5">
                                  <h4 className="text-xs uppercase font-bold text-slate-500 mb-2">{t.your_dream}</h4>
@@ -534,9 +534,24 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
 
                              <h2 className="text-2xl font-mystic text-white mb-4">{selectedDream.title}</h2>
 
-                             {/* Interpretation with proper whitespace formatting */}
+                             {/* Interpretation with markdown-style formatting */}
                              <div className="prose prose-invert prose-sm max-w-none mb-6">
-                                <TranslatedText text={selectedDream.interpretation} sourceId={selectedDream.id} table="user_dreams" field="interpretation" className="text-slate-300 leading-relaxed whitespace-pre-line" as="p" showOriginalToggle />
+                                <TranslatedText text={selectedDream.interpretation} sourceId={selectedDream.id} table="user_dreams" field="interpretation" className="text-slate-300 leading-relaxed" as="div" showOriginalToggle renderContent={(text) => {
+                                    const lines = text.split('\n');
+                                    return <>{lines.map((line, li) => {
+                                        const parts = line.split(/(\*\*.*?\*\*|\*[^*]+?\*)/g);
+                                        return <React.Fragment key={li}>
+                                            {li > 0 && <br />}
+                                            {parts.map((p, pi) =>
+                                                p.startsWith('**') && p.endsWith('**')
+                                                    ? <strong key={pi} className="text-white font-bold">{p.slice(2, -2)}</strong>
+                                                    : p.startsWith('*') && p.endsWith('*') && !p.startsWith('**')
+                                                    ? <em key={pi}>{p.slice(1, -1)}</em>
+                                                    : p
+                                            )}
+                                        </React.Fragment>;
+                                    })}</>;
+                                }} />
                              </div>
                              
                              <div className="mb-6 flex gap-2 flex-wrap">

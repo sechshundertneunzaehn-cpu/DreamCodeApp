@@ -101,12 +101,12 @@ const T = {
   cost_title: 'Was kostet was — und warum?',
   cost_intro: 'Die KI-Modelle kosten echtes Geld. Dein Beitrag finanziert Forschung + Entwicklung.',
   cost_items: [
-    'Text-Deutung: 2 Coins ≈ 0,04 €',
-    'Bild HD: 8 Coins ≈ 0,16 €',
-    'Video 30s: 180 Coins ≈ 3,60 €',
-    'Live Voice 30 min: 20 Coins ≈ 0,40 €',
+    { feature: 'Text-Deutung', market: '~0,25 €', model: 'GPT-5.4', dc: '2 Coins ≈ 0,04 €' },
+    { feature: 'Bild HD', market: '~0,08 €', model: 'GPT Image', dc: '8 Coins ≈ 0,16 €' },
+    { feature: 'Video 30s', market: '~5,00 €', model: 'Runway Gen-4.5', dc: '180 Coins ≈ 3,60 €' },
+    { feature: 'Live Voice 30min', market: '~1,00 €', model: 'ElevenLabs', dc: '20 Coins ≈ 0,40 €' },
   ],
-  cost_footer: '1 Coin = 0,02 € · Coins finanzieren KI-Rechenzeit und Traumforschung.',
+  cost_footer: '1 Coin = 0,02 € · Bis zu 93% günstiger',
 };
 
 // ─── Reverse Geocoding ────────────────────────────────────────────────────────
@@ -649,10 +649,21 @@ const StudyPage: React.FC<StudyPageProps> = ({
           </div>
           <p className={`text-xs mb-4 ${textSub}`}>{T.cost_intro}</p>
           <div className="space-y-2 mb-4">
-            {T.cost_items.map((line, i) => (
-              <div key={i} className={`flex items-center gap-2 text-xs ${textSub}`}>
-                <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0" />
-                {line}
+            {/* Table Header */}
+            <div className={`grid grid-cols-3 gap-2 text-[10px] font-bold uppercase tracking-wider pb-2 border-b ${isLight ? 'border-slate-200' : 'border-white/5'}`}>
+              <span className={textSub}>Feature</span>
+              <span className={`text-right ${textSub}`}>Marktpreis</span>
+              <span className="text-right text-violet-400">DreamCode</span>
+            </div>
+            {/* Table Rows */}
+            {(T.cost_items as Array<{feature: string; market: string; model: string; dc: string}>).map((item, i) => (
+              <div key={i} className={`grid grid-cols-3 gap-2 py-1.5 text-xs ${i < (T.cost_items as unknown[]).length - 1 ? (isLight ? 'border-b border-slate-100' : 'border-b border-white/5') : ''}`}>
+                <span className={`font-medium ${text}`}>{item.feature}</span>
+                <div className="text-right">
+                  <span className={textSub}>{item.market}</span>
+                  <span className={`block text-[9px] ${isLight ? 'text-slate-400' : 'text-slate-600'}`}>{item.model}</span>
+                </div>
+                <span className="text-right font-bold text-violet-400">{item.dc}</span>
               </div>
             ))}
           </div>

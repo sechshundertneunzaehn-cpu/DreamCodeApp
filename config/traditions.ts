@@ -82,9 +82,34 @@ export const CATEGORY_COLOR_SCHEME: Record<ReligiousCategory, CategoryColorSchem
     [ReligiousCategory.PSYCHOLOGICAL]: 'indigo',
     [ReligiousCategory.ASTROLOGY]: 'indigo',
     [ReligiousCategory.NUMEROLOGY]: 'indigo',
-    [ReligiousCategory.JEWISH]: 'amber',
-    [ReligiousCategory.SONNIKS]: 'rose',
-    [ReligiousCategory.ANCIENT]: 'stone',
+    [ReligiousCategory.JEWISH]: 'indigo',
+    [ReligiousCategory.SONNIKS]: 'indigo',
+    [ReligiousCategory.ANCIENT]: 'indigo',
+};
+
+// --- Subtle accent overrides for bottom-row categories ---
+export const CATEGORY_ACCENT: Partial<Record<ReligiousCategory, { borderDark: string; borderLight: string; glowSelected: string; glowHoverDark: string; glowHoverLight: string }>> = {
+    [ReligiousCategory.ANCIENT]: {
+        borderDark: 'border-amber-700/50',
+        borderLight: 'border-amber-500/60',
+        glowSelected: 'shadow-[0_0_25px_rgba(180,130,60,0.45)]',
+        glowHoverDark: 'hover:border-amber-600/60',
+        glowHoverLight: 'hover:border-amber-500',
+    },
+    [ReligiousCategory.SONNIKS]: {
+        borderDark: 'border-rose-700/50',
+        borderLight: 'border-rose-400/60',
+        glowSelected: 'shadow-[0_0_25px_rgba(150,40,60,0.45)]',
+        glowHoverDark: 'hover:border-rose-600/60',
+        glowHoverLight: 'hover:border-rose-400',
+    },
+    [ReligiousCategory.JEWISH]: {
+        borderDark: 'border-yellow-600/50',
+        borderLight: 'border-yellow-500/60',
+        glowSelected: 'shadow-[0_0_25px_rgba(200,170,40,0.45)]',
+        glowHoverDark: 'hover:border-yellow-500/60',
+        glowHoverLight: 'hover:border-yellow-500',
+    },
 };
 
 // --- Helper: Get sources for selected categories ---

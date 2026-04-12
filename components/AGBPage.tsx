@@ -13,7 +13,7 @@ const AGB_DE = () => (
     <p><strong>Stand:</strong> April 2026</p>
 
     <h2 className="text-xl font-bold mt-6 mb-2">1. Geltungsbereich</h2>
-    <p>Diese Allgemeinen Geschaeftsbedingungen gelten fuer die Nutzung der DreamCode App (nachfolgend "App"), bereitgestellt von Thalamus Innovation Technology (nachfolgend "Anbieter").</p>
+    <p>Diese Allgemeinen Geschaeftsbedingungen gelten fuer die Nutzung der DreamCode App (nachfolgend "App"), bereitgestellt von AssetsUN LLC (nachfolgend "Anbieter").</p>
 
     <h2 className="text-xl font-bold mt-6 mb-2">2. Vertragsgegenstand</h2>
     <p>Die App bietet KI-gestuetzte Traumdeutung auf Basis historischer, religioser und psychologischer Quellen. Die Ergebnisse dienen ausschliesslich der Unterhaltung und Selbstreflexion und stellen keine medizinische, therapeutische oder religioese Beratung dar.</p>
@@ -43,7 +43,7 @@ const AGB_EN = () => (
     <p><strong>Last updated:</strong> April 2026</p>
 
     <h2 className="text-xl font-bold mt-6 mb-2">1. Scope</h2>
-    <p>These Terms of Service apply to the use of the DreamCode App ("App"), provided by Thalamus Innovation Technology ("Provider").</p>
+    <p>These Terms of Service apply to the use of the DreamCode App ("App"), provided by AssetsUN LLC ("Provider").</p>
 
     <h2 className="text-xl font-bold mt-6 mb-2">2. Subject Matter</h2>
     <p>The App offers AI-powered dream interpretation based on historical, religious, and psychological sources. Results are for entertainment and self-reflection only and do not constitute medical, therapeutic, or religious advice.</p>
