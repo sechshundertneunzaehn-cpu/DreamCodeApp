@@ -2459,20 +2459,25 @@ const VideoResultModal = ({ onClose, url, t, isLight }: { onClose: () => void, u
                         <span className="material-icons">close</span>
                     </button>
                 </div>
-                <div className="aspect-video bg-black relative">
+                <div className="aspect-video bg-black relative overflow-hidden">
                     {storyData ? (
                         <>
-                            {storyData.segments[currentSegment]?.imageUrl && (
+                            {storyData.segments[currentSegment]?.imageUrl ? (
                                 <img
                                     src={storyData.segments[currentSegment].imageUrl}
                                     alt={`Segment ${currentSegment + 1}`}
                                     className="w-full h-full object-cover"
+                                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                                 />
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-900 to-indigo-900">
+                                    <span className="text-4xl opacity-50">🌙</span>
+                                </div>
                             )}
-                            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                                <p className="text-white text-sm">{storyData.segments[currentSegment]?.text}</p>
+                            <div className="absolute bottom-12 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                                <p className="text-white text-sm text-center">{storyData.segments[currentSegment]?.text}</p>
                             </div>
-                            <audio ref={audioRef} controls autoPlay className="absolute bottom-4 left-4 right-4">
+                            <audio ref={audioRef} controls autoPlay className="absolute bottom-1 left-2 right-2 h-8 opacity-80">
                                 <source src={storyData.audioBase64.startsWith('data:') ? storyData.audioBase64 : `data:audio/mp3;base64,${storyData.audioBase64}`} type={storyData.type === 'dream-user-voice' ? 'audio/webm' : 'audio/mp3'} />
                             </audio>
                         </>

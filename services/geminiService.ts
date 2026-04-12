@@ -596,11 +596,25 @@ export const generateSpeechPreview = async (
   text: string,
   voice: string = DEFAULT_DEEPGRAM_MODEL,
   _userProfile: UserProfile | null = null,
+  language?: Language,
 ): Promise<string | null> => {
+  // Fuer Nicht-Englisch: Google Chirp3-HD bevorzugen (Deepgram hat nur EN)
+  if (language && language !== Language.EN) {
+    try {
+      const gRes = await apiFetch('/api/deepgram-tts', {
+        method: 'POST',
+        body: JSON.stringify({ text, language, provider: 'google' }),
+      });
+      if (gRes.ok) {
+        const blob = await gRes.blob();
+        return await blobToBase64(blob);
+      }
+    } catch { /* Fallback to Deepgram below */ }
+  }
+
   try {
     const r = await apiFetch('/api/deepgram-tts', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, voice }),
     });
     if (!r.ok) throw new Error(`Deepgram API-Fehler: ${r.status}`);
@@ -739,7 +753,7 @@ Example: ["A person standing in front of an old house at night","Walking through
   // Fallback: Deepgram Aura
   if (!speech) {
     const voice = getDeepgramVoice(language);
-    speech = await generateSpeechPreview(cleanText.slice(0, 4500), voice, null);
+    speech = await generateSpeechPreview(cleanText.slice(0, 4500), voice, null, language);
   }
 
   if (!speech) {
@@ -846,7 +860,7 @@ export const generateDreamNarrationVideo = async (
 
   if (!speech) {
     const voice = getDeepgramVoice(language);
-    speech = await generateSpeechPreview(cleanText.slice(0, 4500), voice, null);
+    speech = await generateSpeechPreview(cleanText.slice(0, 4500), voice, null, language);
   }
 
   if (!speech) {
@@ -988,9 +1002,10 @@ export const generateDreamVideo = async (
   userProfile: UserProfile | null,
   arg3?: unknown,
   arg4?: unknown,
+  lang?: Language,
 ): Promise<string | null> => {
   const style = normalizeVideoStyle(typeof arg4 === 'string' ? arg4 : undefined);
-  const language = Language.DE;
+  const language = lang || Language.DE;
 
   const premiumRequested = arg3 === true || arg3 === 'high';
   const analysis = await analyzeDreamPremium(prompt, language, userProfile, premiumRequested);

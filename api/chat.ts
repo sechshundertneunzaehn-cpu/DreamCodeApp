@@ -163,9 +163,31 @@ function rateLimit(req: VercelRequest, res: VercelResponse): boolean {
 /* ── Handler ───────────────────────────────────────────────────────── */
 
 /**
- * Vercel Serverless Function: Groq Chat (primary) → Mistral (fallback)
- * Enforces response language via system prompt
+ * POST /api/chat — Live Chat
+ * Primary: Gemini 2.0 Flash via OpenRouter
+ * Fallback 1: GROQ Llama-3.3-70b
+ * Fallback 2: Mistral
  */
+
+type ChatMsg = { role: string; content: string };
+type ChatResp = { choices?: Array<{ message?: { content?: string } }> };
+
+async function tryProvider(
+  url: string, apiKey: string, model: string, messages: ChatMsg[],
+  extraHeaders?: Record<string, string>
+): Promise<string | null> {
+  try {
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}`, ...extraHeaders },
+      body: JSON.stringify({ model, messages, temperature: 0.8, max_tokens: 1024 }),
+    });
+    if (!r.ok) { console.error(`[chat] ${model} failed:`, r.status); return null; }
+    const data = await r.json() as ChatResp;
+    return data.choices?.[0]?.message?.content?.trim() || null;
+  } catch (e: any) { console.error(`[chat] ${model} error:`, e.message); return null; }
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -174,13 +196,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (!rateLimit(req, res)) return;
-
-  const groqKey = (process.env.GROQ_API_KEY || '').trim();
-  const mistralKey = (process.env.MISTRAL_API_KEY || '').trim();
-
-  if (!groqKey && !mistralKey) {
-    return res.status(500).json({ error: 'No LLM API key configured' });
-  }
 
   try {
     const { messages: rawMessages, language, systemPrompt } = req.body;
@@ -193,70 +208,51 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const LANG_NAMES: Record<string, string> = {
       de: 'Deutsch', tr: 'Tuerkisch', en: 'English', es: 'Spanisch',
       fr: 'Franzoesisch', ar: 'Arabisch', pt: 'Portugiesisch', ru: 'Russisch',
+      zh: 'Chinesisch', ja: 'Japanisch', ko: 'Koreanisch', fa: 'Persisch',
+      ur: 'Urdu', it: 'Italienisch', pl: 'Polnisch', hi: 'Hindi',
     };
     const effectiveLang = (language && LANG_NAMES[language]) ? language : 'de';
     const langName = LANG_NAMES[effectiveLang] || 'Deutsch';
 
     const langEnforcement = `\n\nCRITICAL REMINDER: You MUST respond ONLY in ${langName}. Every single word of your response must be in ${langName}. This is non-negotiable.`;
 
-    const fullMessages = [
+    const fullMessages: ChatMsg[] = [
       { role: 'system', content: (systemPrompt || '') + langEnforcement },
       ...messages,
     ];
 
-    // Try Groq first
+    // 1. Primary: Gemini 2.0 Flash via OpenRouter
+    const orKey = (process.env.OPENROUTER_API_KEY || '').trim();
+    if (orKey) {
+      const reply = await tryProvider(
+        'https://openrouter.ai/api/v1/chat/completions', orKey,
+        'google/gemini-2.0-flash-001', fullMessages,
+        { 'HTTP-Referer': 'https://dream-code.app', 'X-Title': 'DreamCode App' }
+      );
+      if (reply) return res.status(200).json({ reply, provider: 'gemini-flash' });
+    }
+
+    // 2. Fallback: GROQ
+    const groqKey = (process.env.GROQ_API_KEY || '').trim();
     if (groqKey) {
-      try {
-        const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${groqKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: 'llama-3.3-70b-versatile',
-            messages: fullMessages,
-            temperature: 0.8,
-            max_tokens: 1024,
-          }),
-        });
-
-        if (groqRes.ok) {
-          const data = await groqRes.json();
-          const reply = data.choices?.[0]?.message?.content || '';
-          return res.status(200).json({ reply, provider: 'groq' });
-        }
-        console.error('[chat] Groq failed:', groqRes.status);
-      } catch (e: any) {
-        console.error('[chat] Groq error:', e.message);
-      }
+      const reply = await tryProvider(
+        'https://api.groq.com/openai/v1/chat/completions', groqKey,
+        'llama-3.3-70b-versatile', fullMessages
+      );
+      if (reply) return res.status(200).json({ reply, provider: 'groq' });
     }
 
-    // Fallback: Mistral
+    // 3. Fallback: Mistral
+    const mistralKey = (process.env.MISTRAL_API_KEY || '').trim();
     if (mistralKey) {
-      const mistralRes = await fetch('https://api.mistral.ai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${mistralKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'mistral-large-latest',
-          messages: fullMessages,
-          temperature: 0.8,
-          max_tokens: 1024,
-        }),
-      });
-
-      if (mistralRes.ok) {
-        const data = await mistralRes.json();
-        const reply = data.choices?.[0]?.message?.content || '';
-        return res.status(200).json({ reply, provider: 'mistral' });
-      }
-      console.error('[chat] Mistral failed:', mistralRes.status);
+      const reply = await tryProvider(
+        'https://api.mistral.ai/v1/chat/completions', mistralKey,
+        'mistral-large-latest', fullMessages
+      );
+      if (reply) return res.status(200).json({ reply, provider: 'mistral' });
     }
 
-    return res.status(502).json({ error: 'All LLM providers failed' });
+    return res.status(502).json({ error: 'Alle Chat-Provider fehlgeschlagen' });
   } catch (error: any) {
     console.error('[chat] Error:', error.message);
     return res.status(500).json({ error: 'Chat request failed' });
