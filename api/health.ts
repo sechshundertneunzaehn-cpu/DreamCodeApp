@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
+import { rateLimit } from './_lib/rateLimit';
 
 /**
  * Vercel Serverless Function: Health Check
