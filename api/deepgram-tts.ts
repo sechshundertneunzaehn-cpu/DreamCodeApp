@@ -1,11 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sanitizeInput } from './_lib/sanitize';
 import { rateLimit } from './_lib/rateLimit';
+import { requireTier } from './_lib/tierAuth';
 
 /**
- * Vercel Serverless Function: TTS proxy — Deepgram Aura or Google Cloud Chirp3-HD
- * Set provider='google' in body for Google Cloud TTS (returns audio/wav binary).
- * Default: Deepgram Aura (returns base64 audio/mpeg JSON).
+ * Unified TTS proxy — Deepgram Aura, Google Chirp3-HD, or ElevenLabs
+ * provider='google'     → Google Chirp3-HD (audio/wav)
+ * provider='elevenlabs' → ElevenLabs (audio/mpeg, requires silver tier)
+ * Default: Deepgram Aura (base64 audio/mpeg JSON)
  */
 
 const GOOGLE_LANG_CODES: Record<string, string> = {
@@ -38,8 +40,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (!rateLimit(req, res)) return;
 
-  const { text, voice, provider, language, voiceSuffix } = req.body as {
+  const { text, voice, provider, language, voiceSuffix, voiceId, voiceSettings } = req.body as {
     text?: string; voice?: string; provider?: string; language?: string; voiceSuffix?: string;
+    voiceId?: string; voiceSettings?: Record<string, unknown>;
   };
   if (!text || typeof text !== 'string') {
     return res.status(400).json({ error: 'Missing text' });
@@ -47,6 +50,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const cleaned = sanitizeInput(text);
   const safeText = cleaned.text;
+
+  // ElevenLabs TTS (requires silver tier)
+  if (provider === 'elevenlabs') {
+    const auth = await requireTier(req, res, 'silver');
+    if (!auth) return;
+    const elKey = (process.env.ELEVENLABS_API_KEY || '').trim();
+    if (!elKey) return res.status(500).json({ error: 'ELEVENLABS_API_KEY not configured' });
+    const vid = voiceId || '21m00Tcm4TlvDq8ikWAM';
+    try {
+      const elRes = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${vid}`, {
+        method: 'POST',
+        headers: { 'xi-api-key': elKey, 'Content-Type': 'application/json', Accept: 'audio/mpeg' },
+        body: JSON.stringify({
+          text: safeText, model_id: 'eleven_multilingual_v2',
+          voice_settings: voiceSettings ?? { stability: 0.65, similarity_boost: 0.80, style: 0.35, use_speaker_boost: true },
+        }),
+      });
+      if (!elRes.ok) return res.status(elRes.status).json({ error: `ElevenLabs error: ${elRes.status}` });
+      const buf = await elRes.arrayBuffer();
+      res.setHeader('Content-Type', 'audio/mpeg');
+      res.setHeader('Content-Length', buf.byteLength);
+      res.setHeader('Cache-Control', 'no-store');
+      return res.status(200).send(Buffer.from(buf));
+    } catch (e: any) {
+      console.error('[tts/elevenlabs] Error:', e.message);
+      return res.status(500).json({ error: 'ElevenLabs TTS failed' });
+    }
+  }
 
   // Google Cloud TTS (Chirp3-HD)
   if (provider === 'google') {
