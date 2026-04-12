@@ -2,6 +2,7 @@
 // Handles frontend interaction with Stripe via Vercel API routes
 
 import { apiUrl } from './apiConfig';
+import { supabase } from './supabaseClient';
 
 type CheckoutType = 'subscription' | 'coins';
 
@@ -34,10 +35,14 @@ export async function createCheckoutSession(
 ): Promise<void> {
   const baseUrl = window.location.origin;
 
+  const { data: { session } } = await supabase.auth.getSession();
+  const userId = session?.user?.id;
+
   const body: Record<string, string> = {
     type,
     successUrl: `${baseUrl}/payment-success`,
     cancelUrl: `${baseUrl}/payment-cancel`,
+    ...(userId && { userId }),
   };
 
   if (type === 'subscription') {

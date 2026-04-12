@@ -66,7 +66,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { type, tier, package: coinPackage, region, successUrl, cancelUrl } = req.body;
+    const { type, tier, package: coinPackage, region, successUrl, cancelUrl, userId } = req.body;
 
     if (!type || !successUrl || !cancelUrl) {
       return res.status(400).json({ error: 'Missing required fields: type, successUrl, cancelUrl' });
@@ -96,6 +96,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         tier: resolvedTier,
         interval: SUBSCRIPTION_INTERVAL[resolvedTier] || 'month',
         ...(region && { region }),
+        ...(userId && { userId: String(userId) }),
       };
     } else if (type === 'coins') {
       if (!coinPackage || !COIN_PACKAGES[coinPackage]) {
@@ -114,6 +115,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         package: coinPackage,
         coins: String(COIN_PACKAGES[coinPackage].coins),
         ...(region && { region }),
+        ...(userId && { userId: String(userId) }),
       };
     } else {
       return res.status(400).json({ error: 'Invalid type. Must be "subscription" or "coins".' });

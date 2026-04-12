@@ -1,4 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { sanitizeInput } from './_lib/sanitize';
+import { rateLimit } from './_lib/rateLimit';
 
 /**
  * Vercel Serverless Function: Gemini + Groq text generation proxy
@@ -11,6 +13,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (!rateLimit(req, res)) return;
 
   const { provider, model, prompt, options } = req.body as {
     provider?: string;
@@ -22,6 +25,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!prompt || typeof prompt !== 'string') {
     return res.status(400).json({ error: 'Missing prompt' });
   }
+
+  const cleaned = sanitizeInput(prompt);
+  const safePrompt = cleaned.text;
 
   try {
     if (!provider || provider === 'gemini') {
@@ -45,7 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
+            contents: [{ parts: [{ text: safePrompt }] }],
             generationConfig: {
               temperature: options?.temperature ?? 0.7,
               maxOutputTokens: options?.maxOutputTokens ?? options?.maxTokens ?? 1800,
@@ -96,7 +102,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
           body: JSON.stringify({
             model: groqModel,
-            messages: [{ role: 'user', content: prompt }],
+            messages: [{ role: 'user', content: safePrompt }],
             temperature: options?.temperature ?? 0.75,
             max_tokens: options?.maxTokens ?? options?.maxOutputTokens ?? 2200,
           }),

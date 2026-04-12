@@ -1,8 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { requireTier } from './_lib/tierAuth';
+import { sanitizeInput } from './_lib/sanitize';
+import { rateLimit } from './_lib/rateLimit';
 
 /**
  * Vercel Serverless Function: AI image generation proxy
  * Supports Runware (primary) and Gemini (fallback) — keys stay server-side.
+ * Requires: gold-Tier (PREMIUM) oder höher.
  */
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
 const RUNWARE_API_BASE = 'https://api.runware.ai/v1';
@@ -10,10 +14,14 @@ const RUNWARE_API_BASE = 'https://api.runware.ai/v1';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (!rateLimit(req, res)) return;
+
+  const auth = await requireTier(req, res, 'gold');
+  if (!auth) return;
 
   const { provider, prompt, model, negativePrompt, width, height, steps, cfgScale } = req.body as {
     provider?: string;
@@ -29,6 +37,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!prompt || typeof prompt !== 'string') {
     return res.status(400).json({ error: 'Missing prompt' });
   }
+
+  const cleaned = sanitizeInput(prompt);
+  const safePrompt = cleaned.text;
 
   try {
     if (!provider || provider === 'runware') {
@@ -47,7 +58,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             taskType: 'imageInference',
             taskUUID: crypto.randomUUID(),
             model: imageModel,
-            positivePrompt: prompt,
+            positivePrompt: safePrompt,
             negativePrompt: negativePrompt ?? '',
             width: width ?? 1024,
             height: height ?? 576,
@@ -80,7 +91,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
+          contents: [{ parts: [{ text: safePrompt }] }],
           generationConfig: { temperature: 0.9 },
         }),
       });

@@ -1,4 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { sanitizeInput } from './_lib/sanitize';
+import { rateLimit } from './_lib/rateLimit';
 
 /**
  * Vercel Serverless Function: Claude Dream Analysis
@@ -11,6 +13,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (!rateLimit(req, res)) return;
 
   const apiKey = (process.env.ANTHROPIC_API_KEY || '').trim();
   if (!apiKey) {
@@ -25,6 +28,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!dreamText || typeof dreamText !== 'string') {
     return res.status(400).json({ error: 'Missing dreamText' });
   }
+
+  const cleaned = sanitizeInput(dreamText);
+  const safeDreamText = cleaned.text;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -41,7 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         messages: [
           {
             role: 'user',
-            content: `Bitte analysiere diesen Traum tiefgehend und einfuehlsam:\n\n"${dreamText}"`,
+            content: `Bitte analysiere diesen Traum tiefgehend und einfuehlsam:\n\n"${safeDreamText}"`,
           },
         ],
       }),

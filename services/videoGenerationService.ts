@@ -3,6 +3,13 @@
 
 import { Language, SubscriptionTier } from '../types';
 import { apiUrl } from './apiConfig';
+import { supabase } from './supabaseClient';
+
+async function getAuthHeader(): Promise<Record<string, string>> {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.access_token) return {};
+  return { 'Authorization': `Bearer ${session.access_token}` };
+}
 
 // API keys are server-side only — video generation goes through /api/generate-video
 
@@ -58,9 +65,10 @@ const generateVideoWAN = async (
     const startTime = Date.now();
 
     try {
+        const authHeader = await getAuthHeader();
         const createRes = await fetch(apiUrl('/api/generate-video'), {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...authHeader },
             body: JSON.stringify({
                 prompt: options.prompt,
                 style: options.style || 'dreamlike',

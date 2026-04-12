@@ -1,4 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { sanitizeMessages } from './_lib/sanitize';
+import { rateLimit } from './_lib/rateLimit';
 
 /**
  * Vercel Serverless Function: Generic LLM proxy
@@ -13,8 +15,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (!rateLimit(req, res)) return;
 
-  const { provider, model, messages, temperature, maxTokens } = req.body as {
+  const { provider, model, messages: rawMessages, temperature, maxTokens } = req.body as {
     provider?: string;
     model?: string;
     messages?: Message[];
@@ -22,9 +25,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     maxTokens?: number;
   };
 
-  if (!messages || !Array.isArray(messages)) {
+  if (!rawMessages || !Array.isArray(rawMessages)) {
     return res.status(400).json({ error: 'Missing messages array' });
   }
+
+  const { messages } = sanitizeMessages(rawMessages);
 
   const body = JSON.stringify({
     model: model || 'qwen/qwen3-coder:free',

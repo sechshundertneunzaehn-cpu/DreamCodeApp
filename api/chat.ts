@@ -1,4 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { sanitizeMessages } from './_lib/sanitize';
+import { rateLimit } from './_lib/rateLimit';
 
 /**
  * Vercel Serverless Function: Groq Chat (primary) → Mistral (fallback)
@@ -11,6 +13,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (!rateLimit(req, res)) return;
 
   const groqKey = (process.env.GROQ_API_KEY || '').trim();
   const mistralKey = (process.env.MISTRAL_API_KEY || '').trim();
@@ -20,10 +23,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { messages, language, systemPrompt } = req.body;
-    if (!messages || !Array.isArray(messages)) {
+    const { messages: rawMessages, language, systemPrompt } = req.body;
+    if (!rawMessages || !Array.isArray(rawMessages)) {
       return res.status(400).json({ error: 'Missing messages array' });
     }
+
+    const { messages } = sanitizeMessages(rawMessages);
 
     const LANG_NAMES: Record<string, string> = {
       de: 'Deutsch', tr: 'Tuerkisch', en: 'English', es: 'Spanisch',

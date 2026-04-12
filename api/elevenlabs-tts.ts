@@ -1,16 +1,22 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { requireTier } from './_lib/tierAuth';
+import { sanitizeInput } from './_lib/sanitize';
 
 /**
  * Vercel Serverless Function: ElevenLabs Text-to-Speech proxy
  * Keeps ELEVENLABS_API_KEY server-side — never exposed to the client bundle.
+ * Requires: silver-Tier (PRO) oder höher.
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const auth = await requireTier(req, res, 'silver');
+  if (!auth) return;
 
   const apiKey = (process.env.ELEVENLABS_API_KEY || '').trim();
   if (!apiKey) {
@@ -27,6 +33,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Missing voiceId or text' });
   }
 
+  const cleaned = sanitizeInput(text);
+  const safeText = cleaned.text;
+
   try {
     const response = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
@@ -38,7 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           'Accept': 'audio/mpeg',
         },
         body: JSON.stringify({
-          text,
+          text: safeText,
           model_id: 'eleven_multilingual_v2',
           voice_settings: voiceSettings ?? {
             stability: 0.65,

@@ -1,4 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { sanitizeInput } from './_lib/sanitize';
+import { rateLimit } from './_lib/rateLimit';
 
 /**
  * Vercel Serverless Function: TTS proxy — Deepgram Aura or Google Cloud Chirp3-HD
@@ -34,6 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  if (!rateLimit(req, res)) return;
 
   const { text, voice, provider, language, voiceSuffix } = req.body as {
     text?: string; voice?: string; provider?: string; language?: string; voiceSuffix?: string;
@@ -41,6 +44,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!text || typeof text !== 'string') {
     return res.status(400).json({ error: 'Missing text' });
   }
+
+  const cleaned = sanitizeInput(text);
+  const safeText = cleaned.text;
 
   // Google Cloud TTS (Chirp3-HD)
   if (provider === 'google') {
@@ -52,10 +58,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const suffix = voiceSuffix || GOOGLE_DEFAULT_SUFFIX[lang] || 'Achernar';
       const voiceName = `${langCode}-Chirp3-HD-${suffix}`;
 
-      let response = await googleSynthesize(apiKey, text, langCode, voiceName);
+      let response = await googleSynthesize(apiKey, safeText, langCode, voiceName);
       if (!response.ok && voiceSuffix && voiceSuffix !== (GOOGLE_DEFAULT_SUFFIX[lang] || 'Achernar')) {
         const fallbackName = `${langCode}-Chirp3-HD-${GOOGLE_DEFAULT_SUFFIX[lang] || 'Achernar'}`;
-        response = await googleSynthesize(apiKey, text, langCode, fallbackName);
+        response = await googleSynthesize(apiKey, safeText, langCode, fallbackName);
       }
       if (!response.ok) {
         const errText = await response.text();
@@ -86,7 +92,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       {
         method: 'POST',
         headers: { Authorization: `Token ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text: safeText }),
       }
     );
     if (!response.ok) {

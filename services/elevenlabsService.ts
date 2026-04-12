@@ -3,6 +3,13 @@
 
 import { Language } from '../types';
 import { apiUrl } from './apiConfig';
+import { supabase } from './supabaseClient';
+
+async function getAuthHeader(): Promise<Record<string, string>> {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.access_token) return {};
+  return { 'Authorization': `Bearer ${session.access_token}` };
+}
 
 // API key is kept server-side — calls go through /api/elevenlabs-tts
 
@@ -119,9 +126,10 @@ export const generateSpeechElevenLabs = async (
     const voice = ELEVENLABS_VOICES[language];
     const voiceSettings = getVoiceSettings(emotion);
 
+    const authHeader = await getAuthHeader();
     const response = await fetch(apiUrl('/api/elevenlabs-tts'), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...authHeader },
         body: JSON.stringify({ voiceId: voice.id, text, voiceSettings }),
     });
 

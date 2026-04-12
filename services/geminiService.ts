@@ -13,6 +13,13 @@ import {
   type EmotionStyle,
 } from './elevenlabsService';
 import { apiUrl } from './apiConfig';
+import { supabase } from './supabaseClient';
+
+async function getAuthHeader(): Promise<Record<string, string>> {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.access_token) return {};
+  return { 'Authorization': `Bearer ${session.access_token}` };
+}
 
 const POLLINATIONS_API_BASE = 'https://image.pollinations.ai/prompt';
 const DEFAULT_DEEPGRAM_MODEL = 'aura-asteria-en';
@@ -470,9 +477,10 @@ const generateRunwareImage = async (
   quality: ImageQuality,
 ): Promise<string | null> => {
   const model = getImageRoutes().find(route => route.tier === 'standard')?.model || 'runware:100@1';
+  const authHeader = await getAuthHeader();
   const r = await fetch(apiUrl('/api/generate-image'), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeader },
     body: JSON.stringify({
       provider: 'runware',
       model,
@@ -490,9 +498,10 @@ const generateRunwareImage = async (
 
 const generateGeminiImage = async (prompt: string): Promise<string | null> => {
   const model = getImageRoutes().find(route => route.tier === 'premium')?.model || 'gemini-2.5-flash-image';
+  const authHeader = await getAuthHeader();
   const r = await fetch(apiUrl('/api/generate-image'), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeader },
     body: JSON.stringify({ provider: 'gemini', model, prompt }),
   });
   if (!r.ok) return null;

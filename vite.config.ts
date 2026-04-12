@@ -58,16 +58,15 @@ export default defineConfig(({ mode }) => {
       build: {
         rollupOptions: {
           output: {
-            manualChunks: {
-              'vendor-react': ['react', 'react-dom'],
-              'vendor-pdf': ['html2canvas', 'jspdf'],
-              'vendor-mapbox': ['mapbox-gl'],
-              'knowledge': ['./data/knowledgeBase'],
-              'services': [
-                './services/geminiService',
-                './services/videoGenerationService',
-                './services/elevenlabsService',
-              ],
+            manualChunks(id) {
+              if (id.includes('node_modules/react')) return 'vendor-react';
+              if (id.includes('node_modules/html2canvas') || id.includes('node_modules/jspdf')) return 'vendor-pdf';
+              if (id.includes('node_modules/mapbox-gl')) return 'vendor-mapbox';
+              if (id.includes('data/knowledgeBase')) return 'knowledge';
+              if (id.includes('services/geminiService') || id.includes('services/videoGenerationService') || id.includes('services/elevenlabsService')) return 'services';
+              // Sprach-Chunks: jede Locale als eigener lazy Chunk
+              const localeMatch = id.match(/data\/translations\/([a-z]{2})\.ts$/);
+              if (localeMatch) return `locale-${localeMatch[1]}`;
             },
           },
         },

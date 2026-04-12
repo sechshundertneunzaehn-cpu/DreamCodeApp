@@ -1,9 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { requireTier } from './_lib/tierAuth';
+import { sanitizeInput } from './_lib/sanitize';
+import { rateLimit } from './_lib/rateLimit';
 
 /**
  * Vercel Serverless Function: Replicate Video Generation
  * POST /api/generate-video  → startet Prediction, gibt {id, status, urls} zurueck
  * GET  /api/generate-video?id=xxx → pollt Status, gibt {status, output} zurueck
+ * Requires: gold-Tier (PREMIUM) oder höher.
  */
 
 const REPLICATE_API = 'https://api.replicate.com/v1';
@@ -19,9 +23,13 @@ function getApiKey(): string {
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') return res.status(200).end();
+  if (!rateLimit(req, res)) return;
+
+  const auth = await requireTier(req, res, 'gold');
+  if (!auth) return;
 
   const apiKey = getApiKey();
   if (!apiKey) {
@@ -66,6 +74,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(400).json({ error: 'prompt fehlt' });
       }
 
+      const cleaned = sanitizeInput(prompt);
+      const safePrompt = cleaned.text;
+
       const stylePrefix: Record<string, string> = {
         cinematic: 'Cinematic film quality, dramatic lighting, slow motion, movie-like atmosphere,',
         dreamlike: 'Dreamlike ethereal atmosphere, soft glow, floating particles, mystical fog, otherworldly,',
@@ -76,7 +87,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         real: 'Photorealistic, cinematic 4K, natural lighting, ultra detailed,',
       };
       const prefix = stylePrefix[style || 'dreamlike'] || stylePrefix.dreamlike;
-      const optimizedPrompt = `${prefix} ${prompt}. Smooth camera movement, ambient lighting, atmospheric. High quality.`;
+      const optimizedPrompt = `${prefix} ${safePrompt}. Smooth camera movement, ambient lighting, atmospheric. High quality.`;
 
 
       const createRes = await fetch(`${REPLICATE_API}/predictions`, {
