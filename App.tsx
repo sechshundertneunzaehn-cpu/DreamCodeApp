@@ -617,7 +617,7 @@ Rules:
 
         try {
             // STEP 1: ANALYSIS
-            const result = await analyzeDreamText(inputText, language, currentProfile);
+            const result = await analyzeDreamText(inputText, language, currentProfile, selectedCategories);
             updateStep('analyze', 'completed');
 
             // STEP 2: CATEGORIES & TRADITIONS
@@ -698,7 +698,7 @@ Rules:
                 }
             } else {
                 // AI voice video: analyze dream first, then TTS
-                const analysis = await analyzeDreamText(prompt, language, userProfile);
+                const analysis = await analyzeDreamText(prompt, language, userProfile, selectedCategories);
                 if (!analysis?.interpretation) {
                     throw new Error('Dream analysis failed');
                 }
@@ -1569,7 +1569,7 @@ Rules:
                                     if (videoStudioInterpretation) {
                                         interpretationText = videoStudioInterpretation;
                                     } else {
-                                        const analysis = await analyzeDreamText(text, language, userProfile);
+                                        const analysis = await analyzeDreamText(text, language, userProfile, selectedCategories);
                                         if (!analysis?.interpretation) { console.error('[VideoStudio] Analyse fehlgeschlagen'); return null; }
                                         interpretationText = analysis.interpretation;
                                     }
