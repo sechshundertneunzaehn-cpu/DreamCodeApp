@@ -71,7 +71,8 @@ const T: Record<string, Record<Language, string>> = {
 };
 
 function t(key: string, lang: Language, vars?: Record<string, string | number>): string {
-    let val = T[key]?.[lang] ?? T[key]?.['en'] ?? key;
+    const baseLang = lang.startsWith('ar-') ? 'ar' as Language : lang;
+    let val = T[key]?.[lang] ?? T[key]?.[baseLang] ?? T[key]?.['en'] ?? key;
     if (vars) {
         Object.entries(vars).forEach(([k, v]) => { val = val.replace(`{${k}}`, String(v)); });
     }
@@ -166,8 +167,9 @@ interface OnboardingData {
 
 // ─── RTL languages ────────────────────────────────────────────────────────────
 
-const RTL_LANGS = new Set<Language>([Language.AR, Language.FA, Language.UR]);
-function isRtl(lang: Language) { return RTL_LANGS.has(lang); }
+function isRtl(lang: Language) {
+  return (lang as string).startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(lang);
+}
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
