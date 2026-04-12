@@ -1,6 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sanitizeInput } from './_lib/sanitize';
 import { rateLimit } from './_lib/rateLimit';
+import { handleCors } from './_lib/cors';
+import { requireAuth } from './_lib/tierAuth';
 
 /**
  * Vercel Serverless Function: TTS proxy — Deepgram Aura or Google Cloud Chirp3-HD
@@ -8,13 +10,28 @@ import { rateLimit } from './_lib/rateLimit';
  * Default: Deepgram Aura (returns base64 audio/mpeg JSON).
  */
 
+// Chirp3-HD Sprachmappings — alle Sprachen aus dem Prompt
 const GOOGLE_LANG_CODES: Record<string, string> = {
-  de: 'de-DE', tr: 'tr-TR', ar: 'ar-XA', es: 'es-ES',
-  fr: 'fr-FR', pt: 'pt-BR', ru: 'ru-RU', en: 'en-US',
+  ar: 'ar-XA',   // MSA (Modern Standard Arabic)
+  de: 'de-DE',
+  en: 'en-US',
+  tr: 'tr-TR',
+  fr: 'fr-FR',
+  es: 'es-ES',
+  ru: 'ru-RU',
+  ja: 'ja-JP',
+  pt: 'pt-BR',
+  ko: 'ko-KR',
+  zh: 'cmn-CN',
+  hi: 'hi-IN',
+  it: 'it-IT',
+  pl: 'pl-PL',
 };
 const GOOGLE_DEFAULT_SUFFIX: Record<string, string> = {
-  de: 'Achernar', tr: 'Achernar', ar: 'Achernar', es: 'Achernar',
-  fr: 'Achernar', pt: 'Achernar', ru: 'Aoede', en: 'Achernar',
+  ar: 'Achernar', de: 'Achernar', en: 'Achernar', tr: 'Achernar',
+  fr: 'Achernar', es: 'Achernar', ja: 'Achernar', pt: 'Achernar',
+  ko: 'Achernar', zh: 'Achernar', hi: 'Achernar', it: 'Achernar',
+  pl: 'Achernar', ru: 'Aoede',
 };
 
 async function googleSynthesize(apiKey: string, text: string, langCode: string, voiceName: string) {
@@ -30,13 +47,12 @@ async function googleSynthesize(apiKey: string, text: string, langCode: string, 
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (handleCors(req, res)) return;
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (!rateLimit(req, res)) return;
+
+  const auth = await requireAuth(req, res);
+  if (!auth) return;
 
   const { text, voice, provider, language, voiceSuffix } = req.body as {
     text?: string; voice?: string; provider?: string; language?: string; voiceSuffix?: string;
@@ -64,9 +80,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         response = await googleSynthesize(apiKey, safeText, langCode, fallbackName);
       }
       if (!response.ok) {
-        const errText = await response.text();
-        console.error('[tts/google] error:', response.status, errText);
-        return res.status(response.status).json({ error: `Google Cloud TTS error: ${response.status}` });
+        console.error('[tts/google] error:', response.status);
+        // ElevenLabs Fallback (eleven_multilingual_v2)
+        const elevenKey = (process.env.ELEVENLABS_API_KEY || '').trim();
+        if (elevenKey) {
+          try {
+            const elRes = await fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM', {
+              method: 'POST',
+              headers: { 'xi-api-key': elevenKey, 'Content-Type': 'application/json', Accept: 'audio/mpeg' },
+              body: JSON.stringify({ text: safeText, model_id: 'eleven_multilingual_v2', voice_settings: { stability: 0.65, similarity_boost: 0.8 } }),
+            });
+            if (elRes.ok) {
+              const buf = await elRes.arrayBuffer();
+              res.setHeader('Content-Type', 'audio/mpeg');
+              res.setHeader('Content-Length', buf.byteLength);
+              res.setHeader('Cache-Control', 'no-store');
+              return res.status(200).send(Buffer.from(buf));
+            }
+          } catch (e: any) {
+            console.error('[tts/elevenlabs-fallback] error:', e.message);
+          }
+        }
+        return res.status(502).json({ error: 'TTS Premium fehlgeschlagen (Google + ElevenLabs)' });
       }
       const data = await response.json() as { audioContent?: string };
       if (!data.audioContent) return res.status(500).json({ error: 'No audio content returned' });

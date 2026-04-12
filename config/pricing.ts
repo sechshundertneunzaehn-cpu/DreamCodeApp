@@ -115,24 +115,18 @@ export const SUBSCRIPTION_TIERS = {
 // --- FEATURE-PREISE IN MUENZEN ---
 export const FEATURE_PRICES = {
   // Traumdeutung
-  TEXT_BASIC: 2,          // GROQ/Llama     -> API ~0,001EUR -> Marge 97%
-  TEXT_GEMINI: 3,         // Gemini          -> API ~0,005EUR -> Marge 92%
-  TEXT_PREMIUM_6P: 12,    // Claude 6P       -> API ~0,03EUR  -> Marge 88%
+  TEXT_BASIC: 2,          // GROQ/Llama Standard       -> API ~0,001EUR -> Marge 97%
+  TEXT_GEMINI: 3,         // Gemini (Sprachgruppe A)   -> API ~0,005EUR -> Marge 92%
+  TEXT_PREMIUM_6P: 10,    // Claude Sonnet 6-Perspekt. -> API ~0,03EUR  -> Marge 85%
 
-  // Bildgenerierung
-  IMAGE_STANDARD: 5,      // Runware 512px   -> API 0,002EUR  -> Marge 98%
-  IMAGE_HD: 12,           // Runware 1024px  -> API 0,004EUR  -> Marge 98%
+  // Bildgenerierung (EINE Stufe — beste Qualitaet)
+  IMAGE_GENERATE: 4,      // CivitAI → Runware → Pollinations -> Marge 96%
 
-  // Video
-  VIDEO_6S: 15,           // Replicate 6s    -> API ~0,08EUR  -> Marge 73%
-  VIDEO_10S: 25,          // Replicate 10s   -> API ~0,15EUR  -> Marge 70%
-  VIDEO_15S: 40,          // Replicate 15s   -> API ~0,25EUR  -> Marge 69%
-  VIDEO_30S: 80,          // Replicate 30s   -> API ~0,48EUR  -> Marge 70%
+  // Video (Replicate WAN 2.1)
+  VIDEO_PER_SEC: 5,       // 5 Coins pro Sekunde -> API-Kosten variabel
 
-  // Slideshow (guenstige Alternative)
-  SLIDESHOW_5S: 5,        // Bilder + Musik  -> API ~0,02EUR  -> Marge 90%
-  SLIDESHOW_10S: 8,
-  SLIDESHOW_30S: 15,
+  // Slideshow (Foto-basiert, guenstige Alternative)
+  SLIDESHOW_PER_IMAGE: 1, // 1 Coin pro generiertes Bild
 
   // PDF & Export
   PDF_TEXT: 2,            // Server-seitig   -> API ~0,001EUR -> Marge 97%
@@ -141,15 +135,16 @@ export const FEATURE_PRICES = {
   PDF_EMAIL: 1,           // Weiterleitung   -> API ~0,001EUR -> Marge 95%
 
   // Audio
-  STT_PER_MINUTE: 4,      // Deepgram        -> API 0,004EUR/m -> Marge 95%
-  TTS_PER_1K_CHARS: 6,    // ElevenLabs      -> API 0,018EUR   -> Marge 85%
+  STT_PER_MINUTE: 4,      // Deepgram nova-2  -> API 0,004EUR/m -> Marge 95%
+  TTS_STANDARD: 0,        // Deepgram Aura    -> inklusive (kein Aufpreis)
+  TTS_PREMIUM: 3,         // Google Chirp3-HD -> API ~0,01EUR   -> Marge 83%
 
   // Chat
-  AI_CHAT_10MSG: 5,        // Gemini/GROQ    -> API ~0,01EUR  -> Marge 90%
-  AI_CHAT_PREMIUM: 12,     // Claude         -> API ~0,05EUR  -> Marge 79%
+  AI_CHAT_10MSG: 5,        // GROQ Llama     -> API ~0,01EUR  -> Marge 90%
+  AI_CHAT_PREMIUM: 10,     // Claude         -> API ~0,05EUR  -> Marge 75%
 
   // Live Voice
-  LIVE_VOICE_30MIN: 100,   // Gemini Live    -> API ~0,05EUR  -> Marge 97%
+  LIVE_VOICE_30MIN: 20,    // STT+KI+TTS     -> API ~0,05EUR  -> Marge 87%
 };
 
 // --- GRATIS-MUENZEN / REWARDS ---

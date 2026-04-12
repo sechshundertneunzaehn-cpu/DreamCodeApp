@@ -1,6 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sanitizeMessages } from './_lib/sanitize';
 import { rateLimit } from './_lib/rateLimit';
+import { handleCors } from './_lib/cors';
+import { requireAuth } from './_lib/tierAuth';
 
 /**
  * Vercel Serverless Function: Generic LLM proxy
@@ -9,13 +11,12 @@ import { rateLimit } from './_lib/rateLimit';
 type Message = { role: string; content: string };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (handleCors(req, res)) return;
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (!rateLimit(req, res)) return;
+
+  const auth = await requireAuth(req, res);
+  if (!auth) return;
 
   const { provider, model, messages: rawMessages, temperature, maxTokens } = req.body as {
     provider?: string;

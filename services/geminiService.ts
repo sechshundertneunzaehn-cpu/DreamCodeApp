@@ -12,14 +12,7 @@ import {
   ELEVENLABS_VOICES,
   type EmotionStyle,
 } from './elevenlabsService';
-import { apiUrl } from './apiConfig';
-import { supabase } from './supabaseClient';
-
-async function getAuthHeader(): Promise<Record<string, string>> {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session?.access_token) return {};
-  return { 'Authorization': `Bearer ${session.access_token}` };
-}
+import { apiFetch } from './apiConfig';
 
 const POLLINATIONS_API_BASE = 'https://image.pollinations.ai/prompt';
 const DEFAULT_DEEPGRAM_MODEL = 'aura-asteria-en';
@@ -191,7 +184,7 @@ const callGeminiText = async (
   prompt: string,
   options?: { temperature?: number; maxOutputTokens?: number },
 ): Promise<string> => {
-  const r = await fetch(apiUrl('/api/generate-text'), {
+  const r = await apiFetch('/api/generate-text', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ provider: 'gemini', model, prompt, options }),
@@ -207,7 +200,7 @@ const callDeepSeekText = async (
   prompt: string,
   options?: { temperature?: number; maxTokens?: number },
 ): Promise<string> => {
-  const r = await fetch(apiUrl('/api/llm'), {
+  const r = await apiFetch('/api/llm', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -258,7 +251,7 @@ const callOpenRouterText = async (
   prompt: string,
   options?: { temperature?: number; maxTokens?: number },
 ): Promise<string> => {
-  const r = await fetch(apiUrl('/api/llm'), {
+  const r = await apiFetch('/api/llm', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -280,7 +273,7 @@ const callGroqDirect = async (
   prompt: string,
   options?: { temperature?: number; maxTokens?: number },
 ): Promise<string> => {
-  const r = await fetch(apiUrl('/api/generate-text'), {
+  const r = await apiFetch('/api/generate-text', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ provider: 'groq', model, prompt, options }),
@@ -315,7 +308,7 @@ const callGroqFallback = async (prompt: string, language: Language): Promise<str
     sw: 'Swahili',
   };
   const langName = LANG_NAMES[language] || 'Deutsch';
-  const res = await fetch(apiUrl('/api/chat'), {
+  const res = await apiFetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -338,60 +331,66 @@ const analyzeDreamInternal = async (
 ): Promise<DreamAnalysisResult> => {
   const prompt = buildDreamPrompt(dreamText, language, userProfile);
   const textRoutes = getTextRoutes();
-  const routes = preferredTier === 'premium'
-    ? [textRoutes.find(route => route.tier === 'premium'), textRoutes.find(route => route.tier === 'default'), textRoutes.find(route => route.tier === 'fallback')]
-    : [textRoutes.find(route => route.tier === 'default'), textRoutes.find(route => route.tier === 'fallback')];
 
-  for (const route of routes.filter(Boolean)) {
+  // --- Schritt 1: Gemini (Primary) ---
+  const geminiRoute = preferredTier === 'premium'
+    ? textRoutes.find(r => r.tier === 'premium' && r.provider === 'gemini')
+    : textRoutes.find(r => r.tier === 'default' && r.provider === 'gemini');
+  if (geminiRoute) {
     try {
-      if (route!.provider === 'gemini') {
-        const interpretation = await callGeminiText(route!.model, prompt, { temperature: 0.75, maxOutputTokens: 2200 });
-        return { interpretation, provider: 'gemini', model: route!.model };
-      }
-      if (route!.provider === 'ollama') {
-        const interpretation = await callOllamaText(route!.model, prompt, { temperature: 0.75, maxTokens: 2200 });
-        return { interpretation, provider: 'ollama', model: route!.model };
-      }
-      if (route!.provider === 'openrouter') {
-        const interpretation = await callOpenRouterText(route!.model, prompt, { temperature: 0.75, maxTokens: 2200 });
-        return { interpretation, provider: 'openrouter', model: route!.model };
-      }
-
-      const interpretation = await callDeepSeekText(route!.model, prompt, { temperature: 0.75, maxTokens: 2200 });
-      return { interpretation, provider: 'deepseek', model: route!.model };
+      const interpretation = await callGeminiText(geminiRoute.model, prompt, { temperature: 0.75, maxOutputTokens: 2200 });
+      return { interpretation, provider: 'gemini', model: geminiRoute.model };
     } catch (error) {
-      console.warn(`[TEXT] ${route!.provider} fehlgeschlagen (${route!.model})`, error);
+      console.warn(`[TEXT] Gemini fehlgeschlagen (${geminiRoute.model})`, error);
     }
   }
 
-  // Groq/Mistral server-side fallback via /api/chat
-  try {
-    const interpretation = await callGroqFallback(prompt, language);
-    return { interpretation, provider: 'gemini' as any, model: 'groq-fallback' };
-  } catch (error) {
-    console.warn('[TEXT] Groq-Fallback fehlgeschlagen', error);
+  // --- Schritt 2: DeepSeek (via /api/llm) ---
+  const deepseekRoute = textRoutes.find(r => r.provider === 'deepseek');
+  if (deepseekRoute) {
+    try {
+      const interpretation = await callDeepSeekText(deepseekRoute.model, prompt, { temperature: 0.75, maxTokens: 2200 });
+      return { interpretation, provider: 'deepseek', model: deepseekRoute.model };
+    } catch (error) {
+      console.warn(`[TEXT] DeepSeek fehlgeschlagen (${deepseekRoute.model})`, error);
+    }
   }
 
-  // Lokale Modelle via Ollama (kostenlos) oder OpenRouter Fallback
+  // --- Schritt 3: GROQ + Mistral Fallback (via /api/generate-text + /api/chat) ---
+  try {
+    const interpretation = await callGroqFallback(prompt, language);
+    return { interpretation, provider: 'gemini' as TextProvider, model: 'groq-mistral-fallback' };
+  } catch (error) {
+    console.warn('[TEXT] Groq/Mistral-Fallback fehlgeschlagen', error);
+  }
+
+  // --- Schritt 4: OpenRouter Free Models ---
+  try {
+    const orRoutes = getOpenRouterLocalRoutes();
+    for (const orRoute of orRoutes) {
+      try {
+        const interpretation = await callOpenRouterText(orRoute.model, prompt, { temperature: 0.75, maxTokens: 2200 });
+        return { interpretation, provider: 'openrouter', model: orRoute.model };
+      } catch (orErr) {
+        console.warn(`[TEXT] OpenRouter fehlgeschlagen (${orRoute.model})`, orErr);
+      }
+    }
+  } catch (orSetupErr) {
+    console.warn('[TEXT] OpenRouter Fallback Setup fehlgeschlagen', orSetupErr);
+  }
+
+  // --- Schritt 5: Lokale Modelle via Ollama ---
   try {
     const ollamaOnline = await isOllamaAvailable();
-    const localRoutes = getTextRoutes().filter(r => r.tier === 'local');
-    for (const route of localRoutes) {
-      try {
-        if (ollamaOnline) {
+    if (ollamaOnline) {
+      const localRoutes = textRoutes.filter(r => r.tier === 'local');
+      for (const route of localRoutes) {
+        try {
           const interpretation = await callOllamaText(route.model, prompt, { temperature: 0.75, maxTokens: 2200 });
           return { interpretation, provider: 'ollama', model: route.model };
-        } else {
-          // Ollama nicht verfuegbar - OpenRouter als Cloud-Fallback
-          const orRoutes = getOpenRouterLocalRoutes();
-          const orRoute = orRoutes.find(r => r.model.includes('gemma') || r.model.includes('qwen'));
-          if (orRoute) {
-            const interpretation = await callOpenRouterText(orRoute.model, prompt, { temperature: 0.75, maxTokens: 2200 });
-            return { interpretation, provider: 'openrouter', model: orRoute.model };
-          }
+        } catch (localErr) {
+          console.warn('[TEXT] Lokales Modell fehlgeschlagen', route.model, localErr);
         }
-      } catch (localErr) {
-        console.warn('[TEXT] Lokales Modell fehlgeschlagen', route.model, localErr);
       }
     }
   } catch (localSetupErr) {
@@ -449,7 +448,7 @@ export const generateImagePrompt = async (
 
   // Groq fallback for image prompt
   try {
-    const res = await fetch(apiUrl('/api/chat'), {
+    const res = await apiFetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -477,10 +476,8 @@ const generateRunwareImage = async (
   quality: ImageQuality,
 ): Promise<string | null> => {
   const model = getImageRoutes().find(route => route.tier === 'standard')?.model || 'runware:100@1';
-  const authHeader = await getAuthHeader();
-  const r = await fetch(apiUrl('/api/generate-image'), {
+  const r = await apiFetch('/api/generate-image', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeader },
     body: JSON.stringify({
       provider: 'runware',
       model,
@@ -498,10 +495,8 @@ const generateRunwareImage = async (
 
 const generateGeminiImage = async (prompt: string): Promise<string | null> => {
   const model = getImageRoutes().find(route => route.tier === 'premium')?.model || 'gemini-2.5-flash-image';
-  const authHeader = await getAuthHeader();
-  const r = await fetch(apiUrl('/api/generate-image'), {
+  const r = await apiFetch('/api/generate-image', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...authHeader },
     body: JSON.stringify({ provider: 'gemini', model, prompt }),
   });
   if (!r.ok) return null;
@@ -603,7 +598,7 @@ export const generateSpeechPreview = async (
   _userProfile: UserProfile | null = null,
 ): Promise<string | null> => {
   try {
-    const r = await fetch(apiUrl('/api/deepgram-tts'), {
+    const r = await apiFetch('/api/deepgram-tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, voice }),
@@ -728,7 +723,7 @@ Example: ["A person standing in front of an old house at night","Walking through
   // Google Cloud TTS via /api/deepgram-tts?provider=google (multilingual Chirp3-HD)
   let speech: string | null = null;
   try {
-    const ttsRes = await fetch(apiUrl('/api/deepgram-tts'), {
+    const ttsRes = await apiFetch('/api/deepgram-tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: cleanText.slice(0, 4500), language, provider: 'google' }),
@@ -836,7 +831,7 @@ export const generateDreamNarrationVideo = async (
 
   let speech: string | null = null;
   try {
-    const ttsRes = await fetch(apiUrl('/api/deepgram-tts'), {
+    const ttsRes = await apiFetch('/api/deepgram-tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: cleanText.slice(0, 4500), language, provider: 'google' }),

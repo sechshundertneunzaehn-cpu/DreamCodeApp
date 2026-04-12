@@ -1,6 +1,6 @@
 // Speech-to-Text Service — proxied via /api/transcribe (Gemini server-side)
 import { Language, UserProfile } from "../types";
-import { apiUrl } from './apiConfig';
+import { apiFetch } from './apiConfig';
 
 export const transcribeAudio = async (
     audioBlob: Blob,
@@ -17,9 +17,8 @@ export const transcribeAudio = async (
         reader.readAsDataURL(audioBlob);
     });
 
-    const response = await fetch(apiUrl('/api/transcribe'), {
+    const response = await apiFetch('/api/transcribe', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             audioBase64: base64Audio,
             mimeType: audioBlob.type || 'audio/webm',

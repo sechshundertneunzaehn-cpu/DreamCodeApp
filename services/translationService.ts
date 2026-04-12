@@ -1,5 +1,5 @@
 import { supabase } from './supabaseClient';
-import { apiUrl } from './apiConfig';
+import { apiUrl, getCurrentLanguage } from './apiConfig';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -116,11 +116,20 @@ function buildPrompt(text: string, targetLang: string): string {
 
 // ─── Gemini (key rotation) ────────────────────────────────────────────────────
 
-// 5-second timeout for all AI provider calls — if backend is down, don't wait for TCP timeout
-function fetchWithTimeout(url: string, options: RequestInit, ms = 5000): Promise<Response> {
+// 5-second timeout + Auth-Header fuer alle AI Provider Calls
+async function fetchWithTimeout(url: string, options: RequestInit, ms = 5000): Promise<Response> {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), ms);
-  return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(id));
+
+  const { data: { session } } = await supabase.auth.getSession();
+  const headers = new Headers(options.headers);
+  headers.set('Content-Type', 'application/json');
+  headers.set('x-user-lang', getCurrentLanguage());
+  if (session?.access_token) {
+    headers.set('Authorization', `Bearer ${session.access_token}`);
+  }
+
+  return fetch(url, { ...options, headers, signal: controller.signal }).finally(() => clearTimeout(id));
 }
 
 async function translateWithGemini(text: string, targetLang: string): Promise<string | null> {

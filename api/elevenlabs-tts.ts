@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { requireTier } from './_lib/tierAuth';
 import { sanitizeInput } from './_lib/sanitize';
+import { handleCors } from './_lib/cors';
 
 /**
  * Vercel Serverless Function: ElevenLabs Text-to-Speech proxy
@@ -8,11 +9,7 @@ import { sanitizeInput } from './_lib/sanitize';
  * Requires: silver-Tier (PRO) oder höher.
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (handleCors(req, res)) return;
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const auth = await requireTier(req, res, 'silver');
