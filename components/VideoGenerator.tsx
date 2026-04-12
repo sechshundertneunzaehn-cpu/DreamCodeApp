@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { generateDreamVideo } from '../services/geminiService';
+import StoryVideoPlayer from './StoryVideoPlayer';
 import { Language, UserProfile } from '../types';
 
 interface VideoGeneratorProps {
@@ -247,9 +248,12 @@ const VideoGenerator: React.FC<VideoGeneratorProps> = ({ dreamDescription, langu
             </div>
 
             {videoUrl ? (
-                <div className="rounded-lg overflow-hidden border border-fuchsia-500/30 shadow-lg">
-                    <video src={videoUrl} controls autoPlay loop className="w-full" />
-                </div>
+                <>
+                    <StoryVideoPlayer videoUrl={videoUrl} onClose={() => setVideoUrl(null)} />
+                    <p className="text-sm text-fuchsia-300 text-center mt-2">
+                        <span className="material-icons text-xs" style={{ verticalAlign: 'middle' }}>play_circle</span> Video wird angezeigt
+                    </p>
+                </>
             ) : (
                 <div className="flex flex-col items-center gap-3">
                     <p className="text-sm text-slate-400 text-center">

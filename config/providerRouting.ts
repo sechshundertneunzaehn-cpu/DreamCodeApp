@@ -75,7 +75,7 @@ export interface VideoRoute {
   description: string;
 }
 
-// FIX: Stabile Gemini-Modelle verwenden, DeepSeek entfernt (CORS in Browser)
+// Fallback-Chain: Gemini → DeepSeek → GROQ → Mistral (via /api/chat)
 export const getTextRoutes = (): TextRoute[] => [
   {
     tier: 'cheap',
@@ -93,10 +93,10 @@ export const getTextRoutes = (): TextRoute[] => [
   },
   {
     tier: 'fallback',
-    provider: 'gemini',
-    model: readEnv('VITE_GEMINI_TEXT_MODEL_FALLBACK') || 'gemini-2.0-flash-lite',
-    envKey: PROVIDER_ENV_KEYS.gemini,
-    description: 'Stable older Gemini model as browser-safe fallback',
+    provider: 'deepseek',
+    model: readEnv('VITE_OPENROUTER_DEEPSEEK_MODEL') || 'deepseek/deepseek-chat',
+    envKey: PROVIDER_ENV_KEYS.deepseek,
+    description: 'DeepSeek als erster Fallback nach Gemini (via /api/llm)',
   },
   {
     tier: 'premium',
