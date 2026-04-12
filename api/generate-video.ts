@@ -1,7 +1,242 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { requireTier } from './_lib/tierAuth';
-import { sanitizeInput } from './_lib/sanitize';
-import { rateLimit } from './_lib/rateLimit';
+import { createClient } from '@supabase/supabase-js';
+
+/* ── Inline: sanitize ──────────────────────────────────────────────── */
+
+const MAX_INPUT_LENGTH = 5000;
+
+const INJECTION_MARKERS = [
+  /\[INST\]/gi,
+  /\[\/INST\]/gi,
+  /<\|im_start\|>/gi,
+  /<\|im_end\|>/gi,
+  /<\|system\|>/gi,
+  /<\|user\|>/gi,
+  /<\|assistant\|>/gi,
+  /<\/s>/gi,
+  /<<<\s*SYSTEM\s*>>>/gi,
+  /<<<\s*END\s*>>>/gi,
+  /```\s*system\b/gi,
+];
+
+const INJECTION_PHRASES = [
+  /ignore\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|prompts?|rules?|context)/gi,
+  /forget\s+(all\s+)?(previous|prior|above|earlier|your)\s+(instructions?|prompts?|rules?|context|training)/gi,
+  /disregard\s+(all\s+)?(previous|prior|above|earlier|your)\s+(instructions?|prompts?|rules?|guidelines?)/gi,
+  /override\s+(all\s+)?(previous|prior|your|system)\s+(instructions?|prompts?|rules?)/gi,
+  /you\s+are\s+now\s+(a|an|no\s+longer)\b/gi,
+  /pretend\s+(to\s+be|you\s+are)\b/gi,
+  /act\s+as\s+(if\s+you|a|an|the)\b/gi,
+  /new\s+instructions?\s*:/gi,
+  /^system\s*:/gim,
+  /jailbreak/gi,
+  /do\s+anything\s+now/gi,
+  /DAN\s+mode/gi,
+  /developer\s+mode\s+(enabled|on|activate)/gi,
+];
+
+function stripHtml(input: string): string {
+  return input.replace(/<[^>]*>/g, '');
+}
+
+function neutralizeMarkers(input: string): string {
+  let result = input;
+  for (const pattern of INJECTION_MARKERS) {
+    result = result.replace(pattern, '');
+  }
+  return result;
+}
+
+function detectInjection(input: string): boolean {
+  return INJECTION_PHRASES.some((pattern) => {
+    pattern.lastIndex = 0;
+    return pattern.test(input);
+  });
+}
+
+interface SanitizeResult {
+  text: string;
+  flagged: boolean;
+  truncated: boolean;
+}
+
+function sanitizeInput(raw: string): SanitizeResult {
+  let text = stripHtml(raw);
+  text = neutralizeMarkers(text);
+
+  const flagged = detectInjection(text);
+
+  const truncated = text.length > MAX_INPUT_LENGTH;
+  if (truncated) {
+    text = text.slice(0, MAX_INPUT_LENGTH);
+  }
+
+  text = text.replace(/\n{4,}/g, '\n\n\n').replace(/ {4,}/g, '   ').trim();
+
+  return { text, flagged, truncated };
+}
+
+/* ── Inline: rateLimit ─────────────────────────────────────────────── */
+
+const LIMITS = {
+  perMinute: 10,
+  perHour: 50,
+  perDay: 200,
+} as const;
+
+const RL_MINUTE = 60_000;
+const RL_HOUR = 3_600_000;
+const RL_DAY = 86_400_000;
+
+const ipTimestamps = new Map<string, number[]>();
+
+let lastCleanup = Date.now();
+const CLEANUP_INTERVAL = 5 * RL_MINUTE;
+
+function cleanup() {
+  const now = Date.now();
+  if (now - lastCleanup < CLEANUP_INTERVAL) return;
+  lastCleanup = now;
+
+  const cutoff = now - RL_DAY;
+  ipTimestamps.forEach((timestamps, ip) => {
+    const fresh = timestamps.filter((t) => t > cutoff);
+    if (fresh.length === 0) {
+      ipTimestamps.delete(ip);
+    } else {
+      ipTimestamps.set(ip, fresh);
+    }
+  });
+}
+
+function getIp(req: VercelRequest): string {
+  const realIp = req.headers['x-real-ip'];
+  if (typeof realIp === 'string' && realIp.trim()) return realIp.trim();
+  return 'unknown';
+}
+
+function rateLimit(req: VercelRequest, res: VercelResponse): boolean {
+  cleanup();
+
+  const ip = getIp(req);
+  const now = Date.now();
+
+  const timestamps = ipTimestamps.get(ip) ?? [];
+  const recent = timestamps.filter((t) => t > now - RL_DAY);
+
+  const inLastMinute = recent.filter((t) => t > now - RL_MINUTE).length;
+  const inLastHour = recent.filter((t) => t > now - RL_HOUR).length;
+  const inLastDay = recent.length;
+
+  if (inLastMinute >= LIMITS.perMinute) {
+    res.status(429).json({ error: 'Rate limit: max 10 Anfragen pro Minute' });
+    return false;
+  }
+  if (inLastHour >= LIMITS.perHour) {
+    res.status(429).json({ error: 'Rate limit: max 50 Anfragen pro Stunde' });
+    return false;
+  }
+  if (inLastDay >= LIMITS.perDay) {
+    res.status(429).json({ error: 'Rate limit: max 200 Anfragen pro Tag' });
+    return false;
+  }
+
+  recent.push(now);
+  ipTimestamps.set(ip, recent);
+  return true;
+}
+
+/* ── Inline: tierAuth (requireTier) ────────────────────────────────── */
+
+const TIER_RANK: Record<string, number> = {
+  bronze: 0,
+  silver:  1,
+  gold:    2,
+  deluxe:  3,
+  vip:     4,
+};
+
+function getSupabaseAdmin() {
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key, { auth: { persistSession: false } });
+}
+
+function getSupabaseAnon() {
+  const url  = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const key  = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key, { auth: { persistSession: false } });
+}
+
+interface TierAuthResult {
+  userId: string;
+  tier: string;
+}
+
+async function requireTier(
+  req: VercelRequest,
+  res: VercelResponse,
+  minTier: string
+): Promise<TierAuthResult | null> {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    res.status(401).json({ error: 'Unauthorized: missing Bearer token' });
+    return null;
+  }
+  const token = authHeader.slice(7);
+
+  const anonClient = getSupabaseAnon();
+  if (!anonClient) {
+    res.status(503).json({ error: 'Auth service not configured' });
+    return null;
+  }
+
+  const { data: { user }, error: authError } = await anonClient.auth.getUser(token);
+  if (authError || !user) {
+    res.status(401).json({ error: 'Unauthorized: invalid token' });
+    return null;
+  }
+
+  const admin = getSupabaseAdmin();
+  if (!admin) {
+    res.status(503).json({ error: 'Database service not configured' });
+    return null;
+  }
+
+  const { data: profile, error: dbError } = await admin
+    .from('profiles')
+    .select('subscription, payment_failed')
+    .eq('id', user.id)
+    .single();
+
+  if (dbError || !profile) {
+    res.status(403).json({ error: 'Profile not found' });
+    return null;
+  }
+
+  if (profile.payment_failed) {
+    res.status(402).json({ error: 'Payment failed — bitte Zahlungsmethode aktualisieren' });
+    return null;
+  }
+
+  const userRank = TIER_RANK[profile.subscription] ?? 0;
+  const minRank  = TIER_RANK[minTier] ?? 999;
+
+  if (userRank < minRank) {
+    res.status(403).json({
+      error:       `Diese Funktion erfordert ${minTier}-Abo oder höher`,
+      currentTier: profile.subscription,
+      requiredTier: minTier,
+    });
+    return null;
+  }
+
+  return { userId: user.id, tier: profile.subscription };
+}
+
+/* ── Handler ───────────────────────────────────────────────────────── */
 
 /**
  * Vercel Serverless Function: Replicate Video Generation

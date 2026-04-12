@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
-import { rateLimit } from './_lib/rateLimit';
 
 /**
  * Vercel Serverless Function: Health Check
@@ -14,7 +13,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
-  if (!rateLimit(req, res)) return;
 
   const timestamp = new Date().toISOString();
   const checks: Record<string, { ok: boolean; latencyMs: number; error?: string }> = {};
