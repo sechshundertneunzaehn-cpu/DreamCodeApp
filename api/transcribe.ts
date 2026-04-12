@@ -1,7 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { rateLimit } from './_lib/rateLimit';
-import { handleCors } from './_lib/cors';
-import { requireAuth } from './_lib/tierAuth';
 
 /**
  * Vercel Serverless Function: Audio transcription via Gemini
@@ -9,12 +7,13 @@ import { requireAuth } from './_lib/tierAuth';
  * Keeps GEMINI_API_KEY and DEEPGRAM_API_KEY server-side.
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (handleCors(req, res)) return;
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (!rateLimit(req, res)) return;
-
-  const auth = await requireAuth(req, res);
-  if (!auth) return;
 
   const { action, audioBase64, mimeType, language } = req.body as {
     action?: string;

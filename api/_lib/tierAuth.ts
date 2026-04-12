@@ -24,42 +24,9 @@ function getSupabaseAnon() {
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
-export interface AuthResult {
+export interface TierAuthResult {
   userId: string;
-}
-
-export interface TierAuthResult extends AuthResult {
   tier: string;
-}
-
-/**
- * Prueft ob ein gueltiger JWT-Token vorhanden ist (ohne Tier-Check).
- * Gibt { userId } zurueck bei Erfolg, oder null (Response bereits gesetzt).
- */
-export async function requireAuth(
-  req: VercelRequest,
-  res: VercelResponse
-): Promise<AuthResult | null> {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    res.status(401).json({ error: 'Unauthorized: missing Bearer token' });
-    return null;
-  }
-  const token = authHeader.slice(7);
-
-  const anonClient = getSupabaseAnon();
-  if (!anonClient) {
-    res.status(503).json({ error: 'Auth service not configured' });
-    return null;
-  }
-
-  const { data: { user }, error: authError } = await anonClient.auth.getUser(token);
-  if (authError || !user) {
-    res.status(401).json({ error: 'Unauthorized: invalid token' });
-    return null;
-  }
-
-  return { userId: user.id };
 }
 
 /**

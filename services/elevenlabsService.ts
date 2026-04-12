@@ -119,9 +119,9 @@ export const generateSpeechElevenLabs = async (
     const voice = ELEVENLABS_VOICES[language];
     const voiceSettings = getVoiceSettings(emotion);
 
-    const response = await apiFetch('/api/deepgram-tts', {
+    const response = await apiFetch('/api/elevenlabs-tts', {
         method: 'POST',
-        body: JSON.stringify({ provider: 'elevenlabs', voiceId: voice.id, text, voiceSettings }),
+        body: JSON.stringify({ voiceId: voice.id, text, voiceSettings }),
     });
 
     if (!response.ok) {
