@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "بريميوم", gold2_features: ["Claude 6 وجهات نظر", "500 عملة/شهر", "خصم 20%", "صور HD", "5 فيديو/شهر", "صوت مباشر", "دردشة ذكاء متقدمة"], gold2_price_monthly: "149,99 ر.س / شهر", gold2_price_yearly: "1.499,99 ر.س / سنة",
         
         pro_badge: "الأكثر شعبية", vip_badge: "حصري 👑",
+        vip_title: "VIP رويال", vip_features: ["2000 عملة/شهر", "خصم 30%", "20 فيديو/شهر", "دعم مميز", "Claude Ultra", "محتوى حصري", "مجلة الأحلام"], vip_price_monthly: "299,99 ر.س / شهر", vip_price_yearly: "2.999,99 ر.س / سنة",
     },
     earn: {
         title: "كسب العملات",

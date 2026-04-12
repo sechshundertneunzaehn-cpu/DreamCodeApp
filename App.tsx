@@ -40,6 +40,8 @@ import { loadDreamsSecurely, loadProfileSecurely, saveDreamsSecurely, saveProfil
 // Knowledge Base lazy-loaded on demand (only used in handleInfoClick)
 import { FEATURE_PRICES, SUBSCRIPTION_TIERS, COIN_PACKAGES, REWARDS, coinToEur } from './config/pricing';
 import { CATEGORY_ICONS, CATEGORY_ORDER, CATEGORY_SOURCE_MAP, CATEGORY_COLOR_SCHEME, CATEGORY_TIER_REQUIREMENT, getSourcesForCategories } from './config/traditions';
+import { REWARD_CONFIG } from './config/rewards';
+import { detectRegion, RegionInfo } from './services/regionService';
 
 // --- Data & Translations (lazy-loaded per language) ---
 import { TRANSLATIONS, loadTranslation } from './data/translations';
@@ -177,6 +179,7 @@ const App: React.FC = () => {
     const [showMoonSync, setShowMoonSync] = useState(false);
     const [isAdPlaying, setIsAdPlaying] = useState(false);
     const [adDuration, setAdDuration] = useState(0);
+    const [regionInfo, setRegionInfo] = useState<RegionInfo | null>(null);
     const adTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     
     // Cleanup ad timer on unmount
@@ -186,6 +189,11 @@ const App: React.FC = () => {
                 clearTimeout(adTimerRef.current);
             }
         };
+    }, []);
+
+    // Region-Detection für VIP-Tier
+    useEffect(() => {
+        setRegionInfo(detectRegion());
     }, []);
 
     // Sync body background + dark class with theme
@@ -1807,7 +1815,7 @@ Rules:
                   </button>
                 </div>
                 <p className={`mt-2 ${isLight ? 'text-slate-300' : 'text-slate-600'}`}>
-                  Thalamus Innovation Technology
+                  AssetsUN LLC
                 </p>
               </footer>
             )}
@@ -2179,7 +2187,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                     </div>
                 )}
 
-                {[SubscriptionTier.FREE, SubscriptionTier.PRO, SubscriptionTier.PREMIUM].map(tier => {
+                {[SubscriptionTier.FREE, SubscriptionTier.PRO, SubscriptionTier.PREMIUM, ...(regionInfo?.vipAvailable ? [SubscriptionTier.VIP] : [])].map(tier => {
                     const isCurrent = userProfile?.subscriptionTier === tier;
                     let title = "", features: string[] = [], price = "";
                     let borderColor = "";
@@ -2307,7 +2315,7 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
                         <h4 className={`font-bold text-sm ${isLight ? 'text-mystic-text' : 'text-white'}`}>{t.earn.short_title}</h4>
                         <p className="text-xs text-amber-500">{t.earn.short_desc}</p>
                     </div>
-                    <button onClick={() => onWatch(10000, parseInt(t.earn.short_reward))} className="px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold text-xs shadow-lg transition-colors">
+                    <button onClick={() => onWatch(REWARD_CONFIG.shortClip.durationMs, REWARD_CONFIG.shortClip.coins)} className="px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold text-xs shadow-lg transition-colors">
                         +{t.earn.short_reward} 🪙 {t.earn.watch_btn}
                     </button>
                 </div>
@@ -2318,7 +2326,7 @@ const EarnCoinsModal = ({ onClose, t, isLight, onWatch }: { onClose: () => void,
                         <h4 className={`font-bold text-sm ${isLight ? 'text-mystic-text' : 'text-white'}`}>{t.earn.long_title}</h4>
                         <p className="text-xs text-amber-500">{t.earn.long_desc}</p>
                     </div>
-                    <button onClick={() => onWatch(3000, parseInt(t.earn.long_reward))} className="px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-lg">
+                    <button onClick={() => onWatch(REWARD_CONFIG.premiumVideo.durationMs, REWARD_CONFIG.premiumVideo.coins)} className="px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:to-orange-600 text-white rounded-xl font-bold text-xs shadow-lg">
                         +{t.earn.long_reward} 🪙 {t.earn.watch_btn}
                     </button>
                 </div>

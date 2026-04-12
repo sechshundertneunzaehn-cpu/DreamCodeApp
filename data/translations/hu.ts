@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6 nézőpont", "500 érme/hó", "20% érme kedvezmény", "HD képek", "5 videó/hó", "Élő hang", "Prémium AI Chat"], gold2_price_monthly: "€14.99 / Hó", gold2_price_yearly: "€149.99 / Év",
         
         pro_badge: "LEGNÉPSZERŰBB", vip_badge: "EXKLUZÍV 👑",
+        vip_title: "VIP Királyi", vip_features: ["2000 Érem/Hónap", "30% Kedvezmény", "20 Videó/Hónap", "Prémium Támogatás", "Claude Ultra", "Exkluzív Tartalom", "Álomnapló"], vip_price_monthly: "299,99 SAR / Hónap", vip_price_yearly: "2.999,99 SAR / Év",
     },
     earn: {
         title: "Érmék szerzése",

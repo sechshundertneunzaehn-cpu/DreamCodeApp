@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "প্রিমিয়াম", gold2_features: ["Claude ৬ দৃষ্টিকোণ", "৫০০ কয়েন/মাস", "২০% কয়েন ছাড়", "HD ছবি", "৫ ভিডিও/মাস", "লাইভ ভয়েস", "প্রিমিয়াম AI চ্যাট"], gold2_price_monthly: "€14.99 / মাস", gold2_price_yearly: "€149.99 / বছর",
         
         pro_badge: "সবচেয়ে জনপ্রিয়", vip_badge: "এক্সক্লুসিভ 👑",
+        vip_title: "VIP রয়াল", vip_features: ["2000 কয়েন/মাস", "30% ছাড়", "20 ভিডিও/মাস", "প্রিমিয়াম সাপোর্ট", "Claude Ultra", "এক্সক্লুসিভ কন্টেন্ট", "স্বপ্নের জার্নাল"], vip_price_monthly: "299.99 SAR / মাস", vip_price_yearly: "2,999.99 SAR / বছর",
     },
     earn: {
         title: "কয়েন উপার্জন করুন",

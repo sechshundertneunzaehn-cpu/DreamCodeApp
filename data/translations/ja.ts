@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6視点", "月500コイン", "コイン20%割引", "HD画像", "月5本の動画", "ライブボイス", "プレミアムAIチャット"], gold2_price_monthly: "€14.99 / 月", gold2_price_yearly: "€149.99 / 年",
         
         pro_badge: "一番人気", vip_badge: "限定 👑",
+        vip_title: "VIPロイヤル", vip_features: ["2000コイン/月", "30%割引", "20動画/月", "プレミアムサポート", "Claude Ultra", "限定コンテンツ", "夢日記"], vip_price_monthly: "299.99 SAR / 月", vip_price_yearly: "2,999.99 SAR / 年",
     },
     earn: {
         title: "コインを獲得",

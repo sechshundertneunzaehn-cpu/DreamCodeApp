@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6-Perspektiven", "500 Coins/Monat", "20% Coin-Rabatt", "HD-Bilder", "5 Videos/Monat", "Live Voice", "KI-Chat Premium"], gold2_price_monthly: "14,99 € / Monat", gold2_price_yearly: "149,99 € / Jahr",
         
         pro_badge: "MEISTGEWÄHLT", vip_badge: "EXKLUSIV 👑",
+        vip_title: "VIP Royal", vip_features: ["2000 Coins/Monat", "30% Coin-Rabatt", "20 Videos/Monat", "Premium-Support", "Claude Ultra", "Exklusive Inhalte", "Traumtagebuch"], vip_price_monthly: "299,99 ر.س / Monat", vip_price_yearly: "2.999,99 ر.س / Jahr",
     },
     earn: {
         title: "Münzen verdienen",

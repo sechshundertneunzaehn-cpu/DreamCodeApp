@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6视角", "每月500金币", "金币8折", "高清图片", "每月5个视频", "实时语音", "高级AI聊天"], gold2_price_monthly: "€14.99 / 月", gold2_price_yearly: "€149.99 / 年",
         
         pro_badge: "最受欢迎", vip_badge: "独家 👑",
+        vip_title: "VIP皇家", vip_features: ["2000金币/月", "9折优惠", "每月20个视频", "高级支持", "Claude Ultra", "专属内容", "梦境日记"], vip_price_monthly: "299.99 SAR / 月", vip_price_yearly: "2,999.99 SAR / 年",
     },
     earn: {
         title: "赚取金币",

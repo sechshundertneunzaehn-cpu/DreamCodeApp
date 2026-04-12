@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "پرمیوم", gold2_features: ["Claude ۶ دیدگاه", "۵۰۰ سکه/ماه", "۲۰٪ تخفیف سکه", "تصاویر HD", "۵ ویدیو/ماه", "صدای زنده", "چت AI پرمیوم"], gold2_price_monthly: "€14.99 / ماه", gold2_price_yearly: "€149.99 / سال",
         
         pro_badge: "محبوب‌ترین", vip_badge: "انحصاری 👑",
+        vip_title: "VIP رویال", vip_features: ["2000 سکه/ماه", "30٪ تخفیف", "20 ویدیو/ماه", "پشتیبانی ویژه", "Claude Ultra", "محتوای انحصاری", "دفتر خواب"], vip_price_monthly: "299.99 SAR / ماه", vip_price_yearly: "2,999.99 SAR / سال",
     },
     earn: {
         title: "کسب سکه",

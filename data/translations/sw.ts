@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude Mitazamo 6", "Sarafu 500/Mwezi", "Punguzo 20% la Sarafu", "Picha HD", "Video 5/Mwezi", "Sauti ya Moja kwa Moja", "AI Chat Premium"], gold2_price_monthly: "€14.99 / Mwezi", gold2_price_yearly: "€149.99 / Mwaka",
         
         pro_badge: "MAARUFU ZAIDI", vip_badge: "KIPEKEE 👑",
+        vip_title: "VIP Royal", vip_features: ["Sarafu 2000/Mwezi", "Punguzo la 30%", "Video 20/Mwezi", "Msaada wa Premium", "Claude Ultra", "Maudhui ya Kipekee", "Jarida la Ndoto"], vip_price_monthly: "SAR 299.99 / Mwezi", vip_price_yearly: "SAR 2,999.99 / Mwaka",
     },
     earn: {
         title: "Pata Sarafu",

@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6 มุมมอง", "500 เหรียญ/เดือน", "ส่วนลด 20%", "ภาพ HD", "5 วิดีโอ/เดือน", "เสียงสด", "AI แชท Premium"], gold2_price_monthly: "€14.99 / เดือน", gold2_price_yearly: "€149.99 / ปี",
         
         pro_badge: "ยอดนิยม", vip_badge: "พิเศษ 👑",
+        vip_title: "VIP รอยัล", vip_features: ["2000 เหรียญ/เดือน", "ส่วนลด 30%", "20 วิดีโอ/เดือน", "การสนับสนุนพรีเมียม", "Claude Ultra", "เนื้อหาพิเศษ", "วารสารความฝัน"], vip_price_monthly: "299.99 SAR / เดือน", vip_price_yearly: "2,999.99 SAR / ปี",
     },
     earn: {
         title: "รับเหรียญ",

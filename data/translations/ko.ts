@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6관점", "월 500코인", "코인 20% 할인", "HD 이미지", "월 5개 동영상", "라이브 음성", "프리미엄 AI 채팅"], gold2_price_monthly: "€14.99 / 월", gold2_price_yearly: "€149.99 / 년",
         
         pro_badge: "가장 인기", vip_badge: "독점 👑",
+        vip_title: "VIP 로얄", vip_features: ["2000 코인/월", "30% 코인 할인", "20 비디오/월", "프리미엄 지원", "Claude Ultra", "독점 콘텐츠", "꿈 일기"], vip_price_monthly: "299.99 SAR / 월", vip_price_yearly: "2,999.99 SAR / 년",
     },
     earn: {
         title: "코인 획득",

@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6 góc nhìn", "500 xu/tháng", "Giảm 20% xu", "Ảnh HD", "5 video/tháng", "Giọng nói trực tiếp", "AI Chat Premium"], gold2_price_monthly: "€14.99 / Tháng", gold2_price_yearly: "€149.99 / Năm",
         
         pro_badge: "PHỔ BIẾN NHẤT", vip_badge: "ĐỘC QUYỀN 👑",
+        vip_title: "VIP Hoàng Gia", vip_features: ["2000 Xu/Tháng", "Giảm 30%", "20 Video/Tháng", "Hỗ Trợ Premium", "Claude Ultra", "Nội Dung Độc Quyền", "Nhật Ký Giấc Mơ"], vip_price_monthly: "299,99 SAR / Tháng", vip_price_yearly: "2.999,99 SAR / Năm",
     },
     earn: {
         title: "Kiếm xu",

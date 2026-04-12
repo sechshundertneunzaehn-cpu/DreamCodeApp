@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6-Perspektif", "500 Koin/Bulan", "Diskon Koin 20%", "Gambar HD", "5 Video/Bulan", "Suara Langsung", "Chat AI Premium"], gold2_price_monthly: "€14.99 / Bulan", gold2_price_yearly: "€149.99 / Tahun",
         
         pro_badge: "TERPOPULER", vip_badge: "EKSKLUSIF 👑",
+        vip_title: "VIP Royal", vip_features: ["2000 Koin/Bulan", "Diskon 30%", "20 Video/Bulan", "Dukungan Premium", "Claude Ultra", "Konten Eksklusif", "Jurnal Mimpi"], vip_price_monthly: "299,99 SAR / Bulan", vip_price_yearly: "2.999,99 SAR / Tahun",
     },
     earn: {
         title: "Dapatkan Koin",

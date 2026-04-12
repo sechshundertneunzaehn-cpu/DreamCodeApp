@@ -149,6 +149,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6 Perspectivas", "500 Monedas/Mes", "20% Descuento", "Imágenes HD", "5 Videos/Mes", "Voz en Vivo", "Chat IA Premium"], gold2_price_monthly: "14,99 € / Mes", gold2_price_yearly: "149,99 € / Año",
         
         pro_badge: "MÁS POPULAR", vip_badge: "EXCLUSIVO 👑",
+        vip_title: "VIP Royal", vip_features: ["2000 Monedas/Mes", "30% Descuento", "20 Videos/Mes", "Soporte Premium", "Claude Ultra", "Contenido Exclusivo", "Diario de Sueños"], vip_price_monthly: "299,99 SAR / Mes", vip_price_yearly: "2.999,99 SAR / Año",
     },
     earn: {
         title: "Ganar Monedas",

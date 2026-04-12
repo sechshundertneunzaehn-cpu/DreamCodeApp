@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Премиум", gold2_features: ["Claude 6 Перспектив", "500 Монет/Месяц", "Скидка 20%", "HD Изображения", "5 Видео/Месяц", "Живой Голос", "Премиум ИИ Чат"], gold2_price_monthly: "749 ₽ / Месяц", gold2_price_yearly: "7.499 ₽ / Год",
         
         pro_badge: "САМЫЙ ПОПУЛЯРНЫЙ", vip_badge: "ЭКСКЛЮЗИВ 👑",
+        vip_title: "VIP Роял", vip_features: ["2000 Монет/Месяц", "Скидка 30%", "20 Видео/Месяц", "Премиум Поддержка", "Claude Ultra", "Эксклюзивный Контент", "Дневник Снов"], vip_price_monthly: "299,99 SAR / Мес", vip_price_yearly: "2.999,99 SAR / Год",
     },
     earn: {
         title: "Заработать монеты",

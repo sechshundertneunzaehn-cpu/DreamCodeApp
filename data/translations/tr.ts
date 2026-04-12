@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6 Perspektif", "500 Jeton/Ay", "%20 Jeton İndirimi", "HD Görseller", "5 Video/Ay", "Canlı Ses", "Premium YZ Sohbet"], gold2_price_monthly: "229,99 ₺ / Ay", gold2_price_yearly: "2.299 ₺ / Yıl",
         
         pro_badge: "EN POPÜLER", vip_badge: "ÖZEL 👑",
+        vip_title: "VIP Royal", vip_features: ["2000 Coin/Ay", "%30 Coin İndirimi", "20 Video/Ay", "Premium Destek", "Claude Ultra", "Özel İçerikler", "Rüya Günlüğü"], vip_price_monthly: "299,99 SAR / Ay", vip_price_yearly: "2.999,99 SAR / Yıl",
     },
     earn: {
         title: "Jeton Kazan",

@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "پریمیم", gold2_features: ["Claude ۶ نقطہ نظر", "۵۰۰ سکے/ماہ", "۲۰٪ سکہ رعایت", "HD تصاویر", "۵ ویڈیوز/ماہ", "لائیو آواز", "پریمیم AI چیٹ"], gold2_price_monthly: "€14.99 / ماہ", gold2_price_yearly: "€149.99 / سال",
         
         pro_badge: "سب سے مقبول", vip_badge: "خصوصی 👑",
+        vip_title: "VIP رائل", vip_features: ["2000 سکے/ماہ", "30% رعایت", "20 ویڈیو/ماہ", "پریمیم سپورٹ", "Claude Ultra", "خصوصی مواد", "خواب کی ڈائری"], vip_price_monthly: "299.99 SAR / ماہ", vip_price_yearly: "2,999.99 SAR / سال",
     },
     earn: {
         title: "سکے کمائیں",

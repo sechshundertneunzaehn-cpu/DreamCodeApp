@@ -165,6 +165,7 @@ const translation = {
         gold2_title: "Premium", gold2_features: ["Claude 6-दृष्टिकोण", "500 सिक्के/माह", "20% सिक्का छूट", "HD छवियां", "5 वीडियो/माह", "लाइव वॉइस", "प्रीमियम AI चैट"], gold2_price_monthly: "€14.99 / माह", gold2_price_yearly: "€149.99 / वर्ष",
         
         pro_badge: "सबसे लोकप्रिय", vip_badge: "विशेष 👑",
+        vip_title: "VIP रॉयल", vip_features: ["2000 सिक्के/महीना", "30% सिक्का छूट", "20 वीडियो/महीना", "प्रीमियम सपोर्ट", "Claude Ultra", "एक्सक्लूसिव कंटेंट", "ड्रीम जर्नल"], vip_price_monthly: "299.99 SAR / माह", vip_price_yearly: "2,999.99 SAR / वर्ष",
     },
     earn: {
         title: "सिक्के कमाएं",
