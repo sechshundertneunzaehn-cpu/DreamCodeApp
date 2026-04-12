@@ -26,7 +26,7 @@ export interface Citation {
 export interface InterpretationResult {
   interpretation: string
   citations: Citation[]
-  tradition: string
+  traditions: string[]
   similar_count: number
   model: string
   tokens_used: number
@@ -93,7 +93,7 @@ async function handleResponse<T>(res: Response): Promise<T> {
  */
 export async function interpretDream(
   dreamText: string,
-  tradition: string,
+  traditions: string[],
   language: string,
   userId?: string,
 ): Promise<InterpretationResult> {
@@ -102,7 +102,7 @@ export async function interpretDream(
     headers: DEFAULT_HEADERS,
     body: JSON.stringify({
       dream_text: dreamText,
-      tradition,
+      traditions,
       language,
       ...(userId ? { user_id: userId } : {}),
     }),

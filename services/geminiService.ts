@@ -1,4 +1,4 @@
-﻿import { Language, UserProfile, SubscriptionTier, ReligiousCategory } from '../types';
+﻿import { Language, UserProfile, SubscriptionTier, ReligiousCategory, ReligiousSource } from '../types';
 import {
   getTextRoutes,
   getImageRoutes,
@@ -157,7 +157,7 @@ const normalizeVideoStyle = (value?: unknown): ImageStyle => {
   return 'fantasy';
 };
 
-const buildDreamPrompt = (dreamText: string, language: Language, userProfile: UserProfile | null, categories?: ReligiousCategory[]): string => {
+const buildDreamPrompt = (dreamText: string, language: Language, userProfile: UserProfile | null, categories?: ReligiousCategory[], sources?: ReligiousSource[]): string => {
   const languageName = LANGUAGE_NAMES[language] || 'English';
   const contextBits = [
     userProfile?.age ? `Age: ${userProfile.age}` : '',
@@ -167,14 +167,20 @@ const buildDreamPrompt = (dreamText: string, language: Language, userProfile: Us
     userProfile?.remarks ? `Remarks: ${userProfile.remarks}` : '',
   ].filter(Boolean);
 
+  let traditionInstruction = '';
+  if (sources && sources.length > 0) {
+    const sourceNames = sources.map(s => s.replace(/_/g, ' ')).join(', ');
+    traditionInstruction = `Interpret this dream specifically through these traditions/sources: ${sourceNames}. Include a dedicated section for each selected tradition's perspective.`;
+  } else if (categories && categories.length > 0) {
+    traditionInstruction = `Interpret this dream specifically through these traditions: ${categories.join(', ')}. Include a dedicated section for each selected tradition's perspective.`;
+  }
+
   return [
     'You are an empathetic dream interpreter.',
     `Respond in ${languageName}.`,
     'Analyze the dream with symbolism, emotional meaning, and practical guidance.',
     'Use clear sections and a warm, grounded tone.',
-    categories && categories.length > 0
-      ? `Interpret this dream specifically through these traditions: ${categories.join(', ')}. Include a dedicated section for each selected tradition's perspective.`
-      : '',
+    traditionInstruction,
     contextBits.length > 0 ? `Dreamer context: ${contextBits.join(' | ')}` : '',
     `Dream: "${dreamText}"`,
   ]
@@ -332,8 +338,9 @@ const analyzeDreamInternal = async (
   userProfile: UserProfile | null,
   preferredTier: 'default' | 'premium' = 'default',
   categories?: ReligiousCategory[],
+  sources?: ReligiousSource[],
 ): Promise<DreamAnalysisResult> => {
-  const prompt = buildDreamPrompt(dreamText, language, userProfile, categories);
+  const prompt = buildDreamPrompt(dreamText, language, userProfile, categories, sources);
   const textRoutes = getTextRoutes();
 
   // --- Schritt 1: Gemini (Primary) ---
@@ -412,8 +419,9 @@ export const analyzeDreamText = async (
   language: Language = Language.DE,
   userProfile: UserProfile | null = null,
   categories?: ReligiousCategory[],
+  sources?: ReligiousSource[],
 ): Promise<{ interpretation: string }> => {
-  const result = await analyzeDreamInternal(dreamText, language, userProfile, 'default', categories);
+  const result = await analyzeDreamInternal(dreamText, language, userProfile, 'default', categories, sources);
   return { interpretation: result.interpretation };
 };
 
@@ -423,9 +431,10 @@ export const analyzeDreamPremium = async (
   userProfile: UserProfile | null = null,
   usePremium: boolean = false,
   categories?: ReligiousCategory[],
+  sources?: ReligiousSource[],
 ): Promise<{ interpretation: string; provider: TextProvider | 'unavailable' }> => {
   const preferredTier = usePremium && isPremiumTextTier(userProfile?.subscriptionTier) ? 'premium' : 'default';
-  const result = await analyzeDreamInternal(dreamText, language, userProfile, preferredTier, categories);
+  const result = await analyzeDreamInternal(dreamText, language, userProfile, preferredTier, categories, sources);
   return {
     interpretation: result.interpretation,
     provider: result.provider,

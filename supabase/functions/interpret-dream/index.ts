@@ -998,10 +998,11 @@ function getLocalizedPromptSuffix(language: string): string {
   return base + hint
 }
 
-function getSystemPrompt(tradition: string, language: string): string {
-  const base = getTraditionPrompt(tradition, language)
+function getSystemPrompt(traditions: string[], language: string): string {
+  const bases = traditions.map(t => getTraditionPrompt(t, language))
+  const combined = bases.join('\n\n---\n\n')
   const suffix = getLocalizedPromptSuffix(language)
-  return getCulturalContext(language) + '\n\n' + base + suffix
+  return getCulturalContext(language) + '\n\n' + combined + suffix
 }
 
 function languageLabel(lang: string): string {
@@ -1063,14 +1064,17 @@ Deno.serve(async (req: Request) => {
   }
 
   // Parse body
-  let body: { dream_text?: string; tradition?: string; language?: string; user_id?: string }
+  let body: { dream_text?: string; traditions?: string[]; tradition?: string; language?: string; user_id?: string }
   try {
     body = await req.json()
   } catch {
     return json({ error: 'Invalid JSON body' }, 400)
   }
 
-  const { dream_text, tradition = 'JUNGIAN', language = 'de', user_id } = body
+  const { dream_text, traditions: rawTraditions, tradition: legacyTradition, language = 'de', user_id } = body
+  const traditions: string[] = Array.isArray(rawTraditions) && rawTraditions.length > 0
+    ? rawTraditions
+    : [legacyTradition || 'JUNGIAN']
 
   // Validate
   if (!dream_text || typeof dream_text !== 'string') {
@@ -1082,8 +1086,10 @@ Deno.serve(async (req: Request) => {
   if (dream_text.length > 5000) {
     return json({ error: 'dream_text must not exceed 5000 characters' }, 400)
   }
-  if (!TRADITION_PROMPTS_LOCALIZED[tradition]) {
-    return json({ error: `Unknown tradition: ${tradition}` }, 400)
+  for (const t of traditions) {
+    if (!TRADITION_PROMPTS_LOCALIZED[t]) {
+      return json({ error: `Unknown tradition: ${t}` }, 400)
+    }
   }
 
   try {
@@ -1118,7 +1124,7 @@ Deno.serve(async (req: Request) => {
       .join('\n\n')
 
     // 4. Build prompt
-    const systemPrompt = getSystemPrompt(tradition, language)
+    const systemPrompt = getSystemPrompt(traditions, language)
     const userPrompt = `Basierend auf den folgenden wissenschaftlichen Traumberichten aus der Forschungsdatenbank:
 
 ${contextBlock || '(Keine ähnlichen Berichte gefunden)'}
@@ -1153,7 +1159,7 @@ Zitiere relevante Berichte aus dem Kontext und nenne die Quellen explizit. Gib p
           interpretation,
           sources_used: citations.map((c) => ({
             source_name: c.source,
-            tradition,
+            traditions,
             relevance_score: c.similarity,
           })),
           language,
@@ -1166,7 +1172,7 @@ Zitiere relevante Berichte aus dem Kontext und nenne die Quellen explizit. Gib p
           dream_id: dreamData.id,
           content: interpretation,
           citations,
-          tradition,
+          tradition: traditions.join(','),
           model_used: 'gemini-2.5-flash',
           tokens_used: tokens,
           cost_estimate: estimateCost(tokens),
@@ -1184,7 +1190,7 @@ Zitiere relevante Berichte aus dem Kontext und nenne die Quellen explizit. Gib p
     return json({
       interpretation,
       citations,
-      tradition,
+      traditions,
       similar_count: similarDreams.length,
       model: 'gemini-2.5-flash',
       tokens_used: tokens,
