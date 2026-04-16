@@ -27,3 +27,11 @@ android/*.jks
 deploy.sh
 .vercel
 .env.backup*
+
+# Obsidian (Plugin-Config wird committed, Workspace/Cache nicht)
+docs/.obsidian/workspace*
+docs/.obsidian/cache/
+docs/.obsidian/graph.json
+docs/.obsidian/plugins/obsidian-git/main.js
+docs/.obsidian/plugins/obsidian-git/styles.css
+docs/.trash/
