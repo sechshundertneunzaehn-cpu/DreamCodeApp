@@ -19,6 +19,7 @@ export enum View {
     RESEARCH_PARTICIPANT = 'RESEARCH_PARTICIPANT',
     DREAM_SYMBOLS = 'DREAM_SYMBOLS',
     STUDY = 'STUDY',
+    PRO_VIDEO_STUDIO = 'PRO_VIDEO_STUDIO',
 }
 
 export enum Language {
@@ -28,6 +29,11 @@ export enum Language {
     ES = 'es',
     FR = 'fr',
     AR = 'ar',
+    AR_GULF = 'ar-gulf',
+    AR_EG = 'ar-eg',
+    AR_LEV = 'ar-lev',
+    AR_MAG = 'ar-mag',
+    AR_IQ = 'ar-iq',
     PT = 'pt',
     RU = 'ru',
     ZH = 'zh',
@@ -44,6 +50,16 @@ export enum Language {
     TH = 'th',
     SW = 'sw',
     HU = 'hu',
+    TA = 'ta',
+    TE = 'te',
+    TL = 'tl',
+    ML = 'ml',
+    MR = 'mr',
+    KN = 'kn',
+    GU = 'gu',
+    HE = 'he',
+    NE = 'ne',
+    PRS = 'prs',
 }
 
 export enum ThemeMode {
@@ -195,6 +211,14 @@ export interface UserProfile {
     isComplete?: boolean;
     profileVisibility?: ProfileVisibility;
     communicationPreference?: CommunicationPreference;
+
+    // Face-Personalisierung (Metadaten — Fotos in Supabase Storage)
+    faceData?: {
+        hasPhotos: boolean;
+        consentGiven: boolean;
+        consentDate?: string;
+        photoCount: number;
+    };
 }
 
 export enum WorkType {
@@ -237,6 +261,32 @@ export enum AudioVisibility {
     PUBLIC = 'PUBLIC'
 }
 
+// --- Face-Personalisierung ---
+
+export enum FacePhotoType {
+    FRONTAL = 'FRONTAL',
+    LEFT_PROFILE = 'LEFT_PROFILE',
+    RIGHT_PROFILE = 'RIGHT_PROFILE',
+}
+
+export interface FaceQualityResult {
+    valid: boolean;
+    faceDetected: boolean;
+    confidence: number;
+    faceSizeRatio: number;
+    landmarksVisible: boolean;
+    sunglassesDetected: boolean;
+    errors: string[];
+}
+
+export interface ServerQualityResult {
+    valid: boolean;
+    sharpness: number;
+    brightness: number;
+    resolution: { width: number; height: number };
+    errors: string[];
+}
+
 export interface Dream {
     id: string;
     title: string;
@@ -255,6 +305,15 @@ export interface Dream {
     likes: number;
     comments: number;
     matchPercentage: number;
+
+    // Face-Personalisierung
+    faceSwapImageUrl?: string;
+    faceSwapVideoUrl?: string;
+    editHistory?: Array<{
+        imageUrl: string;
+        editPrompt: string;
+        timestamp: number;
+    }>;
 }
 
 export interface BotContribution {

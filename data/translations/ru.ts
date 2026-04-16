@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Видео Студия",
         dream_network: "Сеть Снов",
         privacy_link: "Конфиденциальность", terms_link: "Условия", imprint_link: "Выходные данные", research_link: "Исследования", studies_link: "Исследования", worldmap_link: "Карта мира", showing_sources_only: "Только {0} источники", science_label: "Знания",
+        symbols_link: "Библиотека Символов", science_study_btn: "Научное Исследование", study_btn_desc: "Аноним · Исследование · Скидка 10–20%", study_discount_active: "Скидка Активна",
+        language_label: "Язык",
     },
     processing: {
         title: "Оракул работает...",

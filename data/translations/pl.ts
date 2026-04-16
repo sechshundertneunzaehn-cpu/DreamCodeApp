@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Studio Wideo",
         dream_network: "Sieć Snów",
         privacy_link: "Prywatność", terms_link: "Regulamin", imprint_link: "Impressum", research_link: "Badania", studies_link: "Studia", worldmap_link: "Mapa Świata", showing_sources_only: "Wyświetlanie tylko źródeł {0}", science_label: "Wiedza",
+        symbols_link: "Biblioteka Symboli Snów", science_study_btn: "Badanie Naukowe", study_btn_desc: "Anonimowo · Badania · Zniżka 10–20%", study_discount_active: "Zniżka Aktywna",
+        language_label: "Język",
     },
     processing: {
         title: "Wyrocznia pracuje...",

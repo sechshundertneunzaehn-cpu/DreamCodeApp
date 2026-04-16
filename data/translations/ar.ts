@@ -127,6 +127,8 @@ const translation = {
         video_studio: "استوديو الفيديو",
         dream_network: "شبكة الأحلام",
         privacy_link: "الخصوصية", terms_link: "الشروط", imprint_link: "البصمة", research_link: "البحث", studies_link: "الدراسات", worldmap_link: "خريطة العالم", showing_sources_only: "عرض مصادر {0} فقط", science_label: "المعرفة",
+        symbols_link: "مكتبة رموز الأحلام", science_study_btn: "دراسة علمية", study_btn_desc: "مجهول · بحث · خصم 10–20%", study_discount_active: "خصم الدراسة نشط",
+        language_label: "اللغة",
     },
     processing: {
         title: "العراف يعمل...",

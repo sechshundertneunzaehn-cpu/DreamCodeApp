@@ -17,7 +17,7 @@ import { apiFetch } from './apiConfig';
 const POLLINATIONS_API_BASE = 'https://image.pollinations.ai/prompt';
 const DEFAULT_DEEPGRAM_MODEL = 'aura-asteria-en';
 
-type ImageStyle = 'cartoon' | 'anime' | 'real' | 'fantasy' | 'surreal' | 'watercolor' | 'dreamlike' | 'cinematic';
+type ImageStyle = 'cartoon' | 'anime' | 'real' | 'fantasy' | 'surreal' | 'watercolor' | 'dreamlike' | 'cinematic' | 'comic';
 type ImageQuality = 'normal' | 'high';
 
 type TextProvider = 'gemini' | 'deepseek' | 'ollama' | 'openrouter';
@@ -123,6 +123,11 @@ const STYLE_PROMPTS: Record<ImageStyle, { prefix: string; negative: string }> = 
     prefix:
       'cinematic dream scene, dramatic lighting, wide-angle composition, film grain, atmospheric depth',
     negative: 'flat illustration, cartoon, amateur photo, text',
+  },
+  comic: {
+    prefix:
+      'comic book dream panel, bold ink outlines, halftone dots, dynamic action composition, vivid pop colors, speech bubble style',
+    negative: 'realistic photo, soft watercolor, blurry, text',
   },
 };
 
@@ -465,31 +470,47 @@ export const generateImagePrompt = async (
   dreamText: string,
   interpretation: string,
 ): Promise<string> => {
-  const prompt = [
-    'Create one concise English image prompt for a dream visualization.',
-    'Focus on symbols, atmosphere, lighting, and composition.',
-    'Return only the prompt text, no explanation.',
-    `Dream: ${dreamText}`,
-    `Interpretation: ${interpretation}`,
-  ].join('\n\n');
+  const systemInstruction = `You are an image prompt generator for dream visualization.
+Your ONLY task: Convert the dream text into a precise, literal English scene description.
+
+STRICT RULES:
+1. EVERY subject mentioned in the dream MUST appear in the prompt (e.g. "two lions" = exactly two lions)
+2. EVERY action mentioned MUST be described (e.g. "attacking" = show attacking)
+3. Do NOT add ANYTHING that is not explicitly mentioned in the dream
+4. Do NOT replace literal elements with symbolic interpretations
+5. The prompt MUST be in English
+6. Ignore any user profile wishes (eye color, hair style etc.)
+7. Format: One single detailed scene description, max 2 sentences
+8. Include: subjects, actions, environment, mood — ALL from the dream text ONLY
+
+EXAMPLE:
+Input: "Two lions attacked me in a dark forest"
+Output: "Two large aggressive lions attacking a person in a dark dense forest, dramatic action scene, threatening atmosphere, realistic style, cinematic lighting"
+
+ANTI-EXAMPLE (FORBIDDEN):
+Input: "Two lions attacked me"
+WRONG: "A mystical forest with ethereal moonlight" (NO LIONS = WRONG)
+RIGHT: "Two lions attacking a person, aggressive stance, dramatic scene"`;
+
+  const userPrompt = `Convert this dream into an image prompt. Show EXACTLY what is described:\n\nDream: ${dreamText}`;
 
   // Try Gemini first
   try {
     const cheapModel = getTextRoutes().find(route => route.tier === 'cheap')?.model || 'gemini-2.0-flash-lite';
-    return await callGeminiText(cheapModel, prompt, { temperature: 0.8, maxOutputTokens: 200 });
+    return await callGeminiText(cheapModel, `${systemInstruction}\n\n${userPrompt}`, { temperature: 0.3, maxOutputTokens: 200 });
   } catch (error) {
     console.warn('[IMAGE PROMPT] Gemini fehlgeschlagen, nutze Groq-Fallback', error);
   }
 
-  // Groq fallback for image prompt
+  // Groq fallback
   try {
     const res = await apiFetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        messages: [{ role: 'user', content: prompt }],
+        messages: [{ role: 'user', content: userPrompt }],
         language: 'en',
-        systemPrompt: 'You create concise, vivid image prompts for AI image generators. Return ONLY the prompt text, no explanation, no quotes. Max 2 sentences. Focus on visual elements: colors, lighting, mood, symbols, composition.',
+        systemPrompt: systemInstruction,
       }),
     });
     if (res.ok) {
@@ -502,7 +523,8 @@ export const generateImagePrompt = async (
     console.warn('[IMAGE PROMPT] Groq-Fallback fehlgeschlagen', groqErr);
   }
 
-  return `${dreamText}. ${interpretation}`.slice(0, 350);
+  // Final fallback: Use dream text directly (NOT interpretation)
+  return dreamText.slice(0, 350);
 };
 
 const generateRunwareImage = async (
@@ -560,28 +582,41 @@ export const generateDreamImage = async (
 
   let visualPrompt = dreamDescription.trim();
   try {
-    const interpForPrompt = interpretationText || 'Visualize the core symbolic meaning of the dream.';
-    const optimized = await generateImagePrompt(dreamDescription, interpForPrompt);
+    // Immer den Traum-Text als Basis nutzen, NICHT die Interpretation
+    const optimized = await generateImagePrompt(dreamDescription, '');
     if (optimized) {
       visualPrompt = optimized;
     }
   } catch (error) {
-    console.warn('[IMAGE] Prompt-Optimierung fehlgeschlagen', error);
+    console.warn('[IMAGE] Prompt-Optimierung fehlgeschlagen, nutze Original-Traumtext', error);
   }
 
-  const fullPrompt = `${styleConfig.prefix}, ${visualPrompt}, masterpiece, best quality`;
+  // Traum-Inhalt ZUERST, Style nur als kurzer Suffix
+  const shortStyle = style === 'real' ? 'photorealistic' : style === 'anime' ? 'anime style' : style === 'cartoon' ? 'cartoon style' : style === 'fantasy' ? 'fantasy art' : style === 'surreal' ? 'surrealist' : style === 'cinematic' ? 'cinematic' : style === 'watercolor' ? 'watercolor' : style === 'comic' ? 'comic style' : 'dreamlike';
+  const fullPrompt = `${visualPrompt}. Style: ${shortStyle}, high quality, detailed`;
 
-  // NOTE: Gemini Image generation removed (model unavailable) - Runware handles all qualities
+  // Try Runware (premium, server-side) first
   try {
     const runwareImage = await generateRunwareImage(fullPrompt, styleConfig.negative, quality);
     if (runwareImage) {
       return runwareImage;
     }
   } catch (error) {
-    console.warn('[IMAGE] Runware fehlgeschlagen', error);
+    console.warn('[IMAGE] Runware fehlgeschlagen, nutze Pollinations-Fallback', error);
   }
 
-  return generatePollinationsImage(fullPrompt, quality);
+  // Fallback: Pollinations (free, client-side) — pre-validate the image loads
+  const pollinationsUrl = generatePollinationsImage(fullPrompt, quality);
+  try {
+    const resp = await fetch(pollinationsUrl, { signal: AbortSignal.timeout(45000) });
+    if (resp.ok) {
+      const blob = await resp.blob();
+      return URL.createObjectURL(blob);
+    }
+  } catch (error) {
+    console.warn('[IMAGE] Pollinations fetch fehlgeschlagen, nutze URL direkt', error);
+  }
+  return pollinationsUrl;
 };
 
 const getDeepgramVoice = (language: Language, preferredVoice?: string): string => {
@@ -761,13 +796,18 @@ export const generateStoryVideo = async (
   // KI-basierte Szenen-Analyse: Text in visuelle Szenen aufteilen
   let segmentsText: string[] = [];
   try {
-    const scenePrompt = `Analyze this dream text and split it into 4-8 visual scenes. Each scene should represent a distinct visual moment that can be illustrated as a single image.
+    const scenePrompt = `Split this dream into 4-8 visual scenes for illustration. STRICT RULES:
+1. ONLY use elements that are EXPLICITLY mentioned in the dream text
+2. Do NOT invent new characters, objects, or locations not in the text
+3. Each scene must be a literal visual moment from the dream
+4. If the dream says "two lions" — the scene must include exactly two lions
 
 Dream: "${dreamDescription}"
 Text: "${cleanText.slice(0, 2000)}"
 
-Return ONLY a JSON array of scene descriptions (no markdown, no explanation). Each element should be a short sentence describing the visual scene.
-Example: ["A person standing in front of an old house at night","Walking through a dark garage","Driving a car on an empty highway"]`;
+Return ONLY a JSON array of literal scene descriptions. Each scene describes EXACTLY what happens in that part of the dream.
+Example for "Two lions attacked me in a dark forest, then I ran to a river":
+["Two aggressive lions confronting a person in a dark forest","The lions attacking the person, dramatic action","The person running through the forest in fear","The person reaching a river, escaping"]`;
 
     const sceneResult = await callGeminiText('gemini-2.0-flash', scenePrompt, { temperature: 0.5, maxOutputTokens: 1000 });
     if (sceneResult) {

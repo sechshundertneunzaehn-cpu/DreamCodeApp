@@ -27,6 +27,7 @@ export interface VideoGenerationOptions {
     style?: 'cinematic' | 'dreamlike' | 'surreal' | 'fantasy' | 'cartoon' | 'anime' | 'real';
     imageUrl?: string;
     language?: Language;
+    referenceImageIds?: string[];
 }
 
 // ============================================
@@ -64,6 +65,8 @@ const generateVideoWAN = async (
                 prompt: options.prompt,
                 style: options.style || 'dreamlike',
                 aspectRatio: options.aspectRatio || '16:9',
+                duration: options.duration || 5,
+                referenceImageIds: options.referenceImageIds || [],
             })
         });
 

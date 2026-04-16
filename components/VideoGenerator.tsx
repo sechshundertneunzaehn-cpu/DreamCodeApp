@@ -64,6 +64,51 @@ const videoTranslations = {
         error_generic: "فشل إنشاء الفيديو",
         error_unavailable: "إنشاء الفيديو غير متاح"
     },
+    [Language.AR_GULF]: {
+        title: "تصور الحلم (فيديو)",
+        beta: "تجريبي (Veo)",
+        description: "أنشئ تمثيلاً سينمائياً لحلمك في فيديو.",
+        generate: "إنشاء فيديو",
+        processing: "جاري المعالجة...",
+        error_generic: "فشل إنشاء الفيديو",
+        error_unavailable: "إنشاء الفيديو غير متاح"
+    },
+    [Language.AR_EG]: {
+        title: "تصور الحلم (فيديو)",
+        beta: "تجريبي (Veo)",
+        description: "أنشئ تمثيلاً سينمائياً لحلمك في فيديو.",
+        generate: "إنشاء فيديو",
+        processing: "جاري المعالجة...",
+        error_generic: "فشل إنشاء الفيديو",
+        error_unavailable: "إنشاء الفيديو غير متاح"
+    },
+    [Language.AR_LEV]: {
+        title: "تصور الحلم (فيديو)",
+        beta: "تجريبي (Veo)",
+        description: "أنشئ تمثيلاً سينمائياً لحلمك في فيديو.",
+        generate: "إنشاء فيديو",
+        processing: "جاري المعالجة...",
+        error_generic: "فشل إنشاء الفيديو",
+        error_unavailable: "إنشاء الفيديو غير متاح"
+    },
+    [Language.AR_MAG]: {
+        title: "تصور الحلم (فيديو)",
+        beta: "تجريبي (Veo)",
+        description: "أنشئ تمثيلاً سينمائياً لحلمك في فيديو.",
+        generate: "إنشاء فيديو",
+        processing: "جاري المعالجة...",
+        error_generic: "فشل إنشاء الفيديو",
+        error_unavailable: "إنشاء الفيديو غير متاح"
+    },
+    [Language.AR_IQ]: {
+        title: "تصور الحلم (فيديو)",
+        beta: "تجريبي (Veo)",
+        description: "أنشئ تمثيلاً سينمائياً لحلمك في فيديو.",
+        generate: "إنشاء فيديو",
+        processing: "جاري المعالجة...",
+        error_generic: "فشل إنشاء الفيديو",
+        error_unavailable: "إنشاء الفيديو غير متاح"
+    },
     [Language.PT]: {
         title: "Visualizar Sonho (Vídeo)",
         beta: "BETA (Veo)",
@@ -207,6 +252,96 @@ const videoTranslations = {
         processing: "Feldolgozás...",
         error_generic: "A videó készítése sikertelen",
         error_unavailable: "A videókészítés nem elérhető"
+    },
+    [Language.TA]: {
+        title: "கனவை காட்சிப்படுத்து (வீடியோ)",
+        beta: "பீட்டா (Veo)",
+        description: "உங்கள் கனவின் திரைப்பட வீடியோ பிரதிநிதித்துவத்தை உருவாக்குங்கள்.",
+        generate: "வீடியோ உருவாக்கு",
+        processing: "செயலாக்கப்படுகிறது...",
+        error_generic: "வீடியோ உருவாக்கம் தோல்வியடைந்தது",
+        error_unavailable: "வீடியோ உருவாக்கம் கிடைக்கவில்லை"
+    },
+    [Language.TE]: {
+        title: "కల దృశ్యీకరించు (వీడియో)",
+        beta: "బీటా (Veo)",
+        description: "మీ కల యొక్క సినిమాటిక్ వీడియో ప్రాతినిధ్యాన్ని రూపొందించండి.",
+        generate: "వీడియో రూపొందించు",
+        processing: "ప్రాసెస్ అవుతోంది...",
+        error_generic: "వీడియో రూపొందించడంలో విఫలం",
+        error_unavailable: "వీడియో రూపకల్పన అందుబాటులో లేదు"
+    },
+    [Language.TL]: {
+        title: "I-visualize ang Panaginip (Video)",
+        beta: "BETA (Veo)",
+        description: "Gumawa ng cinematic na video ng iyong panaginip.",
+        generate: "Gumawa ng Video",
+        processing: "Pinoproseso...",
+        error_generic: "Nabigo ang paggawa ng video",
+        error_unavailable: "Hindi available ang paggawa ng video"
+    },
+    [Language.ML]: {
+        title: "സ്വപ്നം ദൃശ്യവൽക്കരിക്കുക (വീഡിയോ)",
+        beta: "ബീറ്റ (Veo)",
+        description: "നിങ്ങളുടെ സ്വപ്നത്തിന്റെ സിനിമാറ്റിക് വീഡിയോ പ്രാതിനിധ്യം സൃഷ്ടിക്കുക.",
+        generate: "വീഡിയോ സൃഷ്ടിക്കുക",
+        processing: "പ്രോസസ്സ് ചെയ്യുന്നു...",
+        error_generic: "വീഡിയോ സൃഷ്ടിക്കുന്നതിൽ പരാജയം",
+        error_unavailable: "വീഡിയോ സൃഷ്ടി ലഭ്യമല്ല"
+    },
+    [Language.MR]: {
+        title: "स्वप्न दृश्यमान करा (व्हिडिओ)",
+        beta: "बीटा (Veo)",
+        description: "तुमच्या स्वप्नाचे सिनेमॅटिक व्हिडिओ प्रतिनिधित्व तयार करा.",
+        generate: "व्हिडिओ तयार करा",
+        processing: "प्रक्रिया सुरू...",
+        error_generic: "व्हिडिओ तयार करण्यात अयशस्वी",
+        error_unavailable: "व्हिडिओ तयार करणे उपलब्ध नाही"
+    },
+    [Language.KN]: {
+        title: "ಕನಸನ್ನು ದೃಶ್ಯೀಕರಿಸಿ (ವೀಡಿಯೊ)",
+        beta: "ಬೀಟಾ (Veo)",
+        description: "ನಿಮ್ಮ ಕನಸಿನ ಸಿನಿಮ್ಯಾಟಿಕ್ ವೀಡಿಯೊ ಪ್ರಾತಿನಿಧ್ಯವನ್ನು ರಚಿಸಿ.",
+        generate: "ವೀಡಿಯೊ ರಚಿಸಿ",
+        processing: "ಪ್ರಕ್ರಿಯೆಗೊಳ್ಳುತ್ತಿದೆ...",
+        error_generic: "ವೀಡಿಯೊ ರಚನೆ ವಿಫಲವಾಗಿದೆ",
+        error_unavailable: "ವೀಡಿಯೊ ರಚನೆ ಲಭ್ಯವಿಲ್ಲ"
+    },
+    [Language.GU]: {
+        title: "સ્વપ્ન વિઝ્યુઅલાઈઝ કરો (વીડિયો)",
+        beta: "બીટા (Veo)",
+        description: "તમારા સ્વપ્નનું સિનેમેટિક વીડિયો પ્રતિનિધિત્વ બનાવો.",
+        generate: "વીડિયો બનાવો",
+        processing: "પ્રોસેસ થઈ રહ્યું છે...",
+        error_generic: "વીડિયો બનાવવામાં નિષ્ફળ",
+        error_unavailable: "વીડિયો બનાવવું ઉપલબ્ધ નથી"
+    },
+    [Language.HE]: {
+        title: "המחשת חלום (וידאו)",
+        beta: "בטא (Veo)",
+        description: "צור ייצוג וידאו קולנועי של החלום שלך.",
+        generate: "צור וידאו",
+        processing: "מעבד...",
+        error_generic: "יצירת הוידאו נכשלה",
+        error_unavailable: "יצירת וידאו אינה זמינה"
+    },
+    [Language.NE]: {
+        title: "सपना दृश्यावलोकन गर्नुहोस् (भिडियो)",
+        beta: "बीटा (Veo)",
+        description: "तपाईंको सपनाको सिनेमेटिक भिडियो प्रतिनिधित्व बनाउनुहोस्.",
+        generate: "भिडियो बनाउनुहोस्",
+        processing: "प्रशोधन हुँदैछ...",
+        error_generic: "भिडियो बनाउन असफल",
+        error_unavailable: "भिडियो निर्माण उपलब्ध छैन"
+    },
+    [Language.PRS]: {
+        title: "تصویرسازی خواب (ویدیو)",
+        beta: "آزمایشی (Veo)",
+        description: "یک نمایش ویدیویی سینمایی از خواب خود بسازید.",
+        generate: "ساختن ویدیو",
+        processing: "در حال پردازش...",
+        error_generic: "ساختن ویدیو ناکام شد",
+        error_unavailable: "ساختن ویدیو در دسترس نیست"
     }
 };
 
@@ -214,7 +349,7 @@ const VideoGenerator: React.FC<VideoGeneratorProps> = ({ dreamDescription, langu
     const [loading, setLoading] = useState(false);
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const t = videoTranslations[language];
+    const t = videoTranslations[language] || videoTranslations[language.startsWith("ar") ? Language.AR : Language.DE] || videoTranslations[Language.DE];
 
     const handleGenerate = async () => {
         if (loading) return;
@@ -237,7 +372,7 @@ const VideoGenerator: React.FC<VideoGeneratorProps> = ({ dreamDescription, langu
         }
     };
 
-    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
+    const isRtl = ((language as string).startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language));
     return (
         <div dir={isRtl ? 'rtl' : 'ltr'} className="mt-8 bg-slate-900/50 border border-white/10 rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">

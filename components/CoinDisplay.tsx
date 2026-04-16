@@ -58,6 +58,11 @@ const coinTranslations: Record<Language, {
         saves_rule: "كل 99 حفظ = 1 عملة",
         shares_rule: "كل 99 مشاركة = 1 عملة",
     },
+    [Language.AR_GULF]: { saves: "الحفظ", shares: "المشاركات", until_plus_one: "لين +1", earn_coins: "اكسب عملات من حفظ ومشاركة الأحلام!", saves_rule: "كل 99 حفظ = 1 عملة", shares_rule: "كل 99 مشاركة = 1 عملة" },
+    [Language.AR_EG]: { saves: "الحفظ", shares: "المشاركات", until_plus_one: "لحد +1", earn_coins: "اكسب عملات من حفظ ومشاركة الأحلام!", saves_rule: "كل 99 حفظ = 1 عملة", shares_rule: "كل 99 مشاركة = 1 عملة" },
+    [Language.AR_LEV]: { saves: "الحفظ", shares: "المشاركات", until_plus_one: "لحتى +1", earn_coins: "اربح عملات من حفظ ومشاركة الأحلام!", saves_rule: "كل 99 حفظ = 1 عملة", shares_rule: "كل 99 مشاركة = 1 عملة" },
+    [Language.AR_MAG]: { saves: "الحفظ", shares: "المشاركات", until_plus_one: "حتى +1", earn_coins: "اربح عملات من حفظ ومشاركة الأحلام!", saves_rule: "كل 99 حفظ = 1 عملة", shares_rule: "كل 99 مشاركة = 1 عملة" },
+    [Language.AR_IQ]: { saves: "الحفظ", shares: "المشاركات", until_plus_one: "لحد +1", earn_coins: "اكسب عملات من حفظ ومشاركة الأحلام!", saves_rule: "كل 99 حفظ = 1 عملة", shares_rule: "كل 99 مشاركة = 1 عملة" },
     [Language.PT]: {
         saves: "Salvamentos",
         shares: "Compartilhamentos",
@@ -186,6 +191,86 @@ const coinTranslations: Record<Language, {
         saves_rule: "Minden 99 mentés = 1 érme",
         shares_rule: "Minden 99 megosztás = 1 érme",
     },
+    [Language.TA]: {
+        saves: "சேமிப்புகள்",
+        shares: "பகிர்வுகள்",
+        until_plus_one: "+1 வரை",
+        earn_coins: "கனவுகளைச் சேமித்து பகிர்ந்து நாணயங்கள் சம்பாதியுங்கள்!",
+        saves_rule: "ஒவ்வொரு 99 சேமிப்பு = 1 நாணயம்",
+        shares_rule: "ஒவ்வொரு 99 பகிர்வு = 1 நாணயம்",
+    },
+    [Language.TE]: {
+        saves: "సేవ్‌లు",
+        shares: "షేర్లు",
+        until_plus_one: "+1 వరకు",
+        earn_coins: "కలలను సేవ్ చేసి షేర్ చేసి నాణేలు సంపాదించండి!",
+        saves_rule: "ప్రతి 99 సేవ్‌లు = 1 నాణెం",
+        shares_rule: "ప్రతి 99 షేర్లు = 1 నాణెం",
+    },
+    [Language.TL]: {
+        saves: "Mga Save",
+        shares: "Mga Share",
+        until_plus_one: "hanggang +1",
+        earn_coins: "Kumita ng mga barya sa pamamagitan ng pag-save at pagbabahagi ng mga panaginip!",
+        saves_rule: "Bawat 99 save = 1 barya",
+        shares_rule: "Bawat 99 share = 1 barya",
+    },
+    [Language.ML]: {
+        saves: "സേവുകൾ",
+        shares: "ഷെയറുകൾ",
+        until_plus_one: "+1 വരെ",
+        earn_coins: "സ്വപ്നങ്ങൾ സേവ് ചെയ്തും പങ്കിട്ടും നാണയങ്ങൾ നേടൂ!",
+        saves_rule: "ഓരോ 99 സേവും = 1 നാണയം",
+        shares_rule: "ഓരോ 99 ഷെയറും = 1 നാണയം",
+    },
+    [Language.MR]: {
+        saves: "सेव्ह",
+        shares: "शेअर्स",
+        until_plus_one: "+1 पर्यंत",
+        earn_coins: "स्वप्ने सेव्ह आणि शेअर करून नाणी मिळवा!",
+        saves_rule: "प्रत्येक 99 सेव्ह = 1 नाणे",
+        shares_rule: "प्रत्येक 99 शेअर = 1 नाणे",
+    },
+    [Language.KN]: {
+        saves: "ಉಳಿಸುವಿಕೆಗಳು",
+        shares: "ಹಂಚಿಕೆಗಳು",
+        until_plus_one: "+1 ವರೆಗೆ",
+        earn_coins: "ಕನಸುಗಳನ್ನು ಉಳಿಸಿ ಮತ್ತು ಹಂಚಿ ನಾಣ್ಯಗಳನ್ನು ಗಳಿಸಿ!",
+        saves_rule: "ಪ್ರತಿ 99 ಉಳಿಸುವಿಕೆ = 1 ನಾಣ್ಯ",
+        shares_rule: "ಪ್ರತಿ 99 ಹಂಚಿಕೆ = 1 ನಾಣ್ಯ",
+    },
+    [Language.GU]: {
+        saves: "સેવ્સ",
+        shares: "શેર્સ",
+        until_plus_one: "+1 સુધી",
+        earn_coins: "સ્વપ્ન સેવ અને શેર કરીને સિક્કા મેળવો!",
+        saves_rule: "દરેક 99 સેવ = 1 સિક્કો",
+        shares_rule: "દરેક 99 શેર = 1 સિક્કો",
+    },
+    [Language.HE]: {
+        saves: "שמירות",
+        shares: "שיתופים",
+        until_plus_one: "עד +1",
+        earn_coins: "הרוויחו מטבעות על ידי שמירה ושיתוף חלומות!",
+        saves_rule: "כל 99 שמירות = 1 מטבע",
+        shares_rule: "כל 99 שיתופים = 1 מטבע",
+    },
+    [Language.NE]: {
+        saves: "सेभहरू",
+        shares: "सेयरहरू",
+        until_plus_one: "+1 सम्म",
+        earn_coins: "सपनाहरू सेभ र सेयर गरेर सिक्काहरू कमाउनुहोस्!",
+        saves_rule: "हरेक 99 सेभ = 1 सिक्का",
+        shares_rule: "हरेक 99 सेयर = 1 सिक्का",
+    },
+    [Language.PRS]: {
+        saves: "ذخیره‌ها",
+        shares: "شریک‌سازی‌ها",
+        until_plus_one: "تا +۱",
+        earn_coins: "با ذخیره و شریک‌سازی خواب‌ها سکه به دست آورید!",
+        saves_rule: "هر ۹۹ ذخیره = ۱ سکه",
+        shares_rule: "هر ۹۹ شریک‌سازی = ۱ سکه",
+    },
 };
 
 interface CoinDisplayProps {
@@ -195,8 +280,8 @@ interface CoinDisplayProps {
 }
 
 const CoinDisplay: React.FC<CoinDisplayProps> = ({ profile, language, showDetails = false }) => {
-    const t = coinTranslations[language];
-    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
+    const t = coinTranslations[language] || coinTranslations[language.startsWith("ar") ? Language.AR : Language.DE] || coinTranslations[Language.DE];
+    const isRtl = ((language as string).startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language));
     const coins = (profile as any).coins ?? 0;
     const progress = getProgressToNextCoin(profile);
 

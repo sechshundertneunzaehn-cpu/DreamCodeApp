@@ -41,14 +41,18 @@ export function getCurrentLanguage(): string {
  *   - Content-Type: application/json
  */
 export async function apiFetch(path: string, init?: RequestInit): Promise<Response> {
-  const sb = await getSupabase();
-  const { data: { session } } = await sb.auth.getSession();
-
   const headers = new Headers(init?.headers);
   headers.set('Content-Type', 'application/json');
   headers.set('x-user-lang', _currentLang);
-  if (session?.access_token) {
-    headers.set('Authorization', `Bearer ${session.access_token}`);
+
+  try {
+    const sb = await getSupabase();
+    const { data: { session } } = await sb.auth.getSession();
+    if (session?.access_token) {
+      headers.set('Authorization', `Bearer ${session.access_token}`);
+    }
+  } catch (authErr) {
+    console.warn('[apiFetch] Auth header skipped:', authErr);
   }
 
   return fetch(apiUrl(path), { ...init, headers });

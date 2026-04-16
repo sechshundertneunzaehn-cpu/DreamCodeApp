@@ -410,12 +410,282 @@ const calendarTranslations = {
         close: "Elemzés bezárása",
         your_dream: "Az álmod",
         btn_video: "Álomvideó készítése"
+    },
+    [Language.TA]: {
+        title: "கனவு நாள்காட்டி & பகுப்பாய்வு",
+        tab_calendar: "நாள்காட்டி",
+        tab_weekly: "வாரார அறிக்கை",
+        tab_monthly: "மாதாந்திர அறிக்கை",
+        tab_algo: "கனவு வழிமுறை",
+        no_data: "பகுப்பாய்வுக்கு போதுமான தரவு இல்லை.",
+        total_dreams: "மொத்த கனவுகள்",
+        mood_trend: "மனநிலை போக்கு",
+        top_symbols: "முக்கிய வகைகள்",
+        anomaly: "அசாதாரணம் கண்டறியப்பட்டது",
+        algo_desc: "ஆழ்மன வடிவங்கள் மற்றும் ஒழுங்கின்மைகளை பகுப்பாய்வு செய்கிறது...",
+        algo_normal: "உங்கள் கனவு வடிவங்கள் நிலையாக உள்ளன.",
+        algo_alert: "தீவிர கனவுகளின் அதிக அலைவரிசை கண்டறியப்பட்டது.",
+        close: "பகுப்பாய்வை மூடு",
+        your_dream: "உங்கள் கனவு",
+        btn_video: "கனவு வீடியோ உருவாக்கு"
+    },
+    [Language.TE]: {
+        title: "కల క్యాలెండర్ & విశ్లేషణ",
+        tab_calendar: "క్యాలెండర్",
+        tab_weekly: "వారపు నివేదిక",
+        tab_monthly: "నెలవారీ నివేదిక",
+        tab_algo: "కల అల్గారిథమ్",
+        no_data: "విశ్లేషణకు తగినంత డేటా లేదు.",
+        total_dreams: "మొత్తం కలలు",
+        mood_trend: "మానసిక ధోరణి",
+        top_symbols: "ప్రధాన వర్గాలు",
+        anomaly: "అసాధారణత గుర్తించబడింది",
+        algo_desc: "అచేతన నమూనాలు మరియు అక్రమాలను విశ్లేషిస్తోంది...",
+        algo_normal: "మీ కల నమూనాలు స్థిరంగా కనిపిస్తున్నాయి.",
+        algo_alert: "తీవ్రమైన కలల అధిక ఫ్రీక్వెన్సీ గుర్తించబడింది.",
+        close: "విశ్లేషణ మూసివేయి",
+        your_dream: "మీ కల",
+        btn_video: "కల వీడియో రూపొందించు"
+    },
+    [Language.TL]: {
+        title: "Kalendaryo ng Panaginip at Pagsusuri",
+        tab_calendar: "Kalendaryo",
+        tab_weekly: "Lingguhang Ulat",
+        tab_monthly: "Buwanang Ulat",
+        tab_algo: "Algorithm ng Panaginip",
+        no_data: "Hindi sapat ang datos para sa pagsusuri.",
+        total_dreams: "Kabuuang Panaginip",
+        mood_trend: "Takbo ng Damdamin",
+        top_symbols: "Pangunahing Kategorya",
+        anomaly: "May Natuklasang Anomalya",
+        algo_desc: "Sinusuri ang mga subconscious na pattern at iregularidad...",
+        algo_normal: "Mukhang stable ang iyong mga pattern ng panaginip.",
+        algo_alert: "Mataas na dalas ng matinding panaginip ang natukoy.",
+        close: "Isara ang Pagsusuri",
+        your_dream: "Ang Iyong Panaginip",
+        btn_video: "Gumawa ng Video ng Panaginip"
+    },
+    [Language.ML]: {
+        title: "സ്വപ്ന കലണ്ടർ & വിശകലനം",
+        tab_calendar: "കലണ്ടർ",
+        tab_weekly: "പ്രതിവാര റിപ്പോർട്ട്",
+        tab_monthly: "പ്രതിമാസ റിപ്പോർട്ട്",
+        tab_algo: "സ്വപ്ന അൽഗോരിതം",
+        no_data: "വിശകലനത്തിന് മതിയായ ഡാറ്റ ഇല്ല.",
+        total_dreams: "ആകെ സ്വപ്നങ്ങൾ",
+        mood_trend: "മാനസികാവസ്ഥ പ്രവണത",
+        top_symbols: "പ്രധാന വിഭാഗങ്ങൾ",
+        anomaly: "അസാധാരണത്വം കണ്ടെത്തി",
+        algo_desc: "അബോധ രീതികളും ക്രമക്കേടുകളും വിശകലനം ചെയ്യുന്നു...",
+        algo_normal: "നിങ്ങളുടെ സ്വപ്ന രീതികൾ സ്ഥിരമാണെന്ന് തോന്നുന്നു.",
+        algo_alert: "തീവ്രമായ സ്വപ്നങ്ങളുടെ ഉയർന്ന ആവൃത്തി കണ്ടെത്തി.",
+        close: "വിശകലനം അടയ്ക്കുക",
+        your_dream: "നിങ്ങളുടെ സ്വപ്നം",
+        btn_video: "സ്വപ്ന വീഡിയോ സൃഷ്ടിക്കുക"
+    },
+    [Language.MR]: {
+        title: "स्वप्न कॅलेंडर आणि विश्लेषण",
+        tab_calendar: "कॅलेंडर",
+        tab_weekly: "साप्ताहिक अहवाल",
+        tab_monthly: "मासिक अहवाल",
+        tab_algo: "स्वप्न अल्गोरिथम",
+        no_data: "विश्लेषणासाठी पुरेसा डेटा नाही.",
+        total_dreams: "एकूण स्वप्ने",
+        mood_trend: "मनःस्थिती ट्रेंड",
+        top_symbols: "मुख्य श्रेणी",
+        anomaly: "विसंगती आढळली",
+        algo_desc: "अवचेतन नमुने आणि अनियमितता विश्लेषित करत आहे...",
+        algo_normal: "तुमचे स्वप्न नमुने स्थिर दिसतात.",
+        algo_alert: "तीव्र स्वप्नांची उच्च वारंवारता आढळली.",
+        close: "विश्लेषण बंद करा",
+        your_dream: "तुमचे स्वप्न",
+        btn_video: "स्वप्न व्हिडिओ तयार करा"
+    },
+    [Language.KN]: {
+        title: "ಕನಸಿನ ಕ್ಯಾಲೆಂಡರ್ & ವಿಶ್ಲೇಷಣೆ",
+        tab_calendar: "ಕ್ಯಾಲೆಂಡರ್",
+        tab_weekly: "ವಾರದ ವರದಿ",
+        tab_monthly: "ಮಾಸಿಕ ವರದಿ",
+        tab_algo: "ಕನಸಿನ ಅಲ್ಗಾರಿದಮ್",
+        no_data: "ವಿಶ್ಲೇಷಣೆಗೆ ಸಾಕಷ್ಟು ಡೇಟಾ ಇಲ್ಲ.",
+        total_dreams: "ಒಟ್ಟು ಕನಸುಗಳು",
+        mood_trend: "ಮನಸ್ಥಿತಿ ಪ್ರವೃತ್ತಿ",
+        top_symbols: "ಪ್ರಮುಖ ವಿಭಾಗಗಳು",
+        anomaly: "ಅಸಹಜತೆ ಪತ್ತೆಯಾಗಿದೆ",
+        algo_desc: "ಸುಪ್ತ ಮನಸ್ಸಿನ ಮಾದರಿಗಳು ಮತ್ತು ಅಕ್ರಮಗಳನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
+        algo_normal: "ನಿಮ್ಮ ಕನಸಿನ ಮಾದರಿಗಳು ಸ್ಥಿರವಾಗಿ ಕಾಣುತ್ತವೆ.",
+        algo_alert: "ತೀವ್ರ ಕನಸುಗಳ ಹೆಚ್ಚಿನ ಆವರ್ತನ ಪತ್ತೆಯಾಗಿದೆ.",
+        close: "ವಿಶ್ಲೇಷಣೆ ಮುಚ್ಚಿ",
+        your_dream: "ನಿಮ್ಮ ಕನಸು",
+        btn_video: "ಕನಸಿನ ವೀಡಿಯೊ ರಚಿಸಿ"
+    },
+    [Language.GU]: {
+        title: "સ્વપ્ન કૅલેન્ડર અને વિશ્લેષણ",
+        tab_calendar: "કૅલેન્ડર",
+        tab_weekly: "સાપ્તાહિક અહેવાલ",
+        tab_monthly: "માસિક અહેવાલ",
+        tab_algo: "સ્વપ્ન અલ્ગોરિધમ",
+        no_data: "વિશ્લેષણ માટે પૂરતો ડેટા નથી.",
+        total_dreams: "કુલ સ્વપ્નો",
+        mood_trend: "મૂડ ટ્રેન્ડ",
+        top_symbols: "મુખ્ય શ્રેણીઓ",
+        anomaly: "અસામાન્યતા શોધાઈ",
+        algo_desc: "અર્ધજાગ્રત પેટર્ન અને અનિયમિતતાઓનું વિશ્લેષણ...",
+        algo_normal: "તમારા સ્વપ્ન પેટર્ન સ્થિર દેખાય છે.",
+        algo_alert: "તીવ્ર સ્વપ્નોની ઊંચી આવૃત્તિ શોધાઈ.",
+        close: "વિશ્લેષણ બંધ કરો",
+        your_dream: "તમારું સ્વપ્ન",
+        btn_video: "સ્વપ્ન વીડિયો બનાવો"
+    },
+    [Language.HE]: {
+        title: "יומן חלומות וניתוח",
+        tab_calendar: "לוח שנה",
+        tab_weekly: "דוח שבועי",
+        tab_monthly: "דוח חודשי",
+        tab_algo: "אלגוריתם חלומות",
+        no_data: "אין מספיק נתונים לניתוח.",
+        total_dreams: "סך החלומות",
+        mood_trend: "מגמת מצב רוח",
+        top_symbols: "קטגוריות מובילות",
+        anomaly: "אנומליה זוהתה",
+        algo_desc: "מנתח דפוסים תת-הכרתיים וחריגות...",
+        algo_normal: "דפוסי החלומות שלך נראים יציבים.",
+        algo_alert: "זוהתה תדירות גבוהה של חלומות עזים.",
+        close: "סגור ניתוח",
+        your_dream: "החלום שלך",
+        btn_video: "צור סרטון חלום"
+    },
+    [Language.NE]: {
+        title: "सपना क्यालेन्डर र विश्लेषण",
+        tab_calendar: "क्यालेन्डर",
+        tab_weekly: "साप्ताहिक रिपोर्ट",
+        tab_monthly: "मासिक रिपोर्ट",
+        tab_algo: "सपना एल्गोरिथ्म",
+        no_data: "विश्लेषणको लागि पर्याप्त डाटा छैन।",
+        total_dreams: "कुल सपनाहरू",
+        mood_trend: "मुड प्रवृत्ति",
+        top_symbols: "मुख्य श्रेणीहरू",
+        anomaly: "असामान्यता पत्ता लागेको",
+        algo_desc: "अवचेतन ढाँचाहरू र अनियमितताहरूको विश्लेषण गर्दैछ...",
+        algo_normal: "तपाईंको सपना ढाँचा स्थिर देखिन्छ।",
+        algo_alert: "तीव्र सपनाहरूको उच्च फ्रिक्वेन्सी पत्ता लागेको।",
+        close: "विश्लेषण बन्द गर्नुहोस्",
+        your_dream: "तपाईंको सपना",
+        btn_video: "सपनाको भिडियो बनाउनुहोस्"
+    },
+    [Language.PRS]: {
+        title: "تقویم خواب و تحلیل",
+        tab_calendar: "تقویم",
+        tab_weekly: "گزارش هفتگی",
+        tab_monthly: "گزارش ماهانه",
+        tab_algo: "الگوریتم خواب",
+        no_data: "معلومات کافی برای تحلیل موجود نیست.",
+        total_dreams: "مجموع خواب‌ها",
+        mood_trend: "روند حال‌وهوا",
+        top_symbols: "دسته‌بندی‌های اصلی",
+        anomaly: "ناهنجاری شناسایی شد",
+        algo_desc: "در حال تحلیل الگوهای ناخودآگاه و بی‌نظمی‌ها...",
+        algo_normal: "الگوهای خواب شما پایدار به نظر می‌رسد.",
+        algo_alert: "فراوانی بالای خواب‌های شدید شناسایی شد.",
+        close: "بستن تحلیل",
+        your_dream: "خواب شما",
+        btn_video: "ساخت ویدیوی خواب"
+    },
+    [Language.AR_GULF]: {
+        title: "تقويم الأحلام والتحليل",
+        tab_calendar: "التقويم",
+        tab_weekly: "التقرير الأسبوعي",
+        tab_monthly: "التقرير الشهري",
+        tab_algo: "خوارزمية الأحلام",
+        no_data: "لا توجد بيانات كافية للتحليل.",
+        total_dreams: "إجمالي الأحلام",
+        mood_trend: "اتجاه المزاج",
+        top_symbols: "الفئات الرئيسية",
+        anomaly: "تم اكتشاف شذوذ",
+        algo_desc: "تحليل الأنماط اللاواعية والشذوذات...",
+        algo_normal: "تبدو أنماط أحلامك مستقرة.",
+        algo_alert: "تم اكتشاف تكرار عالٍ للأحلام المكثفة.",
+        close: "إغلاق التحليل",
+        your_dream: "حلمك",
+        btn_video: "إنشاء فيديو الحلم"
+    },
+    [Language.AR_EG]: {
+        title: "تقويم الأحلام والتحليل",
+        tab_calendar: "التقويم",
+        tab_weekly: "التقرير الأسبوعي",
+        tab_monthly: "التقرير الشهري",
+        tab_algo: "خوارزمية الأحلام",
+        no_data: "لا توجد بيانات كافية للتحليل.",
+        total_dreams: "إجمالي الأحلام",
+        mood_trend: "اتجاه المزاج",
+        top_symbols: "الفئات الرئيسية",
+        anomaly: "تم اكتشاف شذوذ",
+        algo_desc: "تحليل الأنماط اللاواعية والشذوذات...",
+        algo_normal: "تبدو أنماط أحلامك مستقرة.",
+        algo_alert: "تم اكتشاف تكرار عالٍ للأحلام المكثفة.",
+        close: "إغلاق التحليل",
+        your_dream: "حلمك",
+        btn_video: "إنشاء فيديو الحلم"
+    },
+    [Language.AR_LEV]: {
+        title: "تقويم الأحلام والتحليل",
+        tab_calendar: "التقويم",
+        tab_weekly: "التقرير الأسبوعي",
+        tab_monthly: "التقرير الشهري",
+        tab_algo: "خوارزمية الأحلام",
+        no_data: "لا توجد بيانات كافية للتحليل.",
+        total_dreams: "إجمالي الأحلام",
+        mood_trend: "اتجاه المزاج",
+        top_symbols: "الفئات الرئيسية",
+        anomaly: "تم اكتشاف شذوذ",
+        algo_desc: "تحليل الأنماط اللاواعية والشذوذات...",
+        algo_normal: "تبدو أنماط أحلامك مستقرة.",
+        algo_alert: "تم اكتشاف تكرار عالٍ للأحلام المكثفة.",
+        close: "إغلاق التحليل",
+        your_dream: "حلمك",
+        btn_video: "إنشاء فيديو الحلم"
+    },
+    [Language.AR_MAG]: {
+        title: "تقويم الأحلام والتحليل",
+        tab_calendar: "التقويم",
+        tab_weekly: "التقرير الأسبوعي",
+        tab_monthly: "التقرير الشهري",
+        tab_algo: "خوارزمية الأحلام",
+        no_data: "لا توجد بيانات كافية للتحليل.",
+        total_dreams: "إجمالي الأحلام",
+        mood_trend: "اتجاه المزاج",
+        top_symbols: "الفئات الرئيسية",
+        anomaly: "تم اكتشاف شذوذ",
+        algo_desc: "تحليل الأنماط اللاواعية والشذوذات...",
+        algo_normal: "تبدو أنماط أحلامك مستقرة.",
+        algo_alert: "تم اكتشاف تكرار عالٍ للأحلام المكثفة.",
+        close: "إغلاق التحليل",
+        your_dream: "حلمك",
+        btn_video: "إنشاء فيديو الحلم"
+    },
+    [Language.AR_IQ]: {
+        title: "تقويم الأحلام والتحليل",
+        tab_calendar: "التقويم",
+        tab_weekly: "التقرير الأسبوعي",
+        tab_monthly: "التقرير الشهري",
+        tab_algo: "خوارزمية الأحلام",
+        no_data: "لا توجد بيانات كافية للتحليل.",
+        total_dreams: "إجمالي الأحلام",
+        mood_trend: "اتجاه المزاج",
+        top_symbols: "الفئات الرئيسية",
+        anomaly: "تم اكتشاف شذوذ",
+        algo_desc: "تحليل الأنماط اللاواعية والشذوذات...",
+        algo_normal: "تبدو أنماط أحلامك مستقرة.",
+        algo_alert: "تم اكتشاف تكرار عالٍ للأحلام المكثفة.",
+        close: "إغلاق التحليل",
+        your_dream: "حلمك",
+        btn_video: "إنشاء فيديو الحلم"
     }
 };
 
 const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose, onGenerateVideo, themeMode }) => {
     const th = getTheme(themeMode || ThemeMode.DARK);
-    const t = calendarTranslations[language];
+    const t = calendarTranslations[language] || calendarTranslations[language.startsWith("ar") ? Language.AR : Language.DE] || calendarTranslations[Language.DE];
     const [activeTab, setActiveTab] = useState<'calendar' | 'weekly' | 'monthly' | 'algo'>('calendar');
     const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
 
@@ -461,7 +731,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
         return { sortedTags, isAnomaly, total: dreams.length };
     }, [dreams]);
 
-    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
+    const isRtl = ((language as string).startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language));
 
     return (
         <div dir={isRtl ? 'rtl' : 'ltr'} className={`fixed inset-0 z-[60] ${th.modalOverlay} flex flex-col items-center justify-center p-4 animate-in zoom-in-95 duration-300`}>
@@ -597,7 +867,7 @@ const DreamCalendar: React.FC<DreamCalendarProps> = ({ dreams, language, onClose
                                  <TranslatedText text={selectedDream.description} sourceId={selectedDream.id} table="user_dreams" field="text" className={`${th.textSecondary} text-sm italic leading-relaxed`} as="p" showOriginalToggle />
                              </div>
 
-                             <h2 className={`text-2xl font-heading ${th.textPrimary} mb-4`}>{selectedDream.title}</h2>
+                             <TranslatedText text={selectedDream.title} sourceId={selectedDream.id} table="user_dreams" field="title" as="h2" className={`text-2xl font-heading ${th.textPrimary} mb-4`} />
                              <div className="prose prose-sm max-w-none mb-6">
                                 <TranslatedText text={selectedDream.interpretation} sourceId={selectedDream.id} table="user_dreams" field="interpretation" className={`${th.textSecondary} leading-relaxed whitespace-pre-line`} as="p" showOriginalToggle />
                              </div>

@@ -43,6 +43,11 @@ export const ELEVENLABS_VOICES: Record<Language, { id: string; name: string; des
         name: 'Bill',
         description: 'Ruhig, respektvoll, arabisch-optimiert'
     },
+    [Language.AR_GULF]: { id: 'pqHfZKP75CvOlQylNhV4', name: 'Bill', description: 'Arabisch (Golf)' },
+    [Language.AR_EG]: { id: 'pqHfZKP75CvOlQylNhV4', name: 'Bill', description: 'Arabisch (Ägyptisch)' },
+    [Language.AR_LEV]: { id: 'pqHfZKP75CvOlQylNhV4', name: 'Bill', description: 'Arabisch (Levantinisch)' },
+    [Language.AR_MAG]: { id: 'pqHfZKP75CvOlQylNhV4', name: 'Bill', description: 'Arabisch (Maghrebinisch)' },
+    [Language.AR_IQ]: { id: 'pqHfZKP75CvOlQylNhV4', name: 'Bill', description: 'Arabisch (Irakisch)' },
     [Language.PT]: {
         id: 'TxGEqnHWrfWFTfGW9XjX',  // Josh - warme portugiesische Stimme
         name: 'Josh',
@@ -66,7 +71,17 @@ export const ELEVENLABS_VOICES: Record<Language, { id: string; name: string; des
     [Language.VI]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
     [Language.TH]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
     [Language.SW]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
-    [Language.HU]: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella', description: 'Multilingual, gute ungarische Aussprache' }
+    [Language.HU]: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella', description: 'Multilingual, gute ungarische Aussprache' },
+    [Language.TA]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.TE]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.TL]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.ML]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.MR]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.KN]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.GU]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.HE]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.NE]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' },
+    [Language.PRS]: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Multilingual fallback' }
 };
 
 // ============================================

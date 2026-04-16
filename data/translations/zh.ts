@@ -127,6 +127,8 @@ const translation = {
         video_studio: "视频工作室",
         dream_network: "梦境网络",
         privacy_link: "隐私", terms_link: "条款", imprint_link: "版权", research_link: "研究", studies_link: "研究", worldmap_link: "世界地图", showing_sources_only: "仅显示{0}来源", science_label: "知识",
+        symbols_link: "梦境符号库", science_study_btn: "科学研究", study_btn_desc: "匿名·研究·10–20%折扣", study_discount_active: "研究折扣已激活",
+        language_label: "语言",
     },
     processing: {
         title: "神谕运作中...",

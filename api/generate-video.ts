@@ -313,16 +313,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const safePrompt = cleaned.text;
 
       const stylePrefix: Record<string, string> = {
-        cinematic: 'Cinematic film quality, dramatic lighting, slow motion, movie-like atmosphere,',
-        dreamlike: 'Dreamlike ethereal atmosphere, soft glow, floating particles, mystical fog, otherworldly,',
-        surreal: 'Surrealist art style, impossible geometry, melting objects, Salvador Dali inspired,',
-        fantasy: 'Epic fantasy, magical particles, enchanted forest, glowing elements, mystical creatures,',
-        cartoon: 'Vibrant cartoon style, colorful, animated look, playful,',
-        anime: 'Japanese anime style, cinematic, detailed, Studio Ghibli inspired,',
-        real: 'Photorealistic, cinematic 4K, natural lighting, ultra detailed,',
+        cinematic: 'Cinematic film style.',
+        dreamlike: 'Dreamlike ethereal atmosphere, soft lighting.',
+        surreal: 'Surrealist art style.',
+        fantasy: 'Fantasy style with magical atmosphere.',
+        cartoon: 'Vibrant cartoon style, colorful.',
+        anime: 'Japanese anime style, detailed.',
+        real: 'Photorealistic, natural lighting, ultra detailed.',
+        watercolor: 'Watercolor painting style, soft strokes.',
+        comic: 'Comic book style, bold lines.',
       };
       const prefix = stylePrefix[style || 'dreamlike'] || stylePrefix.dreamlike;
-      const optimizedPrompt = `${prefix} ${safePrompt}. Smooth camera movement, ambient lighting, atmospheric. High quality.`;
+      const optimizedPrompt = `SHOW EXACTLY: ${safePrompt}. Visual style: ${prefix} Smooth camera movement, high quality.`;
 
 
       const createRes = await fetch(`${REPLICATE_API}/predictions`, {

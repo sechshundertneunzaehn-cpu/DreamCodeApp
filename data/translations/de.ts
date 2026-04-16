@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Video Studio",
         dream_network: "Traum-Netzwerk",
         privacy_link: "Datenschutz", terms_link: "AGB", imprint_link: "Impressum", research_link: "Forschung", studies_link: "Studien", worldmap_link: "Weltkarte", showing_sources_only: "Zeigt nur {0} Quellen", science_label: "Wissen",
+        symbols_link: "Traumsymbol-Bibliothek", science_study_btn: "Wissenschaftliche Studie", study_btn_desc: "Anonym · Forschung · 10–20% Rabatt", study_discount_active: "Studienrabatt aktiv",
+        language_label: "Sprache",
     },
     processing: {
         title: "Orakel arbeitet...",
@@ -159,6 +161,7 @@ const translation = {
         smart_info_title: "Was ist der Smart Developer Tarif?",
         smart_info_text: "Für Entwickler & Tech-Enthusiasten: Erstelle Accounts bei KI-Providern (z.B. Google AI Studio), generiere dort deine eigenen API Keys und füge sie hier in der App ein. So zahlst du nur die günstigen API-Kosten direkt beim Provider + 3€ für die App-Nutzung. Perfekt für Power-User!",
         upgrade: "Upgrade", current: "Aktuell", unlock: "Freischalten", try_free: "7 TAGE GRATIS TESTEN",
+        coming_soon_msg: "Zahlung wird bald aktiviert. Schreib uns: support@dream-code.app",
         ad_loading: "Werbung wird geladen...", ad_reward: "Münzen erhalten!",
         bronze_title: "Free", bronze_features: ["3 Deutungen/Tag", "Groq-KI", "6 Traditionen", "Werbung"], bronze_price: "0 €",
         silver2_title: "Pro", silver2_features: ["Unbegrenzte Deutungen", "Gemini-KI", "Alle 9 Traditionen", "Keine Werbung", "100 Coins/Monat", "10% Coin-Rabatt"], silver2_price_monthly: "4,99 € / Monat", silver2_price_yearly: "49,99 € / Jahr",

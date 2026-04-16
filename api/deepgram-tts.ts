@@ -240,7 +240,7 @@ async function requireTier(
 
 /**
  * Unified TTS proxy — Deepgram Aura, Google Chirp3-HD, or ElevenLabs
- * provider='google'     → Google Chirp3-HD (audio/wav)
+ * provider='google'     → Google Chirp3-HD (audio/mp3)
  * provider='elevenlabs' → ElevenLabs (audio/mpeg, requires silver tier)
  * Default: Deepgram Aura (base64 audio/mpeg JSON)
  */
@@ -261,7 +261,7 @@ async function googleSynthesize(apiKey: string, text: string, langCode: string, 
     body: JSON.stringify({
       input: { text },
       voice: { languageCode: langCode, name: voiceName },
-      audioConfig: { audioEncoding: 'LINEAR16', sampleRateHertz: 24000, speakingRate: 1.0, pitch: 0 },
+      audioConfig: { audioEncoding: 'MP3', sampleRateHertz: 24000, speakingRate: 1.0, pitch: 0 },
     }),
   });
 }
@@ -337,7 +337,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const data = await response.json() as { audioContent?: string };
       if (!data.audioContent) return res.status(500).json({ error: 'No audio content returned' });
       const buffer = Buffer.from(data.audioContent, 'base64');
-      res.setHeader('Content-Type', 'audio/wav');
+      res.setHeader('Content-Type', 'audio/mpeg');
       res.setHeader('Content-Length', buffer.length);
       res.setHeader('Cache-Control', 'no-store');
       return res.status(200).send(buffer);

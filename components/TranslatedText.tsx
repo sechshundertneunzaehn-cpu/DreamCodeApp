@@ -89,8 +89,6 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
     .filter(Boolean)
     .join(' ');
 
-  const googleUrl = `https://translate.google.com/?text=${encodeURIComponent(text)}&sl=auto&tl=${language}`;
-
   return (
     <>
       <Tag className={textClasses}>
@@ -105,39 +103,14 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
           </span>
         )}
       </Tag>
-      {showOriginalToggle && (
-        <div className="flex gap-1 mt-1.5">
-          <button
-            type="button"
-            onClick={() => setMode('original')}
-            className={`text-xs px-2 py-0.5 rounded border transition-colors duration-150 ${
-              mode === 'original'
-                ? 'bg-slate-600 border-slate-400 text-white'
-                : 'text-slate-400 border-slate-700 hover:text-slate-200'
-            }`}
-          >
-            Original
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode('ai')}
-            className={`text-xs px-2 py-0.5 rounded border transition-colors duration-150 ${
-              mode === 'ai'
-                ? 'bg-indigo-600 border-indigo-400 text-white'
-                : 'text-slate-400 border-slate-700 hover:text-slate-200'
-            }`}
-          >
-            🤖 KI
-          </button>
-          <a
-            href={googleUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs px-2 py-0.5 rounded border text-slate-400 border-slate-700 hover:text-slate-200 hover:border-slate-500 transition-colors duration-150"
-          >
-            🔗 Google
-          </a>
-        </div>
+      {showOriginalToggle && !isOriginal && !isTranslating && (
+        <button
+          type="button"
+          onClick={() => setMode(prev => prev === 'original' ? 'ai' : 'original')}
+          className="text-[10px] opacity-40 hover:opacity-70 underline mt-0.5 inline-block transition-opacity"
+        >
+          {mode === 'original' ? labels.translated : labels.original}
+        </button>
       )}
     </>
   );

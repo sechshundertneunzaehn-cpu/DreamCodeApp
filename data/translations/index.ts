@@ -1,4 +1,5 @@
 import { Language } from '../../types';
+import { detectLanguageByGeo } from '../../services/geoDetect';
 import de from './de';
 
 type TranslationEntry = typeof de;
@@ -15,6 +16,11 @@ const loaders: Record<string, () => Promise<{ default: TranslationEntry }>> = {
     es: () => import('./es.ts'),
     fr: () => import('./fr.ts'),
     ar: () => import('./ar.ts'),
+    'ar-gulf': () => import('./ar-gulf.ts'),
+    'ar-eg': () => import('./ar-eg.ts'),
+    'ar-lev': () => import('./ar-lev.ts'),
+    'ar-mag': () => import('./ar-mag.ts'),
+    'ar-iq': () => import('./ar-iq.ts'),
     pt: () => import('./pt.ts'),
     ru: () => import('./ru.ts'),
     zh: () => import('./zh.ts'),
@@ -31,6 +37,16 @@ const loaders: Record<string, () => Promise<{ default: TranslationEntry }>> = {
     th: () => import('./th.ts'),
     sw: () => import('./sw.ts'),
     hu: () => import('./hu.ts'),
+    ta: () => import('./ta.ts'),
+    te: () => import('./te.ts'),
+    tl: () => import('./tl.ts'),
+    ml: () => import('./ml.ts'),
+    mr: () => import('./mr.ts'),
+    kn: () => import('./kn.ts'),
+    gu: () => import('./gu.ts'),
+    he: () => import('./he.ts'),
+    ne: () => import('./ne.ts'),
+    prs: () => import('./prs.ts'),
 };
 
 // Pre-load: gespeicherte Nutzersprache sofort laden (vor erstem Render)
@@ -39,6 +55,20 @@ const _saved = typeof localStorage !== 'undefined'
     : null;
 if (_saved && _saved !== Language.DE && loaders[_saved]) {
     loaders[_saved]().then(m => { cache[_saved] = m.default; });
+}
+
+// Geo-Auto-Detect: beim ERSTEN Start (kein Sprach-Setting) Sprache per IP erkennen
+if (!_saved && typeof localStorage !== 'undefined') {
+    detectLanguageByGeo().then(lang => {
+        if (lang && loaders[lang]) {
+            localStorage.setItem('dreamcode_language', lang);
+            loaders[lang]().then(m => { cache[lang] = m.default; });
+            // React-Komponenten ueber Sprachwechsel benachrichtigen
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'dreamcode_language', newValue: lang, storageArea: localStorage,
+            }));
+        }
+    });
 }
 
 export const loadTranslation = async (lang: Language): Promise<void> => {

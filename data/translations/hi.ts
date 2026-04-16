@@ -127,6 +127,8 @@ const translation = {
         video_studio: "वीडियो स्टूडियो",
         dream_network: "ड्रीम नेटवर्क",
         privacy_link: "गोपनीयता", terms_link: "शर्तें", imprint_link: "कानूनी", research_link: "अनुसंधान", studies_link: "अध्ययन", worldmap_link: "विश्व मानचित्र", showing_sources_only: "केवल {0} स्रोत दिखा रहे हैं", science_label: "ज्ञान",
+        symbols_link: "स्वप्न प्रतीक पुस्तकालय", science_study_btn: "वैज्ञानिक अध्ययन", study_btn_desc: "अनाम · अनुसंधान · 10–20% छूट", study_discount_active: "अध्ययन छूट सक्रिय",
+        language_label: "भाषा",
     },
     processing: {
         title: "ओरेकल काम कर रहा है...",

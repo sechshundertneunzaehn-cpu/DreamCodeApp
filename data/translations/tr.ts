@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Video Stüdyosu",
         dream_network: "Rüya Ağı",
         privacy_link: "Gizlilik", terms_link: "Şartlar", imprint_link: "Künye", research_link: "Araştırma", studies_link: "Çalışmalar", worldmap_link: "Dünya Haritası", showing_sources_only: "Sadece {0} kaynakları", science_label: "Bilgi",
+        symbols_link: "Rüya Sembol Kütüphanesi", science_study_btn: "Bilimsel Çalışma", study_btn_desc: "Anonim · Araştırma · %10–20 İndirim", study_discount_active: "Çalışma İndirimi Aktif",
+        language_label: "Dil",
     },
     processing: {
         title: "Kahin çalışıyor...",

@@ -194,6 +194,126 @@ const liveTranslations: Record<Language, {
         disconnect: "Munkamenet befejezése", session_ended: "A munkamenet véget ért",
         save_btn: "Elemzés és álom mentése", discard_btn: "Elvetés",
         thinking: "Az Orákulum gondolkodik...", speaking: "Az Orákulum beszél..."
+    },
+    [Language.AR_GULF]: {
+        ready: "جاهز للاتصال", start: "بدء الجلسة", connecting: "جارٍ الاتصال بالكاهن...",
+        listening: "الكاهن يستمع", error: "انقطع الاتصال / خطأ",
+        instruction: "تحدث عن حلمك بحرية. سيستمع الكاهن ويجيب بالصوت.",
+        disconnect: "إنهاء الجلسة", session_ended: "انتهت الجلسة",
+        save_btn: "تحليل وحفظ الحلم", discard_btn: "تجاهل",
+        thinking: "الكاهن يفكر...", speaking: "الكاهن يتحدث..."
+    },
+    [Language.AR_EG]: {
+        ready: "جاهز للاتصال", start: "بدء الجلسة", connecting: "جارٍ الاتصال بالكاهن...",
+        listening: "الكاهن يستمع", error: "انقطع الاتصال / خطأ",
+        instruction: "تحدث عن حلمك بحرية. سيستمع الكاهن ويجيب بالصوت.",
+        disconnect: "إنهاء الجلسة", session_ended: "انتهت الجلسة",
+        save_btn: "تحليل وحفظ الحلم", discard_btn: "تجاهل",
+        thinking: "الكاهن يفكر...", speaking: "الكاهن يتحدث..."
+    },
+    [Language.AR_LEV]: {
+        ready: "جاهز للاتصال", start: "بدء الجلسة", connecting: "جارٍ الاتصال بالكاهن...",
+        listening: "الكاهن يستمع", error: "انقطع الاتصال / خطأ",
+        instruction: "تحدث عن حلمك بحرية. سيستمع الكاهن ويجيب بالصوت.",
+        disconnect: "إنهاء الجلسة", session_ended: "انتهت الجلسة",
+        save_btn: "تحليل وحفظ الحلم", discard_btn: "تجاهل",
+        thinking: "الكاهن يفكر...", speaking: "الكاهن يتحدث..."
+    },
+    [Language.AR_MAG]: {
+        ready: "جاهز للاتصال", start: "بدء الجلسة", connecting: "جارٍ الاتصال بالكاهن...",
+        listening: "الكاهن يستمع", error: "انقطع الاتصال / خطأ",
+        instruction: "تحدث عن حلمك بحرية. سيستمع الكاهن ويجيب بالصوت.",
+        disconnect: "إنهاء الجلسة", session_ended: "انتهت الجلسة",
+        save_btn: "تحليل وحفظ الحلم", discard_btn: "تجاهل",
+        thinking: "الكاهن يفكر...", speaking: "الكاهن يتحدث..."
+    },
+    [Language.AR_IQ]: {
+        ready: "جاهز للاتصال", start: "بدء الجلسة", connecting: "جارٍ الاتصال بالكاهن...",
+        listening: "الكاهن يستمع", error: "انقطع الاتصال / خطأ",
+        instruction: "تحدث عن حلمك بحرية. سيستمع الكاهن ويجيب بالصوت.",
+        disconnect: "إنهاء الجلسة", session_ended: "انتهت الجلسة",
+        save_btn: "تحليل وحفظ الحلم", discard_btn: "تجاهل",
+        thinking: "الكاهن يفكر...", speaking: "الكاهن يتحدث..."
+    },
+    [Language.TA]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
+    },
+    [Language.TE]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
+    },
+    [Language.TL]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
+    },
+    [Language.ML]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
+    },
+    [Language.MR]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
+    },
+    [Language.KN]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
+    },
+    [Language.GU]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
+    },
+    [Language.HE]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
+    },
+    [Language.NE]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
+    },
+    [Language.PRS]: {
+        ready: "Ready to Connect", start: "Start Session", connecting: "Connecting to Oracle...",
+        listening: "Oracle is Listening", error: "Connection Lost / Error",
+        instruction: "Speak your dream freely. The oracle will listen and respond with voice.",
+        disconnect: "End Session", session_ended: "Session Ended",
+        save_btn: "Analyze & Save Dream", discard_btn: "Discard",
+        thinking: "Oracle is thinking...", speaking: "Oracle is speaking..."
     }
 };
 
@@ -269,7 +389,7 @@ const LiveSession: React.FC<LiveSessionProps> = ({
     const animationFrameRef = useRef<number | null>(null);
     const visualizerCircleRef = useRef<HTMLDivElement>(null);
 
-    const t = liveTranslations[language] || liveTranslations[Language.DE];
+    const t = liveTranslations[language] || liveTranslations[language.startsWith("ar") ? Language.AR : Language.DE] || liveTranslations[Language.DE];
 
     // Keep refs synced
     useEffect(() => { statusRef.current = status; }, [status]);
@@ -884,7 +1004,7 @@ ${CATEGORY_INFO}`;
     }
 
     // ── Main UI ──────────────────────────────────────────────────────────
-    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
+    const isRtl = ((language as string).startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language));
     return (
         <div
             dir={isRtl ? 'rtl' : 'ltr'}

@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '');
 
     return {
-      base: process.env.GITHUB_PAGES === 'true' ? '/DreamCodeApp/' : '/',
+      base: '/app/',
       server: {
         port: 3000,
         host: '0.0.0.0',
@@ -64,8 +64,10 @@ export default defineConfig(({ mode }) => {
               if (id.includes('node_modules/mapbox-gl')) return 'vendor-mapbox';
               if (id.includes('data/knowledgeBase')) return 'knowledge';
               if (id.includes('services/geminiService') || id.includes('services/videoGenerationService') || id.includes('services/elevenlabsService')) return 'services';
+              if (id.includes('@mediapipe/tasks-vision')) return 'vendor-mediapipe';
+              if (id.includes('components/FaceUpload') || id.includes('components/FaceCamera') || id.includes('components/FaceManage') || id.includes('services/faceDetection')) return 'face-upload';
               // Sprach-Chunks: jede Locale als eigener lazy Chunk
-              const localeMatch = id.match(/data\/translations\/([a-z]{2})\.ts$/);
+              const localeMatch = id.match(/data\/translations\/([a-z]{2}(?:-[a-z]+)?)\.ts$/);
               if (localeMatch) return `locale-${localeMatch[1]}`;
             },
           },

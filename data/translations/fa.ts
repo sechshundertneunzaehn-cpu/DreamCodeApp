@@ -127,6 +127,8 @@ const translation = {
         video_studio: "استودیوی ویدیو",
         dream_network: "شبکه رویا",
         privacy_link: "حریم خصوصی", terms_link: "شرایط", imprint_link: "مشخصات", research_link: "تحقیقات", studies_link: "مطالعات", worldmap_link: "نقشه جهان", showing_sources_only: "فقط منابع {0}", science_label: "دانش",
+        symbols_link: "کتابخانه نمادهای خواب", science_study_btn: "مطالعه علمی", study_btn_desc: "ناشناس · پژوهش · تخفیف ۱۰–۲۰٪", study_discount_active: "تخفیف فعال",
+        language_label: "زبان",
     },
     processing: {
         title: "پیشگو در حال کار است...",

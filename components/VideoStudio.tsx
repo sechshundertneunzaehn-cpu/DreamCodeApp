@@ -1,1231 +1,1212 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Language, ThemeMode } from '../types';
-import { VOICE_CHARACTERS, VoiceCharacter } from './VoiceSelector';
+import StoryVideoPlayer from './StoryVideoPlayer';
+import LiveTranscriber from './LiveTranscriber';
+import ReferenceLibrary from './ReferenceLibrary';
+import { VideoGenerationOptions } from '../services/videoGenerationService';
+import { apiFetch } from '../services/apiConfig';
+import { enhanceDreamPrompt, type Scene } from '../services/dreamQualityService';
+import { getVideoT } from './videoTranslations';
+import { loadDreamsSecurely, saveDreamsSecurely } from '../services/storage';
 
-type VoiceMode = 'user_voice' | 'ai_voice';
 export type ContentMode = 'dream_only' | 'interpretation' | 'both';
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
+// ── Types ──────────────────────────────────────────────────────────
+type Tab = 'ai' | 'slideshow';
+type UITab = 'dream' | 'slideshow' | 'library';
+type Quality = 'standard' | 'hd';
+type VideoStyle = 'real' | 'anime' | 'cartoon' | 'cinematic' | 'fantasy' | 'surreal';
+type VideoTier = 'standard' | 'vip';
+type VideoDuration = 5 | 10 | 15;
 
 export interface VideoGenerateOptions {
-    tab: Tab;
-    quality: Quality;
-    voiceMode: VoiceMode;
-    contentMode: ContentMode;
-    voiceId: string;
-    voiceBlob: Blob | null;
-    style?: 'dreamlike' | 'cinematic' | 'surreal' | 'fantasy' | 'cartoon' | 'anime' | 'real' | 'watercolor';
+  tab: Tab;
+  quality: Quality;
+  voiceMode: 'user_voice' | 'ai_voice';
+  contentMode: ContentMode;
+  voiceId: string;
+  voiceBlob: Blob | null;
+  style?: string;
+  extraPrompt?: string;
+  faceSwapEnabled?: boolean;
 }
 
 export interface VideoStudioProps {
-    language: Language;
-    themeMode: ThemeMode;
-    dreamText: string;
-    interpretationText?: string;
-    dreamId?: string | null;
-    initialMode?: string;
-    onClose: () => void;
-    onSave: (result: { videoUrl: string; type: 'ai' | 'slideshow' }) => void;
-    onGenerate?: (dreamText: string, options: VideoGenerateOptions) => Promise<string | null>;
-    userCredits: number;
+  language: Language;
+  themeMode: ThemeMode;
+  dreamText: string;
+  interpretationText?: string;
+  dreamId?: string | null;
+  initialMode?: string;
+  onClose: () => void;
+  onSave: (result: { videoUrl: string; type: 'ai' | 'slideshow' }) => void;
+  onGenerate?: (dreamText: string, options: VideoGenerateOptions) => Promise<string | null>;
+  userCredits: number;
 }
 
-type Tab = 'ai' | 'slideshow';
-type Quality = 'standard' | 'hd';
+// ── Styles ─────────────────────────────────────────────────────────
+const VIDEO_STYLE_IDS: { id: VideoStyle; icon: string; key: keyof import('./videoTranslations').VideoT }[] = [
+  { id: 'real', icon: '\uD83C\uDFAC', key: 'style_real' },
+  { id: 'anime', icon: '\uD83C\uDF8C', key: 'style_anime' },
+  { id: 'cartoon', icon: '\uD83C\uDFA8', key: 'style_cartoon' },
+  { id: 'cinematic', icon: '\uD83C\uDFA5', key: 'style_cinematic' },
+  { id: 'fantasy', icon: '\u2728', key: 'style_fantasy' },
+  { id: 'surreal', icon: '\uD83C\uDF00', key: 'style_surreal' },
+];
 
-// ---------------------------------------------------------------------------
-// Pricing constants
-// ---------------------------------------------------------------------------
-
-const PRICE = {
-    ai: { standard: 180, hd: 280 },
-    slideshow: { standard: 5, hd: 8 }, // cost per image
-} as const;
-
-const SLIDESHOW_DURATION_SECONDS = 30;
-
-// ---------------------------------------------------------------------------
-// Translations
-// ---------------------------------------------------------------------------
-
-interface Translations {
-    title: string;
-    tab_ai: string;
-    tab_slideshow: string;
-    quality_label: string;
-    standard: string;
-    hd: string;
-    interval_label: string;
-    images_count: string;
-    estimated_cost: string;
-    audio_title: string;
-    record_voice: string;
-    upload_mp3: string;
-    voice_volume: string;
-    music_volume: string;
-    voice_mode_own: string;
-    voice_mode_ai: string;
-    voice_select_label: string;
-    fade_option: string;
-    loop_option: string;
-    price_label: string;
-    balance_label: string;
-    generate_btn: string;
-    insufficient_funds: string;
-    recording: string;
-    stop_recording: string;
-    mp3_loaded: string;
-    back_btn: string;
-    dream_text_label: string;
-    settings_title: string;
-    slideshow_only: string;
-    generating: string;
-    seconds_unit: string;
-    content_label: string;
-    content_dream: string;
-    content_interp: string;
-    content_both: string;
-    est_duration: string;
-    need_recording: string;
-    minutes_unit: string;
-}
-
-const T: Partial<Record<Language, Translations>> = {
-    [Language.DE]: {
-        title: 'VIDEO STUDIO',
-        tab_ai: 'KI-Video',
-        tab_slideshow: 'Slideshow',
-        quality_label: 'Qualität',
-        standard: 'Standard',
-        hd: 'HD',
-        interval_label: 'Bildintervall',
-        images_count: 'Bilder',
-        estimated_cost: 'Geschätzte Kosten',
-        audio_title: 'Audio',
-        record_voice: 'Eigene Stimme aufnehmen',
-        upload_mp3: 'MP3 hochladen',
-        voice_volume: 'Stimme',
-        music_volume: 'Musik',
-        voice_mode_own: 'Eigene Stimme',
-        voice_mode_ai: 'KI-Stimme',
-        voice_select_label: 'Stimme wählen',
-        fade_option: 'Fade-In / Fade-Out',
-        loop_option: 'Musik loopen',
-        price_label: 'Preis',
-        balance_label: 'Dein Guthaben',
-        generate_btn: 'Generieren',
-        insufficient_funds: 'Nicht genug Coins',
-        recording: 'Aufnahme läuft…',
-        stop_recording: 'Aufnahme stoppen',
-        mp3_loaded: 'MP3 geladen',
-        back_btn: 'Zurück',
-        dream_text_label: 'Traumtext',
-        settings_title: 'Einstellungen',
-        slideshow_only: 'Nur bei Slideshow',
-        generating: 'Wird generiert…',
-        seconds_unit: 's',
-        content_label: 'Inhalt',
-        content_dream: 'Nur Erzählung',
-        content_interp: 'Nur Deutung',
-        content_both: 'Beides',
-        est_duration: 'Geschätzte Dauer',
-        need_recording: 'Bitte zuerst aufnehmen',
-        minutes_unit: 'Min.',
-    },
-    [Language.EN]: {
-        title: 'VIDEO STUDIO',
-        tab_ai: 'AI Video',
-        tab_slideshow: 'Slideshow',
-        quality_label: 'Quality',
-        standard: 'Standard',
-        hd: 'HD',
-        interval_label: 'Image interval',
-        images_count: 'Images',
-        estimated_cost: 'Estimated cost',
-        audio_title: 'Audio',
-        record_voice: 'Record your voice',
-        upload_mp3: 'Upload MP3',
-        voice_volume: 'Voice',
-        music_volume: 'Music',
-        voice_mode_own: 'Own voice',
-        voice_mode_ai: 'AI voice',
-        voice_select_label: 'Select voice',
-        fade_option: 'Fade-In / Fade-Out',
-        loop_option: 'Loop music',
-        price_label: 'Price',
-        balance_label: 'Your balance',
-        generate_btn: 'Generate',
-        insufficient_funds: 'Not enough coins',
-        recording: 'Recording…',
-        stop_recording: 'Stop recording',
-        mp3_loaded: 'MP3 loaded',
-        back_btn: 'Back',
-        dream_text_label: 'Dream text',
-        settings_title: 'Settings',
-        slideshow_only: 'Slideshow only',
-        generating: 'Generating…',
-        seconds_unit: 's',
-        content_label: 'Content',
-        content_dream: 'Narration only',
-        content_interp: 'Interpretation only',
-        content_both: 'Both',
-        est_duration: 'Estimated duration',
-        need_recording: 'Please record first',
-        minutes_unit: 'min',
-    },
-    [Language.TR]: {
-        title: 'VIDEO STUDYO',
-        tab_ai: 'Yapay Zeka',
-        tab_slideshow: 'Slayt Gösterisi',
-        quality_label: 'Kalite',
-        standard: 'Standart',
-        hd: 'HD',
-        interval_label: 'Görüntü aralığı',
-        images_count: 'Görüntü',
-        estimated_cost: 'Tahmini maliyet',
-        audio_title: 'Ses',
-        record_voice: 'Kendi sesini kaydet',
-        upload_mp3: 'MP3 yükle',
-        voice_volume: 'Ses',
-        music_volume: 'Müzik',
-        voice_mode_own: 'Kendi sesin',
-        voice_mode_ai: 'Yapay zeka sesi',
-        voice_select_label: 'Ses seç',
-        fade_option: 'Geçiş efekti',
-        loop_option: 'Müziği döngüle',
-        price_label: 'Fiyat',
-        balance_label: 'Bakiyen',
-        generate_btn: 'Oluştur',
-        insufficient_funds: 'Yeterli coin yok',
-        recording: 'Kayıt devam ediyor…',
-        stop_recording: 'Kaydı durdur',
-        mp3_loaded: 'MP3 yüklendi',
-        back_btn: 'Geri',
-        dream_text_label: 'Rüya metni',
-        settings_title: 'Ayarlar',
-        slideshow_only: 'Sadece slayt gösterisi',
-        generating: 'Oluşturuluyor…',
-        seconds_unit: 's',
-        content_label: 'İçerik',
-        content_dream: 'Sadece anlatım',
-        content_interp: 'Sadece yorum',
-        content_both: 'İkisi de',
-        est_duration: 'Tahmini süre',
-        need_recording: 'Lütfen önce kayıt yapın',
-        minutes_unit: 'dk',
-    },
-    [Language.ES]: {
-        title: 'ESTUDIO VIDEO',
-        tab_ai: 'Video IA',
-        tab_slideshow: 'Diapositivas',
-        quality_label: 'Calidad',
-        standard: 'Estándar',
-        hd: 'HD',
-        interval_label: 'Intervalo de imagen',
-        images_count: 'Imágenes',
-        estimated_cost: 'Coste estimado',
-        audio_title: 'Audio',
-        record_voice: 'Grabar voz',
-        upload_mp3: 'Subir MP3',
-        voice_volume: 'Voz',
-        music_volume: 'Música',
-        voice_mode_own: 'Tu voz',
-        voice_mode_ai: 'Voz IA',
-        voice_select_label: 'Elegir voz',
-        fade_option: 'Fade-In / Fade-Out',
-        loop_option: 'Repetir música',
-        price_label: 'Precio',
-        balance_label: 'Tu saldo',
-        generate_btn: 'Generar',
-        insufficient_funds: 'Monedas insuficientes',
-        recording: 'Grabando…',
-        stop_recording: 'Detener grabación',
-        mp3_loaded: 'MP3 cargado',
-        back_btn: 'Volver',
-        dream_text_label: 'Texto del sueño',
-        settings_title: 'Configuración',
-        slideshow_only: 'Solo diapositivas',
-        generating: 'Generando…',
-        seconds_unit: 's',
-        content_label: 'Contenido',
-        content_dream: 'Solo narración',
-        content_interp: 'Solo interpretación',
-        content_both: 'Ambos',
-        est_duration: 'Duración estimada',
-        need_recording: 'Primero graba tu voz',
-        minutes_unit: 'min',
-    },
-    [Language.FR]: {
-        title: 'STUDIO VIDEO',
-        tab_ai: 'Vidéo IA',
-        tab_slideshow: 'Diaporama',
-        quality_label: 'Qualité',
-        standard: 'Standard',
-        hd: 'HD',
-        interval_label: 'Intervalle image',
-        images_count: 'Images',
-        estimated_cost: 'Coût estimé',
-        audio_title: 'Audio',
-        record_voice: 'Enregistrer voix',
-        upload_mp3: 'Importer MP3',
-        voice_volume: 'Voix',
-        music_volume: 'Musique',
-        voice_mode_own: 'Votre voix',
-        voice_mode_ai: 'Voix IA',
-        voice_select_label: 'Choisir une voix',
-        fade_option: 'Fondu entrant/sortant',
-        loop_option: 'Boucler la musique',
-        price_label: 'Prix',
-        balance_label: 'Votre solde',
-        generate_btn: 'Générer',
-        insufficient_funds: 'Coins insuffisants',
-        recording: 'Enregistrement…',
-        stop_recording: 'Arrêter',
-        mp3_loaded: 'MP3 chargé',
-        back_btn: 'Retour',
-        dream_text_label: 'Texte du rêve',
-        settings_title: 'Paramètres',
-        slideshow_only: 'Diaporama uniquement',
-        generating: 'Génération…',
-        seconds_unit: 's',
-        content_label: 'Contenu',
-        content_dream: 'Narration seule',
-        content_interp: 'Interprétation seule',
-        content_both: 'Les deux',
-        est_duration: 'Durée estimée',
-        need_recording: 'Veuillez enregistrer d\'abord',
-        minutes_unit: 'min',
-    },
-    [Language.AR]: {
-        title: 'استوديو الفيديو',
-        tab_ai: 'فيديو ذكاء',
-        tab_slideshow: 'عرض شرائح',
-        quality_label: 'الجودة',
-        standard: 'عادي',
-        hd: 'عالي الدقة',
-        interval_label: 'فاصل الصورة',
-        images_count: 'صور',
-        estimated_cost: 'التكلفة المتوقعة',
-        audio_title: 'الصوت',
-        record_voice: 'تسجيل الصوت',
-        upload_mp3: 'رفع MP3',
-        voice_volume: 'الصوت',
-        music_volume: 'الموسيقى',
-        voice_mode_own: 'صوتك',
-        voice_mode_ai: 'صوت ذكاء اصطناعي',
-        voice_select_label: 'اختر صوت',
-        fade_option: 'تلاشي الدخول / الخروج',
-        loop_option: 'تكرار الموسيقى',
-        price_label: 'السعر',
-        balance_label: 'رصيدك',
-        generate_btn: 'إنشاء',
-        insufficient_funds: 'رصيد غير كافٍ',
-        recording: 'جاري التسجيل…',
-        stop_recording: 'إيقاف التسجيل',
-        mp3_loaded: 'تم تحميل MP3',
-        back_btn: 'رجوع',
-        dream_text_label: 'نص الحلم',
-        settings_title: 'الإعدادات',
-        slideshow_only: 'عرض الشرائح فقط',
-        generating: 'جاري الإنشاء…',
-        seconds_unit: 'ث',
-        content_label: 'المحتوى',
-        content_dream: 'السرد فقط',
-        content_interp: 'التفسير فقط',
-        content_both: 'كلاهما',
-        est_duration: 'المدة المقدرة',
-        need_recording: 'يرجى التسجيل أولاً',
-        minutes_unit: 'د',
-    },
-    [Language.PT]: {
-        title: 'ESTÚDIO DE VÍDEO',
-        tab_ai: 'Vídeo IA',
-        tab_slideshow: 'Apresentação',
-        quality_label: 'Qualidade',
-        standard: 'Padrão',
-        hd: 'HD',
-        interval_label: 'Intervalo de imagem',
-        images_count: 'Imagens',
-        estimated_cost: 'Custo estimado',
-        audio_title: 'Áudio',
-        record_voice: 'Gravar voz',
-        upload_mp3: 'Enviar MP3',
-        voice_volume: 'Voz',
-        music_volume: 'Música',
-        voice_mode_own: 'Sua voz',
-        voice_mode_ai: 'Voz IA',
-        voice_select_label: 'Escolher voz',
-        fade_option: 'Fade-In / Fade-Out',
-        loop_option: 'Loop de música',
-        price_label: 'Preço',
-        balance_label: 'Seu saldo',
-        generate_btn: 'Gerar',
-        insufficient_funds: 'Coins insuficientes',
-        recording: 'Gravando…',
-        stop_recording: 'Parar gravação',
-        mp3_loaded: 'MP3 carregado',
-        back_btn: 'Voltar',
-        dream_text_label: 'Texto do sonho',
-        settings_title: 'Configurações',
-        slideshow_only: 'Apenas apresentação',
-        generating: 'Gerando…',
-        seconds_unit: 's',
-        content_label: 'Conteúdo',
-        content_dream: 'Apenas narração',
-        content_interp: 'Apenas interpretação',
-        content_both: 'Ambos',
-        est_duration: 'Duração estimada',
-        need_recording: 'Grave primeiro',
-        minutes_unit: 'min',
-    },
-    [Language.RU]: {
-        title: 'ВИДЕО СТУДИЯ',
-        tab_ai: 'ИИ-Видео',
-        tab_slideshow: 'Слайдшоу',
-        quality_label: 'Качество',
-        standard: 'Стандарт',
-        hd: 'HD',
-        interval_label: 'Интервал кадра',
-        images_count: 'Изображений',
-        estimated_cost: 'Примерная стоимость',
-        audio_title: 'Аудио',
-        record_voice: 'Записать голос',
-        voice_mode_own: 'Свой голос',
-        voice_mode_ai: 'ИИ-голос',
-        voice_select_label: 'Выбрать голос',
-        upload_mp3: 'Загрузить MP3',
-        voice_volume: 'Голос',
-        music_volume: 'Музыка',
-        fade_option: 'Плавное появление/исчезновение',
-        loop_option: 'Повторять музыку',
-        price_label: 'Цена',
-        balance_label: 'Ваш баланс',
-        generate_btn: 'Создать',
-        insufficient_funds: 'Недостаточно монет',
-        recording: 'Запись…',
-        stop_recording: 'Остановить',
-        mp3_loaded: 'MP3 загружен',
-        back_btn: 'Назад',
-        dream_text_label: 'Текст сна',
-        settings_title: 'Настройки',
-        slideshow_only: 'Только слайдшоу',
-        generating: 'Создание…',
-        seconds_unit: 'с',
-        content_label: 'Содержание',
-        content_dream: 'Только рассказ',
-        content_interp: 'Только толкование',
-        content_both: 'Оба',
-        est_duration: 'Примерная длительность',
-        need_recording: 'Сначала запишите голос',
-        minutes_unit: 'мин',
-    },
+// Mapping Frontend-Style → Backend-Kategorie
+const STYLE_TO_CATEGORY: Record<VideoStyle, string> = {
+  real: 'realistic', anime: 'anime', cartoon: 'cartoon',
+  cinematic: 'cinematic', fantasy: 'fantasy', surreal: 'artistic',
 };
 
-function getT(lang: Language): Translations {
-    return T[lang] ?? T[Language.EN]!;
-}
+// ── Hintergrundmusik Track IDs ────────────────────────────────────
+const BGM_TRACK_IDS: { id: string; nameKey: keyof import('./videoTranslations').VideoT; moodKey: keyof import('./videoTranslations').VideoT }[] = [
+  { id: 'calm_piano', nameKey: 'bgm_calm_piano', moodKey: 'mood_peaceful' },
+  { id: 'mystical_ambient', nameKey: 'bgm_mystical_ambient', moodKey: 'mood_mysterious' },
+  { id: 'dark_tension', nameKey: 'bgm_dark_tension', moodKey: 'mood_threatening' },
+  { id: 'epic_orchestra', nameKey: 'bgm_epic_orchestra', moodKey: 'mood_heroic' },
+  { id: 'arabic_oud', nameKey: 'bgm_arabic_oud', moodKey: 'mood_oriental' },
+  { id: 'dreamy_synth', nameKey: 'bgm_dreamy_synth', moodKey: 'mood_dreamy' },
+  { id: 'nature_forest', nameKey: 'bgm_nature_forest', moodKey: 'mood_natural' },
+  { id: 'ocean_waves', nameKey: 'bgm_ocean_waves', moodKey: 'mood_calming' },
+  { id: 'heartbeat_suspense', nameKey: 'bgm_heartbeat_suspense', moodKey: 'mood_exciting' },
+  { id: 'celestial_choir', nameKey: 'bgm_celestial_choir', moodKey: 'mood_spiritual' },
+  { id: 'jazz_lounge', nameKey: 'bgm_jazz_lounge', moodKey: 'mood_relaxed' },
+  { id: 'tribal_drums', nameKey: 'bgm_tribal_drums', moodKey: 'mood_powerful' },
+  { id: 'rain_thunder', nameKey: 'bgm_rain_thunder', moodKey: 'mood_dramatic' },
+  { id: 'crystal_bells', nameKey: 'bgm_crystal_bells', moodKey: 'mood_magical' },
+  { id: 'desert_wind', nameKey: 'bgm_desert_wind', moodKey: 'mood_lonely' },
+  { id: 'underwater', nameKey: 'bgm_underwater', moodKey: 'mood_surreal' },
+  { id: 'clock_ticking', nameKey: 'bgm_clock_ticking', moodKey: 'mood_eerie' },
+  { id: 'children_laughter', nameKey: 'bgm_children_laughter', moodKey: 'mood_nostalgic' },
+  { id: 'war_drums', nameKey: 'bgm_war_drums', moodKey: 'mood_combative' },
+  { id: 'space_ambient', nameKey: 'bgm_space_ambient', moodKey: 'mood_cosmic' },
+];
 
-// ---------------------------------------------------------------------------
-// Sub-components
-// ---------------------------------------------------------------------------
+interface RefImage { id: string; label: string; category: string; image_url: string; }
 
-interface RangeSliderProps {
-    value: number;
-    min: number;
-    max: number;
-    step?: number;
-    onChange: (v: number) => void;
-    label: string;
-    icon: string;
-    isLight: boolean;
-    unit?: string;
-    showValue?: boolean;
-    accentClass?: string;
-}
-
-const RangeSlider: React.FC<RangeSliderProps> = ({
-    value,
-    min,
-    max,
-    step = 1,
-    onChange,
-    label,
-    icon,
-    isLight,
-    unit = '%',
-    showValue = true,
-    accentClass = 'accent-fuchsia-500',
-}) => (
-    <div className="flex flex-col gap-1.5">
-        <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-                <span className={`material-icons text-base ${isLight ? 'text-indigo-500' : 'text-fuchsia-400'}`}>
-                    {icon}
-                </span>
-                <span className={`text-sm font-medium ${isLight ? 'text-gray-700' : 'text-white/80'}`}>
-                    {label}
-                </span>
-            </div>
-            {showValue && (
-                <span className={`text-sm font-semibold tabular-nums ${isLight ? 'text-indigo-600' : 'text-fuchsia-300'}`}>
-                    {value}{unit}
-                </span>
-            )}
-        </div>
-        <input
-            type="range"
-            min={min}
-            max={max}
-            step={step}
-            value={value}
-            onChange={(e) => onChange(Number(e.target.value))}
-            className={`w-full h-2 rounded-full cursor-pointer ${accentClass}`}
-            style={{ minHeight: '20px' }}
-        />
-        <div className={`flex justify-between text-[10px] ${isLight ? 'text-gray-400' : 'text-white/30'}`}>
-            <span>{min}{unit}</span>
-            <span>{max}{unit}</span>
-        </div>
-    </div>
-);
-
-interface CheckboxRowProps {
-    checked: boolean;
-    onChange: (v: boolean) => void;
-    label: string;
-    isLight: boolean;
-}
-
-const CheckboxRow: React.FC<CheckboxRowProps> = ({ checked, onChange, label, isLight }) => (
-    <label className="flex items-center gap-3 cursor-pointer min-h-[44px]">
-        <div
-            onClick={() => onChange(!checked)}
-            className={`
-                w-5 h-5 rounded flex items-center justify-center flex-shrink-0 transition-all duration-150
-                ${checked
-                    ? (isLight ? 'bg-indigo-500' : 'bg-fuchsia-600')
-                    : (isLight ? 'bg-gray-200 border border-gray-300' : 'bg-white/10 border border-white/20')
-                }
-            `}
-        >
-            {checked && (
-                <span className="material-icons text-white text-sm" style={{ fontSize: '14px' }}>check</span>
-            )}
-        </div>
-        <span className={`text-sm ${isLight ? 'text-gray-700' : 'text-white/80'}`}>{label}</span>
-    </label>
-);
-
-// ---------------------------------------------------------------------------
-// Main component
-// ---------------------------------------------------------------------------
-
+// ── Component ──────────────────────────────────────────────────────
 const VideoStudio: React.FC<VideoStudioProps> = ({
-    language,
-    themeMode,
-    dreamText,
-    onClose,
-    onSave,
-    onGenerate,
-    userCredits,
+  language, themeMode, dreamText, onClose, onSave, onGenerate, userCredits,
 }) => {
-    const t = getT(language);
-    const isLight = themeMode === ThemeMode.LIGHT;
-    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
+  const isLight = themeMode === 'light';
+  const t = getVideoT(language as string);
 
-    // --- Tab & quality ---
-    const [activeTab, setActiveTab] = useState<Tab>('slideshow');
-    const [quality, setQuality] = useState<Quality>('standard');
+  // UI State
+  const [uiTab, setUiTab] = useState<UITab>('dream');
+  const [prompt, setPrompt] = useState(dreamText || '');
+  const [selectedStyle, setSelectedStyle] = useState<VideoStyle>('cinematic');
+  const [duration, setDuration] = useState<VideoDuration>(5);
+  const [aspectRatio, setAspectRatio] = useState<'16:9' | '9:16'>('16:9');
+  const [showTranscriber, setShowTranscriber] = useState(false);
+  const [showRefPicker, setShowRefPicker] = useState(false);
 
-    // --- Slideshow settings ---
-    const [imageInterval, setImageInterval] = useState<number>(3);
+  // Config-Chat Assistent
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState<{role: 'user' | 'assistant'; content: string}[]>([]);
+  const [chatInput, setChatInput] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const [selectedRefs, setSelectedRefs] = useState<RefImage[]>([]);
 
-    // --- Content & Voice mode ---
-    const [contentMode, setContentMode] = useState<ContentMode>('dream_only');
-    const [voiceMode, setVoiceMode] = useState<VoiceMode>('user_voice');
-    const [selectedAiVoice, setSelectedAiVoice] = useState<string>('luna');
+  // Tier + Preise
+  const [selectedTier, setSelectedTier] = useState<VideoTier>('standard');
+  const [standardPrice, setStandardPrice] = useState<{coins: number; modelName: string; hasAudio: boolean; maxDuration: number} | null>(null);
+  const [vipPrice, setVipPrice] = useState<{coins: number; modelName: string; hasAudio: boolean; maxDuration: number} | null>(null);
 
-    // --- Audio ---
-    const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
-    const [musicFile, setMusicFile] = useState<File | null>(null);
-    const [voiceVolume, setVoiceVolume] = useState<number>(80);
-    const [musicVolume, setMusicVolume] = useState<number>(40);
-    const [fadeEnabled, setFadeEnabled] = useState<boolean>(false);
-    const [loopEnabled, setLoopEnabled] = useState<boolean>(false);
-    const [isRecording, setIsRecording] = useState<boolean>(false);
-    const [isPreviewingVoice, setIsPreviewingVoice] = useState(false);
-    const [isPreviewingMusic, setIsPreviewingMusic] = useState(false);
-    const previewVoiceRef = useRef<HTMLAudioElement | null>(null);
-    const previewMusicRef = useRef<HTMLAudioElement | null>(null);
+  // Eigene Stimme + Hintergrundmusik
+  const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
+  const [useOwnVoice, setUseOwnVoice] = useState(false);
+  const [voiceVolume, setVoiceVolume] = useState(80);
+  const [selectedBgm, setSelectedBgm] = useState<string | null>(null);
+  const [bgmVolume, setBgmVolume] = useState(30);
+  const [bgmPreviewAudio, setBgmPreviewAudio] = useState<HTMLAudioElement | null>(null);
 
-    // --- Generation state ---
-    const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  // DreamQuality Agent
+  const [agentScenes, setAgentScenes] = useState<Scene[] | null>(null);
+  const [agentLoading, setAgentLoading] = useState(false);
 
-    // --- MediaRecorder refs ---
-    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-    const recordedChunksRef = useRef<Blob[]>([]);
-    const streamRef = useRef<MediaStream | null>(null);
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // MP3 Upload
+  const [userMusicFile, setUserMusicFile] = useState<File | null>(null);
+  const [userMusicUrl, setUserMusicUrl] = useState<string | null>(null);
+  const [musicLoop, setMusicLoop] = useState(true);
+  const musicFileRef = useRef<HTMLInputElement>(null);
+  const previewAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPreviewing, setIsPreviewing] = useState(false);
 
-    // --- Preview Functions ---
-    const toggleVoicePreview = useCallback(() => {
-        if (!voiceBlob) return;
-        if (isPreviewingVoice && previewVoiceRef.current) {
-            previewVoiceRef.current.pause();
-            setIsPreviewingVoice(false);
-        } else {
-            const url = URL.createObjectURL(voiceBlob);
-            const audio = new Audio(url);
-            audio.volume = voiceVolume / 100;
-            previewVoiceRef.current = audio;
-            audio.onended = () => { setIsPreviewingVoice(false); URL.revokeObjectURL(url); };
-            audio.play().catch(() => {});
-            setIsPreviewingVoice(true);
-        }
-    }, [voiceBlob, voiceVolume, isPreviewingVoice]);
+  // Geräte-Foto Upload (Referenzbild)
+  const [devicePhoto, setDevicePhoto] = useState<string | null>(null);
+  const devicePhotoRef = useRef<HTMLInputElement>(null);
 
-    const toggleMusicPreview = useCallback(() => {
-        if (!musicFile) return;
-        if (isPreviewingMusic && previewMusicRef.current) {
-            previewMusicRef.current.pause();
-            setIsPreviewingMusic(false);
-        } else {
-            const url = URL.createObjectURL(musicFile);
-            const audio = new Audio(url);
-            audio.volume = musicVolume / 100;
-            previewMusicRef.current = audio;
-            audio.onended = () => { setIsPreviewingMusic(false); URL.revokeObjectURL(url); };
-            audio.play().catch(() => {});
-            setIsPreviewingMusic(true);
-        }
-    }, [musicFile, musicVolume, isPreviewingMusic]);
+  // Generation State
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [genProgress, setGenProgress] = useState('');
+  const [genError, setGenError] = useState('');
+  const [userNotice, setUserNotice] = useState<string | null>(null);
+  const [resultVideoUrl, setResultVideoUrl] = useState<string | null>(null);
+  const [narrationAudioUrl, setNarrationAudioUrl] = useState<string | null>(null);
+  const narrationRef = useRef<HTMLAudioElement | null>(null);
+  const resultTypeRef = useRef<'ai' | 'slideshow'>('ai');
+  const abortRef = useRef(false);
 
-    // Update preview volume in real-time
-    useEffect(() => {
-        if (previewVoiceRef.current) previewVoiceRef.current.volume = voiceVolume / 100;
-    }, [voiceVolume]);
-    useEffect(() => {
-        if (previewMusicRef.current) previewMusicRef.current.volume = musicVolume / 100;
-    }, [musicVolume]);
+  // Theme
+  const bg = isLight ? 'bg-mystic-bg' : 'bg-dream-surface';
+  const cardBg = isLight ? 'bg-white border border-indigo-100/80' : 'bg-white/5 border border-white/10';
+  const textP = isLight ? 'text-gray-900' : 'text-white';
+  const textS = isLight ? 'text-gray-500' : 'text-white/50';
+  const accent = isLight ? 'text-indigo-600' : 'text-fuchsia-400';
 
-    // --- Derived values ---
-    const imageCount = Math.ceil(SLIDESHOW_DURATION_SECONDS / imageInterval);
-    const costPerImage = PRICE.slideshow[quality];
-    const slideshowPrice = imageCount * costPerImage;
-    const aiPrice = PRICE.ai[quality];
-    const totalPrice = activeTab === 'ai' ? aiPrice : slideshowPrice;
-    const canAfford = userCredits >= totalPrice;
+  // Model detection + Einschraenkungen bei Fotos
+  const hasPhoto = selectedRefs.length > 0 || !!devicePhoto;
+  const useSeedance = selectedRefs.length > 0;
+  const maxDurationForMode = hasPhoto ? 10 : 15;
 
-    // Voice mode forced to AI for interpretation-only or both
-    const effectiveVoiceMode: VoiceMode = contentMode === 'dream_only' ? voiceMode : 'ai_voice';
-    // User voice requires recording
-    const needsRecording = effectiveVoiceMode === 'user_voice' && !voiceBlob;
+  // Stile die Image-to-Video unterstuetzen (Backend: wan2.6-i2v, seedance-i2v, kling-o3-i2v)
+  const I2V_SUPPORTED_STYLES: VideoStyle[] = ['real', 'anime', 'cartoon', 'fantasy', 'surreal', 'cinematic'];
+  // Auto-Korrektur: Dauer reduzieren wenn Fotos hinzugefuegt werden
+  useEffect(() => {
+    if (hasPhoto && duration > maxDurationForMode) {
+      setDuration(maxDurationForMode as VideoDuration);
+    }
+  }, [hasPhoto, duration, maxDurationForMode]);
+  const activePrice = selectedTier === 'vip' ? vipPrice : standardPrice;
+  const tierLabel = selectedTier === 'vip' ? t.quality_vip : t.quality_standard;
+  const durationWarning = activePrice && duration > activePrice.maxDuration;
 
-    // Duration estimation (words / 2.5 = seconds)
-    const dreamWords = dreamText.trim().split(/\s+/).filter(Boolean).length;
-    const estimatedSeconds = (() => {
-        const dreamDur = dreamWords / 2.5;
-        const interpDur = dreamWords * 1.5 / 2.5; // interpretation is ~1.5x longer
-        if (contentMode === 'dream_only') return dreamDur;
-        if (contentMode === 'interpretation') return interpDur;
-        return dreamDur + interpDur; // both
-    })();
-    const estimatedMinutes = Math.max(0.5, Math.round(estimatedSeconds / 30) / 2); // round to 0.5
+  // ── Live Dual-Price Fetch ──────────────────────────────────────
+  useEffect(() => {
+    let cancelled = false;
+    const base = { category: STYLE_TO_CATEGORY[selectedStyle], duration: String(duration), mode: useSeedance ? 'image' : 'text', zone: 'zone1' };
+    const fetchTier = (tier: string) =>
+      fetch(`/api/video/price?${new URLSearchParams({ ...base, tier })}`).then(r => r.ok ? r.json() : null).catch(() => null);
 
-    // Cleanup stream on unmount
-    useEffect(() => {
-        return () => {
-            if (streamRef.current) {
-                streamRef.current.getTracks().forEach(t => t.stop());
-            }
-        };
-    }, []);
+    Promise.all([fetchTier('standard'), fetchTier('vip')]).then(([std, vip]) => {
+      if (cancelled) return;
+      setStandardPrice(std);
+      setVipPrice(vip);
+    });
+    return () => { cancelled = true; };
+  }, [selectedStyle, duration, useSeedance]);
 
-    // --- Recording ---
-    const startRecording = useCallback(async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            streamRef.current = stream;
-            recordedChunksRef.current = [];
+  // ── DreamQuality Agent (Slideshow) ──────────────────────────────
+  useEffect(() => {
+    if (uiTab !== 'slideshow' || !prompt.trim() || prompt.trim().length < 10) return;
+    let cancelled = false;
+    setAgentLoading(true);
+    enhanceDreamPrompt(prompt, language as string, STYLE_TO_CATEGORY[selectedStyle], selectedTier)
+      .then(result => { if (!cancelled) setAgentScenes(result.scenes); })
+      .catch(() => { if (!cancelled) setAgentScenes(null); })
+      .finally(() => { if (!cancelled) setAgentLoading(false); });
+    return () => { cancelled = true; };
+  }, [uiTab, prompt, selectedStyle, selectedTier, language]);
 
-            const recorder = new MediaRecorder(stream, {
-                mimeType: MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-                    ? 'audio/webm;codecs=opus'
-                    : 'audio/webm',
-            });
+  // ── Abbrechen ────────────────────────────────────────────────────
+  const handleCancel = useCallback(() => {
+    abortRef.current = true;
+    setIsGenerating(false);
+    setGenProgress('');
+    setGenError(t.error_cancelled);
+  }, []);
 
-            recorder.ondataavailable = (e) => {
-                if (e.data.size > 0) recordedChunksRef.current.push(e.data);
-            };
+  // ── Geschaetzte Dauer ───────────────────────────────────────────
+  const estimatedSeconds = (() => {
+    const words = prompt.trim().split(/\s+/).filter(Boolean).length;
+    if (uiTab === 'slideshow') {
+      const imgCount = agentScenes ? agentScenes.length : Math.max(3, Math.ceil(words / 15));
+      return Math.round(imgCount * (duration || 3));
+    }
+    return duration || 5;
+  })();
 
-            recorder.onstop = () => {
-                const blob = new Blob(recordedChunksRef.current, { type: 'audio/webm' });
-                setVoiceBlob(blob);
-                stream.getTracks().forEach(t => t.stop());
-                streamRef.current = null;
-            };
+  // ── Config-Chat Handler ──────────────────────────────────────────
+  const sendChatMessage = useCallback(async () => {
+    if (!chatInput.trim() || chatLoading) return;
+    const msg = chatInput.trim();
+    setChatInput('');
+    setChatMessages(prev => [...prev, { role: 'user', content: msg }]);
+    setChatLoading(true);
 
-            recorder.start();
-            mediaRecorderRef.current = recorder;
-            setIsRecording(true);
-        } catch (e) {
-            console.error('[VideoStudio] Mikrofon-Zugriff verweigert:', e);
-            setIsRecording(false);
-        }
-    }, []);
+    try {
+      const res = await apiFetch('/api/video/config-chat', {
+        method: 'POST',
+        body: JSON.stringify({ message: msg, history: chatMessages, currentConfig: { persona: {}, defaults: { art_style: selectedStyle, mood: 'auto' }, onboarding_completed: false } }),
+      });
+      const data = await res.json();
+      setChatMessages(prev => [...prev, { role: 'assistant', content: data.reply || t.error_generic }]);
+      setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+    } catch {
+      setChatMessages(prev => [...prev, { role: 'assistant', content: t.error_connection }]);
+    } finally {
+      setChatLoading(false);
+    }
+  }, [chatInput, chatLoading, chatMessages, selectedStyle]);
 
-    const stopRecording = useCallback(() => {
-        if (mediaRecorderRef.current && isRecording) {
-            mediaRecorderRef.current.stop();
-            setIsRecording(false);
-        }
-    }, [isRecording]);
-
-    const handleMp3Upload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file && (file.type === 'audio/mpeg' || file.name.endsWith('.mp3'))) {
-            setMusicFile(file);
-        }
-        // Reset input so same file can be re-selected
-        e.target.value = '';
-    }, []);
-
-    // --- Generate ---
-    const handleGenerate = useCallback(async () => {
-        if (!canAfford || isGenerating || needsRecording) return;
-        setIsGenerating(true);
-
-        try {
-            if (onGenerate) {
-                const videoUrl = await onGenerate(dreamText, {
-                    tab: activeTab,
-                    quality,
-                    voiceMode: effectiveVoiceMode,
-                    contentMode,
-                    voiceId: selectedAiVoice,
-                    voiceBlob,
-                });
-                if (videoUrl) {
-                    onSave({ videoUrl, type: activeTab === 'ai' ? 'ai' : 'slideshow' });
-                }
-            } else {
-                const placeholderUrl = `dream-${activeTab}-${quality}-${Date.now()}.mp4`;
-                onSave({ videoUrl: placeholderUrl, type: activeTab === 'ai' ? 'ai' : 'slideshow' });
-            }
-        } catch (e) {
-            console.error('[VideoStudio] Generation failed', e);
-        } finally {
-            setIsGenerating(false);
-        }
-    }, [canAfford, isGenerating, needsRecording, activeTab, quality, effectiveVoiceMode, contentMode, selectedAiVoice, voiceBlob, dreamText, onSave, onGenerate]);
-
-    // ---------------------------------------------------------------------------
-    // Style helpers
-    // ---------------------------------------------------------------------------
-
-    const bg = isLight ? 'bg-mystic-bg' : 'bg-dream-surface';
-    const headerBg = isLight ? 'bg-mystic-bg/95 border-b border-indigo-100' : 'bg-dream-surface/95 border-b border-white/10';
-    const cardBg = isLight ? 'bg-white border border-indigo-100/80 shadow-sm' : 'bg-white/5 border border-white/10';
-    const textPrimary = isLight ? 'text-gray-900' : 'text-white';
-    const textSecondary = isLight ? 'text-gray-500' : 'text-white/50';
-    const sectionLabel = isLight ? 'text-indigo-600' : 'text-fuchsia-400';
-    const divider = isLight ? 'border-indigo-100' : 'border-white/10';
-
-    const accentGradient = isLight
-        ? 'bg-gradient-to-r from-indigo-500 to-violet-500'
-        : 'bg-gradient-to-r from-fuchsia-600 to-violet-600';
-
-    const tabActive = isLight
-        ? 'bg-indigo-500 text-white shadow-md'
-        : 'bg-fuchsia-600 text-white shadow-[0_0_16px_rgba(217,70,239,0.45)]';
-
-    const tabInactive = isLight
-        ? 'text-gray-500 hover:text-indigo-500'
-        : 'text-white/40 hover:text-white/70';
-
-    const qualityActive = isLight
-        ? 'bg-indigo-500 text-white'
-        : 'bg-fuchsia-600 text-white';
-
-    const qualityInactive = isLight
-        ? 'bg-gray-100 text-gray-500 hover:bg-indigo-50'
-        : 'bg-white/10 text-white/50 hover:bg-white/15';
-
-    const inputBase = isLight
-        ? 'bg-gray-50 border border-gray-200 text-gray-900'
-        : 'bg-white/5 border border-white/10 text-white';
-
-    const generateDisabled = !canAfford || isGenerating || needsRecording;
-
-    const generateBtn = generateDisabled
-        ? (isLight ? 'bg-gray-300 text-gray-400 cursor-not-allowed' : 'bg-white/10 text-white/30 cursor-not-allowed')
-        : `${accentGradient} text-white hover:opacity-90 active:scale-[0.98] shadow-[0_4px_24px_rgba(168,85,247,0.35)]`;
-
-    // ---------------------------------------------------------------------------
-    // Render
-    // ---------------------------------------------------------------------------
-
+  // ── Result Display ───────────────────────────────────────────────
+  if (resultVideoUrl) {
     return (
-        <div
-            className={`fixed inset-0 z-50 flex flex-col ${bg} overflow-hidden`}
-            dir={isRtl ? 'rtl' : 'ltr'}
-        >
-            {/* ── Header ── */}
-            <div className={`flex items-center gap-3 px-4 py-3 ${headerBg} flex-shrink-0`}>
-                <button
-                    onClick={onClose}
-                    className={`
-                        min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl transition-colors
-                        ${isLight ? 'hover:bg-indigo-50 text-indigo-600' : 'hover:bg-white/10 text-white/60'}
-                    `}
-                    aria-label={t.back_btn}
-                >
-                    <span className="material-icons">
-                        {isRtl ? 'arrow_forward' : 'arrow_back'}
-                    </span>
-                </button>
-                <h1 className={`text-sm font-bold tracking-widest uppercase flex-1 text-center ${sectionLabel}`}>
-                    {t.title}
-                </h1>
-                {/* Spacer to balance header */}
-                <div className="min-w-[44px]" />
-            </div>
-
-            {/* ── Scrollable body ── */}
-            <div className="flex-1 overflow-y-auto overscroll-contain">
-                <div className="max-w-lg mx-auto px-4 py-4 space-y-4 pb-8">
-
-                    {/* ── Tab Toggle ── */}
-                    <div className={`flex rounded-2xl p-1 ${isLight ? 'bg-gray-100' : 'bg-white/5'}`}>
-                        {(['ai', 'slideshow'] as Tab[]).map((tab) => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`
-                                    flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200 min-h-[44px]
-                                    ${activeTab === tab ? tabActive : tabInactive}
-                                `}
-                            >
-                                {tab === 'ai' ? t.tab_ai : t.tab_slideshow}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* ── Dream text ── */}
-                    <div className={`rounded-2xl p-4 ${cardBg}`}>
-                        <div className={`flex items-center gap-2 mb-2`}>
-                            <span className={`material-icons text-base ${sectionLabel}`}>description</span>
-                            <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>
-                                {t.dream_text_label}
-                            </span>
-                        </div>
-                        <p className={`text-sm leading-relaxed line-clamp-4 ${textSecondary}`}>
-                            {dreamText || '—'}
-                        </p>
-                    </div>
-
-                    {/* ── Content Mode ── */}
-                    <div className={`rounded-2xl p-4 space-y-3 ${cardBg}`}>
-                        <div className="flex items-center gap-2">
-                            <span className={`material-icons text-base ${sectionLabel}`}>auto_stories</span>
-                            <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>
-                                {t.content_label}
-                            </span>
-                        </div>
-                        <div className="flex gap-1.5">
-                            {([
-                                { key: 'dream_only' as ContentMode, label: t.content_dream },
-                                { key: 'interpretation' as ContentMode, label: t.content_interp },
-                                { key: 'both' as ContentMode, label: t.content_both },
-                            ]).map(({ key, label }) => (
-                                <button
-                                    key={key}
-                                    onClick={() => setContentMode(key)}
-                                    className={`
-                                        flex-1 py-2.5 rounded-xl text-xs font-semibold min-h-[44px] transition-all duration-150
-                                        ${contentMode === key ? tabActive : tabInactive}
-                                    `}
-                                >
-                                    {label}
-                                </button>
-                            ))}
-                        </div>
-                        {/* Duration estimate */}
-                        <div className={`flex items-center justify-between rounded-xl px-4 py-2.5 ${
-                            isLight ? 'bg-indigo-50' : 'bg-white/5'
-                        }`}>
-                            <div className="flex items-center gap-2">
-                                <span className={`material-icons text-base ${sectionLabel}`}>schedule</span>
-                                <span className={`text-sm ${textSecondary}`}>{t.est_duration}</span>
-                            </div>
-                            <span className={`text-sm font-bold tabular-nums ${isLight ? 'text-indigo-600' : 'text-fuchsia-300'}`}>
-                                ~{estimatedMinutes} {t.minutes_unit}
-                            </span>
-                        </div>
-                    </div>
-
-                    {/* ── Settings ── */}
-                    <div className={`rounded-2xl p-4 space-y-4 ${cardBg}`}>
-                        <div className={`flex items-center gap-2`}>
-                            <span className={`material-icons text-base ${sectionLabel}`}>tune</span>
-                            <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>
-                                {t.settings_title}
-                            </span>
-                        </div>
-
-                        {/* Quality toggle */}
-                        <div className="space-y-2">
-                            <span className={`text-sm font-medium ${textPrimary}`}>{t.quality_label}</span>
-                            <div className="flex gap-2">
-                                {(['standard', 'hd'] as Quality[]).map((q) => (
-                                    <button
-                                        key={q}
-                                        onClick={() => setQuality(q)}
-                                        className={`
-                                            flex-1 py-2.5 rounded-xl text-sm font-semibold min-h-[44px] transition-all duration-150
-                                            ${quality === q ? qualityActive : qualityInactive}
-                                        `}
-                                    >
-                                        {q === 'standard' ? t.standard : t.hd}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Slideshow-only: image interval */}
-                        {activeTab === 'slideshow' && (
-                            <>
-                                <div className={`border-t ${divider} pt-4`}>
-                                    <span className={`text-[10px] uppercase tracking-widest font-semibold ${sectionLabel} mb-3 block`}>
-                                        {t.slideshow_only}
-                                    </span>
-
-                                    <RangeSlider
-                                        value={imageInterval}
-                                        min={1}
-                                        max={30}
-                                        step={1}
-                                        onChange={setImageInterval}
-                                        label={t.interval_label}
-                                        icon="timer"
-                                        isLight={isLight}
-                                        unit={t.seconds_unit}
-                                        accentClass={isLight ? 'accent-indigo-500' : 'accent-fuchsia-500'}
-                                    />
-
-                                    {/* Derived stats */}
-                                    <div className={`
-                                        mt-3 flex items-center justify-between rounded-xl px-4 py-2.5
-                                        ${isLight ? 'bg-indigo-50' : 'bg-white/5'}
-                                    `}>
-                                        <span className={`text-sm ${textSecondary}`}>
-                                            {imageCount} {t.images_count}
-                                        </span>
-                                        <span className={`text-sm font-semibold ${isLight ? 'text-indigo-600' : 'text-fuchsia-300'}`}>
-                                            ~{slideshowPrice} Coins
-                                        </span>
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                    </div>
-
-                    {/* ── Stimme ── */}
-                    <div className={`rounded-2xl p-4 space-y-4 ${cardBg}`}>
-                        <div className="flex items-center gap-2">
-                            <span className={`material-icons text-base ${sectionLabel}`}>record_voice_over</span>
-                            <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>
-                                {t.voice_select_label}
-                            </span>
-                        </div>
-
-                        {/* Voice mode toggle — only for dream_only */}
-                        {contentMode === 'dream_only' ? (
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() => setVoiceMode('user_voice')}
-                                className={`
-                                    flex-1 py-3 rounded-xl text-sm font-semibold min-h-[44px] transition-all duration-150
-                                    ${voiceMode === 'user_voice' ? qualityActive : qualityInactive}
-                                `}
-                            >
-                                {t.voice_mode_own}
-                            </button>
-                            <button
-                                onClick={() => setVoiceMode('ai_voice')}
-                                className={`
-                                    flex-1 py-3 rounded-xl text-sm font-semibold min-h-[44px] transition-all duration-150
-                                    ${voiceMode === 'ai_voice' ? qualityActive : qualityInactive}
-                                `}
-                            >
-                                {t.voice_mode_ai}
-                            </button>
-                        </div>
-
-                        ) : (
-                            <div className={`text-sm ${textSecondary}`}>
-                                <span className="material-icons text-base align-middle mr-1">smart_toy</span>
-                                {t.voice_mode_ai}
-                            </div>
-                        )}
-
-                        {/* Own voice: record button (only dream_only + user_voice) */}
-                        {effectiveVoiceMode === 'user_voice' && (
-                            <button
-                                onClick={isRecording ? stopRecording : startRecording}
-                                className={`
-                                    w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium
-                                    min-h-[44px] transition-all duration-150 border
-                                    ${isRecording
-                                        ? (isLight
-                                            ? 'bg-red-50 border-red-300 text-red-600 animate-pulse'
-                                            : 'bg-red-900/30 border-red-500/50 text-red-400 animate-pulse')
-                                        : (isLight
-                                            ? 'bg-indigo-50 border-indigo-200 text-indigo-600 hover:bg-indigo-100'
-                                            : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10')
-                                    }
-                                `}
-                            >
-                                <span className="material-icons text-base">
-                                    {isRecording ? 'stop' : voiceBlob ? 'check_circle' : 'mic'}
-                                </span>
-                                <span className="truncate">
-                                    {isRecording
-                                        ? t.stop_recording
-                                        : voiceBlob
-                                            ? t.recording.replace('…', '') + ' ✓'
-                                            : t.record_voice}
-                                </span>
-                            </button>
-                        )}
-
-                        {/* AI voice: character grid */}
-                        {effectiveVoiceMode === 'ai_voice' && (
-                            <div className="grid grid-cols-2 gap-2">
-                                {VOICE_CHARACTERS.map((vc) => (
-                                    <button
-                                        key={vc.id}
-                                        onClick={() => setSelectedAiVoice(vc.id)}
-                                        className={`
-                                            p-3 rounded-xl text-left transition-all duration-150 border min-h-[44px]
-                                            ${selectedAiVoice === vc.id
-                                                ? (isLight
-                                                    ? 'bg-indigo-50 border-indigo-400 shadow-sm'
-                                                    : 'bg-fuchsia-900/30 border-fuchsia-500/60 shadow-[0_0_12px_rgba(217,70,239,0.2)]')
-                                                : (isLight
-                                                    ? 'bg-white border-gray-200 hover:border-indigo-200'
-                                                    : 'bg-white/5 border-white/10 hover:border-white/20')
-                                            }
-                                        `}
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <span className={`material-icons text-base ${
-                                                selectedAiVoice === vc.id ? sectionLabel : textSecondary
-                                            }`}>{vc.icon}</span>
-                                            <span className={`text-sm font-semibold ${textPrimary}`}>{vc.name}</span>
-                                        </div>
-                                        <div className={`text-[11px] mt-1 leading-snug ${textSecondary}`}>
-                                            {vc.descriptions[language] || vc.descriptions['en']}
-                                        </div>
-                                        <div className={`text-[10px] mt-0.5 uppercase tracking-wide font-semibold ${
-                                            isLight ? 'text-gray-400' : 'text-white/30'
-                                        }`}>
-                                            {vc.gender === 'female' ? '♀' : '♂'}
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* ── Audio / Musik ── */}
-                    <div className={`rounded-2xl p-4 space-y-4 ${cardBg}`}>
-                        <div className="flex items-center gap-2">
-                            <span className={`material-icons text-base ${sectionLabel}`}>headphones</span>
-                            <span className={`text-xs uppercase tracking-widest font-semibold ${sectionLabel}`}>
-                                {t.audio_title}
-                            </span>
-                        </div>
-
-                        {/* Upload MP3 button */}
-                        <button
-                            onClick={() => fileInputRef.current?.click()}
-                            className={`
-                                w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium
-                                min-h-[44px] transition-all duration-150 border
-                                ${musicFile
-                                    ? (isLight
-                                        ? 'bg-green-50 border-green-300 text-green-700'
-                                        : 'bg-green-900/30 border-green-500/50 text-green-400')
-                                    : (isLight
-                                        ? 'bg-indigo-50 border-indigo-200 text-indigo-600 hover:bg-indigo-100'
-                                        : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10')
-                                }
-                            `}
-                        >
-                            <span className="material-icons text-base">
-                                {musicFile ? 'audio_file' : 'upload'}
-                            </span>
-                            <span className="truncate">
-                                {musicFile ? t.mp3_loaded : t.upload_mp3}
-                            </span>
-                        </button>
-
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="audio/mpeg,audio/mp3,.mp3"
-                            onChange={handleMp3Upload}
-                            className="hidden"
-                        />
-
-                        {/* Volume sliders with preview buttons */}
-                        <div className="space-y-4">
-                            <div className="flex items-end gap-2">
-                                <div className="flex-1">
-                                    <RangeSlider
-                                        value={voiceVolume}
-                                        min={0}
-                                        max={100}
-                                        onChange={setVoiceVolume}
-                                        label={t.voice_volume}
-                                        icon="volume_up"
-                                        isLight={isLight}
-                                        accentClass={isLight ? 'accent-indigo-500' : 'accent-fuchsia-500'}
-                                    />
-                                </div>
-                                {voiceBlob && (
-                                    <button
-                                        onClick={toggleVoicePreview}
-                                        className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all ${
-                                            isPreviewingVoice
-                                                ? 'bg-fuchsia-600 text-white'
-                                                : isLight ? 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200' : 'bg-white/10 text-white/60 hover:bg-white/20'
-                                        }`}
-                                        title="Stimme voranhoeren"
-                                    >
-                                        <span className="material-icons text-sm">{isPreviewingVoice ? 'pause' : 'play_arrow'}</span>
-                                    </button>
-                                )}
-                            </div>
-                            <div className="flex items-end gap-2">
-                                <div className="flex-1">
-                                    <RangeSlider
-                                        value={musicVolume}
-                                        min={0}
-                                        max={100}
-                                        onChange={setMusicVolume}
-                                        label={t.music_volume}
-                                        icon="music_note"
-                                        isLight={isLight}
-                                        accentClass={isLight ? 'accent-violet-500' : 'accent-violet-500'}
-                                    />
-                                </div>
-                                {musicFile && (
-                                    <button
-                                        onClick={toggleMusicPreview}
-                                        className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all ${
-                                            isPreviewingMusic
-                                                ? 'bg-violet-600 text-white'
-                                                : isLight ? 'bg-violet-100 text-violet-600 hover:bg-violet-200' : 'bg-white/10 text-white/60 hover:bg-white/20'
-                                        }`}
-                                        title="Musik voranhoeren"
-                                    >
-                                        <span className="material-icons text-sm">{isPreviewingMusic ? 'pause' : 'play_arrow'}</span>
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Checkboxes */}
-                        <div className={`space-y-1 border-t ${divider} pt-3`}>
-                            <CheckboxRow
-                                checked={fadeEnabled}
-                                onChange={setFadeEnabled}
-                                label={t.fade_option}
-                                isLight={isLight}
-                            />
-                            <CheckboxRow
-                                checked={loopEnabled}
-                                onChange={setLoopEnabled}
-                                label={t.loop_option}
-                                isLight={isLight}
-                            />
-                        </div>
-                    </div>
-
-                    {/* ── Price & Generate ── */}
-                    <div className={`rounded-2xl p-4 space-y-3 ${cardBg}`}>
-                        {/* Price row */}
-                        <div className="flex items-center justify-between">
-                            <span className={`text-sm font-medium ${textSecondary}`}>{t.price_label}</span>
-                            <span className={`text-xl font-bold ${isLight ? 'text-indigo-600' : 'text-fuchsia-300'}`}>
-                                {totalPrice} Coins
-                            </span>
-                        </div>
-
-                        {/* Balance row */}
-                        <div className="flex items-center justify-between">
-                            <span className={`text-sm ${textSecondary}`}>{t.balance_label}</span>
-                            <span className={`text-sm font-semibold ${canAfford
-                                ? (isLight ? 'text-green-600' : 'text-green-400')
-                                : (isLight ? 'text-red-500' : 'text-red-400')
-                            }`}>
-                                {userCredits} Coins
-                            </span>
-                        </div>
-
-                        {/* Hints */}
-                        {!canAfford && (
-                            <div className={`
-                                flex items-center gap-2 rounded-xl px-3 py-2.5
-                                ${isLight ? 'bg-red-50 text-red-600' : 'bg-red-900/20 text-red-400'}
-                            `}>
-                                <span className="material-icons text-base">warning</span>
-                                <span className="text-sm font-medium">{t.insufficient_funds}</span>
-                            </div>
-                        )}
-                        {needsRecording && canAfford && (
-                            <div className={`
-                                flex items-center gap-2 rounded-xl px-3 py-2.5
-                                ${isLight ? 'bg-amber-50 text-amber-700' : 'bg-amber-900/20 text-amber-400'}
-                            `}>
-                                <span className="material-icons text-base">mic_off</span>
-                                <span className="text-sm font-medium">{t.need_recording}</span>
-                            </div>
-                        )}
-
-                        {/* Generate button */}
-                        <button
-                            onClick={handleGenerate}
-                            disabled={generateDisabled}
-                            className={`
-                                w-full py-4 rounded-2xl text-base font-bold tracking-wide min-h-[52px]
-                                flex items-center justify-center gap-2 transition-all duration-200
-                                ${generateBtn}
-                            `}
-                        >
-                            {isGenerating ? (
-                                <>
-                                    <span className="material-icons animate-spin text-base">refresh</span>
-                                    {t.generating}
-                                </>
-                            ) : (
-                                <>
-                                    <span className="material-icons text-base">
-                                        {activeTab === 'ai' ? 'movie' : 'slideshow'}
-                                    </span>
-                                    {canAfford ? t.generate_btn : t.insufficient_funds}
-                                </>
-                            )}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div className="fixed inset-0 z-50 bg-black flex flex-col">
+        {/* Narration Audio (auto-play mit Video) */}
+        {narrationAudioUrl && (
+          <audio
+            ref={narrationRef}
+            src={narrationAudioUrl}
+            autoPlay
+            onEnded={() => {}}
+          />
+        )}
+        <StoryVideoPlayer
+          videoUrl={resultVideoUrl}
+          onClose={() => {
+            if (narrationRef.current) { narrationRef.current.pause(); }
+            if (narrationAudioUrl) URL.revokeObjectURL(narrationAudioUrl);
+            onSave({ videoUrl: resultVideoUrl, type: resultTypeRef.current });
+            setResultVideoUrl(null);
+            setNarrationAudioUrl(null);
+          }}
+        />
+      </div>
     );
+  }
+
+  // ── Generate Handler ─────────────────────────────────────────────
+  const handleGenerate = async () => {
+    if (isGenerating || !prompt.trim()) return;
+    abortRef.current = false;
+    setIsGenerating(true);
+    setGenError('');
+    setGenProgress(t.progress_enriching);
+
+    try {
+      setGenProgress(useSeedance
+        ? t.progress_photos
+        : t.progress_video);
+
+      // Prompt-Agent: Risk-Check → Routing → Generierung mit Fallback
+      const styleHint = VIDEO_STYLE_IDS.find(s => s.id === selectedStyle);
+      const safeBody: Record<string, unknown> = {
+        prompt: prompt.trim(),
+        mediaType: 'video',
+        stylePrompt: styleHint ? `${t[styleHint.key]} style, dreamlike atmosphere` : undefined,
+      };
+      // Foto mitschicken: devicePhoto (eigener Upload) oder selectedRefs (Bibliothek)
+      const photoUrl = devicePhoto || (selectedRefs.length > 0 ? selectedRefs[0].image_url : null);
+      if (photoUrl) {
+        safeBody.customization = { reference_photo: photoUrl };
+      }
+      const createRes = await apiFetch('/api/video/safe-generate', {
+        method: 'POST',
+        body: JSON.stringify(safeBody),
+      });
+
+      if (!createRes.ok) {
+        const errData = await createRes.json().catch(() => ({}));
+        throw new Error(errData.user_notice || errData.error || errData.detail || t.error_server + ': ' + createRes.status);
+      }
+
+      const result = await createRes.json();
+      const taskId = result.taskId;
+      if (!taskId) throw new Error(result.user_notice || t.error_no_task);
+
+      // User-Hinweis persistent anzeigen wenn Prompt umgeschrieben wurde
+      if (result.user_notice) {
+        setUserNotice(result.user_notice);
+      }
+
+      setGenProgress(`Video wird generiert... (ca. ${result.estimatedWaitSeconds || 60}s)`);
+
+      // Polling via /api/video/status (mit Abbruch-Check)
+      let attempts = 0;
+      while (attempts < 120) {
+        await new Promise(r => setTimeout(r, 5000));
+        if (abortRef.current) throw new Error(t.error_cancelled);
+        attempts++;
+
+        try {
+          const pollRes = await apiFetch(`/api/video/status?taskId=${taskId}&provider=evolink`);
+          if (!pollRes.ok) continue;
+          const data = await pollRes.json();
+
+          if (data.status === 'succeeded' && data.videoUrl) {
+            resultTypeRef.current = 'ai';
+            // TTS-Narration generieren
+            setGenProgress('Erzählstimme wird generiert...');
+            try {
+              const ttsRes = await apiFetch('/api/deepgram-tts', {
+                method: 'POST',
+                body: JSON.stringify({ text: prompt.trim(), language: language }),
+              });
+              if (ttsRes.ok) {
+                const audioBlob = await ttsRes.blob();
+                setNarrationAudioUrl(URL.createObjectURL(audioBlob));
+              }
+            } catch { /* Narration optional */ }
+
+            // Dream mit Video in Storage speichern
+            try {
+              const existingDreams = await loadDreamsSecurely();
+              const newDream = {
+                id: `dream-${Date.now()}`,
+                title: prompt.trim().slice(0, 60) + (prompt.trim().length > 60 ? '...' : ''),
+                description: prompt.trim(),
+                interpretation: '',
+                date: new Date().toISOString().split('T')[0],
+                userAvatar: '',
+                videoUrl: data.videoUrl,
+                tags: [],
+                likes: 0,
+                comments: 0,
+                matchPercentage: 0,
+              };
+              await saveDreamsSecurely([newDream, ...existingDreams]);
+              console.log('[VideoStudio] Dream mit Video gespeichert:', newDream.id);
+            } catch (saveErr) {
+              console.error('[VideoStudio] Dream-Speicherung fehlgeschlagen:', saveErr);
+            }
+
+            setResultVideoUrl(data.videoUrl);
+            return;
+          }
+
+          if (data.status === 'failed') {
+            throw new Error(t.error_failed + ': ' + (data.error || t.error_unknown));
+          }
+
+          const pct = data.progress || Math.min(95, Math.round((attempts / 60) * 100));
+          setGenProgress(t.progress_generating + ' ' + pct + '%');
+        } catch (pollErr: any) {
+          if (pollErr.message?.includes('fehlgeschlagen')) throw pollErr;
+        }
+      }
+      throw new Error(t.error_timeout);
+
+    } catch (e: any) {
+      console.error('[VideoStudio] Generation failed:', e);
+      setGenError(e.message || t.error_generation);
+    } finally {
+      setIsGenerating(false);
+      setGenProgress('');
+    }
+  };
+
+  // ── Render ───────────────────────────────────────────────────────
+  return (
+    <div className={`fixed inset-0 z-50 ${bg} flex flex-col overflow-hidden`}>
+      {/* Header */}
+      <div className={`px-4 py-3 flex items-center justify-between border-b ${isLight ? 'border-indigo-100 bg-white/95' : 'border-white/10 bg-dream-surface/95'}`}>
+        <h2 className={`text-lg font-bold ${textP}`}>{t.title}</h2>
+        <button onClick={onClose} className={`w-10 h-10 rounded-full flex items-center justify-center ${isLight ? 'hover:bg-gray-100' : 'hover:bg-white/10'}`}>
+          <span className="material-icons">close</span>
+        </button>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex px-4 pt-3 gap-2">
+        {([['dream', 'movie_creation', t.tab_dreamvideo], ['slideshow', 'slideshow', t.tab_slideshow], ['library', 'photo_library', t.tab_my_images]] as [string, string, string][]).map(([tab, icon, label]) => (
+          <button
+            key={tab}
+            onClick={() => setUiTab(tab as UITab)}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              uiTab === tab
+                ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white shadow-lg'
+                : isLight ? 'bg-gray-100 text-gray-600' : 'bg-white/5 text-white/60'
+            }`}
+          >
+            <span className="material-icons text-base">{icon}</span>
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+
+        {/* ── Meine Bilder Tab ── */}
+        {uiTab === 'library' && (
+          <ReferenceLibrary isLight={isLight} />
+        )}
+
+        {/* ── Slideshow Tab ── */}
+        {uiTab === 'slideshow' && (
+          <>
+            {/* Prompt */}
+            <div className={`rounded-2xl border p-4 ${cardBg}`}>
+              <label className={`text-sm font-semibold mb-2 block ${accent}`}>{t.tab_slideshow}</label>
+              <textarea
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder={t.placeholder_slideshow}
+                rows={4}
+                className={`w-full rounded-xl border p-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-fuchsia-500 ${
+                  isLight ? 'bg-gray-50 border-gray-200 text-gray-900' : 'bg-white/5 border-white/10 text-white'
+                }`}
+              />
+            </div>
+
+            {/* Stil + Qualitaet + Intervall */}
+            <div className={`rounded-2xl border p-4 ${cardBg}`}>
+              {/* Style Picker (gleich wie Video-Tab) */}
+              <label className={`text-sm font-semibold mb-2 block ${accent}`}>{t.style_label}</label>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {VIDEO_STYLE_IDS.map(s => (
+                  <button
+                    key={s.id}
+                    onClick={() => setSelectedStyle(s.id)}
+                    className={`px-3 py-1.5 rounded-xl text-sm flex items-center gap-1 transition-all ${
+                      selectedStyle === s.id
+                        ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white shadow-md'
+                        : isLight ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-white/5 text-white/60 hover:bg-white/10'
+                    }`}
+                  >
+                    <span>{s.icon}</span> {t[s.key]}
+                  </button>
+                ))}
+              </div>
+
+              {/* Tier Toggle (gleich wie Video-Tab) */}
+              <label className={`text-sm font-semibold mb-2 block ${accent}`}>{t.quality_label}</label>
+              <div className="flex gap-2 mb-4">
+                <button
+                  onClick={() => setSelectedTier('standard')}
+                  className={`flex-1 py-3 rounded-xl text-sm font-semibold flex flex-col items-center gap-0.5 transition-all ${
+                    selectedTier === 'standard'
+                      ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white shadow-md'
+                      : isLight ? 'bg-gray-100 text-gray-600' : 'bg-white/5 text-white/60'
+                  }`}
+                >
+                  <span>{'\u26A1'} {t.quality_standard}</span>
+                  <span className="text-[11px] font-bold opacity-80">{t.coins_per_image}</span>
+                </button>
+                <button
+                  onClick={() => setSelectedTier('vip')}
+                  className={`flex-1 py-3 rounded-xl text-sm font-semibold flex flex-col items-center gap-0.5 transition-all ${
+                    selectedTier === 'vip'
+                      ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md'
+                      : isLight ? 'bg-gray-100 text-gray-600' : 'bg-white/5 text-white/60'
+                  }`}
+                >
+                  <span>{'\uD83D\uDC51'} {t.quality_vip}</span>
+                  <span className="text-[11px] font-bold opacity-80">{t.coins_per_image}</span>
+                </button>
+              </div>
+
+              {/* Intervall-Regler */}
+              <label className={`text-sm font-semibold mb-2 block ${accent}`}>{t.slide_interval}: ~{duration}s</label>
+              <input
+                type="range"
+                min={2}
+                max={6}
+                step={0.5}
+                value={duration}
+                onChange={(e) => setDuration(Number(e.target.value) as VideoDuration)}
+                className={`w-full h-2 rounded-full cursor-pointer mb-1 ${isLight ? 'accent-indigo-500' : 'accent-fuchsia-500'}`}
+                style={{ minHeight: '20px' }}
+              />
+              <div className={`flex justify-between text-[10px] mb-4 ${textS}`}>
+                <span>2s</span>
+                <span>6s</span>
+              </div>
+
+              {/* Szenen-Info + Live-Preis */}
+              <div className={`flex items-center justify-between rounded-xl px-4 py-3 ${isLight ? 'bg-indigo-50' : 'bg-white/5'}`}>
+                <div className="flex flex-col">
+                  <span className={`text-xs ${textS}`}>
+                    {agentLoading ? t.chat_thinking : agentScenes
+                      ? `${agentScenes.length} ${t.slide_scenes}, ~${Math.round(agentScenes.reduce((s, sc) => s + sc.duration, 0))}s`
+                      : `${t.slide_estimated}: ${Math.ceil(30 / (duration || 3))} ${t.my_images_count}, ~30s`}
+                  </span>
+                </div>
+                <span className={`text-base font-bold ${accent}`}>
+                  {(() => {
+                    const imgCount = agentScenes ? agentScenes.length : Math.ceil(30 / (duration || 3));
+                    const costPerImg = selectedTier === 'vip' ? 12 : 5;
+                    return `${imgCount * costPerImg} Coins`;
+                  })()}
+                </span>
+              </div>
+            </div>
+
+            {/* Referenzbilder fuer Slideshow */}
+            <div className={`rounded-2xl border p-4 ${cardBg}`}>
+              <div className="flex items-center justify-between mb-2">
+                <label className={`text-sm font-semibold ${accent}`}>{t.ref_images_label}</label>
+                <button
+                  onClick={() => setShowRefPicker(!showRefPicker)}
+                  className={`text-sm flex items-center gap-1 ${accent} hover:underline`}
+                >
+                  <span className="material-icons text-base">add_photo_alternate</span>
+                  {showRefPicker ? t.close : t.ref_choose}
+                </button>
+              </div>
+              {selectedRefs.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {selectedRefs.map(ref => (
+                    <div key={ref.id} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border ${isLight ? 'bg-indigo-50 border-indigo-200' : 'bg-fuchsia-500/10 border-fuchsia-500/30'}`}>
+                      <img src={ref.image_url} alt={ref.label} className="w-6 h-6 rounded-full object-cover" />
+                      <span className={`text-xs font-medium ${textP}`}>{ref.label}</span>
+                      <button onClick={() => setSelectedRefs(prev => prev.filter(r => r.id !== ref.id))} className="text-red-400">
+                        <span className="material-icons text-sm">close</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {showRefPicker && (
+                <div className="mt-2">
+                  <ReferenceLibrary selectionMode isLight={isLight} onSelectionChange={setSelectedRefs} onClose={() => setShowRefPicker(false)} />
+                </div>
+              )}
+            </div>
+
+            {/* Audio Controls fuer Slideshow */}
+            <div className={`rounded-2xl border p-4 ${cardBg}`}>
+              <label className={`text-sm font-semibold mb-3 block ${accent}`}>{t.audio_label}</label>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="material-icons text-base" style={{ color: useOwnVoice ? '#a855f7' : undefined }}>mic</span>
+                  <span className={`text-sm ${textP}`}>{t.own_voice}</span>
+                  {voiceBlob && <span className={`text-[10px] px-2 py-0.5 rounded-full ${isLight ? 'bg-green-100 text-green-700' : 'bg-green-900/30 text-green-400'}`}>{t.recording_available}</span>}
+                </div>
+                <button onClick={() => setUseOwnVoice(!useOwnVoice)}
+                  className={`w-12 h-7 rounded-full transition-all relative ${useOwnVoice ? 'bg-fuchsia-600' : isLight ? 'bg-gray-300' : 'bg-white/20'}`}>
+                  <div className={`w-5 h-5 rounded-full bg-white absolute top-1 transition-all ${useOwnVoice ? 'left-6' : 'left-1'}`} />
+                </button>
+              </div>
+              {useOwnVoice && voiceBlob && (
+                <div className="mb-3">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className={`text-xs ${textS}`}>{t.voice_volume}</span>
+                    <span className={`text-xs font-semibold ${accent}`}>{voiceVolume}%</span>
+                  </div>
+                  <input type="range" min={0} max={100} value={voiceVolume} onChange={(e) => setVoiceVolume(Number(e.target.value))}
+                    className={`w-full h-2 rounded-full cursor-pointer ${isLight ? 'accent-indigo-500' : 'accent-fuchsia-500'}`} style={{ minHeight: '20px' }} />
+                </div>
+              )}
+              <div className={`border-t pt-3 ${isLight ? 'border-gray-200' : 'border-white/10'}`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-icons text-base" style={{ color: selectedBgm ? '#f59e0b' : undefined }}>music_note</span>
+                  <span className={`text-sm ${textP}`}>{t.bgm_label}</span>
+                </div>
+                <select value={selectedBgm || ''} onChange={(e) => { setSelectedBgm(e.target.value || null); bgmPreviewAudio?.pause(); setBgmPreviewAudio(null); }}
+                  className={`w-full rounded-xl border p-2.5 text-sm mb-2 ${isLight ? 'bg-gray-50 border-gray-200 text-gray-900' : 'bg-white/5 border-white/10 text-white'}`}>
+                  <option value="">{t.no_music}</option>
+                  {BGM_TRACK_IDS.map(bgm => (<option key={bgm.id} value={bgm.id}>{t[bgm.nameKey]} ({t[bgm.moodKey]})</option>))}
+                </select>
+                {selectedBgm && (
+                  <>
+                    <button onClick={() => { if (bgmPreviewAudio) { bgmPreviewAudio.pause(); setBgmPreviewAudio(null); return; } const a = new Audio(`/app/audio/bgm/${selectedBgm}.mp3`); a.volume = bgmVolume / 100; a.loop = true; a.play().catch(() => {}); setBgmPreviewAudio(a); }}
+                      className={`flex items-center gap-1 text-sm mb-2 ${accent} hover:underline`}>
+                      <span className="material-icons text-base">{bgmPreviewAudio ? 'pause' : 'play_arrow'}</span>
+                      {bgmPreviewAudio ? t.stop : t.preview}
+                    </button>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className={`text-xs ${textS}`}>{t.music_volume}</span>
+                      <span className={`text-xs font-semibold ${accent}`}>{bgmVolume}%</span>
+                    </div>
+                    <input type="range" min={0} max={100} value={bgmVolume} onChange={(e) => { setBgmVolume(Number(e.target.value)); if (bgmPreviewAudio) bgmPreviewAudio.volume = Number(e.target.value) / 100; }}
+                      className="w-full h-2 rounded-full cursor-pointer accent-amber-500" style={{ minHeight: '20px' }} />
+                  </>
+                )}
+              </div>
+              {/* MP3 Upload */}
+              <div className={`border-t pt-3 mt-3 ${isLight ? 'border-gray-200' : 'border-white/10'}`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-icons text-base">upload_file</span>
+                  <span className={`text-sm ${textP}`}>{t.own_music}</span>
+                </div>
+                <button onClick={() => musicFileRef.current?.click()}
+                  className={`w-full rounded-xl border-2 border-dashed p-3 text-center text-sm mb-2 ${userMusicFile ? (isLight ? 'border-green-300 bg-green-50 text-green-700' : 'border-green-500/30 bg-green-500/10 text-green-400') : (isLight ? 'border-gray-300 text-gray-400' : 'border-white/20 text-white/40')}`}>
+                  {userMusicFile ? userMusicFile.name : t.upload_mp3}
+                </button>
+              </div>
+            </div>
+
+            {/* Error */}
+            {genError && (
+              <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3">
+                <p className="text-red-400 text-sm">{genError}</p>
+              </div>
+            )}
+
+            {/* Generate Button */}
+            <button
+              onClick={async () => {
+                if (isGenerating || !prompt.trim() || !onGenerate) return;
+                setIsGenerating(true);
+                setGenError('');
+                setGenProgress(t.progress_slideshow);
+                try {
+                  const videoUrl = await onGenerate(prompt.trim(), {
+                    tab: 'slideshow',
+                    quality: selectedTier === 'vip' ? 'hd' : 'standard',
+                    voiceMode: useOwnVoice && voiceBlob ? 'user_voice' : 'ai_voice',
+                    contentMode: 'dream_only',
+                    voiceId: 'luna',
+                    voiceBlob: useOwnVoice ? voiceBlob : null,
+                    style: selectedStyle,
+                  });
+                  if (videoUrl) {
+                    resultTypeRef.current = 'slideshow';
+                    setResultVideoUrl(videoUrl);
+                  } else {
+                    setGenError(t.error_slideshow);
+                  }
+                } catch (e: any) {
+                  setGenError(e.message || t.error_slideshow);
+                } finally {
+                  setIsGenerating(false);
+                  setGenProgress('');
+                }
+              }}
+              disabled={isGenerating || !prompt.trim()}
+              className={`w-full py-4 rounded-2xl text-base font-bold flex items-center justify-center gap-2 transition-all ${
+                isGenerating || !prompt.trim()
+                  ? 'bg-gray-500/20 text-gray-500 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg hover:scale-[1.02]'
+              }`}
+            >
+              {isGenerating ? (
+                <>
+                  <span className="material-icons animate-spin text-xl">hourglass_top</span>
+                  {genProgress}
+                </>
+              ) : (
+                <>
+                  <span className="material-icons text-xl">slideshow</span>
+                  {t.slide_generate}
+                </>
+              )}
+            </button>
+          </>
+        )}
+
+        {/* ── KI-Video Tab (dream) ── */}
+        {uiTab === 'dream' && (
+          <>
+            {/* Prompt */}
+            <div className={`rounded-2xl border p-4 ${cardBg}`}>
+              <label className={`text-sm font-semibold mb-2 block ${accent}`}>
+                {uiTab === 'dream' ? t.describe_scene : t.describe_dream}
+              </label>
+
+              {showTranscriber ? (
+                <LiveTranscriber
+                  language={language as string}
+                  isLight={isLight}
+                  onTranscriptComplete={(text, audioBlob) => { setPrompt(text); if (audioBlob) { setVoiceBlob(audioBlob); setUseOwnVoice(true); } setShowTranscriber(false); }}
+                  onCancel={() => setShowTranscriber(false)}
+                />
+              ) : (
+                <>
+                  <textarea
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder={uiTab === 'dream'
+                      ? t.placeholder_dream
+                      : t.describe_dream}
+                    rows={4}
+                    className={`w-full rounded-xl border p-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-fuchsia-500 ${
+                      isLight ? 'bg-gray-50 border-gray-200 text-gray-900' : 'bg-white/5 border-white/10 text-white'
+                    }`}
+                  />
+                  <button
+                    onClick={() => setShowTranscriber(true)}
+                    className={`mt-2 flex items-center gap-1.5 text-sm ${accent} hover:underline`}
+                  >
+                    <span className="material-icons text-base">mic</span>
+                    {t.speak_input}
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Reference Images */}
+            <div className={`rounded-2xl border p-4 ${cardBg}`}>
+              <div className="flex items-center justify-between mb-2">
+                <label className={`text-sm font-semibold ${accent}`}>{t.ref_images_label}</label>
+                <button
+                  onClick={() => setShowRefPicker(!showRefPicker)}
+                  className={`text-sm flex items-center gap-1 ${accent} hover:underline`}
+                >
+                  <span className="material-icons text-base">add_photo_alternate</span>
+                  {showRefPicker ? t.close : t.ref_choose}
+                </button>
+              </div>
+
+              {/* Selected Chips */}
+              {selectedRefs.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {selectedRefs.map(ref => (
+                    <div key={ref.id} className={`flex items-center gap-2 px-3 py-1.5 rounded-full border ${isLight ? 'bg-indigo-50 border-indigo-200' : 'bg-fuchsia-500/10 border-fuchsia-500/30'}`}>
+                      <img src={ref.image_url} alt={ref.label} className="w-6 h-6 rounded-full object-cover" />
+                      <span className={`text-xs font-medium ${textP}`}>{ref.label}</span>
+                      <button onClick={() => setSelectedRefs(prev => prev.filter(r => r.id !== ref.id))} className="text-red-400 hover:text-red-500">
+                        <span className="material-icons text-sm">close</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Geräte-Foto Upload */}
+              <div className="mt-2">
+                <input ref={devicePhotoRef} type="file" accept="image/*" className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (!f) return;
+                    const reader = new FileReader();
+                    reader.onloadend = () => setDevicePhoto(reader.result as string);
+                    reader.readAsDataURL(f);
+                    e.target.value = '';
+                  }}
+                />
+                {devicePhoto ? (
+                  <div className="flex items-center gap-2">
+                    <img src={devicePhoto} alt="Ref" className="w-12 h-12 rounded-xl object-cover border border-green-500/50" />
+                    <span className={`text-xs flex-1 ${isLight ? 'text-green-700' : 'text-green-400'}`}>Referenzfoto geladen</span>
+                    <button onClick={() => setDevicePhoto(null)} className="text-red-400 hover:text-red-500">
+                      <span className="material-icons text-sm">close</span>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => devicePhotoRef.current?.click()}
+                    className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm border-2 border-dashed transition-colors ${
+                      isLight ? 'border-indigo-200 text-indigo-500 hover:bg-indigo-50' : 'border-white/20 text-white/50 hover:bg-white/5'
+                    }`}
+                  >
+                    <span className="material-icons text-base">photo_camera</span>
+                    Eigenes Foto hochladen
+                  </button>
+                )}
+              </div>
+
+              {/* Model Hint */}
+              <p className={`text-xs ${textS}`}>
+                {useSeedance || devicePhoto
+                  ? '📸 Mit Fotos — deine Bilder erscheinen im Video'
+                  : '🎬 Ohne Fotos — reines KI-Video'}
+              </p>
+
+              {showRefPicker && (
+                <div className="mt-3">
+                  <ReferenceLibrary
+                    selectionMode
+                    isLight={isLight}
+                    onSelectionChange={setSelectedRefs}
+                    onClose={() => setShowRefPicker(false)}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Style + Duration + Format */}
+            <div className={`rounded-2xl border p-4 ${cardBg}`}>
+              {/* Style Picker */}
+              <label className={`text-sm font-semibold mb-2 block ${accent}`}>{t.style_label}</label>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {VIDEO_STYLE_IDS.map(s => {
+                  const styleDisabled = hasPhoto && !I2V_SUPPORTED_STYLES.includes(s.id);
+                  return (
+                    <button
+                      key={s.id}
+                      onClick={() => !styleDisabled && setSelectedStyle(s.id)}
+                      className={`px-3 py-1.5 rounded-xl text-sm flex items-center gap-1 transition-all ${
+                        styleDisabled
+                          ? 'opacity-30 cursor-not-allowed bg-gray-500/10 text-gray-500'
+                          : selectedStyle === s.id
+                            ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white shadow-md'
+                            : isLight ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-white/5 text-white/60 hover:bg-white/10'
+                      }`}
+                    >
+                      <span>{s.icon}</span> {t[s.key]}
+                      {hasPhoto && !styleDisabled && <span className="text-[10px]">📸</span>}
+                    </button>
+                  );
+                })}
+              </div>
+              {hasPhoto && (
+                <p className={`text-xs mb-3 ${isLight ? 'text-green-600' : 'text-green-400'}`}>
+                  📸 Stile mit Foto-Support sind markiert
+                </p>
+              )}
+
+              {/* Tier Toggle mit Dual-Preisen */}
+              <label className={`text-sm font-semibold mb-2 block ${accent}`}>{t.quality_label}</label>
+              <div className="flex gap-2 mb-4">
+                <button
+                  onClick={() => setSelectedTier('standard')}
+                  className={`flex-1 py-3 rounded-xl text-sm font-semibold flex flex-col items-center gap-0.5 transition-all ${
+                    selectedTier === 'standard'
+                      ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white shadow-md'
+                      : isLight ? 'bg-gray-100 text-gray-600' : 'bg-white/5 text-white/60'
+                  }`}
+                >
+                  <span>{'\u26A1'} Standard</span>
+                  <span className="text-[11px] font-bold opacity-80">
+                    {standardPrice ? `${standardPrice.coins} Coins` : '...'}
+                  </span>
+                </button>
+                <button
+                  onClick={() => setSelectedTier('vip')}
+                  className={`flex-1 py-3 rounded-xl text-sm font-semibold flex flex-col items-center gap-0.5 transition-all ${
+                    selectedTier === 'vip'
+                      ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md'
+                      : isLight ? 'bg-gray-100 text-gray-600' : 'bg-white/5 text-white/60'
+                  }`}
+                >
+                  <span>{'\uD83D\uDC51'} VIP</span>
+                  <span className="text-[11px] font-bold opacity-80">
+                    {vipPrice ? `${vipPrice.coins} Coins` : '...'}
+                  </span>
+                </button>
+              </div>
+
+              {/* Duration + Format */}
+              <div className="flex gap-4 mb-4">
+                <div className="flex-1">
+                  <label className={`text-xs font-semibold mb-1 block ${textS}`}>{t.duration_label}</label>
+                  <div className="flex gap-2">
+                    {([5, 10, 15] as VideoDuration[]).map(d => {
+                      const disabled = d > maxDurationForMode;
+                      return (
+                        <button
+                          key={d}
+                          onClick={() => !disabled && setDuration(d)}
+                          className={`flex-1 px-3 py-2 rounded-xl text-sm font-medium transition-all ${
+                            disabled
+                              ? 'opacity-30 cursor-not-allowed bg-gray-500/10 text-gray-500'
+                              : duration === d
+                                ? 'bg-fuchsia-600 text-white'
+                                : isLight ? 'bg-gray-100 text-gray-600' : 'bg-white/5 text-white/60'
+                          }`}
+                        >
+                          {d}s
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {durationWarning && (
+                    <p className={`text-xs mt-1 ${isLight ? 'text-amber-600' : 'text-amber-400'}`}>
+                      {'\u26A0\uFE0F'} Dieses Modell unterstuetzt max {activePrice?.maxDuration}s
+                    </p>
+                  )}
+                  <p
+                    className={`text-xs mt-2 cursor-pointer hover:underline ${textS}`}
+                    onClick={() => setUiTab('slideshow')}
+                  >
+                    {'\uD83D\uDCA1'} {t.longer_videos_hint}
+                  </p>
+                </div>
+
+                {/* Format */}
+                <div>
+                  <label className={`text-xs font-semibold mb-1 block ${textS}`}>{t.format_label}</label>
+                  <div className="flex gap-2">
+                    {([['16:9', t.format_landscape], ['9:16', t.format_portrait]] as [string, string][]).map(([ar, label]) => (
+                      <button
+                        key={ar}
+                        onClick={() => setAspectRatio(ar as '16:9' | '9:16')}
+                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                          aspectRatio === ar
+                            ? 'bg-fuchsia-600 text-white'
+                            : isLight ? 'bg-gray-100 text-gray-600' : 'bg-white/5 text-white/60'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Modell + Preis Info */}
+              <div className={`flex items-center justify-between rounded-xl px-4 py-3 ${isLight ? 'bg-indigo-50' : 'bg-white/5'}`}>
+                <span className={`text-xs ${textS}`}>{tierLabel}</span>
+                <span className={`text-base font-bold ${accent}`}>
+                  {activePrice ? `${activePrice.coins} Coins` : '...'}
+                </span>
+              </div>
+            </div>
+
+            {/* ── Audio Controls: Eigene Stimme + Hintergrundmusik ── */}
+            <div className={`rounded-2xl border p-4 ${cardBg}`}>
+              <label className={`text-sm font-semibold mb-3 block ${accent}`}>{t.audio_label}</label>
+
+              {/* Eigene Stimme Toggle */}
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="material-icons text-base" style={{ color: useOwnVoice ? '#a855f7' : undefined }}>mic</span>
+                  <span className={`text-sm ${textP}`}>{t.own_voice}</span>
+                  {voiceBlob && <span className={`text-[10px] px-2 py-0.5 rounded-full ${isLight ? 'bg-green-100 text-green-700' : 'bg-green-900/30 text-green-400'}`}>{t.recording_available}</span>}
+                </div>
+                <button
+                  onClick={() => setUseOwnVoice(!useOwnVoice)}
+                  className={`w-12 h-7 rounded-full transition-all relative ${useOwnVoice ? 'bg-fuchsia-600' : isLight ? 'bg-gray-300' : 'bg-white/20'}`}
+                >
+                  <div className={`w-5 h-5 rounded-full bg-white absolute top-1 transition-all ${useOwnVoice ? 'left-6' : 'left-1'}`} />
+                </button>
+              </div>
+              {useOwnVoice && !voiceBlob && (
+                <p className={`text-xs mb-3 ${isLight ? 'text-amber-600' : 'text-amber-400'}`}>
+                  {t.record_hint}
+                </p>
+              )}
+              {useOwnVoice && voiceBlob && (
+                <div className="mb-3">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className={`text-xs ${textS}`}>{t.voice_volume}</span>
+                    <span className={`text-xs font-semibold ${accent}`}>{voiceVolume}%</span>
+                  </div>
+                  <input type="range" min={0} max={100} value={voiceVolume} onChange={(e) => setVoiceVolume(Number(e.target.value))}
+                    className={`w-full h-2 rounded-full cursor-pointer ${isLight ? 'accent-indigo-500' : 'accent-fuchsia-500'}`} style={{ minHeight: '20px' }} />
+                </div>
+              )}
+
+              {/* Hintergrundmusik */}
+              <div className={`border-t pt-3 ${isLight ? 'border-gray-200' : 'border-white/10'}`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-icons text-base" style={{ color: selectedBgm ? '#f59e0b' : undefined }}>music_note</span>
+                  <span className={`text-sm ${textP}`}>{t.bgm_label}</span>
+                </div>
+                <select
+                  value={selectedBgm || ''}
+                  onChange={(e) => {
+                    setSelectedBgm(e.target.value || null);
+                    bgmPreviewAudio?.pause();
+                    setBgmPreviewAudio(null);
+                  }}
+                  className={`w-full rounded-xl border p-2.5 text-sm mb-2 ${
+                    isLight ? 'bg-gray-50 border-gray-200 text-gray-900' : 'bg-white/5 border-white/10 text-white'
+                  }`}
+                >
+                  <option value="">{t.no_music}</option>
+                  {BGM_TRACK_IDS.map(bgm => (
+                    <option key={bgm.id} value={bgm.id}>{t[bgm.nameKey]} ({t[bgm.moodKey]})</option>
+                  ))}
+                </select>
+                {selectedBgm && (
+                  <>
+                    <button
+                      onClick={() => {
+                        if (bgmPreviewAudio) { bgmPreviewAudio.pause(); setBgmPreviewAudio(null); return; }
+                        const a = new Audio(`/app/audio/bgm/${selectedBgm}.mp3`);
+                        a.volume = bgmVolume / 100;
+                        a.loop = true;
+                        a.play().catch(() => {});
+                        setBgmPreviewAudio(a);
+                      }}
+                      className={`flex items-center gap-1 text-sm mb-2 ${accent} hover:underline`}
+                    >
+                      <span className="material-icons text-base">{bgmPreviewAudio ? 'pause' : 'play_arrow'}</span>
+                      {bgmPreviewAudio ? t.stop : t.preview}
+                    </button>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className={`text-xs ${textS}`}>{t.music_volume}</span>
+                      <span className={`text-xs font-semibold ${accent}`}>{bgmVolume}%</span>
+                    </div>
+                    <input type="range" min={0} max={100} value={bgmVolume} onChange={(e) => {
+                      setBgmVolume(Number(e.target.value));
+                      if (bgmPreviewAudio) bgmPreviewAudio.volume = Number(e.target.value) / 100;
+                    }}
+                      className={`w-full h-2 rounded-full cursor-pointer accent-amber-500`} style={{ minHeight: '20px' }} />
+                  </>
+                )}
+              </div>
+
+              {/* MP3 Upload: Eigene Musik hochladen */}
+              <div className={`border-t pt-3 mt-3 ${isLight ? 'border-gray-200' : 'border-white/10'}`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-icons text-base" style={{ color: userMusicFile ? '#10b981' : undefined }}>upload_file</span>
+                  <span className={`text-sm ${textP}`}>{t.own_music}</span>
+                </div>
+                <input ref={musicFileRef} type="file" accept="audio/mpeg,audio/mp3,.mp3" className="hidden"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) {
+                      setUserMusicFile(f);
+                      if (userMusicUrl) URL.revokeObjectURL(userMusicUrl);
+                      setUserMusicUrl(URL.createObjectURL(f));
+                    }
+                    e.target.value = '';
+                  }}
+                />
+                <button
+                  onClick={() => musicFileRef.current?.click()}
+                  className={`w-full rounded-xl border-2 border-dashed p-3 text-center text-sm transition-colors mb-2 ${
+                    userMusicFile
+                      ? (isLight ? 'border-green-300 bg-green-50 text-green-700' : 'border-green-500/30 bg-green-500/10 text-green-400')
+                      : (isLight ? 'border-gray-300 text-gray-400' : 'border-white/20 text-white/40')
+                  }`}
+                >
+                  {userMusicFile ? `${userMusicFile.name}` : t.upload_mp3}
+                </button>
+                {userMusicUrl && (
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        if (isPreviewing && previewAudioRef.current) {
+                          previewAudioRef.current.pause();
+                          setIsPreviewing(false);
+                        } else {
+                          const a = new Audio(userMusicUrl);
+                          a.volume = bgmVolume / 100;
+                          a.loop = musicLoop;
+                          a.onended = () => setIsPreviewing(false);
+                          previewAudioRef.current = a;
+                          a.play().catch(() => {});
+                          setIsPreviewing(true);
+                        }
+                      }}
+                      className={`flex items-center gap-1 text-sm ${accent} hover:underline`}
+                    >
+                      <span className="material-icons text-base">{isPreviewing ? 'pause' : 'play_arrow'}</span>
+                      {isPreviewing ? t.stop : t.listen}
+                    </button>
+                    <label className="flex items-center gap-1.5 cursor-pointer">
+                      <input type="checkbox" checked={musicLoop} onChange={(e) => setMusicLoop(e.target.checked)}
+                        className="accent-fuchsia-500" />
+                      <span className={`text-xs ${textS}`}>Loop</span>
+                    </label>
+                    <button onClick={() => { setUserMusicFile(null); if (userMusicUrl) URL.revokeObjectURL(userMusicUrl); setUserMusicUrl(null); }}
+                      className="text-red-400 text-xs hover:underline ml-auto">{t.remove}</button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Geschaetzte Dauer */}
+            <div className={`flex items-center justify-between rounded-xl px-4 py-2.5 ${isLight ? 'bg-indigo-50' : 'bg-white/5'}`}>
+              <div className="flex items-center gap-2">
+                <span className={`material-icons text-base ${accent}`}>schedule</span>
+                <span className={`text-sm ${textS}`}>{t.estimated_duration}</span>
+              </div>
+              <span className={`text-sm font-bold ${accent}`}>~{estimatedSeconds}s</span>
+            </div>
+
+            {/* Persistent user_notice */}
+            {userNotice && (
+              <div className={`flex items-start gap-2 rounded-xl p-3 border ${isLight ? 'bg-amber-50 border-amber-200' : 'bg-amber-900/20 border-amber-500/30'}`}>
+                <span className={`material-icons text-sm mt-0.5 flex-shrink-0 ${isLight ? 'text-amber-600' : 'text-amber-400'}`}>info</span>
+                <span className={`text-xs leading-relaxed flex-1 ${isLight ? 'text-amber-800' : 'text-amber-300'}`}>{userNotice}</span>
+                <button onClick={() => setUserNotice(null)} className={`flex-shrink-0 ${isLight ? 'text-amber-400 hover:text-amber-600' : 'text-amber-600 hover:text-amber-400'}`}>
+                  <span className="material-icons text-sm">close</span>
+                </button>
+              </div>
+            )}
+
+            {/* Error */}
+            {genError && (
+              <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3">
+                <p className="text-red-400 text-sm">{genError}</p>
+              </div>
+            )}
+
+            {/* Generate + Abbrechen Buttons */}
+            {isGenerating ? (
+              <div className="space-y-2">
+                <div className="w-full py-4 rounded-2xl bg-gray-500/20 text-center">
+                  <span className="material-icons animate-spin text-xl text-fuchsia-400 align-middle mr-2">hourglass_top</span>
+                  <span className={`text-sm font-medium ${textP}`}>{genProgress || t.generating}</span>
+                </div>
+                <button
+                  onClick={handleCancel}
+                  className={`w-full py-3 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 border transition-all ${
+                    isLight ? 'border-red-300 text-red-600 hover:bg-red-50' : 'border-red-500/30 text-red-400 hover:bg-red-500/10'
+                  }`}
+                >
+                  <span className="material-icons text-base">cancel</span>
+                  {t.cancel}
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={handleGenerate}
+                disabled={!prompt.trim()}
+                className={`w-full py-4 rounded-2xl text-base font-bold flex items-center justify-center gap-2 transition-all ${
+                  !prompt.trim()
+                    ? 'bg-gray-500/20 text-gray-500 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white shadow-lg hover:scale-[1.02]'
+                }`}
+              >
+                <span className="material-icons text-xl">movie_creation</span>
+                Video generieren (~{estimatedSeconds}s) — {tierLabel}
+              </button>
+            )}
+          </>
+        )}
+      </div>
+
+      {/* ── Config-Chat Assistent (Bubble) ── */}
+      {!chatOpen ? (
+        <button
+          onClick={() => { setChatOpen(true); if (chatMessages.length === 0) setChatMessages([{ role: 'assistant', content: t.chat_greeting }]); }}
+          className="fixed bottom-20 right-4 w-14 h-14 rounded-full bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-[60]"
+        >
+          <span className="material-icons text-2xl">smart_toy</span>
+        </button>
+      ) : (
+        <div className={`fixed bottom-16 right-2 left-2 sm:left-auto sm:w-96 max-h-[70vh] rounded-2xl shadow-2xl flex flex-col z-[60] ${isLight ? 'bg-white border border-gray-200' : 'bg-dream-surface border border-white/10'}`}>
+          {/* Chat Header */}
+          <div className={`flex items-center justify-between px-4 py-3 border-b ${isLight ? 'border-gray-200' : 'border-white/10'}`}>
+            <div className="flex items-center gap-2">
+              <span className="material-icons text-fuchsia-500">smart_toy</span>
+              <span className={`text-sm font-semibold ${textP}`}>{t.chat_title}</span>
+            </div>
+            <button onClick={() => setChatOpen(false)} className={`w-8 h-8 rounded-full flex items-center justify-center ${isLight ? 'hover:bg-gray-100' : 'hover:bg-white/10'}`}>
+              <span className="material-icons text-sm">close</span>
+            </button>
+          </div>
+
+          {/* Chat Messages */}
+          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 max-h-[50vh]">
+            {chatMessages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${
+                  msg.role === 'user'
+                    ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white'
+                    : isLight ? 'bg-gray-100 text-gray-800' : 'bg-white/5 text-white/90'
+                }`}>
+                  {msg.content}
+                </div>
+              </div>
+            ))}
+            {chatLoading && (
+              <div className="flex justify-start">
+                <div className={`rounded-2xl px-3 py-2 text-sm ${isLight ? 'bg-gray-100' : 'bg-white/5'}`}>
+                  <span className="material-icons animate-spin text-sm align-middle mr-1">refresh</span>
+                  {t.chat_thinking}
+                </div>
+              </div>
+            )}
+            <div ref={chatEndRef} />
+          </div>
+
+          {/* Chat Input */}
+          <div className={`px-3 py-2 border-t ${isLight ? 'border-gray-200' : 'border-white/10'}`}>
+            <div className="flex gap-2">
+              <input
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && sendChatMessage()}
+                placeholder={t.chat_placeholder}
+                className={`flex-1 rounded-xl px-3 py-2 text-sm border ${
+                  isLight ? 'bg-gray-50 border-gray-200 text-gray-900' : 'bg-white/5 border-white/10 text-white'
+                }`}
+              />
+              <button
+                onClick={sendChatMessage}
+                disabled={chatLoading || !chatInput.trim()}
+                className="w-10 h-10 rounded-xl bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white flex items-center justify-center disabled:opacity-30"
+              >
+                <span className="material-icons text-sm">send</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default VideoStudio;

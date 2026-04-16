@@ -127,6 +127,8 @@ const translation = {
         video_studio: "ویڈیو اسٹوڈیو",
         dream_network: "خوابوں کا نیٹ ورک",
         privacy_link: "رازداری", terms_link: "شرائط", imprint_link: "نقوش", research_link: "تحقیق", studies_link: "مطالعات", worldmap_link: "عالمی نقشہ", showing_sources_only: "صرف {0} ذرائع دکھا رہے ہیں", science_label: "علم",
+        symbols_link: "خوابوں کی علامات لائبریری", science_study_btn: "سائنسی مطالعہ", study_btn_desc: "گمنام · تحقیق · ۱۰–۲۰٪ رعایت", study_discount_active: "رعایت فعال",
+        language_label: "زبان",
     },
     processing: {
         title: "اوریکل کام کر رہا ہے...",

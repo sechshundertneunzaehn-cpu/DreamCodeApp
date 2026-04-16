@@ -396,6 +396,20 @@ const VoiceSelector: React.FC<VoiceSelectorProps> = ({
                         ))}
                     </div>
                 </div>
+                {/* Selected voice description */}
+                {(() => {
+                    const sel = VOICE_CHARACTERS.find(v => v.id === selected);
+                    if (!sel) return null;
+                    return (
+                        <div className={`mt-3 px-3 py-2.5 rounded-xl ${isLight ? 'bg-purple-50 border border-purple-200' : 'bg-white/5 border border-white/10'}`}>
+                            <div className="flex items-center gap-2">
+                                <span className={`material-icons text-lg ${isLight ? 'text-purple-500' : 'text-purple-400'}`}>{sel.icon}</span>
+                                <span className={`text-sm font-bold ${isLight ? 'text-purple-900' : 'text-white'}`}>{sel.name}</span>
+                            </div>
+                            <p className={`text-xs mt-1 leading-relaxed ${isLight ? 'text-purple-700' : 'text-white/60'}`}>{getDesc(sel, language)}</p>
+                        </div>
+                    );
+                })()}
             </div>
         );
     }

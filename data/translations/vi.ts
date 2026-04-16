@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Studio Video",
         dream_network: "Mạng giấc mơ",
         privacy_link: "Quyền riêng tư", terms_link: "Điều khoản", imprint_link: "Thông tin pháp lý", research_link: "Nghiên cứu", studies_link: "Nghiên cứu", worldmap_link: "Bản đồ thế giới", showing_sources_only: "Chỉ hiển thị nguồn {0}", science_label: "Kiến thức",
+        symbols_link: "Thư Viện Ký Hiệu Giấc Mơ", science_study_btn: "Nghiên Cứu Khoa Học", study_btn_desc: "Ẩn danh · Nghiên cứu · Giảm 10–20%", study_discount_active: "Giảm giá đang hoạt động",
+        language_label: "Ngôn ngữ",
     },
     processing: {
         title: "Sấm truyền đang hoạt động...",

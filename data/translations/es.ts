@@ -111,6 +111,8 @@ const translation = {
         video_studio: "Estudio de Video",
         dream_network: "Red de Sueños",
         privacy_link: "Privacidad", terms_link: "Términos", imprint_link: "Aviso Legal", research_link: "Investigación", studies_link: "Estudios", worldmap_link: "Mapa Mundial", showing_sources_only: "Mostrando solo fuentes de {0}", science_label: "Conocimiento",
+        symbols_link: "Biblioteca de Símbolos", science_study_btn: "Estudio Científico", study_btn_desc: "Anónimo · Investigación · 10–20% Descuento", study_discount_active: "Descuento Activo",
+        language_label: "Idioma",
     },
     processing: {
         title: "El Oráculo trabaja...",

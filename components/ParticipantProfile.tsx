@@ -172,6 +172,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
   const [participant, setParticipant] = useState<ParticipantRow | null>(null);
   const [study, setStudy] = useState<StudyRow | null>(null);
   const [dreams, setDreams] = useState<DreamRow[]>([]);
+  const [aiInterpretations, setAiInterpretations] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
   // Intercept browser back-button and swipe-back gesture → navigate within app
@@ -251,6 +252,21 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
           }
         }
         setDreams(loadedDreams);
+
+        // 4. AI Interpretations from research_interpretations table
+        if (loadedDreams.length > 0) {
+          const { data: interpData } = await supabase
+            .from('research_interpretations')
+            .select('dream_id, content')
+            .eq('participant_id', participantId);
+          if (interpData && interpData.length > 0) {
+            const map: Record<string, string> = {};
+            for (const row of interpData) {
+              map[row.dream_id] = row.content;
+            }
+            setAiInterpretations(map);
+          }
+        }
       }
 
       setLoading(false);
@@ -429,7 +445,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                           : 'bg-gray-900/80 border-white/5 text-gray-200'
                       }`}
                     >
-                      <TranslatedText text={dream.dream_text} sourceId={dream.id} table="research_dreams" field="dream_text" showOriginalToggle />
+                      <TranslatedText text={dream.dream_text} sourceId={dream.id} table="research_dreams" field="dream_text" sourceLang={dream.original_language || undefined} showOriginalToggle />
                     </div>
 
                     {/* HVdC Codes */}
@@ -472,25 +488,30 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
                       </div>
                     )}
 
-                    {/* original_language badge */}
-                    {dream.original_language && (
-                      <div className="mt-2 text-xs opacity-50">
-                        {language === 'de' ? 'Originalsprache' : 'Original language'}: <span className="font-mono">{dream.original_language}</span>
-                      </div>
-                    )}
+                    {/* original_language badge removed — auto-translation handles this */}
 
-                    {/* Interpretation — 1:1 original, only when present */}
-                    {dream.scientific_interpretation ? (
+                    {/* Interpretation — original or AI */}
+                    {(dream.scientific_interpretation || aiInterpretations[dream.id]) ? (
                       <div className={`mt-3 p-3 rounded-lg border text-sm leading-relaxed whitespace-pre-wrap ${
-                        isLight
-                          ? 'bg-indigo-50 border-indigo-200 text-indigo-900'
-                          : 'bg-indigo-900/20 border-indigo-700/30 text-indigo-200'
+                        dream.scientific_interpretation
+                          ? (isLight ? 'bg-indigo-50 border-indigo-200 text-indigo-900' : 'bg-indigo-900/20 border-indigo-700/30 text-indigo-200')
+                          : (isLight ? 'bg-violet-50 border-violet-200 text-violet-900' : 'bg-violet-900/20 border-violet-700/30 text-violet-200')
                       }`}>
                         <div className="text-xs font-semibold mb-1 opacity-60">
-                          {language === 'de' ? 'Deutung (Original)' : 'Interpretation (Original)'}
+                          {dream.scientific_interpretation
+                            ? (language === 'de' ? 'Deutung (Original)' : 'Interpretation (Original)')
+                            : (language === 'de' ? 'Deutung (KI)' : 'Interpretation (AI)')
+                          }
                           {dream.interpretation_by && <span className="ml-1 font-normal opacity-70">· {dream.interpretation_by}</span>}
                         </div>
-                        {dream.scientific_interpretation}
+                        <TranslatedText
+                          text={dream.scientific_interpretation || aiInterpretations[dream.id]}
+                          sourceId={dream.id}
+                          table="research_dreams"
+                          field="interpretation"
+                          sourceLang={dream.original_language || undefined}
+                          showOriginalToggle
+                        />
                       </div>
                     ) : null}
                   </div>

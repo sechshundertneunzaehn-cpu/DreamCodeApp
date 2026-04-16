@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Studio Video",
         dream_network: "Jaringan Mimpi",
         privacy_link: "Privasi", terms_link: "Ketentuan", imprint_link: "Imprint", research_link: "Penelitian", studies_link: "Studi", worldmap_link: "Peta Dunia", showing_sources_only: "Menampilkan sumber {0} saja", science_label: "Pengetahuan",
+        symbols_link: "Perpustakaan Simbol Mimpi", science_study_btn: "Studi Ilmiah", study_btn_desc: "Anonim · Penelitian · Diskon 10–20%", study_discount_active: "Diskon Aktif",
+        language_label: "Bahasa",
     },
     processing: {
         title: "Oracle sedang bekerja...",

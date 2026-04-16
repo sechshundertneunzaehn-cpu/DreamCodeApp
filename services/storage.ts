@@ -1,4 +1,5 @@
 import { Dream, UserProfile, SubscriptionTier } from '../types';
+import { pushDreamsDebounced, pushProfileDebounced, pullFromSupabase } from './supabaseSync';
 
 const DREAMS_KEY = 'dreamcode_dreams';
 const PROFILE_KEY = 'dreamcode_profile';
@@ -110,6 +111,8 @@ export const saveDreamsSecurely = async (dreams: Dream[]): Promise<void> => {
   }
   // IndexedDB (Backup)
   await idbSet(DREAMS_STORE, DREAMS_KEY, dreams);
+  // Supabase Remote-Backup (fire-and-forget, debounced)
+  pushDreamsDebounced(dreams);
 };
 
 // ─── Profile ──────────────────────────────────────────────────────────────────
@@ -151,6 +154,8 @@ export const saveProfileSecurely = async (profile: UserProfile): Promise<void> =
   }
   // IndexedDB (Backup)
   await idbSet(PROFILE_STORE, PROFILE_KEY, profile);
+  // Supabase Remote-Backup (fire-and-forget, debounced)
+  pushProfileDebounced(profile);
 };
 
 // ─── Sync-Check (für App-Start) ───────────────────────────────────────────────
@@ -183,32 +188,67 @@ export const syncStorageOnStartup = async (): Promise<{ dreams: Dream[]; profile
   const idbProfileRaw = await idbGet<UserProfile>(PROFILE_STORE, PROFILE_KEY);
   if (idbProfileRaw) idbProfile = { ...DEFAULT_PROFILE, ...idbProfileRaw };
 
-  // Dreams: nimm den neueren (mehr Einträge)
-  let finalDreams: Dream[];
+  // Lokal: nimm den neueren (mehr Einträge)
+  let localDreams: Dream[];
   if (idbDreams.length > lsDreams.length) {
-    finalDreams = idbDreams;
-    // LS nachziehen
+    localDreams = idbDreams;
     try { localStorage.setItem(DREAMS_KEY, JSON.stringify(idbDreams)); } catch { /* full */ }
   } else {
-    finalDreams = lsDreams;
-    // IDB nachziehen falls veraltet
+    localDreams = lsDreams;
     if (lsDreams.length > idbDreams.length) {
       await idbSet(DREAMS_STORE, DREAMS_KEY, lsDreams);
     }
   }
 
-  // Profile: LS gewinnt, IDB als Fallback
-  let finalProfile: UserProfile;
+  // Lokal: Profile — LS gewinnt, IDB als Fallback
+  let localProfile: UserProfile;
   if (!lsProfile && idbProfile) {
-    finalProfile = idbProfile;
+    localProfile = idbProfile;
     try { localStorage.setItem(PROFILE_KEY, JSON.stringify(idbProfile)); } catch { /* full */ }
   } else if (lsProfile) {
-    finalProfile = lsProfile;
+    localProfile = lsProfile;
     if (!idbProfile) {
       await idbSet(PROFILE_STORE, PROFILE_KEY, lsProfile);
     }
   } else {
-    finalProfile = DEFAULT_PROFILE;
+    localProfile = DEFAULT_PROFILE;
+  }
+
+  // ─── Supabase Remote-Sync (Zweifach-Sicherung) ────────────────────────────
+  // Wenn Remote mehr Dreams hat als lokal → lokale Daten wurden verloren → Remote gewinnt.
+  // Ansonsten → lokal gewinnt → Remote wird nachgezogen (fire-and-forget).
+  let finalDreams = localDreams;
+  let finalProfile = localProfile;
+
+  try {
+    const remote = await pullFromSupabase();
+    if (remote) {
+      const remoteDreams = remote.dreams || [];
+      const remoteProfile = remote.profile;
+
+      if (remoteDreams.length > localDreams.length) {
+        // Remote hat mehr Dreams → lokale Daten wurden geloescht/verloren
+        finalDreams = remoteDreams;
+        try { localStorage.setItem(DREAMS_KEY, JSON.stringify(remoteDreams)); } catch { /* full */ }
+        await idbSet(DREAMS_STORE, DREAMS_KEY, remoteDreams);
+      } else if (localDreams.length > remoteDreams.length) {
+        // Lokal hat mehr → Remote nachziehen
+        pushDreamsDebounced(localDreams);
+      }
+
+      if (localProfile === DEFAULT_PROFILE && remoteProfile?.name) {
+        // Lokales Profil ist leer aber Remote hat Daten
+        finalProfile = { ...DEFAULT_PROFILE, ...remoteProfile };
+        try { localStorage.setItem(PROFILE_KEY, JSON.stringify(finalProfile)); } catch { /* full */ }
+        await idbSet(PROFILE_STORE, PROFILE_KEY, finalProfile);
+      } else if (localProfile !== DEFAULT_PROFILE) {
+        // Lokal hat Profil → Remote nachziehen
+        pushProfileDebounced(localProfile);
+      }
+    }
+  } catch (e) {
+    // Supabase-Fehler duerfen Startup nie blockieren
+    console.error('[SYNC] Remote-Sync beim Start fehlgeschlagen:', e);
   }
 
   return { dreams: finalDreams, profile: finalProfile };

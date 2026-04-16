@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Language, ThemeMode } from '../types';
+import { apiUrl } from '../services/apiConfig';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -142,6 +143,96 @@ const T: Record<Language, ModalTranslations> = {
         voice_used: 'Votre voix sera utilisée avec la vidéo',
     },
     [Language.AR]: {
+        title: 'تحضير فيديو الحلم',
+        subtitle: 'تحدّث عن حلمك، صحّح النص، ثم انتقل إلى الاستوديو.',
+        placeholder: 'تحدّث عن حلمك أو اكتبه هنا.',
+        label: 'نص الحلم',
+        start_mic: 'تشغيل الميكروفون',
+        pause: 'إيقاف مؤقت',
+        resume: 'استئناف التسجيل',
+        continue_btn: 'المتابعة إلى الاستوديو',
+        close_btn: 'إلغاء',
+        status_ready: 'جاهز',
+        status_recording: 'جارٍ التسجيل',
+        status_paused: 'متوقف',
+        not_supported: 'التعرف على الكلام غير مدعوم في هذا المتصفح.',
+        playback: '▶ جارٍ التشغيل...',
+        audio_saved: '🎤 تم حفظ التسجيل',
+        voice_used: 'سيتم استخدام صوتك مع الفيديو',
+    },
+    [Language.AR_GULF]: {
+        title: 'تحضير فيديو الحلم',
+        subtitle: 'تحدّث عن حلمك، صحّح النص، ثم انتقل إلى الاستوديو.',
+        placeholder: 'تحدّث عن حلمك أو اكتبه هنا.',
+        label: 'نص الحلم',
+        start_mic: 'تشغيل الميكروفون',
+        pause: 'إيقاف مؤقت',
+        resume: 'استئناف التسجيل',
+        continue_btn: 'المتابعة إلى الاستوديو',
+        close_btn: 'إلغاء',
+        status_ready: 'جاهز',
+        status_recording: 'جارٍ التسجيل',
+        status_paused: 'متوقف',
+        not_supported: 'التعرف على الكلام غير مدعوم في هذا المتصفح.',
+        playback: '▶ جارٍ التشغيل...',
+        audio_saved: '🎤 تم حفظ التسجيل',
+        voice_used: 'سيتم استخدام صوتك مع الفيديو',
+    },
+    [Language.AR_EG]: {
+        title: 'تحضير فيديو الحلم',
+        subtitle: 'تحدّث عن حلمك، صحّح النص، ثم انتقل إلى الاستوديو.',
+        placeholder: 'تحدّث عن حلمك أو اكتبه هنا.',
+        label: 'نص الحلم',
+        start_mic: 'تشغيل الميكروفون',
+        pause: 'إيقاف مؤقت',
+        resume: 'استئناف التسجيل',
+        continue_btn: 'المتابعة إلى الاستوديو',
+        close_btn: 'إلغاء',
+        status_ready: 'جاهز',
+        status_recording: 'جارٍ التسجيل',
+        status_paused: 'متوقف',
+        not_supported: 'التعرف على الكلام غير مدعوم في هذا المتصفح.',
+        playback: '▶ جارٍ التشغيل...',
+        audio_saved: '🎤 تم حفظ التسجيل',
+        voice_used: 'سيتم استخدام صوتك مع الفيديو',
+    },
+    [Language.AR_LEV]: {
+        title: 'تحضير فيديو الحلم',
+        subtitle: 'تحدّث عن حلمك، صحّح النص، ثم انتقل إلى الاستوديو.',
+        placeholder: 'تحدّث عن حلمك أو اكتبه هنا.',
+        label: 'نص الحلم',
+        start_mic: 'تشغيل الميكروفون',
+        pause: 'إيقاف مؤقت',
+        resume: 'استئناف التسجيل',
+        continue_btn: 'المتابعة إلى الاستوديو',
+        close_btn: 'إلغاء',
+        status_ready: 'جاهز',
+        status_recording: 'جارٍ التسجيل',
+        status_paused: 'متوقف',
+        not_supported: 'التعرف على الكلام غير مدعوم في هذا المتصفح.',
+        playback: '▶ جارٍ التشغيل...',
+        audio_saved: '🎤 تم حفظ التسجيل',
+        voice_used: 'سيتم استخدام صوتك مع الفيديو',
+    },
+    [Language.AR_MAG]: {
+        title: 'تحضير فيديو الحلم',
+        subtitle: 'تحدّث عن حلمك، صحّح النص، ثم انتقل إلى الاستوديو.',
+        placeholder: 'تحدّث عن حلمك أو اكتبه هنا.',
+        label: 'نص الحلم',
+        start_mic: 'تشغيل الميكروفون',
+        pause: 'إيقاف مؤقت',
+        resume: 'استئناف التسجيل',
+        continue_btn: 'المتابعة إلى الاستوديو',
+        close_btn: 'إلغاء',
+        status_ready: 'جاهز',
+        status_recording: 'جارٍ التسجيل',
+        status_paused: 'متوقف',
+        not_supported: 'التعرف على الكلام غير مدعوم في هذا المتصفح.',
+        playback: '▶ جارٍ التشغيل...',
+        audio_saved: '🎤 تم حفظ التسجيل',
+        voice_used: 'سيتم استخدام صوتك مع الفيديو',
+    },
+    [Language.AR_IQ]: {
         title: 'تحضير فيديو الحلم',
         subtitle: 'تحدّث عن حلمك، صحّح النص، ثم انتقل إلى الاستوديو.',
         placeholder: 'تحدّث عن حلمك أو اكتبه هنا.',
@@ -405,11 +496,53 @@ const T: Record<Language, ModalTranslations> = {
         status_paused: 'Szüneteltetve',
         not_supported: 'A hangfelismerés nem támogatott ebben a böngészőben. Kérjük, írja be a szöveget kézzel.',
     },
+    [Language.TA]: { title: 'கனவு வீடியோவைத் தயாரிக்கவும்', subtitle: 'உங்கள் கனவைச் சொல்லுங்கள், உரையைத் திருத்தி, ஸ்டூடியோவில் தொடரவும்.', placeholder: 'உங்கள் கனவைச் சொல்லுங்கள்.', label: 'கனவு உரை', start_mic: 'மைக்ரோஃபோன் தொடங்கு', pause: 'இடைநிறுத்தம்', resume: 'பதிவைத் தொடர', continue_btn: 'ஸ்டூடியோவுக்கு', close_btn: 'ரத்து', status_ready: 'தயார்', status_recording: 'பதிவு', status_paused: 'நிறுத்தப்பட்டது', not_supported: 'இந்த உலாவியில் குரல் அங்கீகாரம் ஆதரிக்கப்படவில்லை.' },
+    [Language.TE]: { title: 'కల వీడియో తయారు చేయండి', subtitle: 'మీ కలను చెప్పండి, టెక్స్ట్ సవరించి, స్టూడియోలో కొనసాగించండి.', placeholder: 'మీ కలను చెప్పండి.', label: 'కల టెక్స్ట్', start_mic: 'మైక్రోఫోన్ ప్రారంభించు', pause: 'పాజ్', resume: 'రికార్డింగ్ కొనసాగించు', continue_btn: 'స్టూడియోకు', close_btn: 'రద్దు', status_ready: 'సిద్ధం', status_recording: 'రికార్డింగ్', status_paused: 'పాజ్ చేయబడింది', not_supported: 'ఈ బ్రౌజర్‌లో వాయిస్ గుర్తింపు మద్దతు లేదు.' },
+    [Language.TL]: { title: 'Ihanda ang Dream Video', subtitle: 'Ikuwento ang panaginip, i-edit ang text, at pumunta sa Studio.', placeholder: 'Ikuwento ang panaginip mo.', label: 'Text ng Panaginip', start_mic: 'Simulan ang Mikropono', pause: 'I-pause', resume: 'Ipagpatuloy', continue_btn: 'Sa Studio', close_btn: 'Kanselahin', status_ready: 'Handa', status_recording: 'Nagre-record', status_paused: 'Naka-pause', not_supported: 'Hindi suportado ang voice recognition sa browser na ito.' },
+    [Language.ML]: { title: 'സ്വപ്ന വീഡിയോ തയ്യാറാക്കുക', subtitle: 'നിങ്ങളുടെ സ്വപ്നം പറയൂ, ടെക്സ്റ്റ് എഡിറ്റ് ചെയ്യൂ, സ്റ്റുഡിയോയിൽ തുടരൂ.', placeholder: 'നിങ്ങളുടെ സ്വപ്നം പറയൂ.', label: 'സ്വപ്ന ടെക്സ്റ്റ്', start_mic: 'മൈക്രോഫോൺ ആരംഭിക്കുക', pause: 'വിരാമം', resume: 'റെക്കോർഡിംഗ് തുടരുക', continue_btn: 'സ്റ്റുഡിയോയിലേക്ക്', close_btn: 'റദ്ദാക്കുക', status_ready: 'തയ്യാർ', status_recording: 'റെക്കോർഡിംഗ്', status_paused: 'നിർത്തിയിരിക്കുന്നു', not_supported: 'ഈ ബ്രൗസറിൽ വോയ്സ് റെക്കഗ്നിഷൻ ലഭ്യമല്ല.' },
+    [Language.MR]: { title: 'स्वप्न व्हिडिओ तयार करा', subtitle: 'तुमचे स्वप्न सांगा, मजकूर संपादित करा आणि स्टुडिओमध्ये जा.', placeholder: 'तुमचे स्वप्न सांगा.', label: 'स्वप्न मजकूर', start_mic: 'मायक्रोफोन सुरू करा', pause: 'थांबा', resume: 'रेकॉर्डिंग सुरू ठेवा', continue_btn: 'स्टुडिओला जा', close_btn: 'रद्द करा', status_ready: 'तयार', status_recording: 'रेकॉर्डिंग', status_paused: 'थांबवले', not_supported: 'या ब्राउझरमध्ये आवाज ओळख समर्थित नाही.' },
+    [Language.KN]: { title: 'ಕನಸಿನ ವೀಡಿಯೊ ತಯಾರಿಸಿ', subtitle: 'ನಿಮ್ಮ ಕನಸನ್ನು ಹೇಳಿ, ಪಠ್ಯ ಸಂಪಾದಿಸಿ, ಸ್ಟುಡಿಯೋದಲ್ಲಿ ಮುಂದುವರಿಸಿ.', placeholder: 'ನಿಮ್ಮ ಕನಸನ್ನು ಹೇಳಿ.', label: 'ಕನಸಿನ ಪಠ್ಯ', start_mic: 'ಮೈಕ್ರೋಫೋನ್ ಆರಂಭಿಸಿ', pause: 'ವಿರಾಮ', resume: 'ರೆಕಾರ್ಡಿಂಗ್ ಮುಂದುವರಿಸಿ', continue_btn: 'ಸ್ಟುಡಿಯೋಗೆ', close_btn: 'ರದ್ದುಮಾಡಿ', status_ready: 'ಸಿದ್ಧ', status_recording: 'ರೆಕಾರ್ಡಿಂಗ್', status_paused: 'ವಿರಾಮಗೊಳಿಸಲಾಗಿದೆ', not_supported: 'ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಬೆಂಬಲಿತವಲ್ಲ.' },
+    [Language.GU]: { title: 'સ્વપ્ન વીડિયો તૈયાર કરો', subtitle: 'તમારું સ્વપ્ન કહો, ટેક્સ્ટ સંપાદિત કરો અને સ્ટુડિયોમાં ચાલુ રાખો.', placeholder: 'તમારું સ્વપ્ન કહો.', label: 'સ્વપ્ન ટેક્સ્ટ', start_mic: 'માઇક્રોફોન શરૂ કરો', pause: 'થોભો', resume: 'રેકોર્ડિંગ ચાલુ રાખો', continue_btn: 'સ્ટુડિયોમાં જાઓ', close_btn: 'રદ કરો', status_ready: 'તૈયાર', status_recording: 'રેકોર્ડિંગ', status_paused: 'થોભાવેલ', not_supported: 'આ બ્રાઉઝરમાં અવાજ ઓળખ સમર્થિત નથી.' },
+    [Language.HE]: { title: 'הכנת סרטון חלום', subtitle: 'ספר את החלום, ערוך את הטקסט והמשך לסטודיו.', placeholder: 'ספר את החלום שלך.', label: 'טקסט החלום', start_mic: 'הפעל מיקרופון', pause: 'השהה', resume: 'המשך הקלטה', continue_btn: 'לסטודיו', close_btn: 'ביטול', status_ready: 'מוכן', status_recording: 'מקליט', status_paused: 'מושהה', not_supported: 'זיהוי קולי אינו נתמך בדפדפן זה.' },
+    [Language.NE]: { title: 'सपना भिडियो तयार गर्नुहोस्', subtitle: 'आफ्नो सपना सुनाउनुहोस्, पाठ सम्पादन गरी स्टुडियोमा जारी राख्नुहोस्.', placeholder: 'आफ्नो सपना सुनाउनुहोस्.', label: 'सपना पाठ', start_mic: 'माइक्रोफोन सुरु गर्नुहोस्', pause: 'रोक्नुहोस्', resume: 'रेकर्डिङ जारी राख्नुहोस्', continue_btn: 'स्टुडियोमा जानुहोस्', close_btn: 'रद्द', status_ready: 'तयार', status_recording: 'रेकर्डिङ', status_paused: 'रोकिएको', not_supported: 'यो ब्राउजरमा आवाज पहिचान समर्थित छैन।' },
+    [Language.PRS]: { title: 'آماده‌سازی ویدیوی خواب', subtitle: 'خواب خود ره بگویین، متن ره ویرایش کنین و در استودیو ادامه بتین.', placeholder: 'خواب خود ره بگویین.', label: 'متن خواب', start_mic: 'مایکروفون شروع', pause: 'توقف', resume: 'ادامه ضبط', continue_btn: 'به استودیو', close_btn: 'لغو', status_ready: 'آماده', status_recording: 'ضبط', status_paused: 'متوقف', not_supported: 'تشخیص آواز در ای مرورگر پشتیبانی نمیشه.' },
 };
 
 // ---------------------------------------------------------------------------
 // Language code mapping
 // ---------------------------------------------------------------------------
+
+// Deepgram language codes (subset — nova-2 supported)
+function getDeepgramLang(language: Language): string {
+    const map: Partial<Record<Language, string>> = {
+        [Language.DE]: 'de', [Language.EN]: 'en', [Language.TR]: 'tr',
+        [Language.ES]: 'es', [Language.FR]: 'fr', [Language.AR]: 'ar',
+        [Language.AR_GULF]: 'ar', [Language.AR_EG]: 'ar', [Language.AR_LEV]: 'ar',
+        [Language.AR_MAG]: 'ar', [Language.AR_IQ]: 'ar',
+        [Language.PT]: 'pt', [Language.RU]: 'ru', [Language.ZH]: 'zh',
+        [Language.HI]: 'hi', [Language.JA]: 'ja', [Language.KO]: 'ko',
+        [Language.ID]: 'id', [Language.IT]: 'it', [Language.PL]: 'pl',
+        [Language.VI]: 'vi', [Language.TH]: 'th', [Language.HU]: 'hu',
+        [Language.TA]: 'ta', [Language.TE]: 'te', [Language.TL]: 'tl',
+        [Language.ML]: 'ml', [Language.MR]: 'mr', [Language.KN]: 'kn',
+        [Language.GU]: 'gu', [Language.HE]: 'he', [Language.NE]: 'ne',
+        [Language.FA]: 'fa', [Language.UR]: 'ur', [Language.BN]: 'bn',
+        [Language.SW]: 'sw', [Language.PRS]: 'fa',
+    };
+    return map[language] || 'de';
+}
+
+async function fetchDeepgramToken(): Promise<string | null> {
+    try {
+        const res = await fetch(apiUrl('/api/transcribe'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'get-token' }),
+        });
+        const data = await res.json();
+        return data.key || null;
+    } catch { return null; }
+}
 
 function getLangCode(language: Language): string {
     const map: Record<Language, string> = {
@@ -419,6 +552,11 @@ function getLangCode(language: Language): string {
         [Language.ES]: 'es-ES',
         [Language.FR]: 'fr-FR',
         [Language.AR]: 'ar-SA',
+        [Language.AR_GULF]: 'ar-SA',
+        [Language.AR_EG]: 'ar-EG',
+        [Language.AR_LEV]: 'ar-JO',
+        [Language.AR_MAG]: 'ar-MA',
+        [Language.AR_IQ]: 'ar-IQ',
         [Language.PT]: 'pt-PT',
         [Language.RU]: 'ru-RU',
         [Language.ZH]: 'zh-CN',
@@ -435,6 +573,10 @@ function getLangCode(language: Language): string {
         [Language.TH]: 'th-TH',
         [Language.SW]: 'sw-KE',
         [Language.HU]: 'hu-HU',
+        [Language.TA]: 'ta-IN', [Language.TE]: 'te-IN', [Language.TL]: 'fil-PH',
+        [Language.ML]: 'ml-IN', [Language.MR]: 'mr-IN', [Language.KN]: 'kn-IN',
+        [Language.GU]: 'gu-IN', [Language.HE]: 'he-IL', [Language.NE]: 'ne-NP',
+        [Language.PRS]: 'fa-AF',
     };
     return map[language] || 'de-DE';
 }
@@ -451,9 +593,9 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
     onClose,
     onContinue,
 }) => {
-    const t = T[language] || T[Language.DE];
+    const t = T[language] || T[language.startsWith("ar") ? Language.AR : Language.DE] || T[Language.DE];
     const isLight = themeMode === ThemeMode.LIGHT;
-    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
+    const isRtl = ((language as string).startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language));
 
     const [text, setText] = useState('');
     const [interimText, setInterimText] = useState('');
@@ -471,6 +613,13 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
     const mediaStreamRef = useRef<MediaStream | null>(null);
     const previewAudioRef = useRef<HTMLAudioElement | null>(null);
 
+    // Deepgram WebSocket refs
+    const dgWsRef = useRef<WebSocket | null>(null);
+    const dgAudioCtxRef = useRef<AudioContext | null>(null);
+    const dgProcessorRef = useRef<ScriptProcessorNode | null>(null);
+    const dgSourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
+    const usingDeepgramRef = useRef(false);
+
     useEffect(() => { statusRef.current = status; }, [status]);
 
     // Reset when modal opens
@@ -483,7 +632,30 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
         setStatus('idle');
     }, [open, initialText]);
 
+    const stopDeepgram = useCallback(() => {
+        if (dgProcessorRef.current) {
+            try { dgProcessorRef.current.disconnect(); } catch {}
+            dgProcessorRef.current = null;
+        }
+        if (dgSourceRef.current) {
+            try { dgSourceRef.current.disconnect(); } catch {}
+            dgSourceRef.current = null;
+        }
+        if (dgAudioCtxRef.current && dgAudioCtxRef.current.state !== 'closed') {
+            try { dgAudioCtxRef.current.close(); } catch {}
+            dgAudioCtxRef.current = null;
+        }
+        if (dgWsRef.current && dgWsRef.current.readyState <= WebSocket.OPEN) {
+            try { dgWsRef.current.close(); } catch {}
+            dgWsRef.current = null;
+        }
+        usingDeepgramRef.current = false;
+    }, []);
+
     const stopRecognition = useCallback(() => {
+        // Stop Deepgram
+        stopDeepgram();
+        // Stop Web Speech API
         if (recognitionRef.current) {
             try {
                 recognitionRef.current.onresult = null;
@@ -493,7 +665,7 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
             } catch { /* ignore */ }
             recognitionRef.current = null;
         }
-    }, []);
+    }, [stopDeepgram]);
 
     // Cleanup on unmount
     useEffect(() => stopRecognition, [stopRecognition]);
@@ -560,12 +732,119 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
         return rec;
     }, [language]);
 
-    // Start MediaRecorder for audio capture
-    const startMediaRecorder = useCallback(async () => {
+    // startMediaRecorder is now inlined in startRecording/resumeRecording
+    // to share the same stream with Deepgram
+
+    const stopMediaRecorder = useCallback(() => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+            mediaRecorderRef.current.stop();
+        }
+        mediaRecorderRef.current = null;
+    }, []);
+
+    const startDeepgramStream = useCallback(async (stream: MediaStream) => {
+        const token = await fetchDeepgramToken();
+        if (!token) return false;
+
+        const lang = getDeepgramLang(language);
+        const wsUrl = `wss://api.deepgram.com/v1/listen?model=nova-2&language=${lang}&interim_results=true&punctuate=true&smart_format=true&encoding=linear16&sample_rate=16000`;
+        const ws = new WebSocket(wsUrl, ['token', token]);
+        dgWsRef.current = ws;
+
+        ws.onmessage = (event) => {
+            try {
+                const msg = JSON.parse(event.data);
+                const transcript = msg.channel?.alternatives?.[0]?.transcript || '';
+                if (!transcript) return;
+                if (msg.is_final) {
+                    const base = textRef.current.trim();
+                    const add = transcript.trim();
+                    const newText = base ? `${base} ${add}` : add;
+                    textRef.current = newText;
+                    setText(newText);
+                    setInterimText('');
+                } else {
+                    setInterimText(transcript);
+                }
+            } catch {}
+        };
+
+        ws.onerror = () => { /* fallback handled by onclose */ };
+        ws.onclose = () => {
+            // If still recording, Deepgram disconnected unexpectedly
+            if (statusRef.current === 'recording' && usingDeepgramRef.current) {
+                setInterimText('');
+            }
+        };
+
+        // Wait for WebSocket to open
+        await new Promise<void>((resolve, reject) => {
+            ws.onopen = () => resolve();
+            const timer = setTimeout(() => reject(new Error('WS timeout')), 5000);
+            ws.onerror = () => { clearTimeout(timer); reject(new Error('WS error')); };
+        });
+
+        // AudioContext for PCM16 streaming
+        const audioCtx = new AudioContext({ sampleRate: 16000 });
+        const source = audioCtx.createMediaStreamSource(stream);
+        const processor = audioCtx.createScriptProcessor(4096, 1, 1);
+
+        processor.onaudioprocess = (e) => {
+            if (!dgWsRef.current || dgWsRef.current.readyState !== WebSocket.OPEN) return;
+            const input = e.inputBuffer.getChannelData(0);
+            const pcm16 = new Int16Array(input.length);
+            for (let i = 0; i < input.length; i++) {
+                pcm16[i] = Math.max(-32768, Math.min(32767, Math.round(input[i] * 32767)));
+            }
+            dgWsRef.current.send(pcm16.buffer);
+        };
+
+        source.connect(processor);
+        // Connect to a silent destination to keep processor alive (echo patch handles muting)
+        processor.connect(audioCtx.destination);
+
+        dgAudioCtxRef.current = audioCtx;
+        dgProcessorRef.current = processor;
+        dgSourceRef.current = source;
+        usingDeepgramRef.current = true;
+        return true;
+    }, [language]);
+
+    const startRecording = useCallback(async () => {
+        stopRecognition();
+        setAudioBlob(null);
+        setAudioUrl(null);
+
+        // Get microphone stream first (shared between STT + MediaRecorder)
+        let stream: MediaStream;
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaStreamRef.current = stream;
-            audioChunksRef.current = [];
+            stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch {
+            setSupported(false);
+            return;
+        }
+
+        // Try Deepgram first
+        let deepgramOk = false;
+        try {
+            deepgramOk = (await startDeepgramStream(stream)) === true;
+        } catch {
+            deepgramOk = false;
+        }
+
+        // Fallback to Web Speech API if Deepgram failed
+        if (!deepgramOk) {
+            const rec = buildRecognition();
+            if (rec) {
+                recognitionRef.current = rec;
+                try { rec.start(); } catch { /* ignore */ }
+            }
+        }
+
+        // Start MediaRecorder on the same stream for audio blob
+        mediaStreamRef.current = stream;
+        audioChunksRef.current = [];
+        try {
             const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
             recorder.ondataavailable = (e) => {
                 if (e.data.size > 0) audioChunksRef.current.push(e.data);
@@ -578,38 +857,14 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
                 stream.getTracks().forEach(t => t.stop());
             };
             mediaRecorderRef.current = recorder;
-            recorder.start(250); // collect chunks every 250ms
+            recorder.start(250);
         } catch (e) {
             console.warn('[AUDIO] MediaRecorder not available:', e);
-            setStatus('idle');
-            statusRef.current = 'idle';
         }
-    }, []);
 
-    const stopMediaRecorder = useCallback(() => {
-        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-            mediaRecorderRef.current.stop();
-        }
-        mediaRecorderRef.current = null;
-    }, []);
-
-    const startRecording = useCallback(async () => {
-        stopRecognition();
-        setAudioBlob(null);
-        setAudioUrl(null);
-        const rec = buildRecognition();
-        if (!rec) return;
-        recognitionRef.current = rec;
-        try {
-            rec.start();
-            await startMediaRecorder();
-            setStatus('recording');
-            statusRef.current = 'recording';
-        } catch {
-            setStatus('idle');
-            statusRef.current = 'idle';
-        }
-    }, [buildRecognition, stopRecognition, startMediaRecorder]);
+        setStatus('recording');
+        statusRef.current = 'recording';
+    }, [buildRecognition, stopRecognition, startDeepgramStream]);
 
     const pauseRecording = useCallback(() => {
         setStatus('paused');
@@ -619,21 +874,54 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
         stopMediaRecorder();
     }, [stopRecognition, stopMediaRecorder]);
 
-    const resumeRecording = useCallback(() => {
+    const resumeRecording = useCallback(async () => {
         stopRecognition();
-        const rec = buildRecognition();
-        if (!rec) return;
-        recognitionRef.current = rec;
+
+        // Get fresh microphone stream
+        let stream: MediaStream;
         try {
-            rec.start();
-            startMediaRecorder();
-            setStatus('recording');
-            statusRef.current = 'recording';
+            stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch { return; }
+
+        // Try Deepgram first
+        let deepgramOk = false;
+        try {
+            deepgramOk = (await startDeepgramStream(stream)) === true;
         } catch {
-            setStatus('idle');
-            statusRef.current = 'idle';
+            deepgramOk = false;
         }
-    }, [buildRecognition, stopRecognition, startMediaRecorder]);
+
+        // Fallback to Web Speech API
+        if (!deepgramOk) {
+            const rec = buildRecognition();
+            if (rec) {
+                recognitionRef.current = rec;
+                try { rec.start(); } catch {}
+            }
+        }
+
+        // Resume MediaRecorder
+        mediaStreamRef.current = stream;
+        audioChunksRef.current = [];
+        try {
+            const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+            recorder.ondataavailable = (e) => {
+                if (e.data.size > 0) audioChunksRef.current.push(e.data);
+            };
+            recorder.onstop = () => {
+                const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                setAudioBlob(blob);
+                const url = URL.createObjectURL(blob);
+                setAudioUrl(url);
+                stream.getTracks().forEach(t => t.stop());
+            };
+            mediaRecorderRef.current = recorder;
+            recorder.start(250);
+        } catch {}
+
+        setStatus('recording');
+        statusRef.current = 'recording';
+    }, [buildRecognition, stopRecognition, startDeepgramStream]);
 
     const handleContinue = useCallback(() => {
         setStatus('idle');
@@ -713,6 +1001,21 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
                     </button>
                 </div>
 
+                {/* Live Transcript (visible during recording) */}
+                {status === 'recording' && interimText && (
+                    <div className={`rounded-2xl border p-3 ${
+                        isLight ? 'bg-indigo-50/50 border-indigo-200/50' : 'bg-violet-900/15 border-violet-500/20'
+                    }`}>
+                        <div className="flex items-center gap-2 mb-1">
+                            <span className={`material-icons text-sm ${isLight ? 'text-indigo-500' : 'text-violet-400'}`}>hearing</span>
+                            <span className={`text-[10px] uppercase tracking-wider font-bold ${isLight ? 'text-indigo-500' : 'text-violet-400'}`}>Live</span>
+                        </div>
+                        <p className={`text-sm leading-relaxed ${isLight ? 'text-indigo-600/70' : 'text-white/40'} italic`}>
+                            {interimText}<span className="animate-pulse ml-0.5">|</span>
+                        </p>
+                    </div>
+                )}
+
                 {/* Textarea */}
                 <div className="space-y-2">
                     <div className="flex items-center gap-2">
@@ -723,7 +1026,7 @@ const SpeechToVideoModal: React.FC<SpeechToVideoModalProps> = ({
                     </div>
                     <textarea
                         value={displayText}
-                        onChange={(e) => { setText(e.target.value); setInterimText(''); }}
+                        onChange={(e) => { setText(e.target.value); textRef.current = e.target.value; setInterimText(''); }}
                         placeholder={t.placeholder}
                         className={`w-full min-h-[220px] max-h-[360px] resize-none overflow-y-auto rounded-2xl border p-4 outline-none text-base leading-relaxed font-serif ${inputBg}`}
                     />

@@ -111,6 +111,8 @@ const translation = {
         video_studio: "Studio Vidéo",
         dream_network: "Réseau de Rêves",
         privacy_link: "Confidentialité", terms_link: "Conditions", imprint_link: "Mentions Légales", research_link: "Recherche", studies_link: "Études", worldmap_link: "Carte du Monde", showing_sources_only: "Affichage des sources {0} uniquement", science_label: "Savoir",
+        symbols_link: "Bibliothèque de Symboles", science_study_btn: "Étude Scientifique", study_btn_desc: "Anonyme · Recherche · 10–20% Réduction", study_discount_active: "Réduction Active",
+        language_label: "Langue",
     },
     processing: {
         title: "L'Oracle travaille...",

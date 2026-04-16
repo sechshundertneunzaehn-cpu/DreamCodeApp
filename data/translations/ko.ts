@@ -127,6 +127,8 @@ const translation = {
         video_studio: "비디오 스튜디오",
         dream_network: "드림 네트워크",
         privacy_link: "개인정보", terms_link: "이용약관", imprint_link: "법적 고지", research_link: "연구", studies_link: "연구", worldmap_link: "세계 지도", showing_sources_only: "{0} 소스만 표시", science_label: "지식",
+        symbols_link: "꿈 상징 도서관", science_study_btn: "과학적 연구", study_btn_desc: "익명 · 연구 · 10–20% 할인", study_discount_active: "연구 할인 활성화",
+        language_label: "언어",
     },
     processing: {
         title: "오라클이 작동 중...",

@@ -35,6 +35,16 @@ const LANGUAGE_NAMES: Record<string, string> = {
   th: 'Thai',
   sw: 'Swahili',
   hu: 'Hungarian',
+  ta: 'Tamil',
+  te: 'Telugu',
+  tl: 'Filipino',
+  ml: 'Malayalam',
+  mr: 'Marathi',
+  kn: 'Kannada',
+  gu: 'Gujarati',
+  he: 'Hebrew',
+  ne: 'Nepali',
+  prs: 'Dari',
 };
 
 // ─── Semaphore (max 10 concurrent translations) ───────────────────────────────
@@ -102,6 +112,14 @@ class TranslationQueue {
 
 export const translationQueue = new TranslationQueue();
 
+// ─── In-memory cache (avoids repeated Supabase RPC per render) ───────────────
+
+const inMemoryCache = new Map<string, string>();
+
+function memoryCacheKey(table: string, id: string, field: string, lang: string): string {
+  return `${table}:${id}:${field}:${lang}`;
+}
+
 // ─── Build translation prompt ─────────────────────────────────────────────────
 
 function buildPrompt(text: string, targetLang: string): string {
@@ -117,7 +135,7 @@ function buildPrompt(text: string, targetLang: string): string {
 // ─── Gemini (key rotation) ────────────────────────────────────────────────────
 
 // 5-second timeout + Auth-Header fuer alle AI Provider Calls
-async function fetchWithTimeout(url: string, options: RequestInit, ms = 5000): Promise<Response> {
+async function fetchWithTimeout(url: string, options: RequestInit, ms = 8000): Promise<Response> {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), ms);
 
@@ -262,20 +280,25 @@ export async function translateText(
 ): Promise<string> {
   if (!text || !text.trim()) return text;
 
+  // 0. In-memory cache (instant, no network)
+  const memKey = memoryCacheKey(sourceTable, sourceId, sourceField, targetLang);
+  const memHit = inMemoryCache.get(memKey);
+  if (memHit) return memHit;
+
   await globalSemaphore.acquire();
 
   try {
-    // 1. Check cache
+    // 1. Supabase cache
     const cached = await getCached(sourceTable, sourceId, sourceField, targetLang);
-    if (cached) return cached;
+    if (cached) {
+      inMemoryCache.set(memKey, cached);
+      return cached;
+    }
 
-    // 2–4. AI-Provider parallel (each has 5s timeout) — fastest wins
-    const [gemini, deepseek, groq] = await Promise.all([
-      translateWithGemini(text, targetLang),
-      translateWithDeepSeek(text, targetLang),
-      translateWithGroq(text, targetLang),
-    ]);
-    let result = gemini || deepseek || groq || null;
+    // 2–4. AI-Provider sequential (saves rate-limit budget, 8s timeout each)
+    let result = await translateWithGemini(text, targetLang);
+    if (!result) result = await translateWithDeepSeek(text, targetLang);
+    if (!result) result = await translateWithGroq(text, targetLang);
 
     // 5. Google Translate (unofficial API, kein Key nötig) — greift wenn alle AI-Provider versagen
     if (!result) {
@@ -296,7 +319,8 @@ export async function translateText(
     // 6. Originaltext als letzter Ausweg
     if (!result) return text;
 
-    // Persist to cache (fire-and-forget)
+    // Persist to both caches (fire-and-forget for Supabase)
+    inMemoryCache.set(memKey, result);
     saveToCache(sourceTable, sourceId, sourceField, targetLang, result);
 
     return result;

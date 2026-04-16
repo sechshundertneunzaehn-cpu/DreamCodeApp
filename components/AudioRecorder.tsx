@@ -69,6 +69,36 @@ const recorderTranslations: Record<Language, {
         processing: "جارٍ معالجة التسجيل...", mic_denied: "تم رفض الوصول إلى الميكروفون أو غير متاح",
         processing_error: "خطأ في معالجة التسجيل", edit: "تعديل", submit: "إرسال للتفسير", listening: "...يستمع",
     },
+    [Language.AR_GULF]: {
+        record_dream: "سجّل الحلم", stop: "وقّف", pause: "وقف مؤقت", resume: "كمّل",
+        start_recording: "ابدا التسجيل", stop_recording: "وقّف التسجيل",
+        processing: "يعالج التسجيل...", mic_denied: "ما قدرنا نوصل للمايك",
+        processing_error: "صار خطأ بالمعالجة", edit: "عدّل", submit: "أرسل للتفسير", listening: "...يسمع",
+    },
+    [Language.AR_EG]: {
+        record_dream: "سجّل الحلم", stop: "وقّف", pause: "وقف مؤقت", resume: "كمّل",
+        start_recording: "ابدأ التسجيل", stop_recording: "وقّف التسجيل",
+        processing: "بيعالج التسجيل...", mic_denied: "مش قادر يوصل للمايك",
+        processing_error: "حصل خطأ في المعالجة", edit: "عدّل", submit: "ابعت للتفسير", listening: "...بيسمع",
+    },
+    [Language.AR_LEV]: {
+        record_dream: "سجّل الحلم", stop: "وقّف", pause: "وقف مؤقت", resume: "كمّل",
+        start_recording: "ابدا التسجيل", stop_recording: "وقّف التسجيل",
+        processing: "عم يعالج التسجيل...", mic_denied: "ما في وصول للمايك",
+        processing_error: "صار غلط بالمعالجة", edit: "عدّل", submit: "ابعت للتفسير", listening: "...عم يسمع",
+    },
+    [Language.AR_MAG]: {
+        record_dream: "سجّل الحلم", stop: "وقّف", pause: "وقف مؤقت", resume: "كمّل",
+        start_recording: "بدا التسجيل", stop_recording: "وقّف التسجيل",
+        processing: "كيعالج التسجيل...", mic_denied: "ما قدرناش نوصلو للميكرو",
+        processing_error: "وقع خطأ فالمعالجة", edit: "بدّل", submit: "صيفط للتفسير", listening: "...كيسمع",
+    },
+    [Language.AR_IQ]: {
+        record_dream: "سجّل الحلم", stop: "وكّف", pause: "وكف مؤقت", resume: "كمّل",
+        start_recording: "ابدي التسجيل", stop_recording: "وكّف التسجيل",
+        processing: "يعالج التسجيل...", mic_denied: "ماكو وصول للمايك",
+        processing_error: "صار خطأ بالمعالجة", edit: "عدّل", submit: "أرسل للتفسير", listening: "...يسمع",
+    },
     [Language.PT]: {
         record_dream: "Gravar Sonho", stop: "Parar", pause: "Pausar", resume: "Continuar",
         start_recording: "Iniciar Gravação", stop_recording: "Parar Gravação",
@@ -165,6 +195,66 @@ const recorderTranslations: Record<Language, {
         processing: "Felvétel feldolgozása...", mic_denied: "Mikrofon-hozzáférés megtagadva vagy nem elérhető",
         processing_error: "Hiba a felvétel feldolgozásakor", edit: "Szerkesztés", submit: "Küldés értelmezésre", listening: "Hallgatom...",
     },
+    [Language.TA]: {
+        record_dream: "கனவை பதிவு செய்", stop: "நிறுத்து", pause: "இடைநிறுத்தம்", resume: "தொடர்",
+        start_recording: "பதிவைத் தொடங்கு", stop_recording: "பதிவை நிறுத்து",
+        processing: "பதிவு செயலாக்கப்படுகிறது...", mic_denied: "மைக்ரோஃபோன் அணுகல் மறுக்கப்பட்டது அல்லது கிடைக்கவில்லை",
+        processing_error: "பதிவை செயலாக்குவதில் பிழை", edit: "திருத்து", submit: "விளக்கத்திற்கு அனுப்பு", listening: "கேட்கிறது...",
+    },
+    [Language.TE]: {
+        record_dream: "కల రికార్డ్ చేయి", stop: "ఆపు", pause: "పాజ్", resume: "కొనసాగించు",
+        start_recording: "రికార్డింగ్ ప్రారంభించు", stop_recording: "రికార్డింగ్ ఆపు",
+        processing: "రికార్డింగ్ ప్రాసెస్ అవుతోంది...", mic_denied: "మైక్రోఫోన్ యాక్సెస్ నిరాకరించబడింది లేదా అందుబాటులో లేదు",
+        processing_error: "రికార్డింగ్ ప్రాసెసింగ్‌లో లోపం", edit: "సవరించు", submit: "వివరణ కోసం పంపు", listening: "వింటోంది...",
+    },
+    [Language.TL]: {
+        record_dream: "I-record ang Panaginip", stop: "Itigil", pause: "I-pause", resume: "Ituloy",
+        start_recording: "Simulan ang Pag-record", stop_recording: "Itigil ang Pag-record",
+        processing: "Pinoproseso ang recording...", mic_denied: "Tinanggihan ang access sa mikropono o hindi available",
+        processing_error: "Error sa pagproseso ng recording", edit: "I-edit", submit: "Ipadala para sa Interpretasyon", listening: "Nakikinig...",
+    },
+    [Language.ML]: {
+        record_dream: "സ്വപ്നം റെക്കോർഡ് ചെയ്യുക", stop: "നിർത്തുക", pause: "താൽക്കാലികമായി നിർത്തുക", resume: "തുടരുക",
+        start_recording: "റെക്കോർഡിംഗ് ആരംഭിക്കുക", stop_recording: "റെക്കോർഡിംഗ് നിർത്തുക",
+        processing: "റെക്കോർഡിംഗ് പ്രോസസ്സ് ചെയ്യുന്നു...", mic_denied: "മൈക്രോഫോൺ ആക്‌സസ് നിരസിച്ചു അല്ലെങ്കിൽ ലഭ്യമല്ല",
+        processing_error: "റെക്കോർഡിംഗ് പ്രോസസ്സിംഗിൽ പിശക്", edit: "എഡിറ്റ് ചെയ്യുക", submit: "വ്യാഖ്യാനത്തിന് അയയ്ക്കുക", listening: "കേൾക്കുന്നു...",
+    },
+    [Language.MR]: {
+        record_dream: "स्वप्न रेकॉर्ड करा", stop: "थांबा", pause: "विराम", resume: "पुढे चालू ठेवा",
+        start_recording: "रेकॉर्डिंग सुरू करा", stop_recording: "रेकॉर्डिंग थांबवा",
+        processing: "रेकॉर्डिंग प्रक्रिया सुरू आहे...", mic_denied: "मायक्रोफोन प्रवेश नाकारला किंवा उपलब्ध नाही",
+        processing_error: "रेकॉर्डिंग प्रक्रियेत त्रुटी", edit: "संपादित करा", submit: "अर्थ लावण्यासाठी पाठवा", listening: "ऐकत आहे...",
+    },
+    [Language.KN]: {
+        record_dream: "ಕನಸು ರೆಕಾರ್ಡ್ ಮಾಡಿ", stop: "ನಿಲ್ಲಿಸಿ", pause: "ವಿರಾಮ", resume: "ಮುಂದುವರಿಸಿ",
+        start_recording: "ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಾರಂಭಿಸಿ", stop_recording: "ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲಿಸಿ",
+        processing: "ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಕ್ರಿಯೆಗೊಳ್ಳುತ್ತಿದೆ...", mic_denied: "ಮೈಕ್ರೊಫೋನ್ ಪ್ರವೇಶ ನಿರಾಕರಿಸಲಾಗಿದೆ ಅಥವಾ ಲಭ್ಯವಿಲ್ಲ",
+        processing_error: "ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿ ದೋಷ", edit: "ಸಂಪಾದಿಸಿ", submit: "ವ್ಯಾಖ್ಯಾನಕ್ಕೆ ಕಳುಹಿಸಿ", listening: "ಕೇಳುತ್ತಿದೆ...",
+    },
+    [Language.GU]: {
+        record_dream: "સ્વપ્ન રેકોર્ડ કરો", stop: "રોકો", pause: "વિરામ", resume: "ચાલુ રાખો",
+        start_recording: "રેકોર્ડિંગ શરૂ કરો", stop_recording: "રેકોર્ડિંગ બંધ કરો",
+        processing: "રેકોર્ડિંગ પ્રોસેસ થઈ રહી છે...", mic_denied: "માઈક્રોફોન ઍક્સેસ નકારવામાં આવી અથવા ઉપલબ્ધ નથી",
+        processing_error: "રેકોર્ડિંગ પ્રોસેસિંગમાં ભૂલ", edit: "સંપાદિત કરો", submit: "અર્થઘટન માટે મોકલો", listening: "સાંભળી રહ્યું છે...",
+    },
+    [Language.HE]: {
+        record_dream: "הקלטת חלום", stop: "עצור", pause: "השהה", resume: "המשך",
+        start_recording: "התחל הקלטה", stop_recording: "עצור הקלטה",
+        processing: "מעבד הקלטה...", mic_denied: "הגישה למיקרופון נדחתה או לא זמינה",
+        processing_error: "שגיאה בעיבוד ההקלטה", edit: "ערוך", submit: "שלח לפירוש", listening: "...מאזין",
+    },
+    [Language.NE]: {
+        record_dream: "सपना रेकर्ड गर्नुहोस्", stop: "रोक्नुहोस्", pause: "पज गर्नुहोस्", resume: "जारी राख्नुहोस्",
+        start_recording: "रेकर्डिङ सुरु गर्नुहोस्", stop_recording: "रेकर्डिङ बन्द गर्नुहोस्",
+        processing: "रेकर्डिङ प्रशोधन हुँदैछ...", mic_denied: "माइक्रोफोन पहुँच अस्वीकृत वा उपलब्ध छैन",
+        processing_error: "रेकर्डिङ प्रशोधनमा त्रुटि", edit: "सम्पादन गर्नुहोस्", submit: "व्याख्याको लागि पठाउनुहोस्", listening: "सुनिरहेको छ...",
+    },
+    [Language.PRS]: {
+        record_dream: "ثبت خواب", stop: "ایست", pause: "مکث", resume: "ادامه",
+        start_recording: "شروع ثبت", stop_recording: "پایان ثبت",
+        processing: "در حال پردازش ثبت...", mic_denied: "دسترسی به مایکروفون رد شد یا در دسترس نیست",
+        processing_error: "خطا در پردازش ثبت", edit: "ویرایش", submit: "ارسال برای تعبیر", listening: "...در حال شنیدن",
+    },
 };
 
 // Deepgram Sprach-Codes fuer STT
@@ -172,6 +262,7 @@ const DEEPGRAM_LANG: Record<string, string> = {
     de: 'de', en: 'en', tr: 'tr', es: 'es', fr: 'fr', ar: 'ar', pt: 'pt-BR',
     ru: 'ru', zh: 'zh', hi: 'hi', ja: 'ja', ko: 'ko', id: 'id', fa: 'fa',
     it: 'it', pl: 'pl', bn: 'bn', ur: 'ur', vi: 'vi', th: 'th', sw: 'sw', hu: 'hu',
+    ta: 'ta', te: 'te', tl: 'tl', ml: 'ml', mr: 'mr', kn: 'kn', gu: 'gu', he: 'he', ne: 'ne', prs: 'fa',
 };
 
 type RecordingPhase = 'idle' | 'recording' | 'paused' | 'stopped' | 'editing';
@@ -189,8 +280,8 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
     onTranscriptionComplete,
     isVisible
 }) => {
-    const t = recorderTranslations[language];
-    const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
+    const t = recorderTranslations[language] || recorderTranslations[language.startsWith("ar") ? Language.AR : Language.DE] || recorderTranslations[Language.DE];
+    const isRtl = ((language as string).startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language));
 
     const [phase, setPhase] = useState<RecordingPhase>('idle');
     const [error, setError] = useState<string | null>(null);

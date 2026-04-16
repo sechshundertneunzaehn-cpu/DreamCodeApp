@@ -56,6 +56,10 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #0f0b1a; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 3px; }
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        /* Hide LiveSession debug overlay in production */
+        div[class*="border-yellow-500"][class*="text-yellow-300"][class*="font-mono"] {
+            display: none !important;
+        }
     </style>
   </head>
   <body>

@@ -16,6 +16,11 @@ const LANGUAGE_NAMES: Record<Language, { native: string; english: string }> = {
     [Language.ES]: { native: 'Espanol', english: 'Spanish' },
     [Language.FR]: { native: 'Francais', english: 'French' },
     [Language.AR]: { native: 'العربية', english: 'Arabic' },
+    [Language.AR_GULF]: { native: 'العربية (الخليج)', english: 'Arabic (Gulf)' },
+    [Language.AR_EG]: { native: 'العربية (مصر)', english: 'Arabic (Egypt)' },
+    [Language.AR_LEV]: { native: 'العربية (الشام)', english: 'Arabic (Levantine)' },
+    [Language.AR_MAG]: { native: 'العربية (المغرب)', english: 'Arabic (Maghreb)' },
+    [Language.AR_IQ]: { native: 'العربية (العراق)', english: 'Arabic (Iraq)' },
     [Language.PT]: { native: 'Portugues', english: 'Portuguese' },
     [Language.RU]: { native: 'Русский', english: 'Russian' },
     [Language.ZH]: { native: '中文', english: 'Chinese' },
@@ -31,7 +36,17 @@ const LANGUAGE_NAMES: Record<Language, { native: string; english: string }> = {
     [Language.VI]: { native: 'Tiếng Việt', english: 'Vietnamese' },
     [Language.TH]: { native: 'ภาษาไทย', english: 'Thai' },
     [Language.SW]: { native: 'Kiswahili', english: 'Swahili' },
-    [Language.HU]: { native: 'Magyar', english: 'Hungarian' }
+    [Language.HU]: { native: 'Magyar', english: 'Hungarian' },
+    [Language.TA]: { native: 'தமிழ்', english: 'Tamil' },
+    [Language.TE]: { native: 'తెలుగు', english: 'Telugu' },
+    [Language.TL]: { native: 'Filipino', english: 'Filipino' },
+    [Language.ML]: { native: 'മലയാളം', english: 'Malayalam' },
+    [Language.MR]: { native: 'मराठी', english: 'Marathi' },
+    [Language.KN]: { native: 'ಕನ್ನಡ', english: 'Kannada' },
+    [Language.GU]: { native: 'ગુજરાતી', english: 'Gujarati' },
+    [Language.HE]: { native: 'עברית', english: 'Hebrew' },
+    [Language.NE]: { native: 'नेपाली', english: 'Nepali' },
+    [Language.PRS]: { native: 'دری', english: 'Dari' }
 };
 
 // ============================================

@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Videó Stúdió",
         dream_network: "Álomhálózat",
         privacy_link: "Adatvédelem", terms_link: "Feltételek", imprint_link: "Impresszum", research_link: "Kutatás", studies_link: "Tanulmányok", worldmap_link: "Világtérkép", showing_sources_only: "Csak {0} források megjelenítése", science_label: "Tudás",
+        symbols_link: "Álomszimbólum Könyvtár", science_study_btn: "Tudományos Tanulmány", study_btn_desc: "Anonim · Kutatás · 10–20% Kedvezmény", study_discount_active: "Kedvezmény Aktív",
+        language_label: "Nyelv",
     },
     processing: {
         title: "Az Orákulum dolgozik...",

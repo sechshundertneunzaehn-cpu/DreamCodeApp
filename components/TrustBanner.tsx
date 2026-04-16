@@ -31,6 +31,11 @@ const TRUST_TRANSLATIONS: Record<Language, { text: string; sources: string[] }> 
     text: 'يستند إلى أكثر من 39,075 تقرير علمي للأحلام من 3 قواعد بيانات بحثية',
     sources: ['SDDb', 'DreamBank', 'Monash'],
   },
+  [Language.AR_GULF]: { text: 'مبني على أكثر من 39,075 تقرير علمي للأحلام من 3 قواعد بيانات', sources: ['SDDb', 'DreamBank', 'Monash'] },
+  [Language.AR_EG]: { text: 'مبني على أكتر من 39,075 تقرير علمي للأحلام من 3 قواعد بيانات', sources: ['SDDb', 'DreamBank', 'Monash'] },
+  [Language.AR_LEV]: { text: 'مبني على أكتر من 39,075 تقرير علمي للأحلام من 3 قواعد بيانات', sources: ['SDDb', 'DreamBank', 'Monash'] },
+  [Language.AR_MAG]: { text: 'مبني على أكثر من 39,075 تقرير علمي للأحلام من 3 قواعد بيانات', sources: ['SDDb', 'DreamBank', 'Monash'] },
+  [Language.AR_IQ]: { text: 'مبني على أكثر من 39,075 تقرير علمي للأحلام من 3 قواعد بيانات', sources: ['SDDb', 'DreamBank', 'Monash'] },
   [Language.PT]: {
     text: 'Baseado em 39.075+ relatórios científicos de sonhos de 3 bases de dados de pesquisa',
     sources: ['SDDb', 'DreamBank', 'Monash'],
@@ -95,11 +100,51 @@ const TRUST_TRANSLATIONS: Record<Language, { text: string; sources: string[] }> 
     text: '39 075+ tudomanyos alomjelentes alapjan 3 kutatasi adatbazisbol',
     sources: ['SDDb', 'DreamBank', 'Monash'],
   },
+  [Language.TA]: {
+    text: '3 ஆராய்ச்சி தரவுத்தளங்களிலிருந்து 39,075+ அறிவியல் கனவு அறிக்கைகளின் அடிப்படையில்',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.TE]: {
+    text: '3 పరిశోధన డేటాబేస్‌ల నుండి 39,075+ శాస్త్రీయ కల నివేదికల ఆధారంగా',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.TL]: {
+    text: 'Batay sa 39,075+ siyentipikong ulat ng panaginip mula sa 3 database ng pananaliksik',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.ML]: {
+    text: '3 ഗവേഷണ ഡാറ്റാബേസുകളിൽ നിന്നുള്ള 39,075+ ശാസ്ത്രീയ സ്വപ്ന റിപ്പോർട്ടുകളുടെ അടിസ്ഥാനത്തിൽ',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.MR]: {
+    text: '3 संशोधन डेटाबेसमधील 39,075+ वैज्ञानिक स्वप्न अहवालांवर आधारित',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.KN]: {
+    text: '3 ಸಂಶೋಧನಾ ಡೇಟಾಬೇಸ್‌ಗಳಿಂದ 39,075+ ವೈಜ್ಞಾನಿಕ ಕನಸು ವರದಿಗಳ ಆಧಾರದ ಮೇಲೆ',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.GU]: {
+    text: '3 સંશોધન ડેટાબેઝમાંથી 39,075+ વૈજ્ઞાનિક સ્વપ્ન અહેવાલો પર આધારિત',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.HE]: {
+    text: 'מבוסס על 39,075+ דוחות חלומות מדעיים מ-3 מאגרי מחקר',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.NE]: {
+    text: '3 अनुसन्धान डाटाबेसबाट 39,075+ वैज्ञानिक सपना प्रतिवेदनहरूमा आधारित',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
+  [Language.PRS]: {
+    text: 'بر اساس بیشتر از 39,075 گزارش علمی خواب از 3 پایگاه داده تحقیقاتی',
+    sources: ['SDDb', 'DreamBank', 'Monash'],
+  },
 };
 
 const TrustBanner: React.FC<TrustBannerProps> = ({ language, onNavigateToScience }) => {
-  const t = TRUST_TRANSLATIONS[language] || TRUST_TRANSLATIONS[Language.DE];
-  const isRtl = [Language.AR, Language.FA, Language.UR].includes(language);
+  const t = TRUST_TRANSLATIONS[language] || TRUST_TRANSLATIONS[language.startsWith("ar") ? Language.AR : Language.DE] || TRUST_TRANSLATIONS[Language.DE];
+  const isRtl = ((language as string).startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language));
   const ref = useRef<HTMLButtonElement>(null);
   const [visible, setVisible] = useState(false);
 

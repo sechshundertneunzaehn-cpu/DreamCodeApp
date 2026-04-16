@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Studio Video",
         dream_network: "Rete dei Sogni",
         privacy_link: "Privacy", terms_link: "Termini", imprint_link: "Note Legali", research_link: "Ricerca", studies_link: "Studi", worldmap_link: "Mappa Mondiale", showing_sources_only: "Mostrando solo fonti {0}", science_label: "Conoscenza",
+        symbols_link: "Biblioteca dei Simboli", science_study_btn: "Studio Scientifico", study_btn_desc: "Anonimo · Ricerca · Sconto 10–20%", study_discount_active: "Sconto Attivo",
+        language_label: "Lingua",
     },
     processing: {
         title: "L'Oracolo lavora...",

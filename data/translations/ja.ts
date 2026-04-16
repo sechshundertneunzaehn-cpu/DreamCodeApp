@@ -127,6 +127,8 @@ const translation = {
         video_studio: "ビデオスタジオ",
         dream_network: "ドリームネットワーク",
         privacy_link: "プライバシー", terms_link: "利用規約", imprint_link: "特定商取引法", research_link: "研究", studies_link: "研究", worldmap_link: "世界地図", showing_sources_only: "{0}のソースのみ表示", science_label: "知識",
+        symbols_link: "夢のシンボル辞典", science_study_btn: "科学的研究", study_btn_desc: "匿名・研究・10〜20%割引", study_discount_active: "研究割引有効",
+        language_label: "言語",
     },
     processing: {
         title: "オラクルが稼働中...",

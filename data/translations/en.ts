@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Video Studio",
         dream_network: "Dream Network",
         privacy_link: "Privacy", terms_link: "Terms", imprint_link: "Imprint", research_link: "Research", studies_link: "Studies", worldmap_link: "World Map", showing_sources_only: "Showing only {0} sources", science_label: "Knowledge",
+        symbols_link: "Dream Symbol Library", science_study_btn: "Scientific Study", study_btn_desc: "Anonymous · Research · 10–20% Discount", study_discount_active: "Study Discount Active",
+        language_label: "Language",
     },
     processing: {
         title: "The Oracle works...",

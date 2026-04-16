@@ -127,6 +127,8 @@ const translation = {
         video_studio: "ভিডিও স্টুডিও",
         dream_network: "স্বপ্ন নেটওয়ার্ক",
         privacy_link: "গোপনীয়তা", terms_link: "শর্তাবলী", imprint_link: "ইমপ্রিন্ট", research_link: "গবেষণা", studies_link: "গবেষণা", worldmap_link: "বিশ্ব মানচিত্র", showing_sources_only: "শুধুমাত্র {0} উৎস দেখানো হচ্ছে", science_label: "জ্ঞান",
+        symbols_link: "স্বপ্নের প্রতীক লাইব্রেরি", science_study_btn: "বৈজ্ঞানিক গবেষণা", study_btn_desc: "বেনামী · গবেষণা · ১০–২০% ছাড়", study_discount_active: "অধ্যয়ন ছাড় সক্রিয়",
+        language_label: "ভাষা",
     },
     processing: {
         title: "ওরাকল কাজ করছে...",

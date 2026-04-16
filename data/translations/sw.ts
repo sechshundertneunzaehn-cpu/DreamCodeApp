@@ -127,6 +127,8 @@ const translation = {
         video_studio: "Studio ya Video",
         dream_network: "Mtandao wa Ndoto",
         privacy_link: "Faragha", terms_link: "Masharti", imprint_link: "Alama", research_link: "Utafiti", studies_link: "Tafiti", worldmap_link: "Ramani ya Dunia", showing_sources_only: "Inaonyesha vyanzo vya {0} pekee", science_label: "Maarifa",
+        symbols_link: "Maktaba ya Alama za Ndoto", science_study_btn: "Utafiti wa Kisayansi", study_btn_desc: "Siri · Utafiti · Punguzo 10–20%", study_discount_active: "Punguzo Linalotumika",
+        language_label: "Lugha",
     },
     processing: {
         title: "Oracle inafanya kazi...",

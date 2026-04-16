@@ -20,6 +20,7 @@ const DreamCalendar = React.lazy(() => import('./components/DreamCalendar'));
 const DreamMap = React.lazy(() => import('./components/DreamMap'));
 const VideoStudio = React.lazy(() => import('./components/VideoStudio'));
 const SpeechToVideoModal = React.lazy(() => import('./components/SpeechToVideoModal'));
+const ProVideoStudio = React.lazy(() => import('./components/ProVideoStudio/ProVideoStudio'));
 const DreamNetwork = React.lazy(() => import('./components/DreamNetwork'));
 const SciencePage = React.lazy(() => import('./components/SciencePage'));
 import CosmicDnaModal from './components/CosmicDnaModal';
@@ -43,6 +44,7 @@ import { FEATURE_PRICES, SUBSCRIPTION_TIERS, COIN_PACKAGES, REWARDS, coinToEur }
 import { CATEGORY_ICONS, CATEGORY_ORDER, CATEGORY_SOURCE_MAP, CATEGORY_COLOR_SCHEME, CATEGORY_TIER_REQUIREMENT, CATEGORY_ACCENT, getSourcesForCategories } from './config/traditions';
 import { REWARD_CONFIG } from './config/rewards';
 import { detectRegion, RegionInfo } from './services/regionService';
+import { createCheckoutSession } from './services/stripeService';
 
 // --- Data & Translations (lazy-loaded per language) ---
 import { TRANSLATIONS, loadTranslation } from './data/translations';
@@ -71,6 +73,7 @@ interface SettingsModalProps {
     handleExport: () => void;
     handleImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
     language: string;
+    onLanguageChange: (lang: Language) => void;
     onVoiceChange: (character: VoiceCharacter) => void;
     currentVoiceId?: string;
 }
@@ -82,6 +85,7 @@ interface SubscriptionModalProps {
     userProfile: UserProfile | null;
     onUpdateSubscription: (tier: SubscriptionTier) => void;
     language?: string;
+    regionInfo?: RegionInfo | null;
 }
 
 const App: React.FC = () => {
@@ -113,16 +117,41 @@ const App: React.FC = () => {
         if (dl.startsWith('th')) return Language.TH;
         if (dl.startsWith('sw')) return Language.SW;
         if (dl.startsWith('hu')) return Language.HU;
+        if (dl.startsWith('ta')) return Language.TA;
+        if (dl.startsWith('te')) return Language.TE;
+        if (dl.startsWith('tl') || dl.startsWith('fil')) return Language.TL;
+        if (dl.startsWith('ml')) return Language.ML;
+        if (dl.startsWith('mr')) return Language.MR;
+        if (dl.startsWith('kn')) return Language.KN;
+        if (dl.startsWith('gu')) return Language.GU;
+        if (dl.startsWith('he') || dl.startsWith('iw')) return Language.HE;
+        if (dl.startsWith('ne')) return Language.NE;
         if (dl.startsWith('en')) return Language.EN;
         return Language.DE;
     });
-    const setLanguage = (lang: Language) => {
+    const [, forceUpdate] = useState(0);
+    const setLanguage = async (lang: Language) => {
+        await loadTranslation(lang);
         setLanguageState(lang);
         localStorage.setItem('dreamcode_language', lang);
+        // useAutoTranslate-Hooks über Sprachwechsel benachrichtigen
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: 'dreamcode_language',
+            newValue: lang,
+            storageArea: localStorage,
+        }));
     };
+    // Sicherstellen dass die initiale Sprache geladen ist (Lazy-Load Race-Fix)
+    useEffect(() => {
+        if (language !== Language.DE) {
+            loadTranslation(language).then(() => forceUpdate(v => v + 1));
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     const [dreamInput, setDreamInput] = useState('');
     const [videoStudioDreamId, setVideoStudioDreamId] = useState<string | null>(null);
     const [videoStudioInterpretation, setVideoStudioInterpretation] = useState<string>('');
+    const [proStudioVideoUrl, setProStudioVideoUrl] = useState<string | null>(null);
     const [selectedCategories, setSelectedCategories] = useState<ReligiousCategory[]>([]);
     const [selectedSources, setSelectedSources] = useState<ReligiousSource[]>([]);
     const [loading, setLoading] = useState(false);
@@ -212,7 +241,7 @@ const App: React.FC = () => {
 
     // RTL support + lazy translation load
     useEffect(() => {
-        document.documentElement.dir = [Language.AR, Language.FA, Language.UR].includes(language) ? 'rtl' : 'ltr';
+        document.documentElement.dir = (language.startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language)) ? 'rtl' : 'ltr';
         document.documentElement.lang = language;
         loadTranslation(language);
     }, [language]);
@@ -401,22 +430,57 @@ const App: React.FC = () => {
     };
 
     const handleUpdateSubscription = async (tier: SubscriptionTier) => {
-        const baseProfile = userProfile || {
-            name: "Dreamer",
-            interests: [],
-            credits: 100,
-            subscriptionTier: SubscriptionTier.FREE,
-            customApiKeys: []
-        } as UserProfile;
+        // FREE Tier: direkt setzen, kein Payment noetig
+        if (tier === SubscriptionTier.FREE) {
+            const baseProfile = userProfile || {
+                name: "Dreamer",
+                interests: [],
+                credits: 100,
+                subscriptionTier: SubscriptionTier.FREE,
+                customApiKeys: []
+            } as UserProfile;
+            const updated = { ...baseProfile, subscriptionTier: tier };
+            setUserProfile(updated);
+            await saveProfileSecurely(updated);
+            setShowSubModal(false);
+            return;
+        }
 
-        const updated = { ...baseProfile, subscriptionTier: tier };
-        setUserProfile(updated); 
-        await saveProfileSecurely(updated); 
-        setShowSubModal(false); 
-        
-        // If Smart Tier is selected, hint the user to settings
-        if (tier === SubscriptionTier.SMART) {
-            setShowSettings(true);
+        // Bezahlte Tiers: Stripe Checkout starten
+        const tierNameMap: Record<string, string> = {
+            [SubscriptionTier.PRO]: 'PRO',
+            [SubscriptionTier.PREMIUM]: 'PREMIUM',
+            [SubscriptionTier.SMART]: 'SMART',
+            [SubscriptionTier.VIP]: 'VIP',
+        };
+        const tierName = tierNameMap[tier];
+        if (!tierName) return;
+
+        try {
+            await createCheckoutSession('subscription', tierName, regionInfo?.region);
+            // Redirect passiert in createCheckoutSession (window.location.href)
+        } catch (err) {
+            console.error('Stripe Checkout fehlgeschlagen:', err);
+            // Fallback: Smart Tier kann auch lokal aktiviert werden (BYOK)
+            if (tier === SubscriptionTier.SMART) {
+                const baseProfile = userProfile || {
+                    name: "Dreamer",
+                    interests: [],
+                    credits: 100,
+                    subscriptionTier: SubscriptionTier.FREE,
+                    customApiKeys: []
+                } as UserProfile;
+                const updated = { ...baseProfile, subscriptionTier: tier };
+                setUserProfile(updated);
+                await saveProfileSecurely(updated);
+                setShowSubModal(false);
+                setShowSettings(true);
+            } else {
+                // Payment noch nicht live — User informieren
+                const t = TRANSLATIONS[language];
+                const msg = t?.sub?.coming_soon_msg || 'Zahlung wird bald aktiviert. Schreib uns: support@dream-code.app';
+                alert(msg);
+            }
         }
     };
 
@@ -511,7 +575,7 @@ const App: React.FC = () => {
         if (selectedSources.includes(source)) {
             setSelectedSources(prev => prev.filter(s => s !== source));
         } else {
-            setSelectedSources([source]);
+            setSelectedSources(prev => [...prev, source]);
         }
     };
 
@@ -541,6 +605,12 @@ const App: React.FC = () => {
         const LANG_NAMES: Record<string, string> = {
             de: 'Deutsch', tr: 'Türkisch', en: 'English', es: 'Spanisch',
             fr: 'Französisch', ar: 'Arabisch', pt: 'Portugiesisch', ru: 'Russisch',
+            zh: 'Chinesisch', hi: 'Hindi', ja: 'Japanisch', ko: 'Koreanisch',
+            id: 'Indonesisch', fa: 'Persisch', it: 'Italienisch', pl: 'Polnisch',
+            bn: 'Bengalisch', ur: 'Urdu', vi: 'Vietnamesisch', th: 'Thailändisch',
+            sw: 'Suaheli', hu: 'Ungarisch', ta: 'Tamil', te: 'Telugu',
+            tl: 'Filipino', ml: 'Malayalam', mr: 'Marathi', kn: 'Kannada',
+            gu: 'Gujarati', he: 'Hebräisch', ne: 'Nepali', prs: 'Dari',
         };
         const langName = LANG_NAMES[lang] || 'Deutsch';
 
@@ -670,6 +740,7 @@ Rules:
 
         } catch (e) {
             console.error("Analysis failed", e);
+            alert(t.ui.analysis_error || 'Traumanalyse fehlgeschlagen. Bitte versuche es erneut.');
             setLoading(false);
         }
     };
@@ -1093,7 +1164,13 @@ Rules:
                 [Language.KO]: 'ko-KR', [Language.ID]: 'id-ID', [Language.FA]: 'fa-IR',
                 [Language.IT]: 'it-IT', [Language.PL]: 'pl-PL', [Language.BN]: 'bn-BD',
                 [Language.UR]: 'ur-PK', [Language.VI]: 'vi-VN', [Language.TH]: 'th-TH',
-                [Language.SW]: 'sw-KE', [Language.HU]: 'hu-HU'
+                [Language.SW]: 'sw-KE', [Language.HU]: 'hu-HU',
+                [Language.TA]: 'ta-IN', [Language.TE]: 'te-IN', [Language.TL]: 'fil-PH',
+                [Language.ML]: 'ml-IN', [Language.MR]: 'mr-IN', [Language.KN]: 'kn-IN',
+                [Language.GU]: 'gu-IN', [Language.HE]: 'he-IL', [Language.NE]: 'ne-NP',
+                [Language.PRS]: 'fa-AF',
+                [Language.AR_GULF]: 'ar-AE', [Language.AR_EG]: 'ar-EG',
+                [Language.AR_LEV]: 'ar-JO', [Language.AR_MAG]: 'ar-MA', [Language.AR_IQ]: 'ar-IQ',
             };
             const dateStr = nextMonth.toLocaleDateString(localeMap[language] || 'de-DE', { day: '2-digit', month: '2-digit' });
 
@@ -1155,7 +1232,12 @@ Rules:
                           <option value={Language.TR}>🇹🇷 TR</option>
                           <option value={Language.ES}>🇪🇸 ES</option>
                           <option value={Language.FR}>🇫🇷 FR</option>
-                          <option value={Language.AR}>🇸🇦 AR</option>
+                          <option value={Language.AR}>🌍 AR</option>
+                          <option value={Language.AR_GULF}>🇸🇦 خليجي</option>
+                          <option value={Language.AR_EG}>🇪🇬 مصري</option>
+                          <option value={Language.AR_LEV}>🇱🇧 شامي</option>
+                          <option value={Language.AR_MAG}>🇲🇦 دارجة</option>
+                          <option value={Language.AR_IQ}>🇮🇶 عراقي</option>
                           <option value={Language.PT}>🇵🇹 PT</option>
                           <option value={Language.RU}>🇷🇺 RU</option>
                           <option value={Language.ZH}>🇨🇳 ZH</option>
@@ -1172,6 +1254,16 @@ Rules:
                           <option value={Language.TH}>🇹🇭 TH</option>
                           <option value={Language.SW}>🇰🇪 SW</option>
                           <option value={Language.HU}>🇭🇺 HU</option>
+                          <option value={Language.TA}>🇮🇳 TA</option>
+                          <option value={Language.TE}>🇮🇳 TE</option>
+                          <option value={Language.TL}>🇵🇭 TL</option>
+                          <option value={Language.ML}>🇮🇳 ML</option>
+                          <option value={Language.MR}>🇮🇳 MR</option>
+                          <option value={Language.KN}>🇮🇳 KN</option>
+                          <option value={Language.GU}>🇮🇳 GU</option>
+                          <option value={Language.HE}>🇮🇱 HE</option>
+                          <option value={Language.NE}>🇳🇵 NE</option>
+                          <option value={Language.PRS}>🇦🇫 PRS</option>
                       </select>
 
                       {/* COINS & TIER */}
@@ -1197,8 +1289,8 @@ Rules:
                  className={`w-full mb-3 p-4 rounded-2xl border flex items-center gap-4 transition-all ${isLight ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 border-violet-200 hover:shadow-md hover:border-violet-300' : 'bg-gradient-to-r from-violet-900/20 to-fuchsia-900/15 border-white/10 hover:border-violet-500/40 hover:bg-violet-900/30'}`}>
                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${isLight ? 'bg-violet-100' : 'bg-violet-900/40'}`}>📊</div>
                  <div className="text-left flex-1">
-                     <div className={`text-sm font-bold ${isLight ? 'text-violet-900' : 'text-white'}`}>{'Wissenschaftliche Studie' || 'Scientific Study'}</div>
-                     <div className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{userProfile.study_participation_level && userProfile.study_participation_level !== 'none' ? `📊 ${(userProfile.study_discount ?? 0) * 100}% Studienrabatt aktiv` : 'Anonym · Forschung · 10–20% Rabatt'}</div>
+                     <div className={`text-sm font-bold ${isLight ? 'text-violet-900' : 'text-white'}`}>{t.ui.science_study_btn}</div>
+                     <div className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>{userProfile.study_participation_level && userProfile.study_participation_level !== 'none' ? `📊 ${(userProfile.study_discount ?? 0) * 100}% ${t.ui.study_discount_active}` : t.ui.study_btn_desc}</div>
                  </div>
                  <span className={`material-icons text-lg ${isLight ? 'text-violet-400' : 'text-violet-500'}`}>chevron_right</span>
              </button>
@@ -1208,8 +1300,8 @@ Rules:
                  className={`w-full mb-5 p-4 rounded-2xl border flex items-center gap-4 transition-all ${isLight ? 'bg-gradient-to-r from-indigo-50 to-fuchsia-50 border-indigo-200 hover:shadow-md hover:border-indigo-300' : 'bg-gradient-to-r from-indigo-900/20 to-fuchsia-900/15 border-white/10 hover:border-indigo-500/40 hover:bg-indigo-900/30'}`}>
                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${isLight ? 'bg-indigo-100' : 'bg-indigo-900/40'}`}>📚</div>
                  <div className="text-left flex-1">
-                     <div className={`text-sm font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.symbols_link || 'Traumsymbol-Bibliothek'}</div>
-                     <div className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>258 {t.ui.symbols_link ? '' : 'Symbole'} · Freud · Ibn Sirin</div>
+                     <div className={`text-sm font-bold ${isLight ? 'text-indigo-900' : 'text-white'}`}>{t.ui.symbols_link}</div>
+                     <div className={`text-[11px] ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>877 · Freud · Ibn Sirin</div>
                  </div>
                  <span className={`material-icons text-lg ${isLight ? 'text-indigo-400' : 'text-indigo-500'}`}>chevron_right</span>
              </button>
@@ -1286,9 +1378,9 @@ Rules:
                      <h3 className={`text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2 ${isLight ? 'text-[#4c1d95]' : 'text-slate-400'}`}>
                         <span className={`w-8 h-[1px] ${isLight ? 'bg-[#7c3aed]' : 'bg-slate-600'}`}></span> {t.ui.refine_sources}
                      </h3>
-                     {selectedCategories.length === 1 && (
+                     {selectedCategories.length >= 1 && (
                          <p className={`text-center text-[11px] mb-2 ${isLight ? 'text-indigo-600' : 'text-indigo-400'}`}>
-                             {t.ui.showing_sources_only?.replace('{0}', t.categories[selectedCategories[0]]) || `${t.categories[selectedCategories[0]]} — filtered`}
+                             {t.ui.showing_sources_only?.replace('{0}', selectedCategories.map(c => t.categories[c]).join(', ')) || `${selectedCategories.map(c => t.categories[c]).join(', ')} — filtered`}
                          </p>
                      )}
                      <div className="grid grid-cols-2 gap-2">
@@ -1333,7 +1425,7 @@ Rules:
                  <button onClick={() => handleAnalyze()} disabled={loading || !dreamInput} className={`relative flex-[2] py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all ${loading || !dreamInput ? (isLight ? 'bg-[#c4bce6]/50 text-[#6b5a80] cursor-not-allowed' : 'bg-slate-800/40 text-slate-600 cursor-not-allowed') : noCredits ? 'bg-slate-800/60 backdrop-blur-md border border-slate-600/40 text-slate-400' : (isLight ? 'bg-gradient-to-r from-[#4c1d95] to-[#7c3aed] text-white shadow-lg shadow-violet-500/40 hover:shadow-xl hover:shadow-violet-500/50 hover:scale-[1.02] active:scale-[0.98]' : 'bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-violet-500 text-white shadow-lg shadow-fuchsia-500/30 hover:shadow-xl hover:shadow-fuchsia-500/50 hover:scale-[1.02] active:scale-[0.98]')}`}>
                      {loading ? (<span className="flex items-center justify-center gap-3">{t.processing.title}</span>) : noCredits ? (<span className="flex items-center justify-center gap-2"><span className="material-icons">lock</span> {t.ui.interpret} (0 {t.ui.coins || 'Credits'})</span>) : (<span className="flex items-center justify-center gap-2"><span className="material-icons">auto_awesome</span> {t.ui.interpret}</span>)}
                  </button>
-                 <button onClick={() => setShowSpeechModal(true)} className={`flex-1 py-4 rounded-2xl font-bold text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 border ${isLight ? 'bg-violet-50 border-violet-300 text-violet-700 hover:bg-violet-100 hover:scale-[1.02] active:scale-[0.98]' : 'bg-violet-900/20 border-violet-500/30 text-violet-300 hover:bg-violet-900/40 hover:scale-[1.02] active:scale-[0.98]'}`}>
+                 <button onClick={() => { setView(View.VIDEO_STUDIO); }} className={`flex-1 py-4 rounded-2xl font-bold text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 border ${isLight ? 'bg-violet-50 border-violet-300 text-violet-700 hover:bg-violet-100 hover:scale-[1.02] active:scale-[0.98]' : 'bg-violet-900/20 border-violet-500/30 text-violet-300 hover:bg-violet-900/40 hover:scale-[1.02] active:scale-[0.98]'}`}>
                      <span className="material-icons text-base">movie_creation</span> {t.ui.create_dream_video}
                  </button>
              </div>
@@ -1390,13 +1482,13 @@ Rules:
     return (
         <ErrorBoundary>
         <React.Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#0f0b1a', color: '#7c3aed', fontFamily: 'Cinzel, serif', fontSize: '1.2rem' }}>DreamCode...</div>}>
-        <div dir={[Language.AR, Language.FA, Language.UR].includes(language) ? 'rtl' : 'ltr'} style={{ backgroundColor: isLight ? '#f0eefc' : '#0f0b1a' }} className={`min-h-screen font-sans relative overflow-x-hidden transition-colors duration-700 ${isLight ? 'text-mystic-text selection:bg-accent-primary/30' : 'text-slate-200 selection:bg-accent-primary/30'}`}>
+        <div dir={(language.startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language)) ? 'rtl' : 'ltr'} style={{ backgroundColor: isLight ? '#f0eefc' : '#0f0b1a' }} className={`min-h-screen font-sans relative overflow-x-hidden transition-colors duration-700 ${isLight ? 'text-mystic-text selection:bg-accent-primary/30' : 'text-slate-200 selection:bg-accent-primary/30'}`}>
             <StarryBackground themeMode={themeMode} designTheme={designTheme} />
             
             {loading && <ProcessingOverlay isLight={isLight} steps={processingSteps} categories={selectedCategories} sources={selectedSources} t={t} />}
             {isVideoLoading && <VideoLoadingOverlay t={t} />}
             {isAdPlaying && <AdOverlay t={t} duration={adDuration} />}
-            {showSubModal && <SubscriptionModal onClose={() => setShowSubModal(false)} t={t} isLight={isLight} userProfile={userProfile} onUpdateSubscription={handleUpdateSubscription} language={language} />}
+            {showSubModal && <SubscriptionModal onClose={() => setShowSubModal(false)} t={t} isLight={isLight} userProfile={userProfile} onUpdateSubscription={handleUpdateSubscription} language={language} regionInfo={regionInfo} />}
             {showEarnModal && <EarnCoinsModal onClose={() => setShowEarnModal(false)} t={t} isLight={isLight} onWatch={triggerAd} />}
             {showCoinShop && <CoinShopModal onClose={() => setShowCoinShop(false)} t={t} isLight={isLight} onPurchase={handleCoinPurchase} onEarnFree={() => { setShowCoinShop(false); setShowEarnModal(true); }} />}
             {showSettings && (
@@ -1415,6 +1507,7 @@ Rules:
                     handleExport={handleExportData}
                     handleImport={handleImportData}
                     language={language}
+                    onLanguageChange={setLanguage}
                     onVoiceChange={(character: VoiceCharacter) => {
                         localStorage.setItem('dreamcode_selected_voice', JSON.stringify({ id: character.id }));
                     }}
@@ -1570,9 +1663,11 @@ Rules:
                                 // ── KI-Video Tab: Echtes Video via Replicate ──
                                 if (options.tab === 'ai' && isReplicateConfigured()) {
                                     log('Starte echtes KI-Video via Replicate...', 10);
-                                    const promptText = cm === 'dream_only' ? text
+                                    const rawText = cm === 'dream_only' ? text
                                         : cm === 'interpretation' ? interpretationText
                                         : `${text}. ${interpretationText}`;
+                                    // Strikte Kontext-Treue: Prompt muss EXAKT den Traum abbilden
+                                    const promptText = `Scene description (show EXACTLY this, no additions): ${rawText}`;
                                     try {
                                         const replicateResult = await generateReplicateVideo(
                                             { prompt: promptText, style: videoStyle, aspectRatio: '16:9' },
@@ -1671,6 +1766,14 @@ Rules:
                             setView(View.HOME);
                         }}
                         userCredits={userProfile?.credits || 0}
+                    />
+                )}
+                {view === View.PRO_VIDEO_STUDIO && proStudioVideoUrl && (
+                    <ProVideoStudio
+                        sourceVideoUrl={proStudioVideoUrl}
+                        themeMode={themeMode}
+                        onClose={() => { setProStudioVideoUrl(null); setView(View.HOME); }}
+                        onExport={(json) => { console.log('[ProStudio] Export:', json); }}
                     />
                 )}
                 {view === View.DREAM_NETWORK && (
@@ -1792,7 +1895,7 @@ Rules:
                     {t.ui.studies_link}
                   </button>
                   <button onClick={() => setView(View.DREAM_SYMBOLS)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
-                    {t.ui.symbols_link || 'Symbole'}
+                    {t.ui.symbols_link}
                   </button>
                   <button onClick={() => setView(View.RESEARCH_MAP)} className={`hover:underline ${isLight ? 'hover:text-indigo-600' : 'hover:text-slate-300'} transition-colors`}>
                     {t.ui.worldmap_link}
@@ -1956,7 +2059,7 @@ const CoinShopModal = ({ onClose, t, isLight, onPurchase, onEarnFree }: { onClos
     </div>
 );
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiKeyInput, setApiKeyInput, handleAddApiKey, handleRemoveApiKey, userProfile, themeMode, handleThemeUpdate, designTheme, handleExport, handleImport, language, onVoiceChange, currentVoiceId }) => (
+const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiKeyInput, setApiKeyInput, handleAddApiKey, handleRemoveApiKey, userProfile, themeMode, handleThemeUpdate, designTheme, handleExport, handleImport, language, onLanguageChange, onVoiceChange, currentVoiceId }) => (
     <div className="fixed inset-0 z-[95] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div className={`w-[95%] max-w-md ${isLight ? 'bg-mystic-card/95 backdrop-blur-md' : 'bg-dream-surface/95 backdrop-blur-md'} border ${isLight ? 'border-mystic-border' : 'border-white/10'} rounded-2xl overflow-hidden flex flex-col shadow-2xl max-h-[85vh]`}>
             <div className={`px-5 py-4 border-b ${isLight ? 'border-mystic-border' : 'border-white/10'} flex justify-between items-center shrink-0`}>
@@ -2047,6 +2150,57 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
                     </div>
                 </div>
 
+                {/* Language Selection */}
+                <div className={`pt-5 border-t ${isLight ? 'border-mystic-border' : 'border-white/10'}`}>
+                    <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
+                        <span className="material-icons text-sm">translate</span>
+                        {t.ui.language_label || 'Language'}
+                    </h3>
+                    <select
+                        value={language}
+                        onChange={(e) => onLanguageChange(e.target.value as Language)}
+                        className={`w-full px-4 py-3 rounded-xl border text-sm font-bold transition-all cursor-pointer ${isLight ? 'bg-white border-indigo-200 text-indigo-900' : 'bg-white/5 border-white/10 text-white'}`}
+                    >
+                        <option value={Language.DE}>🇩🇪 Deutsch</option>
+                        <option value={Language.EN}>🇬🇧 English</option>
+                        <option value={Language.TR}>🇹🇷 Türkçe</option>
+                        <option value={Language.ES}>🇪🇸 Español</option>
+                        <option value={Language.FR}>🇫🇷 Français</option>
+                        <option value={Language.AR}>🌍 العربية الفصحى</option>
+                        <option value={Language.AR_GULF}>🇸🇦 خليجي</option>
+                        <option value={Language.AR_EG}>🇪🇬 مصري</option>
+                        <option value={Language.AR_LEV}>🇱🇧 شامي</option>
+                        <option value={Language.AR_MAG}>🇲🇦 دارجة</option>
+                        <option value={Language.AR_IQ}>🇮🇶 عراقي</option>
+                        <option value={Language.PT}>🇵🇹 Português</option>
+                        <option value={Language.RU}>🇷🇺 Русский</option>
+                        <option value={Language.ZH}>🇨🇳 中文</option>
+                        <option value={Language.HI}>🇮🇳 हिन्दी</option>
+                        <option value={Language.JA}>🇯🇵 日本語</option>
+                        <option value={Language.KO}>🇰🇷 한국어</option>
+                        <option value={Language.ID}>🇮🇩 Indonesia</option>
+                        <option value={Language.FA}>🇮🇷 فارسی</option>
+                        <option value={Language.IT}>🇮🇹 Italiano</option>
+                        <option value={Language.PL}>🇵🇱 Polski</option>
+                        <option value={Language.BN}>🇧🇩 বাংলা</option>
+                        <option value={Language.UR}>🇵🇰 اردو</option>
+                        <option value={Language.VI}>🇻🇳 Tiếng Việt</option>
+                        <option value={Language.TH}>🇹🇭 ไทย</option>
+                        <option value={Language.SW}>🇰🇪 Kiswahili</option>
+                        <option value={Language.HU}>🇭🇺 Magyar</option>
+                        <option value={Language.TA}>🇮🇳 தமிழ்</option>
+                        <option value={Language.TE}>🇮🇳 తెలుగు</option>
+                        <option value={Language.TL}>🇵🇭 Filipino</option>
+                        <option value={Language.ML}>🇮🇳 മലയാളം</option>
+                        <option value={Language.MR}>🇮🇳 मराठी</option>
+                        <option value={Language.KN}>🇮🇳 ಕನ್ನಡ</option>
+                        <option value={Language.GU}>🇮🇳 ગુજરાતી</option>
+                        <option value={Language.HE}>🇮🇱 עברית</option>
+                        <option value={Language.NE}>🇳🇵 नेपाली</option>
+                        <option value={Language.PRS}>🇦🇫 دری</option>
+                    </select>
+                </div>
+
                 {/* Oracle Voice */}
                 <div className={`pt-5 border-t ${isLight ? 'border-mystic-border' : 'border-white/10'}`}>
                     <h3 className={`text-xs font-bold uppercase tracking-widest mb-3 flex items-center gap-2 ${isLight ? 'text-mystic-text-secondary' : 'text-slate-400'}`}>
@@ -2094,7 +2248,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, t, isLight, apiK
     </div>
 );
 
-const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLight, userProfile, onUpdateSubscription, language: lang }) => {
+const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLight, userProfile, onUpdateSubscription, language: lang, regionInfo }) => {
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
     const [showSmartInfo, setShowSmartInfo] = useState(false);
 
@@ -2118,7 +2272,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                     </button>
                     <button onClick={() => setBillingCycle('yearly')} className={`relative z-10 px-5 py-1.5 rounded-full text-xs font-bold transition-colors duration-300 flex items-center gap-1.5 ${billingCycle === 'yearly' ? (isLight ? 'text-mystic-text' : 'text-white') : (isLight ? 'text-slate-400' : 'text-slate-400')}`}>
                         {t.sub.billing_yearly}
-                        <span className="bg-green-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-extrabold uppercase">-20%</span>
+                        <span className="bg-green-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-extrabold uppercase">{t.sub.yearly_discount}</span>
                     </button>
                 </div>
             </div>
@@ -2167,7 +2321,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                     </div>
                 )}
 
-                {[SubscriptionTier.FREE, SubscriptionTier.PRO, SubscriptionTier.PREMIUM, ...(regionInfo?.vipAvailable ? [SubscriptionTier.VIP] : [])].map(tier => {
+                {[SubscriptionTier.FREE, SubscriptionTier.PRO, SubscriptionTier.PREMIUM, SubscriptionTier.SMART, ...(regionInfo?.vipAvailable ? [SubscriptionTier.VIP] : [])].map(tier => {
                     const isCurrent = userProfile?.subscriptionTier === tier;
                     let title = "", features: string[] = [], price = "";
                     let borderColor = "";
@@ -2199,6 +2353,12 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                         features = t.sub.vip_features;
                         price = billingCycle === 'yearly' ? t.sub.vip_price_yearly : t.sub.vip_price_monthly;
                         borderColor = "border-pink-500";
+                    }
+                    if (tier === SubscriptionTier.SMART) {
+                        title = t.sub.smart_title;
+                        features = t.sub.smart_features;
+                        price = t.sub.smart_price;
+                        borderColor = "border-cyan-400";
                     }
 
                     // Calculate if badge is present
@@ -2235,7 +2395,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, t, isLig
                                 </div>
                                 <div className={`text-right ${hasBadge ? 'mt-5' : ''}`}>
                                     {tier === SubscriptionTier.PREMIUM && billingCycle === 'monthly' && (
-                                        <span className={`block text-xs line-through ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>{SUBSCRIPTION_TIERS.PREMIUM.strikethrough_monthly.toFixed(2).replace('.', ',')} €</span>
+                                        <span className={`block text-xs line-through ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>{SUBSCRIPTION_TIERS.PREMIUM.strikethrough_monthly.toFixed(2).replace('.', ',')} {regionInfo?.currencySymbol || '€'}</span>
                                     )}
                                     <span className={`block font-extrabold text-xl ${isLight ? 'text-mystic-text' : 'text-white'}`}>{price}</span>
                                 </div>

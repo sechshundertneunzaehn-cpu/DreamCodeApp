@@ -127,6 +127,8 @@ const translation = {
         video_studio: "สตูดิโอวิดีโอ",
         dream_network: "เครือข่ายความฝัน",
         privacy_link: "ความเป็นส่วนตัว", terms_link: "ข้อกำหนด", imprint_link: "ข้อมูลทางกฎหมาย", research_link: "การวิจัย", studies_link: "การศึกษา", worldmap_link: "แผนที่โลก", showing_sources_only: "แสดงเฉพาะแหล่ง {0}", science_label: "ความรู้",
+        symbols_link: "ห้องสมุดสัญลักษณ์ความฝัน", science_study_btn: "การศึกษาวิทยาศาสตร์", study_btn_desc: "ไม่ระบุตัวตน · วิจัย · ส่วนลด 10–20%", study_discount_active: "ส่วนลดใช้งานอยู่",
+        language_label: "ภาษา",
     },
     processing: {
         title: "คำทำนายกำลังทำงาน...",

@@ -6,7 +6,10 @@ import { FEATURE_FLAGS } from '../config/featureFlags';
 // import BotProfileModal from './BotProfileModal';
 // import { useBotFriends } from '../hooks/useBotFriends';
 import { fetchMapDreams, type MapDreamUser } from '../services/dreamMapService';
+import TranslatedText from './TranslatedText';
 import { supabase } from '../services/supabaseClient';
+import KnowledgeGraph from './KnowledgeGraph';
+import type { GraphNode } from '../services/graphDataService';
 
 // ─── Research Participant (individual) ────────────────────────────────────────
 interface IndividualParticipant {
@@ -986,11 +989,59 @@ const DreamMap: React.FC<DreamMapProps> = ({
     setTimeout(() => setProfileUser(null), 350);
   }, []);
 
+  // ── Resizable split: graph height (vh) with drag handle ──
+  const SPLIT_KEY = 'dreammap_graph_vh';
+  const SPLIT_MIN = 15; // minimum 15vh
+  const SPLIT_MAX = 65; // maximum 65vh
+  const [graphVh, setGraphVh] = useState<number>(() => {
+    try { const v = localStorage.getItem(SPLIT_KEY); return v ? Math.max(SPLIT_MIN, Math.min(SPLIT_MAX, Number(v))) : 35; } catch { return 35; }
+  });
+  const isDraggingSplitter = useRef(false);
+  const splitterStartY = useRef(0);
+  const splitterStartVh = useRef(35);
+
+  const handleSplitterStart = useCallback((clientY: number) => {
+    isDraggingSplitter.current = true;
+    splitterStartY.current = clientY;
+    splitterStartVh.current = graphVh;
+  }, [graphVh]);
+
+  const handleSplitterMove = useCallback((clientY: number) => {
+    if (!isDraggingSplitter.current) return;
+    const deltaVh = ((clientY - splitterStartY.current) / window.innerHeight) * 100;
+    const newVh = Math.max(SPLIT_MIN, Math.min(SPLIT_MAX, splitterStartVh.current + deltaVh));
+    setGraphVh(newVh);
+  }, []);
+
+  const handleSplitterEnd = useCallback(() => {
+    if (!isDraggingSplitter.current) return;
+    isDraggingSplitter.current = false;
+    try { localStorage.setItem(SPLIT_KEY, String(Math.round(graphVh))); } catch {}
+  }, [graphVh]);
+
+  useEffect(() => {
+    const onMove = (e: TouchEvent) => handleSplitterMove(e.touches[0].clientY);
+    const onEnd = () => handleSplitterEnd();
+    const onMouseMove = (e: MouseEvent) => handleSplitterMove(e.clientY);
+    window.addEventListener('touchmove', onMove, { passive: true });
+    window.addEventListener('touchend', onEnd);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onEnd);
+    return () => { window.removeEventListener('touchmove', onMove); window.removeEventListener('touchend', onEnd); window.removeEventListener('mousemove', onMouseMove); window.removeEventListener('mouseup', onEnd); };
+  }, [handleSplitterMove, handleSplitterEnd]);
+
   // ── New feature state ──
   const [searchQuery, setSearchQuery] = useState('');
   const [matchThreshold, setMatchThreshold] = useState(50);
   const [liveSearchResults, setLiveSearchResults] = useState<SimUser[]>([]);
   const [isLiveSearching, setIsLiveSearching] = useState(false);
+  // ── Search type + demographic filters ──
+  const [searchType, setSearchType] = useState<'all' | 'dreams' | 'interpretations' | 'symbols'>('all');
+  const [filterGender, setFilterGender] = useState<'all' | 'male' | 'female'>('all');
+  const [filterAgeMin, setFilterAgeMin] = useState<number>(0);
+  const [filterAgeMax, setFilterAgeMax] = useState<number>(99);
+  const [filterNationality, setFilterNationality] = useState('');
+  const [filterCity, setFilterCity] = useState('');
   // Zoom & Pan
   const [mapScale, setMapScale] = useState(1);
   const [mapOffset, setMapOffset] = useState({ x: 0, y: 0 });
@@ -1189,74 +1240,170 @@ const DreamMap: React.FC<DreamMapProps> = ({
     };
   }, [users]);
 
-  // Live Supabase search when local results are empty
+  // Live Supabase search — immer ausfuehren, mit Typ- und Demografie-Filtern
   useEffect(() => {
     const q = searchQuery.trim();
     if (q.length < 2) { setLiveSearchResults([]); return; }
 
-    // Only trigger if local filter returned nothing — checked via setTimeout
-    // (sortedFilteredUsers isn't available yet here, but filteredUsers will recompute first)
     const timer = setTimeout(async () => {
-      // Re-check: if local data produced results by now, skip live search
       setIsLiveSearching(true);
       try {
-        const { data: dreams } = await supabase
-          .from('research_dreams')
-          .select('participant_id, dream_text')
-          .ilike('dream_text', `%${q}%`)
-          .limit(20);
+        const allResults: SimUser[] = [];
 
-        if (!dreams || dreams.length === 0) { setLiveSearchResults([]); return; }
+        // ── Traeume durchsuchen (Wort-basierte AND-Suche) ──
+        if (searchType === 'all' || searchType === 'dreams') {
+          // Jedes Wort als eigene AND-Bedingung
+          const searchWords = q.split(/\s+/).filter((w: string) => w.length >= 2);
+          let dreamQuery = supabase
+            .from('research_dreams')
+            .select('participant_id, dream_text');
+          for (const word of searchWords) {
+            dreamQuery = dreamQuery.ilike('dream_text', `%${word}%`);
+          }
+          const { data: dreams } = await dreamQuery.limit(500);
 
-        // research_dreams.participant_id is a string ID (e.g. "SDDB-022-P0053"), not a UUID
-        const pIds = [...new Set(dreams.map((d: any) => d.participant_id as string))].slice(0, 8);
-        const { data: participants } = await supabase
-          .from('research_participants')
-          .select('id, participant_id, country, lat, lng, dream_count')
-          .in('participant_id', pIds);
+          if (dreams && dreams.length > 0) {
+            const pIds = [...new Set(dreams.map((d: any) => d.participant_id as string))].slice(0, 100);
+            let pQuery = supabase
+              .from('research_participants')
+              .select('id, participant_id, country, city, lat, lng, dream_count, gender, age')
+              .in('participant_id', pIds);
+            if (filterGender !== 'all') pQuery = pQuery.eq('gender', filterGender);
+            if (filterAgeMin >= 0) pQuery = pQuery.gte('age', filterAgeMin);
+            if (filterAgeMax < 99) pQuery = pQuery.lte('age', filterAgeMax);
+            if (filterNationality) pQuery = pQuery.ilike('country', `%${filterNationality}%`);
+            if (filterCity) pQuery = pQuery.ilike('city', `%${filterCity}%`);
 
-        if (!participants || participants.length === 0) { setLiveSearchResults([]); return; }
+            const { data: participants } = await pQuery;
 
-        const results: SimUser[] = participants.map((p: any) => {
-          const snippet = dreams.find((d: any) => d.participant_id === p.participant_id)?.dream_text || '';
-          const idx = snippet.toLowerCase().indexOf(q.toLowerCase());
-          const start = Math.max(0, idx - 30);
-          const excerpt = idx >= 0
-            ? (start > 0 ? '…' : '') + snippet.slice(start, idx + q.length + 50) + '…'
-            : snippet.slice(0, 80);
-          return {
-            id: `rp_${p.participant_id}`,
-            name: p.participant_id,
-            avatar: '🔬',
-            city: '',
-            country: p.country || '',
-            lat: p.lat || 0,
-            lng: p.lng || 0,
-            dreamSummary: excerpt,
-            category: 'spiritual',
-            mood: 'peaceful',
-            matchPct: 80,
-            privacy: 'public' as const,
-            memberSince: '',
-            bio: '',
-            dreamCount: p.dream_count || 0,
-            matchCount: 0,
-            favCategory: 'spiritual',
-          };
-        });
-        setLiveSearchResults(results);
+            if (participants && participants.length > 0) {
+              for (const p of participants) {
+                const snippet = dreams.find((d: any) => d.participant_id === p.participant_id)?.dream_text || '';
+                const idx = snippet.toLowerCase().indexOf(q.toLowerCase());
+                const start = Math.max(0, idx - 30);
+                const excerpt = idx >= 0
+                  ? (start > 0 ? '…' : '') + snippet.slice(start, idx + q.length + 50) + '…'
+                  : snippet.slice(0, 80);
+                const genderTag = p.gender ? (p.gender === 'male' ? ' ♂' : p.gender === 'female' ? ' ♀' : '') : '';
+                const ageTag = p.age ? `, ${p.age}J` : '';
+                allResults.push({
+                  id: `rp_${p.participant_id}`,
+                  name: `${p.participant_id}${genderTag}${ageTag}`,
+                  avatar: '🔬',
+                  city: p.city || '',
+                  country: p.country || '',
+                  lat: p.lat || 0,
+                  lng: p.lng || 0,
+                  dreamSummary: `💭 ${excerpt}`,
+                  category: 'spiritual',
+                  mood: 'peaceful',
+                  matchPct: 80,
+                  privacy: 'public' as const,
+                  memberSince: '',
+                  bio: '',
+                  dreamCount: p.dream_count || 0,
+                  matchCount: 0,
+                  favCategory: 'spiritual',
+                });
+              }
+            }
+          }
+        }
+
+        // ── Deutungen durchsuchen (Wort-basierte AND-Suche) ──
+        if (searchType === 'all' || searchType === 'interpretations') {
+          const interpWords = q.split(/\s+/).filter((w: string) => w.length >= 2);
+          let interpQuery = supabase
+            .from('research_interpretations')
+            .select('participant_id, content, tradition');
+          for (const word of interpWords) {
+            interpQuery = interpQuery.ilike('content', `%${word}%`);
+          }
+          const { data: interps } = await interpQuery.limit(300);
+
+          if (interps && interps.length > 0) {
+            const pIds = [...new Set(interps.map((d: any) => d.participant_id as string))].slice(0, 80);
+            let pQuery = supabase
+              .from('research_participants')
+              .select('id, participant_id, country, city, lat, lng, dream_count, gender, age')
+              .in('participant_id', pIds);
+            if (filterGender !== 'all') pQuery = pQuery.eq('gender', filterGender);
+            if (filterAgeMin >= 0) pQuery = pQuery.gte('age', filterAgeMin);
+            if (filterAgeMax < 99) pQuery = pQuery.lte('age', filterAgeMax);
+            if (filterNationality) pQuery = pQuery.ilike('country', `%${filterNationality}%`);
+            if (filterCity) pQuery = pQuery.ilike('city', `%${filterCity}%`);
+
+            const { data: participants } = await pQuery;
+
+            if (participants && participants.length > 0) {
+              for (const p of participants) {
+                const interp = interps.find((d: any) => d.participant_id === p.participant_id);
+                const snippet = interp?.content || '';
+                const idx = snippet.toLowerCase().indexOf(q.toLowerCase());
+                const start = Math.max(0, idx - 30);
+                const excerpt = idx >= 0
+                  ? (start > 0 ? '…' : '') + snippet.slice(start, idx + q.length + 50) + '…'
+                  : snippet.slice(0, 80);
+                const existingId = `rp_${p.participant_id}_interp`;
+                if (!allResults.some(r => r.id === existingId)) {
+                  allResults.push({
+                    id: existingId,
+                    name: `${p.participant_id} — ${interp?.tradition || 'Deutung'}`,
+                    avatar: '📖',
+                    city: p.city || '',
+                    country: p.country || '',
+                    lat: p.lat || 0,
+                    lng: p.lng || 0,
+                    dreamSummary: `📝 ${excerpt}`,
+                    category: 'spiritual',
+                    mood: 'peaceful',
+                    matchPct: 75,
+                    privacy: 'public' as const,
+                    memberSince: '',
+                    bio: '',
+                    dreamCount: p.dream_count || 0,
+                    matchCount: 0,
+                    favCategory: 'spiritual',
+                  });
+                }
+              }
+            }
+          }
+        }
+
+        setLiveSearchResults(allResults);
       } catch {
         setLiveSearchResults([]);
       } finally {
         setIsLiveSearching(false);
       }
-    }, 500);
+    }, 300);
 
     return () => { clearTimeout(timer); setIsLiveSearching(false); };
-  }, [searchQuery]);
+  }, [searchQuery, searchType, filterGender, filterAgeMin, filterAgeMax, filterNationality, filterCity]);
 
   // Effective threshold: when searching, drop to 0 so all results show
   const effectiveThreshold = searchQuery.trim().length > 0 ? 0 : matchThreshold;
+
+  // Unique countries and cities for autocomplete
+  // Laender aus Backend laden (research_participants)
+  const [dbCountries, setDbCountries] = useState<string[]>([]);
+  useEffect(() => {
+    const apiBase = (import.meta.env.VITE_API_BASE_URL as string) || '';
+    fetch(`${apiBase}/api/demographics/countries`)
+      .then(r => r.json())
+      .then(d => setDbCountries(d.countries || []))
+      .catch(() => {});
+  }, []);
+
+  const uniqueCountries = useMemo(() =>
+    [...new Set([...users.map(u => u.country).filter(Boolean), ...dbCountries])].sort(),
+    [users, dbCountries]
+  );
+  const uniqueCities = useMemo(() =>
+    [...new Set(users.map(u => u.city).filter(Boolean))].sort(),
+    [users]
+  );
 
   const filteredUsers = useMemo(() => {
     let list = users;
@@ -1266,6 +1413,34 @@ const DreamMap: React.FC<DreamMapProps> = ({
     }
     // Match threshold filter
     list = list.filter(u => u.matchPct >= effectiveThreshold);
+    // Gender filter
+    if (filterGender !== 'all') {
+      list = list.filter(u => {
+        const name = u.name.toLowerCase();
+        const isFemale = u.avatar.includes('👩') || u.avatar.includes('👱‍♀️') || u.avatar.includes('♀') || name.includes('♀');
+        const isMale = u.avatar.includes('👨') || u.avatar.includes('🧔') || u.avatar.includes('♂') || name.includes('♂');
+        if (filterGender === 'female') return isFemale;
+        if (filterGender === 'male') return isMale;
+        return true;
+      });
+    }
+    // Age filter
+    if (filterAgeMin > 0 || filterAgeMax < 99) {
+      list = list.filter(u => {
+        if (u.age == null) return true; // don't filter out users without age data
+        return u.age >= filterAgeMin && u.age <= filterAgeMax;
+      });
+    }
+    // Country filter
+    if (filterNationality.trim()) {
+      const nat = filterNationality.trim().toLowerCase();
+      list = list.filter(u => u.country.toLowerCase().includes(nat));
+    }
+    // City filter
+    if (filterCity.trim()) {
+      const ct = filterCity.trim().toLowerCase();
+      list = list.filter(u => u.city.toLowerCase().includes(ct));
+    }
     // Search filter
     if (searchQuery.trim().length > 0) {
       const q = searchQuery.trim().toLowerCase();
@@ -1277,13 +1452,16 @@ const DreamMap: React.FC<DreamMapProps> = ({
       );
     }
     return list;
-  }, [users, activeCategory, effectiveThreshold, searchQuery]);
+  }, [users, activeCategory, effectiveThreshold, searchQuery, filterGender, filterAgeMin, filterAgeMax, filterNationality, filterCity]);
 
-  // Sorted for result list (descending by match%)
-  const sortedFilteredUsers = useMemo(
-    () => [...filteredUsers].sort((a, b) => b.matchPct - a.matchPct),
-    [filteredUsers]
-  );
+  // Sorted for result list (descending by match%) — merge live search results (deduplicated)
+  const sortedFilteredUsers = useMemo(() => {
+    const localSorted = [...filteredUsers].sort((a, b) => b.matchPct - a.matchPct);
+    if (liveSearchResults.length === 0) return localSorted;
+    const existingIds = new Set(localSorted.map(u => u.id));
+    const uniqueLive = liveSearchResults.filter(u => !existingIds.has(u.id));
+    return [...localSorted, ...uniqueLive];
+  }, [filteredUsers, liveSearchResults]);
 
   const matchColor = (pct: number) =>
     pct >= 80 ? '#22c55e' : pct >= 60 ? '#eab308' : '#f97316';
@@ -1367,12 +1545,34 @@ const DreamMap: React.FC<DreamMapProps> = ({
     }
   }, [openProfile, onSelectParticipant, onNavigateToStudy]);
 
-  // Stats
-  const totalActive = users.length + 1847;
-  const avgMatch = users.length > 0
-    ? Math.round(users.reduce((s, u) => s + u.matchPct, 0) / users.length)
-    : 0;
-  const matchesToday = Math.floor(users.length * 0.6) + 23;
+  // Stats — API-basierter Counter bei aktiven Demografie-Filtern
+  const hasDemoFilter = filterGender !== 'all' || filterAgeMin > 0 || filterAgeMax < 99 || !!filterNationality || !!filterCity;
+  const [demoCount, setDemoCount] = useState<number | null>(null);
+  useEffect(() => {
+    if (!hasDemoFilter) { setDemoCount(null); return; }
+    const timer = setTimeout(() => {
+      const apiBase = (import.meta.env.VITE_API_BASE_URL as string) || '';
+      const p = new URLSearchParams();
+      if (filterGender !== 'all') p.set('gender', filterGender === 'male' ? 'Male' : 'Female');
+      if (filterAgeMin > 0) p.set('age_min', String(filterAgeMin));
+      if (filterAgeMax < 99) p.set('age_max', String(filterAgeMax));
+      if (filterNationality) p.set('country', filterNationality);
+      fetch(`${apiBase}/api/demographics/filtered-symbols?${p}`)
+        .then(r => r.json())
+        .then(d => setDemoCount(d.participantCount || 0))
+        .catch(() => {});
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [hasDemoFilter, filterGender, filterAgeMin, filterAgeMax, filterNationality]);
+
+  const baseTotal = users.length + 1847;
+  const totalActive = hasDemoFilter && demoCount !== null ? demoCount : baseTotal;
+  const avgMatch = filteredUsers.length > 0
+    ? Math.round(filteredUsers.reduce((s, u) => s + u.matchPct, 0) / filteredUsers.length)
+    : (users.length > 0 ? Math.round(users.reduce((s, u) => s + u.matchPct, 0) / users.length) : 0);
+  const matchesToday = hasDemoFilter && demoCount !== null
+    ? Math.floor(demoCount * 0.18)
+    : Math.floor(users.length * 0.6) + 23;
 
   // Trend rankings
   const trendRanking = React.useMemo(() => {
@@ -1433,7 +1633,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const isSearchActive = searchQuery.trim().length > 0;
 
   return (
-    <div className={`fixed inset-0 w-full ${bg} overflow-y-auto`} style={{ zIndex: 55 }}>
+    <div className={`fixed inset-0 w-full ${bg} flex flex-col`} style={{ zIndex: 55 }}>
 
       {/* ── Keyframe Styles ── */}
       <style>{`
@@ -1476,236 +1676,92 @@ const DreamMap: React.FC<DreamMapProps> = ({
         .dm-profile-exit  { animation: dmProfileSlideDown 0.35s cubic-bezier(0.32,0.72,0,1) forwards; }
       `}</style>
 
-      {/* ── World Map (TOP) with Title Overlay ── */}
+      {/* ── Knowledge Graph (TOP — resizable via drag handle) ── */}
       <div
-        ref={mapContainerRef}
-        className={`relative z-10 overflow-hidden transition-all duration-500 ${
-          isSearchActive ? 'h-0 opacity-0 overflow-hidden' : 'h-[30vh]'
-        }`}
-        onWheel={handleWheel}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        className="relative z-10 overflow-hidden shrink-0"
+        style={{ height: `${graphVh}vh` }}
       >
-        <div
-          className="relative w-full h-full overflow-hidden"
-          style={{
-            background: isLight ? '#e8e0f0' : '#0a0318',
-            transform: `scale(${mapScale}) translate(${mapOffset.x / mapScale}px, ${mapOffset.y / mapScale}px)`,
-            transformOrigin: 'center center',
-            transition: isDragging ? 'none' : 'transform 0.2s ease',
-            cursor: mapScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
-            touchAction: 'none',
-          }}
-        >
-          {/* World map SVG background */}
-          <div
-            className="absolute inset-0 bg-contain bg-no-repeat bg-center"
-            style={{
-              backgroundImage: "url('/world-map.svg')",
-              filter: isLight
-                ? 'invert(0) brightness(0.9) opacity(0.6)'
-                : 'invert(1) hue-rotate(180deg) saturate(0.3) brightness(0.5) opacity(0.7)',
-            }}
-          />
-
-          {/* Fullscreen research map button */}
-          {onNavigateToResearch && (
-            <button
-              onClick={onNavigateToResearch}
-              className="absolute bottom-0 inset-x-0 z-30 flex items-center justify-center gap-2 py-2 text-xs font-bold backdrop-blur-sm"
-              style={{ background: 'linear-gradient(to top, rgba(79,70,229,0.95) 0%, rgba(79,70,229,0.7) 100%)', color: '#fff', letterSpacing: '0.05em' }}
-            >
-              <span className="material-icons" style={{ fontSize: 15 }}>science</span>
-              {lang === 'de' ? '🔬 Wissenschaftliche Karte öffnen' : '🔬 Open Research Map'}
-              <span className="material-icons" style={{ fontSize: 15 }}>open_in_full</span>
-            </button>
-          )}
-
-          {/* Marker layer */}
-          <div className="absolute inset-0">
-            {/* "You" center marker */}
-            <div
-              className="absolute z-20"
-              style={{
-                left: `${youCoords.x}%`,
-                top: `${youCoords.y}%`,
-                transform: 'translate(-50%, -50%)',
-              }}
-            >
-              <div className="w-4 h-4 rounded-full bg-purple-500 border-2 border-white shadow-lg shadow-purple-500/50" />
-              <div
-                className="dm-pulse-ring w-8 h-8 border-2 border-purple-400"
-                style={{ left: '50%', top: '50%' }}
-              />
-            </div>
-
-            {/* Research Participant markers (cyan layer) */}
-            {showResearchLayer && individualParticipants.map((p) => {
-              const coords = getMapCoords(p.lat, p.lng);
-              const isSelected = selectedResearchParticipant?.id === p.id;
-              return (
-                <div
-                  key={`rp-${p.id}`}
-                  className="absolute"
-                  style={{ left: `${coords.x}%`, top: `${coords.y}%`, zIndex: isSelected ? 50 : 15 }}
-                >
-                  <div
-                    className="rounded-full cursor-pointer transition-transform hover:scale-[2.5] hover:z-50"
-                    style={{
-                      width: isSelected ? '10px' : '4px',
-                      height: isSelected ? '10px' : '4px',
-                      backgroundColor: isSelected ? '#22d3ee' : '#06b6d4',
-                      boxShadow: isSelected ? '0 0 8px #22d3ee80' : '0 0 3px #06b6d440',
-                      transform: 'translate(-50%, -50%)',
-                      borderWidth: isSelected ? '2px' : '0.5px',
-                      borderStyle: 'solid',
-                      borderColor: isSelected ? 'white' : 'rgba(255,255,255,0.3)',
-                      borderRadius: '9999px',
-                    }}
-                    onClick={() => setSelectedResearchParticipant(prev => prev?.id === p.id ? null : p)}
-                  />
-                </div>
-              );
-            })}
-
-            {/* User markers */}
-            {filteredUsers.map((u, idx) => {
-              const coords = getMapCoords(u.lat, u.lng);
-              const isPulsing = pulsingIds.includes(u.id);
-              const isSelected = selectedUser?.id === u.id;
-              const color = matchColor(u.matchPct);
-              const cat = DREAM_CATEGORIES.find(c => c.id === u.category);
-              const catColor = cat?.color ?? color;
-              // Every 5th marker gets subtle ping animation
-              const hasSubtlePing = idx % 5 === 0 && !isSelected;
-              const firstName = u.name.split(' ')[0];
-              return (
-                <div key={u.id} className="absolute" style={{ left: `${coords.x}%`, top: `${coords.y}%`, zIndex: isSelected ? 50 : isPulsing ? 20 : 10 }}>
-                  {isPulsing && (
-                    <div
-                      className="dm-pulse-ring w-5 h-5"
-                      style={{
-                        left: '50%',
-                        top: '50%',
-                        border: `1.5px solid ${catColor}`,
-                      }}
-                    />
-                  )}
-                  {/* Marker dot */}
-                  <div
-                    className={`rounded-full cursor-pointer transition-transform hover:scale-[2] hover:z-50 ${hasSubtlePing ? 'animate-ping' : ''}`}
-                    style={{
-                      width: isSelected ? '12px' : '6px',
-                      height: isSelected ? '12px' : '6px',
-                      backgroundColor: catColor,
-                      boxShadow: `0 0 ${isSelected ? '10px' : '4px'} ${catColor}80`,
-                      transform: 'translate(-50%, -50%)',
-                      borderColor: isSelected ? 'white' : 'rgba(255,255,255,0.3)',
-                      borderWidth: isSelected ? '2px' : '0.5px',
-                      borderStyle: 'solid',
-                      borderRadius: '9999px',
-                      // Slow down ping for subtle effect
-                      ...(hasSubtlePing ? { animationDuration: '3s', opacity: 0.8 } : {}),
-                    }}
-                    onClick={() => handleMarkerClick(u)}
-                  />
-                  {/* Labels: show name at scale > 1.5, name + city at scale > 2.5 */}
-                  {mapScale > 1.5 && (
-                    <div
-                      className="absolute pointer-events-none select-none whitespace-nowrap"
-                      style={{
-                        left: '8px',
-                        top: '-3px',
-                        transform: 'translate(0, -50%)',
-                        fontSize: '8px',
-                        lineHeight: '10px',
-                        color: 'rgba(255,255,255,0.85)',
-                        textShadow: '0 0 3px rgba(0,0,0,0.9), 0 1px 2px rgba(0,0,0,0.7)',
-                      }}
-                    >
-                      {mapScale > 2.5 ? `${firstName}, ${u.city}` : firstName}
-                    </div>
-                  )}
-                  {isSelected && (
-                    <div
-                      className="absolute text-lg pointer-events-none select-none"
-                      style={{
-                        left: '50%',
-                        top: '-20px',
-                        transform: 'translate(-50%, -50%)',
-                      }}
-                    >
-                      {u.avatar}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Title + Close as Overlay on the map */}
-        <div className="absolute inset-x-0 top-0 z-20 pt-safe pt-4 px-4 pb-6 bg-gradient-to-b from-black/70 to-transparent">
-          <div className="flex items-center justify-between">
+        {/* Title + Close overlay */}
+        <div className="absolute inset-x-0 top-0 z-20 pt-safe pt-3 px-4 pb-6 bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
+          <div className="flex items-center justify-between pointer-events-auto">
             <div>
-              <h1 className="text-lg font-bold leading-tight text-white">{t.title}</h1>
-              <p className="text-xs text-white/70">{t.subtitle}</p>
+              <h1 className={`text-lg font-bold leading-tight ${isLight ? 'text-gray-900' : 'text-white'}`}>{t.title}</h1>
+              <p className={`text-xs ${isLight ? 'text-gray-500' : 'text-white/60'}`}>{t.subtitle}</p>
             </div>
-            {onClose && (
-              <button
-                onClick={onClose}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-colors bg-white/15 hover:bg-white/25 text-white backdrop-blur-sm"
-                aria-label="Close"
-              >
-                <span className="material-icons text-xl">close</span>
-              </button>
-            )}
+            <div className="flex items-center gap-2">
+              {onNavigateToResearch && (
+                <button
+                  onClick={onNavigateToResearch}
+                  className={`h-8 px-3 rounded-full flex items-center gap-1.5 text-[10px] font-bold transition-colors ${
+                    isLight ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' : 'bg-white/10 text-white/70 hover:bg-white/20'
+                  }`}
+                >
+                  <span className="material-icons" style={{ fontSize: 13 }}>science</span>
+                  Forschungskarte
+                </button>
+              )}
+              {onClose && (
+                <button
+                  onClick={onClose}
+                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                    isLight ? 'bg-gray-100 hover:bg-gray-200 text-gray-500' : 'bg-white/10 hover:bg-white/20 text-white/60'
+                  }`}
+                >
+                  <span className="material-icons text-lg">close</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Zoom Buttons bottom-right in map */}
-        <div className="absolute bottom-3 right-3 z-30 flex flex-col gap-1.5">
-          <button
-            onClick={handleZoomIn}
-            className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
-              isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
-            }`}
-          >
-            <span className="material-icons text-lg">add</span>
-          </button>
-          <button
-            onClick={handleZoomOut}
-            className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
-              isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
-            }`}
-          >
-            <span className="material-icons text-lg">remove</span>
-          </button>
-          {mapScale > 1 && (
-            <button
-              onClick={() => { setMapScale(1); setMapOffset({ x: 0, y: 0 }); }}
-              className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg font-bold border backdrop-blur-sm transition-colors ${
-                isLight ? 'bg-white/80 border-purple-200 text-purple-700 hover:bg-purple-50' : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
-              }`}
-            >
-              <span className="material-icons text-sm">fit_screen</span>
-            </button>
-          )}
-        </div>
+        <KnowledgeGraph
+          searchQuery={searchQuery}
+          activeCategory={activeCategory}
+          matchThreshold={matchThreshold}
+          isLight={isLight}
+          language={lang}
+          filterGender={filterGender}
+          filterAgeMin={filterAgeMin}
+          filterAgeMax={filterAgeMax}
+          filterCountry={filterNationality}
+          onNodeClick={(node: GraphNode) => {
+            // If user node, try to find matching SimUser and select them
+            if (node.type === 'user' && node.metadata?.userId) {
+              const uid = node.metadata.userId;
+              const matchUser = users.find(u => u.id === uid || u.id === `rp_${uid}`);
+              if (matchUser) {
+                setSelectedUser(matchUser);
+              }
+            }
+          }}
+          highlightedUserId={selectedUser?.id}
+        />
       </div>
+
+      {/* ── Drag Handle (resize graph / list split) ── */}
+      <div
+        className={`shrink-0 flex items-center justify-center cursor-row-resize select-none touch-none z-20 ${isLight ? 'bg-indigo-100/80' : 'bg-white/5'}`}
+        style={{ height: 20 }}
+        onTouchStart={e => handleSplitterStart(e.touches[0].clientY)}
+        onMouseDown={e => { e.preventDefault(); handleSplitterStart(e.clientY); }}
+      >
+        <div className={`w-10 h-1 rounded-full ${isLight ? 'bg-indigo-300' : 'bg-white/25'}`} />
+      </div>
+
+      {/* ── Scrollable bottom section (search + list) ── */}
+      <div className="flex-1 overflow-y-auto min-h-0">
 
       {/* ── Search Field (sticky under map) ── */}
       <div className={`sticky top-0 z-30 px-3 py-2 backdrop-blur-xl ${isLight ? 'bg-indigo-50/90' : 'bg-dream-bg/90'}`}>
         <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border backdrop-blur-sm ${isLight ? 'bg-white/70 border-purple-200/60' : 'bg-white/5 border-white/10'}`}>
           <span className={`material-icons text-lg ${isLight ? 'text-purple-400' : 'text-slate-400'}`}>search</span>
           <input
-            type="text"
+            type="search"
+            inputMode="search"
+            enterKeyHint="search"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); (e.target as HTMLInputElement).blur(); } }}
             placeholder={t.searchPlaceholder}
             className={`flex-1 bg-transparent outline-none text-sm ${textMain} placeholder:${textSub}`}
           />
@@ -1718,7 +1774,10 @@ const DreamMap: React.FC<DreamMapProps> = ({
         {/* Live autocomplete suggestions — Benutzer-/Studientreffer */}
         {searchQuery.trim().length >= 2 && sortedFilteredUsers.length > 0 && (
           <div className={`mt-1 rounded-xl border overflow-hidden shadow-lg ${isLight ? 'bg-white border-purple-200' : 'bg-gray-900 border-white/10'}`}>
-            {sortedFilteredUsers.slice(0, 5).map(u => {
+            <div className={`px-3 py-1.5 text-[10px] font-bold border-b ${isLight ? 'text-purple-600 border-purple-100 bg-purple-50/50' : 'text-purple-300 border-white/5 bg-white/3'}`}>
+              {sortedFilteredUsers.length} Treffer
+            </div>
+            {sortedFilteredUsers.slice(0, 10).map(u => {
               const q = searchQuery.trim().toLowerCase();
               const snippet = u.dreamSummary
                 ? u.dreamSummary.toLowerCase().includes(q)
@@ -1768,28 +1827,121 @@ const DreamMap: React.FC<DreamMapProps> = ({
             </div>
           );
         })()}
-        {/* Live-Supabase-Ergebnisse wenn keine lokalen Treffer */}
-        {searchQuery.trim().length >= 2 && sortedFilteredUsers.length === 0 && (liveSearchResults.length > 0 || isLiveSearching) && (
+        {/* Live-Suche Lade-Indikator */}
+        {searchQuery.trim().length >= 2 && isLiveSearching && (
           <div className={`mt-1 rounded-xl border overflow-hidden shadow-lg ${isLight ? 'bg-white border-purple-200' : 'bg-gray-900 border-white/10'}`}>
-            {isLiveSearching && liveSearchResults.length === 0 && (
-              <div className={`px-3 py-2 text-xs opacity-50 ${textSub}`}>Suche Traumberichte…</div>
-            )}
-            {liveSearchResults.map(u => (
+            <div className={`px-3 py-2 text-xs opacity-50 ${textSub}`}>Suche Traumberichte…</div>
+          </div>
+        )}
+
+        {/* ── Search Type Filter: Traeume / Deutungen / Symbole ── */}
+        <div className="flex gap-1.5 mt-2 overflow-x-auto dm-chip-scroll">
+          {([
+            { id: 'all', label: 'Alle', icon: 'apps' },
+            { id: 'dreams', label: 'Traeume', icon: 'nights_stay' },
+            { id: 'interpretations', label: 'Deutungen', icon: 'auto_stories' },
+            { id: 'symbols', label: 'Symbole', icon: 'psychology' },
+          ] as const).map(st => (
+            <button
+              key={st.id}
+              onClick={() => setSearchType(st.id)}
+              className={`shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-all ${
+                searchType === st.id ? 'bg-violet-600 border-violet-500 text-white' : `${chipBg} ${textSub}`
+              }`}
+            >
+              <span className="material-icons" style={{ fontSize: 13 }}>{st.icon}</span>
+              {st.label}
+            </button>
+          ))}
+        </div>
+
+        {/* ── Demographic Filters ── */}
+        <div className={`mt-1.5 flex flex-wrap gap-1.5 items-center`}>
+          {/* Gender */}
+          <div className="flex gap-1">
+            {([
+              { id: 'all', label: 'Alle', icon: 'people' },
+              { id: 'male', label: '♂', icon: '' },
+              { id: 'female', label: '♀', icon: '' },
+            ] as const).map(g => (
               <button
-                key={u.id}
-                onClick={() => handleResultClick(u)}
-                className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-colors ${isLight ? 'hover:bg-purple-50' : 'hover:bg-white/5'} border-b last:border-b-0 ${isLight ? 'border-purple-100' : 'border-white/5'}`}
+                key={g.id}
+                onClick={() => setFilterGender(g.id)}
+                className={`px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all ${
+                  filterGender === g.id ? 'bg-cyan-600 border-cyan-500 text-white' : `${chipBg} ${textSub}`
+                }`}
               >
-                <span className="text-xl shrink-0">{u.avatar}</span>
-                <div className="min-w-0 flex-1">
-                  <div className={`text-xs font-semibold truncate ${textMain}`}>{u.name}</div>
-                  <div className={`text-xs truncate opacity-60 ${textSub}`}>{u.dreamSummary}</div>
-                </div>
-                <span className="text-xs opacity-40 shrink-0">{u.country}</span>
+                {g.icon && <span className="material-icons mr-0.5" style={{ fontSize: 11 }}>{g.icon}</span>}
+                {g.label}
               </button>
             ))}
           </div>
-        )}
+
+          {/* Age Range */}
+          <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] ${chipBg} ${textSub}`}>
+            <span className="material-icons" style={{ fontSize: 11 }}>calendar_today</span>
+            <input
+              type="number"
+              min={0}
+              max={99}
+              value={filterAgeMin}
+              onChange={e => setFilterAgeMin(Math.max(0, Number(e.target.value)))}
+              className={`w-7 bg-transparent outline-none text-center text-[10px] font-bold ${textMain}`}
+            />
+            <span>–</span>
+            <input
+              type="number"
+              min={0}
+              max={99}
+              value={filterAgeMax}
+              onChange={e => setFilterAgeMax(Math.min(99, Number(e.target.value)))}
+              className={`w-7 bg-transparent outline-none text-center text-[10px] font-bold ${textMain}`}
+            />
+            <span>J</span>
+          </div>
+
+          {/* Nationality */}
+          <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] ${chipBg} ${textSub}`}>
+            <span className="material-icons" style={{ fontSize: 11 }}>flag</span>
+            <input
+              type="text"
+              list="country-suggestions"
+              value={filterNationality}
+              onChange={e => setFilterNationality(e.target.value)}
+              placeholder="Land"
+              className={`w-14 bg-transparent outline-none text-[10px] ${textMain} placeholder:${textSub}`}
+            />
+            <datalist id="country-suggestions">
+              {uniqueCountries.map(c => <option key={c} value={c} />)}
+            </datalist>
+          </div>
+
+          {/* City */}
+          <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] ${chipBg} ${textSub}`}>
+            <span className="material-icons" style={{ fontSize: 11 }}>location_city</span>
+            <input
+              type="text"
+              list="city-suggestions"
+              value={filterCity}
+              onChange={e => setFilterCity(e.target.value)}
+              placeholder="Ort"
+              className={`w-14 bg-transparent outline-none text-[10px] ${textMain} placeholder:${textSub}`}
+            />
+            <datalist id="city-suggestions">
+              {uniqueCities.map(c => <option key={c} value={c} />)}
+            </datalist>
+          </div>
+
+          {/* Reset all filters */}
+          {(filterGender !== 'all' || filterAgeMin > 0 || filterAgeMax < 99 || filterNationality || filterCity || searchType !== 'all') && (
+            <button
+              onClick={() => { setFilterGender('all'); setFilterAgeMin(0); setFilterAgeMax(99); setFilterNationality(''); setFilterCity(''); setSearchType('all'); }}
+              className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/20 border border-red-500/30 text-red-400 transition-all hover:bg-red-500/30"
+            >
+              Reset
+            </button>
+          )}
+        </div>
       </div>
 
       {/* ── Stats Bar ── */}
@@ -2003,6 +2155,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
         </div>
       </div>
 
+      </div>{/* ── End scrollable bottom section ── */}
+
       {/* ── Research Participant Mini-Popup ── */}
       {selectedResearchParticipant && !selectedUser && (
         <div className={`fixed bottom-0 inset-x-0 z-50 rounded-t-3xl border-t backdrop-blur-xl p-5 dm-slide-up ${isLight ? 'bg-white/85 border-cyan-200/60' : 'bg-dream-surface/90 border-cyan-700/20'}`}
@@ -2092,7 +2246,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
 
           <div className={`rounded-xl p-3 mb-4 border ${isLight ? 'bg-purple-50/80 border-purple-100' : 'bg-white/5 border-white/8'}`}>
             <div className={`text-xs font-semibold mb-1 ${isLight ? 'text-purple-700' : 'text-purple-300'}`}>{t.dreamSummary}</div>
-            <p className={`text-sm leading-relaxed ${textMain}`}>{selectedUser.dreamSummary}</p>
+            <TranslatedText text={selectedUser.dreamSummary} sourceId={selectedUser.id} table="map_users" field="dreamSummary" as="p" className={`text-sm leading-relaxed ${textMain}`} />
           </div>
 
           <div className="flex gap-3">
@@ -2278,7 +2432,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
                     <div className={`rounded-xl p-3 border ${
                       isLight ? 'bg-purple-50/80 border-purple-100' : 'bg-white/3 border-white/5'
                     }`}>
-                      <p className={`text-sm leading-relaxed ${textMain}`}>{pu.dreamSummary}</p>
+                      <TranslatedText text={pu.dreamSummary} sourceId={pu.id} table="map_users" field="dreamSummary" as="p" className={`text-sm leading-relaxed ${textMain}`} />
                       <div className="flex items-center gap-2 mt-2">
                         {(() => {
                           const cat = DREAM_CATEGORIES.find(c => c.id === pu.category);
