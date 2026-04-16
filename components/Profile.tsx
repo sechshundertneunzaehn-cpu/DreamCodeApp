@@ -4,6 +4,7 @@ import { UserProfile, Dream, Language, FontSize, SubscriptionTier, ThemeMode, Fa
 import DreamShare from './DreamShare';
 import TranslatedText from './TranslatedText';
 import AudioLibrary from './AudioLibrary';
+import { loadDreamsSecurely } from '../services/storage';
 
 const FaceUpload = React.lazy(() => import('./FaceUpload'));
 const FaceManage = React.lazy(() => import('./FaceManage'));
@@ -104,7 +105,7 @@ const InputGroup = ({ label, value, onChange, placeholder, isLight }: { label: s
     </div>
 );
 
-const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile, onOpenVideoStudio, onPlayVideo, onUpdateDream, fontSize, language, themeMode }) => {
+const Profile: React.FC<ProfileProps> = ({ userProfile, dreams: propDreams, onUpdateProfile, onOpenVideoStudio, onPlayVideo, onUpdateDream, fontSize, language, themeMode }) => {
     const t = profileTranslations[language] || profileTranslations[language.startsWith("ar") ? Language.AR : Language.DE] || profileTranslations[Language.DE];
     const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -112,6 +113,19 @@ const Profile: React.FC<ProfileProps> = ({ userProfile, dreams, onUpdateProfile,
     const [activeTab, setActiveTab] = useState<'grid' | 'video' | 'matches' | 'audio'>('grid');
     const [showFaceUpload, setShowFaceUpload] = useState(false);
     const [showFaceManage, setShowFaceManage] = useState(false);
+    const [localDreams, setLocalDreams] = useState<Dream[] | null>(null);
+
+    // Lausche auf dreams:updated Events (von VideoStudio) und lade neu aus localStorage
+    useEffect(() => {
+        const handler = () => {
+            loadDreamsSecurely().then(d => setLocalDreams(d)).catch(() => {});
+        };
+        window.addEventListener('dreams:updated', handler);
+        return () => window.removeEventListener('dreams:updated', handler);
+    }, []);
+
+    // Nutze localDreams wenn verfuegbar (frischer als Props), sonst Props
+    const dreams = localDreams && localDreams.length > propDreams.length ? localDreams : propDreams;
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const isLight = themeMode === ThemeMode.LIGHT;

@@ -145,8 +145,6 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
   const [genError, setGenError] = useState('');
   const [userNotice, setUserNotice] = useState<string | null>(null);
   const [resultVideoUrl, setResultVideoUrl] = useState<string | null>(null);
-  const [narrationAudioUrl, setNarrationAudioUrl] = useState<string | null>(null);
-  const narrationRef = useRef<HTMLAudioElement | null>(null);
   const resultTypeRef = useRef<'ai' | 'slideshow'>('ai');
   const abortRef = useRef(false);
 
@@ -245,31 +243,62 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
   // ── Result Display ───────────────────────────────────────────────
   if (resultVideoUrl) {
     return (
-      <div className="fixed inset-0 z-50 bg-black flex flex-col">
-        {/* Narration Audio (auto-play mit Video) */}
-        {narrationAudioUrl && (
-          <audio
-            ref={narrationRef}
-            src={narrationAudioUrl}
-            autoPlay
-            onEnded={() => {}}
-          />
-        )}
-        <StoryVideoPlayer
-          videoUrl={resultVideoUrl}
-          onClose={() => {
-            if (narrationRef.current) { narrationRef.current.pause(); }
-            if (narrationAudioUrl) URL.revokeObjectURL(narrationAudioUrl);
+      <div className={`fixed inset-0 z-50 ${bg} flex flex-col`}>
+        {/* Header */}
+        <div className={`px-4 py-3 flex items-center justify-between border-b ${isLight ? 'border-indigo-100 bg-white/95' : 'border-white/10 bg-dream-surface/95'}`}>
+          <h2 className={`text-lg font-bold ${textP}`}>Dein Traumvideo</h2>
+          <button onClick={() => {
             onSave({ videoUrl: resultVideoUrl, type: resultTypeRef.current });
             setResultVideoUrl(null);
-            setNarrationAudioUrl(null);
-          }}
-        />
+          }} className={`w-10 h-10 rounded-full flex items-center justify-center ${isLight ? 'hover:bg-gray-100' : 'hover:bg-white/10'}`}>
+            <span className="material-icons">close</span>
+          </button>
+        </div>
+        {/* Video Player (Audio ist IM Video eingebettet) */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <video
+            src={resultVideoUrl}
+            controls
+            autoPlay
+            playsInline
+            className="max-w-full max-h-[60vh] rounded-2xl shadow-2xl"
+          />
+        </div>
+        {/* Actions */}
+        <div className="px-4 pb-6 flex gap-3 justify-center">
+          <a
+            href={resultVideoUrl}
+            download={`traumvideo-${Date.now()}.mp4`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all ${isLight ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' : 'bg-white/10 text-white hover:bg-white/20'}`}
+          >
+            <span className="material-icons text-base">download</span>
+            Download
+          </a>
+          <button
+            onClick={() => {
+              onSave({ videoUrl: resultVideoUrl, type: resultTypeRef.current });
+              setResultVideoUrl(null);
+            }}
+            className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white shadow-lg hover:opacity-90"
+          >
+            <span className="material-icons text-base">save</span>
+            Speichern
+          </button>
+        </div>
       </div>
     );
   }
 
-  // ── Generate Handler ─────────────────────────────────────────────
+  // ── Helper: Blob → Base64 ──
+  const blobToBase64 = (blob: Blob): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onloadend = () => resolve(r.result as string);
+      r.onerror = reject;
+      r.readAsDataURL(blob);
+    });
+
+  // ── Generate Handler (V2 — serverseitiger Merge) ────────────────
   const handleGenerate = async () => {
     if (isGenerating || !prompt.trim()) return;
     abortRef.current = false;
@@ -278,107 +307,94 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
     setGenProgress(t.progress_enriching);
 
     try {
-      setGenProgress(useSeedance
-        ? t.progress_photos
-        : t.progress_video);
-
-      // Prompt-Agent: Risk-Check → Routing → Generierung mit Fallback
+      // ── Body bauen ──
       const styleHint = VIDEO_STYLE_IDS.find(s => s.id === selectedStyle);
-      const safeBody: Record<string, unknown> = {
-        prompt: prompt.trim(),
-        mediaType: 'video',
-        stylePrompt: styleHint ? `${t[styleHint.key]} style, dreamlike atmosphere` : undefined,
-      };
-      // Foto mitschicken: devicePhoto (eigener Upload) oder selectedRefs (Bibliothek)
       const photoUrl = devicePhoto || (selectedRefs.length > 0 ? selectedRefs[0].image_url : null);
-      if (photoUrl) {
-        safeBody.customization = { reference_photo: photoUrl };
+
+      // Voice: eigene Aufnahme ODER KI-TTS
+      let voicePayload: Record<string, unknown>;
+      if (useOwnVoice && voiceBlob) {
+        const audioBase64 = await blobToBase64(voiceBlob);
+        voicePayload = { type: 'user_recording', audioBase64 };
+      } else {
+        voicePayload = { type: 'tts', language: language };
       }
-      const createRes = await apiFetch('/api/video/safe-generate', {
+
+      // Musik: Library-Track ODER eigene MP3 ODER keine
+      let musicPayload: Record<string, unknown>;
+      if (userMusicFile && userMusicUrl) {
+        // Eigene MP3 hochladen
+        const musicBlob = await fetch(userMusicUrl).then(r => r.blob());
+        const musicBase64 = await blobToBase64(musicBlob);
+        musicPayload = { type: 'upload', audioBase64: musicBase64 };
+      } else if (selectedBgm) {
+        musicPayload = { type: 'library', trackId: selectedBgm };
+      } else {
+        musicPayload = { type: 'none' };
+      }
+
+      const body: Record<string, unknown> = {
+        prompt: prompt.trim(),
+        stylePrompt: styleHint ? `${t[styleHint.key]} style, dreamlike atmosphere` : undefined,
+        audio: {
+          voice: voicePayload,
+          music: musicPayload,
+          voiceVolume: voiceVolume / 100,
+          musicVolume: bgmVolume / 100,
+        },
+      };
+      if (photoUrl) {
+        body.customization = { reference_photo: photoUrl };
+      }
+
+      setGenProgress('Video + Stimme werden generiert... (ca. 2-3 Min)');
+
+      // ── Ein einziger Call — Backend macht alles ──
+      const res = await apiFetch('/api/video/safe-generate-v2', {
         method: 'POST',
-        body: JSON.stringify(safeBody),
+        body: JSON.stringify(body),
       });
 
-      if (!createRes.ok) {
-        const errData = await createRes.json().catch(() => ({}));
-        throw new Error(errData.user_notice || errData.error || errData.detail || t.error_server + ': ' + createRes.status);
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.user_notice || errData.error || errData.detail || `Server-Fehler: ${res.status}`);
       }
 
-      const result = await createRes.json();
-      const taskId = result.taskId;
-      if (!taskId) throw new Error(result.user_notice || t.error_no_task);
+      const result = await res.json();
 
-      // User-Hinweis persistent anzeigen wenn Prompt umgeschrieben wurde
       if (result.user_notice) {
         setUserNotice(result.user_notice);
       }
 
-      setGenProgress(`Video wird generiert... (ca. ${result.estimatedWaitSeconds || 60}s)`);
-
-      // Polling via /api/video/status (mit Abbruch-Check)
-      let attempts = 0;
-      while (attempts < 120) {
-        await new Promise(r => setTimeout(r, 5000));
-        if (abortRef.current) throw new Error(t.error_cancelled);
-        attempts++;
-
-        try {
-          const pollRes = await apiFetch(`/api/video/status?taskId=${taskId}&provider=evolink`);
-          if (!pollRes.ok) continue;
-          const data = await pollRes.json();
-
-          if (data.status === 'succeeded' && data.videoUrl) {
-            resultTypeRef.current = 'ai';
-            // TTS-Narration generieren
-            setGenProgress('Erzählstimme wird generiert...');
-            try {
-              const ttsRes = await apiFetch('/api/deepgram-tts', {
-                method: 'POST',
-                body: JSON.stringify({ text: prompt.trim(), language: language }),
-              });
-              if (ttsRes.ok) {
-                const audioBlob = await ttsRes.blob();
-                setNarrationAudioUrl(URL.createObjectURL(audioBlob));
-              }
-            } catch { /* Narration optional */ }
-
-            // Dream mit Video in Storage speichern
-            try {
-              const existingDreams = await loadDreamsSecurely();
-              const newDream = {
-                id: `dream-${Date.now()}`,
-                title: prompt.trim().slice(0, 60) + (prompt.trim().length > 60 ? '...' : ''),
-                description: prompt.trim(),
-                interpretation: '',
-                date: new Date().toISOString().split('T')[0],
-                userAvatar: '',
-                videoUrl: data.videoUrl,
-                tags: [],
-                likes: 0,
-                comments: 0,
-                matchPercentage: 0,
-              };
-              await saveDreamsSecurely([newDream, ...existingDreams]);
-              console.log('[VideoStudio] Dream mit Video gespeichert:', newDream.id);
-            } catch (saveErr) {
-              console.error('[VideoStudio] Dream-Speicherung fehlgeschlagen:', saveErr);
-            }
-
-            setResultVideoUrl(data.videoUrl);
-            return;
-          }
-
-          if (data.status === 'failed') {
-            throw new Error(t.error_failed + ': ' + (data.error || t.error_unknown));
-          }
-
-          const pct = data.progress || Math.min(95, Math.round((attempts / 60) * 100));
-          setGenProgress(t.progress_generating + ' ' + pct + '%');
-        } catch (pollErr: any) {
-          if (pollErr.message?.includes('fehlgeschlagen')) throw pollErr;
-        }
+      if (!result.finalVideoUrl) {
+        throw new Error(result.error || 'Kein Video erhalten');
       }
-      throw new Error(t.error_timeout);
+
+      // ── Dream speichern ──
+      try {
+        const existingDreams = await loadDreamsSecurely();
+        const newDream = {
+          id: `dream-${Date.now()}`,
+          title: prompt.trim().slice(0, 60) + (prompt.trim().length > 60 ? '...' : ''),
+          description: prompt.trim(),
+          interpretation: '',
+          date: new Date().toISOString().split('T')[0],
+          userAvatar: '',
+          videoUrl: result.finalVideoUrl,
+          tags: [],
+          likes: 0,
+          comments: 0,
+          matchPercentage: 0,
+        };
+        await saveDreamsSecurely([newDream, ...existingDreams]);
+        window.dispatchEvent(new CustomEvent('dreams:updated'));
+        console.log('[VideoStudio] Dream gespeichert:', newDream.id);
+      } catch (saveErr) {
+        console.error('[VideoStudio] Speicherung fehlgeschlagen:', saveErr);
+      }
+
+      resultTypeRef.current = 'ai';
+      setResultVideoUrl(result.finalVideoUrl);
 
     } catch (e: any) {
       console.error('[VideoStudio] Generation failed:', e);
@@ -594,7 +610,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                 </select>
                 {selectedBgm && (
                   <>
-                    <button onClick={() => { if (bgmPreviewAudio) { bgmPreviewAudio.pause(); setBgmPreviewAudio(null); return; } const a = new Audio(`/app/audio/bgm/${selectedBgm}.mp3`); a.volume = bgmVolume / 100; a.loop = true; a.play().catch(() => {}); setBgmPreviewAudio(a); }}
+                    <button onClick={() => { if (bgmPreviewAudio) { bgmPreviewAudio.pause(); setBgmPreviewAudio(null); return; } const a = new Audio(`/api/video/bgm/preview/${selectedBgm}`); a.volume = bgmVolume / 100; a.loop = true; a.play().catch(() => {}); setBgmPreviewAudio(a); }}
                       className={`flex items-center gap-1 text-sm mb-2 ${accent} hover:underline`}>
                       <span className="material-icons text-base">{bgmPreviewAudio ? 'pause' : 'play_arrow'}</span>
                       {bgmPreviewAudio ? t.stop : t.preview}
@@ -990,7 +1006,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({
                     <button
                       onClick={() => {
                         if (bgmPreviewAudio) { bgmPreviewAudio.pause(); setBgmPreviewAudio(null); return; }
-                        const a = new Audio(`/app/audio/bgm/${selectedBgm}.mp3`);
+                        const a = new Audio(`/api/video/bgm/preview/${selectedBgm}`);
                         a.volume = bgmVolume / 100;
                         a.loop = true;
                         a.play().catch(() => {});
