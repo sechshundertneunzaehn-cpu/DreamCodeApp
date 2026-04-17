@@ -357,24 +357,15 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
           // Node bleibt fixiert — fx/fy NICHT auf null setzen
         }));
 
-    // Node circle with pulse animation
+    // BUG 2: Pulse-Animation entfernt — SVG <animate> auf r verursachte
+    // kontinuierliche Bounding-Box-Aenderungen (Nodes springen / Playwright
+    // "element not stable"). Graph bleibt nun visuell ruhig.
     node.append('circle')
       .attr('r', d => d.size)
       .attr('fill', d => d.color)
       .attr('stroke', isLight ? '#e2e8f0' : '#0f172a')
       .attr('stroke-width', 1.5)
-      .attr('opacity', 1)
-      .each(function(d) {
-        // Sanftes Pulsieren via SVG <animate> — stoppt bei Interaktion
-        const circle = d3.select(this);
-        const baseR = d.size;
-        circle.append('animate')
-          .attr('attributeName', 'r')
-          .attr('values', `${baseR};${baseR * 1.06};${baseR}`)
-          .attr('dur', `${3 + Math.random() * 2}s`)
-          .attr('repeatCount', 'indefinite')
-          .attr('class', 'pulse-anim');
-      });
+      .attr('opacity', 1);
 
     // Node label
     node.append('text')
@@ -399,11 +390,7 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
 
     node.on('mouseleave', function(_event, d) {
       const circle = d3.select(this).select('circle');
-      circle.transition().duration(150).attr('filter', null);
-      // Radius nur zurücksetzen wenn keine Pulse-Animation aktiv
-      if (d3.select(this).select('animate').empty()) {
-        circle.attr('r', d.size);
-      }
+      circle.transition().duration(150).attr('filter', null).attr('r', d.size);
       setHoveredNode(null);
     });
 
