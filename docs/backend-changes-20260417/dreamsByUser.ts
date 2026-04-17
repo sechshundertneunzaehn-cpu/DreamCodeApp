@@ -19,7 +19,7 @@ export async function dreamsByUserRoute(app: FastifyInstance) {
     if (!rateLimit(req, reply)) return;
 
     const userId = (req.query.user_id || '').trim();
-    const limit = Math.min(Number(req.query.limit) || 50, 200);
+    const limit = Math.min(Number(req.query.limit) || 100, 500);
     const offset = Math.max(0, Number(req.query.offset) || 0);
 
     if (!userId) {

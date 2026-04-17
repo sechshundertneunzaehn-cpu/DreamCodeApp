@@ -140,7 +140,7 @@ export async function dreamsBySymbolRoute(app: FastifyInstance) {
         return reply.status(400).send({ error: 'Invalid symbolId' });
       }
 
-      const limit = Math.min(Number(req.query.limit) || 50, 200);
+      const limit = Math.min(Number(req.query.limit) || 100, 500);
       const offset = Math.max(0, Number(req.query.offset) || 0);
       const { gender, age_min, age_max, country } = req.query;
       const hasDemo = (gender && gender !== 'all') ||
@@ -202,8 +202,8 @@ export async function dreamsBySymbolRoute(app: FastifyInstance) {
         // ─── Pfad B: Fulltext-Fallback wenn Links leer ─────────────
         if (total === 0) {
           const symRows = await supaFetch(
-            `dream_symbols?id=eq.${symbolId}&select=name&limit=1`,
-          ) as Array<{ name: string }>;
+            `dream_symbols?id=eq.${symbolId}&select=name,frequency&limit=1`,
+          ) as Array<{ name: string; frequency?: number }>;
           const symName = symRows[0]?.name;
           if (symName) {
             const en = translateSymbolName(symName);
@@ -219,8 +219,25 @@ export async function dreamsBySymbolRoute(app: FastifyInstance) {
           }
         }
 
+        // dream_symbols.frequency als Sekundaer-Info (NLP-Erkennung).
+        // Konsistenz-Check: warne wenn frequency >> COUNT (zur Diagnose).
+        let nlpFreq: number | undefined;
+        try {
+          const symRows = await supaFetch(
+            `dream_symbols?id=eq.${symbolId}&select=frequency&limit=1`,
+          ) as Array<{ frequency?: number }>;
+          nlpFreq = symRows[0]?.frequency;
+          if (nlpFreq && total > 0 && nlpFreq > total * 3) {
+            req.log.warn(
+              { symbolId, nlpFreq, linkedCount: total },
+              'frequency-mismatch: dream_symbols.frequency stark > dream_symbol_links COUNT',
+            );
+          }
+        } catch { /* nicht kritisch */ }
+
         reply.header('X-Total-Count', String(total));
-        reply.header('Access-Control-Expose-Headers', 'X-Total-Count');
+        if (nlpFreq != null) reply.header('X-Frequency-Hint', String(nlpFreq));
+        reply.header('Access-Control-Expose-Headers', 'X-Total-Count, X-Frequency-Hint');
         return reply.send(results);
       } catch (err) {
         req.log.error(err, 'dreams/by-symbol Fehler');

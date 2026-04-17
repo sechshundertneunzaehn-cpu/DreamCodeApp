@@ -1,0 +1,44 @@
+[
+  {
+    "symbol": "Wasser",
+    "total": 56,
+    "freqHint": 2499,
+    "initialItems": 56,
+    "pageSize": 100,
+    "apiCalls": 1,
+    "scrollLoadedTotal": 56,
+    "exportCsvBytes": 27580,
+    "exportJsonBytes": 33662,
+    "exportCsvRows": 57,
+    "ok": true,
+    "notes": []
+  },
+  {
+    "symbol": "Haus",
+    "total": 285,
+    "freqHint": 6654,
+    "initialItems": 9,
+    "pageSize": 100,
+    "apiCalls": 3,
+    "scrollLoadedTotal": 285,
+    "exportCsvBytes": 121159,
+    "exportJsonBytes": 152384,
+    "exportCsvRows": 286,
+    "ok": true,
+    "notes": []
+  },
+  {
+    "symbol": "Nacht",
+    "total": 285,
+    "freqHint": 5092,
+    "initialItems": 9,
+    "pageSize": 100,
+    "apiCalls": 3,
+    "scrollLoadedTotal": 285,
+    "exportCsvBytes": 115254,
+    "exportJsonBytes": 146459,
+    "exportCsvRows": 286,
+    "ok": true,
+    "notes": []
+  }
+]

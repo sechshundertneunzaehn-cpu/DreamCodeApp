@@ -923,9 +923,10 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
               </span>
             </div>
           </div>
-          {hoveredNode.metadata?.frequency && (
+          {hoveredNode.metadata?.frequency && hoveredNode.type === 'symbol' && (
             <p className={`text-[10px] mt-0.5 ${textSecondary}`}>
-              {hoveredNode.metadata.frequency}x getraeumt
+              NLP-Erkennung: {hoveredNode.metadata.frequency}× im Freitext
+              <span className="opacity-60"> · Klick zeigt belegte Verlinkungen</span>
             </p>
           )}
         </div>
@@ -954,8 +955,10 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
           {selectedNode.metadata?.kategorie && (
             <p className={`text-[10px] ${textSecondary} mb-1`}>Kategorie: {selectedNode.metadata.kategorie}</p>
           )}
-          {selectedNode.metadata?.frequency && (
-            <p className={`text-[10px] ${textSecondary} mb-1`}>{selectedNode.metadata.frequency}x in Traeumen gefunden</p>
+          {selectedNode.metadata?.frequency && selectedNode.type === 'symbol' && (
+            <p className={`text-[10px] ${textSecondary} mb-1`}>
+              NLP-Erkennung: {selectedNode.metadata.frequency}× im Freitext
+            </p>
           )}
           {selectedNode.metadata?.interpretationSummary && (
             <p className={`text-xs ${textSecondary} mt-2 leading-relaxed`}>{selectedNode.metadata.interpretationSummary}</p>

@@ -650,14 +650,17 @@ export async function searchDreamsFulltext(
 export interface DreamSearchPage {
   results: DreamSearchResult[];
   total: number;
+  /** dream_symbols.frequency: NLP-Erkennung im Freitext (sekundaer, optional). */
+  frequencyHint?: number;
 }
 
-// Traeume zu einem Symbol per symbol_id laden (BUG-Y): nutzt dream_symbol_links
-// statt Fulltext-Suche — matcht exakt den Counter (dream_symbols.frequency).
-// BUG 4: offset-Pagination + total aus X-Total-Count.
+// Traeume zu einem Symbol per symbol_id laden: nutzt dream_symbol_links
+// als Single-Source-of-Truth fuer "abrufbare" Traeume.
+// total = dream_symbol_links COUNT (X-Total-Count vom Backend).
+// frequencyHint = dream_symbols.frequency (NLP-Erkennung im Freitext, optional).
 export async function searchDreamsBySymbolId(
   symbolId: string,
-  limit = 50,
+  limit = 100,
   filters?: DemographicFilter,
   offset = 0,
 ): Promise<DreamSearchPage> {
@@ -677,17 +680,40 @@ export async function searchDreamsBySymbolId(
     const data = await res.json();
     const results = Array.isArray(data) ? data : [];
     const total = Number(res.headers.get('X-Total-Count') || results.length);
-    return { results, total };
+    const freqHeader = res.headers.get('X-Frequency-Hint');
+    const frequencyHint = freqHeader ? Number(freqHeader) : undefined;
+    return { results, total, frequencyHint };
   } catch {
     return { results: [], total: 0 };
   }
 }
 
+/** Baut die Export-URL fuer die aktuelle Symbol-Selektion (CSV oder JSON). */
+export function buildDreamsExportUrl(
+  opts:
+    | { mode: 'symbol'; symbolId: string; format: 'csv' | 'json'; filters?: DemographicFilter }
+    | { mode: 'user'; userId: string; format: 'csv' | 'json' },
+): string {
+  const apiBase = (import.meta.env.VITE_API_BASE_URL as string) || '';
+  const params = new URLSearchParams({ format: opts.format });
+  if (opts.mode === 'symbol') {
+    params.set('symbol_id', opts.symbolId);
+    const f = opts.filters;
+    if (f?.gender && f.gender !== 'all') params.set('gender', f.gender);
+    if (f?.ageMin && f.ageMin > 0) params.set('age_min', String(f.ageMin));
+    if (f?.ageMax && f.ageMax < 99) params.set('age_max', String(f.ageMax));
+    if (f?.country) params.set('country', f.country);
+  } else {
+    params.set('user_id', opts.userId);
+  }
+  return `${apiBase}/api/dreams/export?${params}`;
+}
+
 // Traeume eines bestimmten Users laden (fuer User-Node-Klick im Graph)
-// BUG 4: offset-Pagination + total aus X-Total-Count.
+// BUG 4: offset fuer Paginierung + total aus X-Total-Count.
 export async function searchDreamsByUserId(
   userId: string,
-  limit = 50,
+  limit = 100,
   offset = 0,
 ): Promise<DreamSearchPage> {
   if (!userId) return { results: [], total: 0 };
