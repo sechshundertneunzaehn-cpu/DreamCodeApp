@@ -21,10 +21,12 @@ export interface ExpansionState {
   nodes: GraphNode[];
   links: GraphLink[];
   loading: boolean;
+  error?: string | null;
+  empty?: boolean;
 }
 
 const EMPTY: ExpansionState = {
-  sourceNodeId: null, nodes: [], links: [], loading: false,
+  sourceNodeId: null, nodes: [], links: [], loading: false, error: null, empty: false,
 };
 
 const EXP_COLORS = ['#c4b5fd', '#fbbf24', '#6ee7b7', '#f9a8d4', '#93c5fd', '#fdba74', '#a5f3fc', '#86efac'];
@@ -38,24 +40,33 @@ export function useNodeExpansion() {
   ) => {
     // Toggle off
     if (expansion.sourceNodeId === node.id) {
+      console.debug('[expansion] toggle off', { nodeId: node.id });
       setExpansion(EMPTY);
       return;
     }
 
-    const dbId = node.id.replace(/^sym_/, '');
+    // ID-Prefix entfernen (auch bei rekursiver Expansion: exp_xxx, exp_usr_xxx)
+    const dbId = node.id.replace(/^exp_usr_/, '').replace(/^exp_/, '').replace(/^sym_/, '');
     setExpansion({ ...EMPTY, sourceNodeId: node.id, loading: true });
 
     try {
       const base = (import.meta.env.VITE_API_BASE_URL as string) || '';
-      const res = await fetch(`${base}/api/graph/symbol/${dbId}`);
-      if (!res.ok) { setExpansion(EMPTY); return; }
+      const url = `${base}/api/graph/symbol/${dbId}`;
+      console.debug('[expansion] fetch', { base, dbId });
+      const res = await fetch(url);
+      if (!res.ok) {
+        console.warn('[expansion] http fail', { dbId, status: res.status, url });
+        setExpansion({ ...EMPTY, error: `http_${res.status}` });
+        return;
+      }
 
       const data = await res.json();
       const connected: ConnectedSymbol[] = data.connected || [];
       const dreamers: ConnectedDreamer[] = data.dreamers || [];
 
       if (connected.length === 0 && dreamers.length === 0) {
-        setExpansion(EMPTY);
+        console.info('[expansion] empty result', { dbId });
+        setExpansion({ ...EMPTY, empty: true });
         return;
       }
 
@@ -110,9 +121,15 @@ export function useNodeExpansion() {
         });
       });
 
-      setExpansion({ sourceNodeId: node.id, nodes, links, loading: false });
-    } catch {
-      setExpansion(EMPTY);
+      console.info('[expansion] ok', {
+        nodeId: node.id,
+        symbols: connected.length,
+        users: dreamers.length,
+      });
+      setExpansion({ sourceNodeId: node.id, nodes, links, loading: false, error: null, empty: false });
+    } catch (e) {
+      console.error('[expansion] exception', { dbId, err: e });
+      setExpansion({ ...EMPTY, error: String(e) });
     }
   }, [expansion.sourceNodeId]);
 
