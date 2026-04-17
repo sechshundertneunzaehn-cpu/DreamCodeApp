@@ -79,6 +79,19 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
   const { expansion, toggleExpansion, clearExpansion } = useNodeExpansion();
   const [simResetKey, setSimResetKey] = useState(0);
 
+  // BUG 2: Stabile Callbacks + Memos — verhindern unnoetige D3-Rebuilds
+  // wenn Parent bei jedem Render neue Inline-Funktionen/Objekte liefert.
+  const onNodeClickRef = useRef(onNodeClick);
+  useEffect(() => { onNodeClickRef.current = onNodeClick; });
+  const demoFiltersMemo = useMemo(
+    () => ({ gender: filterGender, ageMin: filterAgeMin, ageMax: filterAgeMax, country: filterCountry }),
+    [filterGender, filterAgeMin, filterAgeMax, filterCountry],
+  );
+  const handleDreamListClose = useCallback(() => {
+    setDreamListNode(null);
+    clearExpansion();
+  }, [clearExpansion]);
+
   // ── Load data (re-fetches when time filter changes) ──
   useEffect(() => {
     let cancelled = false;
@@ -413,7 +426,7 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
             : { ...d, metadata: { ...d.metadata, userId } }
         );
       }
-      onNodeClick?.(d);
+      onNodeClickRef.current?.(d);
       d3.select(event.currentTarget).select('animate').remove();
     });
 
@@ -579,7 +592,9 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
       nodeSelRef.current = null;
       linkSelRef.current = null;
     };
-  }, [filteredData, dimensions, isLight, onNodeClick, isNodeVisible]);
+  // onNodeClick bewusst NICHT in Deps — via onNodeClickRef stabil.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredData, dimensions, isLight, isNodeVisible]);
 
   // ── Nudge simulation when filters change so tick re-applies visibility ──
   // Stabile Content-Signatur verhindert Flackern bei Parent-Rerenders (gleiche Daten,
@@ -978,7 +993,7 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
                   if (!otherNode) return null;
                   return (
                     <button key={i}
-                      onClick={() => { setSelectedNode(otherNode); setExpandedNodeId(otherNode.id); onNodeClick?.(otherNode); }}
+                      onClick={() => { setSelectedNode(otherNode); setExpandedNodeId(otherNode.id); onNodeClickRef.current?.(otherNode); }}
                       className={`text-[10px] px-2 py-0.5 rounded-full border transition-colors ${
                         isLight ? 'border-gray-200 hover:bg-gray-50' : 'border-white/10 hover:bg-white/5'
                       }`}
@@ -997,9 +1012,9 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
         <DreamListPanel
           node={dreamListNode}
           isLight={isLight}
-          onClose={() => { setDreamListNode(null); clearExpansion(); }}
+          onClose={handleDreamListClose}
           sidePanel
-          demoFilters={{ gender: filterGender, ageMin: filterAgeMin, ageMax: filterAgeMax, country: filterCountry }}
+          demoFilters={demoFiltersMemo}
         />
       )}
 

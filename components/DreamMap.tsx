@@ -989,6 +989,18 @@ const DreamMap: React.FC<DreamMapProps> = ({
     setTimeout(() => setProfileUser(null), 350);
   }, []);
 
+  // BUG 2: Stabile Referenz fuer onNodeClick — verhindert D3-Rebuild bei
+  // jedem Parent-Rerender. users per Ref, damit Callback stabil bleibt.
+  const usersRef = useRef<SimUser[]>([]);
+  useEffect(() => { usersRef.current = users; });
+  const handleGraphNodeClick = useCallback((node: GraphNode) => {
+    if (node.type === 'user' && node.metadata?.userId) {
+      const uid = node.metadata.userId;
+      const matchUser = usersRef.current.find(u => u.id === uid || u.id === `rp_${uid}`);
+      if (matchUser) setSelectedUser(matchUser);
+    }
+  }, []);
+
   // ── Resizable split: graph height (vh) with drag handle ──
   const SPLIT_KEY = 'dreammap_graph_vh';
   const SPLIT_MIN = 15; // minimum 15vh
@@ -1546,10 +1558,22 @@ const DreamMap: React.FC<DreamMapProps> = ({
   }, [openProfile, onSelectParticipant, onNavigateToStudy]);
 
   // Stats — API-basierter Counter bei aktiven Demografie-Filtern
+  // BUG 3: Request-Token verhindert Race-Condition bei schnellem Filterwechsel.
+  // demoCount wird nur auf erfolgreichen API-Response gesetzt; bei Fehler/0-
+  // Wert-Response bleibt letzter bekannter Wert. Waehrend Loading → demoLoading=true
+  // signalisiert Skeleton, statt auf 0 zurueckzuspringen.
   const hasDemoFilter = filterGender !== 'all' || filterAgeMin > 0 || filterAgeMax < 99 || !!filterNationality || !!filterCity;
   const [demoCount, setDemoCount] = useState<number | null>(null);
+  const [demoLoading, setDemoLoading] = useState(false);
+  const demoReqTokenRef = useRef(0);
   useEffect(() => {
-    if (!hasDemoFilter) { setDemoCount(null); return; }
+    if (!hasDemoFilter) {
+      setDemoCount(null);
+      setDemoLoading(false);
+      return;
+    }
+    setDemoLoading(true);
+    const token = ++demoReqTokenRef.current;
     const timer = setTimeout(() => {
       const apiBase = (import.meta.env.VITE_API_BASE_URL as string) || '';
       const p = new URLSearchParams();
@@ -1558,9 +1582,17 @@ const DreamMap: React.FC<DreamMapProps> = ({
       if (filterAgeMax < 99) p.set('age_max', String(filterAgeMax));
       if (filterNationality) p.set('country', filterNationality);
       fetch(`${apiBase}/api/demographics/filtered-symbols?${p}`)
-        .then(r => r.json())
-        .then(d => setDemoCount(d.participantCount || 0))
-        .catch(() => {});
+        .then(r => r.ok ? r.json() : null)
+        .then(d => {
+          if (token !== demoReqTokenRef.current) return; // stale
+          if (d && typeof d.participantCount === 'number') {
+            setDemoCount(d.participantCount);
+          }
+          setDemoLoading(false);
+        })
+        .catch(() => {
+          if (token === demoReqTokenRef.current) setDemoLoading(false);
+        });
     }, 500);
     return () => clearTimeout(timer);
   }, [hasDemoFilter, filterGender, filterAgeMin, filterAgeMax, filterNationality]);
@@ -1573,6 +1605,10 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const matchesToday = hasDemoFilter && demoCount !== null
     ? Math.floor(demoCount * 0.18)
     : Math.floor(users.length * 0.6) + 23;
+  // BUG 3: Skeleton-State fuer Stats — verhindert Null->Wert-Spruenge.
+  // Loading solange Users noch nicht geladen sind ODER ein Demo-Filter-Fetch
+  // laeuft ohne vorherigen bekannten Wert.
+  const statsLoading = users.length === 0 || (demoLoading && demoCount === null);
 
   // Trend rankings
   const trendRanking = React.useMemo(() => {
@@ -1724,16 +1760,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
           filterAgeMin={filterAgeMin}
           filterAgeMax={filterAgeMax}
           filterCountry={filterNationality}
-          onNodeClick={(node: GraphNode) => {
-            // If user node, try to find matching SimUser and select them
-            if (node.type === 'user' && node.metadata?.userId) {
-              const uid = node.metadata.userId;
-              const matchUser = users.find(u => u.id === uid || u.id === `rp_${uid}`);
-              if (matchUser) {
-                setSelectedUser(matchUser);
-              }
-            }
-          }}
+          onNodeClick={handleGraphNodeClick}
           highlightedUserId={selectedUser?.id}
         />
       </div>
@@ -1946,9 +1973,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
 
       {/* ── Stats Bar ── */}
       <div className={`flex items-center justify-around px-3 py-2 border-b backdrop-blur-sm ${isLight ? 'border-purple-100/60 bg-white/40' : 'border-white/5 bg-black/20'}`}>
-        <StatPill icon="public"       value={totalActive.toLocaleString()} label={t.worldwide}    isLight={isLight} color="#a855f7" />
-        <StatPill icon="favorite"     value={`${avgMatch}%`}               label={t.dreamersSimilar.replace('%','')} isLight={isLight} color="#ec4899" />
-        <StatPill icon="bolt"         value={matchesToday.toString()}       label={t.matchestoday} isLight={isLight} color="#f59e0b" />
+        <StatPill icon="public"       value={totalActive.toLocaleString()} label={t.worldwide}    isLight={isLight} color="#a855f7" loading={statsLoading} />
+        <StatPill icon="favorite"     value={`${avgMatch}%`}               label={t.dreamersSimilar.replace('%','')} isLight={isLight} color="#ec4899" loading={statsLoading} />
+        <StatPill icon="bolt"         value={matchesToday.toString()}       label={t.matchestoday} isLight={isLight} color="#f59e0b" loading={statsLoading} />
         {/* Live/Demo-Badge */}
         <span
           className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
@@ -2528,13 +2555,18 @@ interface StatPillProps {
   label: string;
   isLight: boolean;
   color: string;
+  loading?: boolean;
 }
 
-const StatPill: React.FC<StatPillProps> = ({ icon, value, label, isLight, color }) => (
+const StatPill: React.FC<StatPillProps> = ({ icon, value, label, isLight, color, loading }) => (
   <div className="flex flex-col items-center gap-0.5 min-w-0">
     <div className="flex items-center gap-1">
       <span className="material-icons text-sm" style={{ color }}>{icon}</span>
-      <span className={`text-sm font-bold ${isLight ? 'text-mystic-text' : 'text-white'}`}>{value}</span>
+      {loading ? (
+        <span className={`inline-block h-3 w-10 rounded ${isLight ? 'bg-slate-200' : 'bg-white/10'} animate-pulse`} />
+      ) : (
+        <span className={`text-sm font-bold ${isLight ? 'text-mystic-text' : 'text-white'}`}>{value}</span>
+      )}
     </div>
     <span className={`text-[10px] ${isLight ? 'text-slate-500' : 'text-slate-500'} text-center leading-tight`}>{label}</span>
   </div>

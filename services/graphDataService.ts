@@ -647,18 +647,24 @@ export async function searchDreamsFulltext(
   }
 }
 
+export interface DreamSearchPage {
+  results: DreamSearchResult[];
+  total: number;
+}
+
 // Traeume zu einem Symbol per symbol_id laden (BUG-Y): nutzt dream_symbol_links
 // statt Fulltext-Suche — matcht exakt den Counter (dream_symbols.frequency).
-// Backend faellt intern auf Fulltext-RPC zurueck wenn dream_symbol_links leer ist.
+// BUG 4: offset-Pagination + total aus X-Total-Count.
 export async function searchDreamsBySymbolId(
   symbolId: string,
   limit = 50,
   filters?: DemographicFilter,
-): Promise<DreamSearchResult[]> {
-  if (!symbolId) return [];
+  offset = 0,
+): Promise<DreamSearchPage> {
+  if (!symbolId) return { results: [], total: 0 };
   try {
     const apiBase = (import.meta.env.VITE_API_BASE_URL as string) || '';
-    const params = new URLSearchParams({ limit: String(limit) });
+    const params = new URLSearchParams({ limit: String(limit), offset: String(offset) });
     if (filters?.gender && filters.gender !== 'all') params.set('gender', filters.gender);
     if (filters?.ageMin && filters.ageMin > 0) params.set('age_min', String(filters.ageMin));
     if (filters?.ageMax && filters.ageMax < 99) params.set('age_max', String(filters.ageMax));
@@ -667,29 +673,39 @@ export async function searchDreamsBySymbolId(
     const res = await fetch(
       `${apiBase}/api/dreams/by-symbol/${encodeURIComponent(symbolId)}?${params}`,
     );
-    if (!res.ok) return [];
+    if (!res.ok) return { results: [], total: 0 };
     const data = await res.json();
-    return Array.isArray(data) ? data : [];
+    const results = Array.isArray(data) ? data : [];
+    const total = Number(res.headers.get('X-Total-Count') || results.length);
+    return { results, total };
   } catch {
-    return [];
+    return { results: [], total: 0 };
   }
 }
 
 // Traeume eines bestimmten Users laden (fuer User-Node-Klick im Graph)
+// BUG 4: offset-Pagination + total aus X-Total-Count.
 export async function searchDreamsByUserId(
   userId: string,
   limit = 50,
-): Promise<DreamSearchResult[]> {
-  if (!userId) return [];
+  offset = 0,
+): Promise<DreamSearchPage> {
+  if (!userId) return { results: [], total: 0 };
 
   try {
     const apiBase = (import.meta.env.VITE_API_BASE_URL as string) || '';
-    const res = await fetch(
-      `${apiBase}/api/dreams/by-user?user_id=${encodeURIComponent(userId)}&limit=${limit}`,
-    );
+    const params = new URLSearchParams({
+      user_id: userId,
+      limit: String(limit),
+      offset: String(offset),
+    });
+    const res = await fetch(`${apiBase}/api/dreams/by-user?${params}`);
     if (res.ok) {
       const data = await res.json();
-      if (Array.isArray(data)) return data;
+      if (Array.isArray(data)) {
+        const total = Number(res.headers.get('X-Total-Count') || data.length);
+        return { results: data, total };
+      }
     }
   } catch { /* Backend-Endpoint evtl. nicht verfuegbar → Supabase-Fallback */ }
 
@@ -698,26 +714,28 @@ export async function searchDreamsByUserId(
       .from('dream_symbol_links')
       .select('dream_id')
       .eq('user_id', userId)
-      .limit(limit);
+      .limit(1000);
 
     const dreamIds = Array.from(new Set((links || []).map(l => l.dream_id).filter(Boolean)));
-    if (dreamIds.length === 0) return [];
+    if (dreamIds.length === 0) return { results: [], total: 0 };
 
+    const window = dreamIds.slice(offset, offset + limit);
     const { data: dreams } = await supabase
       .from('research_dreams')
       .select('dream_id, participant_id, study_code, dream_snippet, original_language, transcript')
-      .in('dream_id', dreamIds)
+      .in('dream_id', window)
       .limit(limit);
 
-    return (dreams || []).map(d => ({
+    const results = (dreams || []).map(d => ({
       dream_id: d.dream_id,
       participant_id: d.participant_id || '',
       study_code: d.study_code || '',
       dream_snippet: d.dream_snippet || (d.transcript ? String(d.transcript).slice(0, 240) : ''),
       original_language: d.original_language || '',
     }));
+    return { results, total: dreamIds.length };
   } catch {
-    return [];
+    return { results: [], total: 0 };
   }
 }
 
