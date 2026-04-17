@@ -16,9 +16,13 @@ export interface ConnectedDreamer {
   dream_count: number;
 }
 
+export interface ExpansionNode extends GraphNode {
+  hiddenOriginalId?: string | null;
+}
+
 export interface ExpansionState {
   sourceNodeId: string | null;
-  nodes: GraphNode[];
+  nodes: ExpansionNode[];
   links: GraphLink[];
   loading: boolean;
   error?: string | null;
@@ -70,7 +74,7 @@ export function useNodeExpansion() {
         return;
       }
 
-      const nodes: GraphNode[] = [];
+      const nodes: ExpansionNode[] = [];
       const links: GraphLink[] = [];
 
       // Symbol-Nodes
@@ -97,21 +101,22 @@ export function useNodeExpansion() {
         });
       });
 
-      // User/Dreamer-Nodes
+      // User/Dreamer-Nodes — immer exp_usr_* spawnen; Original wird während
+      // der Expansion per hiddenOriginalId temporaer ausgeblendet (Option A).
       dreamers.forEach(d => {
-        const userId = `usr_${d.user_id}`;
-        const targetId = existingNodeIds.has(userId) ? userId : `exp_usr_${d.user_id}`;
+        const targetId = `exp_usr_${d.user_id}`;
+        const existingUserId = `usr_${d.user_id}`;
+        const hiddenOriginalId = existingNodeIds.has(existingUserId) ? existingUserId : null;
 
-        if (!existingNodeIds.has(userId)) {
-          nodes.push({
-            id: targetId,
-            label: d.display_name || 'Anonym',
-            type: 'user',
-            size: Math.min(5 + Math.sqrt(d.dream_count) * 1.5, 12),
-            color: '#10b981',
-            metadata: { userId: d.user_id },
-          });
-        }
+        nodes.push({
+          id: targetId,
+          label: d.display_name || 'Anonym',
+          type: 'user',
+          size: Math.min(5 + Math.sqrt(d.dream_count) * 1.5, 12),
+          color: '#10b981',
+          metadata: { userId: d.user_id },
+          hiddenOriginalId,
+        });
 
         links.push({
           source: node.id,
@@ -121,10 +126,15 @@ export function useNodeExpansion() {
         });
       });
 
+      const hiddenOriginals = nodes
+        .map(n => n.hiddenOriginalId)
+        .filter((id): id is string => !!id);
       console.info('[expansion] ok', {
         nodeId: node.id,
         symbols: connected.length,
         users: dreamers.length,
+        usersSpawned: nodes.filter(n => n.type === 'user').length,
+        hiddenOriginals,
       });
       setExpansion({ sourceNodeId: node.id, nodes, links, loading: false, error: null, empty: false });
     } catch (e) {

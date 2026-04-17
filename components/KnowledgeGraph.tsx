@@ -77,6 +77,7 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
   const [fulltextCount, setFulltextCount] = useState<number | null>(null);
   // Graph-Expansion: verbundene Symbole um geklickten Node spawnen
   const { expansion, toggleExpansion, clearExpansion } = useNodeExpansion();
+  const [simResetKey, setSimResetKey] = useState(0);
 
   // ── Load data (re-fetches when time filter changes) ──
   useEffect(() => {
@@ -86,7 +87,7 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
     setSelectedNode(null);
     setDreamListNode(null);
     clearExpansion();
-    fetchGraphData(100, activeYears).then(data => {
+    fetchGraphData(500, activeYears).then(data => {
       if (!cancelled) {
         setGraphData(data);
         setLoading(false);
@@ -120,8 +121,10 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
 
   // ── Demographische Filter: Symbol-Gewichtung ──
   const [demoFilterCounts, setDemoFilterCounts] = useState<Map<string, number>>(new Map());
+  const [demoFilterActive, setDemoFilterActive] = useState(false);
   useEffect(() => {
     const hasDemoFilter = filterGender !== 'all' || filterAgeMin > 0 || filterAgeMax < 99 || !!filterCountry;
+    setDemoFilterActive(hasDemoFilter);
     if (!hasDemoFilter) {
       setDemoFilterCounts(new Map());
       return;
@@ -194,24 +197,35 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
     query: '', searchIds: new Set<string>(), userIds: new Set<string>(),
     expandedId: null as string | null, expandedIds: new Set<string>(),
     demoFilter: new Map<string, number>(),
+    demoFilterActive: false,
     expansionSourceId: null as string | null,
     expansionNodeIds: new Set<string>(),
+    hiddenOriginalIds: new Set<string>(),
   });
   visStateRef.current = {
     query: searchQuery, searchIds: highlightedIds, userIds: userHighlightIds,
     expandedId: expandedNodeId, expandedIds,
     demoFilter: demoFilterCounts,
+    demoFilterActive,
     expansionSourceId: expansion.sourceNodeId,
     expansionNodeIds: new Set(expansion.nodes.map(n => n.id)),
+    hiddenOriginalIds: new Set(
+      expansion.nodes
+        .map(n => n.hiddenOriginalId)
+        .filter((id): id is string => !!id),
+    ),
   };
 
   // Helper: is a node currently visible?
   const isNodeVisible = useCallback((nodeId: string): boolean => {
-    const { query, searchIds, userIds, expandedId, expandedIds: expIds, demoFilter } = visStateRef.current;
+    const { query, searchIds, userIds, expandedId, expandedIds: expIds, demoFilter, demoFilterActive: isDemoActive, expansionSourceId, expansionNodeIds } = visStateRef.current;
     const hasSearch = query.trim().length >= 2 && searchIds.size > 0;
     const hasUserHL = userIds.size > 0;
     const hasExpand = !!expandedId;
-    const hasDemoFilter = demoFilter.size > 0;
+    const hasDemoFilter = isDemoActive;
+
+    // Expansion-Nodes (exp_* / exp_usr_*) sind IMMER sichtbar wenn Expansion aktiv
+    if (expansionSourceId && expansionNodeIds.has(nodeId)) return true;
 
     // If expanded node is active, that takes priority
     if (hasExpand) return expIds.has(nodeId);
@@ -390,6 +404,14 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
         // Graph-Expansion: verbundene Symbole laden & spawnen
         const existingIds = new Set(nodes.map((n: any) => n.id));
         toggleExpansion(d, existingIds);
+      } else if (d.type === 'user') {
+        // User-Node: DreamListPanel mit User-View (Träume dieses Users)
+        const userId = d.metadata?.userId || d.id.replace(/^usr_/, '');
+        setDreamListNode(prev =>
+          prev?.id === d.id
+            ? null
+            : { ...d, metadata: { ...d.metadata, userId } }
+        );
       }
       onNodeClick?.(d);
       d3.select(event.currentTarget).select('animate').remove();
@@ -464,17 +486,24 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
       node.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
 
       // Determine which filter is active
-      const { query, searchIds, expandedId, expandedIds: expIds, userIds, demoFilter } = visStateRef.current;
+      const { query, searchIds, expandedId, expandedIds: expIds, userIds, demoFilter, demoFilterActive: isDemoActive } = visStateRef.current;
       const hasSearch = query.trim().length >= 2 && searchIds.size > 0;
       const hasExpand = !!expandedId;
       const hasUserHL = userIds.size > 0;
-      const hasDemoFilter = demoFilter.size > 0;
+      const hasDemoFilter = isDemoActive;
       const hasFilter = hasSearch || hasExpand || hasUserHL || hasDemoFilter;
 
       // Pick the set of visible node IDs
-      const { expansionSourceId, expansionNodeIds } = visStateRef.current;
+      const { expansionSourceId, expansionNodeIds, hiddenOriginalIds } = visStateRef.current;
       let visibleIds: Set<string>;
-      if (hasExpand) visibleIds = expIds;
+      if (hasExpand) {
+        visibleIds = new Set(expIds);
+        // Expansion-Nodes (exp_* / exp_usr_*) immer sichtbar machen
+        if (expansionSourceId) {
+          visibleIds.add(expansionSourceId);
+          expansionNodeIds.forEach(id => visibleIds.add(id));
+        }
+      }
       else if (hasSearch) {
         visibleIds = new Set(searchIds);
         // Expansion-Nodes bei aktiver Suche NICHT verstecken
@@ -488,8 +517,10 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
       else visibleIds = new Set(); // won't be used since hasFilter is false
 
       // Nodes: visible or dimmed (demographischer Filter = opacity 0.12 statt 0)
+      // Originale User-Nodes die gerade per exp_usr_* dupliziert sind: ausblenden
       node.select('circle')
         .attr('opacity', (d: any) => {
+          if (hiddenOriginalIds.has(d.id)) return 0;
           if (!hasFilter) return 1;
           if (visibleIds.has(d.id)) return 1;
           return hasDemoFilter ? 0.12 : 0;
@@ -507,29 +538,37 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
 
       node.select('text')
         .attr('opacity', (d: any) => {
+          if (hiddenOriginalIds.has(d.id)) return 0;
           if (!hasFilter) return 1;
           if (visibleIds.has(d.id)) return 1;
           return hasDemoFilter ? 0.1 : 0;
         });
 
       // Pointer-events: disable for completely hidden nodes
-      node.attr('pointer-events', (d: any) => hasFilter && !visibleIds.has(d.id) && !hasDemoFilter ? 'none' : 'auto');
+      node.attr('pointer-events', (d: any) => {
+        if (hiddenOriginalIds.has(d.id)) return 'none';
+        return hasFilter && !visibleIds.has(d.id) && !hasDemoFilter ? 'none' : 'auto';
+      });
 
-      // Links: only show between visible nodes
+      // Links: only show between visible nodes; Links auf ausgeblendete Originale ebenfalls unsichtbar
       link
         .attr('stroke-opacity', (d: any) => {
-          if (!hasFilter) return 0.5;
           const src = typeof d.source === 'string' ? d.source : d.source.id;
           const tgt = typeof d.target === 'string' ? d.target : d.target.id;
+          if (hiddenOriginalIds.has(src) || hiddenOriginalIds.has(tgt)) return 0;
+          if (!hasFilter) return 0.5;
           return (visibleIds.has(src) && visibleIds.has(tgt)) ? 0.8 : 0;
         })
         .attr('stroke-width', (d: any) => {
-          if (!hasFilter) return Math.max(1, (d.strength || 1) * 1.2);
           const src = typeof d.source === 'string' ? d.source : d.source.id;
           const tgt = typeof d.target === 'string' ? d.target : d.target.id;
+          if (hiddenOriginalIds.has(src) || hiddenOriginalIds.has(tgt)) return 0;
+          if (!hasFilter) return Math.max(1, (d.strength || 1) * 1.2);
           return (visibleIds.has(src) && visibleIds.has(tgt)) ? 2.5 : 0;
         });
     });
+
+    setSimResetKey(k => k + 1);
 
     return () => {
       simulation.stop();
@@ -543,12 +582,34 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
   }, [filteredData, dimensions, isLight, onNodeClick, isNodeVisible]);
 
   // ── Nudge simulation when filters change so tick re-applies visibility ──
+  // Stabile Content-Signatur verhindert Flackern bei Parent-Rerenders (gleiche Daten,
+  // aber neue Map/Set-Referenzen). Nur bei echter Aenderung wird alpha() restartet.
+  const nudgeKey = useMemo(() => {
+    const demoSig = demoFilterCounts.size === 0
+      ? ''
+      : Array.from(demoFilterCounts.keys()).sort().join(',');
+    const searchSig = highlightedIds.size === 0
+      ? ''
+      : Array.from(highlightedIds).sort().join(',');
+    return [
+      searchQuery,
+      searchSig,
+      highlightedUserId || '',
+      expandedNodeId || '',
+      demoSig,
+      expansion.sourceNodeId || '',
+      expansion.nodes.length,
+    ].join('|');
+  }, [searchQuery, highlightedIds, highlightedUserId, expandedNodeId, demoFilterCounts, expansion.sourceNodeId, expansion.nodes.length]);
+
+  const prevNudgeKeyRef = useRef<string>('');
   useEffect(() => {
     const sim = simRef.current;
-    if (sim) {
-      sim.alpha(0.005).restart();
-    }
-  }, [searchQuery, highlightedIds, highlightedUserId, expandedNodeId, demoFilterCounts]);
+    if (!sim) return;
+    if (prevNudgeKeyRef.current === nudgeKey) return;
+    prevNudgeKeyRef.current = nudgeKey;
+    sim.alpha(0.005).restart();
+  }, [nudgeKey]);
 
   // ── Auto-Expansion: Bei Suche den besten Symbol-Match expandieren ──
   useEffect(() => {
@@ -719,6 +780,24 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
         return `${d.label}${d.metadata?.frequency ? ' ·' + d.metadata.frequency : ''}`;
       });
 
+    // Klick auf Expansion-Node:
+    //  - stopPropagation: verhindert svg.on('click') → clearExpansion()
+    //  - User-Node: DreamListPanel mit isUserView oeffnen (Traeume dieses Users)
+    //  - Symbol-Node: rekursive Expansion (weitere Ring-Ebene um geklickten Node)
+    expNodeEls.on('click', (event: any, d: any) => {
+      event.stopPropagation();
+      if (d.type === 'user') {
+        // DreamListPanel oeffnet automatisch den User-View (type==='user' + metadata.userId)
+        setDreamListNode(d);
+        setSelectedNode(d);
+      } else if (d.type === 'symbol') {
+        const allIds = new Set<string>(sim.nodes().map((n: any) => n.id));
+        toggleExpansion(d, allIds);
+        setSelectedNode(d);
+        setDreamListNode(d);
+      }
+    });
+
     // Einblend-Animation (gestaffelt)
     expNodeEls.transition().duration(600).delay((_: any, i: number) => i * 70)
       .attr('opacity', 1);
@@ -742,7 +821,7 @@ const KnowledgeGraph: React.FC<KnowledgeGraphProps> = ({
 
     return () => clearTimeout(freezeTimer);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expansion.sourceNodeId, expansion.nodes, expansion.links]);
+  }, [expansion.sourceNodeId, expansion.nodes, expansion.links, simResetKey]);
 
   // ── Render ─────────────────────────────────────────────
   const bgColor = isLight ? '#f8fafc' : '#0a0e1a';
