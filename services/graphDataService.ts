@@ -63,7 +63,7 @@ let cachedYears: number | null = null;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 // ── Main fetch ─────────────────────────────────────────────
-export async function fetchGraphData(limit = 50, years: number | null = null): Promise<GraphData> {
+export async function fetchGraphData(limit = 200, years: number | null = null): Promise<GraphData> {
   const now = Date.now();
   if (cachedData && now - cacheTimestamp < CACHE_TTL && cachedYears === years) {
     return cachedData;
@@ -642,6 +642,80 @@ export async function searchDreamsFulltext(
     if (!res.ok) return [];
     const data = await res.json();
     return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+// Traeume zu einem Symbol per symbol_id laden (BUG-Y): nutzt dream_symbol_links
+// statt Fulltext-Suche — matcht exakt den Counter (dream_symbols.frequency).
+// Backend faellt intern auf Fulltext-RPC zurueck wenn dream_symbol_links leer ist.
+export async function searchDreamsBySymbolId(
+  symbolId: string,
+  limit = 50,
+  filters?: DemographicFilter,
+): Promise<DreamSearchResult[]> {
+  if (!symbolId) return [];
+  try {
+    const apiBase = (import.meta.env.VITE_API_BASE_URL as string) || '';
+    const params = new URLSearchParams({ limit: String(limit) });
+    if (filters?.gender && filters.gender !== 'all') params.set('gender', filters.gender);
+    if (filters?.ageMin && filters.ageMin > 0) params.set('age_min', String(filters.ageMin));
+    if (filters?.ageMax && filters.ageMax < 99) params.set('age_max', String(filters.ageMax));
+    if (filters?.country) params.set('country', filters.country);
+
+    const res = await fetch(
+      `${apiBase}/api/dreams/by-symbol/${encodeURIComponent(symbolId)}?${params}`,
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+// Traeume eines bestimmten Users laden (fuer User-Node-Klick im Graph)
+export async function searchDreamsByUserId(
+  userId: string,
+  limit = 50,
+): Promise<DreamSearchResult[]> {
+  if (!userId) return [];
+
+  try {
+    const apiBase = (import.meta.env.VITE_API_BASE_URL as string) || '';
+    const res = await fetch(
+      `${apiBase}/api/dreams/by-user?user_id=${encodeURIComponent(userId)}&limit=${limit}`,
+    );
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data)) return data;
+    }
+  } catch { /* Backend-Endpoint evtl. nicht verfuegbar → Supabase-Fallback */ }
+
+  try {
+    const { data: links } = await supabase
+      .from('dream_symbol_links')
+      .select('dream_id')
+      .eq('user_id', userId)
+      .limit(limit);
+
+    const dreamIds = Array.from(new Set((links || []).map(l => l.dream_id).filter(Boolean)));
+    if (dreamIds.length === 0) return [];
+
+    const { data: dreams } = await supabase
+      .from('research_dreams')
+      .select('dream_id, participant_id, study_code, dream_snippet, original_language, transcript')
+      .in('dream_id', dreamIds)
+      .limit(limit);
+
+    return (dreams || []).map(d => ({
+      dream_id: d.dream_id,
+      participant_id: d.participant_id || '',
+      study_code: d.study_code || '',
+      dream_snippet: d.dream_snippet || (d.transcript ? String(d.transcript).slice(0, 240) : ''),
+      original_language: d.original_language || '',
+    }));
   } catch {
     return [];
   }

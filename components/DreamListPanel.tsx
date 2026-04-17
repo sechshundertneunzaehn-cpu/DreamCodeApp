@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { GraphNode, DreamSearchResult, DemographicFilter, searchDreamsFulltext } from '../services/graphDataService';
+import { GraphNode, DreamSearchResult, DemographicFilter, searchDreamsFulltext, searchDreamsByUserId, searchDreamsBySymbolId } from '../services/graphDataService';
 
 interface DreamListPanelProps {
   node: GraphNode;
@@ -9,11 +9,13 @@ interface DreamListPanelProps {
   sidePanel?: boolean;
   /** Demografische Filter fuer die Traumsuche */
   demoFilters?: DemographicFilter;
+  /** User-View: statt Fulltext-Suche alle Traeume dieses Users anzeigen */
+  isUserView?: boolean;
 }
 
 const PAGE_SIZE = 50;
 
-const DreamListPanel: React.FC<DreamListPanelProps> = ({ node, isLight, onClose, sidePanel = false, demoFilters }) => {
+const DreamListPanel: React.FC<DreamListPanelProps> = ({ node, isLight, onClose, sidePanel = false, demoFilters, isUserView = false }) => {
   const [dreams, setDreams] = useState<DreamSearchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -25,12 +27,24 @@ const DreamListPanel: React.FC<DreamListPanelProps> = ({ node, isLight, onClose,
 
   const loadDreams = useCallback(async (pageNum: number) => {
     setLoading(true);
-    const results = await searchDreamsFulltext(node.label, PAGE_SIZE, demoFilters);
+    const userId = node.metadata?.userId;
+    const useUserView = isUserView || (node.type === 'user' && !!userId);
+    let results: DreamSearchResult[];
+    if (useUserView && userId) {
+      results = await searchDreamsByUserId(userId, PAGE_SIZE);
+    } else if (node.type === 'symbol') {
+      // BUG-Y: Symbol-Nodes nutzen symbol_id (dream_symbol_links) statt Fulltext.
+      // id-Prefix entfernen: sym_<uuid> / exp_<uuid> → <uuid>
+      const symbolId = node.id.replace(/^(sym_|exp_usr_|exp_)/, '');
+      results = await searchDreamsBySymbolId(symbolId, PAGE_SIZE, demoFilters);
+    } else {
+      results = await searchDreamsFulltext(node.label, PAGE_SIZE, demoFilters);
+    }
     setDreams(results);
     setTotal(results.length);
     setPage(pageNum);
     setLoading(false);
-  }, [node.label, demoFilters]);
+  }, [node.id, node.label, node.type, node.metadata?.userId, demoFilters, isUserView]);
 
   useEffect(() => {
     loadDreams(0);
@@ -44,17 +58,23 @@ const DreamListPanel: React.FC<DreamListPanelProps> = ({ node, isLight, onClose,
   const displayDreams = dreams.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
+  const isUserNode = isUserView || node.type === 'user';
+
   if (sidePanel) {
     return (
       <div className={`absolute top-0 right-0 bottom-0 z-20 w-72 flex flex-col overflow-hidden border-l backdrop-blur-md ${panelBg}`}>
         {/* Header */}
         <div className="flex items-center justify-between px-3 py-2 border-b border-white/10 shrink-0">
           <div className="flex items-center gap-1.5 min-w-0">
-            {node.metadata?.emoji && <span className="text-base shrink-0">{node.metadata.emoji}</span>}
+            {isUserNode
+              ? <span className="text-base shrink-0">👤</span>
+              : node.metadata?.emoji && <span className="text-base shrink-0">{node.metadata.emoji}</span>}
             <div className="min-w-0">
               <h3 className={`text-xs font-bold ${textPrimary} truncate`}>{node.label}</h3>
               <span className={`text-[10px] ${textSecondary}`}>
-                {node.metadata?.frequency ? `${node.metadata.frequency}× getr.` : `${total} Ergebn.`}
+                {isUserNode
+                  ? `${total} Traeume`
+                  : (node.metadata?.frequency ? `${node.metadata.frequency}× getr.` : `${total} Ergebn.`)}
               </span>
             </div>
           </div>
