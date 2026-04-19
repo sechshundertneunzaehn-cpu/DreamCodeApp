@@ -22,6 +22,7 @@ interface ResearchStudy {
   lng: number;
   total_dreams: number;
   principal_investigator: string;
+  institution?: string | null;
 }
 
 interface StudyMapMarker {
@@ -38,10 +39,13 @@ interface StudyMapMarker {
 interface ResearchParticipant {
   participant_id: string;
   study_code: string;
-  country: string;
+  country: string | null;
   lat: number;
   lng: number;
   dream_count: number;
+  age: number | null;
+  gender: string | null;
+  ethnicity: string | null;
 }
 
 // ─── i18n ────────────────────────────────────────────────────────────────────
@@ -605,6 +609,15 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
   const [yearRange, setYearRange] = useState<[number, number]>([2015, 2026]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(true);
+  // Task 3 additions: participant-level filters + legend search + pin highlight
+  const [selectedGenders, setSelectedGenders] = useState<Set<string>>(new Set());
+  const [participantAgeRange, setParticipantAgeRange] = useState<[number, number]>([0, 99]);
+  const [selectedEthnicity, setSelectedEthnicity] = useState('');
+  const [selectedParticipantCountry, setSelectedParticipantCountry] = useState('');
+  const [legendSearch, setLegendSearch] = useState('');
+  const [highlightedStudyCode, setHighlightedStudyCode] = useState<string | null>(null);
+  const [userDreamsCount, setUserDreamsCount] = useState(0);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   // ── Snap water-based markers to land ─────────────────────────────────────
 
@@ -642,7 +655,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           if (cancelled) return;
           const { data: pBatch, error } = await supabase
             .from('research_participants')
-            .select('participant_id, study_code, country, lat, lng, dream_count')
+            .select('participant_id, study_code, country, lat, lng, dream_count, age, gender, ethnicity')
             .not('lat', 'is', null)
             .range(from, from + BATCH - 1);
           if (error || !pBatch || pBatch.length === 0) break;
@@ -651,6 +664,11 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           from += BATCH;
         }
         if (!cancelled) setParticipants(allParticipants as ResearchParticipant[]);
+
+        // Source-Filter: check whether user_dreams has any rows (controls
+        // whether the 'user' toggle is enabled or disabled in the UI).
+        const uc = await supabase.from('user_dreams').select('id', { count: 'exact', head: true });
+        if (!cancelled) setUserDreamsCount(uc.count ?? 0);
       } catch (err) {
         console.error('ScientificDreamMap: fetch error', err);
       } finally {
@@ -675,13 +693,69 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
     return Array.from(set).sort();
   }, [markers]);
 
+  const participantCountries = useMemo(() => {
+    const set = new Set<string>();
+    participants.forEach((p) => { if (p.country) set.add(p.country); });
+    return Array.from(set).sort();
+  }, [participants]);
+
+  const ethnicities = useMemo(() => {
+    const set = new Set<string>();
+    participants.forEach((p) => { if (p.ethnicity) set.add(p.ethnicity); });
+    return Array.from(set).sort();
+  }, [participants]);
+
+  // Teilnehmer nach Demografie-Filter (Gender/Age/Ethnicity/ParticipantCountry).
+  // Daraus leiten wir ab, welche Studien überhaupt noch relevante Teilnehmer haben
+  // → Studien ohne passende Teilnehmer werden ausgeblendet, wenn Demo-Filter aktiv.
+  const demographicFiltered = useMemo(() => {
+    const active = selectedGenders.size > 0 || selectedEthnicity !== '' || selectedParticipantCountry !== '' || participantAgeRange[0] > 0 || participantAgeRange[1] < 99;
+    if (!active) return { codes: null as Set<string> | null, count: participants.length };
+    const codes = new Set<string>();
+    let count = 0;
+    for (const p of participants) {
+      if (selectedGenders.size > 0 && !(p.gender && selectedGenders.has(p.gender))) continue;
+      if (selectedEthnicity && p.ethnicity !== selectedEthnicity) continue;
+      if (selectedParticipantCountry && p.country !== selectedParticipantCountry) continue;
+      if (p.age != null) {
+        if (p.age < participantAgeRange[0] || p.age > participantAgeRange[1]) continue;
+      } else if (participantAgeRange[0] > 0 || participantAgeRange[1] < 99) {
+        continue; // Alter nicht hinterlegt → bei aktivem Age-Filter ausschliessen
+      }
+      codes.add(p.study_code);
+      count++;
+    }
+    return { codes, count };
+  }, [participants, selectedGenders, selectedEthnicity, selectedParticipantCountry, participantAgeRange]);
+
   const filteredMarkers = useMemo(() => {
     return markers.filter((m) => {
       if (selectedStudies.size > 0 && !selectedStudies.has(m.study_code)) return false;
       if (selectedCountry && m.country !== selectedCountry) return false;
+      if (demographicFiltered.codes && !demographicFiltered.codes.has(m.study_code)) return false;
       return true;
     });
-  }, [markers, selectedStudies, selectedCountry]);
+  }, [markers, selectedStudies, selectedCountry, demographicFiltered]);
+
+  // Sichtbare Studien in Legende (nach Filter + Text-Suche)
+  const visibleStudies = useMemo(() => {
+    const q = legendSearch.trim().toLowerCase();
+    return studies.filter((s) => {
+      if (demographicFiltered.codes && !demographicFiltered.codes.has(s.study_code)) return false;
+      if (selectedCountry && s.country !== selectedCountry) return false;
+      if (q) {
+        const haystack = `${s.study_name || ''} ${s.institution || ''} ${s.principal_investigator || ''} ${s.study_code}`.toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [studies, legendSearch, demographicFiltered, selectedCountry]);
+
+  // Studien ohne Map-Marker (Pin fehlt — Legende bleibt, aber Zoom nicht möglich)
+  const studiesWithoutPin = useMemo(() => {
+    const markerCodes = new Set(markers.map((m) => m.study_code));
+    return new Set(studies.filter((s) => !markerCodes.has(s.study_code)).map((s) => s.study_code));
+  }, [markers, studies]);
 
   // Keep refs in sync for use inside map.on('load') closure
   latestMarkersRef.current = filteredMarkers;
@@ -817,6 +891,22 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           'circle-opacity': 0.95,
           'circle-stroke-width': 3,
           'circle-stroke-color': 'rgba(255,255,255,0.5)',
+        },
+      });
+
+      // Highlighted marker layer — sitzt über unclustered-point.
+      // Wird in einem separaten Effect via map.setFilter befuellt.
+      map.addLayer({
+        id: 'highlight-point',
+        type: 'circle',
+        source: 'dream-markers',
+        filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'study_code'], '__none__']],
+        paint: {
+          'circle-color': '#fbbf24',
+          'circle-radius': 28,
+          'circle-opacity': 0.9,
+          'circle-stroke-width': 4,
+          'circle-stroke-color': '#fef3c7',
         },
       });
 
@@ -1015,9 +1105,10 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
   const flyToStudy = useCallback((study: ResearchStudy) => {
     const marker = markers.find((m) => m.study_code === study.study_code);
     if (marker && mapRef.current) {
-      mapRef.current.flyTo({ center: [marker.lng, marker.lat], zoom: 5, duration: 1500 });
+      setHighlightedStudyCode((prev) => (prev === study.study_code ? null : study.study_code));
+      mapRef.current.flyTo({ center: [marker.lng, marker.lat], zoom: 6, duration: 1500 });
     } else {
-      // Kein Kartenmarker vorhanden → direkt zur Studiendetailseite navigieren
+      // Kein Kartenmarker ("International" Studie wie SDDB-016): direkt zur Studiendetailseite.
       onSelectStudy?.(study.study_code);
     }
   }, [markers, onSelectStudy]);
@@ -1026,9 +1117,32 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
     setSelectedStudies(new Set());
     setSelectedCountry('');
     setYearRange([2015, 2026]);
+    setSelectedGenders(new Set());
+    setParticipantAgeRange([0, 99]);
+    setSelectedEthnicity('');
+    setSelectedParticipantCountry('');
+    setLegendSearch('');
+    setHighlightedStudyCode(null);
   }, []);
 
-  const hasActiveFilters = selectedStudies.size > 0 || !!selectedCountry;
+  const hasActiveFilters =
+    selectedStudies.size > 0 ||
+    !!selectedCountry ||
+    selectedGenders.size > 0 ||
+    !!selectedEthnicity ||
+    !!selectedParticipantCountry ||
+    participantAgeRange[0] > 0 ||
+    participantAgeRange[1] < 99;
+
+  // Pin-Highlight via Mapbox-Filter: zeigt einen extra Marker über dem normalen.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !sourceReady.current) return;
+    const code = highlightedStudyCode ?? '__none__';
+    try {
+      map.setFilter('highlight-point', ['all', ['!', ['has', 'point_count']], ['==', ['get', 'study_code'], code]]);
+    } catch {}
+  }, [highlightedStudyCode]);
 
   // ── No-token fallback ────────────────────────────────────────────────────
 
@@ -1207,7 +1321,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           <label className={`block text-xs font-medium mb-1 ${subText}`}>
             {tr.filterYear}: {yearRange[0]} &ndash; {yearRange[1]}
           </label>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center mb-3">
             <input
               type="range" min={2010} max={2026} value={yearRange[0]}
               onChange={(e) => setYearRange([Math.min(Number(e.target.value), yearRange[1]), yearRange[1]])}
@@ -1219,33 +1333,199 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
               className="flex-1 accent-indigo-500 h-1"
             />
           </div>
+
+          {/* Source filter (user/scientific) — disabled until user_dreams populated */}
+          <label className={`block text-xs font-medium mb-1.5 ${subText}`}>
+            {language === 'de' ? 'Quelle' : 'Source'}
+          </label>
+          <div
+            className={`mb-3 flex rounded-lg border overflow-hidden ${isLight ? 'border-gray-300' : 'border-white/10'}`}
+            title={userDreamsCount === 0 ? (language === 'de' ? 'Noch keine User-Daten' : 'No user data yet') : ''}
+          >
+            <button
+              type="button"
+              disabled
+              className={`flex-1 px-2 py-1 text-[11px] font-semibold ${isLight ? 'bg-indigo-100 text-indigo-700' : 'bg-indigo-500/20 text-indigo-300'}`}
+            >
+              {language === 'de' ? 'Wissenschaftlich' : 'Scientific'}
+            </button>
+            <button
+              type="button"
+              disabled={userDreamsCount === 0}
+              className={`flex-1 px-2 py-1 text-[11px] transition ${
+                userDreamsCount === 0
+                  ? (isLight ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white/5 text-white/30 cursor-not-allowed')
+                  : (isLight ? 'bg-white text-gray-700 hover:bg-gray-50' : 'bg-black/40 text-white/70 hover:bg-white/10')
+              }`}
+            >
+              {language === 'de' ? 'User' : 'User'}{userDreamsCount === 0 ? ' (0)' : ` (${userDreamsCount})`}
+            </button>
+          </div>
+
+          {/* Gender multi-select */}
+          <label className={`block text-xs font-medium mb-1.5 ${subText}`}>
+            {language === 'de' ? 'Geschlecht' : 'Gender'}
+            <span className="ml-1 opacity-50" title={language === 'de' ? 'Daten unvollständig' : 'Data incomplete'}>ⓘ</span>
+          </label>
+          <div className="flex flex-wrap gap-1 mb-3">
+            {['f', 'm', 'd', 'other'].map((g) => {
+              const active = selectedGenders.has(g);
+              return (
+                <button
+                  key={g}
+                  type="button"
+                  onClick={() => {
+                    setSelectedGenders((prev) => {
+                      const next = new Set(prev);
+                      if (next.has(g)) next.delete(g); else next.add(g);
+                      return next;
+                    });
+                  }}
+                  className={`px-2 py-1 rounded-md text-[11px] border transition ${
+                    active
+                      ? (isLight ? 'bg-indigo-500 text-white border-indigo-500' : 'bg-indigo-500 text-white border-indigo-400')
+                      : (isLight ? 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50' : 'bg-black/40 text-white/70 border-white/10 hover:bg-white/10')
+                  }`}
+                >
+                  {g === 'f' ? '♀ F' : g === 'm' ? '♂ M' : g === 'd' ? '⚧ D' : '?'}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Age range (participants) */}
+          <label className={`block text-xs font-medium mb-1 ${subText}`}>
+            {language === 'de' ? 'Alter' : 'Age'}: {participantAgeRange[0]} &ndash; {participantAgeRange[1]}
+            <span className="ml-1 opacity-50" title={language === 'de' ? 'Daten unvollständig' : 'Data incomplete'}>ⓘ</span>
+          </label>
+          <div className="flex gap-2 items-center mb-3">
+            <input
+              type="range" min={0} max={99} value={participantAgeRange[0]}
+              onChange={(e) => setParticipantAgeRange([Math.min(Number(e.target.value), participantAgeRange[1]), participantAgeRange[1]])}
+              className="flex-1 accent-indigo-500 h-1"
+            />
+            <input
+              type="range" min={0} max={99} value={participantAgeRange[1]}
+              onChange={(e) => setParticipantAgeRange([participantAgeRange[0], Math.max(Number(e.target.value), participantAgeRange[0])])}
+              className="flex-1 accent-indigo-500 h-1"
+            />
+          </div>
+
+          {/* Ethnicity / Nationality (participants) */}
+          <label className={`block text-xs font-medium mb-1.5 ${subText}`}>
+            {language === 'de' ? 'Nationalität' : 'Nationality'}
+            <span className="ml-1 opacity-50" title={language === 'de' ? 'Daten unvollständig' : 'Data incomplete'}>ⓘ</span>
+          </label>
+          <input
+            type="text"
+            list="sdm-ethnicity-list"
+            value={selectedEthnicity}
+            onChange={(e) => setSelectedEthnicity(e.target.value)}
+            placeholder={language === 'de' ? 'z.B. European…' : 'e.g. European…'}
+            className={`w-full mb-3 px-2 py-1.5 rounded-lg text-xs border outline-none ${
+              isLight ? 'bg-white border-gray-300 text-gray-800 focus:border-indigo-400' : 'bg-black/50 border-white/10 text-white/90 focus:border-indigo-500'
+            }`}
+          />
+          <datalist id="sdm-ethnicity-list">
+            {ethnicities.map((e) => <option key={e} value={e} />)}
+          </datalist>
+
+          {/* Participant country (Wohnort) — separate from study country */}
+          <label className={`block text-xs font-medium mb-1.5 ${subText}`}>
+            {language === 'de' ? 'Wohnort (Teilnehmer)' : 'Residence (Participant)'}
+            <span className="ml-1 opacity-50" title={language === 'de' ? 'Daten unvollständig' : 'Data incomplete'}>ⓘ</span>
+          </label>
+          <input
+            type="text"
+            list="sdm-p-country-list"
+            value={selectedParticipantCountry}
+            onChange={(e) => setSelectedParticipantCountry(e.target.value)}
+            placeholder={language === 'de' ? 'z.B. USA…' : 'e.g. USA…'}
+            className={`w-full px-2 py-1.5 rounded-lg text-xs border outline-none ${
+              isLight ? 'bg-white border-gray-300 text-gray-800 focus:border-indigo-400' : 'bg-black/50 border-white/10 text-white/90 focus:border-indigo-500'
+            }`}
+          />
+          <datalist id="sdm-p-country-list">
+            {participantCountries.map((c) => <option key={c} value={c} />)}
+          </datalist>
         </div>
       )}
 
-      {/* ── Legend – bottom right ──────────────────────────────────────────── */}
-      <div className={`absolute bottom-6 right-4 z-10 p-3 rounded-xl backdrop-blur-md max-w-[220px] max-h-[40vh] overflow-y-auto border ${panelBg}`}>
-        <h3 className={`text-xs font-bold mb-2 uppercase tracking-wide ${isLight ? 'text-gray-600' : 'text-white/60'}`}>
-          {tr.legend} ({studies.length})
-        </h3>
-        <div className="space-y-0.5">
-          {studies.map((s) => (
-            <button
-              key={s.study_code}
-              onClick={() => flyToStudy(s)}
-              className={`w-full flex items-center gap-2 text-left text-[11px] px-1.5 py-1 rounded transition ${
-                selectedStudies.size > 0 && !selectedStudies.has(s.study_code) ? 'opacity-40' : 'opacity-100'
-              } ${isLight ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-300 hover:text-white hover:bg-white/5'}`}
-            >
-              <span
-                className="w-2.5 h-2.5 rounded-full shrink-0 border border-white/20"
-                style={{ backgroundColor: s.map_color || '#7c3aed' }}
-              />
-              <span className="truncate flex-1">{s.study_name}</span>
-              <span className={`shrink-0 tabular-nums ${mutedText}`}>{s.total_dreams || '?'}</span>
+      {/* ── Legend – responsive: md+ sidebar rechts, sm bottom-sheet ─────── */}
+      <div
+        data-testid="research-map-legend"
+        className={`z-10 rounded-xl backdrop-blur-md border ${panelBg}
+          absolute right-0 left-0 bottom-0 md:left-auto md:right-4 md:top-24 md:bottom-24
+          md:w-[320px] md:rounded-xl rounded-t-2xl md:rounded-t-xl
+          flex flex-col overflow-hidden
+          transition-[max-height,height] duration-200
+          ${mobileDrawerOpen ? 'max-h-[70vh]' : 'max-h-[48vh]'}
+          md:max-h-none md:h-auto`}
+      >
+        {/* Mobile drag handle */}
+        <button
+          type="button"
+          onClick={() => setMobileDrawerOpen((p) => !p)}
+          className="md:hidden flex justify-center pt-2 pb-1 cursor-grab active:cursor-grabbing"
+          aria-label={mobileDrawerOpen ? 'Liste schliessen' : 'Liste oeffnen'}
+        >
+          <span className={`w-10 h-1 rounded-full ${isLight ? 'bg-gray-300' : 'bg-white/30'}`} />
+        </button>
+
+        <div className="px-3 pt-1 pb-2 flex items-center justify-between">
+          <h3 className={`text-xs font-bold uppercase tracking-wide ${isLight ? 'text-gray-600' : 'text-white/60'}`}>
+            {tr.legend} ({visibleStudies.length}/{studies.length})
+          </h3>
+          {hasActiveFilters && (
+            <button onClick={resetFilters} className="text-[10px] text-indigo-400 hover:text-indigo-300 uppercase tracking-wide">
+              {tr.reset}
             </button>
-          ))}
-          {studies.length === 0 && (
-            <p className={`text-[11px] ${mutedText}`}>{tr.noData}</p>
+          )}
+        </div>
+
+        {/* Search */}
+        <div className="px-3 pb-2">
+          <input
+            type="search"
+            value={legendSearch}
+            onChange={(e) => setLegendSearch(e.target.value)}
+            placeholder={language === 'de' ? 'Studien durchsuchen…' : 'Search studies…'}
+            className={`w-full px-2 py-1.5 text-xs rounded-lg border outline-none ${
+              isLight ? 'bg-white border-gray-300 text-gray-800 focus:border-indigo-400' : 'bg-black/50 border-white/10 text-white/90 focus:border-indigo-500'
+            }`}
+          />
+        </div>
+
+        <div className="px-3 pb-3 overflow-y-auto space-y-0.5 flex-1">
+          {visibleStudies.map((s) => {
+            const isHi = highlightedStudyCode === s.study_code;
+            const noPin = studiesWithoutPin.has(s.study_code);
+            return (
+              <button
+                key={s.study_code}
+                data-study-id={s.study_code}
+                data-highlighted={isHi ? 'true' : 'false'}
+                onClick={() => flyToStudy(s)}
+                title={noPin ? (language === 'de' ? 'Kein Standort hinterlegt' : 'No location on record') : ''}
+                className={`w-full min-h-[44px] md:min-h-0 md:py-1.5 flex items-center gap-2 text-left text-[12px] px-2 rounded transition
+                  ${isHi ? (isLight ? 'bg-amber-100 ring-1 ring-amber-500' : 'bg-amber-500/20 ring-1 ring-amber-400') : ''}
+                  ${selectedStudies.size > 0 && !selectedStudies.has(s.study_code) ? 'opacity-40' : 'opacity-100'}
+                  ${isLight ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-300 hover:text-white hover:bg-white/5'}`}
+              >
+                <span
+                  className="w-2.5 h-2.5 rounded-full shrink-0 border border-white/20"
+                  style={{ backgroundColor: s.map_color || '#7c3aed' }}
+                />
+                <span className="truncate flex-1">{s.study_name}</span>
+                {noPin ? (
+                  <span className="shrink-0 text-[10px] opacity-40" aria-hidden="true">📍</span>
+                ) : null}
+                <span className={`shrink-0 tabular-nums text-[10px] ${mutedText}`}>{s.total_dreams || '?'}</span>
+              </button>
+            );
+          })}
+          {visibleStudies.length === 0 && (
+            <p className={`text-[11px] px-2 ${mutedText}`}>{tr.noData}</p>
           )}
         </div>
       </div>
