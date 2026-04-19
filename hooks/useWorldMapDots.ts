@@ -30,13 +30,14 @@ export function useWorldMapDots(): WorldMapDotsResult {
 
     (async () => {
       try {
-        const [rowsRes, countRes] = await Promise.all([
+        // study_map_markers ist bereits pro Ort aggregiert (~100 Eintraege weltweit),
+        // research_participants clustert dagegen auf wenige Studien-Standorte.
+        // Markers fuer Dots, participants nur fuer den Teilnehmer-Count im Overlay.
+        const [markersRes, countRes] = await Promise.all([
           supabase
-            .from('research_participants')
-            .select('participant_id, country, lat, lng')
-            .not('lat', 'is', null)
-            .order('participant_id', { ascending: true })
-            .range(0, 999),
+            .from('study_map_markers')
+            .select('country, lat, lng')
+            .not('lat', 'is', null),
           supabase
             .from('research_participants')
             .select('participant_id', { count: 'exact', head: true })
@@ -45,27 +46,29 @@ export function useWorldMapDots(): WorldMapDotsResult {
 
         if (cancelled) return;
 
-        const rows = (rowsRes.data ?? []) as Array<{
-          participant_id: string;
-          country: string | null;
-          lat: number;
-          lng: number;
-        }>;
-
-        const step = Math.max(1, Math.floor(rows.length / SAMPLE_SIZE));
-        const sampled = rows.filter((_, i) => i % step === 0).slice(0, SAMPLE_SIZE);
-
+        type Marker = { country: string | null; lat: number; lng: number };
+        const markers = (markersRes.data ?? []) as Marker[];
+        const seen = new Set<string>();
+        const unique: Marker[] = [];
         const countries = new Set<string>();
-        rows.forEach((r) => {
-          if (r.country) countries.add(r.country);
-        });
+        for (const m of markers) {
+          if (m.country) countries.add(m.country);
+          const key = `${m.lat.toFixed(3)}|${m.lng.toFixed(3)}`;
+          if (!seen.has(key)) {
+            seen.add(key);
+            unique.push(m);
+          }
+        }
+
+        const step = Math.max(1, Math.floor(unique.length / SAMPLE_SIZE));
+        const sampled = unique.filter((_, i) => i % step === 0).slice(0, SAMPLE_SIZE);
 
         setState({
-          dots: sampled.map((r) => ({ lat: r.lat, lng: r.lng })),
+          dots: sampled.map((m) => ({ lat: m.lat, lng: m.lng })),
           participantCount: countRes.count ?? null,
           countryCount: countries.size > 0 ? countries.size : null,
           loading: false,
-          error: rowsRes.error?.message ?? countRes.error?.message ?? null,
+          error: markersRes.error?.message ?? countRes.error?.message ?? null,
         });
       } catch (err) {
         if (cancelled) return;

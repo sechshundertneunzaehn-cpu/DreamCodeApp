@@ -44,8 +44,12 @@ const WorldMapPreview: React.FC<Props> = ({ isLight, language, onClickFullscreen
   const { dots, participantCount, countryCount, loading, error } = useWorldMapDots();
   const locale = language || 'de';
 
-  const bgOpacity = isLight ? 0.55 : 0.35;
-  const dotColor = isLight ? '#4f46e5' : '#60a5fa';
+  const bgOpacity = isLight ? 0.7 : 0.95;
+  const dotColor = isLight ? '#4338ca' : '#fef9c3';
+  const dotRadius = 10;
+  const dotOpacity = 1;
+  const dotStroke = isLight ? '#ffffff' : '#f59e0b';
+  const dotStrokeWidth = 2;
   const overlayBg = isLight ? 'bg-white/70 text-indigo-900' : 'bg-black/50 text-white';
 
   return (
@@ -54,21 +58,23 @@ const WorldMapPreview: React.FC<Props> = ({ isLight, language, onClickFullscreen
       onClick={onClickFullscreen}
       aria-label="Weltkarte erkunden"
       className={`group relative w-full h-full overflow-hidden cursor-pointer transition-[filter] duration-300 hover:brightness-110 ${
-        isLight ? 'bg-indigo-50' : 'bg-[#0b1020]'
+        isLight
+          ? 'bg-gradient-to-br from-indigo-50 via-white to-sky-100'
+          : 'bg-gradient-to-br from-[#050714] via-[#0d1430] to-[#1a2654]'
       }`}
     >
       <img
         src={`${import.meta.env.BASE_URL}world-map.svg`}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
-        style={{ opacity: bgOpacity }}
+        className="absolute inset-0 w-full h-full pointer-events-none select-none"
+        style={{ opacity: bgOpacity, objectFit: 'fill' }}
         draggable={false}
       />
 
       <svg
         viewBox={`0 0 ${VIEWBOX_W} ${VIEWBOX_H}`}
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="none"
         className="absolute inset-0 w-full h-full pointer-events-none"
         aria-hidden="true"
       >
@@ -81,9 +87,11 @@ const WorldMapPreview: React.FC<Props> = ({ isLight, language, onClickFullscreen
                   key={i}
                   cx={x}
                   cy={y}
-                  r={1.8}
+                  r={dotRadius}
                   fill={dotColor}
-                  opacity={0.75}
+                  stroke={dotStroke}
+                  strokeWidth={dotStrokeWidth}
+                  opacity={dotOpacity}
                 />
               );
             })}
