@@ -618,6 +618,9 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
   const [highlightedStudyCode, setHighlightedStudyCode] = useState<string | null>(null);
   const [userDreamsCount, setUserDreamsCount] = useState(0);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  // Daten-Verfügbarkeit pro Filter-Spalte (null-Ratio) — aktiviert/deaktiviert UI
+  const [dataCoverage, setDataCoverage] = useState<{ gender: number; age: number; ethnicity: number; country: number }>({ gender: 1, age: 1, ethnicity: 1, country: 1 });
+  const [dataHintDismissed, setDataHintDismissed] = useState<boolean>(() => typeof localStorage !== 'undefined' && localStorage.getItem('sdm-data-hint-dismissed') === '1');
 
   // ── Snap water-based markers to land ─────────────────────────────────────
 
@@ -669,6 +672,21 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
         // whether the 'user' toggle is enabled or disabled in the UI).
         const uc = await supabase.from('user_dreams').select('id', { count: 'exact', head: true });
         if (!cancelled) setUserDreamsCount(uc.count ?? 0);
+
+        // Daten-Verfügbarkeit pro Filter-Spalte: wenn <5% non-null → Filter disabled.
+        const total = uc.count != null ? (await supabase.from('research_participants').select('id', { count: 'exact', head: true })).count ?? 1 : 1;
+        const [gnn, ann, enn, cnn] = await Promise.all([
+          supabase.from('research_participants').select('id', { count: 'exact', head: true }).not('gender', 'is', null),
+          supabase.from('research_participants').select('id', { count: 'exact', head: true }).not('age', 'is', null),
+          supabase.from('research_participants').select('id', { count: 'exact', head: true }).not('ethnicity', 'is', null),
+          supabase.from('research_participants').select('id', { count: 'exact', head: true }).not('country', 'is', null),
+        ]);
+        if (!cancelled) setDataCoverage({
+          gender: (gnn.count ?? 0) / Math.max(total, 1),
+          age: (ann.count ?? 0) / Math.max(total, 1),
+          ethnicity: (enn.count ?? 0) / Math.max(total, 1),
+          country: (cnn.count ?? 0) / Math.max(total, 1),
+        });
       } catch (err) {
         console.error('ScientificDreamMap: fetch error', err);
       } finally {
@@ -1261,6 +1279,23 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
       {/* ── Filter panel ───────────────────────────────────────────────────── */}
       {filterOpen && (
         <div className={`absolute top-16 left-3 sm:left-4 z-20 w-72 max-h-[70vh] overflow-y-auto rounded-xl backdrop-blur-xl p-4 border ${panelBg}`}>
+          {!dataHintDismissed && (
+            <div className={`flex items-start gap-2 mb-3 p-2 rounded-lg text-[10px] leading-snug ${isLight ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-amber-500/10 text-amber-200 border border-amber-500/30'}`}>
+              <span className="text-sm leading-none mt-0.5">ⓘ</span>
+              <span className="flex-1">
+                {language === 'de'
+                  ? 'Diese Studien sind aus wissenschaftlicher Forschung. Einige Filter können inaktiv sein, wenn die Originalstudien die Daten nicht erfasst haben.'
+                  : 'These studies come from scientific research. Some filters may be inactive when the original studies did not record that data.'}
+              </span>
+              <button
+                type="button"
+                onClick={() => { setDataHintDismissed(true); try { localStorage.setItem('sdm-data-hint-dismissed', '1'); } catch {} }}
+                className="text-sm leading-none opacity-60 hover:opacity-100"
+                aria-label={language === 'de' ? 'Hinweis schliessen' : 'Dismiss hint'}
+              >×</button>
+            </div>
+          )}
+
           <div className="flex items-center justify-between mb-3">
             <h3 className={`font-semibold text-sm ${panelText}`}>{tr.filterTitle}</h3>
             {hasActiveFilters && (
@@ -1362,18 +1397,22 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
             </button>
           </div>
 
-          {/* Gender multi-select */}
+          {/* Gender multi-select (DB-Werte: 'Female' / 'Male' / null) */}
           <label className={`block text-xs font-medium mb-1.5 ${subText}`}>
             {language === 'de' ? 'Geschlecht' : 'Gender'}
-            <span className="ml-1 opacity-50" title={language === 'de' ? 'Daten unvollständig' : 'Data incomplete'}>ⓘ</span>
+            {dataCoverage.gender < 0.05 && (
+              <span className="ml-1 opacity-50" title={language === 'de' ? 'Keine Geschlechts-Daten in den Studien hinterlegt' : 'No gender data on record'}>✕</span>
+            )}
           </label>
-          <div className="flex flex-wrap gap-1 mb-3">
-            {['f', 'm', 'd', 'other'].map((g) => {
+          <div className="flex flex-wrap gap-1 mb-3" title={dataCoverage.gender < 0.05 ? (language === 'de' ? 'Keine Geschlechts-Daten' : 'No gender data') : ''}>
+            {(['Female', 'Male'] as const).map((g) => {
               const active = selectedGenders.has(g);
+              const disabled = dataCoverage.gender < 0.05;
               return (
                 <button
                   key={g}
                   type="button"
+                  disabled={disabled}
                   onClick={() => {
                     setSelectedGenders((prev) => {
                       const next = new Set(prev);
@@ -1382,12 +1421,14 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
                     });
                   }}
                   className={`px-2 py-1 rounded-md text-[11px] border transition ${
-                    active
-                      ? (isLight ? 'bg-indigo-500 text-white border-indigo-500' : 'bg-indigo-500 text-white border-indigo-400')
-                      : (isLight ? 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50' : 'bg-black/40 text-white/70 border-white/10 hover:bg-white/10')
+                    disabled
+                      ? (isLight ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' : 'bg-white/5 text-white/30 border-white/10 cursor-not-allowed')
+                      : active
+                        ? 'bg-indigo-500 text-white border-indigo-500'
+                        : (isLight ? 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50' : 'bg-black/40 text-white/70 border-white/10 hover:bg-white/10')
                   }`}
                 >
-                  {g === 'f' ? '♀ F' : g === 'm' ? '♂ M' : g === 'd' ? '⚧ D' : '?'}
+                  {g === 'Female' ? '♀ Female' : '♂ Male'}
                 </button>
               );
             })}
@@ -1396,33 +1437,40 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           {/* Age range (participants) */}
           <label className={`block text-xs font-medium mb-1 ${subText}`}>
             {language === 'de' ? 'Alter' : 'Age'}: {participantAgeRange[0]} &ndash; {participantAgeRange[1]}
-            <span className="ml-1 opacity-50" title={language === 'de' ? 'Daten unvollständig' : 'Data incomplete'}>ⓘ</span>
+            {dataCoverage.age < 0.05 && (
+              <span className="ml-1 opacity-50" title={language === 'de' ? 'Keine Alters-Daten' : 'No age data'}>✕</span>
+            )}
           </label>
-          <div className="flex gap-2 items-center mb-3">
+          <div className="flex gap-2 items-center mb-3" title={dataCoverage.age < 0.05 ? (language === 'de' ? 'Keine Alters-Daten' : 'No age data') : ''}>
             <input
               type="range" min={0} max={99} value={participantAgeRange[0]}
+              disabled={dataCoverage.age < 0.05}
               onChange={(e) => setParticipantAgeRange([Math.min(Number(e.target.value), participantAgeRange[1]), participantAgeRange[1]])}
-              className="flex-1 accent-indigo-500 h-1"
+              className="flex-1 accent-indigo-500 h-1 disabled:opacity-40"
             />
             <input
               type="range" min={0} max={99} value={participantAgeRange[1]}
+              disabled={dataCoverage.age < 0.05}
               onChange={(e) => setParticipantAgeRange([participantAgeRange[0], Math.max(Number(e.target.value), participantAgeRange[0])])}
-              className="flex-1 accent-indigo-500 h-1"
+              className="flex-1 accent-indigo-500 h-1 disabled:opacity-40"
             />
           </div>
 
           {/* Ethnicity / Nationality (participants) */}
           <label className={`block text-xs font-medium mb-1.5 ${subText}`}>
             {language === 'de' ? 'Nationalität' : 'Nationality'}
-            <span className="ml-1 opacity-50" title={language === 'de' ? 'Daten unvollständig' : 'Data incomplete'}>ⓘ</span>
+            {dataCoverage.ethnicity < 0.05 && (
+              <span className="ml-1 opacity-50" title={language === 'de' ? 'Keine Nationalitäts-Daten' : 'No nationality data'}>✕</span>
+            )}
           </label>
           <input
             type="text"
             list="sdm-ethnicity-list"
             value={selectedEthnicity}
+            disabled={dataCoverage.ethnicity < 0.05}
             onChange={(e) => setSelectedEthnicity(e.target.value)}
-            placeholder={language === 'de' ? 'z.B. European…' : 'e.g. European…'}
-            className={`w-full mb-3 px-2 py-1.5 rounded-lg text-xs border outline-none ${
+            placeholder={language === 'de' ? 'z.B. White, Asian…' : 'e.g. White, Asian…'}
+            className={`w-full mb-3 px-2 py-1.5 rounded-lg text-xs border outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
               isLight ? 'bg-white border-gray-300 text-gray-800 focus:border-indigo-400' : 'bg-black/50 border-white/10 text-white/90 focus:border-indigo-500'
             }`}
           />
@@ -1433,15 +1481,18 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           {/* Participant country (Wohnort) — separate from study country */}
           <label className={`block text-xs font-medium mb-1.5 ${subText}`}>
             {language === 'de' ? 'Wohnort (Teilnehmer)' : 'Residence (Participant)'}
-            <span className="ml-1 opacity-50" title={language === 'de' ? 'Daten unvollständig' : 'Data incomplete'}>ⓘ</span>
+            {dataCoverage.country < 0.05 && (
+              <span className="ml-1 opacity-50" title={language === 'de' ? 'Keine Wohnort-Daten' : 'No residence data'}>✕</span>
+            )}
           </label>
           <input
             type="text"
             list="sdm-p-country-list"
             value={selectedParticipantCountry}
+            disabled={dataCoverage.country < 0.05}
             onChange={(e) => setSelectedParticipantCountry(e.target.value)}
-            placeholder={language === 'de' ? 'z.B. USA…' : 'e.g. USA…'}
-            className={`w-full px-2 py-1.5 rounded-lg text-xs border outline-none ${
+            placeholder={language === 'de' ? 'z.B. USA, England…' : 'e.g. USA, England…'}
+            className={`w-full px-2 py-1.5 rounded-lg text-xs border outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
               isLight ? 'bg-white border-gray-300 text-gray-800 focus:border-indigo-400' : 'bg-black/50 border-white/10 text-white/90 focus:border-indigo-500'
             }`}
           />
