@@ -79,6 +79,8 @@ const T = {
     noDreams: 'Keine Träume gefunden',
     doi: 'DOI',
     demographics: 'Demografische Daten',
+    scientificInterpretationLabel: 'Wissenschaftliche Deutung',
+    noScientificInterpretation: 'Keine wissenschaftliche Deutung hinterlegt.',
   },
   en: {
     title: 'Participant Profile',
@@ -104,6 +106,8 @@ const T = {
     noDreams: 'No dreams found',
     doi: 'DOI',
     demographics: 'Demographics',
+    scientificInterpretationLabel: 'Scientific interpretation',
+    noScientificInterpretation: 'No scientific interpretation on record.',
   },
 };
 
@@ -172,7 +176,7 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
   const [participant, setParticipant] = useState<ParticipantRow | null>(null);
   const [study, setStudy] = useState<StudyRow | null>(null);
   const [dreams, setDreams] = useState<DreamRow[]>([]);
-  const [aiInterpretations, setAiInterpretations] = useState<Record<string, string>>({});
+  const [scientificInterpretations, setScientificInterpretations] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
   // Intercept browser back-button and swipe-back gesture → navigate within app
@@ -253,18 +257,19 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
         }
         setDreams(loadedDreams);
 
-        // 4. AI Interpretations from research_interpretations table
+        // 4. Scientific interpretations from research_interpretations (tradition='scientific')
         if (loadedDreams.length > 0) {
           const { data: interpData } = await supabase
             .from('research_interpretations')
             .select('dream_id, content')
-            .eq('participant_id', participantId);
+            .eq('participant_id', participantId)
+            .eq('tradition', 'scientific');
           if (interpData && interpData.length > 0) {
             const map: Record<string, string> = {};
             for (const row of interpData) {
               map[row.dream_id] = row.content;
             }
-            setAiInterpretations(map);
+            setScientificInterpretations(map);
           }
         }
       }
@@ -490,30 +495,52 @@ const ParticipantProfile: React.FC<ParticipantProfileProps> = ({
 
                     {/* original_language badge removed — auto-translation handles this */}
 
-                    {/* Interpretation — original or AI */}
-                    {(dream.scientific_interpretation || aiInterpretations[dream.id]) ? (
-                      <div className={`mt-3 p-3 rounded-lg border text-sm leading-relaxed whitespace-pre-wrap ${
-                        dream.scientific_interpretation
-                          ? (isLight ? 'bg-indigo-50 border-indigo-200 text-indigo-900' : 'bg-indigo-900/20 border-indigo-700/30 text-indigo-200')
-                          : (isLight ? 'bg-violet-50 border-violet-200 text-violet-900' : 'bg-violet-900/20 border-violet-700/30 text-violet-200')
-                      }`}>
-                        <div className="text-xs font-semibold mb-1 opacity-60">
-                          {dream.scientific_interpretation
-                            ? (language === 'de' ? 'Deutung (Original)' : 'Interpretation (Original)')
-                            : (language === 'de' ? 'Deutung (KI)' : 'Interpretation (AI)')
-                          }
-                          {dream.interpretation_by && <span className="ml-1 font-normal opacity-70">· {dream.interpretation_by}</span>}
+                    {/* Wissenschaftliche Deutung (immer aus research_interpretations.content,
+                        Fallback auf research_dreams.scientific_interpretation falls vorhanden).
+                        Leer-Zustand wenn beides fehlt. NIE KI-Fallback. */}
+                    {(() => {
+                      const interpretation =
+                        scientificInterpretations[dream.id] || dream.scientific_interpretation || null;
+                      if (interpretation) {
+                        return (
+                          <div
+                            data-scientific-interpretation
+                            className={`mt-3 p-3 rounded-lg border text-sm leading-relaxed whitespace-pre-wrap ${
+                              isLight
+                                ? 'bg-indigo-50 border-indigo-200 text-indigo-900'
+                                : 'bg-indigo-900/20 border-indigo-700/30 text-indigo-200'
+                            }`}
+                          >
+                            <div className="text-xs font-semibold mb-1 opacity-60">
+                              {t.scientificInterpretationLabel}
+                              {dream.interpretation_by && (
+                                <span className="ml-1 font-normal opacity-70">· {dream.interpretation_by}</span>
+                              )}
+                            </div>
+                            <TranslatedText
+                              text={interpretation}
+                              sourceId={dream.id}
+                              table="research_dreams"
+                              field="interpretation"
+                              sourceLang={dream.original_language || undefined}
+                              showOriginalToggle
+                            />
+                          </div>
+                        );
+                      }
+                      return (
+                        <div
+                          data-scientific-interpretation="empty"
+                          className={`mt-3 p-3 rounded-lg border text-xs italic ${
+                            isLight
+                              ? 'bg-gray-50 border-gray-200 text-gray-500'
+                              : 'bg-gray-800/40 border-white/10 text-gray-400'
+                          }`}
+                        >
+                          {t.noScientificInterpretation}
                         </div>
-                        <TranslatedText
-                          text={dream.scientific_interpretation || aiInterpretations[dream.id]}
-                          sourceId={dream.id}
-                          table="research_dreams"
-                          field="interpretation"
-                          sourceLang={dream.original_language || undefined}
-                          showOriginalToggle
-                        />
-                      </div>
-                    ) : null}
+                      );
+                    })()}
                   </div>
                 ))}
               </div>
