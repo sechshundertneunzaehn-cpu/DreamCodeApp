@@ -9,6 +9,7 @@ import { fetchMapDreams, type MapDreamUser } from '../services/dreamMapService';
 import TranslatedText from './TranslatedText';
 import { supabase } from '../services/supabaseClient';
 import KnowledgeGraph from './KnowledgeGraph';
+import WorldMapPreview from './WorldMapPreview';
 import type { GraphNode } from '../services/graphDataService';
 
 // ─── Research Participant (individual) ────────────────────────────────────────
@@ -1750,19 +1751,27 @@ const DreamMap: React.FC<DreamMapProps> = ({
           </div>
         </div>
 
-        <KnowledgeGraph
-          searchQuery={searchQuery}
-          activeCategory={activeCategory}
-          matchThreshold={matchThreshold}
-          isLight={isLight}
-          language={lang}
-          filterGender={filterGender}
-          filterAgeMin={filterAgeMin}
-          filterAgeMax={filterAgeMax}
-          filterCountry={filterNationality}
-          onNodeClick={handleGraphNodeClick}
-          highlightedUserId={selectedUser?.id}
-        />
+        {FEATURE_FLAGS.ENABLE_GRAPH ? (
+          <KnowledgeGraph
+            searchQuery={searchQuery}
+            activeCategory={activeCategory}
+            matchThreshold={matchThreshold}
+            isLight={isLight}
+            language={lang}
+            filterGender={filterGender}
+            filterAgeMin={filterAgeMin}
+            filterAgeMax={filterAgeMax}
+            filterCountry={filterNationality}
+            onNodeClick={handleGraphNodeClick}
+            highlightedUserId={selectedUser?.id}
+          />
+        ) : (
+          <WorldMapPreview
+            isLight={!!isLight}
+            language={typeof lang === 'string' ? lang : undefined}
+            onClickFullscreen={() => onNavigateToResearch?.()}
+          />
+        )}
       </div>
 
       {/* ── Drag Handle (resize graph / list split) ── */}
