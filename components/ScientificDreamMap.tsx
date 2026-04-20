@@ -1198,19 +1198,20 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
       {/* ── Top bar ────────────────────────────────────────────────────────── */}
       <div className="relative z-10 flex items-center justify-between px-3 py-3 sm:px-4">
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Back */}
+          {/* Back — visible on all viewports with label so user can find it */}
           <button
             onClick={onClose}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition backdrop-blur-md border ${
+            aria-label={language === 'de' ? 'Zurück zur Traumkarte' : 'Back to dream map'}
+            title={language === 'de' ? 'Zurück zur Traumkarte' : 'Back to dream map'}
+            data-testid="sdm-back-button"
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition backdrop-blur-md border ${
               isLight
-                ? 'bg-white/80 text-gray-800 hover:bg-white/90 border-gray-200'
-                : 'bg-black/60 text-white/90 hover:bg-black/70 border-white/10'
+                ? 'bg-white/90 text-gray-800 hover:bg-white border-gray-300 shadow'
+                : 'bg-black/70 text-white hover:bg-black/85 border-white/20 shadow-lg'
             }`}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            <span className="hidden sm:inline">{tr.back}</span>
+            <span className="material-icons text-base">arrow_back</span>
+            <span>{tr.back}</span>
           </button>
 
           {/* Title */}
