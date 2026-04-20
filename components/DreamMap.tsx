@@ -12,6 +12,7 @@ import KnowledgeGraph from './KnowledgeGraph';
 import WorldMapPreview from './WorldMapPreview';
 import type { GraphNode } from '../services/graphDataService';
 import { useSymbolSearch } from '../hooks/useSymbolSearch';
+import { useDreamsFulltextSearch, type SearchMode } from '../hooks/useDreamsFulltextSearch';
 import { BOT_SYMBOL_IDS } from '../data/botSymbolIds';
 import { OCEAN_USER_IDS } from '../data/oceanUserIds';
 
@@ -72,6 +73,12 @@ interface Translations {
   matchThreshold: string;
   matchedDreamers: string;
   scientificDreamReports: string;
+  searchModeAllWords: string;
+  searchModeExactPhrase: string;
+  searchModeExactWord: string;
+  searchLoadMore: string;
+  searchLoadingMore: string;
+  searchAllLoaded: string;
   noDreamsFound: string;
   // Profile translations
   profileBack: string;
@@ -121,6 +128,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Match Threshold',
     matchedDreamers: 'Matched Dreamers',
     scientificDreamReports: 'scientific dream reports',
+    searchModeAllWords: 'all words',
+    searchModeExactPhrase: 'exact phrase',
+    searchModeExactWord: 'exact word',
+    searchLoadMore: 'Load more',
+    searchLoadingMore: 'Loading…',
+    searchAllLoaded: 'All results loaded',
     noDreamsFound: 'No dreams found',
     profileBack: 'Back',
     profileReport: 'Report',
@@ -167,6 +180,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Match-Schwelle',
     matchedDreamers: 'Gematchte Träumer',
     scientificDreamReports: 'wissenschaftliche Traumberichte',
+    searchModeAllWords: 'alle Wörter',
+    searchModeExactPhrase: 'ganzer Satz',
+    searchModeExactWord: 'exaktes Wort',
+    searchLoadMore: 'Mehr laden',
+    searchLoadingMore: 'Lade…',
+    searchAllLoaded: 'Alle Ergebnisse geladen',
     noDreamsFound: 'Keine Träume gefunden',
     profileBack: 'Zurück',
     profileReport: 'Melden',
@@ -213,6 +232,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Eşleşme Eşiği',
     matchedDreamers: 'Eşleşen Rüyacılar',
     scientificDreamReports: 'bilimsel rüya raporları',
+    searchModeAllWords: 'tüm kelimeler',
+    searchModeExactPhrase: 'tam ifade',
+    searchModeExactWord: 'tam kelime',
+    searchLoadMore: 'Daha fazla',
+    searchLoadingMore: 'Yükleniyor…',
+    searchAllLoaded: 'Tüm sonuçlar yüklendi',
     noDreamsFound: 'Rüya bulunamadı',
     profileBack: 'Geri',
     profileReport: 'Bildir',
@@ -259,6 +284,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Umbral de coincidencia',
     matchedDreamers: 'Soñadores coincidentes',
     scientificDreamReports: 'informes científicos de sueños',
+    searchModeAllWords: 'todas las palabras',
+    searchModeExactPhrase: 'frase exacta',
+    searchModeExactWord: 'palabra exacta',
+    searchLoadMore: 'Cargar más',
+    searchLoadingMore: 'Cargando…',
+    searchAllLoaded: 'Todos los resultados cargados',
     noDreamsFound: 'No se encontraron sueños',
     profileBack: 'Volver',
     profileReport: 'Reportar',
@@ -305,6 +336,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Seuil de correspondance',
     matchedDreamers: 'Rêveurs correspondants',
     scientificDreamReports: 'rapports de rêves scientifiques',
+    searchModeAllWords: 'tous les mots',
+    searchModeExactPhrase: 'phrase exacte',
+    searchModeExactWord: 'mot exact',
+    searchLoadMore: 'Charger plus',
+    searchLoadingMore: 'Chargement…',
+    searchAllLoaded: 'Tous les résultats chargés',
     noDreamsFound: 'Aucun rêve trouvé',
     profileBack: 'Retour',
     profileReport: 'Signaler',
@@ -351,6 +388,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'حد التطابق',
     matchedDreamers: 'الحالمون المتطابقون',
     scientificDreamReports: 'تقارير أحلام علمية',
+    searchModeAllWords: 'كل الكلمات',
+    searchModeExactPhrase: 'عبارة كاملة',
+    searchModeExactWord: 'كلمة محددة',
+    searchLoadMore: 'تحميل المزيد',
+    searchLoadingMore: 'جارٍ التحميل…',
+    searchAllLoaded: 'تم تحميل كل النتائج',
     noDreamsFound: 'لم يتم العثور على أحلام',
     profileBack: 'رجوع',
     profileReport: 'إبلاغ',
@@ -397,6 +440,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Limite de correspondência',
     matchedDreamers: 'Sonhadores correspondentes',
     scientificDreamReports: 'relatórios científicos de sonhos',
+    searchModeAllWords: 'todas as palavras',
+    searchModeExactPhrase: 'frase exata',
+    searchModeExactWord: 'palavra exata',
+    searchLoadMore: 'Carregar mais',
+    searchLoadingMore: 'Carregando…',
+    searchAllLoaded: 'Todos os resultados carregados',
     noDreamsFound: 'Nenhum sonho encontrado',
     profileBack: 'Voltar',
     profileReport: 'Denunciar',
@@ -443,6 +492,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     matchThreshold: 'Порог совпадения',
     matchedDreamers: 'Совпавшие сновидцы',
     scientificDreamReports: 'научные отчёты о снах',
+    searchModeAllWords: 'все слова',
+    searchModeExactPhrase: 'точная фраза',
+    searchModeExactWord: 'точное слово',
+    searchLoadMore: 'Загрузить ещё',
+    searchLoadingMore: 'Загрузка…',
+    searchAllLoaded: 'Все результаты загружены',
     noDreamsFound: 'Сны не найдены',
     profileBack: 'Назад',
     profileReport: 'Пожаловаться',
@@ -1079,6 +1134,18 @@ const DreamMap: React.FC<DreamMapProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedMapSymbolId, setExpandedMapSymbolId] = useState<string | null>(null);
   const { data: symbolSearch } = useSymbolSearch(searchQuery, lang);
+  const [searchMode, setSearchMode] = useState<SearchMode>('all_words');
+  const fulltext = useDreamsFulltextSearch(searchQuery, searchMode, lang);
+  const infiniteSentinelRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const el = infiniteSentinelRef.current;
+    if (!el || !fulltext.hasMore || fulltext.loadingMore || fulltext.loading) return;
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) fulltext.loadMore();
+    }, { rootMargin: '200px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [fulltext.hasMore, fulltext.loadingMore, fulltext.loading, fulltext.loadMore, fulltext.results.length]);
   const mapIsRtl = RTL_LOCALES_DM.has(lang);
   const [matchThreshold, setMatchThreshold] = useState(50);
   const [liveSearchResults, setLiveSearchResults] = useState<SimUser[]>([]);
@@ -1852,6 +1919,33 @@ const DreamMap: React.FC<DreamMapProps> = ({
             </button>
           )}
         </div>
+        {/* Search-Modi-Chips — AND vs. Phrase vs. ExactWord */}
+        {searchQuery.trim().length >= 2 && (
+          <div className="mt-1.5 flex flex-wrap gap-1" data-testid="dreammap-search-modes">
+            {(['all_words','exact_phrase','exact_word'] as const).map((m) => {
+              const label = m === 'all_words' ? t.searchModeAllWords : m === 'exact_phrase' ? t.searchModeExactPhrase : t.searchModeExactWord;
+              const active = searchMode === m;
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setSearchMode(m)}
+                  data-search-mode={m}
+                  data-active={active ? 'true' : 'false'}
+                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold border transition ${
+                    active
+                      ? 'bg-cyan-600 border-cyan-500 text-white'
+                      : isLight
+                        ? 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'
+                        : 'bg-black/40 border-white/10 text-white/70 hover:bg-white/10'
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        )}
         {/* ── Matching Symbols — POST /api/symbols/search ── */}
         {searchQuery.trim().length >= 2 && (symbolSearch?.results?.length ?? 0) > 0 && (
           <div
@@ -2301,7 +2395,12 @@ const DreamMap: React.FC<DreamMapProps> = ({
       <div className="px-2 pt-1" style={{ paddingBottom: '80px' }}>
         <div className="flex items-center justify-between px-3 py-2">
           <span className={`text-sm font-bold ${textMain}`} data-testid="dreammap-research-counter">
-            {(symbolSearch?.matching_dreams?.research_count ?? 0).toLocaleString()} {t.scientificDreamReports}
+            {fulltext.total.toLocaleString()} {t.scientificDreamReports}
+            {fulltext.total > 0 && fulltext.results.length < fulltext.total && (
+              <span className={`ml-1 text-[10px] font-normal opacity-60`} data-testid="dreammap-loaded-count">
+                ({fulltext.results.length} {lang === 'de' ? 'geladen' : 'loaded'})
+              </span>
+            )}
           </span>
           {!selectedUser && (
             <span className={`text-[10px] ${textSub}`}>{t.tapMarker}</span>
@@ -2313,9 +2412,10 @@ const DreamMap: React.FC<DreamMapProps> = ({
           }`}
           data-testid="dreammap-research-list"
         >
-          {/* 2026-04-20 Research-Dreams-List — ausschließliche Anzeige-Quelle auf DreamMap
-              Datenquelle: useSymbolSearch → response.matching_dreams.research_sample */}
-          {(symbolSearch?.matching_dreams?.research_sample?.length ?? 0) === 0 ? (
+          {/* 2026-04-20 Research-Dreams-List via /api/dreams/fulltext-search
+              AND-Match je nach searchMode (all_words / exact_phrase / exact_word).
+              Infinite-Scroll: IntersectionObserver am Sentinel unten ruft loadMore(). */}
+          {fulltext.results.length === 0 && !fulltext.loading ? (
             <div className={`flex items-center justify-center ${textSub}`}>
               <div className="text-center py-8">
                 <span className="material-icons text-3xl mb-2 block opacity-40">search_off</span>
@@ -2323,27 +2423,37 @@ const DreamMap: React.FC<DreamMapProps> = ({
               </div>
             </div>
           ) : (
-            symbolSearch!.matching_dreams!.research_sample!.map((d) => (
-              <button
-                key={d.dream_id}
-                onClick={() => onNavigateToStudy?.(d.study_code ?? '')}
-                data-dream-id={d.dream_id}
-                data-study={d.study_code ?? ''}
-                className={`w-full flex items-start gap-3 px-3 py-2.5 text-left transition-colors border-b last:border-b-0 ${
-                  isLight ? 'hover:bg-cyan-50 border-cyan-100/60' : 'hover:bg-white/5 border-white/5'
-                }`}
-              >
-                <span className="text-xl shrink-0 leading-6">🔬</span>
-                <div className="min-w-0 flex-1">
-                  <div className={`text-xs font-semibold truncate ${textMain}`}>
-                    {d.study_code ?? '—'} <span className="opacity-60 font-normal">· {d.participant_id ?? '—'}</span>
+            <>
+              {fulltext.results.map((d) => (
+                <button
+                  key={d.dream_id}
+                  onClick={() => onNavigateToStudy?.(d.study_code ?? '')}
+                  data-dream-id={d.dream_id}
+                  data-study={d.study_code ?? ''}
+                  className={`w-full flex items-start gap-3 px-3 py-2.5 text-left transition-colors border-b last:border-b-0 ${
+                    isLight ? 'hover:bg-cyan-50 border-cyan-100/60' : 'hover:bg-white/5 border-white/5'
+                  }`}
+                >
+                  <span className="text-xl shrink-0 leading-6">🔬</span>
+                  <div className="min-w-0 flex-1">
+                    <div className={`text-xs font-semibold truncate ${textMain}`}>
+                      {d.study_code ?? '—'} <span className="opacity-60 font-normal">· {d.participant_id ?? '—'}</span>
+                    </div>
+                    {d.snippet && (
+                      <div className={`text-xs opacity-75 line-clamp-2 ${textSub}`}>{d.snippet}</div>
+                    )}
                   </div>
-                  {d.snippet_80chars && (
-                    <div className={`text-xs opacity-75 line-clamp-2 ${textSub}`}>{d.snippet_80chars}</div>
-                  )}
-                </div>
-              </button>
-            ))
+                </button>
+              ))}
+              {/* Infinite-Scroll Sentinel + Status */}
+              <div
+                ref={infiniteSentinelRef}
+                data-testid="dreammap-infinite-sentinel"
+                className={`px-3 py-3 text-center text-[11px] ${textSub}`}
+              >
+                {fulltext.loadingMore ? t.searchLoadingMore : fulltext.hasMore ? '…' : fulltext.results.length > 0 ? t.searchAllLoaded : ''}
+              </div>
+            </>
           )}
           {/* 2026-04-20 disabled: SimUser-Map (DreamMap zeigt nur Research-Dreams, User-Regel) */}
           {false && sortedFilteredUsers.length > 0 && sortedFilteredUsers.map(u => {
