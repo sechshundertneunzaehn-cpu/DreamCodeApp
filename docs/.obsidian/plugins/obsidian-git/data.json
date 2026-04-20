@@ -1,0 +1,16 @@
+{
+  "commitMessage": "docs: auto-sync {{date}} {{hostname}}",
+  "autoSaveInterval": 10,
+  "autoPullInterval": 5,
+  "autoPushInterval": 10,
+  "disablePush": false,
+  "pullBeforePush": true,
+  "syncMethod": "merge",
+  "gitPath": "",
+  "basePath": "",
+  "differentIntervalCommitAndPush": false,
+  "changedFilesInStatusBar": true,
+  "showStatusBar": true,
+  "updateSubmodules": false,
+  "refreshSourceControl": true
+}

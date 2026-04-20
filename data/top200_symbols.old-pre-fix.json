@@ -1,0 +1,1867 @@
+{
+  "generated_at": "2026-04-18T18:14:30.341972+00:00",
+  "source": "data/traumsymbole.v3.json",
+  "total_in_v3": 879,
+  "weights": {
+    "traditions": 0.4,
+    "ibn_sirin": 0.4,
+    "universal": 0.2
+  },
+  "universal_symbols_count": 89,
+  "universal_symbols_in_v3": 38,
+  "missing_universal_ids": [
+    "arbeit",
+    "auto",
+    "baby",
+    "berg",
+    "blut",
+    "bruecke",
+    "dunkel",
+    "dunkelheit",
+    "essen",
+    "fallen",
+    "feind",
+    "feuer",
+    "finden",
+    "fliegen",
+    "fluss",
+    "freund",
+    "geburt",
+    "gefaengnis",
+    "geld",
+    "gold",
+    "haus",
+    "himmel",
+    "hund",
+    "hut",
+    "kind",
+    "krone",
+    "kuessen",
+    "messer",
+    "mond",
+    "mutter",
+    "nackt",
+    "regen",
+    "reise",
+    "schlange",
+    "schluessel",
+    "schrei",
+    "schuh",
+    "schule",
+    "sieg",
+    "sonne",
+    "spiegel",
+    "sterne",
+    "tod",
+    "traum",
+    "trinken",
+    "tuer",
+    "vater",
+    "verfolgung",
+    "verirren",
+    "wald",
+    "wasser"
+  ],
+  "symbols": [
+    {
+      "rank": 1,
+      "id": "meer",
+      "name": "Meer / Ozean",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 2,
+      "id": "ozean",
+      "name": "Ozean",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 3,
+      "id": "zahn",
+      "name": "Zahn",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 4,
+      "id": "engel",
+      "name": "Engel",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 5,
+      "id": "hochzeit",
+      "name": "Hochzeit",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 6,
+      "id": "licht",
+      "name": "Licht",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 7,
+      "id": "schwangerschaft",
+      "name": "Schwangerschaft",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 8,
+      "id": "vogel",
+      "name": "Vogel",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 9,
+      "id": "koenig",
+      "name": "König",
+      "score": 0.84,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 10,
+      "id": "koenigin",
+      "name": "Königin",
+      "score": 0.84,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 11,
+      "id": "kb_auto___fahrzeug",
+      "name": "Auto / Fahrzeug",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 12,
+      "id": "kb_baby___kleinkind",
+      "name": "Baby / Kleinkind",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 13,
+      "id": "kb_blut",
+      "name": "Blut",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 14,
+      "id": "kb_zahn___zähne",
+      "name": "Zahn / Zähne",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 15,
+      "id": "natur_001",
+      "name": "Feuer",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 16,
+      "id": "natur_006",
+      "name": "Wasser",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 17,
+      "id": "natur_021",
+      "name": "Mond",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 18,
+      "id": "natur_030",
+      "name": "Sonne",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 19,
+      "id": "objekt_007",
+      "name": "Haus",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 20,
+      "id": "person_005",
+      "name": "Kind",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 21,
+      "id": "symbol_002",
+      "name": "Fallen",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 22,
+      "id": "symbol_004",
+      "name": "Fliegen",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 23,
+      "id": "symbol_008",
+      "name": "Tod",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 24,
+      "id": "symbol_009",
+      "name": "Verfolgung",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 25,
+      "id": "tier_009",
+      "name": "Hund",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 26,
+      "id": "tier_020",
+      "name": "Schlange",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 27,
+      "id": "zaehne",
+      "name": "Zähne",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 28,
+      "id": "baum",
+      "name": "Baum",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 29,
+      "id": "bruder",
+      "name": "Bruder",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 30,
+      "id": "buch",
+      "name": "Buch",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 31,
+      "id": "fremder",
+      "name": "Fremder",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 32,
+      "id": "hoehle",
+      "name": "Höhle",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 33,
+      "id": "hoelle",
+      "name": "Hölle",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 34,
+      "id": "katze",
+      "name": "Katze",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 35,
+      "id": "kleidung",
+      "name": "Kleidung",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 36,
+      "id": "ring",
+      "name": "Ring",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 37,
+      "id": "schwert",
+      "name": "Schwert",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 38,
+      "id": "sturm",
+      "name": "Sturm",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 39,
+      "id": "teufel",
+      "name": "Teufel",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 40,
+      "id": "verstecken",
+      "name": "Verstecken",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 41,
+      "id": "waffe",
+      "name": "Waffe",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 42,
+      "id": "weg",
+      "name": "Weg",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 43,
+      "id": "kb_berg",
+      "name": "Berg",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 44,
+      "id": "nacht",
+      "name": "Nacht / Dunkelheit",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 45,
+      "id": "natur_009",
+      "name": "Dunkelheit",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 46,
+      "id": "natur_024",
+      "name": "Regen",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 47,
+      "id": "objekt_002",
+      "name": "Spiegel",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 48,
+      "id": "objekt_006",
+      "name": "Geld",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 49,
+      "id": "objekt_011",
+      "name": "Schlüssel",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 50,
+      "id": "objekt_037",
+      "name": "Gold",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 51,
+      "id": "objekt_081",
+      "name": "Nacht",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 52,
+      "id": "ort_015",
+      "name": "Tür",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 53,
+      "id": "tier_023",
+      "name": "Spinne",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 54,
+      "id": "treppe",
+      "name": "Treppe",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 55,
+      "id": "eisen",
+      "name": "Eisen",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 56,
+      "id": "kampf",
+      "name": "Kampf",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 57,
+      "id": "stein",
+      "name": "Stein",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 58,
+      "id": "wolke",
+      "name": "Wolke",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "is_universal": true
+    },
+    {
+      "rank": 59,
+      "id": "natur_002",
+      "name": "Garten",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 60,
+      "id": "natur_003",
+      "name": "Schnee",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 61,
+      "id": "natur_005",
+      "name": "Flut",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 62,
+      "id": "natur_025",
+      "name": "Rose",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 63,
+      "id": "objekt_017",
+      "name": "Asche",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 64,
+      "id": "symbol_005",
+      "name": "Geburt",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 65,
+      "id": "symbol_007",
+      "name": "Reisen",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 66,
+      "id": "tier_019",
+      "name": "Schildkröte",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 67,
+      "id": "adler",
+      "name": "Adler",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 68,
+      "id": "affe",
+      "name": "Affe",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 69,
+      "id": "aktivitaet_002",
+      "name": "Betrug",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 70,
+      "id": "aktivitaet_004",
+      "name": "Graben",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 71,
+      "id": "aktivitaet_008",
+      "name": "Schlafen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 72,
+      "id": "aktivitaet_010",
+      "name": "Schwimmen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 73,
+      "id": "alptraum",
+      "name": "Alptraum",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 74,
+      "id": "alter_mann",
+      "name": "Alter Mann",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 75,
+      "id": "ameise",
+      "name": "Ameise",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 76,
+      "id": "amulett",
+      "name": "Amulett",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 77,
+      "id": "angst",
+      "name": "Angst",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 78,
+      "id": "apokalypse",
+      "name": "Apokalypse",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 79,
+      "id": "arzt",
+      "name": "Arzt",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 80,
+      "id": "atem",
+      "name": "Atem",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 81,
+      "id": "auferstehung",
+      "name": "Auferstehung",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 82,
+      "id": "auge",
+      "name": "Auge",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 83,
+      "id": "augen",
+      "name": "Augen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 84,
+      "id": "badezimmer",
+      "name": "Badezimmer",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 85,
+      "id": "bart",
+      "name": "Bart",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 86,
+      "id": "bauen",
+      "name": "Bauen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 87,
+      "id": "beten",
+      "name": "Beten",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 88,
+      "id": "biene",
+      "name": "Biene",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 89,
+      "id": "blitz",
+      "name": "Blitz",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 90,
+      "id": "blume",
+      "name": "Blume",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 91,
+      "id": "braeutigam",
+      "name": "Bräutigam",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 92,
+      "id": "braut",
+      "name": "Braut",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 93,
+      "id": "brot",
+      "name": "Brot",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 94,
+      "id": "brunnen",
+      "name": "Brunnen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 95,
+      "id": "brust",
+      "name": "Brust",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 96,
+      "id": "dattelpalme",
+      "name": "Dattelpalme",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 97,
+      "id": "dieb",
+      "name": "Dieb",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 98,
+      "id": "dolch",
+      "name": "Dolch",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 99,
+      "id": "ehepartner",
+      "name": "Ehepartner",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 100,
+      "id": "elefant",
+      "name": "Elefant",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 101,
+      "id": "emotion_010",
+      "name": "Trauer",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 102,
+      "id": "engelsfluegel",
+      "name": "Engelsflügel",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 103,
+      "id": "erdbeben",
+      "name": "Erdbeben",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 104,
+      "id": "erde",
+      "name": "Erde",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 105,
+      "id": "ertrinken",
+      "name": "Ertrinken",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 106,
+      "id": "eule",
+      "name": "Eule",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 107,
+      "id": "fahren",
+      "name": "Fahren",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 108,
+      "id": "farbe_blau",
+      "name": "Farbe Blau",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 109,
+      "id": "farbe_gold",
+      "name": "Farbe Gold",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 110,
+      "id": "farbe_gruen",
+      "name": "Farbe Grün",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 111,
+      "id": "farbe_rot",
+      "name": "Farbe Rot",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 112,
+      "id": "farbe_schwarz",
+      "name": "Farbe Schwarz",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 113,
+      "id": "farbe_weiss",
+      "name": "Farbe Weiss",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 114,
+      "id": "fasten",
+      "name": "Fasten",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 115,
+      "id": "fliehen",
+      "name": "Fliehen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 116,
+      "id": "fluegel",
+      "name": "Flügel",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 117,
+      "id": "friedhof",
+      "name": "Friedhof",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 118,
+      "id": "frosch",
+      "name": "Frosch",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 119,
+      "id": "fuchs",
+      "name": "Fuchs",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 120,
+      "id": "fuesse",
+      "name": "Füße",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 121,
+      "id": "gebet",
+      "name": "Gebet",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 122,
+      "id": "glocke",
+      "name": "Glocke",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 123,
+      "id": "glut",
+      "name": "Glut",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 124,
+      "id": "grab",
+      "name": "Grab",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 125,
+      "id": "haende",
+      "name": "Hände",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 126,
+      "id": "handflaeche",
+      "name": "Handfläche",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 127,
+      "id": "heilen",
+      "name": "Heilen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 128,
+      "id": "heilung",
+      "name": "Heilung",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 129,
+      "id": "heiraten",
+      "name": "Heiraten",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 130,
+      "id": "hoffnung",
+      "name": "Hoffnung",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 131,
+      "id": "kaempfen",
+      "name": "Kämpfen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 132,
+      "id": "kamel",
+      "name": "Kamel",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 133,
+      "id": "kerze",
+      "name": "Kerze",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 134,
+      "id": "klettern",
+      "name": "Klettern",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 135,
+      "id": "knie",
+      "name": "Knie",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 136,
+      "id": "knochen",
+      "name": "Knochen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 137,
+      "id": "koerper_001",
+      "name": "Finger",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 138,
+      "id": "koerper_003",
+      "name": "Haare",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 139,
+      "id": "koerper_004",
+      "name": "Hand",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 140,
+      "id": "koerper_007",
+      "name": "Herz",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 141,
+      "id": "koerper_009",
+      "name": "Mund",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 142,
+      "id": "koerper_010",
+      "name": "Nase",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 143,
+      "id": "koerper_011",
+      "name": "Ohr",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 144,
+      "id": "kopf",
+      "name": "Kopf",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 145,
+      "id": "koralle",
+      "name": "Koralle",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 146,
+      "id": "kraehe",
+      "name": "Krähe",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 147,
+      "id": "krieg",
+      "name": "Krieg",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 148,
+      "id": "krokodil",
+      "name": "Krokodil",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 149,
+      "id": "krug",
+      "name": "Krug",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 150,
+      "id": "krug_zerbrochen",
+      "name": "Krug zerbrochen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 151,
+      "id": "kuh",
+      "name": "Kuh",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 152,
+      "id": "lachen",
+      "name": "Lachen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 153,
+      "id": "lehrer",
+      "name": "Lehrer",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 154,
+      "id": "lesen",
+      "name": "Lesen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 155,
+      "id": "leuchtturm",
+      "name": "Leuchtturm",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 156,
+      "id": "markt",
+      "name": "Markt",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 157,
+      "id": "markt_basar",
+      "name": "Markt/Basar",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 158,
+      "id": "marktplatz",
+      "name": "Marktplatz",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 159,
+      "id": "maus",
+      "name": "Maus",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 160,
+      "id": "morgenroete",
+      "name": "Morgenröte",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 161,
+      "id": "nacktheit",
+      "name": "Nacktheit",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 162,
+      "id": "natur_013",
+      "name": "Fluss",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 163,
+      "id": "natur_018",
+      "name": "Laub",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 164,
+      "id": "natur_022",
+      "name": "Nebel",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 165,
+      "id": "natur_027",
+      "name": "Schatten",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 166,
+      "id": "natur_032",
+      "name": "Wüste",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 167,
+      "id": "neumond",
+      "name": "Neumond",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 168,
+      "id": "oase",
+      "name": "Oase",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 169,
+      "id": "objekt_001",
+      "name": "Messer",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 170,
+      "id": "objekt_018",
+      "name": "Bett",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 171,
+      "id": "objekt_024",
+      "name": "Fackel",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 172,
+      "id": "objekt_036",
+      "name": "Geschenk",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 173,
+      "id": "objekt_042",
+      "name": "Helm",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 174,
+      "id": "objekt_044",
+      "name": "Honig",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 175,
+      "id": "objekt_060",
+      "name": "Kette",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 176,
+      "id": "objekt_070",
+      "name": "Krone",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 177,
+      "id": "objekt_072",
+      "name": "Kuss",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 178,
+      "id": "objekt_074",
+      "name": "Lampe",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 179,
+      "id": "objekt_077",
+      "name": "Leiter",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 180,
+      "id": "objekt_080",
+      "name": "Milch",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 181,
+      "id": "objekt_087",
+      "name": "Perle",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 182,
+      "id": "objekt_093",
+      "name": "Schere",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 183,
+      "id": "objekt_094",
+      "name": "Schiff",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 184,
+      "id": "objekt_105",
+      "name": "Teppich",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 185,
+      "id": "objekt_114",
+      "name": "Waage",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 186,
+      "id": "objekt_119",
+      "name": "Öl",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 187,
+      "id": "olive",
+      "name": "Olive",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 188,
+      "id": "opfer",
+      "name": "Opfer",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 189,
+      "id": "ort_003",
+      "name": "Brücke",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 190,
+      "id": "ort_004",
+      "name": "Fenster",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 191,
+      "id": "ort_006",
+      "name": "Gefängnis",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 192,
+      "id": "ort_010",
+      "name": "Palast",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 193,
+      "id": "ort_013",
+      "name": "Schule",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 194,
+      "id": "ort_014",
+      "name": "Straße",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 195,
+      "id": "papagei",
+      "name": "Papagei",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 196,
+      "id": "paradies",
+      "name": "Paradies",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 197,
+      "id": "paradiesgarten",
+      "name": "Paradiesgarten",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 198,
+      "id": "paradiesvogel",
+      "name": "Paradiesvogel",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 199,
+      "id": "person_001",
+      "name": "Mutter",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    },
+    {
+      "rank": 200,
+      "id": "person_006",
+      "name": "Vater",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "is_universal": false
+    }
+  ]
+}

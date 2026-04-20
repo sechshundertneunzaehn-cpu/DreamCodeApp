@@ -1,0 +1,2268 @@
+import React, { useState, useRef, Suspense } from 'react';
+import { Dream, Language, UserProfile, SubscriptionTier, ThemeMode } from '../types';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+import { getTheme } from '../theme';
+import { applyFaceSwap, getFacePhoto } from '../services/faceSwapService';
+import { FEATURE_PRICES } from '../config/pricing';
+
+const BeforeAfterSlider = React.lazy(() => import('./BeforeAfterSlider'));
+const ImageEditor = React.lazy(() => import('./ImageEditor'));
+
+interface DreamShareProps {
+    dream: Dream;
+    language: Language;
+    userProfile: UserProfile | null;
+    onGenerateImage?: (quality: 'normal' | 'high', style: 'cartoon' | 'anime' | 'real' | 'fantasy') => void;
+    onGenerateStoryVideo?: (style: 'cartoon' | 'anime' | 'real' | 'fantasy' | 'surreal' | 'watercolor') => void;
+    tier?: SubscriptionTier;
+    themeMode?: ThemeMode;
+}
+
+const translations = {
+    [Language.EN]: {
+        pdf_not_ready: "PDF template not ready. Please try again.",
+        pdf_error: "Error generating PDF. Please try again.",
+        generate_image: "🖼️ Image",
+        story_video: "📖 Story Video",
+        story_desc: "Slideshow + Voice",
+        select_style: "Choose Style",
+        select_quality: "Choose Quality",
+        normal: "Normal",
+        premium: "Premium (Gold)",
+        cartoon: "Cartoon",
+        anime: "Anime",
+        real: "Realistic",
+        fantasy: "Fantasy",
+        surreal: "Surreal",
+        watercolor: "Watercolor",
+        cartoon_desc: "Pixar/Disney Style",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Photorealistic",
+        fantasy_desc: "Magical & Epic",
+        surreal_desc: "Dreamlike & Abstract",
+        watercolor_desc: "Artistic Painting",
+        back: "Back",
+        copy_link: "Link",
+        copied: "Copied!",
+        share_btn: "Share Text",
+        pdf_share_btn: "Share PDF",
+        pdf_download_btn: "Download PDF",
+        share_error: "Sharing files not supported on this device. Downloading instead.",
+        copy_fallback: "Link copied to clipboard.",
+        pdf_title: "Select PDF Style",
+        style_papyrus: "Papyrus (Light)",
+        style_mystic: "Mystic (Dark)",
+        style_feminine: "Feminine (Rose)",
+        generating: "Generating PDF...",
+        success: "Done!",
+        web_link: "www.dream-code.app",
+        start_btn: "Create PDF",
+        locked: "Silver Tier Required",
+        pdf_the_dream: "The Dream",
+        pdf_oracle_interpretation: "Oracle Interpretation",
+        pdf_oracle_analysis: "Oracle Analysis",
+        pdf_generated_by: "Erstellt mit KI · Dream Code App"
+    },
+    [Language.DE]: {
+        pdf_not_ready: "PDF-Vorlage nicht bereit. Bitte erneut versuchen.",
+        pdf_error: "Fehler beim Erstellen des PDFs. Bitte erneut versuchen.",
+        generate_image: "🖼️ Bild",
+        story_video: "📖 Story Video",
+        story_desc: "Slideshow + Stimme",
+        select_style: "Stil wählen",
+        select_quality: "Qualität wählen",
+        normal: "Normal",
+        premium: "Premium (Gold)",
+        cartoon: "Cartoon",
+        anime: "Anime",
+        real: "Realistisch",
+        fantasy: "Fantasy",
+        surreal: "Surreal",
+        watercolor: "Aquarell",
+        cartoon_desc: "Pixar/Disney Stil",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Fotorealistisch",
+        fantasy_desc: "Magisch & Episch",
+        surreal_desc: "Traumhaft & Abstrakt",
+        watercolor_desc: "Künstlerisch",
+        back: "Zurück",
+        copy_link: "Link",
+        copied: "Kopiert!",
+        share_btn: "Traum teilen",
+        pdf_share_btn: "PDF teilen",
+        pdf_download_btn: "PDF herunterladen",
+        share_error: "Dateien teilen hier nicht unterstützt. Download gestartet.",
+        copy_fallback: "Link kopiert.",
+        pdf_title: "PDF Stil wählen",
+        style_papyrus: "Papyrus (Hell)",
+        style_mystic: "Mystic (Dunkel)",
+        style_feminine: "Feminin (Rose)",
+        generating: "Erstelle PDF...",
+        success: "Fertig!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF Erstellen",
+        locked: "Silber Status benötigt",
+        pdf_the_dream: "Der Traum",
+        pdf_oracle_interpretation: "Orakel-Deutung",
+        pdf_oracle_analysis: "Orakel-Analyse",
+        pdf_generated_by: "Erstellt mit KI • Dream Code App"
+    },
+    [Language.TR]: {
+        pdf_not_ready: "PDF şablonu hazır değil. Lütfen tekrar deneyin.",
+        pdf_error: "PDF oluşturma hatası. Lütfen tekrar deneyin.",
+        generate_image: "🖼️ Görsel",
+        story_video: "📖 Hikaye Video",
+        story_desc: "Slayt + Ses",
+        select_style: "Stil Seç",
+        select_quality: "Kalite Seç",
+        normal: "Normal",
+        premium: "Premium (Gold)",
+        cartoon: "Çizgi Film",
+        anime: "Anime",
+        real: "Gerçekçi",
+        fantasy: "Fantastik",
+        surreal: "Sürreal",
+        watercolor: "Sulu Boya",
+        cartoon_desc: "Pixar/Disney",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Foto-gerçekçi",
+        fantasy_desc: "Büyülü & Epik",
+        surreal_desc: "Rüya Gibi",
+        watercolor_desc: "Sanatsal",
+        back: "Geri",
+        copy_link: "Link",
+        copied: "Kopyalandı!",
+        share_btn: "Rüyayı Paylaş",
+        pdf_share_btn: "PDF Paylaş",
+        pdf_download_btn: "PDF İndir",
+        share_error: "Dosya paylaşımı desteklenmiyor. İndiriliyor.",
+        copy_fallback: "Bağlantı kopyalandı.",
+        pdf_title: "PDF Stili Seç",
+        style_papyrus: "Papirüs (Aydınlık)",
+        style_mystic: "Mistik (Karanlık)",
+        style_feminine: "Feminen (Gül)",
+        generating: "PDF oluşturuluyor...",
+        success: "Tamamlandı!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF Oluştur",
+        locked: "Gümüş Üyelik Gerekli",
+        pdf_the_dream: "Rüya",
+        pdf_oracle_interpretation: "Kahin Yorumu",
+        pdf_oracle_analysis: "Kahin Analizi",
+        pdf_generated_by: "Yapay Zeka ile oluşturuldu • Dream Code App"
+    },
+    [Language.ES]: {
+        pdf_not_ready: "Plantilla PDF no lista. Intenta de nuevo.",
+        pdf_error: "Error al generar PDF. Intenta de nuevo.",
+        generate_image: "🖼️ Imagen",
+        story_video: "📖 Video Historia",
+        story_desc: "Presentación + Voz",
+        select_style: "Elegir Estilo",
+        select_quality: "Elegir Calidad",
+        normal: "Normal",
+        premium: "Premium (Oro)",
+        cartoon: "Dibujo",
+        anime: "Anime",
+        real: "Realista",
+        fantasy: "Fantasía",
+        surreal: "Surrealista",
+        watercolor: "Acuarela",
+        cartoon_desc: "Estilo Pixar",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Fotorrealista",
+        fantasy_desc: "Mágico y Épico",
+        surreal_desc: "Onírico",
+        watercolor_desc: "Artístico",
+        back: "Volver",
+        copy_link: "Link",
+        copied: "¡Copiado!",
+        share_btn: "Compartir Sueño",
+        pdf_share_btn: "Compartir PDF",
+        pdf_download_btn: "Descargar PDF",
+        share_error: "Compartir archivos no compatible. Descargando.",
+        copy_fallback: "Enlace copiado.",
+        pdf_title: "Seleccionar Estilo PDF",
+        style_papyrus: "Papiro (Claro)",
+        style_mystic: "Místico (Oscuro)",
+        style_feminine: "Femenino (Rosa)",
+        generating: "Generando PDF...",
+        success: "¡Listo!",
+        web_link: "www.dream-code.app",
+        start_btn: "Crear PDF",
+        locked: "Nivel Plata Requerido",
+        pdf_the_dream: "El Sueño",
+        pdf_oracle_interpretation: "Interpretación del Oráculo",
+        pdf_oracle_analysis: "Análisis del Oráculo",
+        pdf_generated_by: "Generado por IA • Dream Code App"
+    },
+    [Language.FR]: {
+        pdf_not_ready: "Modèle PDF non prêt. Veuillez réessayer.",
+        pdf_error: "Erreur lors de la génération du PDF. Veuillez réessayer.",
+        generate_image: "🖼️ Image",
+        story_video: "📖 Vidéo Histoire",
+        story_desc: "Diaporama + Voix",
+        select_style: "Choisir Style",
+        select_quality: "Choisir Qualité",
+        normal: "Normal",
+        premium: "Premium (Or)",
+        cartoon: "Dessin Animé",
+        anime: "Anime",
+        real: "Réaliste",
+        fantasy: "Fantaisie",
+        surreal: "Surréaliste",
+        watercolor: "Aquarelle",
+        cartoon_desc: "Style Pixar",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Photoréaliste",
+        fantasy_desc: "Magique & Épique",
+        surreal_desc: "Onirique",
+        watercolor_desc: "Artistique",
+        back: "Retour",
+        copy_link: "Lien",
+        copied: "Copié!",
+        share_btn: "Partager le Rêve",
+        pdf_share_btn: "Partager PDF",
+        pdf_download_btn: "Télécharger PDF",
+        share_error: "Partage de fichiers non pris en charge. Téléchargement.",
+        copy_fallback: "Lien copié.",
+        pdf_title: "Sélectionner le Style PDF",
+        style_papyrus: "Papyrus (Clair)",
+        style_mystic: "Mystique (Sombre)",
+        style_feminine: "Féminin (Rose)",
+        generating: "Génération du PDF...",
+        success: "Terminé !",
+        web_link: "www.dream-code.app",
+        start_btn: "Créer PDF",
+        locked: "Niveau Argent Requis",
+        pdf_the_dream: "Le Rêve",
+        pdf_oracle_interpretation: "Interprétation de l'Oracle",
+        pdf_oracle_analysis: "Analyse de l'Oracle",
+        pdf_generated_by: "Généré par IA • Dream Code App"
+    },
+    [Language.AR]: {
+        pdf_not_ready: "قالب PDF غير جاهز. حاول مرة أخرى.",
+        pdf_error: "خطأ في إنشاء PDF. حاول مرة أخرى.",
+        generate_image: "🖼️ صورة",
+        story_video: "📖 فيديو قصة",
+        story_desc: "عرض + صوت",
+        select_style: "اختر النمط",
+        select_quality: "اختر الجودة",
+        normal: "عادي",
+        premium: "مميز (ذهبي)",
+        cartoon: "كرتون",
+        anime: "أنمي",
+        real: "واقعي",
+        fantasy: "خيالي",
+        surreal: "سريالي",
+        watercolor: "ألوان مائية",
+        cartoon_desc: "نمط بيكسار",
+        anime_desc: "ستوديو جيبلي",
+        real_desc: "صور واقعية",
+        fantasy_desc: "سحري وملحمي",
+        surreal_desc: "حالم",
+        watercolor_desc: "فني",
+        back: "رجوع",
+        copy_link: "رابط",
+        copied: "تم النسخ!",
+        share_btn: "مشاركة الحلم",
+        pdf_share_btn: "مشاركة PDF",
+        pdf_download_btn: "تنزيل PDF",
+        share_error: "مشاركة الملفات غير مدعومة. جارٍ التنزيل.",
+        copy_fallback: "تم نسخ الرابط.",
+        pdf_title: "اختر نمط PDF",
+        style_papyrus: "بردي (فاتح)",
+        style_mystic: "صوفي (داكن)",
+        style_feminine: "أنثوي (وردي)",
+        generating: "إنشاء PDF...",
+        success: "تم!",
+        web_link: "www.dream-code.app",
+        start_btn: "إنشاء PDF",
+        locked: "يتطلب المستوى الفضي",
+        pdf_the_dream: "الحلم",
+        pdf_oracle_interpretation: "تفسير الأوراكل",
+        pdf_oracle_analysis: "تحليل الأوراكل",
+        pdf_generated_by: "تم الإنشاء بالذكاء الاصطناعي • Dream Code App"
+    },
+    [Language.PT]: {
+        pdf_not_ready: "Modelo PDF não pronto. Tente novamente.",
+        pdf_error: "Erro ao gerar PDF. Tente novamente.",
+        generate_image: "🖼️ Imagem",
+        story_video: "📖 Vídeo História",
+        story_desc: "Apresentação + Voz",
+        select_style: "Escolher Estilo",
+        select_quality: "Escolher Qualidade",
+        normal: "Normal",
+        premium: "Premium (Ouro)",
+        cartoon: "Desenho",
+        anime: "Anime",
+        real: "Realista",
+        fantasy: "Fantasia",
+        surreal: "Surreal",
+        watercolor: "Aquarela",
+        cartoon_desc: "Estilo Pixar",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Fotorrealista",
+        fantasy_desc: "Mágico e Épico",
+        surreal_desc: "Onírico",
+        watercolor_desc: "Artístico",
+        back: "Voltar",
+        copy_link: "Link",
+        copied: "Copiado!",
+        share_btn: "Compartilhar Sonho",
+        pdf_share_btn: "Compartilhar PDF",
+        pdf_download_btn: "Baixar PDF",
+        share_error: "Compartilhamento não suportado. Baixando.",
+        copy_fallback: "Link copiado.",
+        pdf_title: "Selecionar Estilo PDF",
+        style_papyrus: "Papiro (Claro)",
+        style_mystic: "Místico (Escuro)",
+        style_feminine: "Feminino (Rosa)",
+        generating: "Gerando PDF...",
+        success: "Pronto!",
+        web_link: "www.dream-code.app",
+        start_btn: "Criar PDF",
+        locked: "Nível Prata Necessário",
+        pdf_the_dream: "O Sonho",
+        pdf_oracle_interpretation: "Interpretação do Oráculo",
+        pdf_oracle_analysis: "Análise do Oráculo",
+        pdf_generated_by: "Gerado por IA • Dream Code App"
+    },
+    [Language.RU]: {
+        pdf_not_ready: "Шаблон PDF не готов. Попробуйте ещё раз.",
+        pdf_error: "Ошибка создания PDF. Попробуйте ещё раз.",
+        generate_image: "🖼️ Картинка",
+        story_video: "📖 Видео-История",
+        story_desc: "Слайды + Голос",
+        select_style: "Выбрать Стиль",
+        select_quality: "Выбрать Качество",
+        normal: "Обычное",
+        premium: "Премиум (Золото)",
+        cartoon: "Мультфильм",
+        anime: "Аниме",
+        real: "Реалистичный",
+        fantasy: "Фэнтези",
+        surreal: "Сюрреализм",
+        watercolor: "Акварель",
+        cartoon_desc: "Стиль Pixar",
+        anime_desc: "Студия Гибли",
+        real_desc: "Фотореализм",
+        fantasy_desc: "Магия и Эпика",
+        surreal_desc: "Сновидческий",
+        watercolor_desc: "Художественный",
+        back: "Назад",
+        copy_link: "Ссылка",
+        copied: "Скопировано!",
+        share_btn: "Поделиться Сном",
+        pdf_share_btn: "Поделиться PDF",
+        pdf_download_btn: "Скачать PDF",
+        share_error: "Обмен файлами не поддерживается. Загрузка.",
+        copy_fallback: "Ссылка скопирована.",
+        pdf_title: "Выберите Стиль PDF",
+        style_papyrus: "Папирус (Светлый)",
+        style_mystic: "Мистический (Тёмный)",
+        style_feminine: "Женственный (Розовый)",
+        generating: "Создание PDF...",
+        success: "Готово!",
+        web_link: "www.dream-code.app",
+        start_btn: "Создать PDF",
+        locked: "Требуется Серебряный Уровень",
+        pdf_the_dream: "Сон",
+        pdf_oracle_interpretation: "Толкование Оракула",
+        pdf_oracle_analysis: "Анализ Оракула",
+        pdf_generated_by: "Создано ИИ • Dream Code App"
+    },
+    [Language.ZH]: {
+        pdf_not_ready: "PDF模板未就绪，请重试。",
+        pdf_error: "生成PDF时出错，请重试。",
+        generate_image: "🖼️ 图片",
+        story_video: "📖 故事视频",
+        story_desc: "幻灯片 + 语音",
+        select_style: "选择风格",
+        select_quality: "选择质量",
+        normal: "普通",
+        premium: "高级（金色）",
+        cartoon: "卡通",
+        anime: "动漫",
+        real: "写实",
+        fantasy: "奇幻",
+        surreal: "超现实",
+        watercolor: "水彩",
+        cartoon_desc: "皮克斯/迪士尼风格",
+        anime_desc: "吉卜力工作室",
+        real_desc: "照片级写实",
+        fantasy_desc: "魔幻史诗",
+        surreal_desc: "梦幻抽象",
+        watercolor_desc: "艺术绘画",
+        back: "返回",
+        copy_link: "链接",
+        copied: "已复制！",
+        share_btn: "分享梦境",
+        pdf_share_btn: "分享PDF",
+        pdf_download_btn: "下载PDF",
+        share_error: "此设备不支持文件分享，正在下载。",
+        copy_fallback: "链接已复制。",
+        pdf_title: "选择PDF风格",
+        style_papyrus: "莎草纸（浅色）",
+        style_mystic: "神秘（深色）",
+        style_feminine: "柔美（玫瑰色）",
+        generating: "正在生成PDF...",
+        success: "完成！",
+        web_link: "www.dream-code.app",
+        start_btn: "创建PDF",
+        locked: "需要白银等级",
+        pdf_the_dream: "梦境",
+        pdf_oracle_interpretation: "神谕解梦",
+        pdf_oracle_analysis: "神谕分析",
+        pdf_generated_by: "AI生成 • Dream Code App"
+    },
+    [Language.HI]: {
+        pdf_not_ready: "PDF टेम्पलेट तैयार नहीं है। कृपया पुनः प्रयास करें।",
+        pdf_error: "PDF बनाने में त्रुटि। कृपया पुनः प्रयास करें।",
+        generate_image: "🖼️ चित्र",
+        story_video: "📖 कहानी वीडियो",
+        story_desc: "स्लाइडशो + आवाज़",
+        select_style: "शैली चुनें",
+        select_quality: "गुणवत्ता चुनें",
+        normal: "सामान्य",
+        premium: "प्रीमियम (गोल्ड)",
+        cartoon: "कार्टून",
+        anime: "एनीमे",
+        real: "यथार्थवादी",
+        fantasy: "काल्पनिक",
+        surreal: "अतियथार्थवादी",
+        watercolor: "जलरंग",
+        cartoon_desc: "पिक्सार/डिज़्नी शैली",
+        anime_desc: "स्टूडियो जिबली",
+        real_desc: "फोटो-यथार्थवादी",
+        fantasy_desc: "जादुई और महाकाव्य",
+        surreal_desc: "स्वप्निल और अमूर्त",
+        watercolor_desc: "कलात्मक चित्रकला",
+        back: "वापस",
+        copy_link: "लिंक",
+        copied: "कॉपी हो गया!",
+        share_btn: "सपना साझा करें",
+        pdf_share_btn: "PDF साझा करें",
+        pdf_download_btn: "PDF डाउनलोड करें",
+        share_error: "इस डिवाइस पर फ़ाइल साझा नहीं हो सकती। डाउनलोड हो रहा है।",
+        copy_fallback: "लिंक कॉपी हो गया।",
+        pdf_title: "PDF शैली चुनें",
+        style_papyrus: "पेपिरस (हल्का)",
+        style_mystic: "रहस्यमय (गहरा)",
+        style_feminine: "स्त्रैण (गुलाबी)",
+        generating: "PDF बन रहा है...",
+        success: "हो गया!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF बनाएं",
+        locked: "सिल्वर स्तर आवश्यक",
+        pdf_the_dream: "सपना",
+        pdf_oracle_interpretation: "दैवज्ञ व्याख्या",
+        pdf_oracle_analysis: "दैवज्ञ विश्लेषण",
+        pdf_generated_by: "AI द्वारा निर्मित • Dream Code App"
+    },
+    [Language.JA]: {
+        pdf_not_ready: "PDFテンプレートの準備ができていません。もう一度お試しください。",
+        pdf_error: "PDF生成エラー。もう一度お試しください。",
+        generate_image: "🖼️ 画像",
+        story_video: "📖 ストーリー動画",
+        story_desc: "スライドショー + 音声",
+        select_style: "スタイルを選択",
+        select_quality: "品質を選択",
+        normal: "通常",
+        premium: "プレミアム（ゴールド）",
+        cartoon: "カートゥーン",
+        anime: "アニメ",
+        real: "リアル",
+        fantasy: "ファンタジー",
+        surreal: "シュール",
+        watercolor: "水彩画",
+        cartoon_desc: "ピクサー/ディズニー風",
+        anime_desc: "スタジオジブリ",
+        real_desc: "フォトリアル",
+        fantasy_desc: "魔法とエピック",
+        surreal_desc: "夢幻的＆抽象的",
+        watercolor_desc: "芸術的絵画",
+        back: "戻る",
+        copy_link: "リンク",
+        copied: "コピー完了！",
+        share_btn: "夢を共有",
+        pdf_share_btn: "PDFを共有",
+        pdf_download_btn: "PDFをダウンロード",
+        share_error: "このデバイスではファイル共有に対応していません。ダウンロード中。",
+        copy_fallback: "リンクをコピーしました。",
+        pdf_title: "PDFスタイルを選択",
+        style_papyrus: "パピルス（ライト）",
+        style_mystic: "ミスティック（ダーク）",
+        style_feminine: "フェミニン（ローズ）",
+        generating: "PDF生成中...",
+        success: "完了！",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF作成",
+        locked: "シルバー会員が必要です",
+        pdf_the_dream: "夢",
+        pdf_oracle_interpretation: "神託の解釈",
+        pdf_oracle_analysis: "神託の分析",
+        pdf_generated_by: "AIが生成 • Dream Code App"
+    },
+    [Language.KO]: {
+        pdf_not_ready: "PDF 템플릿이 준비되지 않았습니다. 다시 시도해 주세요.",
+        pdf_error: "PDF 생성 오류. 다시 시도해 주세요.",
+        generate_image: "🖼️ 이미지",
+        story_video: "📖 스토리 영상",
+        story_desc: "슬라이드쇼 + 음성",
+        select_style: "스타일 선택",
+        select_quality: "품질 선택",
+        normal: "일반",
+        premium: "프리미엄 (골드)",
+        cartoon: "카툰",
+        anime: "애니메",
+        real: "사실적",
+        fantasy: "판타지",
+        surreal: "초현실",
+        watercolor: "수채화",
+        cartoon_desc: "픽사/디즈니 스타일",
+        anime_desc: "스튜디오 지브리",
+        real_desc: "포토리얼",
+        fantasy_desc: "마법과 서사",
+        surreal_desc: "몽환적 & 추상적",
+        watercolor_desc: "예술적 회화",
+        back: "뒤로",
+        copy_link: "링크",
+        copied: "복사됨!",
+        share_btn: "꿈 공유",
+        pdf_share_btn: "PDF 공유",
+        pdf_download_btn: "PDF 다운로드",
+        share_error: "이 기기에서는 파일 공유를 지원하지 않습니다. 다운로드 중.",
+        copy_fallback: "링크가 복사되었습니다.",
+        pdf_title: "PDF 스타일 선택",
+        style_papyrus: "파피루스 (밝은)",
+        style_mystic: "미스틱 (어두운)",
+        style_feminine: "페미닌 (로즈)",
+        generating: "PDF 생성 중...",
+        success: "완료!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF 만들기",
+        locked: "실버 등급 필요",
+        pdf_the_dream: "꿈",
+        pdf_oracle_interpretation: "신탁 해석",
+        pdf_oracle_analysis: "신탁 분석",
+        pdf_generated_by: "AI 생성 • Dream Code App"
+    },
+    [Language.ID]: {
+        pdf_not_ready: "Template PDF belum siap. Silakan coba lagi.",
+        pdf_error: "Gagal membuat PDF. Silakan coba lagi.",
+        generate_image: "🖼️ Gambar",
+        story_video: "📖 Video Cerita",
+        story_desc: "Slideshow + Suara",
+        select_style: "Pilih Gaya",
+        select_quality: "Pilih Kualitas",
+        normal: "Normal",
+        premium: "Premium (Emas)",
+        cartoon: "Kartun",
+        anime: "Anime",
+        real: "Realistis",
+        fantasy: "Fantasi",
+        surreal: "Surreal",
+        watercolor: "Cat Air",
+        cartoon_desc: "Gaya Pixar/Disney",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Foto-realistis",
+        fantasy_desc: "Magis & Epik",
+        surreal_desc: "Seperti Mimpi",
+        watercolor_desc: "Seni Lukis",
+        back: "Kembali",
+        copy_link: "Tautan",
+        copied: "Disalin!",
+        share_btn: "Bagikan Mimpi",
+        pdf_share_btn: "Bagikan PDF",
+        pdf_download_btn: "Unduh PDF",
+        share_error: "Berbagi file tidak didukung di perangkat ini. Mengunduh.",
+        copy_fallback: "Tautan disalin.",
+        pdf_title: "Pilih Gaya PDF",
+        style_papyrus: "Papirus (Terang)",
+        style_mystic: "Mistis (Gelap)",
+        style_feminine: "Feminin (Merah Muda)",
+        generating: "Membuat PDF...",
+        success: "Selesai!",
+        web_link: "www.dream-code.app",
+        start_btn: "Buat PDF",
+        locked: "Diperlukan Level Silver",
+        pdf_the_dream: "Mimpi",
+        pdf_oracle_interpretation: "Tafsir Oracle",
+        pdf_oracle_analysis: "Analisis Oracle",
+        pdf_generated_by: "Dibuat oleh AI • Dream Code App"
+    },
+    [Language.FA]: {
+        pdf_not_ready: "قالب PDF آماده نیست. لطفاً دوباره امتحان کنید.",
+        pdf_error: "خطا در ساخت PDF. لطفاً دوباره امتحان کنید.",
+        generate_image: "🖼️ تصویر",
+        story_video: "📖 ویدیوی داستان",
+        story_desc: "اسلاید + صدا",
+        select_style: "انتخاب سبک",
+        select_quality: "انتخاب کیفیت",
+        normal: "معمولی",
+        premium: "ویژه (طلایی)",
+        cartoon: "کارتونی",
+        anime: "انیمه",
+        real: "واقع‌گرایانه",
+        fantasy: "فانتزی",
+        surreal: "سورئال",
+        watercolor: "آبرنگ",
+        cartoon_desc: "سبک پیکسار/دیزنی",
+        anime_desc: "استودیو جیبلی",
+        real_desc: "فتورئالیستی",
+        fantasy_desc: "جادویی و حماسی",
+        surreal_desc: "رؤیایی و انتزاعی",
+        watercolor_desc: "نقاشی هنری",
+        back: "بازگشت",
+        copy_link: "لینک",
+        copied: "کپی شد!",
+        share_btn: "اشتراک‌گذاری خواب",
+        pdf_share_btn: "اشتراک‌گذاری PDF",
+        pdf_download_btn: "دانلود PDF",
+        share_error: "اشتراک‌گذاری فایل در این دستگاه پشتیبانی نمی‌شود. در حال دانلود.",
+        copy_fallback: "لینک کپی شد.",
+        pdf_title: "سبک PDF را انتخاب کنید",
+        style_papyrus: "پاپیروس (روشن)",
+        style_mystic: "عرفانی (تیره)",
+        style_feminine: "زنانه (صورتی)",
+        generating: "در حال ساخت PDF...",
+        success: "انجام شد!",
+        web_link: "www.dream-code.app",
+        start_btn: "ساخت PDF",
+        locked: "سطح نقره‌ای لازم است",
+        pdf_the_dream: "رؤیا",
+        pdf_oracle_interpretation: "تعبیر پیشگو",
+        pdf_oracle_analysis: "تحلیل پیشگو",
+        pdf_generated_by: "ساخته شده توسط هوش مصنوعی • Dream Code App"
+    },
+    [Language.IT]: {
+        pdf_not_ready: "Modello PDF non pronto. Riprova.",
+        pdf_error: "Errore nella generazione del PDF. Riprova.",
+        generate_image: "🖼️ Immagine",
+        story_video: "📖 Video Storia",
+        story_desc: "Slideshow + Voce",
+        select_style: "Scegli Stile",
+        select_quality: "Scegli Qualità",
+        normal: "Normale",
+        premium: "Premium (Oro)",
+        cartoon: "Cartone",
+        anime: "Anime",
+        real: "Realistico",
+        fantasy: "Fantasy",
+        surreal: "Surreale",
+        watercolor: "Acquerello",
+        cartoon_desc: "Stile Pixar/Disney",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Fotorealistico",
+        fantasy_desc: "Magico ed Epico",
+        surreal_desc: "Onirico e Astratto",
+        watercolor_desc: "Pittura Artistica",
+        back: "Indietro",
+        copy_link: "Link",
+        copied: "Copiato!",
+        share_btn: "Condividi Sogno",
+        pdf_share_btn: "Condividi PDF",
+        pdf_download_btn: "Scarica PDF",
+        share_error: "Condivisione file non supportata su questo dispositivo. Download in corso.",
+        copy_fallback: "Link copiato.",
+        pdf_title: "Seleziona Stile PDF",
+        style_papyrus: "Papiro (Chiaro)",
+        style_mystic: "Mistico (Scuro)",
+        style_feminine: "Femminile (Rosa)",
+        generating: "Generazione PDF...",
+        success: "Fatto!",
+        web_link: "www.dream-code.app",
+        start_btn: "Crea PDF",
+        locked: "Livello Silver Richiesto",
+        pdf_the_dream: "Il Sogno",
+        pdf_oracle_interpretation: "Interpretazione dell'Oracolo",
+        pdf_oracle_analysis: "Analisi dell'Oracolo",
+        pdf_generated_by: "Generato da AI • Dream Code App"
+    },
+    [Language.PL]: {
+        pdf_not_ready: "Szablon PDF nie jest gotowy. Spróbuj ponownie.",
+        pdf_error: "Błąd generowania PDF. Spróbuj ponownie.",
+        generate_image: "🖼️ Obraz",
+        story_video: "📖 Wideo z Historią",
+        story_desc: "Pokaz slajdów + Głos",
+        select_style: "Wybierz Styl",
+        select_quality: "Wybierz Jakość",
+        normal: "Normalna",
+        premium: "Premium (Złoto)",
+        cartoon: "Kreskówka",
+        anime: "Anime",
+        real: "Realistyczny",
+        fantasy: "Fantasy",
+        surreal: "Surrealistyczny",
+        watercolor: "Akwarela",
+        cartoon_desc: "Styl Pixar/Disney",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Fotorealistyczny",
+        fantasy_desc: "Magiczny i Epicki",
+        surreal_desc: "Oniryczny i Abstrakcyjny",
+        watercolor_desc: "Malarstwo Artystyczne",
+        back: "Wstecz",
+        copy_link: "Link",
+        copied: "Skopiowano!",
+        share_btn: "Udostępnij Sen",
+        pdf_share_btn: "Udostępnij PDF",
+        pdf_download_btn: "Pobierz PDF",
+        share_error: "Udostępnianie plików nie jest obsługiwane. Pobieranie.",
+        copy_fallback: "Link skopiowany.",
+        pdf_title: "Wybierz Styl PDF",
+        style_papyrus: "Papirus (Jasny)",
+        style_mystic: "Mistyczny (Ciemny)",
+        style_feminine: "Kobiecy (Różowy)",
+        generating: "Generowanie PDF...",
+        success: "Gotowe!",
+        web_link: "www.dream-code.app",
+        start_btn: "Utwórz PDF",
+        locked: "Wymagany Poziom Srebrny",
+        pdf_the_dream: "Sen",
+        pdf_oracle_interpretation: "Interpretacja Wyroczni",
+        pdf_oracle_analysis: "Analiza Wyroczni",
+        pdf_generated_by: "Wygenerowano przez AI • Dream Code App"
+    },
+    [Language.BN]: {
+        pdf_not_ready: "PDF টেমপ্লেট প্রস্তুত নয়। আবার চেষ্টা করুন।",
+        pdf_error: "PDF তৈরিতে ত্রুটি। আবার চেষ্টা করুন।",
+        generate_image: "🖼️ ছবি",
+        story_video: "📖 গল্পের ভিডিও",
+        story_desc: "স্লাইডশো + কণ্ঠ",
+        select_style: "শৈলী বেছে নিন",
+        select_quality: "মান বেছে নিন",
+        normal: "সাধারণ",
+        premium: "প্রিমিয়াম (গোল্ড)",
+        cartoon: "কার্টুন",
+        anime: "অ্যানিমে",
+        real: "বাস্তবসম্মত",
+        fantasy: "ফ্যান্টাসি",
+        surreal: "পরাবাস্তব",
+        watercolor: "জলরঙ",
+        cartoon_desc: "পিক্সার/ডিজনি শৈলী",
+        anime_desc: "স্টুডিও জিবলি",
+        real_desc: "ফটো-বাস্তবসম্মত",
+        fantasy_desc: "জাদুকরী ও মহাকাব্যিক",
+        surreal_desc: "স্বপ্নময় ও বিমূর্ত",
+        watercolor_desc: "শৈল্পিক চিত্রকলা",
+        back: "পিছনে",
+        copy_link: "লিংক",
+        copied: "কপি হয়েছে!",
+        share_btn: "স্বপ্ন শেয়ার করুন",
+        pdf_share_btn: "PDF শেয়ার করুন",
+        pdf_download_btn: "PDF ডাউনলোড করুন",
+        share_error: "এই ডিভাইসে ফাইল শেয়ার সমর্থিত নয়। ডাউনলোড হচ্ছে।",
+        copy_fallback: "লিংক কপি হয়েছে।",
+        pdf_title: "PDF শৈলী বেছে নিন",
+        style_papyrus: "প্যাপিরাস (হালকা)",
+        style_mystic: "রহস্যময় (গাঢ়)",
+        style_feminine: "নারীসুলভ (গোলাপি)",
+        generating: "PDF তৈরি হচ্ছে...",
+        success: "সম্পন্ন!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF তৈরি করুন",
+        locked: "সিলভার স্তর প্রয়োজন",
+        pdf_the_dream: "স্বপ্ন",
+        pdf_oracle_interpretation: "দৈববাণী ব্যাখ্যা",
+        pdf_oracle_analysis: "দৈববাণী বিশ্লেষণ",
+        pdf_generated_by: "AI দ্বারা তৈরি • Dream Code App"
+    },
+    [Language.UR]: {
+        pdf_not_ready: "PDF ٹیمپلیٹ تیار نہیں ہے۔ دوبارہ کوشش کریں۔",
+        pdf_error: "PDF بنانے میں خرابی۔ دوبارہ کوشش کریں۔",
+        generate_image: "🖼️ تصویر",
+        story_video: "📖 کہانی ویڈیو",
+        story_desc: "سلائیڈ شو + آواز",
+        select_style: "طرز منتخب کریں",
+        select_quality: "معیار منتخب کریں",
+        normal: "عام",
+        premium: "پریمیم (گولڈ)",
+        cartoon: "کارٹون",
+        anime: "اینیمے",
+        real: "حقیقت پسندانہ",
+        fantasy: "فینٹسی",
+        surreal: "ماورائے حقیقت",
+        watercolor: "آبی رنگ",
+        cartoon_desc: "پکسار/ڈزنی طرز",
+        anime_desc: "اسٹوڈیو جبلی",
+        real_desc: "فوٹو حقیقت پسند",
+        fantasy_desc: "جادوئی اور رزمیہ",
+        surreal_desc: "خوابیدہ اور تجریدی",
+        watercolor_desc: "فنکارانہ مصوری",
+        back: "واپس",
+        copy_link: "لنک",
+        copied: "کاپی ہو گیا!",
+        share_btn: "خواب شیئر کریں",
+        pdf_share_btn: "PDF شیئر کریں",
+        pdf_download_btn: "PDF ڈاؤن لوڈ کریں",
+        share_error: "اس آلے پر فائل شیئرنگ دستیاب نہیں۔ ڈاؤن لوڈ ہو رہا ہے۔",
+        copy_fallback: "لنک کاپی ہو گیا۔",
+        pdf_title: "PDF طرز منتخب کریں",
+        style_papyrus: "پیپرس (ہلکا)",
+        style_mystic: "صوفیانہ (گہرا)",
+        style_feminine: "نسوانی (گلابی)",
+        generating: "PDF بن رہا ہے...",
+        success: "مکمل!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF بنائیں",
+        locked: "سلور درجہ درکار ہے",
+        pdf_the_dream: "خواب",
+        pdf_oracle_interpretation: "غیب گو کی تعبیر",
+        pdf_oracle_analysis: "غیب گو کا تجزیہ",
+        pdf_generated_by: "AI سے تخلیق شدہ • Dream Code App"
+    },
+    [Language.VI]: {
+        pdf_not_ready: "Mẫu PDF chưa sẵn sàng. Vui lòng thử lại.",
+        pdf_error: "Lỗi khi tạo PDF. Vui lòng thử lại.",
+        generate_image: "🖼️ Hình ảnh",
+        story_video: "📖 Video Câu chuyện",
+        story_desc: "Trình chiếu + Giọng nói",
+        select_style: "Chọn Phong cách",
+        select_quality: "Chọn Chất lượng",
+        normal: "Bình thường",
+        premium: "Cao cấp (Vàng)",
+        cartoon: "Hoạt hình",
+        anime: "Anime",
+        real: "Chân thực",
+        fantasy: "Kỳ ảo",
+        surreal: "Siêu thực",
+        watercolor: "Màu nước",
+        cartoon_desc: "Phong cách Pixar/Disney",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Ảnh thực",
+        fantasy_desc: "Huyền diệu & Sử thi",
+        surreal_desc: "Mộng mơ & Trừu tượng",
+        watercolor_desc: "Nghệ thuật hội họa",
+        back: "Quay lại",
+        copy_link: "Liên kết",
+        copied: "Đã sao chép!",
+        share_btn: "Chia sẻ Giấc mơ",
+        pdf_share_btn: "Chia sẻ PDF",
+        pdf_download_btn: "Tải PDF",
+        share_error: "Thiết bị không hỗ trợ chia sẻ tệp. Đang tải xuống.",
+        copy_fallback: "Đã sao chép liên kết.",
+        pdf_title: "Chọn Phong cách PDF",
+        style_papyrus: "Papyrus (Sáng)",
+        style_mystic: "Huyền bí (Tối)",
+        style_feminine: "Nữ tính (Hồng)",
+        generating: "Đang tạo PDF...",
+        success: "Xong!",
+        web_link: "www.dream-code.app",
+        start_btn: "Tạo PDF",
+        locked: "Yêu cầu hạng Bạc",
+        pdf_the_dream: "Giấc mơ",
+        pdf_oracle_interpretation: "Giải mộng Tiên tri",
+        pdf_oracle_analysis: "Phân tích Tiên tri",
+        pdf_generated_by: "Tạo bởi AI • Dream Code App"
+    },
+    [Language.TH]: {
+        pdf_not_ready: "เทมเพลต PDF ยังไม่พร้อม กรุณาลองอีกครั้ง",
+        pdf_error: "เกิดข้อผิดพลาดในการสร้าง PDF กรุณาลองอีกครั้ง",
+        generate_image: "🖼️ รูปภาพ",
+        story_video: "📖 วิดีโอเรื่องราว",
+        story_desc: "สไลด์โชว์ + เสียง",
+        select_style: "เลือกสไตล์",
+        select_quality: "เลือกคุณภาพ",
+        normal: "ปกติ",
+        premium: "พรีเมียม (ทอง)",
+        cartoon: "การ์ตูน",
+        anime: "อนิเมะ",
+        real: "สมจริง",
+        fantasy: "แฟนตาซี",
+        surreal: "เหนือจริง",
+        watercolor: "สีน้ำ",
+        cartoon_desc: "สไตล์ Pixar/Disney",
+        anime_desc: "Studio Ghibli",
+        real_desc: "ภาพถ่ายจริง",
+        fantasy_desc: "มหัศจรรย์และมหากาพย์",
+        surreal_desc: "เหมือนฝันและนามธรรม",
+        watercolor_desc: "จิตรกรรมศิลปะ",
+        back: "กลับ",
+        copy_link: "ลิงก์",
+        copied: "คัดลอกแล้ว!",
+        share_btn: "แชร์ความฝัน",
+        pdf_share_btn: "แชร์ PDF",
+        pdf_download_btn: "ดาวน์โหลด PDF",
+        share_error: "อุปกรณ์นี้ไม่รองรับการแชร์ไฟล์ กำลังดาวน์โหลด",
+        copy_fallback: "คัดลอกลิงก์แล้ว",
+        pdf_title: "เลือกสไตล์ PDF",
+        style_papyrus: "ปาปิรุส (สว่าง)",
+        style_mystic: "ลึกลับ (มืด)",
+        style_feminine: "สตรี (ชมพู)",
+        generating: "กำลังสร้าง PDF...",
+        success: "เสร็จสิ้น!",
+        web_link: "www.dream-code.app",
+        start_btn: "สร้าง PDF",
+        locked: "ต้องการระดับซิลเวอร์",
+        pdf_the_dream: "ความฝัน",
+        pdf_oracle_interpretation: "การตีความจากนักพยากรณ์",
+        pdf_oracle_analysis: "การวิเคราะห์จากนักพยากรณ์",
+        pdf_generated_by: "สร้างโดย AI • Dream Code App"
+    },
+    [Language.SW]: {
+        pdf_not_ready: "Kiolezo cha PDF hakiko tayari. Tafadhali jaribu tena.",
+        pdf_error: "Hitilafu katika kutengeneza PDF. Tafadhali jaribu tena.",
+        generate_image: "🖼️ Picha",
+        story_video: "📖 Video ya Hadithi",
+        story_desc: "Slaidi + Sauti",
+        select_style: "Chagua Mtindo",
+        select_quality: "Chagua Ubora",
+        normal: "Kawaida",
+        premium: "Premium (Dhahabu)",
+        cartoon: "Katuni",
+        anime: "Anime",
+        real: "Halisi",
+        fantasy: "Fantasia",
+        surreal: "Isiyohalisi",
+        watercolor: "Rangi za Maji",
+        cartoon_desc: "Mtindo wa Pixar/Disney",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Picha Halisi",
+        fantasy_desc: "Kichawi & Kishujaa",
+        surreal_desc: "Kama Ndoto",
+        watercolor_desc: "Uchoraji wa Kisanaa",
+        back: "Rudi",
+        copy_link: "Kiungo",
+        copied: "Imenakiliwa!",
+        share_btn: "Shiriki Ndoto",
+        pdf_share_btn: "Shiriki PDF",
+        pdf_download_btn: "Pakua PDF",
+        share_error: "Kushiriki faili hakutumiki kwenye kifaa hiki. Inapakua.",
+        copy_fallback: "Kiungo kimenakiliwa.",
+        pdf_title: "Chagua Mtindo wa PDF",
+        style_papyrus: "Papirasi (Angavu)",
+        style_mystic: "Fumbo (Giza)",
+        style_feminine: "Kike (Waridi)",
+        generating: "Inatengeneza PDF...",
+        success: "Imekamilika!",
+        web_link: "www.dream-code.app",
+        start_btn: "Tengeneza PDF",
+        locked: "Kiwango cha Fedha Kinahitajika",
+        pdf_the_dream: "Ndoto",
+        pdf_oracle_interpretation: "Tafsiri ya Mtabiri",
+        pdf_oracle_analysis: "Uchambuzi wa Mtabiri",
+        pdf_generated_by: "Imeundwa na AI • Dream Code App"
+    },
+    [Language.HU]: {
+        pdf_not_ready: "A PDF sablon nem áll készen. Kérjük, próbáld újra.",
+        pdf_error: "Hiba a PDF létrehozásakor. Kérjük, próbáld újra.",
+        generate_image: "Kép",
+        story_video: "Történet videó",
+        story_desc: "Diavetítés + Hang",
+        select_style: "Stílus választása",
+        select_quality: "Minőség választása",
+        normal: "Normál",
+        premium: "Prémium (Arany)",
+        cartoon: "Rajzfilm",
+        anime: "Anime",
+        real: "Valósághű",
+        fantasy: "Fantázia",
+        surreal: "Szürreális",
+        watercolor: "Akvarell",
+        cartoon_desc: "Pixar/Disney stílus",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Fotórealisztikus",
+        fantasy_desc: "Varázslatos és hősies",
+        surreal_desc: "Álomszerű",
+        watercolor_desc: "Művészi festmény",
+        back: "Vissza",
+        copy_link: "Link",
+        copied: "Másolva!",
+        share_btn: "Álom megosztása",
+        pdf_share_btn: "PDF megosztása",
+        pdf_download_btn: "PDF letöltése",
+        share_error: "A fájlmegosztás nem támogatott ezen az eszközön. Letöltés.",
+        copy_fallback: "Link másolva.",
+        pdf_title: "PDF stílus választása",
+        style_papyrus: "Papirusz (Világos)",
+        style_mystic: "Misztikus (Sötét)",
+        style_feminine: "Nőies (Rózsaszín)",
+        generating: "PDF készítése...",
+        success: "Kész!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF készítése",
+        locked: "Ezüst szint szükséges",
+        pdf_the_dream: "Az álom",
+        pdf_oracle_interpretation: "Az Orákulum értelmezése",
+        pdf_oracle_analysis: "Az Orákulum elemzése",
+        pdf_generated_by: "AI által készítve • Dream Code App"
+    },
+    [Language.TA]: {
+        pdf_not_ready: "PDF வார்ப்புரு தயாராக இல்லை. மீண்டும் முயற்சிக்கவும்.",
+        pdf_error: "PDF உருவாக்கத்தில் பிழை. மீண்டும் முயற்சிக்கவும்.",
+        generate_image: "🖼️ படம்",
+        story_video: "📖 கதை வீடியோ",
+        story_desc: "ஸ்லைடுஷோ + குரல்",
+        select_style: "பாணி தேர்வு",
+        select_quality: "தரம் தேர்வு",
+        normal: "சாதாரண",
+        premium: "பிரீமியம் (தங்கம்)",
+        cartoon: "கார்ட்டூன்",
+        anime: "அனிமே",
+        real: "யதார்த்தமான",
+        fantasy: "கற்பனை",
+        surreal: "அதியதார்த்தம்",
+        watercolor: "நீர்வண்ணம்",
+        cartoon_desc: "பிக்சார்/டிஸ்னி பாணி",
+        anime_desc: "ஸ்டூடியோ ஜிப்லி",
+        real_desc: "புகைப்படநிஜம்",
+        fantasy_desc: "மாயாஜால & காவியம்",
+        surreal_desc: "கனவு போன்ற",
+        watercolor_desc: "கலை ஓவியம்",
+        back: "பின்",
+        copy_link: "இணைப்பு",
+        copied: "நகலெடுக்கப்பட்டது!",
+        share_btn: "கனவைப் பகிரவும்",
+        pdf_share_btn: "PDF பகிரவும்",
+        pdf_download_btn: "PDF பதிவிறக்கம்",
+        share_error: "இந்தச் சாதனத்தில் கோப்பு பகிர்வு ஆதரிக்கப்படவில்லை. பதிவிறக்கம் செய்கிறது.",
+        copy_fallback: "இணைப்பு நகலெடுக்கப்பட்டது.",
+        pdf_title: "PDF பாணி தேர்வு",
+        style_papyrus: "பாப்பிரஸ் (வெளிர்)",
+        style_mystic: "மர்மம் (இருள்)",
+        style_feminine: "பெண்மை (ரோஜா)",
+        generating: "PDF உருவாக்குகிறது...",
+        success: "முடிந்தது!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF உருவாக்கு",
+        locked: "வெள்ளி நிலை தேவை",
+        pdf_the_dream: "கனவு",
+        pdf_oracle_interpretation: "ஜோதிட விளக்கம்",
+        pdf_oracle_analysis: "ஜோதிட பகுப்பாய்வு",
+        pdf_generated_by: "AI மூலம் உருவாக்கப்பட்டது • Dream Code App"
+    },
+    [Language.TE]: {
+        pdf_not_ready: "PDF టెంప్లేట్ సిద్ధంగా లేదు. దయచేసి మళ్ళీ ప్రయత్నించండి.",
+        pdf_error: "PDF సృష్టించడంలో లోపం. దయచేసి మళ్ళీ ప్రయత్నించండి.",
+        generate_image: "🖼️ చిత్రం",
+        story_video: "📖 కథ వీడియో",
+        story_desc: "స్లైడ్‌షో + స్వరం",
+        select_style: "శైలి ఎంచుకోండి",
+        select_quality: "నాణ్యత ఎంచుకోండి",
+        normal: "సాధారణ",
+        premium: "ప్రీమియం (గోల్డ్)",
+        cartoon: "కార్టూన్",
+        anime: "ఎనిమే",
+        real: "వాస్తవిక",
+        fantasy: "ఫాంటసీ",
+        surreal: "అతివాస్తవిక",
+        watercolor: "జలరంగు",
+        cartoon_desc: "పిక్సార్/డిస్నీ శైలి",
+        anime_desc: "స్టూడియో జిబ్లీ",
+        real_desc: "ఫోటో-వాస్తవిక",
+        fantasy_desc: "మాయాజాల & ఇతిహాస",
+        surreal_desc: "కలల & వియుక్త",
+        watercolor_desc: "కళాత్మక చిత్రకళ",
+        back: "వెనుకకు",
+        copy_link: "లింక్",
+        copied: "కాపీ అయింది!",
+        share_btn: "కల పంచుకోండి",
+        pdf_share_btn: "PDF పంచుకోండి",
+        pdf_download_btn: "PDF డౌన్‌లోడ్",
+        share_error: "ఈ పరికరంలో ఫైల్ షేరింగ్ మద్దతు లేదు. డౌన్‌లోడ్ అవుతోంది.",
+        copy_fallback: "లింక్ కాపీ అయింది.",
+        pdf_title: "PDF శైలి ఎంచుకోండి",
+        style_papyrus: "పాపిరస్ (తేలిక)",
+        style_mystic: "రహస్యమయ (చీకటి)",
+        style_feminine: "స్త్రీత్వ (గులాబీ)",
+        generating: "PDF సృష్టిస్తోంది...",
+        success: "పూర్తయింది!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF సృష్టించు",
+        locked: "సిల్వర్ స్థాయి అవసరం",
+        pdf_the_dream: "కల",
+        pdf_oracle_interpretation: "జ్యోతిష వ్యాఖ్యానం",
+        pdf_oracle_analysis: "జ్యోతిష విశ్లేషణ",
+        pdf_generated_by: "AI ద్వారా సృష్టించబడింది • Dream Code App"
+    },
+    [Language.TL]: {
+        pdf_not_ready: "Hindi pa handa ang PDF template. Pakisubukang muli.",
+        pdf_error: "Error sa paggawa ng PDF. Pakisubukang muli.",
+        generate_image: "🖼️ Larawan",
+        story_video: "📖 Kwentong Video",
+        story_desc: "Slideshow + Boses",
+        select_style: "Pumili ng Estilo",
+        select_quality: "Pumili ng Kalidad",
+        normal: "Normal",
+        premium: "Premium (Ginto)",
+        cartoon: "Kartun",
+        anime: "Anime",
+        real: "Makatotohanan",
+        fantasy: "Pantasya",
+        surreal: "Surreal",
+        watercolor: "Watercolor",
+        cartoon_desc: "Estilo ng Pixar/Disney",
+        anime_desc: "Studio Ghibli",
+        real_desc: "Photo-realistic",
+        fantasy_desc: "Mahiwaga at Epiko",
+        surreal_desc: "Parang Panaginip",
+        watercolor_desc: "Sining na Pintura",
+        back: "Bumalik",
+        copy_link: "Link",
+        copied: "Nakopya!",
+        share_btn: "Ibahagi ang Panaginip",
+        pdf_share_btn: "Ibahagi ang PDF",
+        pdf_download_btn: "I-download ang PDF",
+        share_error: "Hindi suportado ang pagbabahagi ng file sa device na ito. Nagda-download.",
+        copy_fallback: "Nakopya ang link.",
+        pdf_title: "Pumili ng Estilo ng PDF",
+        style_papyrus: "Papyrus (Maliwanag)",
+        style_mystic: "Mistiko (Madilim)",
+        style_feminine: "Pambabae (Rosas)",
+        generating: "Gumagawa ng PDF...",
+        success: "Tapos na!",
+        web_link: "www.dream-code.app",
+        start_btn: "Gumawa ng PDF",
+        locked: "Kailangan ang Silver Level",
+        pdf_the_dream: "Ang Panaginip",
+        pdf_oracle_interpretation: "Interpretasyon ng Orakulo",
+        pdf_oracle_analysis: "Pagsusuri ng Orakulo",
+        pdf_generated_by: "Ginawa ng AI • Dream Code App"
+    },
+    [Language.ML]: {
+        pdf_not_ready: "PDF ടെംപ്ലേറ്റ് തയ്യാറല്ല. വീണ്ടും ശ്രമിക്കുക.",
+        pdf_error: "PDF സൃഷ്ടിക്കുന്നതിൽ പിശക്. വീണ്ടും ശ്രമിക്കുക.",
+        generate_image: "🖼️ ചിത്രം",
+        story_video: "📖 കഥ വീഡിയോ",
+        story_desc: "സ്ലൈഡ്‌ഷോ + ശബ്ദം",
+        select_style: "ശൈലി തിരഞ്ഞെടുക്കുക",
+        select_quality: "ഗുണമേന്മ തിരഞ്ഞെടുക്കുക",
+        normal: "സാധാരണ",
+        premium: "പ്രീമിയം (ഗോൾഡ്)",
+        cartoon: "കാർട്ടൂൺ",
+        anime: "ആനിമേ",
+        real: "യഥാർത്ഥ",
+        fantasy: "ഫാന്റസി",
+        surreal: "അതിയഥാർത്ഥ",
+        watercolor: "ജലച്ചായം",
+        cartoon_desc: "പിക്സാർ/ഡിസ്നി ശൈലി",
+        anime_desc: "സ്റ്റുഡിയോ ജിബ്ലി",
+        real_desc: "ഫോട്ടോ-യഥാർത്ഥ",
+        fantasy_desc: "മാന്ത്രിക & ഇതിഹാസ",
+        surreal_desc: "സ്വപ്നസമാന",
+        watercolor_desc: "കലാപരമായ ചിത്രകല",
+        back: "പിന്നോട്ട്",
+        copy_link: "ലിങ്ക്",
+        copied: "പകർത്തി!",
+        share_btn: "സ്വപ്നം പങ്കിടുക",
+        pdf_share_btn: "PDF പങ്കിടുക",
+        pdf_download_btn: "PDF ഡൗൺലോഡ്",
+        share_error: "ഈ ഉപകരണത്തിൽ ഫയൽ പങ്കിടൽ പിന്തുണയ്ക്കുന്നില്ല. ഡൗൺലോഡ് ചെയ്യുന്നു.",
+        copy_fallback: "ലിങ്ക് പകർത്തി.",
+        pdf_title: "PDF ശൈലി തിരഞ്ഞെടുക്കുക",
+        style_papyrus: "പാപ്പിറസ് (ഇളം)",
+        style_mystic: "രഹസ്യാത്മക (ഇരുണ്ട)",
+        style_feminine: "സ്ത്രൈണ (റോസ്)",
+        generating: "PDF സൃഷ്ടിക്കുന്നു...",
+        success: "പൂർത്തിയായി!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF സൃഷ്ടിക്കുക",
+        locked: "സിൽവർ ലെവൽ ആവശ്യമാണ്",
+        pdf_the_dream: "സ്വപ്നം",
+        pdf_oracle_interpretation: "ഒറാക്കിൾ വ്യാഖ്യാനം",
+        pdf_oracle_analysis: "ഒറാക്കിൾ വിശകലനം",
+        pdf_generated_by: "AI സൃഷ്ടിച്ചത് • Dream Code App"
+    },
+    [Language.MR]: {
+        pdf_not_ready: "PDF टेम्पलेट तयार नाही. कृपया पुन्हा प्रयत्न करा.",
+        pdf_error: "PDF तयार करताना त्रुटी. कृपया पुन्हा प्रयत्न करा.",
+        generate_image: "🖼️ चित्र",
+        story_video: "📖 कथा व्हिडिओ",
+        story_desc: "स्लाइडशो + आवाज",
+        select_style: "शैली निवडा",
+        select_quality: "गुणवत्ता निवडा",
+        normal: "सामान्य",
+        premium: "प्रीमियम (गोल्ड)",
+        cartoon: "कार्टून",
+        anime: "ॲनिमे",
+        real: "वास्तववादी",
+        fantasy: "कल्पनारम्य",
+        surreal: "अतिवास्तववादी",
+        watercolor: "जलरंग",
+        cartoon_desc: "पिक्सार/डिस्ने शैली",
+        anime_desc: "स्टुडिओ जिबली",
+        real_desc: "फोटो-वास्तववादी",
+        fantasy_desc: "जादुई आणि महाकाव्य",
+        surreal_desc: "स्वप्नवत आणि अमूर्त",
+        watercolor_desc: "कलात्मक चित्रकला",
+        back: "मागे",
+        copy_link: "लिंक",
+        copied: "कॉपी झाले!",
+        share_btn: "स्वप्न शेअर करा",
+        pdf_share_btn: "PDF शेअर करा",
+        pdf_download_btn: "PDF डाउनलोड करा",
+        share_error: "या उपकरणावर फाइल शेअरिंग समर्थित नाही. डाउनलोड होत आहे.",
+        copy_fallback: "लिंक कॉपी झाले.",
+        pdf_title: "PDF शैली निवडा",
+        style_papyrus: "पॅपिरस (हलका)",
+        style_mystic: "गूढ (गडद)",
+        style_feminine: "स्त्रीसुलभ (गुलाबी)",
+        generating: "PDF तयार होत आहे...",
+        success: "पूर्ण!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF तयार करा",
+        locked: "सिल्व्हर स्तर आवश्यक",
+        pdf_the_dream: "स्वप्न",
+        pdf_oracle_interpretation: "ज्योतिष व्याख्या",
+        pdf_oracle_analysis: "ज्योतिष विश्लेषण",
+        pdf_generated_by: "AI द्वारे तयार • Dream Code App"
+    },
+    [Language.KN]: {
+        pdf_not_ready: "PDF ಟೆಂಪ್ಲೇಟ್ ಸಿದ್ಧವಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+        pdf_error: "PDF ರಚಿಸುವಲ್ಲಿ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+        generate_image: "🖼️ ಚಿತ್ರ",
+        story_video: "📖 ಕಥೆ ವೀಡಿಯೊ",
+        story_desc: "ಸ್ಲೈಡ್‌ಶೋ + ಧ್ವನಿ",
+        select_style: "ಶೈಲಿ ಆಯ್ಕೆಮಾಡಿ",
+        select_quality: "ಗುಣಮಟ್ಟ ಆಯ್ಕೆಮಾಡಿ",
+        normal: "ಸಾಮಾನ್ಯ",
+        premium: "ಪ್ರೀಮಿಯಂ (ಗೋಲ್ಡ್)",
+        cartoon: "ಕಾರ್ಟೂನ್",
+        anime: "ಎನಿಮೆ",
+        real: "ವಾಸ್ತವಿಕ",
+        fantasy: "ಫ್ಯಾಂಟಸಿ",
+        surreal: "ಅತಿವಾಸ್ತವಿಕ",
+        watercolor: "ಜಲವರ್ಣ",
+        cartoon_desc: "ಪಿಕ್ಸಾರ್/ಡಿಸ್ನಿ ಶೈಲಿ",
+        anime_desc: "ಸ್ಟುಡಿಯೋ ಜಿಬ್ಲಿ",
+        real_desc: "ಫೋಟೋ-ವಾಸ್ತವಿಕ",
+        fantasy_desc: "ಮಾಂತ್ರಿಕ ಮತ್ತು ಮಹಾಕಾವ್ಯ",
+        surreal_desc: "ಕನಸಿನಂತ ಮತ್ತು ಅಮೂರ್ತ",
+        watercolor_desc: "ಕಲಾತ್ಮಕ ಚಿತ್ರಕಲೆ",
+        back: "ಹಿಂದೆ",
+        copy_link: "ಲಿಂಕ್",
+        copied: "ನಕಲಾಗಿದೆ!",
+        share_btn: "ಕನಸನ್ನು ಹಂಚಿ",
+        pdf_share_btn: "PDF ಹಂಚಿ",
+        pdf_download_btn: "PDF ಡೌನ್‌ಲೋಡ್",
+        share_error: "ಈ ಸಾಧನದಲ್ಲಿ ಫೈಲ್ ಹಂಚಿಕೆ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ. ಡೌನ್‌ಲೋಡ್ ಆಗುತ್ತಿದೆ.",
+        copy_fallback: "ಲಿಂಕ್ ನಕಲಾಗಿದೆ.",
+        pdf_title: "PDF ಶೈಲಿ ಆಯ್ಕೆಮಾಡಿ",
+        style_papyrus: "ಪ್ಯಾಪಿರಸ್ (ತಿಳಿ)",
+        style_mystic: "ರಹಸ್ಯಾತ್ಮಕ (ಗಾಢ)",
+        style_feminine: "ಸ್ತ್ರೀಲಿಂಗ (ಗುಲಾಬಿ)",
+        generating: "PDF ರಚಿಸಲಾಗುತ್ತಿದೆ...",
+        success: "ಮುಗಿಯಿತು!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF ರಚಿಸಿ",
+        locked: "ಸಿಲ್ವರ್ ಮಟ್ಟ ಅಗತ್ಯ",
+        pdf_the_dream: "ಕನಸು",
+        pdf_oracle_interpretation: "ಜ್ಯೋತಿಷ ವ್ಯಾಖ್ಯಾನ",
+        pdf_oracle_analysis: "ಜ್ಯೋತಿಷ ವಿಶ್ಲೇಷಣೆ",
+        pdf_generated_by: "AI ನಿಂದ ರಚಿಸಲಾಗಿದೆ • Dream Code App"
+    },
+    [Language.GU]: {
+        pdf_not_ready: "PDF ટેમ્પલેટ તૈયાર નથી. ફરીથી પ્રયાસ કરો.",
+        pdf_error: "PDF બનાવવામાં ભૂલ. ફરીથી પ્રયાસ કરો.",
+        generate_image: "🖼️ છબી",
+        story_video: "📖 વાર્તા વીડિયો",
+        story_desc: "સ્લાઇડશો + અવાજ",
+        select_style: "શૈલી પસંદ કરો",
+        select_quality: "ગુણવત્તા પસંદ કરો",
+        normal: "સામાન્ય",
+        premium: "પ્રીમિયમ (ગોલ્ડ)",
+        cartoon: "કાર્ટૂન",
+        anime: "એનિમે",
+        real: "વાસ્તવિક",
+        fantasy: "કલ્પના",
+        surreal: "અતિવાસ્તવવાદી",
+        watercolor: "જળરંગ",
+        cartoon_desc: "પિક્સાર/ડિઝની શૈલી",
+        anime_desc: "સ્ટુડિયો જિબલી",
+        real_desc: "ફોટો-વાસ્તવિક",
+        fantasy_desc: "જાદુઈ અને મહાકાવ્ય",
+        surreal_desc: "સ્વપ્ન જેવું અને અમૂર્ત",
+        watercolor_desc: "કલાત્મક ચિત્ર",
+        back: "પાછળ",
+        copy_link: "લિંક",
+        copied: "કૉપી થયું!",
+        share_btn: "સ્વપ્ન શેર કરો",
+        pdf_share_btn: "PDF શેર કરો",
+        pdf_download_btn: "PDF ડાઉનલોડ",
+        share_error: "આ ઉપકરણ પર ફાઇલ શેરિંગ સમર્થિત નથી. ડાઉનલોડ થઈ રહ્યું છે.",
+        copy_fallback: "લિંક કૉપી થયું.",
+        pdf_title: "PDF શૈલી પસંદ કરો",
+        style_papyrus: "પેપિરસ (હળવું)",
+        style_mystic: "રહસ્યમય (ઘેરું)",
+        style_feminine: "સ્ત્રીત્વ (ગુલાબી)",
+        generating: "PDF બની રહ્યું છે...",
+        success: "પૂર્ણ!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF બનાવો",
+        locked: "સિલ્વર સ્તર જરૂરી",
+        pdf_the_dream: "સ્વપ્ન",
+        pdf_oracle_interpretation: "જ્યોતિષ અર્થઘટન",
+        pdf_oracle_analysis: "જ્યોતિષ વિશ્લેષણ",
+        pdf_generated_by: "AI દ્વારા બનાવેલ • Dream Code App"
+    },
+    [Language.HE]: {
+        pdf_not_ready: "תבנית ה-PDF אינה מוכנה. אנא נסו שוב.",
+        pdf_error: "שגיאה ביצירת PDF. אנא נסו שוב.",
+        generate_image: "🖼️ תמונה",
+        story_video: "📖 סרטון סיפור",
+        story_desc: "מצגת + קול",
+        select_style: "בחירת סגנון",
+        select_quality: "בחירת איכות",
+        normal: "רגיל",
+        premium: "פרימיום (זהב)",
+        cartoon: "קריקטורה",
+        anime: "אנימה",
+        real: "ריאליסטי",
+        fantasy: "פנטזיה",
+        surreal: "סוריאליסטי",
+        watercolor: "צבעי מים",
+        cartoon_desc: "סגנון פיקסאר/דיסני",
+        anime_desc: "סטודיו ג'יבלי",
+        real_desc: "פוטו-ריאליסטי",
+        fantasy_desc: "קסום ואפי",
+        surreal_desc: "חלומי ומופשט",
+        watercolor_desc: "ציור אמנותי",
+        back: "חזרה",
+        copy_link: "קישור",
+        copied: "הועתק!",
+        share_btn: "שתף חלום",
+        pdf_share_btn: "שתף PDF",
+        pdf_download_btn: "הורד PDF",
+        share_error: "שיתוף קבצים אינו נתמך במכשיר זה. מוריד.",
+        copy_fallback: "הקישור הועתק.",
+        pdf_title: "בחירת סגנון PDF",
+        style_papyrus: "פפירוס (בהיר)",
+        style_mystic: "מיסטי (כהה)",
+        style_feminine: "נשי (ורוד)",
+        generating: "יוצר PDF...",
+        success: "בוצע!",
+        web_link: "www.dream-code.app",
+        start_btn: "צור PDF",
+        locked: "נדרשת רמת כסף",
+        pdf_the_dream: "החלום",
+        pdf_oracle_interpretation: "פירוש האורקל",
+        pdf_oracle_analysis: "ניתוח האורקל",
+        pdf_generated_by: "נוצר על ידי AI • Dream Code App"
+    },
+    [Language.NE]: {
+        pdf_not_ready: "PDF टेम्प्लेट तयार छैन। कृपया फेरि प्रयास गर्नुहोस्।",
+        pdf_error: "PDF बनाउँदा त्रुटि। कृपया फेरि प्रयास गर्नुहोस्।",
+        generate_image: "🖼️ तस्बिर",
+        story_video: "📖 कथा भिडियो",
+        story_desc: "स्लाइडशो + आवाज",
+        select_style: "शैली छान्नुहोस्",
+        select_quality: "गुणस्तर छान्नुहोस्",
+        normal: "सामान्य",
+        premium: "प्रिमियम (गोल्ड)",
+        cartoon: "कार्टुन",
+        anime: "एनिमे",
+        real: "यथार्थवादी",
+        fantasy: "काल्पनिक",
+        surreal: "अतियथार्थवादी",
+        watercolor: "जलरंग",
+        cartoon_desc: "पिक्सार/डिज्नी शैली",
+        anime_desc: "स्टुडियो जिब्ली",
+        real_desc: "फोटो-यथार्थवादी",
+        fantasy_desc: "जादुई र महाकाव्य",
+        surreal_desc: "सपना जस्तो",
+        watercolor_desc: "कलात्मक चित्र",
+        back: "पछाडि",
+        copy_link: "लिंक",
+        copied: "प्रतिलिपि भयो!",
+        share_btn: "सपना साझा गर्नुहोस्",
+        pdf_share_btn: "PDF साझा गर्नुहोस्",
+        pdf_download_btn: "PDF डाउनलोड",
+        share_error: "यो उपकरणमा फाइल साझेदारी समर्थित छैन। डाउनलोड हुँदैछ।",
+        copy_fallback: "लिंक प्रतिलिपि भयो।",
+        pdf_title: "PDF शैली छान्नुहोस्",
+        style_papyrus: "प्यापिरस (हल्का)",
+        style_mystic: "रहस्यमय (गाढा)",
+        style_feminine: "स्त्रीलिङ्ग (गुलाबी)",
+        generating: "PDF बनाउँदै...",
+        success: "भयो!",
+        web_link: "www.dream-code.app",
+        start_btn: "PDF बनाउनुहोस्",
+        locked: "सिल्भर स्तर आवश्यक",
+        pdf_the_dream: "सपना",
+        pdf_oracle_interpretation: "ज्योतिष व्याख्या",
+        pdf_oracle_analysis: "ज्योतिष विश्लेषण",
+        pdf_generated_by: "AI द्वारा निर्मित • Dream Code App"
+    },
+    [Language.PRS]: {
+        pdf_not_ready: "قالب PDF آماده نیست. لطفاً دوباره امتحان کنید.",
+        pdf_error: "خطا در ساخت PDF. لطفاً دوباره امتحان کنید.",
+        generate_image: "🖼️ تصویر",
+        story_video: "📖 ویدیوی داستان",
+        story_desc: "اسلاید + آواز",
+        select_style: "انتخاب سبک",
+        select_quality: "انتخاب کیفیت",
+        normal: "معمولی",
+        premium: "ویژه (طلایی)",
+        cartoon: "کارتونی",
+        anime: "انیمه",
+        real: "واقع‌بینانه",
+        fantasy: "خیالی",
+        surreal: "فراواقعی",
+        watercolor: "آبرنگ",
+        cartoon_desc: "سبک پیکسار/دیزنی",
+        anime_desc: "استودیو جیبلی",
+        real_desc: "عکس‌واقعی",
+        fantasy_desc: "جادویی و حماسی",
+        surreal_desc: "خوابگونه و انتزاعی",
+        watercolor_desc: "نقاشی هنری",
+        back: "بازگشت",
+        copy_link: "لینک",
+        copied: "کپی شد!",
+        share_btn: "شریک ساختن خواب",
+        pdf_share_btn: "شریک ساختن PDF",
+        pdf_download_btn: "دانلود PDF",
+        share_error: "شریک ساختن فایل در این دستگاه پشتیبانی نمی‌شود. در حال دانلود.",
+        copy_fallback: "لینک کپی شد.",
+        pdf_title: "سبک PDF را انتخاب کنید",
+        style_papyrus: "پاپیروس (روشن)",
+        style_mystic: "عرفانی (تاریک)",
+        style_feminine: "زنانه (صورتی)",
+        generating: "در حال ساخت PDF...",
+        success: "انجام شد!",
+        web_link: "www.dream-code.app",
+        start_btn: "ساخت PDF",
+        locked: "سطح نقره‌ای لازم است",
+        pdf_the_dream: "خواب",
+        pdf_oracle_interpretation: "تعبیر پیشگو",
+        pdf_oracle_analysis: "تحلیل پیشگو",
+        pdf_generated_by: "ساخته شده توسط هوش مصنوعی • Dream Code App"
+    },
+    [Language.AR_GULF]: {
+        pdf_not_ready: "قالب PDF غير جاهز. حاول مرة أخرى.",
+        pdf_error: "خطأ في إنشاء PDF. حاول مرة أخرى.",
+        generate_image: "🖼️ صورة",
+        story_video: "📖 فيديو قصة",
+        story_desc: "عرض + صوت",
+        select_style: "اختر النمط",
+        select_quality: "اختر الجودة",
+        normal: "عادي",
+        premium: "مميز (ذهبي)",
+        cartoon: "كرتون",
+        anime: "أنمي",
+        real: "واقعي",
+        fantasy: "خيالي",
+        surreal: "سريالي",
+        watercolor: "ألوان مائية",
+        cartoon_desc: "نمط بيكسار",
+        anime_desc: "ستوديو جيبلي",
+        real_desc: "صور واقعية",
+        fantasy_desc: "سحري وملحمي",
+        surreal_desc: "حالم",
+        watercolor_desc: "فني",
+        back: "رجوع",
+        copy_link: "رابط",
+        copied: "تم النسخ!",
+        share_btn: "مشاركة الحلم",
+        pdf_share_btn: "مشاركة PDF",
+        pdf_download_btn: "تنزيل PDF",
+        share_error: "مشاركة الملفات غير مدعومة. جارٍ التنزيل.",
+        copy_fallback: "تم نسخ الرابط.",
+        pdf_title: "اختر نمط PDF",
+        style_papyrus: "بردي (فاتح)",
+        style_mystic: "صوفي (داكن)",
+        style_feminine: "أنثوي (وردي)",
+        generating: "إنشاء PDF...",
+        success: "تم!",
+        web_link: "www.dream-code.app",
+        start_btn: "إنشاء PDF",
+        locked: "يتطلب المستوى الفضي",
+        pdf_the_dream: "الحلم",
+        pdf_oracle_interpretation: "تفسير الأوراكل",
+        pdf_oracle_analysis: "تحليل الأوراكل",
+        pdf_generated_by: "تم الإنشاء بالذكاء الاصطناعي • Dream Code App"
+    },
+    [Language.AR_EG]: {
+        pdf_not_ready: "قالب PDF غير جاهز. حاول مرة أخرى.",
+        pdf_error: "خطأ في إنشاء PDF. حاول مرة أخرى.",
+        generate_image: "🖼️ صورة",
+        story_video: "📖 فيديو قصة",
+        story_desc: "عرض + صوت",
+        select_style: "اختر النمط",
+        select_quality: "اختر الجودة",
+        normal: "عادي",
+        premium: "مميز (ذهبي)",
+        cartoon: "كرتون",
+        anime: "أنمي",
+        real: "واقعي",
+        fantasy: "خيالي",
+        surreal: "سريالي",
+        watercolor: "ألوان مائية",
+        cartoon_desc: "نمط بيكسار",
+        anime_desc: "ستوديو جيبلي",
+        real_desc: "صور واقعية",
+        fantasy_desc: "سحري وملحمي",
+        surreal_desc: "حالم",
+        watercolor_desc: "فني",
+        back: "رجوع",
+        copy_link: "رابط",
+        copied: "تم النسخ!",
+        share_btn: "مشاركة الحلم",
+        pdf_share_btn: "مشاركة PDF",
+        pdf_download_btn: "تنزيل PDF",
+        share_error: "مشاركة الملفات غير مدعومة. جارٍ التنزيل.",
+        copy_fallback: "تم نسخ الرابط.",
+        pdf_title: "اختر نمط PDF",
+        style_papyrus: "بردي (فاتح)",
+        style_mystic: "صوفي (داكن)",
+        style_feminine: "أنثوي (وردي)",
+        generating: "إنشاء PDF...",
+        success: "تم!",
+        web_link: "www.dream-code.app",
+        start_btn: "إنشاء PDF",
+        locked: "يتطلب المستوى الفضي",
+        pdf_the_dream: "الحلم",
+        pdf_oracle_interpretation: "تفسير الأوراكل",
+        pdf_oracle_analysis: "تحليل الأوراكل",
+        pdf_generated_by: "تم الإنشاء بالذكاء الاصطناعي • Dream Code App"
+    },
+    [Language.AR_LEV]: {
+        pdf_not_ready: "قالب PDF غير جاهز. حاول مرة أخرى.",
+        pdf_error: "خطأ في إنشاء PDF. حاول مرة أخرى.",
+        generate_image: "🖼️ صورة",
+        story_video: "📖 فيديو قصة",
+        story_desc: "عرض + صوت",
+        select_style: "اختر النمط",
+        select_quality: "اختر الجودة",
+        normal: "عادي",
+        premium: "مميز (ذهبي)",
+        cartoon: "كرتون",
+        anime: "أنمي",
+        real: "واقعي",
+        fantasy: "خيالي",
+        surreal: "سريالي",
+        watercolor: "ألوان مائية",
+        cartoon_desc: "نمط بيكسار",
+        anime_desc: "ستوديو جيبلي",
+        real_desc: "صور واقعية",
+        fantasy_desc: "سحري وملحمي",
+        surreal_desc: "حالم",
+        watercolor_desc: "فني",
+        back: "رجوع",
+        copy_link: "رابط",
+        copied: "تم النسخ!",
+        share_btn: "مشاركة الحلم",
+        pdf_share_btn: "مشاركة PDF",
+        pdf_download_btn: "تنزيل PDF",
+        share_error: "مشاركة الملفات غير مدعومة. جارٍ التنزيل.",
+        copy_fallback: "تم نسخ الرابط.",
+        pdf_title: "اختر نمط PDF",
+        style_papyrus: "بردي (فاتح)",
+        style_mystic: "صوفي (داكن)",
+        style_feminine: "أنثوي (وردي)",
+        generating: "إنشاء PDF...",
+        success: "تم!",
+        web_link: "www.dream-code.app",
+        start_btn: "إنشاء PDF",
+        locked: "يتطلب المستوى الفضي",
+        pdf_the_dream: "الحلم",
+        pdf_oracle_interpretation: "تفسير الأوراكل",
+        pdf_oracle_analysis: "تحليل الأوراكل",
+        pdf_generated_by: "تم الإنشاء بالذكاء الاصطناعي • Dream Code App"
+    },
+    [Language.AR_MAG]: {
+        pdf_not_ready: "قالب PDF غير جاهز. حاول مرة أخرى.",
+        pdf_error: "خطأ في إنشاء PDF. حاول مرة أخرى.",
+        generate_image: "🖼️ صورة",
+        story_video: "📖 فيديو قصة",
+        story_desc: "عرض + صوت",
+        select_style: "اختر النمط",
+        select_quality: "اختر الجودة",
+        normal: "عادي",
+        premium: "مميز (ذهبي)",
+        cartoon: "كرتون",
+        anime: "أنمي",
+        real: "واقعي",
+        fantasy: "خيالي",
+        surreal: "سريالي",
+        watercolor: "ألوان مائية",
+        cartoon_desc: "نمط بيكسار",
+        anime_desc: "ستوديو جيبلي",
+        real_desc: "صور واقعية",
+        fantasy_desc: "سحري وملحمي",
+        surreal_desc: "حالم",
+        watercolor_desc: "فني",
+        back: "رجوع",
+        copy_link: "رابط",
+        copied: "تم النسخ!",
+        share_btn: "مشاركة الحلم",
+        pdf_share_btn: "مشاركة PDF",
+        pdf_download_btn: "تنزيل PDF",
+        share_error: "مشاركة الملفات غير مدعومة. جارٍ التنزيل.",
+        copy_fallback: "تم نسخ الرابط.",
+        pdf_title: "اختر نمط PDF",
+        style_papyrus: "بردي (فاتح)",
+        style_mystic: "صوفي (داكن)",
+        style_feminine: "أنثوي (وردي)",
+        generating: "إنشاء PDF...",
+        success: "تم!",
+        web_link: "www.dream-code.app",
+        start_btn: "إنشاء PDF",
+        locked: "يتطلب المستوى الفضي",
+        pdf_the_dream: "الحلم",
+        pdf_oracle_interpretation: "تفسير الأوراكل",
+        pdf_oracle_analysis: "تحليل الأوراكل",
+        pdf_generated_by: "تم الإنشاء بالذكاء الاصطناعي • Dream Code App"
+    },
+    [Language.AR_IQ]: {
+        pdf_not_ready: "قالب PDF غير جاهز. حاول مرة أخرى.",
+        pdf_error: "خطأ في إنشاء PDF. حاول مرة أخرى.",
+        generate_image: "🖼️ صورة",
+        story_video: "📖 فيديو قصة",
+        story_desc: "عرض + صوت",
+        select_style: "اختر النمط",
+        select_quality: "اختر الجودة",
+        normal: "عادي",
+        premium: "مميز (ذهبي)",
+        cartoon: "كرتون",
+        anime: "أنمي",
+        real: "واقعي",
+        fantasy: "خيالي",
+        surreal: "سريالي",
+        watercolor: "ألوان مائية",
+        cartoon_desc: "نمط بيكسار",
+        anime_desc: "ستوديو جيبلي",
+        real_desc: "صور واقعية",
+        fantasy_desc: "سحري وملحمي",
+        surreal_desc: "حالم",
+        watercolor_desc: "فني",
+        back: "رجوع",
+        copy_link: "رابط",
+        copied: "تم النسخ!",
+        share_btn: "مشاركة الحلم",
+        pdf_share_btn: "مشاركة PDF",
+        pdf_download_btn: "تنزيل PDF",
+        share_error: "مشاركة الملفات غير مدعومة. جارٍ التنزيل.",
+        copy_fallback: "تم نسخ الرابط.",
+        pdf_title: "اختر نمط PDF",
+        style_papyrus: "بردي (فاتح)",
+        style_mystic: "صوفي (داكن)",
+        style_feminine: "أنثوي (وردي)",
+        generating: "إنشاء PDF...",
+        success: "تم!",
+        web_link: "www.dream-code.app",
+        start_btn: "إنشاء PDF",
+        locked: "يتطلب المستوى الفضي",
+        pdf_the_dream: "الحلم",
+        pdf_oracle_interpretation: "تفسير الأوراكل",
+        pdf_oracle_analysis: "تحليل الأوراكل",
+        pdf_generated_by: "تم الإنشاء بالذكاء الاصطناعي • Dream Code App"
+    }
+};
+
+type MediaType = 'image' | 'story_video' | null;
+type SelectionStep = 'main' | 'style' | 'quality';
+
+const DreamShare: React.FC<DreamShareProps> = ({
+    dream,
+    language,
+    userProfile,
+    onGenerateImage,
+    onGenerateStoryVideo,
+    tier: tierProp,
+    themeMode
+}) => {
+    const th = getTheme(themeMode || ThemeMode.DARK);
+    const t = translations[language] || translations[language.startsWith("ar") ? Language.AR : Language.EN] || translations[Language.EN];
+    const isRtl = ((language as string).startsWith('ar') || [Language.FA, Language.UR, Language.HE, Language.PRS].includes(language));
+
+    const [mediaType, setMediaType] = useState<MediaType>(null);
+    const [selectionStep, setSelectionStep] = useState<SelectionStep>('main');
+    const [selectedStyle, setSelectedStyle] = useState<'cartoon' | 'anime' | 'real' | 'fantasy' | 'surreal' | 'watercolor' | null>(null);
+    const [copied, setCopied] = useState(false);
+
+    // Face-Swap & Image-Edit State
+    const [faceSwapLoading, setFaceSwapLoading] = useState(false);
+    const [faceSwapResult, setFaceSwapResult] = useState<string | null>(dream.faceSwapImageUrl || null);
+    const [showImageEditor, setShowImageEditor] = useState(false);
+    const [faceSwapError, setFaceSwapError] = useState<string | null>(null);
+
+    // PDF functionality
+    const [showPdfModal, setShowPdfModal] = useState(false);
+    const [pdfStatus, setPdfStatus] = useState<'idle' | 'generating' | 'success'>('idle');
+    const [pdfAction, setPdfAction] = useState<'download' | 'share'>('download');
+    const printRef = useRef<HTMLDivElement>(null);
+    const [pdfMode, setPdfMode] = useState<'papyrus' | 'mystic' | 'feminine'>('mystic');
+
+    const tier = tierProp || userProfile?.subscriptionTier || SubscriptionTier.FREE;
+    const isLocked = false; // PDF fuer alle freigeschaltet
+    const hasVideoAccess = tier === SubscriptionTier.PRO || tier === SubscriptionTier.SMART;
+
+    const shareUrl = `https://dreamcode.app/dream/${dream.id}`;
+    const shareText = `Dream Code Oracle: ${dream.title}\n\n${dream.description.substring(0, 100)}...\n\n${t.web_link}`;
+
+    // Show only 4 main styles for video, all 6 for images
+    const allStyles = [
+        { id: 'cartoon' as const, icon: '🎨', label: t.cartoon, desc: t.cartoon_desc, color: 'from-pink-500 to-orange-400' },
+        { id: 'anime' as const, icon: '⚔️', label: t.anime, desc: t.anime_desc, color: 'from-blue-500 to-purple-500' },
+        { id: 'real' as const, icon: '📷', label: t.real, desc: t.real_desc, color: 'from-gray-600 to-gray-800' },
+        { id: 'fantasy' as const, icon: '✨', label: t.fantasy, desc: t.fantasy_desc, color: 'from-purple-600 to-fuchsia-600' },
+        { id: 'surreal' as const, icon: '🌀', label: t.surreal, desc: t.surreal_desc, color: 'from-teal-500 to-cyan-600' },
+        { id: 'watercolor' as const, icon: '🎭', label: t.watercolor, desc: t.watercolor_desc, color: 'from-rose-400 to-pink-500' }
+    ];
+
+    const styles = mediaType === 'story_video'
+        ? allStyles.filter(s => ['cartoon', 'anime', 'real', 'fantasy'].includes(s.id))
+        : allStyles;
+
+    const handleMediaSelect = (type: MediaType) => {
+        setMediaType(type);
+        setSelectionStep('style');
+    };
+
+    const handleStyleSelect = (style: 'cartoon' | 'anime' | 'real' | 'fantasy' | 'surreal' | 'watercolor') => {
+        setSelectedStyle(style);
+
+        // Story Video doesn't need quality selection
+        if (mediaType === 'story_video') {
+            if (onGenerateStoryVideo) {
+                onGenerateStoryVideo(style);
+            }
+            resetState();
+        } else {
+            setSelectionStep('quality');
+        }
+    };
+
+    const handleQualitySelect = (quality: 'normal' | 'high') => {
+        if (selectedStyle) {
+            if (mediaType === 'image' && onGenerateImage) {
+                onGenerateImage(quality, selectedStyle as 'cartoon' | 'anime' | 'real' | 'fantasy');
+            }
+        }
+        resetState();
+    };
+
+    const resetState = () => {
+        setMediaType(null);
+        setSelectionStep('main');
+        setSelectedStyle(null);
+    };
+
+    const handleBack = () => {
+        if (selectionStep === 'quality') {
+            setSelectionStep('style');
+            setSelectedStyle(null);
+        } else if (selectionStep === 'style') {
+            setSelectionStep('main');
+            setMediaType(null);
+        }
+    };
+
+    const copyLink = () => {
+        const url = `${window.location.origin}/dream/${dream.id}`;
+        navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    // PDF functionality
+    const getColors = () => {
+        if (pdfMode === 'mystic') return { bg: '#05020a', text: '#e2e8f0', accent: '#a78bfa', border: 'rgba(255,255,255,0.2)' };
+        if (pdfMode === 'feminine') return { bg: '#fff1f2', text: '#881337', accent: '#ec4899', border: 'rgba(236,72,153,0.3)' };
+        return { bg: '#fdfbf7', text: '#1e1b4b', accent: '#5b21b6', border: 'rgba(0,0,0,0.1)' };
+    };
+
+    const colors = getColors();
+
+    const parseInlineStyles = (text: string) => {
+        const parts = text.split(/(\*\*.*?\*\*)/g);
+        return parts.map((part, i) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+                return <strong key={i} style={{ fontWeight: 'bold', color: pdfMode === 'feminine' ? '#be185d' : 'inherit' }}>{part.slice(2, -2)}</strong>;
+            }
+            return part;
+        });
+    };
+
+    const formatDreamText = (text: string | { interpretation: string } | Record<string, unknown>) => {
+        // Handle both string and object formats
+        const textStr = typeof text === 'string' ? text : ((text as { interpretation?: string })?.interpretation || String(text));
+        const lines = textStr.split('\n');
+        return lines.map((line: string, index: number) => {
+            const cleanLine = line.trim();
+            if (!cleanLine) return <div key={index} className="h-3"></div>;
+
+            if (cleanLine.startsWith('###')) {
+                 const content = cleanLine.replace(/^###\s*/, '').replace(/\*\*/g, '');
+                 return (
+                     <h3 key={index} style={{
+                         fontSize: '16px',
+                         fontWeight: 'bold',
+                         marginTop: '16px',
+                         marginBottom: '6px',
+                         textTransform: 'uppercase',
+                         letterSpacing: '0.5px',
+                         color: colors.accent,
+                         borderBottom: `1px solid ${colors.border}`,
+                         paddingBottom: '4px'
+                     }}>
+                        {content}
+                     </h3>
+                 );
+            }
+
+            if (cleanLine.startsWith('* ')) {
+                 const content = cleanLine.replace(/^\*\s*/, '');
+                 return (
+                     <div key={index} style={{ display: 'flex', alignItems: 'flex-start', marginBottom: '4px', paddingLeft: '8px' }}>
+                         <span style={{ marginRight: '8px', opacity: 0.7, color: colors.accent }}>•</span>
+                         <span style={{ flex: 1 }}>{parseInlineStyles(content)}</span>
+                     </div>
+                 );
+            }
+
+            return (
+                <div key={index} style={{ marginBottom: '4px', lineHeight: '1.6' }}>
+                    {parseInlineStyles(cleanLine)}
+                </div>
+            );
+        });
+    };
+
+    const handleNativeShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `Dream Code: ${dream.title}`,
+                    text: shareText,
+                    url: shareUrl,
+                });
+            } catch (error) {
+            }
+        } else {
+            navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+            alert(t.copy_fallback);
+        }
+    };
+
+    const openPdfModal = (action: 'share' | 'download') => {
+        if (isLocked) {
+            alert(t.locked);
+            return;
+        }
+        setPdfAction(action);
+        setShowPdfModal(true);
+        setPdfStatus('idle');
+    };
+
+    const handleStartGeneration = async () => {
+        setPdfStatus('generating');
+
+        setTimeout(async () => {
+            if (!printRef.current) {
+                alert(t.pdf_not_ready);
+                setPdfStatus('idle');
+                return;
+            }
+
+            try {
+                const element = printRef.current;
+
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: colors.bg,
+                    windowWidth: 800
+                });
+
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+                const imgWidthPx = canvas.width;
+                const imgHeightPx = canvas.height;
+                const pdfWidth = 210;
+                const pdfHeight = (imgHeightPx * pdfWidth) / imgWidthPx;
+
+                const pdf = new jsPDF('p', 'mm', [pdfWidth, pdfHeight]);
+
+                if (pdfMode === 'mystic') {
+                    pdf.setFillColor(5, 2, 10);
+                } else if (pdfMode === 'feminine') {
+                    pdf.setFillColor(255, 241, 242);
+                } else {
+                    pdf.setFillColor(253, 251, 247);
+                }
+                pdf.rect(0, 0, pdfWidth, pdfHeight, 'F');
+
+                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+
+                const footerHeight = 20;
+                const linkY = pdfHeight - footerHeight;
+                pdf.link(0, linkY, pdfWidth, footerHeight, { url: 'https://www.dream-code.app' });
+
+                const fileName = `Dream Code_${dream.date.replace(/\./g, '-')}.pdf`;
+
+                if (pdfAction === 'share') {
+                    const blob = pdf.output('blob');
+                    const file = new File([blob], fileName, { type: 'application/pdf' });
+
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({
+                                files: [file],
+                                title: dream.title,
+                                text: t.web_link
+                            });
+                        } catch (shareErr) {
+                        }
+                    } else {
+                        pdf.save(fileName);
+                    }
+                } else {
+                    pdf.save(fileName);
+                }
+
+                setPdfStatus('success');
+                setTimeout(() => setShowPdfModal(false), 1500);
+
+            } catch (err) {
+                console.error("PDF Gen Error", err);
+                setPdfStatus('idle');
+                alert(t.pdf_error);
+            }
+        }, 500);
+    };
+
+    return (
+        <div dir={isRtl ? 'rtl' : 'ltr'} className="space-y-3">
+            {/* Main Menu */}
+            {selectionStep === 'main' && (
+                <>
+                    <div className="grid grid-cols-2 gap-2 mb-3">
+                        {/* Image Generation */}
+                        {onGenerateImage && (
+                            <button
+                                onClick={() => handleMediaSelect('image')}
+                                className={`py-4 px-2 bg-gradient-to-br from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white rounded-xl font-bold text-xs transition-all shadow-lg flex flex-col items-center gap-1 ${th.isLight ? 'shadow-purple-500/20' : ''}`}
+                            >
+                                <span className="text-2xl">🖼️</span>
+                                <span>{t.generate_image}</span>
+                            </button>
+                        )}
+
+                        {/* Story Video - Only for GOLD/SMART */}
+                        {onGenerateStoryVideo && hasVideoAccess && (
+                            <button
+                                onClick={() => handleMediaSelect('story_video')}
+                                className="py-4 px-2 bg-gradient-to-br from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-white rounded-xl font-bold text-xs transition-all shadow-lg flex flex-col items-center gap-1 border border-amber-400/30"
+                            >
+                                <span className="text-2xl">🎬</span>
+                                <span>{t.story_video}</span>
+                                <span className="text-[10px] opacity-70">{t.story_desc}</span>
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Face-Swap & Edit Buttons (nur wenn Traumbild existiert) */}
+                    {dream.imageUrl && (
+                        <div className="grid grid-cols-2 gap-2 mb-3">
+                            {/* Face-Swap Button */}
+                            <button
+                                onClick={async () => {
+                                    if (faceSwapLoading) return;
+                                    setFaceSwapError(null);
+
+                                    // Face-Foto pruefen
+                                    const faceBase64 = await getFacePhoto();
+                                    if (!faceBase64) {
+                                        setFaceSwapError('Kein Gesichtsfoto vorhanden. Bitte zuerst im Profil hochladen.');
+                                        return;
+                                    }
+
+                                    // Coin-Check
+                                    const coins = userProfile?.coins || 0;
+                                    if (coins < FEATURE_PRICES.FACE_SWAP_IMAGE) {
+                                        setFaceSwapError(`Nicht genug Coins (${coins}/${FEATURE_PRICES.FACE_SWAP_IMAGE})`);
+                                        return;
+                                    }
+
+                                    setFaceSwapLoading(true);
+                                    try {
+                                        const result = await applyFaceSwap(dream.imageUrl!, faceBase64);
+                                        setFaceSwapResult(result.imageUrl);
+                                    } catch (e: any) {
+                                        setFaceSwapError(e.message || 'Face-Swap fehlgeschlagen');
+                                    } finally {
+                                        setFaceSwapLoading(false);
+                                    }
+                                }}
+                                disabled={faceSwapLoading}
+                                className={`py-3 px-2 rounded-xl font-bold text-xs transition-all shadow-lg flex flex-col items-center gap-1 ${
+                                    faceSwapLoading
+                                        ? 'bg-gray-600 text-gray-400 cursor-wait'
+                                        : 'bg-gradient-to-br from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white'
+                                }`}
+                            >
+                                {faceSwapLoading ? (
+                                    <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
+                                ) : (
+                                    <span className="text-2xl">&#x1F9D1;</span>
+                                )}
+                                <span>{faceSwapLoading ? 'Wird verarbeitet...' : `Mein Gesicht (${FEATURE_PRICES.FACE_SWAP_IMAGE} Coins)`}</span>
+                            </button>
+
+                            {/* Image-Edit Button */}
+                            <button
+                                onClick={() => setShowImageEditor(true)}
+                                className="py-3 px-2 bg-gradient-to-br from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white rounded-xl font-bold text-xs transition-all shadow-lg flex flex-col items-center gap-1"
+                            >
+                                <span className="text-2xl">&#x270F;&#xFE0F;</span>
+                                <span>Bild bearbeiten ({FEATURE_PRICES.IMAGE_EDIT} Coins)</span>
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Face-Swap Fehler */}
+                    {faceSwapError && (
+                        <div className="mb-3 p-2 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-xs">
+                            {faceSwapError}
+                        </div>
+                    )}
+
+                    {/* Face-Swap Ergebnis: Vorher/Nachher */}
+                    {faceSwapResult && dream.imageUrl && (
+                        <div className="mb-3">
+                            <Suspense fallback={null}>
+                                <BeforeAfterSlider
+                                    beforeUrl={dream.imageUrl}
+                                    afterUrl={faceSwapResult}
+                                    className="aspect-square"
+                                />
+                            </Suspense>
+                        </div>
+                    )}
+
+                    {/* Image Editor Modal */}
+                    {showImageEditor && dream.imageUrl && (
+                        <Suspense fallback={null}>
+                            <ImageEditor
+                                initialImageUrl={dream.imageUrl}
+                                language={language}
+                                themeMode={themeMode || ThemeMode.DARK}
+                                userCoins={userProfile?.coins || 0}
+                                onSave={(finalUrl, history) => {
+                                    setShowImageEditor(false);
+                                }}
+                                onClose={() => setShowImageEditor(false)}
+                            />
+                        </Suspense>
+                    )}
+
+                    {/* PDF and Share Buttons */}
+                    <div className="grid grid-cols-3 gap-3">
+                        <button
+                            onClick={handleNativeShare}
+                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all group ${th.isLight ? 'bg-white/70 border-[#c4bce6] text-[#4a3a5d] hover:bg-white/90 hover:text-[#2a1a3a]' : 'bg-slate-800/50 border-white/10 text-slate-300 hover:bg-slate-700 hover:text-white'}`}
+                        >
+                            <span className="material-icons text-xl mb-1 group-hover:scale-110 transition-transform">share</span>
+                            <span className="text-[10px] font-bold uppercase tracking-wide text-center leading-tight">{t.share_btn}</span>
+                        </button>
+
+                        <button
+                            onClick={() => openPdfModal('share')}
+                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all group relative ${isLocked ? 'bg-slate-900 border-slate-700 text-slate-500 opacity-60' : (th.isLight ? 'bg-fuchsia-50 border-fuchsia-200 text-fuchsia-700 hover:bg-fuchsia-100 hover:text-fuchsia-800' : 'bg-fuchsia-900/30 border-fuchsia-500/30 text-fuchsia-200 hover:bg-fuchsia-900/50 hover:text-white')}`}
+                        >
+                            {isLocked && <div className="absolute top-1 right-1"><span className="material-icons text-xs text-slate-400">lock</span></div>}
+                            <span className="material-icons text-xl mb-1 group-hover:scale-110 transition-transform">send_to_mobile</span>
+                            <span className="text-[10px] font-bold uppercase tracking-wide text-center leading-tight">{t.pdf_share_btn}</span>
+                        </button>
+
+                        <button
+                            onClick={() => openPdfModal('download')}
+                            className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all group relative ${isLocked ? 'bg-slate-900 border-slate-700 text-slate-500 opacity-60' : (th.isLight ? 'bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800' : 'bg-indigo-900/30 border-indigo-500/30 text-indigo-200 hover:bg-indigo-900/50 hover:text-white')}`}
+                        >
+                            {isLocked && <div className="absolute top-1 right-1"><span className="material-icons text-xs text-slate-400">lock</span></div>}
+                            <span className="material-icons text-xl mb-1 group-hover:scale-110 transition-transform">download</span>
+                            <span className="text-[10px] font-bold uppercase tracking-wide text-center leading-tight">{t.pdf_download_btn}</span>
+                        </button>
+                    </div>
+                </>
+            )}
+
+            {/* Style Selection */}
+            {selectionStep === 'style' && (
+                <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                        <h4 className={`text-sm font-bold ${th.isLight ? 'text-[#2a1a3a]' : 'text-white/80'}`}>{t.select_style}</h4>
+                        <button onClick={handleBack} className={`text-xs ${th.isLight ? 'text-[#4a3a5d] hover:text-[#2a1a3a]' : 'text-white/50 hover:text-white'} flex items-center gap-1`}>
+                            <span className="material-icons text-sm">arrow_back</span>
+                            {t.back}
+                        </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                        {styles.map(style => (
+                            <button
+                                key={style.id}
+                                onClick={() => handleStyleSelect(style.id)}
+                                className={`py-4 px-3 bg-gradient-to-br ${style.color} hover:scale-105 border border-white/20 rounded-xl text-center transition-all shadow-lg`}
+                            >
+                                <span className="text-3xl block mb-1">{style.icon}</span>
+                                <span className="text-sm font-bold text-white block">{style.label}</span>
+                                <span className="text-[10px] text-white/70 block mt-1">{style.desc}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Quality Selection */}
+            {selectionStep === 'quality' && (
+                <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                        <h4 className={`text-sm font-bold ${th.isLight ? 'text-[#2a1a3a]' : 'text-white/80'}`}>{t.select_quality}</h4>
+                        <button onClick={handleBack} className={`text-xs ${th.isLight ? 'text-[#4a3a5d] hover:text-[#2a1a3a]' : 'text-white/50 hover:text-white'} flex items-center gap-1`}>
+                            <span className="material-icons text-sm">arrow_back</span>
+                            {t.back}
+                        </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                        <button
+                            onClick={() => handleQualitySelect('normal')}
+                            className="py-4 px-3 bg-gradient-to-br from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 border border-white/10 rounded-xl text-center transition-all"
+                        >
+                            <span className="material-icons text-2xl text-white/60 mb-1">hd</span>
+                            <span className="block text-sm font-bold text-white">{t.normal}</span>
+                            <span className="block text-xs text-white/50 mt-1">FLUX.1</span>
+                        </button>
+                        <button
+                            onClick={() => handleQualitySelect('high')}
+                            className="py-4 px-3 bg-gradient-to-br from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 border border-amber-400/30 rounded-xl text-center transition-all shadow-lg"
+                        >
+                            <span className="material-icons text-2xl text-amber-200 mb-1">4k</span>
+                            <span className="block text-sm font-bold text-white">{t.premium}</span>
+                            <span className="block text-xs text-amber-200/70 mt-1">FLUX.1 Pro</span>
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* PDF Modal */}
+            {showPdfModal && (
+                <div className={`fixed inset-0 z-[100] ${th.modalOverlay} flex items-center justify-center p-4 animate-in fade-in`}>
+                    <div className={`${th.modalBg} border ${th.border} w-full max-w-md rounded-2xl p-6 shadow-2xl relative`}>
+                        <button onClick={() => setShowPdfModal(false)} className={`absolute top-3 end-3 w-11 h-11 rounded-full ${th.closeBtn} flex items-center justify-center transition-colors`}>
+                            <span className="material-icons">close</span>
+                        </button>
+
+                        <h3 className={`text-xl font-heading ${th.textPrimary} mb-6 text-center`}>{t.pdf_title}</h3>
+
+                        <div className="grid grid-cols-3 gap-3 mb-8">
+                            <button
+                                onClick={() => setPdfMode('mystic')}
+                                className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-all ${pdfMode === 'mystic' ? (th.isLight ? 'bg-fuchsia-100 border-fuchsia-400 text-fuchsia-700' : 'bg-fuchsia-900/40 border-fuchsia-500 text-white') : (th.isLight ? 'bg-white/60 border-[#c4bce6] text-[#4a3a5d]' : 'bg-black/40 border-white/10 text-slate-400')}`}
+                            >
+                                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-900 to-black border border-white/20"></div>
+                                <span className="text-[10px] font-bold">{t.style_mystic}</span>
+                            </button>
+
+                            <button
+                                onClick={() => setPdfMode('papyrus')}
+                                className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-all ${pdfMode === 'papyrus' ? 'bg-amber-100 border-amber-500 text-amber-900' : 'bg-amber-900/20 border-white/10 text-slate-400'}`}
+                            >
+                                <div className="w-6 h-6 rounded-full bg-[#fdfbf7] border border-amber-200"></div>
+                                <span className="text-[10px] font-bold">{t.style_papyrus}</span>
+                            </button>
+
+                            <button
+                                onClick={() => setPdfMode('feminine')}
+                                className={`p-3 rounded-xl border flex flex-col items-center gap-2 transition-all ${pdfMode === 'feminine' ? 'bg-pink-100 border-pink-500 text-pink-900' : 'bg-pink-900/20 border-white/10 text-slate-400'}`}
+                            >
+                                <div className="w-6 h-6 rounded-full bg-[#fff1f2] border border-pink-200"></div>
+                                <span className="text-[10px] font-bold">{t.style_feminine}</span>
+                            </button>
+                        </div>
+
+                        <button
+                            onClick={handleStartGeneration}
+                            disabled={pdfStatus !== 'idle'}
+                            className="w-full py-4 bg-gradient-to-r from-fuchsia-600 to-indigo-600 rounded-xl font-bold text-white shadow-lg disabled:opacity-50 flex items-center justify-center gap-2"
+                        >
+                            {pdfStatus === 'idle' && <><span className="material-icons">auto_fix_high</span> {t.start_btn}</>}
+                            {pdfStatus === 'generating' && t.generating}
+                            {pdfStatus === 'success' && <><span className="material-icons">check</span> {t.success}</>}
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Hidden PDF Template */}
+            <div className="fixed top-0 left-[-9999px] z-[-50]">
+                <div
+                    ref={printRef}
+                    style={{
+                        width: '800px',
+                        minHeight: '1123px',
+                        height: 'auto',
+                        backgroundColor: colors.bg,
+                        color: colors.text,
+                        fontFamily: 'serif',
+                        padding: '50px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
+                    }}
+                >
+                    <div className="w-full flex justify-between items-center border-b pb-4 mb-6" style={{ borderColor: colors.border }}>
+                        <h1 style={{ fontSize: '32px', fontWeight: 'bold', fontFamily: 'Cinzel, serif', color: colors.accent }}>Dream Code</h1>
+                        <span style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '2px', opacity: 0.7 }}>{t.pdf_oracle_analysis}</span>
+                    </div>
+
+                    {dream.imageUrl && (
+                        <div className="w-full mb-8 rounded-xl overflow-hidden shadow-2xl" style={{ border: `2px solid ${colors.border}` }}>
+                             <img src={dream.imageUrl} alt="Dream" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                        </div>
+                    )}
+
+                    <div className="w-full text-center mb-8">
+                        <h2 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '10px', lineHeight: 1.2 }}>{dream.title}</h2>
+                        <p style={{ fontSize: '14px', opacity: 0.7 }}>{dream.date} • {userProfile?.name || 'Dreamer'}</p>
+                    </div>
+
+                    <div className="w-full text-left" style={{ fontSize: '16px', lineHeight: '1.8' }}>
+                        <div className="mb-8 p-6 rounded-xl" style={{ backgroundColor: pdfMode === 'mystic' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}>
+                            <h3 style={{ fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', marginBottom: '10px', opacity: 0.6 }}>{t.pdf_the_dream}</h3>
+                            <p style={{ fontStyle: 'italic' }}>"{dream.description}"</p>
+                        </div>
+
+                        <div className="mb-8">
+                            <h3 style={{ fontSize: '12px', textTransform: 'uppercase', fontWeight: 'bold', marginBottom: '10px', opacity: 0.6, color: colors.accent }}>{t.pdf_oracle_interpretation}</h3>
+                            {formatDreamText(dream.interpretation)}
+                        </div>
+
+                        <div className="flex gap-2 flex-wrap mb-10">
+                            {dream.tags.map(tag => (
+                                <span key={tag} style={{
+                                    padding: '4px 12px',
+                                    borderRadius: '4px',
+                                    fontSize: '10px',
+                                    textTransform: 'uppercase',
+                                    border: `1px solid ${colors.border}`,
+                                    marginRight: '8px'
+                                }}>
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="mt-auto w-full text-center pt-8 border-t" style={{ borderColor: colors.border }}>
+                        <p style={{
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            color: colors.accent,
+                            letterSpacing: '1px',
+                            textDecoration: 'none',
+                            cursor: 'pointer'
+                        }}>
+                            {t.web_link}
+                        </p>
+                        <p style={{ fontSize: '10px', opacity: 0.5, marginTop: '5px' }}>{t.pdf_generated_by}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default DreamShare;

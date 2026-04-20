@@ -1,0 +1,71 @@
+- generic [ref=e3]:
+  - generic [ref=e5359]:
+    - generic [ref=e5360]:
+      - button "← Zurueck" [ref=e5361] [cursor=pointer]
+      - heading "Teilnehmer-Profil" [level=1] [ref=e5362]
+    - generic [ref=e5363]:
+      - generic [ref=e5364]: 🔬
+      - generic [ref=e5365]:
+        - generic [ref=e5366]: Wissenschaftliches Forschungsprofil — Nur Lesen
+        - generic [ref=e5367]: Keine Interaktion moeglich. Originaldaten aus der Studie.
+      - generic [ref=e5368]: READ ONLY
+    - generic [ref=e5370]:
+      - generic [ref=e5371]:
+        - heading "SDDB-043-P0002" [level=2] [ref=e5372]
+        - generic [ref=e5373]:
+          - generic [ref=e5374]:
+            - generic [ref=e5375]: "Studie:"
+            - text: Dreamboard Nightmares 2014
+            - generic [ref=e5376]: SDDB-043
+          - generic [ref=e5377]:
+            - generic [ref=e5378]: "Forscher:"
+            - text: Kelly Bulkeley, Ph.D.
+          - generic [ref=e5379]:
+            - generic [ref=e5380]: "Institution:"
+            - text: Independent / Graduate Theological Union, Berkeley, CA
+        - generic [ref=e5381]:
+          - generic [ref=e5382]: Demografische Daten
+          - generic [ref=e5384]: "Land: USA"
+      - button "Auf Karte anzeigen" [ref=e5385] [cursor=pointer]
+    - generic [ref=e5386]:
+      - generic [ref=e5387]: 🌙 1 Träume
+      - generic [ref=e5388]: 💡 1 Deutungen
+    - heading "Traeume (1)" [level=2] [ref=e5389]
+    - generic [ref=e5391]:
+      - generic [ref=e5392]:
+        - generic [ref=e5393]: Nacht 1
+        - generic [ref=e5394]: 2014-08-28
+      - generic [ref=e5395]: I was in India during a terrorist attack. I was the only American. I found an American baby that was the size of my hands. I became the mother then an India native started hunting me. I ran as fast as I could he told me I couldn't have the baby he then pulled out a knife and cut the outside of my vagina, he then ran off and the dream ended
+      - generic [ref=e5396]:
+        - generic [ref=e5397]: 72 Wörter
+        - button "💡 Deutung ▲" [active] [ref=e5403] [cursor=pointer]
+      - generic [ref=e5404]:
+        - paragraph [ref=e5405]: This dream reflects acute anxiety surrounding vulnerability and maternal responsibility, with the miniature infant commonly symbolizing a fragile aspect of the self or an overwhelming caregiving burden. The pursuit and genital violation imagery typically represents perceived threats to personal autonomy, bodily boundaries, or reproductive control, often surfacing during periods of identity dislocation or chronic stress. Emotionally, the narrative processes deep-seated fears of loss, cultural isolation, and psychological violation, illustrating the subconscious attempt to integrate unresolved threats to safety and self-integrity.
+        - generic [ref=e5406]:
+          - generic [ref=e5407]: scientific
+          - generic [ref=e5408]: 4.4.2026
+    - generic [ref=e5399]:
+      - generic [ref=e5400]: Quellenangabe
+      - generic [ref=e5401]: Kelly Bulkeley, Ph.D. (). Dreamboard Nightmares 2014. https://sleepanddreamdatabase.org/.
+      - generic [ref=e5402]: Keine KI-Deutungen. Nur Original-Forschungsdaten.
+  - main [ref=e4]
+  - navigation [ref=e103]:
+    - generic [ref=e104]:
+      - button "home Home" [ref=e105] [cursor=pointer]:
+        - generic [ref=e106]: home
+        - generic [ref=e107]: Home
+      - button "Settings" [ref=e109] [cursor=pointer]:
+        - generic [ref=e110]: settings
+        - generic [ref=e111]: Einstellungen
+      - button "graphic_eq Live Chat" [ref=e113] [cursor=pointer]:
+        - generic [ref=e114]: graphic_eq
+        - generic [ref=e115]: Live Chat
+      - button "biotech Wissenschaft" [ref=e116] [cursor=pointer]:
+        - generic [ref=e117]: biotech
+        - generic [ref=e118]: Wissenschaft
+      - button "public Traum-Netzwerk" [ref=e119] [cursor=pointer]:
+        - generic [ref=e120]: public
+        - generic [ref=e121]: Traum-Netzwerk
+      - button "person Dein Profil" [ref=e122] [cursor=pointer]:
+        - generic [ref=e123]: person
+        - generic [ref=e124]: Dein Profil

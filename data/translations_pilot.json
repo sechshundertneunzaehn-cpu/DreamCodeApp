@@ -1,0 +1,1948 @@
+{
+  "version": "pilot-v1",
+  "model": "gemini-2.5-flash",
+  "generated_at": "2026-04-18T18:55:28.106271+00:00",
+  "pilot_size": 50,
+  "completed_count": 50,
+  "abort_reason": null,
+  "entries": {
+    "meer": {
+      "name": "Meer / Ozean",
+      "de": {
+        "freud": "Das Meer steht für die ozeanische Empfindung – das Gefühl von Einheit mit dem Universum oder für pränatale Geborgenheit.",
+        "ibn_sirin": [
+          "Das Meer symbolisiert einen mächtigen Herrscher oder König. Im Meer schwimmen und sicher ankommen verheißt Triumph. Ertrinken bedeutet Überwältigung durch Probleme.",
+          "Das Meer: Steht für einen **mächtigen König**, einen **weisen Gelehrten** oder das **Leben** selbst.",
+          "Im Meer schwimmen: **Wissen** erlangen oder **Dienst** für eine Autoritätsperson.",
+          "Trübes Meer: **Kummer, Sorgen** oder **ungerechter Herrscher**."
+        ],
+        "jung": "Das Meer ist das tiefste Symbol des kollektiven Unbewussten. Die Tiefe birgt Schätze (Selbstverwirklichung) und Gefahren (psychische Überwältigung).",
+        "church_fathers": "Das Meer symbolisiert die Zeit, das Chaos vor der Schöpfung und die unberechenbare Welt. Christus über das Wasser gehend zeigt Beherrschung des Chaos.",
+        "zen": "Der Ozean ist ein Bild für den Buddha-Geist: unendlich tief, an der Oberfläche bewegt, im Kern absolut ruhig."
+      },
+      "en": {
+        "freud": "The sea represents the oceanic feeling – the sense of unity with the universe or prenatal security.",
+        "ibn_sirin": [
+          "The sea symbolizes a powerful ruler or king. Swimming in the sea and arriving safely promises triumph. Drowning means being overwhelmed by problems.",
+          "The sea: Stands for a **powerful king**, a **wise scholar**, or **life** itself.",
+          "Swimming in the sea: Gaining **knowledge** or **service** for an authority figure.",
+          "Turbid sea: **Grief, worries** or an **unjust ruler**."
+        ],
+        "jung": "The sea is the deepest symbol of the collective unconscious. Its depth holds treasures (self-realization) and dangers (psychological overwhelm).",
+        "church_fathers": "The sea symbolizes time, the chaos before creation, and the unpredictable world. Christ walking on water shows mastery over chaos.",
+        "zen": "The ocean is an image for the Buddha-mind: infinitely deep, agitated on the surface, absolutely calm at its core."
+      },
+      "ar": {
+        "freud": "البحر يمثل الإحساس المحيطي – شعور الوحدة مع الكون أو الأمان قبل الولادة.",
+        "ibn_sirin": [
+          "البحر يرمز إلى حاكم قوي أو ملك. السباحة في البحر والوصول بأمان تبشر بالنصر. الغرق يعني الغلبة بالمشاكل.",
+          "البحر: يرمز إلى **ملك قوي**، أو **عالم حكيم**، أو **الحياة** نفسها.",
+          "السباحة في البحر: اكتساب **العلم** أو **الخدمة** لشخص ذي سلطة.",
+          "البحر العكر: **هموم، أحزان** أو **حاكم ظالم**."
+        ],
+        "jung": "البحر هو أعمق رمز لللاوعي الجمعي. عمقه يحمل كنوزًا (تحقيق الذات) ومخاطر (إرهاق نفسي).",
+        "church_fathers": "البحر يرمز إلى الزمن، الفوضى قبل الخلق، والعالم الذي لا يمكن التنبؤ به. مشي المسيح على الماء يظهر السيطرة على الفوضى.",
+        "zen": "المحيط صورة لروح البوذا: عميق بلا نهاية، متحرك على السطح، وهادئ تمامًا في جوهره."
+      },
+      "length_ratio_ar_de": 0.676,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 575,
+        "output": 547,
+        "total": 3051
+      }
+    },
+    "ozean": {
+      "name": "Ozean",
+      "de": {
+        "freud": "Das Meer steht für die ozeanische Empfindung – das Gefühl von Einheit mit dem Universum oder für pränatale Geborgenheit.",
+        "ibn_sirin": [
+          "Das Meer: Steht für einen mächtigen König, einen weisen Gelehrten oder das Leben selbst.",
+          "Im Meer schwimmen: Wissen erlangen oder Dienst für eine Autoritätsperson."
+        ],
+        "ibn_sirin_alt": [
+          "Das Meer symbolisiert einen mächtigen Herrscher oder König. Im Meer schwimmen und sicher ankommen verheißt Triumph. Ertrinken bedeutet Überwältigung durch Probleme."
+        ],
+        "jung": "Das Meer ist das tiefste Symbol des kollektiven Unbewussten. Die Tiefe birgt Schätze (Selbstverwirklichung) und Gefahren (psychische Überwältigung).",
+        "church_fathers": "Das Meer symbolisiert die Zeit, das Chaos vor der Schöpfung und die unberechenbare Welt. Christus über das Wasser gehend zeigt Beherrschung des Chaos.",
+        "zen": "Der Ozean ist ein Bild für den Buddha-Geist: unendlich tief, an der Oberfläche bewegt, im Kern absolut ruhig."
+      },
+      "en": {
+        "freud": "The sea represents the oceanic feeling – the sense of unity with the universe or prenatal security.",
+        "ibn_sirin": [
+          "The sea: Represents a powerful king, a wise scholar, or life itself.",
+          "Swimming in the sea: Gaining knowledge or serving an authority figure."
+        ],
+        "ibn_sirin_alt": [
+          "The sea symbolizes a powerful ruler or king. Swimming in the sea and arriving safely promises triumph. Drowning means being overwhelmed by problems."
+        ],
+        "jung": "The sea is the deepest symbol of the collective unconscious. Its depth holds treasures (self-realization) and dangers (psychic overwhelm).",
+        "church_fathers": "The sea symbolizes time, the chaos before creation, and the unpredictable world. Christ walking on water shows mastery over chaos.",
+        "zen": "The ocean is an image for the Buddha-mind: infinitely deep, agitated on the surface, absolutely calm at its core."
+      },
+      "ar": {
+        "freud": "البحر يمثل الشعور المحيطي – الإحساس بالوحدة مع الكون أو الأمان قبل الولادة.",
+        "ibn_sirin": [
+          "البحر: يرمز إلى ملك قوي، أو عالم حكيم، أو الحياة نفسها.",
+          "السباحة في البحر: اكتساب العلم أو خدمة شخص ذي سلطة."
+        ],
+        "ibn_sirin_alt": [
+          "البحر يرمز إلى حاكم قوي أو ملك. السباحة في البحر والوصول بأمان تبشر بالنصر. الغرق يعني الغرق في المشاكل.",
+          "الغرق يعني الغرق في المشاكل."
+        ],
+        "jung": "البحر هو أعمق رمز لللاوعي الجمعي. عمقه يحمل كنوزًا (تحقيق الذات) ومخاطر (إرهاق نفسي).",
+        "church_fathers": "البحر يرمز إلى الزمن، الفوضى قبل الخلق، والعالم الذي لا يمكن التنبؤ به. مشي المسيح على الماء يظهر السيطرة على الفوضى.",
+        "zen": "المحيط هو صورة لروح البوذا: عميق بلا نهاية، مضطرب على السطح، وهادئ تمامًا في جوهره."
+      },
+      "length_ratio_ar_de": 0.702,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 552,
+        "output": 523,
+        "total": 2126
+      }
+    },
+    "zahn": {
+      "name": "Zahn",
+      "de": {
+        "freud": "Zahnausfall wird als Symbol für Kastration, sexuelle Impotenz oder Geburtsträume gedeutet.",
+        "freud_alt": "Zahnausfall ist nach Freud mit Kastrationsangst und dem Verlust männlicher Potenz verbunden. Auch Geburtsträume können dahinterstecken.",
+        "ibn_sirin": [
+          "Die Zähne symbolisieren die Familie und die Lebensdauer (Ajal). Die oberen Zähne sind männliche Verwandte, die unteren weibliche.",
+          "Der Verlust eines Zahnes ohne Schmerz bedeutet Langlebigkeit; mit Schmerz den Verlust eines Verwandten oder von Wohlstand."
+        ],
+        "ibn_sirin_alt": [
+          "Zähne repräsentieren Familienmitglieder. Einen Zahn verlieren bedeutet den Verlust eines Angehörigen oder den Weggang aus der Familie. Schöne Zähne verheißen Stärke der Familie."
+        ],
+        "jung": "Zähne symbolisieren Durchsetzungskraft und Vitalität. Ihr Verlust zeigt Ohnmacht, Angst vor Kontrollverlust oder sozialer Entblößung.",
+        "medieval": "Zähne wurden als Symbol der Stärke des Glaubens gesehen. Ihr Verlust deutete auf Schwächung der spirituellen Widerstandskraft hin.",
+        "theravada": "Zahnverlust weist auf das Vergänglichkeitsprinzip (Anicca) hin – eine Erinnerung, dass körperliche Attribute nicht das wahre Selbst sind."
+      },
+      "en": {
+        "freud": "Tooth loss is interpreted as a symbol of castration, sexual impotence, or birth dreams.",
+        "freud_alt": "According to Freud, tooth loss is associated with castration anxiety and the loss of male potency. Birth dreams can also be behind it.",
+        "ibn_sirin": [
+          "Teeth symbolize the family and lifespan (Ajal). The upper teeth are male relatives, the lower ones female.",
+          "The loss of a tooth without pain means longevity; with pain, the loss of a relative or wealth."
+        ],
+        "ibn_sirin_alt": [
+          "Teeth represent family members. Losing a tooth means the loss of a loved one or leaving the family. Beautiful teeth promise family strength."
+        ],
+        "jung": "Teeth symbolize assertiveness and vitality. Their loss indicates powerlessness, fear of losing control, or social exposure.",
+        "medieval": "Teeth were seen as a symbol of the strength of faith. Their loss indicated a weakening of spiritual resilience.",
+        "theravada": "Tooth loss points to the principle of impermanence (Anicca) – a reminder that physical attributes are not the true self."
+      },
+      "ar": {
+        "freud": "يُفسر تساقط الأسنان كرمز للخصاء، أو العجز الجنسي، أو أحلام الولادة.",
+        "freud_alt": "وفقًا لفرويد، يرتبط تساقط الأسنان بالخوف من الخصاء وفقدان القوة الذكورية. كما يمكن أن تكون أحلام الولادة وراء ذلك.",
+        "ibn_sirin": [
+          "الأسنان ترمز إلى العائلة والعمر (الأجل). الأسنان العلوية هي الأقارب الذكور، والسفلية هي الإناث.",
+          "فقدان السن بدون ألم يعني طول العمر؛ ومع الألم يعني فقدان قريب أو ثروة."
+        ],
+        "ibn_sirin_alt": [
+          "الأسنان تمثل أفراد العائلة. فقدان السن يعني فقدان عزيز أو الابتعاد عن العائلة. الأسنان الجميلة تبشر بقوة العائلة."
+        ],
+        "jung": "الأسنان ترمز إلى الحزم والحيوية. فقدانها يدل على العجز، والخوف من فقدان السيطرة، أو الانكشاف الاجتماعي.",
+        "medieval": "كانت الأسنان تُرى كرمز لقوة الإيمان. فقدانها يشير إلى ضعف المقاومة الروحية.",
+        "theravada": "يشير فقدان الأسنان إلى مبدأ الزوال (أنيكا) – تذكير بأن السمات الجسدية ليست الذات الحقيقية."
+      },
+      "length_ratio_ar_de": 0.69,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 592,
+        "output": 611,
+        "total": 3057
+      }
+    },
+    "engel": {
+      "name": "Engel",
+      "de": {
+        "ibn_sirin": [
+          "Engel im Traum sind Träger göttlicher Botschaften. Sie zeigen an, dass der Träumer ein gläubiges Herz hat. Jibril (Gabriel) zu sehen gilt als höchste spirituelle Gabe."
+        ],
+        "jung": "Engel sind Botschafter des Selbst – Archetypen des Heiligen Geistes und höherer Bewusstseinszustände. Sie vermitteln Weisheit aus dem kollektiven Unbewussten.",
+        "church_fathers": "Engel sind Gottes Boten (Angeloi). Bibelträume mit Engeln (Jakobs Traum, Josephs Träume) galten als direkte göttliche Kommunikation.",
+        "tibetan": "Dakinis und Dharmapälas sind tibetische Entsprechungen – Schutzgottheiten und Weisheitswesen, die in Träumen erscheinen und spirituelle Praktiken fördern."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Angels in a dream are bearers of divine messages. They indicate that the dreamer has a believing heart. Seeing Jibril (Gabriel) is considered the highest spiritual gift."
+        ],
+        "jung": "Angels are messengers of the Self – archetypes of the Holy Spirit and higher states of consciousness. They convey wisdom from the collective unconscious.",
+        "church_fathers": "Angels are God's messengers (Angeloi). Biblical dreams with angels (Jacob's dream, Joseph's dreams) were considered direct divine communication.",
+        "tibetan": "Dakinis and Dharmapalas are Tibetan equivalents – protective deities and wisdom beings that appear in dreams and promote spiritual practices."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "الملائكة في المنام هم حملة الرسائل الإلهية. إنهم يشيرون إلى أن الرائي يمتلك قلباً مؤمناً. رؤية جبريل (Gabriel) تُعتبر أسمى هبة روحية."
+        ],
+        "jung": "الملائكة هم رسل الذات – نماذج أصلية للروح القدس وحالات الوعي الأعلى. إنهم ينقلون الحكمة من اللاوعي الجمعي.",
+        "church_fathers": "الملائكة هم رسل الله (Angeloi). أحلام الكتاب المقدس التي تتضمن الملائكة (حلم يعقوب، أحلام يوسف) كانت تُعتبر تواصلاً إلهياً مباشراً.",
+        "tibetan": "الداكينيون والدارمابالاس هم نظراء تبتيون – آلهة حامية وكائنات حكيمة تظهر في الأحلام وتعزز الممارسات الروحية."
+      },
+      "length_ratio_ar_de": 0.782,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 474,
+        "output": 392,
+        "total": 2226
+      }
+    },
+    "hochzeit": {
+      "name": "Hochzeit",
+      "de": {
+        "ibn_sirin": [
+          "Eine Hochzeit träumen verheißt Freude, Segen und neue Verbindungen. Für Unverheiratete kann es eine bevorstehende Ehe andeuten. Für Kranke soll es jedoch Vorsicht geboten sein."
+        ],
+        "jung": "Die \"hieros gamos\" (heilige Hochzeit) ist das Symbol der Vereinigung von Animus und Anima – der Integration von männlichen und weiblichen Aspekten des Selbst.",
+        "medieval": "Die Hochzeit Christi mit der Kirche (Apokalypse) ist das Urbild. Hochzeitsträume deuten auf Berufung, mystische Union mit Gott oder neue geistliche Verpflichtungen.",
+        "western_zodiac": "Venus-Jupiter-Konjunktionen begleiten oft Hochzeitsträume. Sie zeigen das Bedürfnis nach harmonischen Beziehungen und Vereinigung gegensätzlicher Kräfte."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Dreaming of a wedding portends joy, blessings, and new connections. For unmarried individuals, it can indicate an impending marriage. For the sick, however, caution should be exercised."
+        ],
+        "jung": "The \"hieros gamos\" (sacred marriage) is the symbol of the union of Animus and Anima – the integration of masculine and feminine aspects of the self.",
+        "medieval": "The marriage of Christ with the Church (Apocalypse) is the archetype. Wedding dreams indicate calling, mystical union with God, or new spiritual obligations.",
+        "western_zodiac": "Venus-Jupiter conjunctions often accompany wedding dreams. They show the need for harmonious relationships and the unification of opposing forces."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "رؤية الزواج في المنام تبشر بالفرح والبركات وعلاقات جديدة. بالنسبة لغير المتزوجين، قد يشير إلى زواج وشيك. أما بالنسبة للمرضى، فيجب توخي الحذر."
+        ],
+        "jung": "الـ \"هيروس غاموس\" (الزواج المقدس) هو رمز اتحاد الأنيماس والأنيما – دمج الجوانب الذكورية والأنثوية للذات.",
+        "medieval": "زواج المسيح بالكنيسة (الرؤيا) هو النموذج الأصلي. أحلام الزواج تشير إلى دعوة، اتحاد صوفي مع الله، أو التزامات روحية جديدة.",
+        "western_zodiac": "اقترانات الزهرة والمشتري غالبًا ما تصاحب أحلام الزواج. إنها تظهر الحاجة إلى علاقات متناغمة وتوحيد القوى المتعارضة."
+      },
+      "length_ratio_ar_de": 0.737,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 477,
+        "output": 395,
+        "total": 2508
+      }
+    },
+    "licht": {
+      "name": "Licht",
+      "de": {
+        "ibn_sirin": [
+          "Licht im Traum ist ein Zeichen von Iman (Glaube), Wissen und göttlicher Führung. Allahs Licht (\"Allahu Nurus-Samawati\") zu erleben ist ein seltenes Zeichen spiritueller Erhebung."
+        ],
+        "jung": "Licht ist das Bewusstsein selbst. Traumlicht zeigt Erleuchtungsmomente, das Durchdringen des Unbewussten durch das Bewusstsein und spirituelle Intuition.",
+        "church_fathers": "Christus als Licht der Welt (Johannes 8:12). Ein Lichtraum im Traum symbolisiert göttliche Gegenwart, Offenbarung und spirituelle Erkenntnis.",
+        "tibetan": "Das \"klare Licht\" (Ösel) ist in der tibetischen Tradition das Zeichen vollständiger Erleuchtung. Es erscheint im Traum als Hinweis auf Rigpa (naturhafter Geisteszustand)."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Light in a dream is a sign of Iman (faith), knowledge, and divine guidance. Experiencing Allah's light (\"Allahu Nurus-Samawati\") is a rare sign of spiritual elevation."
+        ],
+        "jung": "Light is consciousness itself. Dream light shows moments of enlightenment, the penetration of the unconscious by consciousness, and spiritual intuition.",
+        "church_fathers": "Christ as the Light of the World (John 8:12). A space of light in a dream symbolizes divine presence, revelation, and spiritual insight.",
+        "tibetan": "The \"clear light\" (Ösel) in the Tibetan tradition is the sign of complete enlightenment. It appears in a dream as an indication of Rigpa (natural state of mind)."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "النور في المنام علامة على الإيمان (إيمان)، والعلم، والهداية الإلهية. تجربة نور الله (\"الله نور السماوات\") هي علامة نادرة على السمو الروحي."
+        ],
+        "jung": "النور هو الوعي بحد ذاته. نور الحلم يظهر لحظات التنوير، واختراق اللاوعي بواسطة الوعي، والحدس الروحي.",
+        "church_fathers": "المسيح كنور العالم (يوحنا 8:12). غرفة النور في المنام ترمز إلى الحضور الإلهي، والوحي، والمعرفة الروحية.",
+        "tibetan": "الـ \"نور الواضح\" (Ösel) في التقاليد التبتية هو علامة التنوير الكامل. يظهر في المنام كإشارة إلى Rigpa (الحالة الذهنية الطبيعية)."
+      },
+      "length_ratio_ar_de": 0.727,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 482,
+        "output": 402,
+        "total": 3684
+      }
+    },
+    "schwangerschaft": {
+      "name": "Schwangerschaft",
+      "de": {
+        "freud": "Schwangerschaftsträume bei Frauen können Wunsch nach Mutterschaft oder Angst vor Schwangerschaft ausdrücken. Bei Männern zeigen sie Schöpfungswunsch.",
+        "ibn_sirin": [
+          "Schwangerschaft träumen verheißt Freude, ein neues Projekt, wachsenden Wohlstand oder eine neue Verantwortung. Für Männer kann es auf finanzielles Wachstum hinweisen."
+        ],
+        "jung": "Schwangerschaft symbolisiert die Reifung eines neuen Aspekts des Selbst oder eines kreativen Projekts, das geboren werden will.",
+        "church_fathers": "Schwangerschaft steht für das Neue Leben in Christus und geistliche Fruchtbarkeit. Maria als Archetyp der empfangenden Seele."
+      },
+      "en": {
+        "freud": "Pregnancy dreams in women can express a desire for motherhood or fear of pregnancy. In men, they show a desire for creation.",
+        "ibn_sirin": [
+          "Dreaming of pregnancy portends joy, a new project, growing prosperity, or a new responsibility. For men, it can indicate financial growth."
+        ],
+        "jung": "Pregnancy symbolizes the maturation of a new aspect of the self or a creative project that wants to be born.",
+        "church_fathers": "Pregnancy stands for the New Life in Christ and spiritual fertility. Mary as an archetype of the receptive soul."
+      },
+      "ar": {
+        "freud": "أحلام الحمل لدى النساء قد تعبر عن رغبة في الأمومة أو خوف من الحمل. أما لدى الرجال، فتشير إلى رغبة في الإبداع.",
+        "ibn_sirin": [
+          "الحلم بالحمل يبشر بالفرح، مشروع جديد، ازدهار متزايد، أو مسؤولية جديدة. بالنسبة للرجال، قد يشير إلى نمو مالي."
+        ],
+        "jung": "الحمل يرمز إلى نضوج جانب جديد من الذات أو مشروع إبداعي يرغب في أن يولد.",
+        "church_fathers": "الحمل يمثل الحياة الجديدة في المسيح والخصوبة الروحية. مريم كنموذج أصلي للنفس المتلقية."
+      },
+      "length_ratio_ar_de": 0.66,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 441,
+        "output": 323,
+        "total": 2524
+      }
+    },
+    "vogel": {
+      "name": "Vogel",
+      "de": {
+        "ibn_sirin": [
+          "Vögel symbolisieren Engel oder spirituelle Wesen. Einen Vogel fangen bedeutet Glück. Schöne Vögel verheißen gute Nachrichten; schwarze Vögel können Trauer ankündigen."
+        ],
+        "jung": "Vögel sind Symbole der befreiten Seele, des Geistes und höherer Bewusstseinszustände. Der Phönix ist das Archetyp der Transformation durch Tod und Wiedergeburt.",
+        "church_fathers": "Die Taube ist Symbol des Heiligen Geistes. Adler symbolisiert den Evangelisten Johannes und göttliche Perspektive. Allgemein stehen Vögel für Seelen.",
+        "tibetan": "Vögel repräsentieren in Träumen Aspekte des Bewusstseins. Der Garuda ist ein mächtiger Traumvogel, der Nagas besiegt und spirituelle Freiheit symbolisiert."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Birds symbolize angels or spiritual beings. Catching a bird means good fortune. Beautiful birds portend good news; black birds can announce sorrow."
+        ],
+        "jung": "Birds are symbols of the liberated soul, the spirit, and higher states of consciousness. The Phoenix is the archetype of transformation through death and rebirth.",
+        "church_fathers": "The dove is a symbol of the Holy Spirit. The eagle symbolizes John the Evangelist and divine perspective. Generally, birds represent souls.",
+        "tibetan": "In dreams, birds represent aspects of consciousness. The Garuda is a powerful dream bird that defeats Nagas and symbolizes spiritual freedom."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "الطيور ترمز إلى الملائكة أو الكائنات الروحية. صيد الطائر يعني الحظ السعيد. الطيور الجميلة تبشر بأخبار سارة؛ والطيور السوداء قد تنذر بالحزن."
+        ],
+        "jung": "الطيور هي رموز للروح المتحررة، والوعي، وحالات الوعي الأعلى. طائر الفينيق هو النموذج الأصلي للتحول عبر الموت والبعث.",
+        "church_fathers": "الحمامة هي رمز الروح القدس. النسر يرمز إلى يوحنا الإنجيلي والمنظور الإلهي. بشكل عام، تمثل الطيور الأرواح.",
+        "tibetan": "في الأحلام، تمثل الطيور جوانب الوعي. الجارودا هو طائر أحلام قوي يهزم الناغا ويرمز إلى الحرية الروحية."
+      },
+      "length_ratio_ar_de": 0.73,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 483,
+        "output": 374,
+        "total": 2707
+      }
+    },
+    "koenig": {
+      "name": "König",
+      "de": {
+        "freud": "Der Träumer selbst nimmt in solchen Träumen oft die Rolle des Prinzen oder der Prinzessin ein.",
+        "freud_alt": "Repräsentiert in der Regel den Vater oder eine väterliche Autoritätsfigur.",
+        "ibn_sirin": [
+          "Macht, Selbst, hoehere Autorität. Islam: Herrscher, Allah."
+        ],
+        "ibn_sirin_alt": [
+          "Macht, Selbst, hoehere Autoritaet. Islam: Herrscher, Allah."
+        ],
+        "jung": "Macht, Selbst, hoehere Autoritaet. Islam: Herrscher, Allah."
+      },
+      "en": {
+        "freud": "The dreamer himself often takes on the role of the prince or princess in such dreams.",
+        "freud_alt": "Usually represents the father or a paternal authority figure.",
+        "ibn_sirin": [
+          "Power, Self, higher authority. Islam: Ruler, Allah."
+        ],
+        "ibn_sirin_alt": [
+          "Power, Self, higher authority. Islam: Ruler, Allah."
+        ],
+        "jung": "Power, Self, higher authority. Islam: Ruler, Allah."
+      },
+      "ar": {
+        "freud": "الحالم نفسه غالبًا ما يتخذ دور الأمير أو الأميرة في مثل هذه الأحلام.",
+        "freud_alt": "يمثل عادة الأب أو شخصية سلطوية أبوية.",
+        "ibn_sirin": [
+          "القوة، الذات، السلطة العليا. الإسلام: الحاكم، الله."
+        ],
+        "ibn_sirin_alt": [
+          "القوة، الذات، السلطة العليا. الإسلام: الحاكم، الله."
+        ],
+        "jung": "القوة، الذات، السلطة العليا. الإسلام: الحاكم، الله."
+      },
+      "length_ratio_ar_de": 0.75,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 430,
+        "output": 282,
+        "total": 2092
+      }
+    },
+    "koenigin": {
+      "name": "Königin",
+      "de": {
+        "freud": "Repräsentiert in der Regel die Mutter oder eine mütterliche Autoritätsfigur.",
+        "ibn_sirin": [
+          "Eine Königin symbolisiert die Welt (Dunya) mit all ihren Versuchungen und Möglichkeiten.",
+          "Mit einer Königin zu sprechen, deutet auf eine Erhöhung des Status und der Macht hin, verbunden mit weltlicher Verstrickung."
+        ],
+        "jung": "Weibliche Macht, Anima, Muetterlichkeit."
+      },
+      "en": {
+        "freud": "Usually represents the mother or a maternal authority figure.",
+        "ibn_sirin": [
+          "A queen symbolizes the world (Dunya) with all its temptations and opportunities.",
+          "Speaking with a queen indicates an increase in status and power, associated with worldly entanglement."
+        ],
+        "jung": "Female power, Anima, Motherliness."
+      },
+      "ar": {
+        "freud": "عادة ما تمثل الأم أو شخصية سلطة أمومية.",
+        "ibn_sirin": [
+          "الملكة ترمز إلى الدنيا بكل مغرياتها وفرصها.",
+          "التحدث مع ملكة يشير إلى ارتفاع في المكانة والسلطة، مرتبط بالانغماس الدنيوي."
+        ],
+        "jung": "القوة الأنثوية، الأنيما، الأمومة."
+      },
+      "length_ratio_ar_de": 0.579,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 395,
+        "output": 203,
+        "total": 2215
+      }
+    },
+    "kb_auto___fahrzeug": {
+      "name": "Auto / Fahrzeug",
+      "de": {
+        "ibn_sirin": [
+          "Ein Fahrzeug kann den Lebenspfad oder Status des Träumers symbolisieren. Ein Unfall warnt vor Rückschlägen. Selbst fahren zeigt Eigenverantwortung auf dem Lebensweg."
+        ],
+        "jung": "Das Auto repräsentiert das Ego und die Art, wie man das eigene Leben lenkt. Bremsenversagen = Kontrollverlust; falscher Weg = falsche Lebensentscheidungen.",
+        "gestalt": "Im Gestalt-Ansatz ist jedes Element des Autos ein Aspekt des Selbst. Das Steuer ist die Kontrolle; der Motor die innere Energie und Motivation.",
+        "modern_theology": "Moderne christliche Traumdeutung sieht das Auto als Symbol für Berufung und Lebensrichtung. Wer fährt, zeigt, wer das Leben kontrolliert – Gott oder das Ego.",
+        "western_zodiac": "Astrolog. zeigt das Auto den Merkur-Einfluss (Reisen, Kommunikation). Mars-Transit kann Unfallträume begünstigen und Handlungsdruck signalisieren."
+      },
+      "en": {
+        "ibn_sirin": [
+          "A vehicle can symbolize the dreamer's life path or status. An accident warns of setbacks. Driving oneself shows personal responsibility on the path of life."
+        ],
+        "jung": "The car represents the ego and the way one steers one's own life. Brake failure = loss of control; wrong path = wrong life decisions.",
+        "gestalt": "In the Gestalt approach, every element of the car is an aspect of the self. The steering wheel is control; the engine is inner energy and motivation.",
+        "modern_theology": "Modern Christian dream interpretation sees the car as a symbol for calling and life direction. Who drives shows who controls life – God or the ego.",
+        "western_zodiac": "Astrologically, the car shows the Mercury influence (travel, communication). Mars transit can favor accident dreams and signal pressure to act."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "يمكن للمركبة أن ترمز إلى مسار حياة الرائي أو مكانته. الحادث يحذر من النكسات. القيادة الذاتية تظهر المسؤولية الشخصية في مسار الحياة."
+        ],
+        "jung": "تمثل السيارة الأنا والطريقة التي يقود بها المرء حياته. عطل الفرامل = فقدان السيطرة؛ الطريق الخاطئ = قرارات حياة خاطئة.",
+        "gestalt": "في منهج الجشطالت، كل عنصر من عناصر السيارة هو جانب من جوانب الذات. عجلة القيادة هي التحكم؛ المحرك هو الطاقة الداخلية والدافع.",
+        "modern_theology": "تفسير الأحلام المسيحي الحديث يرى السيارة رمزًا للدعوة واتجاه الحياة. من يقود يظهر من يتحكم في الحياة – الله أو الأنا.",
+        "western_zodiac": "فلكيًا، تظهر السيارة تأثير عطارد (السفر، التواصل). عبور المريخ يمكن أن يفضل أحلام الحوادث ويشير إلى ضغط لاتخاذ إجراء."
+      },
+      "length_ratio_ar_de": 0.794,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 511,
+        "output": 453,
+        "total": 2823
+      }
+    },
+    "kb_baby___kleinkind": {
+      "name": "Baby / Kleinkind",
+      "de": {
+        "freud": "Ein Baby repräsentiert den Wunsch nach einem Kind, narzisstische Selbstbezogenheit oder die Rückkehr zu infantilen Bedürfnissen.",
+        "ibn_sirin": [
+          "Ein Baby im Traum verheißt oft Freude, neues Rizq oder einen neuen Beginn. Ein weinendes Baby kann Kummer ankündigen. Jungen wurden traditionell als Zeichen von mehr Rizq gedeutet."
+        ],
+        "jung": "Das Baby ist der Archetyp des Göttlichen Kindes – Symbol der Erneuerung, unbegrenzter Möglichkeiten und spirituellen Wachstums.",
+        "church_fathers": "Das Jesuskind als Archetyp: Ein Baby symbolisiert göttlichen Segen, neue geistliche Geburt (Johannes 3:3) und Unschuld.",
+        "tibetan": "Ein Baby steht für Wiedergeburt und das Fortführen des karmischen Weges. Es kann auch ein neues Leben nach dem Tod des Egos anzeigen."
+      },
+      "en": {
+        "freud": "A baby represents the desire for a child, narcissistic self-absorption, or the return to infantile needs.",
+        "ibn_sirin": [
+          "A baby in a dream often portends joy, new Rizq, or a new beginning. A crying baby can announce sorrow. Boys were traditionally interpreted as a sign of more Rizq."
+        ],
+        "jung": "The baby is the archetype of the Divine Child – a symbol of renewal, unlimited possibilities, and spiritual growth.",
+        "church_fathers": "The Christ Child as archetype: A baby symbolizes divine blessing, new spiritual birth (John 3:3), and innocence.",
+        "tibetan": "A baby stands for rebirth and the continuation of the karmic path. It can also indicate a new life after the death of the ego."
+      },
+      "ar": {
+        "freud": "يمثل الطفل الرغبة في إنجاب طفل، أو الانغماس النرجسي في الذات، أو العودة إلى الاحتياجات الطفولية.",
+        "ibn_sirin": [
+          "الطفل في المنام غالبًا ما يبشر بالفرح، أو رزق جديد، أو بداية جديدة. الطفل الباكي قد ينذر بالحزن. وقد فُسِّر الأولاد تقليديًا كعلامة على زيادة الرزق."
+        ],
+        "jung": "الطفل هو النموذج الأصلي للطفل الإلهي – رمز التجديد، والإمكانيات غير المحدودة، والنمو الروحي.",
+        "church_fathers": "الطفل يسوع كنموذج أصلي: يرمز الطفل إلى البركة الإلهية، والولادة الروحية الجديدة (يوحنا 3:3)، والبراءة.",
+        "tibetan": "يرمز الطفل إلى التناسخ واستمرار المسار الكارمي. وقد يشير أيضًا إلى حياة جديدة بعد موت الأنا."
+      },
+      "length_ratio_ar_de": 0.771,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 496,
+        "output": 436,
+        "total": 2049
+      }
+    },
+    "kb_blut": {
+      "name": "Blut",
+      "de": {
+        "freud": "Blut steht für Lebensenergie, Vitalität und kann mit Kastrations- oder Geburtsängsten verknüpft sein. Menstruationsblut erscheint in Träumen als weibliche Zyklusverarbeitung.",
+        "ibn_sirin": [
+          "Blut im Traum kann auf Sünde, Verbrechen oder unerlaubte Gewinne hinweisen. Fremdes Blut sehen kann bedeuten, dass man jemandem Unrecht getan hat. Eigenes Blut sehen mahnt zur Reue."
+        ],
+        "jung": "Blut symbolisiert die Quintessenz des Lebens und der Seele. Blutopfer zeigt Transformation; der Wandel verlangt Hingabe.",
+        "church_fathers": "Blut ist das Zeichen des Bundes (Moses) und der Erlösung durch Christi Kreuzesopfer. Traumblut kann Aufruf zur Buße oder Zeichen des Märtyrertums sein.",
+        "tibetan": "Blut ist das rote Element der Lebensenergie (Rlung). Blut trinken in Träumen gilt als Zeichen erhöhter tantristischer Energie oder als Warnung vor Aggression."
+      },
+      "en": {
+        "freud": "Blood represents life energy, vitality, and can be linked to castration or birth anxieties. Menstrual blood appears in dreams as a processing of the female cycle.",
+        "ibn_sirin": [
+          "Blood in a dream can indicate sin, crime, or illicit gains. Seeing foreign blood can mean that one has wronged someone. Seeing one's own blood urges repentance."
+        ],
+        "jung": "Blood symbolizes the quintessence of life and the soul. Blood sacrifice shows transformation; change demands devotion.",
+        "church_fathers": "Blood is the sign of the covenant (Moses) and of redemption through Christ's sacrifice on the cross. Dream blood can be a call to repentance or a sign of martyrdom.",
+        "tibetan": "Blood is the red element of life energy (Rlung). Drinking blood in dreams is considered a sign of increased tantric energy or a warning against aggression."
+      },
+      "ar": {
+        "freud": "الدم يرمز إلى طاقة الحياة، والحيوية، ويمكن أن يرتبط بمخاوف الإخصاء أو الولادة. دم الحيض يظهر في الأحلام كمعالجة للدورة الأنثوية.",
+        "ibn_sirin": [
+          "الدم في المنام قد يشير إلى الذنب أو الجريمة أو المكاسب غير المشروعة. رؤية دم غريب قد تعني أن المرء قد ظلم شخصًا ما. رؤية دم المرء نفسه تدعو إلى التوبة."
+        ],
+        "jung": "الدم يرمز إلى جوهر الحياة والروح. التضحية بالدم تظهر التحول؛ والتغيير يتطلب التفاني.",
+        "church_fathers": "الدم هو علامة العهد (موسى) والفداء من خلال ذبيحة المسيح على الصليب. دم الحلم يمكن أن يكون دعوة للتوبة أو علامة على الاستشهاد.",
+        "tibetan": "الدم هو العنصر الأحمر لطاقة الحياة (Rlung). شرب الدم في الأحلام يعتبر علامة على زيادة الطاقة التانترية أو تحذيرًا من العدوان."
+      },
+      "length_ratio_ar_de": 0.782,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 525,
+        "output": 469,
+        "total": 2114
+      }
+    },
+    "kb_zahn___zähne": {
+      "name": "Zahn / Zähne",
+      "de": {
+        "freud": "Zahnausfall ist nach Freud mit Kastrationsangst und dem Verlust männlicher Potenz verbunden. Auch Geburtsträume können dahinterstecken.",
+        "ibn_sirin": [
+          "Zähne repräsentieren Familienmitglieder. Einen Zahn verlieren bedeutet den Verlust eines Angehörigen oder den Weggang aus der Familie. Schöne Zähne verheißen Stärke der Familie."
+        ],
+        "jung": "Zähne symbolisieren Durchsetzungskraft und Vitalität. Ihr Verlust zeigt Ohnmacht, Angst vor Kontrollverlust oder sozialer Entblößung.",
+        "medieval": "Zähne wurden als Symbol der Stärke des Glaubens gesehen. Ihr Verlust deutete auf Schwächung der spirituellen Widerstandskraft hin.",
+        "theravada": "Zahnverlust weist auf das Vergänglichkeitsprinzip (Anicca) hin – eine Erinnerung, dass körperliche Attribute nicht das wahre Selbst sind."
+      },
+      "en": {
+        "freud": "Tooth loss, according to Freud, is associated with castration anxiety and the loss of male potency. Birth dreams can also be behind it.",
+        "ibn_sirin": [
+          "Teeth represent family members. Losing a tooth means the loss of a relative or leaving the family. Beautiful teeth promise strength for the family."
+        ],
+        "jung": "Teeth symbolize assertiveness and vitality. Their loss indicates powerlessness, fear of losing control, or social exposure.",
+        "medieval": "Teeth were seen as a symbol of the strength of faith. Their loss indicated a weakening of spiritual resilience.",
+        "theravada": "Tooth loss points to the principle of impermanence (Anicca) – a reminder that physical attributes are not the true self."
+      },
+      "ar": {
+        "freud": "فقدان الأسنان، حسب فرويد، يرتبط بقلق الخصاء وفقدان القدرة الذكورية. وقد تكون أحلام الولادة وراء ذلك أيضًا.",
+        "ibn_sirin": [
+          "الأسنان تمثل أفراد العائلة. فقدان السن يعني فقدان قريب أو الابتعاد عن العائلة. الأسنان الجميلة تبشر بقوة العائلة."
+        ],
+        "jung": "الأسنان ترمز إلى القوة الحازمة والحيوية. فقدانها يدل على العجز، والخوف من فقدان السيطرة أو التعرض الاجتماعي.",
+        "medieval": "كانت الأسنان تُرى كرمز لقوة الإيمان. فقدانها يشير إلى ضعف المقاومة الروحية.",
+        "theravada": "فقدان الأسنان يشير إلى مبدأ الزوال (أنيكا) – تذكير بأن السمات الجسدية ليست الذات الحقيقية."
+      },
+      "length_ratio_ar_de": 0.691,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 491,
+        "output": 359,
+        "total": 2366
+      }
+    },
+    "natur_001": {
+      "name": "Feuer",
+      "de": {
+        "freud": "Freud verbindet Feuer mit Leidenschaft, sexueller Erregung und den Gegensatz zwischen heißer Leidenschaft und emotionaler Kälte. Feuer im Traum symbolisiert oft verborgene oder heimliche Liebesgefühle.",
+        "freud_alt": "Feuer steht für Destruktionswünsche und unkontrollierte Sexualenergie. Das Löschen von Feuer kann dem Wunsch nach Triebkontrolle entsprechen.",
+        "ibn_sirin": [
+          "**Unkontrolliertes Feuer:** Steht für **Krieg, Aufruhr, Streit** oder die **Strafe** von Autoritätspersonen.",
+          "**Kontrolliertes Feuer (zum Kochen):** **Segen, Unterhalt** und **Gewinn**.",
+          "**Feuer, das nur Rauch produziert:** **Angst** und **Drohungen** ohne tatsächlichen Schaden.",
+          "**Sich im Feuer verbrennen:** Man wird **Geld durch Sünden** verdienen.",
+          "**Feuer anbeten:** Man wird **korrupte oder atheistische** Menschen folgen."
+        ],
+        "ibn_sirin_alt": [
+          "Feuer ohne Rauch und Schaden bedeutet Erleuchtung, Segen oder Nähe zu Gott. Feuer das verbrennt oder zerstört ist eine ernste Warnung vor Prüfungen, Konflikten oder Strafe."
+        ],
+        "jung": "Feuer ist das Symbol der Libido, Leidenschaft und Transformation. Es ist das alchemistische Element der Reinigung und der Wandlung des Unbewussten.",
+        "church_fathers": "Feuer symbolisiert den Heiligen Geist (Pfingsten), göttliche Gegenwart (Brennender Dornbusch) und das Fegefeuer als Reinigungsort.",
+        "tibetan": "Feuer ist eines der fünf Elemente und symbolisiert Weisheit, die Unwissenheit verbrennt. Unkontrolliertes Feuer steht für Gier und Begierde."
+      },
+      "en": {
+        "freud": "Freud connects fire with passion, sexual arousal, and the contrast between hot passion and emotional coldness. Fire in a dream often symbolizes hidden or secret feelings of love.",
+        "freud_alt": "Fire represents destructive desires and uncontrolled sexual energy. Extinguishing fire can correspond to the desire for impulse control.",
+        "ibn_sirin": [
+          "**Uncontrolled Fire:** Stands for **war, unrest, conflict** or the **punishment** from authorities.",
+          "**Controlled Fire (for cooking):** **Blessing, sustenance** and **profit**.",
+          "**Fire that only produces smoke:** **Fear** and **threats** without actual harm.",
+          "**Burning oneself in fire:** One will earn **money through sins**.",
+          "**Worshipping fire:** One will follow **corrupt or atheistic** people."
+        ],
+        "ibn_sirin_alt": [
+          "Fire without smoke and harm means enlightenment, blessing, or closeness to God. Fire that burns or destroys is a serious warning of trials, conflicts, or punishment."
+        ],
+        "jung": "Fire is the symbol of libido, passion, and transformation. It is the alchemical element of purification and the transformation of the unconscious.",
+        "church_fathers": "Fire symbolizes the Holy Spirit (Pentecost), divine presence (Burning Bush), and Purgatory as a place of purification.",
+        "tibetan": "Fire is one of the five elements and symbolizes wisdom that burns ignorance. Uncontrolled fire stands for greed and desire."
+      },
+      "ar": {
+        "freud": "يربط فرويد النار بالشغف والإثارة الجنسية والتناقض بين الشغف الحار والبرود العاطفي. غالبًا ما ترمز النار في الحلم إلى مشاعر الحب الخفية أو السرية.",
+        "freud_alt": "تمثل النار رغبات التدمير والطاقة الجنسية غير المنضبطة. قد يتوافق إطفاء النار مع الرغبة في التحكم بالدوافع.",
+        "ibn_sirin": [
+          "**النار غير المنضبطة:** تدل على **الحرب، الفتنة، النزاع** أو **العقوبة** من أصحاب السلطة.",
+          "**النار المتحكَّم بها (للطبخ):** **بركة، رزق** و**ربح**.",
+          "**النار التي تنتج دخانًا فقط:** **خوف** و**تهديدات** بدون ضرر فعلي.",
+          "**الاحتراق بالنار:** سيكسب المرء **المال من خلال الذنوب**.",
+          "**عبادة النار:** سيتبع المرء أناسًا **فاسدين أو ملحدين**."
+        ],
+        "ibn_sirin_alt": [
+          "النار بدون دخان وضرر تعني التنوير، البركة أو القرب من الله. النار التي تحرق أو تدمر هي تحذير جاد من المحن، الصراعات أو العقوبة."
+        ],
+        "jung": "النار هي رمز الليبيدو، الشغف والتحول. إنها العنصر الخيميائي للتطهير وتحويل اللاوعي.",
+        "church_fathers": "ترمز النار إلى الروح القدس (عيد العنصرة)، الحضور الإلهي (العليقة المشتعلة) والمطهر كمكان للتطهير.",
+        "tibetan": "النار هي أحد العناصر الخمسة وترمز إلى الحكمة التي تحرق الجهل. النار غير المنضبطة تدل على الجشع والرغبة."
+      },
+      "length_ratio_ar_de": 0.731,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 687,
+        "output": 811,
+        "total": 4376
+      }
+    },
+    "natur_006": {
+      "name": "Wasser",
+      "de": {
+        "freud": "Wasser in Träumen steht für das Unbewusste, Geburt und das weibliche Prinzip. Es repräsentiert oft Emotionen und das Amnion (Fruchtwasser).",
+        "freud_alt": "Wasser gilt als Geburt- und Muttersymbol. Eintauchen in Wasser kann den Wunsch nach Regression oder Geborgenheit ausdrücken.",
+        "ibn_sirin": [
+          "Klares Wasser bedeutet Segen, Reinheit des Herzens und Wohlstand. Trübes Wasser deutet auf Kummer, Fitna oder Krankheit hin. Fließendes Wasser symbolisiert Lebensunterhalt und Rizq."
+        ],
+        "jung": "Wasser repräsentiert das kollektive Unbewusste. Ruhiges Wasser steht für inneren Frieden; stürmisches Wasser für emotionale Aufruhr und unverarbeitete Gefühle.",
+        "medieval": "Wasser steht für Taufe, Reinigung der Seele und göttliche Gnade. Sintflutartige Wasser mahnen zur Buße.",
+        "tibetan": "Wasser symbolisiert Mitgefühl und Formlosigkeit. Das Spiegelbild im Wasser zeigt die Illusion des Selbst (Maya)."
+      },
+      "en": {
+        "freud": "Water in dreams stands for the unconscious, birth, and the feminine principle. It often represents emotions and the amnion (amniotic fluid).",
+        "freud_alt": "Water is considered a symbol of birth and motherhood. Immersion in water can express the desire for regression or security.",
+        "ibn_sirin": [
+          "Clear water signifies blessing, purity of heart, and prosperity. Turbid water indicates sorrow, Fitna, or illness. Flowing water symbolizes livelihood and Rizq."
+        ],
+        "jung": "Water represents the collective unconscious. Calm water stands for inner peace; stormy water for emotional turmoil and unprocessed feelings.",
+        "medieval": "Water stands for baptism, purification of the soul, and divine grace. Flood-like waters admonish repentance.",
+        "tibetan": "Water symbolizes compassion and formlessness. The reflection in water shows the illusion of the self (Maya)."
+      },
+      "ar": {
+        "freud": "الماء في الأحلام يرمز إلى اللاوعي، الولادة، والمبدأ الأنثوي. غالبًا ما يمثل العواطف والسائل الأمنيوسي (ماء الجنين).",
+        "freud_alt": "يُعتبر الماء رمزًا للولادة والأمومة. الغوص في الماء قد يعبر عن الرغبة في التراجع (الارتداد) أو الأمان.",
+        "ibn_sirin": [
+          "الماء الصافي يعني البركة، نقاء القلب، والرخاء. الماء العكر يدل على الهم، الفتنة، أو المرض. الماء الجاري يرمز إلى الرزق والمعيشة."
+        ],
+        "jung": "الماء يمثل اللاوعي الجمعي. الماء الهادئ يرمز إلى السلام الداخلي؛ الماء العاصف إلى الاضطراب العاطفي والمشاعر غير المعالجة.",
+        "medieval": "الماء يرمز إلى المعمودية، تطهير الروح، والنعمة الإلهية. المياه الطوفانية تحث على التوبة.",
+        "tibetan": "الماء يرمز إلى التعاطف واللا شكلية. الانعكاس في الماء يظهر وهم الذات (مايا)."
+      },
+      "length_ratio_ar_de": 0.77,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 531,
+        "output": 493,
+        "total": 2451
+      }
+    },
+    "natur_021": {
+      "name": "Mond",
+      "de": {
+        "ibn_sirin": [
+          "Der Mond: Steht für einen **König, einen großen Gelehrten** oder die **Ehefrau**.",
+          "Den Mond anbeten: **Umgang mit einem König** oder **großen Gelehrten**.",
+          "Ein klarer, heller Mond: **Gutes Leben** und **Führung**."
+        ],
+        "ibn_sirin_alt": [
+          "Der Mond symbolisiert einen Herrscher, König oder einen bedeutenden Gelehrten. Den Mond glänzend zu sehen verheißt Erfolg; den Mond verdunkeln zu sehen deutet auf Leid hin."
+        ],
+        "jung": "Der Mond ist das Anima-Symbol (die weibliche Seele im Mann) und steht für Intuition, das Unbewusste, Zyklen und die dunkle, unbekannte Seite der Psyche.",
+        "medieval": "Der Mond steht für die Kirche, die das Licht Christi (Sonne) widerspiegelt. Mondphasen symbolisieren die Unbeständigkeit irdischer Dinge.",
+        "western_zodiac": "Der Mond regiert das Gefühlsleben, Intuition, Mutter und Heimat. Mondträume spiegeln emotionale Zustände und unbewusste Bedürfnisse wider.",
+        "zen": "Der Finger zeigt auf den Mond, doch der Finger ist nicht der Mond. Der Vollmond steht für vollständige Erleuchtung."
+      },
+      "en": {
+        "ibn_sirin": [
+          "The Moon: Represents a **king, a great scholar** or the **wife**.",
+          "Worshipping the Moon: **Dealing with a king** or **great scholar**.",
+          "A clear, bright Moon: **Good life** and **guidance**."
+        ],
+        "ibn_sirin_alt": [
+          "The Moon symbolizes a ruler, king, or a significant scholar. Seeing the moon shining brightly portends success; seeing the moon darken indicates suffering."
+        ],
+        "jung": "The Moon is the Anima symbol (the feminine soul in man) and stands for intuition, the unconscious, cycles, and the dark, unknown side of the psyche.",
+        "medieval": "The Moon represents the Church, which reflects the light of Christ (Sun). Moon phases symbolize the inconstancy of earthly things.",
+        "western_zodiac": "The Moon governs emotional life, intuition, mother, and home. Moon dreams reflect emotional states and unconscious needs.",
+        "zen": "The finger points to the moon, but the finger is not the moon. The full moon stands for complete enlightenment."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "القمر: يرمز إلى **ملك، عالم كبير** أو **الزوجة**.",
+          "عبادة القمر: **التعامل مع ملك** أو **عالم كبير**.",
+          "قمر صافٍ ومشرق: **حياة طيبة** و**هداية**."
+        ],
+        "ibn_sirin_alt": [
+          "يرمز القمر إلى حاكم، ملك أو عالم جليل. رؤية القمر ساطعًا تبشر بالنجاح؛ ورؤية القمر مظلمًا تدل على المعاناة."
+        ],
+        "jung": "القمر هو رمز الأنيما (الروح الأنثوية في الرجل) ويمثل الحدس، اللاوعي، الدورات، والجانب المظلم والمجهول من النفس.",
+        "medieval": "القمر يمثل الكنيسة التي تعكس نور المسيح (الشمس). أطوار القمر ترمز إلى عدم استقرار الأمور الدنيوية.",
+        "western_zodiac": "القمر يحكم الحياة العاطفية، الحدس، الأم والوطن. أحلام القمر تعكس الحالات العاطفية والاحتياجات اللاواعية.",
+        "zen": "الإصبع يشير إلى القمر، لكن الإصبع ليس القمر. البدر يرمز إلى التنوير الكامل."
+      },
+      "length_ratio_ar_de": 0.687,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 587,
+        "output": 572,
+        "total": 2934
+      }
+    },
+    "natur_030": {
+      "name": "Sonne",
+      "de": {
+        "ibn_sirin": [
+          "Die Sonne: Repräsentiert den **König** oder den **Haushaltsvorstand**.",
+          "Eine helle Sonne: **Gerechtigkeit** und **Wohlstand**.",
+          "Eine verdunkelte Sonne: **Tod des Königs** oder **Verlust des Haushaltsvorstands**."
+        ],
+        "ibn_sirin_alt": [
+          "Die Sonne symbolisiert den Herrscher oder Vater. Sie strahlend zu sehen verheißt Stärke und Gunst. Sonnenuntergang kann auf den Tod einer wichtigen Person hinweisen."
+        ],
+        "jung": "Die Sonne ist das Bewusstsein und das Selbst. Sie repräsentiert das Animus-Symbol (männliche Kraft) und das Licht des Verstehens, das das Unbewusste erhellt.",
+        "church_fathers": "Christus als Sol Invictus – die unbesiegbare Sonne. Sonne steht für Gerechtigkeit, Göttlichkeit, Auferstehung und Erleuchtung.",
+        "western_zodiac": "Die Sonne regiert das Ego, die Identität und den Lebensauftrag. Sonnenträume zeigen Vitalität, Führungsstärke oder Zentrum des Lebens.",
+        "tibetan": "Die Sonne symbolisiert den Dharmakaya – den reinen, erleuchteten Geist. Sonnenstrahlen sind Mitgefühl (Karuna), das alle Wesen erreicht."
+      },
+      "en": {
+        "ibn_sirin": [
+          "The Sun: Represents the **King** or the **Head of the Household**.",
+          "A bright sun: **Justice** and **Prosperity**.",
+          "A darkened sun: **Death of the King** or **Loss of the Head of the Household**."
+        ],
+        "ibn_sirin_alt": [
+          "The sun symbolizes the ruler or father. To see it shining promises strength and favor. Sunset can indicate the death of an important person."
+        ],
+        "jung": "The sun is consciousness and the self. It represents the Animus symbol (masculine power) and the light of understanding that illuminates the unconscious.",
+        "church_fathers": "Christ as Sol Invictus – the unconquered sun. Sun stands for justice, divinity, resurrection, and enlightenment.",
+        "western_zodiac": "The sun rules the ego, identity, and life purpose. Sun dreams show vitality, leadership, or the center of life.",
+        "tibetan": "The sun symbolizes the Dharmakaya – the pure, enlightened mind. Sunbeams are compassion (Karuna) that reaches all beings."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "الشمس: تمثل **الملك** أو **رب الأسرة**.",
+          "شمس مشرقة: **العدل** و**الرخاء**.",
+          "شمس مظلمة: **موت الملك** أو **فقدان رب الأسرة**."
+        ],
+        "ibn_sirin_alt": [
+          "الشمس ترمز إلى الحاكم أو الأب. رؤيتها ساطعة تبشر بالقوة والحظوة. غروب الشمس قد يشير إلى وفاة شخص مهم."
+        ],
+        "jung": "الشمس هي الوعي والذات. إنها تمثل رمز الأنيماس (القوة الذكورية) ونور الفهم الذي ينير اللاوعي.",
+        "church_fathers": "المسيح كـ Sol Invictus – الشمس التي لا تُقهر. الشمس ترمز إلى العدل، الألوهية، القيامة، والتنوير.",
+        "western_zodiac": "الشمس تحكم الأنا، الهوية، وهدف الحياة. أحلام الشمس تظهر الحيوية، القيادة، أو مركز الحياة.",
+        "tibetan": "الشمس ترمز إلى الدارماكايا (Dharmakaya) – العقل النقي المستنير. أشعة الشمس هي التعاطف (Karuna) الذي يصل إلى جميع الكائنات."
+      },
+      "length_ratio_ar_de": 0.67,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 582,
+        "output": 578,
+        "total": 3463
+      }
+    },
+    "objekt_007": {
+      "name": "Haus",
+      "de": {
+        "freud": "Das Haus symbolisiert nach Freud häufig den eigenen Körper, insbesondere bei glatten Fassaden den nackten Menschenkörper.",
+        "freud_alt": "Das Haus steht für den menschlichen Körper. Fenster und Türen sind oft Körperöffnungen. Das Eindringen ins Haus kann sexuelle Konnotationen haben.",
+        "ibn_sirin": [
+          "Das Haus repräsentiert den Träumer selbst oder seine Familie. Ein neues Haus verheißt Wohlstand. Ein einstürzendes Haus warnt vor Krankheit oder Tod in der Familie."
+        ],
+        "jung": "Das Haus ist das Selbst des Träumers. Verschiedene Etagen symbolisieren Bewusstseinsbereiche: Keller = Unbewusstes, Dachboden = höheres Bewusstsein, Schlafzimmer = Intimsphäre.",
+        "medieval": "Das Haus symbolisiert die Seele als Tempel Gottes. Ein gepflegtes Haus zeigt ein tugendhaftes Leben; ein verlassenes verweist auf spirituellen Verfall.",
+        "zen": "Das Haus steht für das Ego-Konstrukt. Das Verlassen des Hauses symbolisiert Loslösung und den Weg zur Erleuchtung."
+      },
+      "en": {
+        "freud": "According to Freud, the house often symbolizes one's own body, especially with smooth facades, the naked human body.",
+        "freud_alt": "The house represents the human body. Windows and doors are often body orifices. Entering the house can have sexual connotations.",
+        "ibn_sirin": [
+          "The house represents the dreamer himself or his family. A new house promises prosperity. A collapsing house warns of illness or death in the family."
+        ],
+        "jung": "The house is the dreamer's self. Different floors symbolize areas of consciousness: Basement = Unconscious, Attic = higher consciousness, Bedroom = intimacy.",
+        "medieval": "The house symbolizes the soul as a temple of God. A well-maintained house shows a virtuous life; an abandoned one points to spiritual decay.",
+        "zen": "The house stands for the ego-construct. Leaving the house symbolizes detachment and the path to enlightenment."
+      },
+      "ar": {
+        "freud": "وفقًا لفرويد، يرمز المنزل غالبًا إلى جسد المرء نفسه، خاصةً عند الواجهات الملساء، إلى جسد الإنسان العاري.",
+        "freud_alt": "يمثل المنزل الجسد البشري. غالبًا ما تكون النوافذ والأبواب فتحات جسدية. قد يكون لاختراق المنزل دلالات جنسية.",
+        "ibn_sirin": [
+          "يمثل المنزل الرائي نفسه أو عائلته. المنزل الجديد يبشر بالرخاء. المنزل المنهار يحذر من المرض أو الموت في العائلة."
+        ],
+        "jung": "المنزل هو ذات الرائي. ترمز الطوابق المختلفة إلى مناطق الوعي: القبو = اللاوعي، العلية = الوعي الأعلى، غرفة النوم = الخصوصية.",
+        "medieval": "يرمز المنزل إلى الروح كمعبد لله. المنزل المعتنى به يدل على حياة فاضلة؛ والمهجور يشير إلى تدهور روحي.",
+        "zen": "يمثل المنزل بناء الأنا. يرمز مغادرة المنزل إلى الانفصال والطريق إلى التنوير."
+      },
+      "length_ratio_ar_de": 0.713,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 541,
+        "output": 480,
+        "total": 2459
+      }
+    },
+    "person_005": {
+      "name": "Kind",
+      "de": {
+        "freud": "Kinder im Traum können das eigene innere Kind, aber auch die Genitalien symbolisieren ('mein Kleines').",
+        "ibn_sirin": [
+          "Ein Kind im Traum symbolisiert Freude, neues Rizq oder einen neuen Anfang. Ein krankes Kind warnt vor Sorgen in der Familie oder einem Projekt."
+        ],
+        "jung": "Das \"Innere Kind\" ist der Archetyp der ursprünglichen Ganzheit und Unschuld. Kindheitsszenen zeigen ungelöste Prägungen, die im Erwachsenenleben nachwirken.",
+        "church_fathers": "\"Wenn ihr nicht werdet wie die Kinder...\" (Mt. 18:3). Das Kind symbolisiert spirituelle Offenheit, Vertrauen und die Bereitschaft zum Umkehren.",
+        "western_zodiac": "Kinder in Träumen stehen astrologisch für den Mond (Kindheit, Mutter) und Saturn (Karma und vergangene Leben). Sie zeigen emotionale Grundbedürfnisse."
+      },
+      "en": {
+        "freud": "Children in dreams can symbolize one's own inner child, but also the genitals ('my little one').",
+        "ibn_sirin": [
+          "A child in a dream symbolizes joy, new Rizq, or a new beginning. A sick child warns of worries in the family or a project."
+        ],
+        "jung": "The \"Inner Child\" is the archetype of original wholeness and innocence. Childhood scenes show unresolved imprints that continue to affect adult life.",
+        "church_fathers": "\"Unless you change and become like little children...\" (Mt. 18:3). The child symbolizes spiritual openness, trust, and the readiness to repent.",
+        "western_zodiac": "Astrologically, children in dreams stand for the Moon (childhood, mother) and Saturn (karma and past lives). They show basic emotional needs."
+      },
+      "ar": {
+        "freud": "الأطفال في المنام يمكن أن يرمزوا إلى الطفل الداخلي للشخص، ولكن أيضًا إلى الأعضاء التناسلية ('صغيري').",
+        "ibn_sirin": [
+          "الطفل في المنام يرمز إلى الفرح، رزق جديد، أو بداية جديدة. الطفل المريض يحذر من الهموم في الأسرة أو مشروع."
+        ],
+        "jung": "الطفل الداخلي\" هو النموذج الأصلي للكمال والبراءة الأصليين. مشاهد الطفولة تظهر انطباعات غير محلولة تستمر في التأثير على حياة البالغين.",
+        "church_fathers": "\"إن لم ترجعوا وتصيروا مثل الأطفال...\" (متى 18:3). الطفل يرمز إلى الانفتاح الروحي، الثقة، والاستعداد للتوبة.",
+        "western_zodiac": "الأطفال في الأحلام يمثلون فلكيًا القمر (الطفولة، الأم) وزحل (الكارما والحيوات الماضية). إنهم يظهرون الاحتياجات العاطفية الأساسية."
+      },
+      "length_ratio_ar_de": 0.827,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 503,
+        "output": 450,
+        "total": 2532
+      }
+    },
+    "symbol_002": {
+      "name": "Fallen",
+      "de": {
+        "freud": "Fallen oder Abstürzen im Traum hängt nach Freud oft mit sexuellen Gefühlen oder dem 'Fallen' in Versuchung zusammen.",
+        "freud_alt": "Freud deutete Fallträume als Ausdruck moralischer Schwäche oder als Erinnerung an den Geburtsakt und frühe Stürze.",
+        "ibn_sirin": [
+          "Fallen aus der Höhe warnt vor Machtverlust, Demütigung oder dem Fall aus einer privilegierten Stellung. Es mahnt zur Demut."
+        ],
+        "jung": "Fallen symbolisiert das Absinken ins Unbewusste – oft ein Aufruf zur Selbstreflexion und Integration von Schattenseiten.",
+        "medieval": "Der Fall im Traum erinnert an den Sündenfall Adams. Er kann eine Warnung vor moralischem Versagen sein.",
+        "theravada": "Fallen weist auf Anhaftung und das Festhalten an vergänglichen Dingen hin, das Leiden verursacht."
+      },
+      "en": {
+        "freud": "Falling or crashing in a dream, according to Freud, often relates to sexual feelings or 'falling' into temptation.",
+        "freud_alt": "Freud interpreted dreams of falling as an expression of moral weakness or as a memory of the birth act and early falls.",
+        "ibn_sirin": [
+          "Falling from a height warns of loss of power, humiliation, or falling from a privileged position. It admonishes humility."
+        ],
+        "jung": "Falling symbolizes the descent into the unconscious – often a call for self-reflection and integration of shadow aspects.",
+        "medieval": "The fall in a dream recalls Adam's fall from grace. It can be a warning against moral failure.",
+        "theravada": "Falling indicates attachment and clinging to transient things, which causes suffering."
+      },
+      "ar": {
+        "freud": "السقوط أو الانهيار في الحلم، بحسب فرويد، غالبًا ما يرتبط بالمشاعر الجنسية أو 'الوقوع' في الإغراء.",
+        "freud_alt": "فسر فرويد أحلام السقوط كتعبير عن ضعف أخلاقي أو كتذكير بفعل الولادة والسقوط المبكر.",
+        "ibn_sirin": [
+          "السقوط من علو يحذر من فقدان السلطة، الإذلال، أو السقوط من مكانة مرموقة. وهو يدعو إلى التواضع."
+        ],
+        "jung": "السقوط يرمز إلى الهبوط في اللاوعي – غالبًا ما يكون دعوة للتأمل الذاتي ودمج جوانب الظل.",
+        "medieval": "السقوط في الحلم يذكر بسقوط آدم من الجنة. يمكن أن يكون تحذيرًا من الفشل الأخلاقي.",
+        "theravada": "السقوط يشير إلى التعلق والتشبث بالأشياء الزائلة، مما يسبب المعاناة."
+      },
+      "length_ratio_ar_de": 0.75,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 495,
+        "output": 390,
+        "total": 2195
+      }
+    },
+    "symbol_004": {
+      "name": "Fliegen",
+      "de": {
+        "freud": "Flugträume deutet Freud als Ausdruck sexueller Erregung oder als Erinnerung an Kindheitsspiele des Auf-und-Ab-Bewegt-Werdens.",
+        "freud_alt": "Freud verband Flugträume mit sexueller Erregung und dem Wunsch nach Freiheit von Hemmungen.",
+        "ibn_sirin": [
+          "Fliegen ohne Flügel deutet auf Hochmut oder überhöhte Ambitionen hin. Mit Flügeln fliegen kann auf eine bevorstehende Reise oder Erhöhung des Status hinweisen."
+        ],
+        "jung": "Fliegen symbolisiert den Wunsch, über persönliche Einschränkungen hinauszuwachsen und die höhere Ebene des Selbst zu erreichen.",
+        "church_fathers": "Flugträume wurden als Zeichen göttlicher Erhöhung oder als Versuchung der Hybris durch Engel und Dämonen gedeutet.",
+        "zen": "Fliegen verkörpert die Loslösung vom Ego und das Durchbrechen karmischer Bindungen."
+      },
+      "en": {
+        "freud": "Freud interprets flight dreams as an expression of sexual arousal or as a memory of childhood games of being moved up and down.",
+        "freud_alt": "Freud associated flight dreams with sexual arousal and the desire for freedom from inhibitions.",
+        "ibn_sirin": [
+          "Flying without wings indicates arrogance or excessive ambitions. Flying with wings can point to an upcoming journey or an elevation of status."
+        ],
+        "jung": "Flying symbolizes the desire to grow beyond personal limitations and to reach the higher level of the self.",
+        "church_fathers": "Flight dreams were interpreted as a sign of divine exaltation or as a temptation of hubris by angels and demons.",
+        "zen": "Flying embodies detachment from the ego and the breaking of karmic bonds."
+      },
+      "ar": {
+        "freud": "يفسر فرويد أحلام الطيران كتعبير عن الإثارة الجنسية أو كذكرى لألعاب الطفولة التي تتضمن الحركة صعوداً وهبوطاً.",
+        "freud_alt": "ربط فرويد أحلام الطيران بالإثارة الجنسية والرغبة في التحرر من القيود.",
+        "ibn_sirin": [
+          "الطيران بدون أجنحة يدل على الغطرسة أو الطموحات المفرطة. الطيران بالأجنحة قد يشير إلى رحلة وشيكة أو ارتفاع في المكانة."
+        ],
+        "jung": "يرمز الطيران إلى الرغبة في تجاوز القيود الشخصية والوصول إلى المستوى الأعلى للذات.",
+        "church_fathers": "فسرت أحلام الطيران كعلامة على الرفعة الإلهية أو كإغراء للغطرسة من قبل الملائكة والشياطين.",
+        "zen": "يجسد الطيران الانفصال عن الأنا واختراق الروابط الكارمية."
+      },
+      "length_ratio_ar_de": 0.744,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 504,
+        "output": 427,
+        "total": 3053
+      }
+    },
+    "symbol_008": {
+      "name": "Tod",
+      "de": {
+        "freud": "Tod im Traum ist selten wörtlich zu nehmen. Oft verbirgt sich dahinter ein Wunsch oder die Angst vor Veränderung.",
+        "freud_alt": "Todesträume spiegeln den Todestrieb (Thanatos) wider oder unterdrückte aggressive Impulse gegen geliebte Personen.",
+        "ibn_sirin": [
+          "Den eigenen Tod zu träumen verheißt oft ein langes Leben oder Taubah (Reue). Den Tod eines anderen zu träumen bedeutet nicht zwingend den physischen Tod, kann jedoch eine Veränderung in deren Leben ankündigen."
+        ],
+        "jung": "Tod symbolisiert Transformation und das Ende eines Lebensabschnitts. Es ist ein Einweihungssymbol für inneres Wachstum und die Geburt eines neuen Selbst.",
+        "church_fathers": "Träume vom Tod mahnen zur Besinnung auf das ewige Leben. Sie können ein Aufruf zur Buße oder ein göttlicher Hinweis auf die Vergänglichkeit alles Irdischen sein.",
+        "tibetan": "Im Tibetischen Buch der Toten (Bardo Thodol) ist der Tod ein Übergang. Traumtod bedeutet Auflösung alter Konditionierungen und karma-reinigendes Erleben."
+      },
+      "en": {
+        "freud": "Death in dreams is rarely to be taken literally. Often, a wish or the fear of change lies behind it.",
+        "freud_alt": "Death dreams reflect the death drive (Thanatos) or suppressed aggressive impulses against loved ones.",
+        "ibn_sirin": [
+          "Dreaming of one's own death often portends a long life or Taubah (repentance).",
+          "Dreaming of another's death does not necessarily mean physical death, but can announce a change in their life."
+        ],
+        "jung": "Death symbolizes transformation and the end of a life phase. It is an initiation symbol for inner growth and the birth of a new self.",
+        "church_fathers": "Dreams of death admonish reflection on eternal life. They can be a call to repentance or a divine hint at the transience of all earthly things.",
+        "tibetan": "In the Tibetan Book of the Dead (Bardo Thodol), death is a transition. Dream death means the dissolution of old conditionings and karma-purifying experience."
+      },
+      "ar": {
+        "freud": "الموت في الحلم نادرًا ما يؤخذ حرفيًا. غالبًا ما يكمن وراءه رغبة أو الخوف من التغيير.",
+        "freud_alt": "أحلام الموت تعكس غريزة الموت (ثاناتوس) أو دوافع عدوانية مكبوتة تجاه الأشخاص المحبوبين.",
+        "ibn_sirin": [
+          "الحلم بالموت الشخصي غالبًا ما يبشر بحياة طويلة أو توبة.",
+          "الحلم بموت شخص آخر لا يعني بالضرورة الموت الجسدي، ولكنه قد ينبئ بتغيير في حياتهم."
+        ],
+        "jung": "الموت يرمز إلى التحول ونهاية مرحلة من الحياة. إنه رمز للبدء في النمو الداخلي وولادة ذات جديدة.",
+        "church_fathers": "أحلام الموت تحث على التأمل في الحياة الأبدية. قد تكون دعوة للتوبة أو إشارة إلهية إلى زوال كل ما هو دنيوي.",
+        "tibetan": "في كتاب الموتى التبتي (باردو ثودول)، الموت هو انتقال. موت الحلم يعني حل التكييفات القديمة وتجربة تطهير الكارما."
+      },
+      "length_ratio_ar_de": 0.682,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 553,
+        "output": 533,
+        "total": 2616
+      }
+    },
+    "symbol_009": {
+      "name": "Verfolgung",
+      "de": {
+        "freud": "Verfolgt-Werden im Traum symbolisiert oft die Flucht vor eigenen verdrängten Wünschen oder Schuldgefühlen.",
+        "ibn_sirin": [
+          "Von einem Feind verfolgt werden warnt vor realen Bedrohungen. Erfolgreich zu fliehen verheißt Sieg. Von einem Tier verfolgt werden kann auf die eigenen Leidenschaften hinweisen."
+        ],
+        "jung": "Der Verfolger ist der Schatten – verdrängte, unintegrierte Persönlichkeitsanteile. Das Weglaufen zeigt die Verweigerung der Konfrontation mit dem eigenen Unbewussten.",
+        "gestalt": "Im Gestalt-Ansatz: Was verfolgt dich, und was könnte passieren, wenn du stehen bleibst und dich umwendest? Der Verfolger ist ein Teil von dir selbst.",
+        "medieval": "Verfolgungsträume spiegeln die spirituelle Realität des Glaubenskampfes wider. Der Teufel als brüllender Löwe (1 Petrus 5:8) sucht Seelen zu verschlingen."
+      },
+      "en": {
+        "freud": "Being pursued in a dream often symbolizes fleeing from one's own repressed desires or feelings of guilt.",
+        "ibn_sirin": [
+          "Being pursued by an enemy warns of real threats. Successfully fleeing promises victory. Being pursued by an animal can indicate one's own passions."
+        ],
+        "jung": "The pursuer is the shadow – repressed, unintegrated parts of the personality. Running away shows the refusal to confront one's own unconscious.",
+        "gestalt": "In the Gestalt approach: What is pursuing you, and what could happen if you stop and turn around? The pursuer is a part of yourself.",
+        "medieval": "Dreams of pursuit reflect the spiritual reality of the struggle of faith. The Devil as a roaring lion (1 Peter 5:8) seeks to devour souls."
+      },
+      "ar": {
+        "freud": "التعرض للمطاردة في الحلم غالبًا ما يرمز إلى الهروب من الرغبات المكبوتة أو مشاعر الذنب الخاصة بالفرد.",
+        "ibn_sirin": [
+          "مطاردة العدو تحذر من تهديدات حقيقية. الهروب بنجاح يبشر بالنصر. مطاردة الحيوان قد تشير إلى شهوات الفرد."
+        ],
+        "jung": "المطارد هو الظل – أجزاء الشخصية المكبوتة وغير المدمجة. الهروب يظهر رفض مواجهة اللاوعي الخاص بالفرد.",
+        "gestalt": "في منهج الجشطالت: ما الذي يطاردك، وماذا يمكن أن يحدث إذا توقفت واستدرت؟ المطارد هو جزء منك.",
+        "medieval": "أحلام المطاردة تعكس الواقع الروحي لصراع الإيمان. الشيطان كأسد زائر (1 بطرس 5:8) يسعى لابتلاع النفوس."
+      },
+      "length_ratio_ar_de": 0.654,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 523,
+        "output": 428,
+        "total": 2246
+      }
+    },
+    "tier_009": {
+      "name": "Hund",
+      "de": {
+        "freud": "Hunde können die eigenen Triebkräfte (Es) darstellen, die kontrolliert werden müssen. Ein bedrohender Hund zeigt Konflikt zwischen Über-Ich und Es.",
+        "ibn_sirin": [
+          "Ein Hund symbolisiert einen **niederen, ungerechten Feind** oder einen **unhöflichen Diener**.",
+          "Ein Jagdhund: **Segen** und **Erfolg**.",
+          "Ein Haustierhund: Ein **treuer Diener**."
+        ],
+        "ibn_sirin_alt": [
+          "Ein Hund im Traum symbolisiert oft einen niedrigen Feind oder einen schlechten Freund. Ein zahmer Hund kann jedoch einen treuen Begleiter bedeuten. Ein Hundebiss warnt vor Verrat."
+        ],
+        "jung": "Der Hund verkörpert Instinkt, Loyalität und das domestizierte Tier im Menschen. Ein aggressiver Hund steht für unterdrückte Wut oder unkontrollierte Triebe.",
+        "medieval": "In mittelalterlicher Symbolik war der Hund Wächter und treuer Begleiter. Schwarze Hunde wurden jedoch mit Dämonen assoziiert.",
+        "zen": "Ein ruhiger Hund symbolisiert die gezähmten Sinne. Ein wild bellender Hund steht für den unruhigen Geist (Monkey Mind), der Meditation stört."
+      },
+      "en": {
+        "freud": "Dogs can represent one's own drives (Id) that need to be controlled. A threatening dog shows conflict between Superego and Id.",
+        "ibn_sirin": [
+          "A dog symbolizes a **lowly, unjust enemy** or an **impolite servant**.",
+          "A hunting dog: **Blessing** and **success**.",
+          "A pet dog: A **loyal servant**."
+        ],
+        "ibn_sirin_alt": [
+          "A dog in a dream often symbolizes a lowly enemy or a bad friend. A tame dog, however, can mean a loyal companion. A dog bite warns of betrayal."
+        ],
+        "jung": "The dog embodies instinct, loyalty, and the domesticated animal within humans. An aggressive dog stands for suppressed anger or uncontrolled urges.",
+        "medieval": "In medieval symbolism, the dog was a guardian and loyal companion. Black dogs, however, were associated with demons.",
+        "zen": "A calm dog symbolizes the tamed senses. A wildly barking dog stands for the restless mind (Monkey Mind) that disturbs meditation."
+      },
+      "ar": {
+        "freud": "يمكن أن تمثل الكلاب الدوافع الذاتية (الهو) التي يجب التحكم فيها. الكلب المهدد يظهر صراعًا بين الأنا العليا والهو.",
+        "ibn_sirin": [
+          "الكلب يرمز إلى **عدو وضيع ظالم** أو **خادم وقح**.",
+          "كلب الصيد: **بركة** و**نجاح**.",
+          "كلب أليف: **خادم مخلص**."
+        ],
+        "ibn_sirin_alt": [
+          "الكلب في المنام غالبًا ما يرمز إلى عدو وضيع أو صديق سيء. ومع ذلك، يمكن أن يعني الكلب الأليف رفيقًا مخلصًا. عضة الكلب تحذر من الخيانة."
+        ],
+        "jung": "الكلب يجسد الغريزة والولاء والحيوان المدجن في الإنسان. الكلب العدواني يمثل الغضب المكبوت أو الدوافع غير المسيطر عليها.",
+        "medieval": "في الرمزية القروسطية، كان الكلب حارسًا ورفيقًا مخلصًا. ومع ذلك، ارتبطت الكلاب السوداء بالشياطين.",
+        "zen": "الكلب الهادئ يرمز إلى الحواس المروضة. الكلب الذي ينبح بعنف يمثل العقل المضطرب (Monkey Mind) الذي يعيق التأمل."
+      },
+      "length_ratio_ar_de": 0.73,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 575,
+        "output": 585,
+        "total": 3194
+      }
+    },
+    "tier_020": {
+      "name": "Schlange",
+      "de": {
+        "freud": "Freud sah die Schlange als klassisches phallisches Symbol für unterdrückte Sexualität oder verbotene Triebe.",
+        "ibn_sirin": [
+          "Eine Schlange: Repräsentiert einen **Feind, eine Frau** oder **weltlichen Reichtum**.",
+          "Eine Schlange töten: **Sieg** über einen Feind.",
+          "Von einer Schlange gebissen werden: **Schaden** durch einen Feind."
+        ],
+        "ibn_sirin_alt": [
+          "Eine Schlange symbolisiert einen Feind – je größer, desto mächtiger der Gegner. Eine Schlange töten bedeutet Sieg über den Feind. Weiße Schlangen können weise Berater bedeuten."
+        ],
+        "jung": "Die Schlange verkörpert die chthonische Energie des Unbewussten, Transformation und die Kraft der Heilung (Äskulapstab). Sie ist Archetyp des Schatten.",
+        "church_fathers": "Die Schlange ist Symbol des Satans und der Versuchung seit dem Sündenfall. Sie mahnt zur Wachsamkeit vor Verführung.",
+        "tibetan": "Im tibetischen Buddhismus steht die Schlange für Nāgas – Schutzgeister des Wassers. Gier ist einer der drei Gifte, symbolisiert durch die Schlange."
+      },
+      "en": {
+        "freud": "Freud saw the snake as a classic phallic symbol for repressed sexuality or forbidden urges.",
+        "ibn_sirin": [
+          "A snake: Represents an **enemy, a woman**, or **worldly wealth**.",
+          "Killing a snake: **Victory** over an enemy.",
+          "Being bitten by a snake: **Harm** from an enemy."
+        ],
+        "ibn_sirin_alt": [
+          "A snake symbolizes an enemy – the larger, the more powerful the adversary. Killing a snake means victory over the enemy. White snakes can signify wise advisors."
+        ],
+        "jung": "The snake embodies the chthonic energy of the unconscious, transformation, and the power of healing (Rod of Asclepius). It is an archetype of the shadow.",
+        "church_fathers": "The snake is a symbol of Satan and temptation since the Fall. It warns against seduction.",
+        "tibetan": "In Tibetan Buddhism, the snake stands for Nāgas – protective spirits of water. Greed is one of the three poisons, symbolized by the snake."
+      },
+      "ar": {
+        "freud": "رأى فرويد الثعبان رمزًا قضيبًا كلاسيكيًا للرغبة الجنسية المكبوتة أو الدوافع المحرمة.",
+        "ibn_sirin": [
+          "ثعبان: يمثل **عدوًا، امرأة** أو **ثروة دنيوية**.",
+          "قتل ثعبان: **نصر** على عدو.",
+          "التعرض للدغة ثعبان: **ضرر** من عدو."
+        ],
+        "ibn_sirin_alt": [
+          "يرمز الثعبان إلى عدو – كلما كان أكبر، كان الخصم أقوى. قتل الثعبان يعني النصر على العدو. الثعابين البيضاء قد تعني مستشارين حكماء."
+        ],
+        "jung": "يمثل الثعبان الطاقة الخثونية (chthonic) لللاوعي، والتحول، وقوة الشفاء (عصا أسكليبيوس). إنه نموذج أصلي للظل.",
+        "church_fathers": "الثعبان هو رمز للشيطان (Schaytan) والإغراء منذ السقوط (Sündenfall). إنه يحذر من الإغواء.",
+        "tibetan": "في البوذية التبتية، يرمز الثعبان إلى الناغا (Nāgas) – أرواح الماء الحامية. الجشع هو أحد السموم الثلاثة، ويرمز إليه بالثعبان."
+      },
+      "length_ratio_ar_de": 0.715,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 569,
+        "output": 589,
+        "total": 4396
+      }
+    },
+    "zaehne": {
+      "name": "Zähne",
+      "de": {
+        "freud": "Zahnausfall im Traum wird von Freud als Symbol für Kastration oder sexuelle Impotenz gedeutet, kann aber auch Geburtsträume darstellen.",
+        "freud_alt": "Zahnausfall ist nach Freud mit Kastrationsangst und dem Verlust männlicher Potenz verbunden. Auch Geburtsträume können dahinterstecken.",
+        "ibn_sirin": [
+          "Verlust, Angst, Selbstbild. Islam: obere=maennl. Familie, untere=weibl. Freud: Kastration."
+        ],
+        "ibn_sirin_alt": [
+          "Zähne repräsentieren Familienmitglieder. Einen Zahn verlieren bedeutet den Verlust eines Angehörigen oder den Weggang aus der Familie. Schöne Zähne verheißen Stärke der Familie."
+        ],
+        "jung": "Zähne symbolisieren Durchsetzungskraft und Vitalität. Ihr Verlust zeigt Ohnmacht, Angst vor Kontrollverlust oder sozialer Entblößung.",
+        "medieval": "Zähne wurden als Symbol der Stärke des Glaubens gesehen. Ihr Verlust deutete auf Schwächung der spirituellen Widerstandskraft hin.",
+        "theravada": "Zahnverlust weist auf das Vergänglichkeitsprinzip (Anicca) hin – eine Erinnerung, dass körperliche Attribute nicht das wahre Selbst sind."
+      },
+      "en": {
+        "freud": "Tooth loss in dreams is interpreted by Freud as a symbol for castration or sexual impotence, but can also represent birth dreams.",
+        "freud_alt": "According to Freud, tooth loss is associated with castration anxiety and the loss of male potency. Birth dreams can also be behind it.",
+        "ibn_sirin": [
+          "Loss, fear, self-image. Islam: upper=male family, lower=female. Freud: Castration."
+        ],
+        "ibn_sirin_alt": [
+          "Teeth represent family members. Losing a tooth means the loss of a relative or leaving the family. Beautiful teeth promise strength of the family."
+        ],
+        "jung": "Teeth symbolize assertiveness and vitality. Their loss indicates powerlessness, fear of loss of control, or social exposure.",
+        "medieval": "Teeth were seen as a symbol of the strength of faith. Their loss indicated a weakening of spiritual resilience.",
+        "theravada": "Tooth loss points to the principle of impermanence (Anicca) – a reminder that physical attributes are not the true self."
+      },
+      "ar": {
+        "freud": "فقدان الأسنان في الحلم يفسره فرويد كرمز للخصاء أو العجز الجنسي، ولكنه يمكن أن يمثل أيضًا أحلام الولادة.",
+        "freud_alt": "فقدان الأسنان، حسب فرويد، مرتبط بقلق الخصاء وفقدان القدرة الذكورية. كما يمكن أن تكون أحلام الولادة وراء ذلك.",
+        "ibn_sirin": [
+          "فقدان، خوف، صورة الذات. الإسلام: العلوية=عائلة ذكورية، السفلية=عائلة أنثوية. فرويد: خصاء."
+        ],
+        "ibn_sirin_alt": [
+          "الأسنان تمثل أفراد العائلة. فقدان سن يعني فقدان قريب أو الابتعاد عن العائلة. الأسنان الجميلة تبشر بقوة العائلة."
+        ],
+        "jung": "الأسنان ترمز إلى الحزم والحيوية. فقدانها يدل على العجز، الخوف من فقدان السيطرة أو الانكشاف الاجتماعي.",
+        "medieval": "كانت الأسنان تُرى كرمز لقوة الإيمان. فقدانها يشير إلى ضعف المقاومة الروحية.",
+        "theravada": "فقدان الأسنان يشير إلى مبدأ الزوال (أنيكا) – تذكير بأن السمات الجسدية ليست الذات الحقيقية."
+      },
+      "length_ratio_ar_de": 0.723,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 570,
+        "output": 578,
+        "total": 2438
+      }
+    },
+    "baum": {
+      "name": "Baum",
+      "de": {
+        "ibn_sirin": [
+          "Lebensbaum, Wachstum, Verwurzelung. Kabbala: Sefirot. Islam: guter Mensch."
+        ],
+        "jung": "Lebensbaum, Wachstum, Verwurzelung. Kabbala: Sefirot. Islam: guter Mensch."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Tree of Life, growth, rooting. Kabbalah: Sefirot. Islam: good person."
+        ],
+        "jung": "Tree of Life, growth, rooting. Kabbalah: Sefirot. Islam: good person."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "شجرة الحياة، نمو، تجذر. الكابالا: سفيروت. الإسلام: إنسان صالح."
+        ],
+        "jung": "شجرة الحياة، نمو، تجذر. الكابالا: سفيروت. الإسلام: إنسان صالح."
+      },
+      "length_ratio_ar_de": 0.838,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 358,
+        "output": 157,
+        "total": 1084
+      }
+    },
+    "bruder": {
+      "name": "Bruder",
+      "de": {
+        "freud": "Rivalitaet, Verbundenheit. Islam: Glaubensbruder. Bibel: Kain/Abel.",
+        "ibn_sirin": [
+          "Rivalitaet, Verbundenheit. Islam: Glaubensbruder. Bibel: Kain/Abel."
+        ]
+      },
+      "en": {
+        "freud": "Rivalry, Connection. Islam: Brother in faith. Bible: Cain/Abel.",
+        "ibn_sirin": [
+          "Rivalry, Connection. Islam: Brother in faith. Bible: Cain/Abel."
+        ]
+      },
+      "ar": {
+        "freud": "منافسة، ترابط. الإسلام: أخ في الدين. الكتاب المقدس: قابيل وهابيل.",
+        "ibn_sirin": [
+          "منافسة، ترابط. الإسلام: أخ في الدين. الكتاب المقدس: قابيل وهابيل."
+        ]
+      },
+      "length_ratio_ar_de": 0.97,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 357,
+        "output": 149,
+        "total": 1079
+      }
+    },
+    "buch": {
+      "name": "Buch",
+      "de": {
+        "ibn_sirin": [
+          "Wissen, Lebensweg. Islam: Buch der Taten. Bibel: Buch des Lebens."
+        ],
+        "medieval": "Wissen, Lebensweg. Islam: Buch der Taten. Bibel: Buch des Lebens."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Knowledge, life path. Islam: Book of Deeds. Bible: Book of Life."
+        ],
+        "medieval": "Knowledge, life path. Islam: Book of Deeds. Bible: Book of Life."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "معرفة، مسار الحياة. الإسلام: كتاب الأعمال. الكتاب المقدس: سفر الحياة."
+        ],
+        "medieval": "معرفة، مسار الحياة. الإسلام: كتاب الأعمال. الكتاب المقدس: سفر الحياة."
+      },
+      "length_ratio_ar_de": 1.062,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 348,
+        "output": 135,
+        "total": 1509
+      }
+    },
+    "fremder": {
+      "name": "Fremder",
+      "de": {
+        "ibn_sirin": [
+          "Unbekannter Aspekt des Selbst, Schatten. Islam: Engel oder Dschinn."
+        ],
+        "jung": "Unbekannter Aspekt des Selbst, Schatten. Islam: Engel oder Dschinn."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Unknown aspect of the self, shadow. Islam: Angel or Jinn."
+        ],
+        "jung": "Unknown aspect of the self, shadow. Islam: Angel or Jinn."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "جانب مجهول من الذات، ظل. الإسلام: ملك أو جن."
+        ],
+        "jung": "جانب مجهول من الذات، ظل. الإسلام: ملك أو جن."
+      },
+      "length_ratio_ar_de": 0.657,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 346,
+        "output": 95,
+        "total": 817
+      }
+    },
+    "hoehle": {
+      "name": "Höhle",
+      "de": {
+        "ibn_sirin": [
+          "Unbewusstes, Schutz, Rueckzug. Islam: Sure Al-Kahf. Platon: Höhlengleichnis."
+        ],
+        "ibn_sirin_alt": [
+          "Unbewusstes, Schutz, Rueckzug. Islam: Sure Al-Kahf. Platon: Hoehlengleichnis."
+        ],
+        "jung": "Unbewusstes, Schutz, Rueckzug. Islam: Sure Al-Kahf. Platon: Hoehlengleichnis."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Unconscious, Protection, Retreat. Islam: Surah Al-Kahf. Plato: Allegory of the Cave."
+        ],
+        "ibn_sirin_alt": [
+          "Unconscious, Protection, Retreat. Islam: Surah Al-Kahf. Plato: Allegory of the Cave."
+        ],
+        "jung": "Unconscious, Protection, Retreat. Islam: Surah Al-Kahf. Plato: Allegory of the Cave."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "اللاوعي، حماية، انسحاب. الإسلام: سورة الكهف. أفلاطون: مثل الكهف."
+        ],
+        "ibn_sirin_alt": [
+          "اللاوعي، حماية، انسحاب. الإسلام: سورة الكهف. أفلاطون: مثل الكهف."
+        ],
+        "jung": "اللاوعي، حماية، انسحاب. الإسلام: سورة الكهف. أفلاطون: مثل الكهف."
+      },
+      "length_ratio_ar_de": 0.835,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 404,
+        "output": 210,
+        "total": 2082
+      }
+    },
+    "hoelle": {
+      "name": "Hölle",
+      "de": {
+        "ibn_sirin": [
+          "Die Hölle betreten: Wenn man nicht verbrennt, bedeutet es, mit den Sünden fortzufahren.",
+          "Aus der Hölle kommen: Das Leben wird im Paradies gipfeln.",
+          "Strafe, Leid, innere Qual. Islam: Jahannam. Bibel: Gehenna."
+        ],
+        "medieval": "Strafe, Leid, innere Qual. Islam: Jahannam. Bibel: Gehenna."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Entering Hell: If one does not burn, it means to continue with sins.",
+          "Coming out of Hell: Life will culminate in Paradise.",
+          "Punishment, suffering, inner torment. Islam: Jahannam. Bible: Gehenna."
+        ],
+        "medieval": "Punishment, suffering, inner torment. Islam: Jahannam. Bible: Gehenna."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "دخول الجحيم: إذا لم يحترق المرء، فهذا يعني الاستمرار في الذنوب.",
+          "الخروج من الجحيم: ستتوج الحياة في الجنة.",
+          "عقاب، معاناة، عذاب داخلي. الإسلام: جهنم. الكتاب المقدس: جهنم (Gehenna)."
+        ],
+        "medieval": "عقاب، معاناة، عذاب داخلي. الإسلام: جهنم. الكتاب المقدس: جهنم (Gehenna)."
+      },
+      "length_ratio_ar_de": 0.935,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 394,
+        "output": 235,
+        "total": 2054
+      }
+    },
+    "katze": {
+      "name": "Katze",
+      "de": {
+        "ibn_sirin": [
+          "Weiblichkeit, Intuition, Unabhaengigkeit. Islam: List, Diebstahl. Japan: Glueck (Maneki-neko). Aegypten: Heiliges Tier (Bastet)."
+        ],
+        "jung": "Weiblichkeit, Intuition, Unabhaengigkeit. Islam: List, Diebstahl. Japan: Glueck (Maneki-neko). Aegypten: Heiliges Tier (Bastet)."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Femininity, Intuition, Independence. Islam: Cunning, Theft. Japan: Luck (Maneki-neko). Egypt: Sacred Animal (Bastet)."
+        ],
+        "jung": "Femininity, Intuition, Independence. Islam: Cunning, Theft. Japan: Luck (Maneki-neko). Egypt: Sacred Animal (Bastet)."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "الأنوثة، الحدس، الاستقلالية. الإسلام: المكر، السرقة. اليابان: الحظ (مانيكي-نيكو). مصر: حيوان مقدس (باستيت)."
+        ],
+        "jung": "الأنوثة، الحدس، الاستقلالية. الإسلام: المكر، السرقة. اليابان: الحظ (مانيكي-نيكو). مصر: حيوان مقدس (باستيت)."
+      },
+      "length_ratio_ar_de": 0.836,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 397,
+        "output": 217,
+        "total": 1856
+      }
+    },
+    "kleidung": {
+      "name": "Kleidung",
+      "de": {
+        "ibn_sirin": [
+          "Persona, Rolle, Status. Islam: Froemmigkeit. Nackt=Verletzlichkeit."
+        ],
+        "jung": "Persona, Rolle, Status. Islam: Froemmigkeit. Nackt=Verletzlichkeit."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Persona, role, status. Islam: Piety. Naked=Vulnerability."
+        ],
+        "jung": "Persona, role, status. Islam: Piety. Naked=Vulnerability."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "شخصية، دور، مكانة. الإسلام: تقوى. عاري=ضعف."
+        ],
+        "jung": "شخصية، دور، مكانة. الإسلام: تقوى. عاري=ضعف."
+      },
+      "length_ratio_ar_de": 0.642,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 352,
+        "output": 103,
+        "total": 863
+      }
+    },
+    "ring": {
+      "name": "Ring",
+      "de": {
+        "ibn_sirin": [
+          "Bindung, Ehe, Ewigkeit. Islam: Autorität, Siegel. Tolkien: Macht."
+        ],
+        "ibn_sirin_alt": [
+          "Bindung, Ehe, Ewigkeit. Islam: Autoritaet, Siegel. Tolkien: Macht."
+        ],
+        "jung": "Bindung, Ehe, Ewigkeit. Islam: Autoritaet, Siegel. Tolkien: Macht."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Bond, Marriage, Eternity. Islam: Authority, Seal. Tolkien: Power."
+        ],
+        "ibn_sirin_alt": [
+          "Bond, Marriage, Eternity. Islam: Authority, Seal. Tolkien: Power."
+        ],
+        "jung": "Bond, Marriage, Eternity. Islam: Authority, Seal. Tolkien: Power."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "رباط، زواج، أبدية. الإسلام: سلطة، ختم. تولكين: قوة."
+        ],
+        "ibn_sirin_alt": [
+          "رباط، زواج، أبدية. الإسلام: سلطة، ختم. تولكين: قوة."
+        ],
+        "jung": "رباط، زواج، أبدية. الإسلام: سلطة، ختم. تولكين: قوة."
+      },
+      "length_ratio_ar_de": 0.777,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 379,
+        "output": 215,
+        "total": 1842
+      }
+    },
+    "schwert": {
+      "name": "Schwert",
+      "de": {
+        "ibn_sirin": [
+          "Macht, Gerechtigkeit, Trennung. Islam: Autorität. Bibel: Wort Gottes."
+        ],
+        "ibn_sirin_alt": [
+          "Macht, Gerechtigkeit, Trennung. Islam: Autoritaet. Bibel: Wort Gottes."
+        ],
+        "medieval": "Macht, Gerechtigkeit, Trennung. Islam: Autoritaet. Bibel: Wort Gottes."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Power, Justice, Separation. Islam: Authority. Bible: Word of God."
+        ],
+        "ibn_sirin_alt": [
+          "Power, Justice, Separation. Islam: Authority. Bible: Word of God."
+        ],
+        "medieval": "Power, Justice, Separation. Islam: Authority. Bible: Word of God."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "القوة، العدل، الفصل. الإسلام: السلطة. الإنجيل: كلمة الله."
+        ],
+        "ibn_sirin_alt": [
+          "القوة، العدل، الفصل. الإسلام: السلطة. الإنجيل: كلمة الله."
+        ],
+        "medieval": "القوة، العدل، الفصل. الإسلام: السلطة. الإنجيل: كلمة الله."
+      },
+      "length_ratio_ar_de": 0.818,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 382,
+        "output": 209,
+        "total": 1868
+      }
+    },
+    "sturm": {
+      "name": "Sturm",
+      "de": {
+        "ibn_sirin": [
+          "Innerer Aufruhr, Veraenderung, Reinigung."
+        ],
+        "jung": "Innerer Aufruhr, Veraenderung, Reinigung."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Inner turmoil, change, purification."
+        ],
+        "jung": "Inner turmoil, change, purification."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "اضطراب داخلي، تغيير، تطهير."
+        ],
+        "jung": "اضطراب داخلي، تغيير، تطهير."
+      },
+      "length_ratio_ar_de": 0.659,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 332,
+        "output": 103,
+        "total": 1374
+      }
+    },
+    "teufel": {
+      "name": "Teufel",
+      "de": {
+        "ibn_sirin": [
+          "Versuchung, Schatten, verdrängtes Boeses. Islam: Iblis, Waswas."
+        ],
+        "ibn_sirin_alt": [
+          "Versuchung, Schatten, verdraengtes Boeses. Islam: Iblis, Waswas."
+        ],
+        "medieval": "Versuchung, Schatten, verdraengtes Boeses. Islam: Iblis, Waswas."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Temptation, shadow, repressed evil. Islam: Iblis, Waswas."
+        ],
+        "ibn_sirin_alt": [
+          "Temptation, shadow, repressed evil. Islam: Iblis, Waswas."
+        ],
+        "medieval": "Temptation, shadow, repressed evil. Islam: Iblis, Waswas."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "إغراء، ظل، شر مكبوت. الإسلام: إبليس، وسواس."
+        ],
+        "ibn_sirin_alt": [
+          "إغراء، ظل، شر مكبوت. الإسلام: إبليس، وسواس."
+        ],
+        "medieval": "إغراء، ظل، شر مكبوت. الإسلام: إبليس، وسواس."
+      },
+      "length_ratio_ar_de": 0.675,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 386,
+        "output": 212,
+        "total": 1806
+      }
+    },
+    "verstecken": {
+      "name": "Verstecken",
+      "de": {
+        "freud": "Vermeidung, Scham, Geheimnisse. Islam: Suende verbergen.",
+        "ibn_sirin": [
+          "Vermeidung, Scham, Geheimnisse. Islam: Sünde verbergen."
+        ],
+        "ibn_sirin_alt": [
+          "Vermeidung, Scham, Geheimnisse. Islam: Suende verbergen."
+        ]
+      },
+      "en": {
+        "freud": "Avoidance, shame, secrets. Islam: Hiding sin.",
+        "ibn_sirin": [
+          "Avoidance, shame, secrets. Islam: Hiding sin."
+        ],
+        "ibn_sirin_alt": [
+          "Avoidance, shame, secrets. Islam: Hiding sin."
+        ]
+      },
+      "ar": {
+        "freud": "تجنب، خجل، أسرار. الإسلام: إخفاء الذنب.",
+        "ibn_sirin": [
+          "تجنب، خجل، أسرار. الإسلام: إخفاء الذنب."
+        ],
+        "ibn_sirin_alt": [
+          "تجنب، خجل، أسرار. الإسلام: إخفاء الذنب."
+        ]
+      },
+      "length_ratio_ar_de": 0.701,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 372,
+        "output": 150,
+        "total": 1591
+      }
+    },
+    "waffe": {
+      "name": "Waffe",
+      "de": {
+        "freud": "Aggression, Macht, Schutz. Freud: phallisch. Islam: Autorität.",
+        "ibn_sirin": [
+          "Aggression, Macht, Schutz. Freud: phallisch. Islam: Autorität."
+        ]
+      },
+      "en": {
+        "freud": "Aggression, Power, Protection. Freud: phallic. Islam: Authority.",
+        "ibn_sirin": [
+          "Aggression, Power, Protection. Freud: phallic. Islam: Authority."
+        ]
+      },
+      "ar": {
+        "freud": "عدوان، قوة، حماية. فرويد: قضيبية. الإسلام: سلطة.",
+        "ibn_sirin": [
+          "عدوان، قوة، حماية. فرويد: قضيبية. الإسلام: سلطة."
+        ]
+      },
+      "length_ratio_ar_de": 0.774,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 347,
+        "output": 106,
+        "total": 767
+      }
+    },
+    "weg": {
+      "name": "Weg",
+      "de": {
+        "ibn_sirin": [
+          "Lebensweg, Entscheidung, Richtung. Islam: Sirat al-Mustaqim."
+        ],
+        "jung": "Lebensweg, Entscheidung, Richtung. Islam: Sirat al-Mustaqim."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Path of life, decision, direction. Islam: Sirat al-Mustaqim."
+        ],
+        "jung": "Path of life, decision, direction. Islam: Sirat al-Mustaqim."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "مسار الحياة، قرار، اتجاه. الإسلام: الصراط المستقيم."
+        ],
+        "jung": "مسار الحياة، قرار، اتجاه. الإسلام: الصراط المستقيم."
+      },
+      "length_ratio_ar_de": 0.85,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 346,
+        "output": 131,
+        "total": 1210
+      }
+    },
+    "kb_berg": {
+      "name": "Berg",
+      "de": {
+        "ibn_sirin": [
+          "Einen Berg besteigen verheißt Erfolg, Rang und hohe Ziele. Auf einem Berggipfel stehen bedeutet Ehre und Ansehen. Vom Berg fallen warnt vor dem Verlust dieser Stellung."
+        ],
+        "jung": "Der Berg ist das höchste Selbst-Symbol. Der Aufstieg steht für den Individuationsprozess; der Gipfel für Erleuchtung und Integration.",
+        "church_fathers": "Berge sind Orte der Gottesnähe (Sinai, Golgatha, Tabor). Im Traum ist der Berg-Aufstieg die Suche nach spiritueller Höhe und Gottesbegegnung.",
+        "tibetan": "Der heilige Berg (Kailash) ist Achse der Welt (Axis Mundi). Aufstieg symbolisiert Dharma-Praxis; der Gipfel ist Nirwana."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Climbing a mountain promises success, rank, and high goals. Standing on a mountaintop signifies honor and prestige. Falling from the mountain warns against the loss of this position."
+        ],
+        "jung": "The mountain is the highest symbol of the Self. The ascent represents the individuation process; the summit for enlightenment and integration.",
+        "church_fathers": "Mountains are places of closeness to God (Sinai, Golgotha, Tabor). In a dream, climbing a mountain is the search for spiritual height and an encounter with God.",
+        "tibetan": "The holy mountain (Kailash) is the Axis Mundi. Ascent symbolizes Dharma practice; the summit is Nirvana."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "صعود الجبل يبشر بالنجاح والمكانة والأهداف السامية. الوقوف على قمة الجبل يعني الشرف والهيبة. السقوط من الجبل يحذر من فقدان هذا المنصب."
+        ],
+        "jung": "الجبل هو أسمى رمز للذات. الصعود يمثل عملية التفرد؛ والقمة للوصول إلى التنوير والتكامل.",
+        "church_fathers": "الجبال هي أماكن القرب من الله (سيناء، الجلجثة، طابور). في الحلم، صعود الجبل هو البحث عن السمو الروحي ولقاء الله.",
+        "tibetan": "الجبل المقدس (كايلاش) هو محور العالم (Axis Mundi). الصعود يرمز لممارسة الدارما؛ والقمة هي النيرفانا."
+      },
+      "length_ratio_ar_de": 0.767,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 468,
+        "output": 370,
+        "total": 2770
+      }
+    },
+    "nacht": {
+      "name": "Nacht / Dunkelheit",
+      "de": {
+        "ibn_sirin": [
+          "Nacht symbolisiert Unwissenheit, Prüfungen oder schwierige Zeiten. Sterne in der Nacht sehen gibt jedoch Hoffnung und spirituelle Führung. Morgenröte nach der Nacht verheißt Befreiung."
+        ],
+        "jung": "Nacht ist das Reich des Unbewussten. In der Dunkelheit des Traums begegnet man dem Schatten. Die Dunkelheit ist kein Feind, sondern Einladung zur Selbsterkenntnis.",
+        "church_fathers": "Die dunkle Nacht der Seele (Johannes vom Kreuz) ist eine mystische Phase spiritueller Trockenheit und Reinigung, die zur innigen Gottesverbindung führt.",
+        "zen": "Dunkelheit ist kein Mangel, sondern die Quelle. Im Zen-Bild des \"Großen Nicht-Wissens\" ist die Nacht Raum für echtes Erwachen jenseits von Konzepten."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Night symbolizes ignorance, trials, or difficult times. Seeing stars at night, however, gives hope and spiritual guidance. Dawn after the night promises liberation."
+        ],
+        "jung": "Night is the realm of the unconscious. In the darkness of the dream, one encounters the shadow. Darkness is not an enemy, but an invitation to self-knowledge.",
+        "church_fathers": "The dark night of the soul (John of the Cross) is a mystical phase of spiritual dryness and purification that leads to an intimate connection with God.",
+        "zen": "Darkness is not a lack, but the source. In the Zen concept of \"Great Not-Knowing,\" night is a space for true awakening beyond concepts."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "الليل يرمز إلى الجهل أو المحن أو الأوقات الصعبة. رؤية النجوم في الليل، مع ذلك، تمنح الأمل والإرشاد الروحي. فجر بعد الليل يبشر بالتحرر."
+        ],
+        "jung": "الليل هو عالم اللاوعي. في ظلام الحلم، يواجه المرء الظل. الظلام ليس عدوًا، بل دعوة إلى معرفة الذات.",
+        "church_fathers": "الليل المظلم للروح (يوحنا الصليب) هو مرحلة صوفية من الجفاف الروحي والتطهير تؤدي إلى اتصال وثيق بالله.",
+        "zen": "الظلام ليس نقصًا، بل هو المصدر. في مفهوم الزن لـ \"اللا معرفة العظمى\"، الليل هو مساحة للاستيقاظ الحقيقي وراء المفاهيم."
+      },
+      "length_ratio_ar_de": 0.694,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 486,
+        "output": 387,
+        "total": 3183
+      }
+    },
+    "natur_009": {
+      "name": "Dunkelheit",
+      "de": {
+        "ibn_sirin": [
+          "Im Traum bedeutet Dunkelheit, **in die Irre zu gehen**."
+        ],
+        "ibn_sirin_alt": [
+          "Nacht symbolisiert Unwissenheit, Prüfungen oder schwierige Zeiten. Sterne in der Nacht sehen gibt jedoch Hoffnung und spirituelle Führung. Morgenröte nach der Nacht verheißt Befreiung."
+        ],
+        "jung": "Nacht ist das Reich des Unbewussten. In der Dunkelheit des Traums begegnet man dem Schatten. Die Dunkelheit ist kein Feind, sondern Einladung zur Selbsterkenntnis.",
+        "church_fathers": "Die dunkle Nacht der Seele (Johannes vom Kreuz) ist eine mystische Phase spiritueller Trockenheit und Reinigung, die zur innigen Gottesverbindung führt.",
+        "zen": "Dunkelheit ist kein Mangel, sondern die Quelle. Im Zen-Bild des \"Großen Nicht-Wissens\" ist die Nacht Raum für echtes Erwachen jenseits von Konzepten."
+      },
+      "en": {
+        "ibn_sirin": [
+          "In a dream, darkness means **going astray**."
+        ],
+        "ibn_sirin_alt": [
+          "Night symbolizes ignorance, trials, or difficult times. Seeing stars at night, however, gives hope and spiritual guidance. Dawn after night promises liberation."
+        ],
+        "jung": "Night is the realm of the unconscious. In the darkness of the dream, one encounters the shadow. Darkness is not an enemy, but an invitation to self-knowledge.",
+        "church_fathers": "The dark night of the soul (John of the Cross) is a mystical phase of spiritual dryness and purification that leads to an intimate connection with God.",
+        "zen": "Darkness is not a lack, but the source. In the Zen image of the \"Great Not-Knowing,\" night is space for true awakening beyond concepts."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "في المنام، الظلام يعني **الضلال**."
+        ],
+        "ibn_sirin_alt": [
+          "الليل يرمز إلى الجهل، أو المحن، أو الأوقات الصعبة. رؤية النجوم في الليل، مع ذلك، تمنح الأمل والإرشاد الروحي. فجر ما بعد الليل يبشر بالتحرر."
+        ],
+        "jung": "الليل هو عالم اللاوعي. في ظلام الحلم، يواجه المرء الظل. الظلام ليس عدوًا، بل دعوة إلى معرفة الذات.",
+        "church_fathers": "الليل المظلم للروح (يوحنا الصليبي) هو مرحلة صوفية من الجفاف الروحي والتطهير تؤدي إلى اتصال حميم بالله.",
+        "zen": "الظلام ليس نقصًا، بل هو المصدر. في مفهوم الزن لـ \"اللا معرفة العظيمة\"، الليل هو مساحة للاستيقاظ الحقيقي وراء المفاهيم."
+      },
+      "length_ratio_ar_de": 0.698,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 512,
+        "output": 450,
+        "total": 2236
+      }
+    },
+    "natur_024": {
+      "name": "Regen",
+      "de": {
+        "ibn_sirin": [
+          "Leichter, sanfter Regen: **Gnade, Segen** und **Reichtum**.",
+          "Starker, schädlicher Regen: **Krankheit, Krieg** oder **Plage**.",
+          "Regen im Sommer: **Überraschender Reichtum**."
+        ],
+        "ibn_sirin_alt": [
+          "Regen im Traum ist ein deutliches Zeichen von Barmherzigkeit Allahs, Segen, Rizq und Fruchtbarkeit. Starker, schadhafter Regen kann Prüfungen andeuten."
+        ],
+        "jung": "Regen reinigt und befruchtet. Er symbolisiert das Durcharbeiten von Emotionen, Tränen der Seele oder eine emotionale Befreiung.",
+        "church_fathers": "Regen steht für göttlichen Segen (Regen zur rechten Zeit) oder göttliches Gericht (Sintflut). Er nährt das Samenkorn des Glaubens.",
+        "theravada": "Regen symbolisiert den Dharma, der auf alle ohne Unterschied fällt. Er reinigt Karma und fördert geistiges Wachstum."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Light, gentle rain: **Grace, Blessing** and **Wealth**.",
+          "Heavy, harmful rain: **Illness, War** or **Plague**.",
+          "Rain in summer: **Surprising Wealth**."
+        ],
+        "ibn_sirin_alt": [
+          "Rain in a dream is a clear sign of Allah's mercy, blessing, Rizq, and fertility. Heavy, damaging rain can indicate trials."
+        ],
+        "jung": "Rain cleanses and fertilizes. It symbolizes the processing of emotions, tears of the soul, or an emotional liberation.",
+        "church_fathers": "Rain stands for divine blessing (rain at the right time) or divine judgment (deluge). It nourishes the seed of faith.",
+        "theravada": "Rain symbolizes the Dharma, which falls on all without distinction. It cleanses Karma and promotes spiritual growth."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "مطر خفيف، لطيف: **رحمة، بركة** و**غنى**.",
+          "مطر غزير، ضار: **مرض، حرب** أو **وباء**.",
+          "مطر في الصيف: **غنى مفاجئ**."
+        ],
+        "ibn_sirin_alt": [
+          "المطر في المنام علامة واضحة على رحمة الله، وبركة، ورزق، وخصوبة. المطر الغزير الضار قد يشير إلى ابتلاءات."
+        ],
+        "jung": "المطر يطهر ويخصب. يرمز إلى معالجة المشاعر، دموع الروح، أو تحرر عاطفي.",
+        "church_fathers": "المطر يرمز إلى البركة الإلهية (مطر في الوقت المناسب) أو القضاء الإلهي (الطوفان). يغذي بذرة الإيمان.",
+        "theravada": "المطر يرمز إلى الدارما (Dharma)، التي تسقط على الجميع دون تمييز. ينقي الكارما (Karma) ويعزز النمو الروحي."
+      },
+      "length_ratio_ar_de": 0.701,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 529,
+        "output": 490,
+        "total": 2861
+      }
+    },
+    "objekt_002": {
+      "name": "Spiegel",
+      "de": {
+        "freud": "Der Spiegel im Traum kann Selbstreflexion, aber auch Wunscherfüllung darstellen. Freud erwähnt, dass der Traum dem Träumer Wünsche 'vorspiegelt' - also illusionäre Erfüllungen zeigt.",
+        "freud_alt": "Der Spiegel steht für Narzissmus und die Selbstbezogenheit des Träumers. Ein gebrochener Spiegel symbolisiert das zerbrochene Selbstbild.",
+        "ibn_sirin": [
+          "In den Spiegel schauen: **Neugeborener Sohn** oder **neuer Bruder**.",
+          "Ein zerbrochener Spiegel: **Tod** des Sohnes oder **Verlust** eines Freundes."
+        ],
+        "ibn_sirin_alt": [
+          "Ein klarer Spiegel zeigt Selbsterkenntnis und Reinheit des Herzens. Ein trüber Spiegel deutet auf Verblendung. Im Spiegel das Gesicht eines anderen sehen kann auf Identitätswechsel hinweisen."
+        ],
+        "jung": "Der Spiegel zeigt das Selbst-Bild versus das wahre Selbst. Was man im Traumspiegel sieht, zeigt, wie man sich wirklich wahrnimmt – oft anders als das Alltagsbild.",
+        "zen": "Der polierte Spiegel (Bilder des Huineng und Shenxiu) symbolisiert den reinen Geist. Der Spiegel zeigt nur Bilder – keine Substanz: Alles ist leer (Sunyata)."
+      },
+      "en": {
+        "freud": "The mirror in a dream can represent self-reflection, but also wish fulfillment. Freud mentions that the dream 'mirrors' wishes to the dreamer - thus showing illusory fulfillments.",
+        "freud_alt": "The mirror stands for narcissism and the self-centeredness of the dreamer. A broken mirror symbolizes the shattered self-image.",
+        "ibn_sirin": [
+          "Looking into the mirror: **Newborn son** or **new brother**.",
+          "A broken mirror: **Death** of the son or **loss** of a friend."
+        ],
+        "ibn_sirin_alt": [
+          "A clear mirror shows self-knowledge and purity of heart. A cloudy mirror indicates delusion. Seeing another person's face in the mirror can indicate a change of identity."
+        ],
+        "jung": "The mirror shows the self-image versus the true self. What one sees in the dream mirror shows how one truly perceives oneself – often different from the everyday image.",
+        "zen": "The polished mirror (images of Huineng and Shenxiu) symbolizes the pure mind. The mirror shows only images – no substance: Everything is empty (Sunyata)."
+      },
+      "ar": {
+        "freud": "المرآة في الحلم يمكن أن تمثل التأمل الذاتي، ولكن أيضًا تحقيق الرغبات. يذكر فرويد أن الحلم 'يعكس' الرغبات للحالم - أي يظهر إنجازات وهمية.",
+        "freud_alt": "المرآة ترمز إلى النرجسية والانغماس الذاتي للحالم. المرآة المكسورة ترمز إلى الصورة الذاتية المحطمة.",
+        "ibn_sirin": [
+          "النظر في المرآة: **ابن حديث الولادة** أو **أخ جديد**.",
+          "مرآة مكسورة: **موت** الابن أو **فقدان** صديق."
+        ],
+        "ibn_sirin_alt": [
+          "المرآة الصافية تدل على معرفة الذات ونقاء القلب. المرآة المعتمة تشير إلى الغفلة. رؤية وجه شخص آخر في المرآة قد يدل على تغيير الهوية.",
+          "ابن سيرين"
+        ],
+        "jung": "المرآة تظهر صورة الذات مقابل الذات الحقيقية. ما يراه المرء في مرآة الحلم يظهر كيف يدرك المرء نفسه حقًا – غالبًا ما يكون مختلفًا عن الصورة اليومية.",
+        "zen": "المرآة المصقولة (صور هوينينغ وشينشيو) ترمز إلى العقل النقي. المرآة تظهر صورًا فقط – لا جوهر: كل شيء فارغ (سونياتا)."
+      },
+      "length_ratio_ar_de": 0.753,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 576,
+        "output": 631,
+        "total": 2507
+      }
+    },
+    "objekt_006": {
+      "name": "Geld",
+      "de": {
+        "freud": "Geld symbolisiert nach Freud Zeit, Wert und oft auch Geschlechtlichkeit. 'Time is money' - Zeit hat Geldwert. Geldträume können Wünsche nach Reduktion von Kosten oder Verpflichtungen darstellen.",
+        "freud_alt": "Geld ist nach Freud ein Anal-Symbol (Fäkalien als erstes Besitztum des Kindes). Es steht für Kontrolle, Sparsamkeit oder Geiz.",
+        "ibn_sirin": [
+          "Gold und Silber finden kann positiv (Rizq) oder negativ (Anhäufung von Haram) gedeutet werden. Geld erhalten symbolisiert Segen; Geld verlieren warnt vor Ausgaben oder Verlusten."
+        ],
+        "jung": "Geld symbolisiert psychische Energie (Libido) und Wert. Reichtum im Traum zeigt innere Ressourcen; Armut zeigt mangelnden Zugang zur eigenen psychischen Kraft.",
+        "medieval": "Die Liebe zum Geld ist die Wurzel allen Übels (1. Tim. 6:10). Geld im Traum kann auf Habgier hinweisen oder auf die Notwendigkeit, Schätze im Himmel anzusammeln."
+      },
+      "en": {
+        "freud": "According to Freud, money symbolizes time, value, and often sexuality. 'Time is money' - time has monetary value. Dreams about money can represent desires for reduction of costs or obligations.",
+        "freud_alt": "According to Freud, money is an anal symbol (feces as the child's first possession). It stands for control, frugality, or greed.",
+        "ibn_sirin": [
+          "Finding gold and silver can be interpreted positively (Rizq) or negatively (accumulation of Haram). Receiving money symbolizes blessings; losing money warns of expenses or losses."
+        ],
+        "jung": "Money symbolizes psychic energy (libido) and value. Wealth in a dream indicates inner resources; poverty indicates a lack of access to one's own psychic power.",
+        "medieval": "The love of money is the root of all evil (1 Tim. 6:10). Money in a dream can indicate greed or the necessity to accumulate treasures in heaven."
+      },
+      "ar": {
+        "freud": "يرمز المال، حسب فرويد، إلى الوقت والقيمة وغالبًا ما يرمز إلى الجنسانية. 'الوقت مال' - للوقت قيمة مالية. قد تمثل أحلام المال رغبات في تقليل التكاليف أو الالتزامات.",
+        "freud_alt": "المال، حسب فرويد، هو رمز شرجي (البراز كأول ممتلكات الطفل). إنه يرمز إلى السيطرة أو التوفير أو البخل.",
+        "ibn_sirin": [
+          "يمكن تفسير العثور على الذهب والفضة بشكل إيجابي (رزق) أو سلبي (تراكم الحرام). يرمز الحصول على المال إلى البركة؛ ويحذر فقدان المال من النفقات أو الخسائر."
+        ],
+        "jung": "يرمز المال إلى الطاقة النفسية (اللبيدو) والقيمة. الثراء في الحلم يدل على الموارد الداخلية؛ الفقر يدل على نقص الوصول إلى القوة النفسية الذاتية.",
+        "medieval": "محبة المال هي أصل كل الشرور (1 تيموثاوس 6:10). قد يشير المال في الحلم إلى الجشع أو الحاجة إلى جمع كنوز في السماء."
+      },
+      "length_ratio_ar_de": 0.817,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 533,
+        "output": 512,
+        "total": 2742
+      }
+    },
+    "objekt_011": {
+      "name": "Schlüssel",
+      "de": {
+        "freud": "Der Schlüssel ist ein klassisches Phallussymbol, das Türen (weibliche Symbole) öffnet.",
+        "ibn_sirin": [
+          "Ein Schlüssel bedeutet Wissen, Lösung von Problemen und Zugang zu Schätzen. Die Schlüssel des Paradieses sind das höchste Bild. Einen Schlüssel finden verheißt Erfolg."
+        ],
+        "jung": "Der Schlüssel ist das Symbol für die Lösung eines psychologischen Komplexes. Er öffnet die Tür zum Unbewussten und ermöglicht Integration verborgener Inhalte.",
+        "church_fathers": "Die Schlüssel Petri (Matthäus 16:19) symbolisieren geistliche Autorität und das Öffnen des Himmelreichs. Ein goldener Schlüssel steht für göttliche Gnade."
+      },
+      "en": {
+        "freud": "The key is a classic phallic symbol that opens doors (female symbols).",
+        "ibn_sirin": [
+          "A key signifies knowledge, the solution to problems, and access to treasures. The keys to Paradise are the highest image. Finding a key promises success."
+        ],
+        "jung": "The key is the symbol for the resolution of a psychological complex. It opens the door to the unconscious and enables the integration of hidden contents.",
+        "church_fathers": "The keys of Peter (Matthew 16:19) symbolize spiritual authority and the opening of the Kingdom of Heaven. A golden key stands for divine grace."
+      },
+      "ar": {
+        "freud": "المفتاح رمز قضيب كلاسيكي يفتح الأبواب (رموز أنثوية).",
+        "ibn_sirin": [
+          "المفتاح يعني العلم وحل المشاكل والوصول إلى الكنوز. مفاتيح الجنة هي أسمى صورة. العثور على مفتاح يبشر بالنجاح."
+        ],
+        "jung": "المفتاح هو رمز لحل عقدة نفسية. يفتح الباب إلى اللاوعي ويمكّن من دمج المحتويات الخفية.",
+        "church_fathers": "مفاتيح بطرس (متى 16:19) ترمز إلى السلطة الروحية وفتح ملكوت السماوات. المفتاح الذهبي يرمز إلى النعمة الإلهية."
+      },
+      "length_ratio_ar_de": 0.625,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 454,
+        "output": 342,
+        "total": 1753
+      }
+    },
+    "objekt_037": {
+      "name": "Gold",
+      "de": {
+        "ibn_sirin": [
+          "Gold (im Allgemeinen) bedeutet **Kummer, Sorgen, Krankheiten** oder **finanziellen Verlust** (wegen seines gelben Aussehens und der Tendenz, Sorgen zu bereiten).",
+          "Das Halten von Goldmünzen bedeutet **Geld** von einem **König** oder **Autoritätsträger** zu erhalten.",
+          "Geschmolzenes Gold deutet auf **Streitigkeiten** oder **schlechte Worte** über den Träumer hin."
+        ],
+        "ibn_sirin_alt": [
+          "Gold für Frauen träumen ist positiv (Schmuck, Wohlstand). Für Männer gilt Gold oft als negatives Zeichen, da das Tragen von Gold Männern im Islam verboten ist – es warnt vor Haram."
+        ],
+        "jung": "Gold ist das Symbol des Selbst – das Ziel des alchemistischen Prozesses der Individuation. Der \"Goldene Schatz\" im Traum zeigt die Nähe zum wahren Selbst.",
+        "medieval": "Gold symbolisiert göttliche Weisheit, Reinheit und himmlischen Wert. Die goldene Stadt Jerusalem steht für das Reich Gottes.",
+        "western_zodiac": "Gold ist dem Sol (Sonne) und Löwen zugeordnet. Goldträume unter Sonnen-Transiten zeigen wachsendes Selbstbewusstsein und Lebensenergie."
+      },
+      "en": {
+        "ibn_sirin": [
+          "Gold (in general) means **grief, worries, illnesses** or **financial loss** (due to its yellow appearance and tendency to cause worries).",
+          "Holding gold coins means receiving **money** from a **king** or **authority figure**.",
+          "Melted gold indicates **disputes** or **bad words** about the dreamer."
+        ],
+        "ibn_sirin_alt": [
+          "Dreaming of gold for women is positive (jewelry, prosperity). For men, gold is often considered a negative sign, as wearing gold is forbidden for men in Islam – it warns against Haram."
+        ],
+        "jung": "Gold is the symbol of the Self – the goal of the alchemical process of individuation. The \"Golden Treasure\" in a dream shows proximity to the true Self.",
+        "medieval": "Gold symbolizes divine wisdom, purity, and heavenly value. The golden city of Jerusalem stands for the Kingdom of God.",
+        "western_zodiac": "Gold is associated with Sol (Sun) and Leo. Gold dreams during Sun transits show growing self-awareness and life energy."
+      },
+      "ar": {
+        "ibn_sirin": [
+          "الذهب (بشكل عام) يعني **الحزن، الهموم، الأمراض** أو **الخسارة المالية** (بسبب لونه الأصفر وميله لإثارة القلق).",
+          "حمل العملات الذهبية يعني الحصول على **المال** من **ملك** أو **صاحب سلطة**.",
+          "الذهب المذاب يشير إلى **النزاعات** أو **الكلام السيئ** عن الرائي."
+        ],
+        "ibn_sirin_alt": [
+          "رؤية الذهب للنساء إيجابية (زينة، ثراء). أما للرجال، فالذهب غالباً ما يعتبر علامة سلبية، لأن لبس الذهب محرم على الرجال في الإسلام – إنه يحذر من الحرام."
+        ],
+        "jung": "الذهب هو رمز الذات – هدف العملية الكيميائية (alchemistischen Prozesses) للتفرد (Individuation). \"الكنز الذهبي\" في الحلم يظهر القرب من الذات الحقيقية.",
+        "medieval": "الذهب يرمز إلى الحكمة الإلهية، النقاء، والقيمة السماوية. مدينة القدس الذهبية تمثل ملكوت الله.",
+        "western_zodiac": "الذهب مرتبط بالشمس (Sol) والأسد. أحلام الذهب تحت عبور الشمس (Sonnen-Transiten) تظهر وعياً ذاتياً متزايداً وطاقة حياتية."
+      },
+      "length_ratio_ar_de": 0.799,
+      "length_anomaly": false,
+      "usage": {
+        "prompt": 571,
+        "output": 595,
+        "total": 2992
+      }
+    }
+  }
+}

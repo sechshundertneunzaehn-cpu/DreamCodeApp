@@ -1,0 +1,41 @@
+{
+  "rows": [
+    {
+      "name": "counter-wasser desktop",
+      "status": "PASS",
+      "note": "total=2313 sim=28 research=2285"
+    },
+    {
+      "name": "ocean-baseline desktop",
+      "status": "FAIL",
+      "note": "markers=60"
+    },
+    {
+      "name": "mobile-ar-ماء",
+      "status": "PASS",
+      "note": "total=2313 research=2285"
+    },
+    {
+      "name": "equiv:wasser",
+      "status": "PASS",
+      "note": "research_count=2285"
+    },
+    {
+      "name": "equiv:water",
+      "status": "PASS",
+      "note": "research_count=2285"
+    },
+    {
+      "name": "equiv:ماء",
+      "status": "PASS",
+      "note": "research_count=2285"
+    },
+    {
+      "name": "equivalence-sum",
+      "status": "PASS",
+      "note": "counts=[2285,2285,2285]"
+    }
+  ],
+  "failed": 1,
+  "total": 7
+}

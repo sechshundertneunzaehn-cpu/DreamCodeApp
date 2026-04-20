@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import 'mapbox-gl/dist/mapbox-gl.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === THEME CSS VARIABLES === */
+:root {
+  color-scheme: light dark;
+  --text-primary: #1a1530;
+  --text-secondary: #4a4260;
+  --text-muted: #6b5a80;
+  --bg-primary: #ffffff;
+  --bg-surface: #f0eefc;
+  --border-color: #c4bce6;
+}
+
+.dark {
+  --text-primary: #f0eeff;
+  --text-secondary: #a89fc8;
+  --text-muted: #7a6f96;
+  --bg-primary: #0a0612;
+  --bg-surface: #0f0b1a;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+@layer base {
+  body {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--text-primary);
+    background-color: var(--bg-surface);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* === LIGHT-MODE TEXT OVERRIDE ===
+     Aggressiver Fix: ALLE Elemente im Light Mode bekommen dunklen Text.
+     Whitelist darunter stellt Ausnahmen wieder her. */
+
+  .light * {
+    color: #1a1530 !important;
+  }
+
+  /* Preserve transparent text (gradient clips) */
+  .light .text-transparent,
+  .light [class*="bg-clip-text"] {
+    color: transparent !important;
+  }
+
+  /* === WHITE TEXT: Nur auf Gradient-Buttons mit explizitem text-white === */
+  .light [class*="bg-gradient"][class*="text-white"],
+  .light .btn-mystic,
+  .light .btn-mystic * {
+    color: #ffffff !important;
+  }
+
+  /* === WHITE TEXT: Nur dunkle Shades (500-900) === */
+  .light [class*="bg-violet-500"] *, .light [class*="bg-violet-600"] *, .light [class*="bg-violet-700"] *, .light [class*="bg-violet-800"] *, .light [class*="bg-violet-900"] *,
+  .light [class*="bg-fuchsia-500"] *, .light [class*="bg-fuchsia-600"] *, .light [class*="bg-fuchsia-700"] *, .light [class*="bg-fuchsia-800"] *, .light [class*="bg-fuchsia-900"] *,
+  .light [class*="bg-indigo-500"] *, .light [class*="bg-indigo-600"] *, .light [class*="bg-indigo-700"] *, .light [class*="bg-indigo-800"] *, .light [class*="bg-indigo-900"] *,
+  .light [class*="bg-purple-500"] *, .light [class*="bg-purple-600"] *, .light [class*="bg-purple-700"] *, .light [class*="bg-purple-800"] *, .light [class*="bg-purple-900"] *,
+  .light [class*="bg-emerald-500"] *, .light [class*="bg-emerald-600"] *, .light [class*="bg-emerald-700"] *, .light [class*="bg-emerald-800"] *, .light [class*="bg-emerald-900"] *,
+  .light [class*="bg-red-500"] *, .light [class*="bg-red-600"] *, .light [class*="bg-red-700"] *, .light [class*="bg-red-800"] *, .light [class*="bg-red-900"] *,
+  .light [class*="bg-amber-500"] *, .light [class*="bg-amber-600"] *, .light [class*="bg-amber-700"] *, .light [class*="bg-amber-800"] *, .light [class*="bg-amber-900"] *,
+  .light [class*="bg-blue-500"] *, .light [class*="bg-blue-600"] *, .light [class*="bg-blue-700"] *, .light [class*="bg-blue-800"] *, .light [class*="bg-blue-900"] *,
+  .light [class*="bg-pink-500"] *, .light [class*="bg-pink-600"] *, .light [class*="bg-pink-700"] *, .light [class*="bg-pink-800"] *, .light [class*="bg-pink-900"] *,
+  .light [class*="bg-orange-500"] *, .light [class*="bg-orange-600"] *, .light [class*="bg-orange-700"] *, .light [class*="bg-orange-800"] *, .light [class*="bg-orange-900"] *,
+  .light [class*="bg-gray-500"] *, .light [class*="bg-gray-600"] *, .light [class*="bg-gray-700"] *, .light [class*="bg-gray-800"] *, .light [class*="bg-gray-900"] *,
+  .light [class*="bg-slate-500"] *, .light [class*="bg-slate-600"] *, .light [class*="bg-slate-700"] *, .light [class*="bg-slate-800"] *, .light [class*="bg-slate-900"] * {
+    color: #ffffff !important;
+  }
+
+  /* Reset dark text inside light containers (modals in dark backdrops) */
+  .light [class*="bg-mystic-"] *,
+  .light [class*="bg-white"] *,
+  .light [class*="bg-gray-50"] *,
+  .light [class*="bg-gray-100"] *,
+  .light [class*="bg-gray-200"] * {
+    color: #1a1530 !important;
+  }
+
+  /* Disabled buttons: sichtbarer Kontrast */
+  .light [class*="bg-gray-600"] .text-gray-400 {
+    color: #9ca3af !important;
+  }
+
+  /* Preserve accent/brand colors */
+  .light .text-fuchsia-500,
+  .light .text-fuchsia-600,
+  .light .text-violet-500,
+  .light .text-violet-600,
+  .light .text-indigo-500,
+  .light .text-indigo-600,
+  .light .text-purple-500,
+  .light .text-purple-600,
+  .light .text-emerald-600,
+  .light .text-emerald-700,
+  .light .text-amber-600,
+  .light .text-amber-700 {
+    color: inherit !important;
+  }
+
+  /* Preserve muted text hierarchy */
+  .light .text-slate-400,
+  .light .text-slate-500,
+  .light .text-gray-400,
+  .light .text-gray-500 {
+    color: #6b5a80 !important;
+  }
+
+  /* Placeholders sichtbar */
+  .light input::placeholder,
+  .light textarea::placeholder {
+    color: #6b5a80 !important;
+  }
+
+  /* Material icons inherit parent color */
+  .light .material-icons {
+    color: inherit !important;
+  }
+}
+
+@layer components {
+  /* === GLASS MORPHISM === */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(196, 188, 230, 0.6);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  }
+  .glass-card-dark {
+    background: rgba(15, 11, 26, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(196, 188, 230, 0.4);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+  }
+  .glass-nav-dark {
+    background: rgba(5, 2, 10, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  /* === MYSTIC BUTTON === */
+  .btn-mystic {
+    @apply bg-gradient-to-r from-accent-primary to-accent-tertiary text-white font-semibold rounded-xl px-6 py-3 shadow-mystic hover:shadow-mystic-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200;
+  }
+  .btn-mystic-outline {
+    @apply border-2 border-accent-primary text-accent-primary rounded-xl px-6 py-3 hover:bg-accent-primary/10 active:scale-[0.98] transition-all duration-200;
+  }
+  /* === CARD STYLES === */
+  .card-light {
+    @apply bg-mystic-card border border-mystic-border rounded-2xl p-4 shadow-glass hover:shadow-glass-lg hover:border-mystic-border transition-all duration-200;
+  }
+  .card-dark {
+    @apply bg-dream-card border border-white/10 rounded-2xl p-4 hover:border-accent-primary/30 transition-all duration-200;
+  }
+}
+
+/* Animation delays for blobs */
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Blob animation keyframes */
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+/* Animate-in base class - SAFE: defaults to visible, animation enhances */
+.animate-in {
+  animation-duration: 150ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: forwards;
+}
+
+/* Animation name classes */
+.fade-in {
+  animation-name: fadeIn;
+}
+
+.slide-in-from-top-2 {
+  animation-name: slideInFromTop;
+}
+
+.slide-in-from-bottom-2 {
+  animation-name: slideInFromBottom;
+}
+
+.slide-in-from-right {
+  animation-name: slideInFromRight;
+}
+
+.slide-in-from-bottom-4 {
+  animation-name: slideInFromBottom4;
+}
+
+.slide-in-from-top-4 {
+  animation-name: slideInFromTop4;
+}
+
+.zoom-in-95 {
+  animation-name: zoomIn95;
+}
+
+/* Duration overrides */
+.duration-300 {
+  animation-duration: 300ms;
+}
+
+.duration-500 {
+  animation-duration: 500ms;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInFromTop {
+  from { opacity: 0; transform: translateY(-0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromBottom {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromRight {
+  from { opacity: 0; transform: translateX(1rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInFromBottom4 {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromTop4 {
+  from { opacity: 0; transform: translateY(-1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomIn95 {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid #d946ef;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob, .animate-pulse, .animate-ping, .animate-spin, .animate-bounce {
+    animation: none !important;
+  }
+  .transition-all, .transition-transform, .transition-colors, .transition-opacity {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === ARABISCH / RTL FONT === */
+:lang(ar),
+[dir="rtl"] {
+  font-family: 'Cairo', 'Noto Naskh Arabic', 'Lato', sans-serif;
+}
+
+:lang(ar) h1,
+:lang(ar) h2,
+:lang(ar) h3,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  font-family: 'Cairo', 'Noto Naskh Arabic', serif;
+  font-weight: 700;
+}
+
+/* Material Icons müssen im RTL-Modus die Icon-Font behalten */
+[dir="rtl"] .material-icons,
+:lang(ar) .material-icons {
+  font-family: 'Material Icons' !important;
+  font-style: normal;
+  direction: ltr;
+  display: inline-block;
+}

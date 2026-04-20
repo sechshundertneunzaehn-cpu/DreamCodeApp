@@ -1,0 +1,48 @@
+{
+  "results": [
+    {
+      "symbol": "Wasser",
+      "apiStatus": "200/16.7kb",
+      "uiCount": 50,
+      "apiItemCount": 50,
+      "ok": true,
+      "note": ""
+    },
+    {
+      "symbol": "Dunkelheit",
+      "apiStatus": "200/17.2kb",
+      "uiCount": 50,
+      "apiItemCount": 50,
+      "ok": true,
+      "note": "nicht im Graph sichtbar → direkter API-Trigger; API-Count=50"
+    },
+    {
+      "symbol": "Brücke",
+      "apiStatus": "200/15.3kb",
+      "uiCount": 50,
+      "apiItemCount": 50,
+      "ok": true,
+      "note": "nicht im Graph sichtbar → direkter API-Trigger; API-Count=50"
+    },
+    {
+      "symbol": "Blut",
+      "apiStatus": "200/16.4kb",
+      "uiCount": 50,
+      "apiItemCount": 50,
+      "ok": true,
+      "note": "nicht im Graph sichtbar → direkter API-Trigger; API-Count=50"
+    }
+  ],
+  "apiCalls": [
+    {
+      "url": "https://dream-code.app/api/dreams/by-symbol/09208250-e787-463e-b721-193f6e55dcda?limit=50",
+      "status": 200,
+      "size": 15675,
+      "symbolId": "09208250-e787-463e-b721-193f6e55dcda"
+    }
+  ],
+  "consoleErrors": [
+    "A bad HTTP response code (401) was received when fetching the script.",
+    "Failed to load resource: the server responded with a status of 406 ()"
+  ]
+}

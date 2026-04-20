@@ -1,0 +1,2742 @@
+{
+  "generated_at": "2026-04-18T19:32:51.283055+00:00",
+  "source": "data/traumsymbole.v3.json",
+  "total_in_v3": 879,
+  "weights": {
+    "traditions": 0.4,
+    "ibn_sirin": 0.4,
+    "universal": 0.2
+  },
+  "universal_tier_scores": {
+    "exact": 1.0,
+    "prefix": 0.8,
+    "word": 0.7,
+    "sub_synonym": 0.5
+  },
+  "universal_symbols_count": 89,
+  "universal_keywords_matched_in_corpus": [
+    "auto",
+    "baby",
+    "baum",
+    "berg",
+    "blut",
+    "brille",
+    "bruder",
+    "bruecke",
+    "buch",
+    "dunkel",
+    "dunkelheit",
+    "eisen",
+    "engel",
+    "essen",
+    "fallen",
+    "feind",
+    "feuer",
+    "finden",
+    "fliegen",
+    "flucht",
+    "fluss",
+    "fremder",
+    "freund",
+    "geburt",
+    "gefaengnis",
+    "geld",
+    "gold",
+    "haus",
+    "himmel",
+    "hochzeit",
+    "hoehle",
+    "hoelle",
+    "hund",
+    "hut",
+    "insel",
+    "kampf",
+    "katze",
+    "kind",
+    "kleidung",
+    "koenig",
+    "koenigin",
+    "krankenhaus",
+    "krone",
+    "licht",
+    "liebe",
+    "meer",
+    "messer",
+    "mond",
+    "mutter",
+    "ozean",
+    "regen",
+    "reise",
+    "ring",
+    "schlange",
+    "schluessel",
+    "schrei",
+    "schuh",
+    "schule",
+    "schwangerschaft",
+    "schwert",
+    "schwester",
+    "sonne",
+    "spiegel",
+    "stein",
+    "sterne",
+    "stimme",
+    "sturm",
+    "suchen",
+    "teufel",
+    "tod",
+    "traum",
+    "trinken",
+    "tuer",
+    "uhr",
+    "vater",
+    "verfolgung",
+    "verstecken",
+    "vogel",
+    "waffe",
+    "wald",
+    "wasser",
+    "weg",
+    "wolke",
+    "zahn"
+  ],
+  "unmatched_universal_keywords": [
+    "arbeit",
+    "kuessen",
+    "nackt",
+    "sieg",
+    "verirren"
+  ],
+  "symbols": [
+    {
+      "rank": 1,
+      "id": "kb_auto___fahrzeug",
+      "name": "Auto / Fahrzeug",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "reise",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "reise"
+      }
+    },
+    {
+      "rank": 2,
+      "id": "kb_baby___kleinkind",
+      "name": "Baby / Kleinkind",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "schwangerschaft",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "schwangerschaft"
+      }
+    },
+    {
+      "rank": 3,
+      "id": "kb_blut",
+      "name": "Blut",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "blut",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "blut"
+      }
+    },
+    {
+      "rank": 4,
+      "id": "meer",
+      "name": "Meer / Ozean",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "sturm",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "sturm"
+      }
+    },
+    {
+      "rank": 5,
+      "id": "natur_001",
+      "name": "Feuer",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "feuer",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "feuer"
+      }
+    },
+    {
+      "rank": 6,
+      "id": "natur_006",
+      "name": "Wasser",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "ozean",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "ozean"
+      }
+    },
+    {
+      "rank": 7,
+      "id": "natur_021",
+      "name": "Mond",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "mond",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "mond"
+      }
+    },
+    {
+      "rank": 8,
+      "id": "natur_030",
+      "name": "Sonne",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "licht",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "licht"
+      }
+    },
+    {
+      "rank": 9,
+      "id": "objekt_007",
+      "name": "Haus",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "haus",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "haus"
+      }
+    },
+    {
+      "rank": 10,
+      "id": "ozean",
+      "name": "Ozean",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "ozean",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "ozean"
+      }
+    },
+    {
+      "rank": 11,
+      "id": "person_005",
+      "name": "Kind",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "kind",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "kind"
+      }
+    },
+    {
+      "rank": 12,
+      "id": "symbol_002",
+      "name": "Fallen",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "fallen",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "fallen"
+      }
+    },
+    {
+      "rank": 13,
+      "id": "symbol_004",
+      "name": "Fliegen",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "fliegen",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "fliegen"
+      }
+    },
+    {
+      "rank": 14,
+      "id": "symbol_008",
+      "name": "Tod",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "tod",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "tod"
+      }
+    },
+    {
+      "rank": 15,
+      "id": "symbol_009",
+      "name": "Verfolgung",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "flucht",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "flucht"
+      }
+    },
+    {
+      "rank": 16,
+      "id": "tier_009",
+      "name": "Hund",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "hund",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "hund"
+      }
+    },
+    {
+      "rank": 17,
+      "id": "tier_020",
+      "name": "Schlange",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "schlange",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "schlange"
+      }
+    },
+    {
+      "rank": 18,
+      "id": "zahn",
+      "name": "Zahn",
+      "score": 1.0,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "zahn",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "zahn"
+      }
+    },
+    {
+      "rank": 19,
+      "id": "kb_zahn___zähne",
+      "name": "Zahn / Zähne",
+      "score": 0.96,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 0.8,
+      "universal_match": {
+        "keyword": "zahn",
+        "tier": "prefix_name",
+        "field": "name",
+        "matched_text": "zahn / zaehne"
+      }
+    },
+    {
+      "rank": 20,
+      "id": "engel",
+      "name": "Engel",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "engel",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "engel"
+      }
+    },
+    {
+      "rank": 21,
+      "id": "hochzeit",
+      "name": "Hochzeit",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "hochzeit",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "hochzeit"
+      }
+    },
+    {
+      "rank": 22,
+      "id": "kb_berg",
+      "name": "Berg",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "berg",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "berg"
+      }
+    },
+    {
+      "rank": 23,
+      "id": "licht",
+      "name": "Licht",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "licht",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "licht"
+      }
+    },
+    {
+      "rank": 24,
+      "id": "nacht",
+      "name": "Nacht / Dunkelheit",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "sterne",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "sterne"
+      }
+    },
+    {
+      "rank": 25,
+      "id": "natur_009",
+      "name": "Dunkelheit",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "dunkelheit",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "dunkelheit"
+      }
+    },
+    {
+      "rank": 26,
+      "id": "natur_024",
+      "name": "Regen",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "sturm",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "sturm"
+      }
+    },
+    {
+      "rank": 27,
+      "id": "objekt_002",
+      "name": "Spiegel",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "spiegel",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "spiegel"
+      }
+    },
+    {
+      "rank": 28,
+      "id": "objekt_006",
+      "name": "Geld",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "geld",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "geld"
+      }
+    },
+    {
+      "rank": 29,
+      "id": "objekt_011",
+      "name": "Schlüssel",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "schluessel",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "schluessel"
+      }
+    },
+    {
+      "rank": 30,
+      "id": "objekt_037",
+      "name": "Gold",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "gold",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "gold"
+      }
+    },
+    {
+      "rank": 31,
+      "id": "objekt_081",
+      "name": "Nacht",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "dunkelheit",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "dunkelheit"
+      }
+    },
+    {
+      "rank": 32,
+      "id": "ort_015",
+      "name": "Tür",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "tuer",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "tuer"
+      }
+    },
+    {
+      "rank": 33,
+      "id": "schwangerschaft",
+      "name": "Schwangerschaft",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "schwangerschaft",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "schwangerschaft"
+      }
+    },
+    {
+      "rank": 34,
+      "id": "vogel",
+      "name": "Vogel",
+      "score": 0.92,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "fliegen",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "fliegen"
+      }
+    },
+    {
+      "rank": 35,
+      "id": "koenig",
+      "name": "König",
+      "score": 0.84,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "koenig",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "koenig"
+      }
+    },
+    {
+      "rank": 36,
+      "id": "koenigin",
+      "name": "Königin",
+      "score": 0.84,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "koenigin",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "koenigin"
+      }
+    },
+    {
+      "rank": 37,
+      "id": "symbol_005",
+      "name": "Geburt",
+      "score": 0.84,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "geburt",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "geburt"
+      }
+    },
+    {
+      "rank": 38,
+      "id": "zaehne",
+      "name": "Zähne",
+      "score": 0.8,
+      "tradition_count": 5,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 39,
+      "id": "baum",
+      "name": "Baum",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "baum",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "baum"
+      }
+    },
+    {
+      "rank": 40,
+      "id": "bruder",
+      "name": "Bruder",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "bruder",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "bruder"
+      }
+    },
+    {
+      "rank": 41,
+      "id": "buch",
+      "name": "Buch",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "buch",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "buch"
+      }
+    },
+    {
+      "rank": 42,
+      "id": "fliehen",
+      "name": "Fliehen",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "flucht",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "flucht"
+      }
+    },
+    {
+      "rank": 43,
+      "id": "fremder",
+      "name": "Fremder",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "fremder",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "fremder"
+      }
+    },
+    {
+      "rank": 44,
+      "id": "heiraten",
+      "name": "Heiraten",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "hochzeit",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "hochzeit"
+      }
+    },
+    {
+      "rank": 45,
+      "id": "hoehle",
+      "name": "Höhle",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "hoehle",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "hoehle"
+      }
+    },
+    {
+      "rank": 46,
+      "id": "hoelle",
+      "name": "Hölle",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "hoelle",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "hoelle"
+      }
+    },
+    {
+      "rank": 47,
+      "id": "katze",
+      "name": "Katze",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "katze",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "katze"
+      }
+    },
+    {
+      "rank": 48,
+      "id": "kleidung",
+      "name": "Kleidung",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "kleidung",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "kleidung"
+      }
+    },
+    {
+      "rank": 49,
+      "id": "natur_013",
+      "name": "Fluss",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "fluss",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "fluss"
+      }
+    },
+    {
+      "rank": 50,
+      "id": "objekt_001",
+      "name": "Messer",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "messer",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "messer"
+      }
+    },
+    {
+      "rank": 51,
+      "id": "objekt_024",
+      "name": "Fackel",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "licht",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "licht"
+      }
+    },
+    {
+      "rank": 52,
+      "id": "objekt_070",
+      "name": "Krone",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "krone",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "krone"
+      }
+    },
+    {
+      "rank": 53,
+      "id": "objekt_074",
+      "name": "Lampe",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "licht",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "licht"
+      }
+    },
+    {
+      "rank": 54,
+      "id": "objekt_087",
+      "name": "Perle",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "geld",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "geld"
+      }
+    },
+    {
+      "rank": 55,
+      "id": "ort_003",
+      "name": "Brücke",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "bruecke",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "bruecke"
+      }
+    },
+    {
+      "rank": 56,
+      "id": "ort_006",
+      "name": "Gefängnis",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "gefaengnis",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "gefaengnis"
+      }
+    },
+    {
+      "rank": 57,
+      "id": "ort_013",
+      "name": "Schule",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "schule",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "schule"
+      }
+    },
+    {
+      "rank": 58,
+      "id": "ort_014",
+      "name": "Straße",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "weg",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "weg"
+      }
+    },
+    {
+      "rank": 59,
+      "id": "person_001",
+      "name": "Mutter",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "mutter",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "mutter"
+      }
+    },
+    {
+      "rank": 60,
+      "id": "person_006",
+      "name": "Vater",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "vater",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "vater"
+      }
+    },
+    {
+      "rank": 61,
+      "id": "ring",
+      "name": "Ring",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "ring",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "ring"
+      }
+    },
+    {
+      "rank": 62,
+      "id": "schwert",
+      "name": "Schwert",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "waffe",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "waffe"
+      }
+    },
+    {
+      "rank": 63,
+      "id": "sterben",
+      "name": "Sterben",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "tod",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "tod"
+      }
+    },
+    {
+      "rank": 64,
+      "id": "sturm",
+      "name": "Sturm",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "sturm",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "sturm"
+      }
+    },
+    {
+      "rank": 65,
+      "id": "symbol_001",
+      "name": "Essen",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "essen",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "essen"
+      }
+    },
+    {
+      "rank": 66,
+      "id": "teufel",
+      "name": "Teufel",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "teufel",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "teufel"
+      }
+    },
+    {
+      "rank": 67,
+      "id": "tier_024",
+      "name": "Taube",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "vogel",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "vogel"
+      }
+    },
+    {
+      "rank": 68,
+      "id": "verstecken",
+      "name": "Verstecken",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "verstecken",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "verstecken"
+      }
+    },
+    {
+      "rank": 69,
+      "id": "waffe",
+      "name": "Waffe",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "waffe",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "waffe"
+      }
+    },
+    {
+      "rank": 70,
+      "id": "weg",
+      "name": "Weg",
+      "score": 0.76,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "weg",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "weg"
+      }
+    },
+    {
+      "rank": 71,
+      "id": "tier_023",
+      "name": "Spinne",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 72,
+      "id": "treppe",
+      "name": "Treppe",
+      "score": 0.72,
+      "tradition_count": 4,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 73,
+      "id": "farbe_gold",
+      "name": "Farbe Gold",
+      "score": 0.7,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.7,
+      "universal_match": {
+        "keyword": "gold",
+        "tier": "word_name",
+        "field": "name",
+        "matched_text": "farbe gold"
+      }
+    },
+    {
+      "rank": 74,
+      "id": "aktivitaet_007",
+      "name": "Pilgerfahrt (Hajj)",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "reise",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "reise"
+      }
+    },
+    {
+      "rank": 75,
+      "id": "eisen",
+      "name": "Eisen",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "eisen",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "eisen"
+      }
+    },
+    {
+      "rank": 76,
+      "id": "emotion_011",
+      "name": "Verlangen",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "hund",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "hund"
+      }
+    },
+    {
+      "rank": 77,
+      "id": "fels",
+      "name": "Fels",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "stein",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "stein"
+      }
+    },
+    {
+      "rank": 78,
+      "id": "kampf",
+      "name": "Kampf",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "kampf",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "kampf"
+      }
+    },
+    {
+      "rank": 79,
+      "id": "natur_017",
+      "name": "Hügel",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "berg",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "berg"
+      }
+    },
+    {
+      "rank": 80,
+      "id": "objekt_031",
+      "name": "Fest/Feier",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "hochzeit",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "hochzeit"
+      }
+    },
+    {
+      "rank": 81,
+      "id": "objekt_061",
+      "name": "Kette/Fessel",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "eisen",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "eisen"
+      }
+    },
+    {
+      "rank": 82,
+      "id": "objekt_090",
+      "name": "Reichtum",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "geld",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "geld"
+      }
+    },
+    {
+      "rank": 83,
+      "id": "objekt_101",
+      "name": "Säbel/Messer",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "waffe",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "waffe"
+      }
+    },
+    {
+      "rank": 84,
+      "id": "ort_005",
+      "name": "Gate/Tor",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "tuer",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "tuer"
+      }
+    },
+    {
+      "rank": 85,
+      "id": "stein",
+      "name": "Stein",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "stein",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "stein"
+      }
+    },
+    {
+      "rank": 86,
+      "id": "verbergen",
+      "name": "Verbergen",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "verstecken",
+        "tier": "exact_synonym",
+        "field": "synonyme",
+        "matched_text": "verstecken"
+      }
+    },
+    {
+      "rank": 87,
+      "id": "wolke",
+      "name": "Wolke",
+      "score": 0.68,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 1.0,
+      "universal_match": {
+        "keyword": "wolke",
+        "tier": "exact_name",
+        "field": "name",
+        "matched_text": "wolke"
+      }
+    },
+    {
+      "rank": 88,
+      "id": "adler",
+      "name": "Adler",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "vogel",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "raubvogel"
+      }
+    },
+    {
+      "rank": 89,
+      "id": "alptraum",
+      "name": "Alptraum",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "traum",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "albtraum"
+      }
+    },
+    {
+      "rank": 90,
+      "id": "amulett",
+      "name": "Amulett",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "ring",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "gluecksbringer"
+      }
+    },
+    {
+      "rank": 91,
+      "id": "brunnen",
+      "name": "Brunnen",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "wasser",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "wasserquelle"
+      }
+    },
+    {
+      "rank": 92,
+      "id": "kaempfen",
+      "name": "Kämpfen",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "ring",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "ringen"
+      }
+    },
+    {
+      "rank": 93,
+      "id": "kerze",
+      "name": "Kerze",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "licht",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "wachslicht"
+      }
+    },
+    {
+      "rank": 94,
+      "id": "lesen",
+      "name": "Lesen",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "tuer",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "lektuere"
+      }
+    },
+    {
+      "rank": 95,
+      "id": "natur_032",
+      "name": "Wüste",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "wasser",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "wasserlose ebene"
+      }
+    },
+    {
+      "rank": 96,
+      "id": "objekt_042",
+      "name": "Helm",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "hut",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "schutz"
+      }
+    },
+    {
+      "rank": 97,
+      "id": "objekt_114",
+      "name": "Waage",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "essen",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "messen"
+      }
+    },
+    {
+      "rank": 98,
+      "id": "pfau",
+      "name": "Pfau",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "vogel",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "paradiesvogel"
+      }
+    },
+    {
+      "rank": 99,
+      "id": "quelle",
+      "name": "Quelle",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "wasser",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "wasserquelle"
+      }
+    },
+    {
+      "rank": 100,
+      "id": "stern",
+      "name": "Stern",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "himmel",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "himmelskoerper"
+      }
+    },
+    {
+      "rank": 101,
+      "id": "tier_005",
+      "name": "Falke",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "vogel",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "raubvogel"
+      }
+    },
+    {
+      "rank": 102,
+      "id": "tier_012",
+      "name": "Löwe",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "koenig",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "koenig der tiere"
+      }
+    },
+    {
+      "rank": 103,
+      "id": "wal",
+      "name": "Wal",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "meer",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "meeresriese"
+      }
+    },
+    {
+      "rank": 104,
+      "id": "zypresse",
+      "name": "Zypresse",
+      "score": 0.66,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "baum",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "nadelbaum"
+      }
+    },
+    {
+      "rank": 105,
+      "id": "aktivitaet_006",
+      "name": "Kampf/Schlacht",
+      "score": 0.64,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.8,
+      "universal_match": {
+        "keyword": "kampf",
+        "tier": "prefix_name",
+        "field": "name",
+        "matched_text": "kampf/schlacht"
+      }
+    },
+    {
+      "rank": 106,
+      "id": "natur_002",
+      "name": "Garten",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 107,
+      "id": "natur_003",
+      "name": "Schnee",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 108,
+      "id": "natur_005",
+      "name": "Flut",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 109,
+      "id": "natur_016",
+      "name": "Hölle/Höllenfeuer (Jahannam)",
+      "score": 0.64,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.8,
+      "universal_match": {
+        "keyword": "hoelle",
+        "tier": "prefix_name",
+        "field": "name",
+        "matched_text": "hoelle/hoellenfeuer (jahannam)"
+      }
+    },
+    {
+      "rank": 110,
+      "id": "natur_025",
+      "name": "Rose",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 111,
+      "id": "natur_028",
+      "name": "Schuh/Sandalen",
+      "score": 0.64,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.8,
+      "universal_match": {
+        "keyword": "schuh",
+        "tier": "prefix_name",
+        "field": "name",
+        "matched_text": "schuh/sandalen"
+      }
+    },
+    {
+      "rank": 112,
+      "id": "objekt_017",
+      "name": "Asche",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 113,
+      "id": "objekt_063",
+      "name": "Kleidung (Neu)",
+      "score": 0.64,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.8,
+      "universal_match": {
+        "keyword": "kleidung",
+        "tier": "prefix_name",
+        "field": "name",
+        "matched_text": "kleidung (neu)"
+      }
+    },
+    {
+      "rank": 114,
+      "id": "objekt_064",
+      "name": "Kleidung Aufhängen",
+      "score": 0.64,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.8,
+      "universal_match": {
+        "keyword": "kleidung",
+        "tier": "prefix_name",
+        "field": "name",
+        "matched_text": "kleidung aufhaengen"
+      }
+    },
+    {
+      "rank": 115,
+      "id": "objekt_112",
+      "name": "Uhr/Zeit",
+      "score": 0.64,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.8,
+      "universal_match": {
+        "keyword": "uhr",
+        "tier": "prefix_name",
+        "field": "name",
+        "matched_text": "uhr/zeit"
+      }
+    },
+    {
+      "rank": 116,
+      "id": "person_009",
+      "name": "Kind/Baby",
+      "score": 0.64,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.8,
+      "universal_match": {
+        "keyword": "kind",
+        "tier": "prefix_name",
+        "field": "name",
+        "matched_text": "kind/baby"
+      }
+    },
+    {
+      "rank": 117,
+      "id": "symbol_007",
+      "name": "Reisen",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 118,
+      "id": "tier_019",
+      "name": "Schildkröte",
+      "score": 0.64,
+      "tradition_count": 3,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 119,
+      "id": "natur_011",
+      "name": "Fels/Stein",
+      "score": 0.62,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.7,
+      "universal_match": {
+        "keyword": "stein",
+        "tier": "word_name",
+        "field": "name",
+        "matched_text": "fels/stein"
+      }
+    },
+    {
+      "rank": 120,
+      "id": "natur_029",
+      "name": "Schwarzer Stein",
+      "score": 0.62,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.7,
+      "universal_match": {
+        "keyword": "stein",
+        "tier": "word_name",
+        "field": "name",
+        "matched_text": "schwarzer stein"
+      }
+    },
+    {
+      "rank": 121,
+      "id": "objekt_052",
+      "name": "Iron/Eisen",
+      "score": 0.62,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.7,
+      "universal_match": {
+        "keyword": "eisen",
+        "tier": "word_name",
+        "field": "name",
+        "matched_text": "iron/eisen"
+      }
+    },
+    {
+      "rank": 122,
+      "id": "objekt_059",
+      "name": "Kerze/Licht",
+      "score": 0.62,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.7,
+      "universal_match": {
+        "keyword": "licht",
+        "tier": "word_name",
+        "field": "name",
+        "matched_text": "kerze/licht"
+      }
+    },
+    {
+      "rank": 123,
+      "id": "objekt_083",
+      "name": "Nahrung/Essen",
+      "score": 0.62,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.7,
+      "universal_match": {
+        "keyword": "essen",
+        "tier": "word_name",
+        "field": "name",
+        "matched_text": "nahrung/essen"
+      }
+    },
+    {
+      "rank": 124,
+      "id": "objekt_098",
+      "name": "Sich Verstecken",
+      "score": 0.62,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.7,
+      "universal_match": {
+        "keyword": "verstecken",
+        "tier": "word_name",
+        "field": "name",
+        "matched_text": "sich verstecken"
+      }
+    },
+    {
+      "rank": 125,
+      "id": "kapelle",
+      "name": "Kapelle",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "haus",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "gotteshaus"
+      }
+    },
+    {
+      "rank": 126,
+      "id": "minaret",
+      "name": "Minaret",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "sturm",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "gebetsturm"
+      }
+    },
+    {
+      "rank": 127,
+      "id": "natur_023",
+      "name": "Quelle/Brunnen",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "wasser",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "wasserstelle"
+      }
+    },
+    {
+      "rank": 128,
+      "id": "objekt_029",
+      "name": "Feder",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "vogel",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "vogelfeder"
+      }
+    },
+    {
+      "rank": 129,
+      "id": "objekt_051",
+      "name": "Ink/Tinte",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "schrei",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "schreibfluessigkeit"
+      }
+    },
+    {
+      "rank": 130,
+      "id": "objekt_056",
+      "name": "Juwelen",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "stein",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "edelsteine"
+      }
+    },
+    {
+      "rank": 131,
+      "id": "objekt_106",
+      "name": "Tinte",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "schrei",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "schreibtinte"
+      }
+    },
+    {
+      "rank": 132,
+      "id": "objekt_117",
+      "name": "Zepter",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "auto",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "autoritaet"
+      }
+    },
+    {
+      "rank": 133,
+      "id": "ort_008",
+      "name": "Kapelle/Kirche",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "haus",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "gotteshaus"
+      }
+    },
+    {
+      "rank": 134,
+      "id": "ort_009",
+      "name": "Moschee",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "haus",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "gebetshaus"
+      }
+    },
+    {
+      "rank": 135,
+      "id": "ort_011",
+      "name": "Sauna/Türkisches Bad",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "haus",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "badhaus"
+      }
+    },
+    {
+      "rank": 136,
+      "id": "ort_016",
+      "name": "Türkis",
+      "score": 0.58,
+      "tradition_count": 1,
+      "has_ibn_sirin": true,
+      "universal_score": 0.5,
+      "universal_match": {
+        "keyword": "stein",
+        "tier": "sub_synonym",
+        "field": "synonyme",
+        "matched_text": "edelstein"
+      }
+    },
+    {
+      "rank": 137,
+      "id": "affe",
+      "name": "Affe",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 138,
+      "id": "aktivitaet_002",
+      "name": "Betrug",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 139,
+      "id": "aktivitaet_004",
+      "name": "Graben",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 140,
+      "id": "aktivitaet_008",
+      "name": "Schlafen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 141,
+      "id": "aktivitaet_010",
+      "name": "Schwimmen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 142,
+      "id": "alter_mann",
+      "name": "Alter Mann",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 143,
+      "id": "ameise",
+      "name": "Ameise",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 144,
+      "id": "angst",
+      "name": "Angst",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 145,
+      "id": "apokalypse",
+      "name": "Apokalypse",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 146,
+      "id": "arzt",
+      "name": "Arzt",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 147,
+      "id": "atem",
+      "name": "Atem",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 148,
+      "id": "auferstehung",
+      "name": "Auferstehung",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 149,
+      "id": "auge",
+      "name": "Auge",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 150,
+      "id": "augen",
+      "name": "Augen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 151,
+      "id": "badezimmer",
+      "name": "Badezimmer",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 152,
+      "id": "bart",
+      "name": "Bart",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 153,
+      "id": "bauen",
+      "name": "Bauen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 154,
+      "id": "beten",
+      "name": "Beten",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 155,
+      "id": "biene",
+      "name": "Biene",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 156,
+      "id": "blitz",
+      "name": "Blitz",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 157,
+      "id": "blume",
+      "name": "Blume",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 158,
+      "id": "braeutigam",
+      "name": "Bräutigam",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 159,
+      "id": "braut",
+      "name": "Braut",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 160,
+      "id": "brot",
+      "name": "Brot",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 161,
+      "id": "brust",
+      "name": "Brust",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 162,
+      "id": "dattelpalme",
+      "name": "Dattelpalme",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 163,
+      "id": "dieb",
+      "name": "Dieb",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 164,
+      "id": "dolch",
+      "name": "Dolch",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 165,
+      "id": "ehepartner",
+      "name": "Ehepartner",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 166,
+      "id": "elefant",
+      "name": "Elefant",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 167,
+      "id": "emotion_010",
+      "name": "Trauer",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 168,
+      "id": "engelsfluegel",
+      "name": "Engelsflügel",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 169,
+      "id": "erdbeben",
+      "name": "Erdbeben",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 170,
+      "id": "erde",
+      "name": "Erde",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 171,
+      "id": "ertrinken",
+      "name": "Ertrinken",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 172,
+      "id": "eule",
+      "name": "Eule",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 173,
+      "id": "fahren",
+      "name": "Fahren",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 174,
+      "id": "farbe_blau",
+      "name": "Farbe Blau",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 175,
+      "id": "farbe_gruen",
+      "name": "Farbe Grün",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 176,
+      "id": "farbe_rot",
+      "name": "Farbe Rot",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 177,
+      "id": "farbe_schwarz",
+      "name": "Farbe Schwarz",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 178,
+      "id": "farbe_weiss",
+      "name": "Farbe Weiss",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 179,
+      "id": "fasten",
+      "name": "Fasten",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 180,
+      "id": "fluegel",
+      "name": "Flügel",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 181,
+      "id": "friedhof",
+      "name": "Friedhof",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 182,
+      "id": "frosch",
+      "name": "Frosch",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 183,
+      "id": "fuchs",
+      "name": "Fuchs",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 184,
+      "id": "fuesse",
+      "name": "Füße",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 185,
+      "id": "gebet",
+      "name": "Gebet",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 186,
+      "id": "glocke",
+      "name": "Glocke",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 187,
+      "id": "glut",
+      "name": "Glut",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 188,
+      "id": "grab",
+      "name": "Grab",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 189,
+      "id": "haende",
+      "name": "Hände",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 190,
+      "id": "handflaeche",
+      "name": "Handfläche",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 191,
+      "id": "heilen",
+      "name": "Heilen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 192,
+      "id": "heilung",
+      "name": "Heilung",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 193,
+      "id": "hoffnung",
+      "name": "Hoffnung",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 194,
+      "id": "kamel",
+      "name": "Kamel",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 195,
+      "id": "klettern",
+      "name": "Klettern",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 196,
+      "id": "knie",
+      "name": "Knie",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 197,
+      "id": "knochen",
+      "name": "Knochen",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 198,
+      "id": "koerper_001",
+      "name": "Finger",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 199,
+      "id": "koerper_003",
+      "name": "Haare",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    },
+    {
+      "rank": 200,
+      "id": "koerper_004",
+      "name": "Hand",
+      "score": 0.56,
+      "tradition_count": 2,
+      "has_ibn_sirin": true,
+      "universal_score": 0.0,
+      "universal_match": null
+    }
+  ]
+}
