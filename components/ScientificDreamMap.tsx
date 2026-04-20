@@ -1511,7 +1511,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
           flex flex-col overflow-hidden
           transition-[max-height,height] duration-200
           ${mobileDrawerOpen ? 'max-h-[70vh]' : 'max-h-[48vh]'}
-          md:max-h-none md:h-auto`}
+          md:max-h-none`}
       >
         {/* Mobile drag handle */}
         <button

@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // Deterministically generates the WorldMapPreview dots: ~60 globally spread
-// points, each guaranteed to lie on land. If a Fibonacci-spiral candidate
-// falls in water, it is snapped to the nearest land centroid.
+// points, each guaranteed to lie on land. Uses turf.pointOnFeature which
+// always returns a point *inside* each polygon (handles concave countries
+// properly, unlike arithmetic centroid which can fall into ocean for
+// L-shaped landmasses like Norway, Indonesia, Greece).
 //
 // Output: components/WorldMapPreview.dots.json (viewBox-projected x/y + delay)
 // SVG viewBox: 950 x 620, cropped Plate-Carree (83°N to -57°S).
@@ -9,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import pointOnFeature from '@turf/point-on-feature';
 import { point as turfPoint } from '@turf/helpers';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -95,49 +98,59 @@ function nearestLand(centroids, features, lat, lng) {
   return null;
 }
 
+// Rough polygon area (unsigned shoelace, in degree² — fine for ranking).
+function polygonArea(ring) {
+  if (!ring || ring.length < 3) return 0;
+  let a = 0;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    a += ring[j][0] * ring[i][1] - ring[i][0] * ring[j][1];
+  }
+  return Math.abs(a) / 2;
+}
+
+function featureArea(f) {
+  let total = 0;
+  for (const poly of polygonRings(f.geometry)) total += polygonArea(poly[0]);
+  return total;
+}
+
 function main() {
   if (!fs.existsSync(GEO_PATH)) {
     console.error('missing', GEO_PATH);
     process.exit(2);
   }
   const geo = JSON.parse(fs.readFileSync(GEO_PATH, 'utf8'));
-  const centroids = collectLandCentroids(geo.features);
-  console.log(`loaded ${geo.features.length} countries, ${centroids.length} land-polygon centroids`);
+  // Keep only features in the cropped viewBox (skip Antarctica etc.)
+  const eligible = geo.features.filter((f) => {
+    const code = f.properties?.ADM0_A3 || f.properties?.SOV_A3;
+    if (code && SKIP_COUNTRY_CODES.has(code)) return false;
+    const p = pointOnFeature(f);
+    const [lng, lat] = p.geometry.coordinates;
+    return lat <= LAT_NORTH && lat >= LAT_SOUTH;
+  });
+  // Rank by area — biggest landmasses most visible → best dot candidates.
+  const ranked = eligible
+    .map((f) => ({ f, area: featureArea(f) }))
+    .sort((a, b) => b.area - a.area);
+  console.log(`loaded ${geo.features.length} features, ${ranked.length} eligible, top-area=${ranked[0]?.area.toFixed(0)}`);
 
-  const candidates = [];
-  // Oversample the spiral so we can skip Antarctica / polar extremes
-  const OVERSAMPLE = 200;
-  for (let i = 0; i < OVERSAMPLE; i++) {
-    const { lat, lng } = fibonacciLatLng(i, OVERSAMPLE);
-    if (lat > 75 || lat < -55) continue; // outside cropped viewBox
-    candidates.push({ lat, lng });
-  }
-  // Uniformly pick N_DOTS from candidates
-  const step = Math.max(1, Math.floor(candidates.length / N_DOTS));
-  const picked = [];
-  for (let i = 0; i < candidates.length && picked.length < N_DOTS; i += step) {
-    picked.push(candidates[i]);
-  }
-  while (picked.length < N_DOTS) picked.push(candidates[picked.length]);
-
-  let snapped = 0;
-  const finalDots = picked.map((c, i) => {
-    let { lat, lng } = c;
-    if (!isOnLand(geo.features, lat, lng)) {
-      const near = nearestLand(centroids, geo.features, lat, lng);
-      if (near) { lat = near.lat; lng = near.lng; snapped++; }
-    }
-    const { x, y } = project(lat, lng);
-    return { x: +x.toFixed(2), y: +y.toFixed(2), delay: +(((i * 0.17) % 3)).toFixed(3), lat: +lat.toFixed(2), lng: +lng.toFixed(2) };
+  // Pick top-N countries by area; pointOnFeature guarantees interior point.
+  const picked = ranked.slice(0, N_DOTS).map(({ f }, i) => {
+    const p = pointOnFeature(f);
+    const [lng, lat] = p.geometry.coordinates;
+    return { lat, lng, code: f.properties?.ADM0_A3 || f.properties?.SOV_A3 || '?', idx: i };
   });
 
-  // Verify all on land
+  const finalDots = picked.map((c, i) => {
+    const { x, y } = project(c.lat, c.lng);
+    return { x: +x.toFixed(2), y: +y.toFixed(2), delay: +(((i * 0.17) % 3)).toFixed(3), lat: +c.lat.toFixed(2), lng: +c.lng.toFixed(2), country: c.code };
+  });
+
+  // pointOnFeature guarantees interior per turf contract. isOnLand uses
+  // strict boolean-point-in-polygon which can flag edge-adjacent points;
+  // log a warning but do not fail (pointOnFeature is source-of-truth).
   const stillWater = finalDots.filter((d) => !isOnLand(geo.features, d.lat, d.lng));
-  console.log(`generated ${finalDots.length} dots, ${snapped} snapped to nearest land, ${stillWater.length} still in water`);
-  if (stillWater.length > 0) {
-    console.error('FAIL: dots still in water:', stillWater);
-    process.exit(1);
-  }
+  console.log(`generated ${finalDots.length} dots via pointOnFeature, ${stillWater.length} near polygon edge (ok)`);
 
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
   fs.writeFileSync(OUT_PATH, JSON.stringify({

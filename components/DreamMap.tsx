@@ -1782,11 +1782,14 @@ const DreamMap: React.FC<DreamMapProps> = ({
               {onClose && (
                 <button
                   onClick={onClose}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                    isLight ? 'bg-gray-100 hover:bg-gray-200 text-gray-500' : 'bg-white/10 hover:bg-white/20 text-white/60'
+                  aria-label={lang === 'de' ? 'Zurück' : 'Back'}
+                  title={lang === 'de' ? 'Zurück zur Startseite' : 'Back to home'}
+                  className={`flex items-center gap-1.5 px-3 h-8 rounded-full text-xs font-semibold transition-colors ${
+                    isLight ? 'bg-gray-100 hover:bg-gray-200 text-gray-700' : 'bg-white/10 hover:bg-white/20 text-white/80'
                   }`}
                 >
-                  <span className="material-icons text-lg">close</span>
+                  <span className="material-icons text-base">arrow_back</span>
+                  <span>{lang === 'de' ? 'Zurück' : 'Back'}</span>
                 </button>
               )}
             </div>
@@ -2052,7 +2055,12 @@ const DreamMap: React.FC<DreamMapProps> = ({
           ))}
         </div>
 
-        {/* ── Demographic Filters ── */}
+        {/* 2026-04-20 gated: Demografische Filter (Alter/Land/Ort/Gender) wirkten nur
+            auf SimUser-Liste, die seit DreamMap-Research-only-View versteckt ist.
+            Aktuelle Quelle (matching_dreams.research_sample aus /api/symbols/search)
+            akzeptiert diese Filter-Parameter noch nicht — Wiederaktivierung sobald
+            Backend unterstützt. */}
+        {false && (
         <div className={`mt-1.5 flex flex-wrap gap-1.5 items-center`}>
           {/* Gender */}
           <div className="flex gap-1">
@@ -2139,6 +2147,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
             </button>
           )}
         </div>
+        )}
       </div>
 
       {/* ── Stats Bar ── */}
