@@ -55,7 +55,7 @@ const WorldMapPreview: React.FC<Props> = ({ isLight, onClickFullscreen }) => {
       `}</style>
 
       <img
-        src={`${import.meta.env.BASE_URL}world-map.svg`}
+        src={`${import.meta.env.BASE_URL}WorldMapPreview.land.svg`}
         alt=""
         aria-hidden="true"
         className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"

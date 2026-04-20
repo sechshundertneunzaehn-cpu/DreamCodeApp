@@ -147,6 +147,45 @@ function main() {
     dots: finalDots,
   }, null, 2));
   console.log('wrote', path.relative(ROOT, OUT_PATH));
+
+  writeLandSvg(geo);
+}
+
+// Projects world-110m.geojson polygons into the same viewBox as the dots so
+// dots sit exactly on the land silhouette (vs. the artistic world-map.svg
+// which has slightly different coastlines → dots visually "in the ocean").
+function writeLandSvg(geo) {
+  const OUT_SVG = path.join(ROOT, 'public', 'WorldMapPreview.land.svg');
+  const paths = [];
+  for (const f of geo.features) {
+    const code = f.properties?.ADM0_A3 || f.properties?.SOV_A3;
+    if (code && SKIP_COUNTRY_CODES.has(code)) continue;
+    const rings = polygonRings(f.geometry);
+    if (!rings.length) continue;
+    const segments = [];
+    for (const polygon of rings) {
+      for (const ring of polygon) {
+        if (!ring || ring.length < 3) continue;
+        const pts = [];
+        for (const [lng, lat] of ring) {
+          if (lat > LAT_NORTH || lat < LAT_SOUTH) { pts.length = 0; break; }
+          const { x, y } = project(lat, lng);
+          pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+        }
+        if (pts.length >= 3) segments.push('M' + pts.join(' L') + ' Z');
+      }
+    }
+    if (segments.length) paths.push(segments.join(' '));
+  }
+  const svg = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VIEWBOX_W} ${VIEWBOX_H}" preserveAspectRatio="xMidYMid meet">`,
+    `  <path d="${paths.join(' ')}" fill="var(--map-land-color, #d1d5db)" stroke="none" />`,
+    '</svg>',
+    '',
+  ].join('\n');
+  fs.writeFileSync(OUT_SVG, svg);
+  console.log('wrote', path.relative(ROOT, OUT_SVG), `${(svg.length / 1024).toFixed(1)} KB`);
 }
 
 main();

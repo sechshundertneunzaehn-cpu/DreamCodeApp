@@ -1956,6 +1956,42 @@ const DreamMap: React.FC<DreamMapProps> = ({
             })}
           </div>
         )}
+        {/* Research-Dreams aus Symbol-Match — Bug 2/3 Fix 2026-04-20
+            Datenquelle: useSymbolSearch Hook, Pfad `response.matching_dreams.research_sample`
+            Sample-Felder: dream_id, study_code, participant_id, snippet_80chars (bis zu 50 Samples) */}
+        {searchQuery.trim().length >= 2 && (symbolSearch?.matching_dreams?.research_sample?.length ?? 0) > 0 && (
+          <div className={`mt-1 rounded-xl border overflow-hidden shadow-lg ${isLight ? 'bg-white border-cyan-200' : 'bg-gray-900 border-cyan-500/20'}`} data-testid="dreammap-research-cards">
+            <div className={`px-3 py-1.5 text-[10px] font-bold border-b flex items-center gap-1.5 ${isLight ? 'text-cyan-700 border-cyan-100 bg-cyan-50/50' : 'text-cyan-300 border-white/5 bg-cyan-500/5'}`}>
+              <span>🔬</span>
+              <span>
+                {lang === 'de' ? 'Forschungs-Träume' : 'Research Dreams'} ({symbolSearch!.matching_dreams!.research_sample!.length}
+                {symbolSearch!.matching_dreams!.research_total > symbolSearch!.matching_dreams!.research_sample!.length
+                  ? ` ${lang === 'de' ? 'von' : 'of'} ${symbolSearch!.matching_dreams!.research_total.toLocaleString()}`
+                  : ''}
+                )
+              </span>
+            </div>
+            {symbolSearch!.matching_dreams!.research_sample!.slice(0, 20).map((d) => (
+              <button
+                key={d.dream_id}
+                onClick={() => onNavigateToStudy?.(d.study_code ?? '')}
+                data-dream-id={d.dream_id}
+                data-study={d.study_code ?? ''}
+                className={`w-full flex items-start gap-3 px-3 py-2 text-left transition-colors ${isLight ? 'hover:bg-cyan-50' : 'hover:bg-white/5'} border-b last:border-b-0 ${isLight ? 'border-cyan-100' : 'border-white/5'}`}
+              >
+                <span className="text-lg shrink-0 leading-6">🔬</span>
+                <div className="min-w-0 flex-1">
+                  <div className={`text-[11px] font-semibold truncate ${textMain}`}>
+                    {d.study_code ?? '—'} <span className="opacity-60 font-normal">· {d.participant_id ?? '—'}</span>
+                  </div>
+                  {d.snippet_80chars && (
+                    <div className={`text-xs opacity-75 line-clamp-2 ${textSub}`}>{d.snippet_80chars}</div>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
         {/* Keyword-Vorschläge wenn 0 Ergebnisse */}
         {searchQuery.trim().length >= 2 && sortedFilteredUsers.length === 0 && (() => {
           const q = searchQuery.trim().toLowerCase();
