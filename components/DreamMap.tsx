@@ -71,6 +71,7 @@ interface Translations {
   translatedHint: (original: string, translated: string) => string;
   matchThreshold: string;
   matchedDreamers: string;
+  scientificDreamReports: string;
   noDreamsFound: string;
   // Profile translations
   profileBack: string;
@@ -119,6 +120,7 @@ const TRANSLATIONS: Record<string, Translations> = {
     translatedHint: (o, tr) => `Translated: "${o}" → "${tr}"`,
     matchThreshold: 'Match Threshold',
     matchedDreamers: 'Matched Dreamers',
+    scientificDreamReports: 'scientific dream reports',
     noDreamsFound: 'No dreams found',
     profileBack: 'Back',
     profileReport: 'Report',
@@ -164,6 +166,7 @@ const TRANSLATIONS: Record<string, Translations> = {
     translatedHint: (o, tr) => `Übersetzt: „${o}" → „${tr}"`,
     matchThreshold: 'Match-Schwelle',
     matchedDreamers: 'Gematchte Träumer',
+    scientificDreamReports: 'wissenschaftliche Traumberichte',
     noDreamsFound: 'Keine Träume gefunden',
     profileBack: 'Zurück',
     profileReport: 'Melden',
@@ -209,6 +212,7 @@ const TRANSLATIONS: Record<string, Translations> = {
     translatedHint: (o, tr) => `Çevrildi: "${o}" → "${tr}"`,
     matchThreshold: 'Eşleşme Eşiği',
     matchedDreamers: 'Eşleşen Rüyacılar',
+    scientificDreamReports: 'bilimsel rüya raporları',
     noDreamsFound: 'Rüya bulunamadı',
     profileBack: 'Geri',
     profileReport: 'Bildir',
@@ -254,6 +258,7 @@ const TRANSLATIONS: Record<string, Translations> = {
     translatedHint: (o, tr) => `Traducido: "${o}" → "${tr}"`,
     matchThreshold: 'Umbral de coincidencia',
     matchedDreamers: 'Soñadores coincidentes',
+    scientificDreamReports: 'informes científicos de sueños',
     noDreamsFound: 'No se encontraron sueños',
     profileBack: 'Volver',
     profileReport: 'Reportar',
@@ -299,6 +304,7 @@ const TRANSLATIONS: Record<string, Translations> = {
     translatedHint: (o, tr) => `Traduit : « ${o} » → « ${tr} »`,
     matchThreshold: 'Seuil de correspondance',
     matchedDreamers: 'Rêveurs correspondants',
+    scientificDreamReports: 'rapports de rêves scientifiques',
     noDreamsFound: 'Aucun rêve trouvé',
     profileBack: 'Retour',
     profileReport: 'Signaler',
@@ -344,6 +350,7 @@ const TRANSLATIONS: Record<string, Translations> = {
     translatedHint: (o, tr) => `تُرجم: «${o}» ← «${tr}»`,
     matchThreshold: 'حد التطابق',
     matchedDreamers: 'الحالمون المتطابقون',
+    scientificDreamReports: 'تقارير أحلام علمية',
     noDreamsFound: 'لم يتم العثور على أحلام',
     profileBack: 'رجوع',
     profileReport: 'إبلاغ',
@@ -389,6 +396,7 @@ const TRANSLATIONS: Record<string, Translations> = {
     translatedHint: (o, tr) => `Traduzido: "${o}" → "${tr}"`,
     matchThreshold: 'Limite de correspondência',
     matchedDreamers: 'Sonhadores correspondentes',
+    scientificDreamReports: 'relatórios científicos de sonhos',
     noDreamsFound: 'Nenhum sonho encontrado',
     profileBack: 'Voltar',
     profileReport: 'Denunciar',
@@ -434,6 +442,7 @@ const TRANSLATIONS: Record<string, Translations> = {
     translatedHint: (o, tr) => `Переведено: «${o}» → «${tr}»`,
     matchThreshold: 'Порог совпадения',
     matchedDreamers: 'Совпавшие сновидцы',
+    scientificDreamReports: 'научные отчёты о снах',
     noDreamsFound: 'Сны не найдены',
     profileBack: 'Назад',
     profileReport: 'Пожаловаться',
@@ -1917,8 +1926,9 @@ const DreamMap: React.FC<DreamMapProps> = ({
             })()}
           </div>
         )}
-        {/* Live autocomplete suggestions — Benutzer-/Studientreffer */}
-        {searchQuery.trim().length >= 2 && sortedFilteredUsers.length > 0 && (
+        {/* 2026-04-20 disabled: DreamMap zeigt nur Research-Dreams (User-Regel)
+            SimUser-Autocomplete komplett gated, Kontext erhalten für Rollback. */}
+        {false && searchQuery.trim().length >= 2 && sortedFilteredUsers.length > 0 && (
           <div className={`mt-1 rounded-xl border overflow-hidden shadow-lg ${isLight ? 'bg-white border-purple-200' : 'bg-gray-900 border-white/10'}`}>
             <div className={`px-3 py-1.5 text-[10px] font-bold border-b ${isLight ? 'text-purple-600 border-purple-100 bg-purple-50/50' : 'text-purple-300 border-white/5 bg-white/3'}`} data-testid="dreammap-combined-counter">
               {sortedFilteredUsers.length + (symbolSearch?.matching_dreams?.research_count ?? 0)} Treffer
@@ -2281,8 +2291,8 @@ const DreamMap: React.FC<DreamMapProps> = ({
       {/* ── Result List (NO own scroll container) ── */}
       <div className="px-2 pt-1" style={{ paddingBottom: '80px' }}>
         <div className="flex items-center justify-between px-3 py-2">
-          <span className={`text-sm font-bold ${textMain}`}>
-            {t.matchedDreamers} ({sortedFilteredUsers.length + (symbolSearch?.matching_dreams?.research_count ?? 0)})
+          <span className={`text-sm font-bold ${textMain}`} data-testid="dreammap-research-counter">
+            {(symbolSearch?.matching_dreams?.research_count ?? 0).toLocaleString()} {t.scientificDreamReports}
           </span>
           {!selectedUser && (
             <span className={`text-[10px] ${textSub}`}>{t.tapMarker}</span>
@@ -2290,10 +2300,13 @@ const DreamMap: React.FC<DreamMapProps> = ({
         </div>
         <div
           className={`rounded-2xl border backdrop-blur-sm ${
-            isLight ? 'bg-white/60 border-purple-200/60' : 'bg-white/3 border-white/5'
+            isLight ? 'bg-white/60 border-cyan-200/60' : 'bg-white/3 border-cyan-500/10'
           }`}
+          data-testid="dreammap-research-list"
         >
-          {sortedFilteredUsers.length === 0 ? (
+          {/* 2026-04-20 Research-Dreams-List — ausschließliche Anzeige-Quelle auf DreamMap
+              Datenquelle: useSymbolSearch → response.matching_dreams.research_sample */}
+          {(symbolSearch?.matching_dreams?.research_sample?.length ?? 0) === 0 ? (
             <div className={`flex items-center justify-center ${textSub}`}>
               <div className="text-center py-8">
                 <span className="material-icons text-3xl mb-2 block opacity-40">search_off</span>
@@ -2301,7 +2314,30 @@ const DreamMap: React.FC<DreamMapProps> = ({
               </div>
             </div>
           ) : (
-            sortedFilteredUsers.map(u => {
+            symbolSearch!.matching_dreams!.research_sample!.map((d) => (
+              <button
+                key={d.dream_id}
+                onClick={() => onNavigateToStudy?.(d.study_code ?? '')}
+                data-dream-id={d.dream_id}
+                data-study={d.study_code ?? ''}
+                className={`w-full flex items-start gap-3 px-3 py-2.5 text-left transition-colors border-b last:border-b-0 ${
+                  isLight ? 'hover:bg-cyan-50 border-cyan-100/60' : 'hover:bg-white/5 border-white/5'
+                }`}
+              >
+                <span className="text-xl shrink-0 leading-6">🔬</span>
+                <div className="min-w-0 flex-1">
+                  <div className={`text-xs font-semibold truncate ${textMain}`}>
+                    {d.study_code ?? '—'} <span className="opacity-60 font-normal">· {d.participant_id ?? '—'}</span>
+                  </div>
+                  {d.snippet_80chars && (
+                    <div className={`text-xs opacity-75 line-clamp-2 ${textSub}`}>{d.snippet_80chars}</div>
+                  )}
+                </div>
+              </button>
+            ))
+          )}
+          {/* 2026-04-20 disabled: SimUser-Map (DreamMap zeigt nur Research-Dreams, User-Regel) */}
+          {false && sortedFilteredUsers.length > 0 && sortedFilteredUsers.map(u => {
               const isActive = selectedUser?.id === u.id;
               const cat = DREAM_CATEGORIES.find(c => c.id === u.category);
               return (
@@ -2337,8 +2373,7 @@ const DreamMap: React.FC<DreamMapProps> = ({
                   </div>
                 </div>
               );
-            })
-          )}
+            })}
         </div>
       </div>
 

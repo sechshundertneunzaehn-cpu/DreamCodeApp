@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --max-warnings 0",
-    "prebuild": "node scripts/generate-preview-dots.mjs"
+    "prebuild": "node scripts/generate-preview-dots.mjs",
+    "test:smoke:research": "node tests/e2e/research-cards-smoke.mjs"
   },
   "dependencies": {
     "@capacitor/ios": "^7.6.1",
