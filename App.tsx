@@ -1811,7 +1811,7 @@ Rules:
                 <ScientificDreamMap
                     language={language}
                     isLight={isLight}
-                    onClose={() => setView(View.HOME)}
+                    onClose={() => setView(View.DREAM_MAP)}
                     onSelectParticipant={(id) => { setPrevParticipantView(View.RESEARCH_MAP); setSelectedParticipantId(id); setView(View.RESEARCH_PARTICIPANT); }}
                     onSelectStudy={(code) => { setSelectedStudyCode(code); setView(View.RESEARCH_STUDIES); }}
                 />

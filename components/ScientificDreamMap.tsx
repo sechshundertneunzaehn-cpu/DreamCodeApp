@@ -1196,7 +1196,7 @@ const ScientificDreamMap: React.FC<ScientificDreamMapProps> = ({
       <div ref={mapContainerRef} className="absolute inset-0" style={{ width: '100%', height: '100%' }} />
 
       {/* ── Top bar ────────────────────────────────────────────────────────── */}
-      <div className="relative z-10 flex items-center justify-between px-3 py-3 sm:px-4">
+      <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-3 py-3 sm:px-4">
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Back — visible on all viewports with label so user can find it */}
           <button
